@@ -4,7 +4,7 @@
 package arm
 
 // A common class for general resource information.
-type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded struct {
+type VirtualNetworkGateway_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 

@@ -103,10 +103,6 @@ func filterTypes(
 		}
 	}
 
-	if err = configuration.ObjectModelConfiguration.Export.VerifyConsumed(); err != nil {
-		return nil, err
-	}
-
 	if err = configuration.ObjectModelConfiguration.ExportAs.VerifyConsumed(); err != nil {
 		return nil, err
 	}
@@ -127,11 +123,6 @@ func filterTypes(
 
 // shouldExport works out whether the specified Resource should be exported or not
 func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) bool {
-	if export, ok := configuration.ObjectModelConfiguration.Export.Lookup(defName); ok {
-		// $export is configured, return that value
-		return export
-	}
-
 	if _, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(defName); ok {
 		// $exportAs is configured, we DO want to export
 		return true

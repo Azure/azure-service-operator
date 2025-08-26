@@ -4,7 +4,7 @@
 package arm
 
 // A network interface in a resource group.
-type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
+type NetworkInterface_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 

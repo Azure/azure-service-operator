@@ -1258,7 +1258,7 @@ augmentConversionForPrivateEndpointOperatorConfigMaps: Interface
 
 augmentConversionForPrivateEndpointOperatorSpec: Interface
 
-augmentConversionForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded: Interface
+augmentConversionForPrivateEndpoint_STATUS: Interface
 
 augmentConversionForPrivateEndpoint_Spec: Interface
 
@@ -1288,7 +1288,7 @@ augmentConversionForPrivateLinkServiceOperatorConfigMaps: Interface
 
 augmentConversionForPrivateLinkServiceOperatorSpec: Interface
 
-augmentConversionForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded: Interface
+augmentConversionForPrivateLinkService_STATUS: Interface
 
 augmentConversionForPrivateLinkService_Spec: Interface
 

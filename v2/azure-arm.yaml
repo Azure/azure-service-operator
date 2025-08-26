@@ -876,16 +876,10 @@ status:
 #         $generatedConfigs:
 #           BlobEndpoint: $.Status.PrimaryEndpoints.Blob
 #
-# $export: <bool>
-#     Requests that support for this resource type be generated.
-#     Automatically includes all other types required for this resource
-#     If not specified, the default value is false.
-#     Only valid for resource types.
 #
 # $exportAs: <string>
 #     Requests that this resource type be exported with the specified
 #     identifier, allowing poorly named types to be renamed.
-#     Implies $export: true
 #     Only valid for resource types.
 #
 # $importable: <bool>
@@ -915,9 +909,6 @@ status:
 #     names more idiomatic for Go and/or Kubernetes use.
 #
 #     For resource types, prefer $exportAs
-#     Note: using $export: + $renameTo: for a resource is not quite the same as
-#     using $exportAs because the renaming happens at a different stage of the
-#     pipeline.
 #
 #     If you have two names differing only by letter case, use a TypeTransform
 #     to selectively rename one of the types.
@@ -999,7 +990,7 @@ objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
       SmartDetectorAlertRule:
-        $export: true
+        $exportAs: SmartDetectorAlertRule
         $supportedFrom: v2.11.0
       AlertRuleProperties:
         Scope:
@@ -1012,7 +1003,7 @@ objectModelConfiguration:
           $referenceType: simple
     2023-03-01:
       PrometheusRuleGroup:
-        $export: true
+        $exportAs: PrometheusRuleGroup
         $supportedFrom: v2.8.0
       PrometheusRuleGroupProperties:
         Scopes:
@@ -1074,7 +1065,7 @@ objectModelConfiguration:
         IdentityClientId:
           $importConfigMapMode: optional
       Service:
-        $export: true
+        $exportAs: Service
         $supportedFrom: v2.4.0
       Service_Api:
         $exportAs: Api
@@ -1181,7 +1172,7 @@ objectModelConfiguration:
         IdentityClientId:
           $importConfigMapMode: optional
       Service:
-        $export: true
+        $exportAs: Service
         $supportedFrom: v2.6.0
       Service_Api:
         $exportAs: Api
@@ -1238,7 +1229,7 @@ objectModelConfiguration:
   app:
     2025-01-01:
       ContainerApp:
-        $export: true
+        $exportAs: ContainerApp
         $supportedFrom: v2.15.0
         $generatedConfigs:
           EventStreamEndpoint: $.Status.EventStreamEndpoint
@@ -1272,13 +1263,13 @@ objectModelConfiguration:
         TokenEndpoint:
           $isSecret: false
       ManagedEnvironment:
-        $export: true
+        $exportAs: ManagedEnvironment
         $supportedFrom: v2.15.0
       VnetConfiguration:
         InfrastructureSubnetId:
           $referenceType: arm
       Job:
-        $export: true
+        $exportAs: Job
         $supportedFrom: v2.15.0
       Job_Properties_Spec:
         EnvironmentId:
@@ -1306,7 +1297,7 @@ objectModelConfiguration:
           $referenceType: arm
     2024-03-01:
       ContainerApp:
-        $export: true
+        $exportAs: ContainerApp
         $supportedFrom: v2.12.0
         $generatedConfigs:
           EventStreamEndpoint: $.Status.EventStreamEndpoint
@@ -1340,13 +1331,13 @@ objectModelConfiguration:
         TokenEndpoint:
           $isSecret: false
       ManagedEnvironment:
-        $export: true
+        $exportAs: ManagedEnvironment
         $supportedFrom: v2.12.0
       VnetConfiguration:
         InfrastructureSubnetId:
           $referenceType: arm
       Job:
-        $export: true
+        $exportAs: Job
         $supportedFrom: v2.12.0
       Job_Properties_Spec:
         EnvironmentId:
@@ -1354,7 +1345,7 @@ objectModelConfiguration:
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
-        $export: true
+        $exportAs: ConfigurationStore
         $supportedFrom: v2.0.0-beta.3
         $azureGeneratedSecrets:
           - PrimaryKeyID
@@ -1376,7 +1367,7 @@ objectModelConfiguration:
   authorization:
     2020-08-01-preview:
       RoleAssignment:
-        $export: true
+        $exportAs: RoleAssignment
         $supportedFrom: v2.0.0-alpha.2
         $defaultAzureName: false
         $operatorSpecProperties:
@@ -1392,7 +1383,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
     2022-04-01:
       RoleAssignment:
-        $export: true
+        $exportAs: RoleAssignment
         $supportedFrom: v2.4.0
         $defaultAzureName: false
         $operatorSpecProperties:
@@ -1407,7 +1398,7 @@ objectModelConfiguration:
         PrincipalId:
           $importConfigMapMode: optional
       RoleDefinition:
-        $export: true
+        $exportAs: RoleDefinition
         $supportedFrom: v2.8.0
         $defaultAzureName: false
         $operatorSpecProperties:
@@ -1420,12 +1411,12 @@ objectModelConfiguration:
   batch:
     2021-01-01:
       BatchAccount:
-        $export: true
+        $exportAs: BatchAccount
         $supportedFrom: v2.0.0-alpha.1
   cache:
     2020-12-01:
       Redis:
-        $export: true
+        $exportAs: Redis
         $supportedFrom: v2.0.0-alpha.4
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -1448,14 +1439,14 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
     2021-03-01:
       RedisEnterprise:
-        $export: true
+        $exportAs: RedisEnterprise
         $supportedFrom: v2.0.0-alpha.4
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
     2023-04-01:
       Redis:
-        $export: true
+        $exportAs: Redis
         $supportedFrom: v2.3.0
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -1478,14 +1469,14 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
     2023-07-01:
       RedisEnterprise:
-        $export: true
+        $exportAs: RedisEnterprise
         $supportedFrom: v2.3.0
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.3.0
     2023-08-01:
       Redis:
-        $export: true
+        $exportAs: Redis
         $supportedFrom: v2.10.0
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -1550,7 +1541,7 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
       Profile:
-        $export: true
+        $exportAs: Profile
         $supportedFrom: v2.0.0-beta.1
       Profiles_Endpoint:
         $exportAs: ProfilesEndpoint
@@ -1580,7 +1571,7 @@ objectModelConfiguration:
         ValidationToken:
           $isSecret: false # Not a conventional secret; this is the token someone must provide to prove they own the domain
       Profile:
-        $export: true
+        $exportAs: Profile
         $supportedFrom: v2.6.0
 # The below resources could be exported but are part of "CDN classic".
 # This part of the CDN/AzureFrontdoor API is confusing but our understanding is that
@@ -1695,7 +1686,7 @@ objectModelConfiguration:
         SourceResourceId:
           $referenceType: arm
       Disk:
-        $export: true
+        $exportAs: Disk
         $supportedFrom: v2.0.0-alpha.1
       DiskProperties:
         DiskAccessId:
@@ -1707,7 +1698,7 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
       Snapshot:
-        $export: true
+        $exportAs: Snapshot
         $supportedFrom: v2.0.0-alpha.4
       SnapshotProperties:
         DiskAccessId: 
@@ -1738,12 +1729,12 @@ objectModelConfiguration:
         KeyData:
           $isSecret: false
       VirtualMachine:
-        $export: true
+        $exportAs: VirtualMachine
         $supportedFrom: v2.0.0-alpha.1
       VirtualMachineExtension_STATUS:
         $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
-        $export: true
+        $exportAs: VirtualMachineScaleSet
         $supportedFrom: v2.0.0-alpha.1
       VirtualMachineScaleSetExtension:
         $isResource: false
@@ -1771,14 +1762,14 @@ objectModelConfiguration:
           $isSecret: true
     2021-07-01:
       Image:
-        $export: true
+        $exportAs: Image
         $supportedFrom: v2.0.0-alpha.6
     2022-03-01:
       ApiEntityReference:
         Id:
           $referenceType: arm
       Image:
-        $export: true
+        $exportAs: Image
         $supportedFrom: v2.0.0-beta.2
       ImageReference:
         $isResource: false
@@ -1810,12 +1801,12 @@ objectModelConfiguration:
         PackageReferenceId:
           $referenceType: arm
       VirtualMachine:
-        $export: true
+        $exportAs: VirtualMachine
         $supportedFrom: v2.0.0-beta.2
       VirtualMachineExtension_STATUS:
         $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
-        $export: true
+        $exportAs: VirtualMachineScaleSet
         $supportedFrom: v2.0.0-beta.2
       VirtualMachineScaleSetExtension:
         $isResource: false
@@ -1843,7 +1834,7 @@ objectModelConfiguration:
           $isSecret: true
     2022-07-02:
       DiskEncryptionSet:
-        $export: true
+        $exportAs: DiskEncryptionSet
         $supportedFrom: v2.3.0
       SourceVault:
         Id:
@@ -1861,7 +1852,7 @@ objectModelConfiguration:
         ElasticSanResourceId:
           $referenceType: arm
       Disk:
-        $export: true
+        $exportAs: Disk
         $supportedFrom: v2.9.0
       DiskProperties:
         DiskAccessId:
@@ -1873,7 +1864,7 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
       Snapshot:
-        $export: true
+        $exportAs: Snapshot
         $supportedFrom: v2.9.0
       SnapshotProperties:
         DiskAccessId:
@@ -1882,10 +1873,10 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
       DiskAccess:
-        $export: true
+        $exportAs: DiskAccess
         $supportedFrom: v2.9.0
       DiskEncryptionSet:
-        $export: true
+        $exportAs: DiskEncryptionSet
         $supportedFrom: v2.9.0
       KeyForDiskEncryptionSet:
         KeyUrl:
@@ -1908,7 +1899,7 @@ objectModelConfiguration:
   containerinstance:
     2021-10-01:
       ContainerGroup:
-        $export: true
+        $exportAs: ContainerGroup
         $supportedFrom: v2.0.0-beta.1
       ContainerGroupSubnetId:
         Id:
@@ -1922,14 +1913,14 @@ objectModelConfiguration:
         PrincipalId:
           $referenceType: simple
       Registry:
-        $export: true
+        $exportAs: Registry
         $supportedFrom: v2.0.0-alpha.6
     2023-07-01:
       KeyVaultProperties:
         Identity: 
           $importConfigMapMode: optional
       Registry:
-        $export: true
+        $exportAs: Registry
         $supportedFrom: v2.12.0
       Registries_Replication:
         $exportAs: RegistryReplication
@@ -1944,7 +1935,7 @@ objectModelConfiguration:
         KeyData:
           $isSecret: false
       ManagedCluster:
-        $export: true
+        $exportAs: ManagedCluster
         $supportedFrom: v2.0.0-alpha.1
         $stripDocumentation: true
         $azureGeneratedSecrets:
@@ -1991,7 +1982,7 @@ objectModelConfiguration:
         KeyData:
           $isSecret: false
       ManagedCluster:
-        $export: true
+        $exportAs: ManagedCluster
         $supportedFrom: v2.0.0
         $stripDocumentation: true
         $azureGeneratedSecrets:
@@ -2031,7 +2022,7 @@ objectModelConfiguration:
           $referenceType: arm
     2023-03-15-preview:
       Fleet:
-        $export: true
+        $exportAs: Fleet
         $supportedFrom: v2.4.0
         $azureGeneratedSecrets:
           - UserCredentials
@@ -2051,7 +2042,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       ManagedCluster:
-        $export: true
+        $exportAs: ManagedCluster
         $supportedFrom: v2.5.0
         $azureGeneratedSecrets:
           - AdminCredentials
@@ -2102,7 +2093,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       ManagedCluster:
-        $export: true
+        $exportAs: ManagedCluster
         $supportedFrom: v2.6.0
         $stripDocumentation: true
         $azureGeneratedSecrets:
@@ -2150,7 +2141,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       ManagedCluster:
-        $export: true
+        $exportAs: ManagedCluster
         $supportedFrom: v2.8.0
         $azureGeneratedSecrets:
           - AdminCredentials
@@ -2200,7 +2191,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       ManagedCluster:
-        $export: true
+        $exportAs: ManagedCluster
         $supportedFrom: v2.11.0
         $azureGeneratedSecrets:
           - AdminCredentials
@@ -2251,12 +2242,12 @@ objectModelConfiguration:
         UserAssignedIdentity:
           $referenceType: arm
       Factory:
-        $export: true
+        $exportAs: Factory
         $supportedFrom: v2.1.0
   dataprotection: 
     2023-01-01: 
       BackupVault: 
-        $export: true 
+        $exportAs: BackupVault 
         $supportedFrom: v2.2.0 
         $generatedConfigs:
           PrincipalId: $.Status.Identity.PrincipalId
@@ -2265,7 +2256,7 @@ objectModelConfiguration:
         $supportedFrom: v2.2.0
     2023-11-01: 
       BackupVault: 
-        $export: true 
+        $exportAs: BackupVault 
         $supportedFrom: v2.7.0 
         $generatedConfigs:
           PrincipalId: $.Status.Identity.PrincipalId
@@ -2290,7 +2281,7 @@ objectModelConfiguration:
   dbformariadb:
     2018-06-01:
       Server:
-        $export: true
+        $exportAs: Server
         $supportedFrom: v2.0.0-beta.1
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2311,7 +2302,7 @@ objectModelConfiguration:
         PrimaryUserAssignedIdentityId:
           $referenceType: arm
       FlexibleServer: 
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2356,7 +2347,7 @@ objectModelConfiguration:
         PrimaryUserAssignedIdentityId:
           $referenceType: arm
       FlexibleServer:
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.7.0
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2397,7 +2388,7 @@ objectModelConfiguration:
         PrimaryUserAssignedIdentityId:
           $referenceType: arm
       FlexibleServer:
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.13.0
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2437,7 +2428,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0
     2021-06-01:
       FlexibleServer:
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2454,7 +2445,7 @@ objectModelConfiguration:
       FlexibleServer:
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.0.0-beta.4
         $generatedConfigs:
           FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
@@ -2484,7 +2475,7 @@ objectModelConfiguration:
       FlexibleServer:
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.5.0
         $generatedConfigs:
           FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
@@ -2518,7 +2509,7 @@ objectModelConfiguration:
       FlexibleServer:
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.6.0
         $generatedConfigs:
           FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
@@ -2552,7 +2543,7 @@ objectModelConfiguration:
       FlexibleServer:
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $export: true
+        $exportAs: FlexibleServer
         $supportedFrom: v2.13.0
         $generatedConfigs:
           FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
@@ -2585,7 +2576,7 @@ objectModelConfiguration:
   devices:
     2021-07-02:
       IotHub:
-        $export: true
+        $exportAs: IotHub
         $supportedFrom: v2.1.0
         $azureGeneratedSecrets:
           - ServicePrimaryKey
@@ -2624,7 +2615,7 @@ objectModelConfiguration:
   documentdb:
     2021-05-15:
       DatabaseAccount:
-        $export: true
+        $exportAs: DatabaseAccount
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - PrimaryMasterKey
@@ -2698,7 +2689,7 @@ objectModelConfiguration:
           $referenceType: simple
     2023-11-15:
       DatabaseAccount:
-        $export: true
+        $exportAs: DatabaseAccount
         $supportedFrom: v2.8.0
         $azureGeneratedSecrets:
           - PrimaryMasterKey
@@ -2779,7 +2770,7 @@ objectModelConfiguration:
         $supportedFrom: v2.14.0
     2024-08-15:
       DatabaseAccount:
-        $export: true
+        $exportAs: DatabaseAccount
         $supportedFrom: v2.12.0
         $azureGeneratedSecrets:
           - PrimaryMasterKey
@@ -2867,16 +2858,16 @@ objectModelConfiguration:
   eventgrid:
     2020-06-01:
       Domain:
-        $export: true
+        $exportAs: Domain
         $supportedFrom: v2.0.0-alpha.5
       Domains_Topic:
         $exportAs: DomainsTopic
         $supportedFrom: v2.0.0-alpha.5
       EventSubscription:
-        $export: true
+        $exportAs: EventSubscription
         $supportedFrom: v2.0.0-alpha.5
       Topic:
-        $export: true
+        $exportAs: Topic
         $supportedFrom: v2.0.0-alpha.3
         $azureGeneratedSecrets:
           - Key1
@@ -2889,7 +2880,7 @@ objectModelConfiguration:
         StorageAccountResourceId:
           $referenceType: arm
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -2936,7 +2927,7 @@ objectModelConfiguration:
         UserAssignedIdentity:
           $referenceType: arm
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.12.0
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -2978,7 +2969,7 @@ objectModelConfiguration:
         $supportedFrom: v2.15.0
     2018-03-01:
       MetricAlert:
-        $export: true
+        $exportAs: MetricAlert
         $supportedFrom: v2.4.0
       WebtestLocationAvailabilityCriteria:
         ComponentId:
@@ -2988,7 +2979,7 @@ objectModelConfiguration:
           $referenceType: arm
     2018-05-01-preview:
       Webtest:
-        $export: true
+        $exportAs: Webtest
         $supportedFrom: v2.0.0-alpha.4
       WebTestGeolocation:
         Id:
@@ -3000,7 +2991,7 @@ objectModelConfiguration:
         WorkspaceResourceId:
           $referenceType: arm
       Component:
-        $export: true
+        $exportAs: Component
         $supportedFrom: v2.0.0-alpha.2
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
@@ -3024,7 +3015,7 @@ objectModelConfiguration:
           $referenceType: arm
     2021-05-01-preview:
       DiagnosticSetting:
-        $export: true
+        $exportAs: DiagnosticSetting
         $supportedFrom: v2.11.0
       DiagnosticSettings:
         MarketplacePartnerId:
@@ -3056,7 +3047,7 @@ objectModelConfiguration:
           $referenceType: arm
     2022-06-15:
       ScheduledQueryRule:
-        $export: true
+        $exportAs: ScheduledQueryRule
         $supportedFrom: v2.4.0
       Actions:
         ActionGroups:
@@ -3068,14 +3059,14 @@ objectModelConfiguration:
         Scopes:
           $referenceType: arm
       Webtest:
-        $export: true
+        $exportAs: Webtest
         $supportedFrom: v2.7.0
       WebTestGeolocation:
         Id:
           $referenceType: simple
     2023-01-01:
       ActionGroup:
-        $export: true
+        $exportAs: ActionGroup
         $supportedFrom: v2.4.0
       AutomationRunbookReceiver:
         WebhookResourceId:
@@ -3088,7 +3079,7 @@ objectModelConfiguration:
           $referenceType: arm
     2023-03-11:
       DataCollectionRule:
-        $export: true
+        $exportAs: DataCollectionRule
         $supportedFrom: v2.15.0
       LogAnalyticsDestination:
         WorkspaceResourceId:
@@ -3130,7 +3121,7 @@ objectModelConfiguration:
           $referenceType: arm
     2024-01-01-preview:
       ScheduledQueryRule:
-        $export: true
+        $exportAs: ScheduledQueryRule
         $supportedFrom: v2.12.0
       Actions:
         ActionGroups:
@@ -3145,7 +3136,7 @@ objectModelConfiguration:
   keyvault:
     2021-04-01-preview:
       Vault:
-        $export: true
+        $exportAs: Vault
         $supportedFrom: v2.0.0-beta.1
       VaultProperties:
         TenantId:
@@ -3162,7 +3153,7 @@ objectModelConfiguration:
           $referenceType: arm
     2023-07-01:
       Vault:
-        $export: true
+        $exportAs: Vault
         $supportedFrom: v2.5.0
       VaultProperties:
         TenantId:
@@ -3181,12 +3172,12 @@ objectModelConfiguration:
   kubernetesconfiguration:
     2023-05-01:
       Extension:
-        $export: true
+        $exportAs: Extension
         $supportedFrom: v2.4.0
         $generatedConfigs:
           PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
       FluxConfiguration:
-        $export: true
+        $exportAs: FluxConfiguration
         $supportedFrom: v2.10.0
       ServicePrincipalDefinition:
         ClientId:
@@ -3201,12 +3192,12 @@ objectModelConfiguration:
           $isSecret: true
     2024-11-01:
       Extension:
-        $export: true
+        $exportAs: Extension
         $supportedFrom: v2.13.0
         $generatedConfigs:
           PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
       FluxConfiguration:
-        $export: true
+        $exportAs: FluxConfiguration
         $supportedFrom: v2.13.0
       ServicePrincipalDefinition:
         ClientId:
@@ -3223,7 +3214,7 @@ objectModelConfiguration:
   kusto:
     2024-04-13:
       Cluster:
-        $export: true
+        $exportAs: Cluster
         $supportedFrom: v2.15.0
         $generatedConfigs:
           clusterPrincipalId: $.Status.Identity.PrincipalId
@@ -3296,7 +3287,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
     2023-08-15:
       Cluster:
-        $export: true
+        $exportAs: Cluster
         $supportedFrom: v2.13.0
       VirtualNetworkConfiguration:
         DataManagementPublicIpId:
@@ -3360,7 +3351,7 @@ objectModelConfiguration:
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
-        $export: true
+        $exportAs: UserAssignedIdentity
         $supportedFrom: v2.0.0-alpha.1
         $generatedConfigs:
           ClientId: $.Status.ClientId
@@ -3378,7 +3369,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
     2023-01-31:
       UserAssignedIdentity:
-        $export: true
+        $exportAs: UserAssignedIdentity
         $supportedFrom: v2.5.0
         $azureGeneratedSecrets:
           - ClientId
@@ -3412,7 +3403,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       Workspace:
-        $export: true
+        $exportAs: Workspace
         $supportedFrom: v2.0.0-beta.2
         $azureGeneratedSecrets:
           - AppInsightsInstrumentationKey
@@ -3509,7 +3500,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       Workspace:
-        $export: true
+        $exportAs: Workspace
         $supportedFrom: v2.10.0
         $azureGeneratedSecrets:
           - AppInsightsInstrumentationKey
@@ -3638,7 +3629,7 @@ objectModelConfiguration:
         TenantId:
           $importConfigMapMode: optional
       Registry:
-        $export: true
+        $exportAs: Registry
         $supportedFrom: v2.10.0
         $generatedConfigs:
           DiscoveryUrl: $.Status.DiscoveryUrl
@@ -3655,12 +3646,12 @@ objectModelConfiguration:
   monitor:
     2023-04-03:
       Account:
-        $export: true
+        $exportAs: Account
         $supportedFrom: v2.8.0
   network:
     2018-05-01:
       DnsZone:
-        $export: true
+        $exportAs: DnsZone
         $supportedFrom: v2.1.0
       DnsZones_A:
         $exportAs: DnsZonesARecord
@@ -3694,7 +3685,7 @@ objectModelConfiguration:
           $referenceType: arm
     2018-09-01:
       PrivateDnsZone:
-        $export: true
+        $exportAs: PrivateDnsZone
         $supportedFrom: v2.0.0-beta.2
     2020-06-01:
       PrivateDnsZones_VirtualNetworkLink:
@@ -3752,21 +3743,21 @@ objectModelConfiguration:
       InboundNatPool_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
       LoadBalancer:
-        $export: true
+        $exportAs: LoadBalancer
         $supportedFrom: v2.0.0-alpha.1
       LoadBalancingRule:
         $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
       LoadBalancingRule_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
       NetworkInterface:
-        $export: true
+        $exportAs: NetworkInterface
         $supportedFrom: v2.0.0-alpha.3
       NetworkInterfaceIPConfiguration:
         $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
       NetworkInterfaceIPConfiguration_STATUS:
         $resourceEmbeddedInParent: NetworkInterface
       NetworkSecurityGroup:
-        $export: true
+        $exportAs: NetworkSecurityGroup
         $supportedFrom: v2.0.0-alpha.1
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
@@ -3786,7 +3777,7 @@ objectModelConfiguration:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
       RouteTable:
-        $export: true
+        $exportAs: RouteTable
         $supportedFrom: v2.0.0-beta.1
       RouteTablePropertiesFormat:
         Routes:
@@ -3804,16 +3795,14 @@ objectModelConfiguration:
 #        Id:
 #          $referenceType: arm
       VirtualNetwork:
-        $export: true
+        $exportAs: VirtualNetwork
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGateway:
-        $export: true
+        $exportAs: VirtualNetworkGateway
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $referenceType: arm
-      VirtualNetworkGateway_STATUS:
-        $nameInNextVersion: VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded # TODO: See if we can get rid of this
       VirtualNetworkGatewayIPConfiguration:
         $resourceEmbeddedInParent: VirtualNetworkGateway
       VirtualNetworkGatewayIPConfiguration_STATUS:
@@ -3864,7 +3853,7 @@ objectModelConfiguration:
           $referenceType: arm
     2022-07-01:
       ApplicationGateway:
-        $export: true
+        $exportAs: ApplicationGateway
         $supportedFrom: v2.4.0
       ApplicationGatewayBackendAddressPool:
         $resourceEmbeddedInParent: ApplicationGateway
@@ -3927,13 +3916,13 @@ objectModelConfiguration:
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version
         # so limiting proliferation of APIVersions and using 2022-07-01 for it
-        $export: true
+        $exportAs: BastionHost
         $supportedFrom: v2.1.0
       BastionHostIPConfiguration:
         $resourceEmbeddedInParent: BastionHost
       # DNSResolver and related resources are versioned differently than main networking resources, see https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dnsresolver/resource-manager/Microsoft.Network
       DnsResolver:
-        $export: true
+        $exportAs: DnsResolver
         $supportedFrom: v2.2.0
       DnsResolvers_InboundEndpoint:
         $exportAs: DnsResolversInboundEndpoint
@@ -3942,7 +3931,7 @@ objectModelConfiguration:
         $exportAs: DnsResolversOutboundEndpoint
         $supportedFrom: v2.2.0
       DnsForwardingRuleSet:
-        $export: true
+        $exportAs: DnsForwardingRuleset
         $supportedFrom: v2.2.0
       DnsForwardingRuleSets_ForwardingRule:
         $exportAs: DnsForwardingRuleSetsForwardingRule
@@ -3954,18 +3943,18 @@ objectModelConfiguration:
         IpAddress:
           $importConfigMapMode: optional
       NatGateway:
-        $export: true
+        $exportAs: NatGateway
         $supportedFrom: v2.1.0
       PublicIPPrefix:
-        $export: true
+        $exportAs: PublicIPPrefix
         $supportedFrom: v2.1.0
       PrivateEndpoint:
-        $export: true
+        $exportAs: PrivateEndpoint
         $supportedFrom: v2.0.0
         $manualConfigs:
           - PrimaryNicPrivateIpAddress
       PrivateLinkService:
-        $export: true
+        $exportAs: PrivateLinkService
         $supportedFrom: v2.0.0
         $generatedConfigs:
           Alias: $.Status.Alias
@@ -3991,7 +3980,7 @@ objectModelConfiguration:
         $exportAs: WebApplicationFirewallPolicy
         $supportedFrom: v2.10.0
       ApplicationSecurityGroup:
-        $export: true
+        $exportAs: ApplicationSecurityGroup
         $supportedFrom: v2.10.0
     2024-03-01:
       AzureFirewall:
@@ -4019,23 +4008,23 @@ objectModelConfiguration:
         Id:
           $referenceType: simple
       BastionHost:
-        $export: true
+        $exportAs: BastionHost
         $supportedFrom: v2.11.0
       BastionHostIPConfiguration:
         $resourceEmbeddedInParent: BastionHost
       NatGateway:
-        $export: true
+        $exportAs: NatGateway
         $supportedFrom: v2.11.0
       PublicIPPrefix:
-        $export: true
+        $exportAs: PublicIPPrefix
         $supportedFrom: v2.11.0
       PrivateEndpoint:
-        $export: true
+        $exportAs: PrivateEndpoint
         $supportedFrom: v2.11.0
         $manualConfigs:
           - PrimaryNicPrivateIpAddress
       PrivateLinkService:
-        $export: true
+        $exportAs: PrivateLinkService
         $supportedFrom: v2.11.0
         $generatedConfigs:
           Alias: $.Status.Alias
@@ -4086,21 +4075,21 @@ objectModelConfiguration:
       InboundNatPool_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
       LoadBalancer:
-        $export: true
+        $exportAs: LoadBalancer
         $supportedFrom: v2.11.0
       LoadBalancingRule:
         $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
       LoadBalancingRule_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
       NetworkInterface:
-        $export: true
+        $exportAs: NetworkInterface
         $supportedFrom: v2.11.0
       NetworkInterfaceIPConfiguration:
         $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
       NetworkInterfaceIPConfiguration_STATUS:
         $resourceEmbeddedInParent: NetworkInterface
       NetworkSecurityGroup:
-        $export: true
+        $exportAs: NetworkSecurityGroup
         $supportedFrom: v2.11.0
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
@@ -4123,7 +4112,7 @@ objectModelConfiguration:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.11.0
       RouteTable:
-        $export: true
+        $exportAs: RouteTable
         $supportedFrom: v2.11.0
       RouteTablePropertiesFormat:
         Routes:
@@ -4132,10 +4121,10 @@ objectModelConfiguration:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.11.0
       VirtualNetwork:
-        $export: true
+        $exportAs: VirtualNetwork
         $supportedFrom: v2.11.0
       VirtualNetworkGateway:
-        $export: true
+        $exportAs: VirtualNetworkGateway
         $supportedFrom: v2.11.0
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
@@ -4179,7 +4168,7 @@ objectModelConfiguration:
     2024-06-01:
       # Private DNS Zone + related -- this is versioned separately than most of the rest of Microsoft.Network (https://github.com/Azure/azure-rest-api-specs/tree/main/specification/privatedns/resource-manager/Microsoft.Network/stable)
       PrivateDnsZone:
-        $export: true
+        $exportAs: PrivateDnsZone
         $supportedFrom: v2.11.0
       PrivateDnsZones_VirtualNetworkLink:
         $exportAs: PrivateDnsZonesVirtualNetworkLink
@@ -4213,7 +4202,7 @@ objectModelConfiguration:
   notificationhubs:
     2023-09-01:
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.12.0
         $azureGeneratedSecrets:
           - PrimaryConnectionString
@@ -4242,7 +4231,7 @@ objectModelConfiguration:
   operationalinsights:
     2021-06-01:
       Workspace:
-        $export: true
+        $exportAs: Workspace
         $supportedFrom: v2.0.0-alpha.4
       WorkspaceFeatures:
         ClusterResourceId:
@@ -4250,12 +4239,12 @@ objectModelConfiguration:
   resources:
     2020-06-01:
       ResourceGroup:
-        $export: true
+        $exportAs: ResourceGroup
         $supportedFrom: v2.0.0-alpha.1
   redhatopenshift:
     2023-11-22:
       OpenShiftCluster:
-        $export: true
+        $exportAs: OpenShiftCluster
         $supportedFrom: v2.9.0
         $azureGeneratedSecrets:
           - AdminCredentials
@@ -4307,7 +4296,7 @@ objectModelConfiguration:
       DictionaryValue_STATUS:
         $nameInNextVersion: UserAssignedIdentity_STATUS
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - Endpoint
@@ -4340,7 +4329,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.3
     2021-11-01:
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.3.0
         $azureGeneratedSecrets:
           - Endpoint
@@ -4373,7 +4362,7 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
     2022-10-01-preview:
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.3.0
         $azureGeneratedSecrets:
           - Endpoint
@@ -4406,7 +4395,7 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
     2024-01-01:
       Namespace:
-        $export: true
+        $exportAs: Namespace
         $supportedFrom: v2.12.0
         $azureGeneratedSecrets:
           - Endpoint
@@ -4448,7 +4437,7 @@ objectModelConfiguration:
   signalrservice:
     2021-10-01:
       SignalR:
-        $export: true
+        $exportAs: SignalR
         $supportedFrom: v2.0.0-alpha.4
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -4457,7 +4446,7 @@ objectModelConfiguration:
           - SecondaryConnectionString
     2024-03-01:
       SignalR:
-        $export: true
+        $exportAs: SignalR
         $supportedFrom: v2.12.0
         $azureGeneratedSecrets:
           - PrimaryKey
@@ -4487,7 +4476,7 @@ objectModelConfiguration:
       # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as
       # they seem of questionable value to users, but if we get an ask for them we can add them in.
       Server:
-        $export: true
+        $exportAs: Server
         $supportedFrom: v2.0.0
         $generatedConfigs:
           FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
@@ -4608,7 +4597,7 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
       StorageAccount:
-        $export: true
+        $exportAs: StorageAccount
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - Key1
@@ -4649,7 +4638,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
     2022-09-01:
       StorageAccount:
-        $export: true
+        $exportAs: StorageAccount
         $supportedFrom: v2.1.0
         $azureGeneratedSecrets:
           - Key1
@@ -4714,7 +4703,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
     2023-01-01:
       StorageAccount:
-        $export: true
+        $exportAs: StorageAccount
         $supportedFrom: v2.5.0
         $azureGeneratedSecrets:
           - Key1
@@ -4780,7 +4769,7 @@ objectModelConfiguration:
   subscription:
     2021-10-01:
       Alias:
-        $export: true
+        $exportAs: Alias
         $supportedFrom: v2.0.0-beta.2
   synapse:
     2021-06-01:
@@ -4796,13 +4785,13 @@ objectModelConfiguration:
         PurviewResourceId:
           $referenceType: arm
       Workspace:
-        $export: true
+        $exportAs: Workspace
         $supportedFrom: v2.0.0
       WorkspaceProperties:
         SqlAdministratorLoginPassword:
           $isSecret: true
       Workspaces_BigDataPool:
-        $export: true
+        $exportAs: Workspaces_BigDataPool
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
 
@@ -4835,7 +4824,7 @@ objectModelConfiguration:
         $exportAs: ServerFarm
         $supportedFrom: v2.0.0-beta.3
       Site:
-        $export: true
+        $exportAs: Site
         $supportedFrom: v2.0.0-beta.3
       Site_Properties_Spec:
         ServerFarmId:

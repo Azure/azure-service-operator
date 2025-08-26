@@ -31,8 +31,8 @@ import (
 type ApplicationGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ApplicationGateway_Spec                                          `json:"spec,omitempty"`
-	Status            ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              ApplicationGateway_Spec   `json:"spec,omitempty"`
+	Status            ApplicationGateway_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ApplicationGateway{}
@@ -93,11 +93,11 @@ var _ genruntime.ImportableResource = &ApplicationGateway{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (gateway *ApplicationGateway) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded); ok {
-		return gateway.Spec.Initialize_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(s)
+	if s, ok := status.(*ApplicationGateway_STATUS); ok {
+		return gateway.Spec.Initialize_From_ApplicationGateway_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded but received %T instead", status)
+	return fmt.Errorf("expected Status of type ApplicationGateway_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ApplicationGateway{}
@@ -143,7 +143,7 @@ func (gateway *ApplicationGateway) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (gateway *ApplicationGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
+	return &ApplicationGateway_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -159,13 +159,13 @@ func (gateway *ApplicationGateway) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (gateway *ApplicationGateway) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded); ok {
+	if st, ok := status.(*ApplicationGateway_STATUS); ok {
 		gateway.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	var st ApplicationGateway_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -190,10 +190,10 @@ func (gateway *ApplicationGateway) AssignProperties_From_ApplicationGateway(sour
 	gateway.Spec = spec
 
 	// Status
-	var status ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err = status.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&source.Status)
+	var status ApplicationGateway_STATUS
+	err = status.AssignProperties_From_ApplicationGateway_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ApplicationGateway_STATUS() to populate field Status")
 	}
 	gateway.Status = status
 
@@ -216,10 +216,10 @@ func (gateway *ApplicationGateway) AssignProperties_To_ApplicationGateway(destin
 	destination.Spec = spec
 
 	// Status
-	var status storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err = gateway.Status.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&status)
+	var status storage.ApplicationGateway_STATUS
+	err = gateway.Status.AssignProperties_To_ApplicationGateway_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ApplicationGateway_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -2288,8 +2288,8 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	return nil
 }
 
-// Initialize_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded populates our ApplicationGateway_Spec from the provided source ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(source *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) error {
+// Initialize_From_ApplicationGateway_STATUS populates our ApplicationGateway_Spec from the provided source ApplicationGateway_STATUS
+func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATUS(source *ApplicationGateway_STATUS) error {
 
 	// AuthenticationCertificates
 	if source.AuthenticationCertificates != nil {
@@ -2817,7 +2817,7 @@ func (gateway *ApplicationGateway_Spec) OriginalVersion() string {
 func (gateway *ApplicationGateway_Spec) SetAzureName(azureName string) { gateway.AzureName = azureName }
 
 // Application gateway resource.
-type ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded struct {
+type ApplicationGateway_STATUS struct {
 	// AuthenticationCertificates: Authentication certificates of the application gateway resource. For default limits, see
 	// [Application Gateway
 	// limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
@@ -2973,25 +2973,25 @@ type ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &ApplicationGateway_STATUS{}
 
-// ConvertStatusFrom populates our ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded from the provided source
-func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded)
+// ConvertStatusFrom populates our ApplicationGateway_STATUS from the provided source
+func (gateway *ApplicationGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ApplicationGateway_STATUS)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(src)
+		return gateway.AssignProperties_From_ApplicationGateway_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
+	src = &storage.ApplicationGateway_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = embedded.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(src)
+	err = gateway.AssignProperties_From_ApplicationGateway_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -2999,17 +2999,17 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded)
+// ConvertStatusTo populates the provided destination from our ApplicationGateway_STATUS
+func (gateway *ApplicationGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ApplicationGateway_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(dst)
+		return gateway.AssignProperties_To_ApplicationGateway_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
-	err := embedded.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(dst)
+	dst = &storage.ApplicationGateway_STATUS{}
+	err := gateway.AssignProperties_To_ApplicationGateway_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -3023,18 +3023,18 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &ApplicationGateway_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
+func (gateway *ApplicationGateway_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ApplicationGateway_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded)
+func (gateway *ApplicationGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ApplicationGateway_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGateway_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationCertificates":
@@ -3046,7 +3046,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.AuthenticationCertificates = append(embedded.AuthenticationCertificates, item1)
+			gateway.AuthenticationCertificates = append(gateway.AuthenticationCertificates, item1)
 		}
 	}
 
@@ -3060,7 +3060,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 				return err
 			}
 			autoscaleConfiguration := autoscaleConfiguration1
-			embedded.AutoscaleConfiguration = &autoscaleConfiguration
+			gateway.AutoscaleConfiguration = &autoscaleConfiguration
 		}
 	}
 
@@ -3073,7 +3073,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.BackendAddressPools = append(embedded.BackendAddressPools, item1)
+			gateway.BackendAddressPools = append(gateway.BackendAddressPools, item1)
 		}
 	}
 
@@ -3086,7 +3086,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.BackendHttpSettingsCollection = append(embedded.BackendHttpSettingsCollection, item1)
+			gateway.BackendHttpSettingsCollection = append(gateway.BackendHttpSettingsCollection, item1)
 		}
 	}
 
@@ -3099,7 +3099,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.BackendSettingsCollection = append(embedded.BackendSettingsCollection, item1)
+			gateway.BackendSettingsCollection = append(gateway.BackendSettingsCollection, item1)
 		}
 	}
 
@@ -3114,7 +3114,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.CustomErrorConfigurations = append(embedded.CustomErrorConfigurations, item1)
+			gateway.CustomErrorConfigurations = append(gateway.CustomErrorConfigurations, item1)
 		}
 	}
 
@@ -3123,7 +3123,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFips != nil {
 			enableFips := *typedInput.Properties.EnableFips
-			embedded.EnableFips = &enableFips
+			gateway.EnableFips = &enableFips
 		}
 	}
 
@@ -3132,14 +3132,14 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableHttp2 != nil {
 			enableHttp2 := *typedInput.Properties.EnableHttp2
-			embedded.EnableHttp2 = &enableHttp2
+			gateway.EnableHttp2 = &enableHttp2
 		}
 	}
 
 	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		embedded.Etag = &etag
+		gateway.Etag = &etag
 	}
 
 	// Set property "FirewallPolicy":
@@ -3152,7 +3152,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 				return err
 			}
 			firewallPolicy := firewallPolicy1
-			embedded.FirewallPolicy = &firewallPolicy
+			gateway.FirewallPolicy = &firewallPolicy
 		}
 	}
 
@@ -3161,7 +3161,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceFirewallPolicyAssociation != nil {
 			forceFirewallPolicyAssociation := *typedInput.Properties.ForceFirewallPolicyAssociation
-			embedded.ForceFirewallPolicyAssociation = &forceFirewallPolicyAssociation
+			gateway.ForceFirewallPolicyAssociation = &forceFirewallPolicyAssociation
 		}
 	}
 
@@ -3174,7 +3174,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.FrontendIPConfigurations = append(embedded.FrontendIPConfigurations, item1)
+			gateway.FrontendIPConfigurations = append(gateway.FrontendIPConfigurations, item1)
 		}
 	}
 
@@ -3187,7 +3187,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.FrontendPorts = append(embedded.FrontendPorts, item1)
+			gateway.FrontendPorts = append(gateway.FrontendPorts, item1)
 		}
 	}
 
@@ -3200,7 +3200,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.GatewayIPConfigurations = append(embedded.GatewayIPConfigurations, item1)
+			gateway.GatewayIPConfigurations = append(gateway.GatewayIPConfigurations, item1)
 		}
 	}
 
@@ -3214,7 +3214,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 				return err
 			}
 			globalConfiguration := globalConfiguration1
-			embedded.GlobalConfiguration = &globalConfiguration
+			gateway.GlobalConfiguration = &globalConfiguration
 		}
 	}
 
@@ -3227,14 +3227,14 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.HttpListeners = append(embedded.HttpListeners, item1)
+			gateway.HttpListeners = append(gateway.HttpListeners, item1)
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		gateway.Id = &id
 	}
 
 	// Set property "Identity":
@@ -3245,7 +3245,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			return err
 		}
 		identity := identity1
-		embedded.Identity = &identity
+		gateway.Identity = &identity
 	}
 
 	// Set property "Listeners":
@@ -3257,7 +3257,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.Listeners = append(embedded.Listeners, item1)
+			gateway.Listeners = append(gateway.Listeners, item1)
 		}
 	}
 
@@ -3270,20 +3270,20 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.LoadDistributionPolicies = append(embedded.LoadDistributionPolicies, item1)
+			gateway.LoadDistributionPolicies = append(gateway.LoadDistributionPolicies, item1)
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		embedded.Location = &location
+		gateway.Location = &location
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		embedded.Name = &name
+		gateway.Name = &name
 	}
 
 	// Set property "OperationalState":
@@ -3293,7 +3293,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			var temp string
 			temp = string(*typedInput.Properties.OperationalState)
 			operationalState := ApplicationGatewayPropertiesFormat_OperationalState_STATUS(temp)
-			embedded.OperationalState = &operationalState
+			gateway.OperationalState = &operationalState
 		}
 	}
 
@@ -3306,7 +3306,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.PrivateEndpointConnections = append(embedded.PrivateEndpointConnections, item1)
+			gateway.PrivateEndpointConnections = append(gateway.PrivateEndpointConnections, item1)
 		}
 	}
 
@@ -3319,7 +3319,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.PrivateLinkConfigurations = append(embedded.PrivateLinkConfigurations, item1)
+			gateway.PrivateLinkConfigurations = append(gateway.PrivateLinkConfigurations, item1)
 		}
 	}
 
@@ -3332,7 +3332,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.Probes = append(embedded.Probes, item1)
+			gateway.Probes = append(gateway.Probes, item1)
 		}
 	}
 
@@ -3343,7 +3343,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
 			provisioningState := ApplicationGatewayProvisioningState_STATUS(temp)
-			embedded.ProvisioningState = &provisioningState
+			gateway.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -3356,7 +3356,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.RedirectConfigurations = append(embedded.RedirectConfigurations, item1)
+			gateway.RedirectConfigurations = append(gateway.RedirectConfigurations, item1)
 		}
 	}
 
@@ -3369,7 +3369,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.RequestRoutingRules = append(embedded.RequestRoutingRules, item1)
+			gateway.RequestRoutingRules = append(gateway.RequestRoutingRules, item1)
 		}
 	}
 
@@ -3378,7 +3378,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
 			resourceGuid := *typedInput.Properties.ResourceGuid
-			embedded.ResourceGuid = &resourceGuid
+			gateway.ResourceGuid = &resourceGuid
 		}
 	}
 
@@ -3391,7 +3391,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.RewriteRuleSets = append(embedded.RewriteRuleSets, item1)
+			gateway.RewriteRuleSets = append(gateway.RewriteRuleSets, item1)
 		}
 	}
 
@@ -3404,7 +3404,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.RoutingRules = append(embedded.RoutingRules, item1)
+			gateway.RoutingRules = append(gateway.RoutingRules, item1)
 		}
 	}
 
@@ -3418,7 +3418,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 				return err
 			}
 			sku := sku1
-			embedded.Sku = &sku
+			gateway.Sku = &sku
 		}
 	}
 
@@ -3431,7 +3431,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.SslCertificates = append(embedded.SslCertificates, item1)
+			gateway.SslCertificates = append(gateway.SslCertificates, item1)
 		}
 	}
 
@@ -3445,7 +3445,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 				return err
 			}
 			sslPolicy := sslPolicy1
-			embedded.SslPolicy = &sslPolicy
+			gateway.SslPolicy = &sslPolicy
 		}
 	}
 
@@ -3458,15 +3458,15 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.SslProfiles = append(embedded.SslProfiles, item1)
+			gateway.SslProfiles = append(gateway.SslProfiles, item1)
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string, len(typedInput.Tags))
+		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			embedded.Tags[key] = value
+			gateway.Tags[key] = value
 		}
 	}
 
@@ -3479,7 +3479,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.TrustedClientCertificates = append(embedded.TrustedClientCertificates, item1)
+			gateway.TrustedClientCertificates = append(gateway.TrustedClientCertificates, item1)
 		}
 	}
 
@@ -3492,14 +3492,14 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.TrustedRootCertificates = append(embedded.TrustedRootCertificates, item1)
+			gateway.TrustedRootCertificates = append(gateway.TrustedRootCertificates, item1)
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		embedded.Type = &typeVar
+		gateway.Type = &typeVar
 	}
 
 	// Set property "UrlPathMaps":
@@ -3511,7 +3511,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			if err != nil {
 				return err
 			}
-			embedded.UrlPathMaps = append(embedded.UrlPathMaps, item1)
+			gateway.UrlPathMaps = append(gateway.UrlPathMaps, item1)
 		}
 	}
 
@@ -3525,21 +3525,21 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 				return err
 			}
 			webApplicationFirewallConfiguration := webApplicationFirewallConfiguration1
-			embedded.WebApplicationFirewallConfiguration = &webApplicationFirewallConfiguration
+			gateway.WebApplicationFirewallConfiguration = &webApplicationFirewallConfiguration
 		}
 	}
 
 	// Set property "Zones":
 	for _, item := range typedInput.Zones {
-		embedded.Zones = append(embedded.Zones, item)
+		gateway.Zones = append(gateway.Zones, item)
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded populates our ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded from the provided source ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(source *storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) error {
+// AssignProperties_From_ApplicationGateway_STATUS populates our ApplicationGateway_STATUS from the provided source ApplicationGateway_STATUS
+func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGateway_STATUS(source *storage.ApplicationGateway_STATUS) error {
 
 	// AuthenticationCertificates
 	if source.AuthenticationCertificates != nil {
@@ -3554,9 +3554,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			authenticationCertificateList[authenticationCertificateIndex] = authenticationCertificate
 		}
-		embedded.AuthenticationCertificates = authenticationCertificateList
+		gateway.AuthenticationCertificates = authenticationCertificateList
 	} else {
-		embedded.AuthenticationCertificates = nil
+		gateway.AuthenticationCertificates = nil
 	}
 
 	// AutoscaleConfiguration
@@ -3566,9 +3566,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewayAutoscaleConfiguration_STATUS() to populate field AutoscaleConfiguration")
 		}
-		embedded.AutoscaleConfiguration = &autoscaleConfiguration
+		gateway.AutoscaleConfiguration = &autoscaleConfiguration
 	} else {
-		embedded.AutoscaleConfiguration = nil
+		gateway.AutoscaleConfiguration = nil
 	}
 
 	// BackendAddressPools
@@ -3584,9 +3584,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
-		embedded.BackendAddressPools = backendAddressPoolList
+		gateway.BackendAddressPools = backendAddressPoolList
 	} else {
-		embedded.BackendAddressPools = nil
+		gateway.BackendAddressPools = nil
 	}
 
 	// BackendHttpSettingsCollection
@@ -3602,9 +3602,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			backendHttpSettingsCollectionList[backendHttpSettingsCollectionIndex] = backendHttpSettingsCollection
 		}
-		embedded.BackendHttpSettingsCollection = backendHttpSettingsCollectionList
+		gateway.BackendHttpSettingsCollection = backendHttpSettingsCollectionList
 	} else {
-		embedded.BackendHttpSettingsCollection = nil
+		gateway.BackendHttpSettingsCollection = nil
 	}
 
 	// BackendSettingsCollection
@@ -3620,13 +3620,13 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			backendSettingsCollectionList[backendSettingsCollectionIndex] = backendSettingsCollection
 		}
-		embedded.BackendSettingsCollection = backendSettingsCollectionList
+		gateway.BackendSettingsCollection = backendSettingsCollectionList
 	} else {
-		embedded.BackendSettingsCollection = nil
+		gateway.BackendSettingsCollection = nil
 	}
 
 	// Conditions
-	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	gateway.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CustomErrorConfigurations
 	if source.CustomErrorConfigurations != nil {
@@ -3641,29 +3641,29 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			customErrorConfigurationList[customErrorConfigurationIndex] = customErrorConfiguration
 		}
-		embedded.CustomErrorConfigurations = customErrorConfigurationList
+		gateway.CustomErrorConfigurations = customErrorConfigurationList
 	} else {
-		embedded.CustomErrorConfigurations = nil
+		gateway.CustomErrorConfigurations = nil
 	}
 
 	// EnableFips
 	if source.EnableFips != nil {
 		enableFip := *source.EnableFips
-		embedded.EnableFips = &enableFip
+		gateway.EnableFips = &enableFip
 	} else {
-		embedded.EnableFips = nil
+		gateway.EnableFips = nil
 	}
 
 	// EnableHttp2
 	if source.EnableHttp2 != nil {
 		enableHttp2 := *source.EnableHttp2
-		embedded.EnableHttp2 = &enableHttp2
+		gateway.EnableHttp2 = &enableHttp2
 	} else {
-		embedded.EnableHttp2 = nil
+		gateway.EnableHttp2 = nil
 	}
 
 	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+	gateway.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// FirewallPolicy
 	if source.FirewallPolicy != nil {
@@ -3672,17 +3672,17 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field FirewallPolicy")
 		}
-		embedded.FirewallPolicy = &firewallPolicy
+		gateway.FirewallPolicy = &firewallPolicy
 	} else {
-		embedded.FirewallPolicy = nil
+		gateway.FirewallPolicy = nil
 	}
 
 	// ForceFirewallPolicyAssociation
 	if source.ForceFirewallPolicyAssociation != nil {
 		forceFirewallPolicyAssociation := *source.ForceFirewallPolicyAssociation
-		embedded.ForceFirewallPolicyAssociation = &forceFirewallPolicyAssociation
+		gateway.ForceFirewallPolicyAssociation = &forceFirewallPolicyAssociation
 	} else {
-		embedded.ForceFirewallPolicyAssociation = nil
+		gateway.ForceFirewallPolicyAssociation = nil
 	}
 
 	// FrontendIPConfigurations
@@ -3698,9 +3698,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		embedded.FrontendIPConfigurations = frontendIPConfigurationList
+		gateway.FrontendIPConfigurations = frontendIPConfigurationList
 	} else {
-		embedded.FrontendIPConfigurations = nil
+		gateway.FrontendIPConfigurations = nil
 	}
 
 	// FrontendPorts
@@ -3716,9 +3716,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			frontendPortList[frontendPortIndex] = frontendPort
 		}
-		embedded.FrontendPorts = frontendPortList
+		gateway.FrontendPorts = frontendPortList
 	} else {
-		embedded.FrontendPorts = nil
+		gateway.FrontendPorts = nil
 	}
 
 	// GatewayIPConfigurations
@@ -3734,9 +3734,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			gatewayIPConfigurationList[gatewayIPConfigurationIndex] = gatewayIPConfiguration
 		}
-		embedded.GatewayIPConfigurations = gatewayIPConfigurationList
+		gateway.GatewayIPConfigurations = gatewayIPConfigurationList
 	} else {
-		embedded.GatewayIPConfigurations = nil
+		gateway.GatewayIPConfigurations = nil
 	}
 
 	// GlobalConfiguration
@@ -3746,9 +3746,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewayGlobalConfiguration_STATUS() to populate field GlobalConfiguration")
 		}
-		embedded.GlobalConfiguration = &globalConfiguration
+		gateway.GlobalConfiguration = &globalConfiguration
 	} else {
-		embedded.GlobalConfiguration = nil
+		gateway.GlobalConfiguration = nil
 	}
 
 	// HttpListeners
@@ -3764,13 +3764,13 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			httpListenerList[httpListenerIndex] = httpListener
 		}
-		embedded.HttpListeners = httpListenerList
+		gateway.HttpListeners = httpListenerList
 	} else {
-		embedded.HttpListeners = nil
+		gateway.HttpListeners = nil
 	}
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	gateway.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -3779,9 +3779,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
-		embedded.Identity = &identity
+		gateway.Identity = &identity
 	} else {
-		embedded.Identity = nil
+		gateway.Identity = nil
 	}
 
 	// Listeners
@@ -3797,9 +3797,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			listenerList[listenerIndex] = listener
 		}
-		embedded.Listeners = listenerList
+		gateway.Listeners = listenerList
 	} else {
-		embedded.Listeners = nil
+		gateway.Listeners = nil
 	}
 
 	// LoadDistributionPolicies
@@ -3815,24 +3815,24 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			loadDistributionPolicyList[loadDistributionPolicyIndex] = loadDistributionPolicy
 		}
-		embedded.LoadDistributionPolicies = loadDistributionPolicyList
+		gateway.LoadDistributionPolicies = loadDistributionPolicyList
 	} else {
-		embedded.LoadDistributionPolicies = nil
+		gateway.LoadDistributionPolicies = nil
 	}
 
 	// Location
-	embedded.Location = genruntime.ClonePointerToString(source.Location)
+	gateway.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
+	gateway.Name = genruntime.ClonePointerToString(source.Name)
 
 	// OperationalState
 	if source.OperationalState != nil {
 		operationalState := *source.OperationalState
 		operationalStateTemp := genruntime.ToEnum(operationalState, applicationGatewayPropertiesFormat_OperationalState_STATUS_Values)
-		embedded.OperationalState = &operationalStateTemp
+		gateway.OperationalState = &operationalStateTemp
 	} else {
-		embedded.OperationalState = nil
+		gateway.OperationalState = nil
 	}
 
 	// PrivateEndpointConnections
@@ -3848,9 +3848,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		embedded.PrivateEndpointConnections = privateEndpointConnectionList
+		gateway.PrivateEndpointConnections = privateEndpointConnectionList
 	} else {
-		embedded.PrivateEndpointConnections = nil
+		gateway.PrivateEndpointConnections = nil
 	}
 
 	// PrivateLinkConfigurations
@@ -3866,9 +3866,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			privateLinkConfigurationList[privateLinkConfigurationIndex] = privateLinkConfiguration
 		}
-		embedded.PrivateLinkConfigurations = privateLinkConfigurationList
+		gateway.PrivateLinkConfigurations = privateLinkConfigurationList
 	} else {
-		embedded.PrivateLinkConfigurations = nil
+		gateway.PrivateLinkConfigurations = nil
 	}
 
 	// Probes
@@ -3884,18 +3884,18 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			probeList[probeIndex] = probe
 		}
-		embedded.Probes = probeList
+		gateway.Probes = probeList
 	} else {
-		embedded.Probes = nil
+		gateway.Probes = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
 		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
-		embedded.ProvisioningState = &provisioningStateTemp
+		gateway.ProvisioningState = &provisioningStateTemp
 	} else {
-		embedded.ProvisioningState = nil
+		gateway.ProvisioningState = nil
 	}
 
 	// RedirectConfigurations
@@ -3911,9 +3911,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			redirectConfigurationList[redirectConfigurationIndex] = redirectConfiguration
 		}
-		embedded.RedirectConfigurations = redirectConfigurationList
+		gateway.RedirectConfigurations = redirectConfigurationList
 	} else {
-		embedded.RedirectConfigurations = nil
+		gateway.RedirectConfigurations = nil
 	}
 
 	// RequestRoutingRules
@@ -3929,13 +3929,13 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			requestRoutingRuleList[requestRoutingRuleIndex] = requestRoutingRule
 		}
-		embedded.RequestRoutingRules = requestRoutingRuleList
+		gateway.RequestRoutingRules = requestRoutingRuleList
 	} else {
-		embedded.RequestRoutingRules = nil
+		gateway.RequestRoutingRules = nil
 	}
 
 	// ResourceGuid
-	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	gateway.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// RewriteRuleSets
 	if source.RewriteRuleSets != nil {
@@ -3950,9 +3950,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			rewriteRuleSetList[rewriteRuleSetIndex] = rewriteRuleSet
 		}
-		embedded.RewriteRuleSets = rewriteRuleSetList
+		gateway.RewriteRuleSets = rewriteRuleSetList
 	} else {
-		embedded.RewriteRuleSets = nil
+		gateway.RewriteRuleSets = nil
 	}
 
 	// RoutingRules
@@ -3968,9 +3968,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			routingRuleList[routingRuleIndex] = routingRule
 		}
-		embedded.RoutingRules = routingRuleList
+		gateway.RoutingRules = routingRuleList
 	} else {
-		embedded.RoutingRules = nil
+		gateway.RoutingRules = nil
 	}
 
 	// Sku
@@ -3980,9 +3980,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySku_STATUS() to populate field Sku")
 		}
-		embedded.Sku = &sku
+		gateway.Sku = &sku
 	} else {
-		embedded.Sku = nil
+		gateway.Sku = nil
 	}
 
 	// SslCertificates
@@ -3998,9 +3998,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			sslCertificateList[sslCertificateIndex] = sslCertificate
 		}
-		embedded.SslCertificates = sslCertificateList
+		gateway.SslCertificates = sslCertificateList
 	} else {
-		embedded.SslCertificates = nil
+		gateway.SslCertificates = nil
 	}
 
 	// SslPolicy
@@ -4010,9 +4010,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySslPolicy_STATUS() to populate field SslPolicy")
 		}
-		embedded.SslPolicy = &sslPolicy
+		gateway.SslPolicy = &sslPolicy
 	} else {
-		embedded.SslPolicy = nil
+		gateway.SslPolicy = nil
 	}
 
 	// SslProfiles
@@ -4028,13 +4028,13 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			sslProfileList[sslProfileIndex] = sslProfile
 		}
-		embedded.SslProfiles = sslProfileList
+		gateway.SslProfiles = sslProfileList
 	} else {
-		embedded.SslProfiles = nil
+		gateway.SslProfiles = nil
 	}
 
 	// Tags
-	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	gateway.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TrustedClientCertificates
 	if source.TrustedClientCertificates != nil {
@@ -4049,9 +4049,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			trustedClientCertificateList[trustedClientCertificateIndex] = trustedClientCertificate
 		}
-		embedded.TrustedClientCertificates = trustedClientCertificateList
+		gateway.TrustedClientCertificates = trustedClientCertificateList
 	} else {
-		embedded.TrustedClientCertificates = nil
+		gateway.TrustedClientCertificates = nil
 	}
 
 	// TrustedRootCertificates
@@ -4067,13 +4067,13 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			trustedRootCertificateList[trustedRootCertificateIndex] = trustedRootCertificate
 		}
-		embedded.TrustedRootCertificates = trustedRootCertificateList
+		gateway.TrustedRootCertificates = trustedRootCertificateList
 	} else {
-		embedded.TrustedRootCertificates = nil
+		gateway.TrustedRootCertificates = nil
 	}
 
 	// Type
-	embedded.Type = genruntime.ClonePointerToString(source.Type)
+	gateway.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UrlPathMaps
 	if source.UrlPathMaps != nil {
@@ -4088,9 +4088,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 			}
 			urlPathMapList[urlPathMapIndex] = urlPathMap
 		}
-		embedded.UrlPathMaps = urlPathMapList
+		gateway.UrlPathMaps = urlPathMapList
 	} else {
-		embedded.UrlPathMaps = nil
+		gateway.UrlPathMaps = nil
 	}
 
 	// WebApplicationFirewallConfiguration
@@ -4100,27 +4100,27 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS() to populate field WebApplicationFirewallConfiguration")
 		}
-		embedded.WebApplicationFirewallConfiguration = &webApplicationFirewallConfiguration
+		gateway.WebApplicationFirewallConfiguration = &webApplicationFirewallConfiguration
 	} else {
-		embedded.WebApplicationFirewallConfiguration = nil
+		gateway.WebApplicationFirewallConfiguration = nil
 	}
 
 	// Zones
-	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
+	gateway.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded populates the provided destination ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded from our ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(destination *storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) error {
+// AssignProperties_To_ApplicationGateway_STATUS populates the provided destination ApplicationGateway_STATUS from our ApplicationGateway_STATUS
+func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway_STATUS(destination *storage.ApplicationGateway_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AuthenticationCertificates
-	if embedded.AuthenticationCertificates != nil {
-		authenticationCertificateList := make([]storage.ApplicationGatewayAuthenticationCertificate_STATUS, len(embedded.AuthenticationCertificates))
-		for authenticationCertificateIndex, authenticationCertificateItem := range embedded.AuthenticationCertificates {
+	if gateway.AuthenticationCertificates != nil {
+		authenticationCertificateList := make([]storage.ApplicationGatewayAuthenticationCertificate_STATUS, len(gateway.AuthenticationCertificates))
+		for authenticationCertificateIndex, authenticationCertificateItem := range gateway.AuthenticationCertificates {
 			// Shadow the loop variable to avoid aliasing
 			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate storage.ApplicationGatewayAuthenticationCertificate_STATUS
@@ -4136,9 +4136,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// AutoscaleConfiguration
-	if embedded.AutoscaleConfiguration != nil {
+	if gateway.AutoscaleConfiguration != nil {
 		var autoscaleConfiguration storage.ApplicationGatewayAutoscaleConfiguration_STATUS
-		err := embedded.AutoscaleConfiguration.AssignProperties_To_ApplicationGatewayAutoscaleConfiguration_STATUS(&autoscaleConfiguration)
+		err := gateway.AutoscaleConfiguration.AssignProperties_To_ApplicationGatewayAutoscaleConfiguration_STATUS(&autoscaleConfiguration)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewayAutoscaleConfiguration_STATUS() to populate field AutoscaleConfiguration")
 		}
@@ -4148,9 +4148,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// BackendAddressPools
-	if embedded.BackendAddressPools != nil {
-		backendAddressPoolList := make([]storage.ApplicationGatewayBackendAddressPool_STATUS, len(embedded.BackendAddressPools))
-		for backendAddressPoolIndex, backendAddressPoolItem := range embedded.BackendAddressPools {
+	if gateway.BackendAddressPools != nil {
+		backendAddressPoolList := make([]storage.ApplicationGatewayBackendAddressPool_STATUS, len(gateway.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range gateway.BackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.ApplicationGatewayBackendAddressPool_STATUS
@@ -4166,9 +4166,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// BackendHttpSettingsCollection
-	if embedded.BackendHttpSettingsCollection != nil {
-		backendHttpSettingsCollectionList := make([]storage.ApplicationGatewayBackendHttpSettings_STATUS, len(embedded.BackendHttpSettingsCollection))
-		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range embedded.BackendHttpSettingsCollection {
+	if gateway.BackendHttpSettingsCollection != nil {
+		backendHttpSettingsCollectionList := make([]storage.ApplicationGatewayBackendHttpSettings_STATUS, len(gateway.BackendHttpSettingsCollection))
+		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range gateway.BackendHttpSettingsCollection {
 			// Shadow the loop variable to avoid aliasing
 			backendHttpSettingsCollectionItem := backendHttpSettingsCollectionItem
 			var backendHttpSettingsCollection storage.ApplicationGatewayBackendHttpSettings_STATUS
@@ -4184,9 +4184,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// BackendSettingsCollection
-	if embedded.BackendSettingsCollection != nil {
-		backendSettingsCollectionList := make([]storage.ApplicationGatewayBackendSettings_STATUS, len(embedded.BackendSettingsCollection))
-		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range embedded.BackendSettingsCollection {
+	if gateway.BackendSettingsCollection != nil {
+		backendSettingsCollectionList := make([]storage.ApplicationGatewayBackendSettings_STATUS, len(gateway.BackendSettingsCollection))
+		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range gateway.BackendSettingsCollection {
 			// Shadow the loop variable to avoid aliasing
 			backendSettingsCollectionItem := backendSettingsCollectionItem
 			var backendSettingsCollection storage.ApplicationGatewayBackendSettings_STATUS
@@ -4202,12 +4202,12 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(gateway.Conditions)
 
 	// CustomErrorConfigurations
-	if embedded.CustomErrorConfigurations != nil {
-		customErrorConfigurationList := make([]storage.ApplicationGatewayCustomError_STATUS, len(embedded.CustomErrorConfigurations))
-		for customErrorConfigurationIndex, customErrorConfigurationItem := range embedded.CustomErrorConfigurations {
+	if gateway.CustomErrorConfigurations != nil {
+		customErrorConfigurationList := make([]storage.ApplicationGatewayCustomError_STATUS, len(gateway.CustomErrorConfigurations))
+		for customErrorConfigurationIndex, customErrorConfigurationItem := range gateway.CustomErrorConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration storage.ApplicationGatewayCustomError_STATUS
@@ -4223,28 +4223,28 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// EnableFips
-	if embedded.EnableFips != nil {
-		enableFip := *embedded.EnableFips
+	if gateway.EnableFips != nil {
+		enableFip := *gateway.EnableFips
 		destination.EnableFips = &enableFip
 	} else {
 		destination.EnableFips = nil
 	}
 
 	// EnableHttp2
-	if embedded.EnableHttp2 != nil {
-		enableHttp2 := *embedded.EnableHttp2
+	if gateway.EnableHttp2 != nil {
+		enableHttp2 := *gateway.EnableHttp2
 		destination.EnableHttp2 = &enableHttp2
 	} else {
 		destination.EnableHttp2 = nil
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+	destination.Etag = genruntime.ClonePointerToString(gateway.Etag)
 
 	// FirewallPolicy
-	if embedded.FirewallPolicy != nil {
+	if gateway.FirewallPolicy != nil {
 		var firewallPolicy storage.SubResource_STATUS
-		err := embedded.FirewallPolicy.AssignProperties_To_SubResource_STATUS(&firewallPolicy)
+		err := gateway.FirewallPolicy.AssignProperties_To_SubResource_STATUS(&firewallPolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field FirewallPolicy")
 		}
@@ -4254,17 +4254,17 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// ForceFirewallPolicyAssociation
-	if embedded.ForceFirewallPolicyAssociation != nil {
-		forceFirewallPolicyAssociation := *embedded.ForceFirewallPolicyAssociation
+	if gateway.ForceFirewallPolicyAssociation != nil {
+		forceFirewallPolicyAssociation := *gateway.ForceFirewallPolicyAssociation
 		destination.ForceFirewallPolicyAssociation = &forceFirewallPolicyAssociation
 	} else {
 		destination.ForceFirewallPolicyAssociation = nil
 	}
 
 	// FrontendIPConfigurations
-	if embedded.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]storage.ApplicationGatewayFrontendIPConfiguration_STATUS, len(embedded.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range embedded.FrontendIPConfigurations {
+	if gateway.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]storage.ApplicationGatewayFrontendIPConfiguration_STATUS, len(gateway.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range gateway.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.ApplicationGatewayFrontendIPConfiguration_STATUS
@@ -4280,9 +4280,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// FrontendPorts
-	if embedded.FrontendPorts != nil {
-		frontendPortList := make([]storage.ApplicationGatewayFrontendPort_STATUS, len(embedded.FrontendPorts))
-		for frontendPortIndex, frontendPortItem := range embedded.FrontendPorts {
+	if gateway.FrontendPorts != nil {
+		frontendPortList := make([]storage.ApplicationGatewayFrontendPort_STATUS, len(gateway.FrontendPorts))
+		for frontendPortIndex, frontendPortItem := range gateway.FrontendPorts {
 			// Shadow the loop variable to avoid aliasing
 			frontendPortItem := frontendPortItem
 			var frontendPort storage.ApplicationGatewayFrontendPort_STATUS
@@ -4298,9 +4298,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// GatewayIPConfigurations
-	if embedded.GatewayIPConfigurations != nil {
-		gatewayIPConfigurationList := make([]storage.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded, len(embedded.GatewayIPConfigurations))
-		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range embedded.GatewayIPConfigurations {
+	if gateway.GatewayIPConfigurations != nil {
+		gatewayIPConfigurationList := make([]storage.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded, len(gateway.GatewayIPConfigurations))
+		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range gateway.GatewayIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			gatewayIPConfigurationItem := gatewayIPConfigurationItem
 			var gatewayIPConfiguration storage.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
@@ -4316,9 +4316,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// GlobalConfiguration
-	if embedded.GlobalConfiguration != nil {
+	if gateway.GlobalConfiguration != nil {
 		var globalConfiguration storage.ApplicationGatewayGlobalConfiguration_STATUS
-		err := embedded.GlobalConfiguration.AssignProperties_To_ApplicationGatewayGlobalConfiguration_STATUS(&globalConfiguration)
+		err := gateway.GlobalConfiguration.AssignProperties_To_ApplicationGatewayGlobalConfiguration_STATUS(&globalConfiguration)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewayGlobalConfiguration_STATUS() to populate field GlobalConfiguration")
 		}
@@ -4328,9 +4328,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// HttpListeners
-	if embedded.HttpListeners != nil {
-		httpListenerList := make([]storage.ApplicationGatewayHttpListener_STATUS, len(embedded.HttpListeners))
-		for httpListenerIndex, httpListenerItem := range embedded.HttpListeners {
+	if gateway.HttpListeners != nil {
+		httpListenerList := make([]storage.ApplicationGatewayHttpListener_STATUS, len(gateway.HttpListeners))
+		for httpListenerIndex, httpListenerItem := range gateway.HttpListeners {
 			// Shadow the loop variable to avoid aliasing
 			httpListenerItem := httpListenerItem
 			var httpListener storage.ApplicationGatewayHttpListener_STATUS
@@ -4346,12 +4346,12 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(gateway.Id)
 
 	// Identity
-	if embedded.Identity != nil {
+	if gateway.Identity != nil {
 		var identity storage.ManagedServiceIdentity_STATUS
-		err := embedded.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
+		err := gateway.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
@@ -4361,9 +4361,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Listeners
-	if embedded.Listeners != nil {
-		listenerList := make([]storage.ApplicationGatewayListener_STATUS, len(embedded.Listeners))
-		for listenerIndex, listenerItem := range embedded.Listeners {
+	if gateway.Listeners != nil {
+		listenerList := make([]storage.ApplicationGatewayListener_STATUS, len(gateway.Listeners))
+		for listenerIndex, listenerItem := range gateway.Listeners {
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
 			var listener storage.ApplicationGatewayListener_STATUS
@@ -4379,9 +4379,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// LoadDistributionPolicies
-	if embedded.LoadDistributionPolicies != nil {
-		loadDistributionPolicyList := make([]storage.ApplicationGatewayLoadDistributionPolicy_STATUS, len(embedded.LoadDistributionPolicies))
-		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range embedded.LoadDistributionPolicies {
+	if gateway.LoadDistributionPolicies != nil {
+		loadDistributionPolicyList := make([]storage.ApplicationGatewayLoadDistributionPolicy_STATUS, len(gateway.LoadDistributionPolicies))
+		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range gateway.LoadDistributionPolicies {
 			// Shadow the loop variable to avoid aliasing
 			loadDistributionPolicyItem := loadDistributionPolicyItem
 			var loadDistributionPolicy storage.ApplicationGatewayLoadDistributionPolicy_STATUS
@@ -4397,23 +4397,23 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(embedded.Location)
+	destination.Location = genruntime.ClonePointerToString(gateway.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+	destination.Name = genruntime.ClonePointerToString(gateway.Name)
 
 	// OperationalState
-	if embedded.OperationalState != nil {
-		operationalState := string(*embedded.OperationalState)
+	if gateway.OperationalState != nil {
+		operationalState := string(*gateway.OperationalState)
 		destination.OperationalState = &operationalState
 	} else {
 		destination.OperationalState = nil
 	}
 
 	// PrivateEndpointConnections
-	if embedded.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]storage.ApplicationGatewayPrivateEndpointConnection_STATUS, len(embedded.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range embedded.PrivateEndpointConnections {
+	if gateway.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]storage.ApplicationGatewayPrivateEndpointConnection_STATUS, len(gateway.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range gateway.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.ApplicationGatewayPrivateEndpointConnection_STATUS
@@ -4429,9 +4429,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// PrivateLinkConfigurations
-	if embedded.PrivateLinkConfigurations != nil {
-		privateLinkConfigurationList := make([]storage.ApplicationGatewayPrivateLinkConfiguration_STATUS, len(embedded.PrivateLinkConfigurations))
-		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range embedded.PrivateLinkConfigurations {
+	if gateway.PrivateLinkConfigurations != nil {
+		privateLinkConfigurationList := make([]storage.ApplicationGatewayPrivateLinkConfiguration_STATUS, len(gateway.PrivateLinkConfigurations))
+		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range gateway.PrivateLinkConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkConfigurationItem := privateLinkConfigurationItem
 			var privateLinkConfiguration storage.ApplicationGatewayPrivateLinkConfiguration_STATUS
@@ -4447,9 +4447,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Probes
-	if embedded.Probes != nil {
-		probeList := make([]storage.ApplicationGatewayProbe_STATUS, len(embedded.Probes))
-		for probeIndex, probeItem := range embedded.Probes {
+	if gateway.Probes != nil {
+		probeList := make([]storage.ApplicationGatewayProbe_STATUS, len(gateway.Probes))
+		for probeIndex, probeItem := range gateway.Probes {
 			// Shadow the loop variable to avoid aliasing
 			probeItem := probeItem
 			var probe storage.ApplicationGatewayProbe_STATUS
@@ -4465,17 +4465,17 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
+	if gateway.ProvisioningState != nil {
+		provisioningState := string(*gateway.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// RedirectConfigurations
-	if embedded.RedirectConfigurations != nil {
-		redirectConfigurationList := make([]storage.ApplicationGatewayRedirectConfiguration_STATUS, len(embedded.RedirectConfigurations))
-		for redirectConfigurationIndex, redirectConfigurationItem := range embedded.RedirectConfigurations {
+	if gateway.RedirectConfigurations != nil {
+		redirectConfigurationList := make([]storage.ApplicationGatewayRedirectConfiguration_STATUS, len(gateway.RedirectConfigurations))
+		for redirectConfigurationIndex, redirectConfigurationItem := range gateway.RedirectConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			redirectConfigurationItem := redirectConfigurationItem
 			var redirectConfiguration storage.ApplicationGatewayRedirectConfiguration_STATUS
@@ -4491,9 +4491,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// RequestRoutingRules
-	if embedded.RequestRoutingRules != nil {
-		requestRoutingRuleList := make([]storage.ApplicationGatewayRequestRoutingRule_STATUS, len(embedded.RequestRoutingRules))
-		for requestRoutingRuleIndex, requestRoutingRuleItem := range embedded.RequestRoutingRules {
+	if gateway.RequestRoutingRules != nil {
+		requestRoutingRuleList := make([]storage.ApplicationGatewayRequestRoutingRule_STATUS, len(gateway.RequestRoutingRules))
+		for requestRoutingRuleIndex, requestRoutingRuleItem := range gateway.RequestRoutingRules {
 			// Shadow the loop variable to avoid aliasing
 			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule storage.ApplicationGatewayRequestRoutingRule_STATUS
@@ -4509,12 +4509,12 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
+	destination.ResourceGuid = genruntime.ClonePointerToString(gateway.ResourceGuid)
 
 	// RewriteRuleSets
-	if embedded.RewriteRuleSets != nil {
-		rewriteRuleSetList := make([]storage.ApplicationGatewayRewriteRuleSet_STATUS, len(embedded.RewriteRuleSets))
-		for rewriteRuleSetIndex, rewriteRuleSetItem := range embedded.RewriteRuleSets {
+	if gateway.RewriteRuleSets != nil {
+		rewriteRuleSetList := make([]storage.ApplicationGatewayRewriteRuleSet_STATUS, len(gateway.RewriteRuleSets))
+		for rewriteRuleSetIndex, rewriteRuleSetItem := range gateway.RewriteRuleSets {
 			// Shadow the loop variable to avoid aliasing
 			rewriteRuleSetItem := rewriteRuleSetItem
 			var rewriteRuleSet storage.ApplicationGatewayRewriteRuleSet_STATUS
@@ -4530,9 +4530,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// RoutingRules
-	if embedded.RoutingRules != nil {
-		routingRuleList := make([]storage.ApplicationGatewayRoutingRule_STATUS, len(embedded.RoutingRules))
-		for routingRuleIndex, routingRuleItem := range embedded.RoutingRules {
+	if gateway.RoutingRules != nil {
+		routingRuleList := make([]storage.ApplicationGatewayRoutingRule_STATUS, len(gateway.RoutingRules))
+		for routingRuleIndex, routingRuleItem := range gateway.RoutingRules {
 			// Shadow the loop variable to avoid aliasing
 			routingRuleItem := routingRuleItem
 			var routingRule storage.ApplicationGatewayRoutingRule_STATUS
@@ -4548,9 +4548,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Sku
-	if embedded.Sku != nil {
+	if gateway.Sku != nil {
 		var sku storage.ApplicationGatewaySku_STATUS
-		err := embedded.Sku.AssignProperties_To_ApplicationGatewaySku_STATUS(&sku)
+		err := gateway.Sku.AssignProperties_To_ApplicationGatewaySku_STATUS(&sku)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySku_STATUS() to populate field Sku")
 		}
@@ -4560,9 +4560,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// SslCertificates
-	if embedded.SslCertificates != nil {
-		sslCertificateList := make([]storage.ApplicationGatewaySslCertificate_STATUS, len(embedded.SslCertificates))
-		for sslCertificateIndex, sslCertificateItem := range embedded.SslCertificates {
+	if gateway.SslCertificates != nil {
+		sslCertificateList := make([]storage.ApplicationGatewaySslCertificate_STATUS, len(gateway.SslCertificates))
+		for sslCertificateIndex, sslCertificateItem := range gateway.SslCertificates {
 			// Shadow the loop variable to avoid aliasing
 			sslCertificateItem := sslCertificateItem
 			var sslCertificate storage.ApplicationGatewaySslCertificate_STATUS
@@ -4578,9 +4578,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// SslPolicy
-	if embedded.SslPolicy != nil {
+	if gateway.SslPolicy != nil {
 		var sslPolicy storage.ApplicationGatewaySslPolicy_STATUS
-		err := embedded.SslPolicy.AssignProperties_To_ApplicationGatewaySslPolicy_STATUS(&sslPolicy)
+		err := gateway.SslPolicy.AssignProperties_To_ApplicationGatewaySslPolicy_STATUS(&sslPolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySslPolicy_STATUS() to populate field SslPolicy")
 		}
@@ -4590,9 +4590,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// SslProfiles
-	if embedded.SslProfiles != nil {
-		sslProfileList := make([]storage.ApplicationGatewaySslProfile_STATUS, len(embedded.SslProfiles))
-		for sslProfileIndex, sslProfileItem := range embedded.SslProfiles {
+	if gateway.SslProfiles != nil {
+		sslProfileList := make([]storage.ApplicationGatewaySslProfile_STATUS, len(gateway.SslProfiles))
+		for sslProfileIndex, sslProfileItem := range gateway.SslProfiles {
 			// Shadow the loop variable to avoid aliasing
 			sslProfileItem := sslProfileItem
 			var sslProfile storage.ApplicationGatewaySslProfile_STATUS
@@ -4608,12 +4608,12 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(gateway.Tags)
 
 	// TrustedClientCertificates
-	if embedded.TrustedClientCertificates != nil {
-		trustedClientCertificateList := make([]storage.ApplicationGatewayTrustedClientCertificate_STATUS, len(embedded.TrustedClientCertificates))
-		for trustedClientCertificateIndex, trustedClientCertificateItem := range embedded.TrustedClientCertificates {
+	if gateway.TrustedClientCertificates != nil {
+		trustedClientCertificateList := make([]storage.ApplicationGatewayTrustedClientCertificate_STATUS, len(gateway.TrustedClientCertificates))
+		for trustedClientCertificateIndex, trustedClientCertificateItem := range gateway.TrustedClientCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate storage.ApplicationGatewayTrustedClientCertificate_STATUS
@@ -4629,9 +4629,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// TrustedRootCertificates
-	if embedded.TrustedRootCertificates != nil {
-		trustedRootCertificateList := make([]storage.ApplicationGatewayTrustedRootCertificate_STATUS, len(embedded.TrustedRootCertificates))
-		for trustedRootCertificateIndex, trustedRootCertificateItem := range embedded.TrustedRootCertificates {
+	if gateway.TrustedRootCertificates != nil {
+		trustedRootCertificateList := make([]storage.ApplicationGatewayTrustedRootCertificate_STATUS, len(gateway.TrustedRootCertificates))
+		for trustedRootCertificateIndex, trustedRootCertificateItem := range gateway.TrustedRootCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate storage.ApplicationGatewayTrustedRootCertificate_STATUS
@@ -4647,12 +4647,12 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(embedded.Type)
+	destination.Type = genruntime.ClonePointerToString(gateway.Type)
 
 	// UrlPathMaps
-	if embedded.UrlPathMaps != nil {
-		urlPathMapList := make([]storage.ApplicationGatewayUrlPathMap_STATUS, len(embedded.UrlPathMaps))
-		for urlPathMapIndex, urlPathMapItem := range embedded.UrlPathMaps {
+	if gateway.UrlPathMaps != nil {
+		urlPathMapList := make([]storage.ApplicationGatewayUrlPathMap_STATUS, len(gateway.UrlPathMaps))
+		for urlPathMapIndex, urlPathMapItem := range gateway.UrlPathMaps {
 			// Shadow the loop variable to avoid aliasing
 			urlPathMapItem := urlPathMapItem
 			var urlPathMap storage.ApplicationGatewayUrlPathMap_STATUS
@@ -4668,9 +4668,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// WebApplicationFirewallConfiguration
-	if embedded.WebApplicationFirewallConfiguration != nil {
+	if gateway.WebApplicationFirewallConfiguration != nil {
 		var webApplicationFirewallConfiguration storage.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS
-		err := embedded.WebApplicationFirewallConfiguration.AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS(&webApplicationFirewallConfiguration)
+		err := gateway.WebApplicationFirewallConfiguration.AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS(&webApplicationFirewallConfiguration)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS() to populate field WebApplicationFirewallConfiguration")
 		}
@@ -4680,7 +4680,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	}
 
 	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
+	destination.Zones = genruntime.CloneSliceOfString(gateway.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -35,7 +35,6 @@ type ObjectModelConfiguration struct {
 	// Type access fields here (alphabetical, please)
 	AzureGeneratedSecrets    typeAccess[[]string]
 	DefaultAzureName         typeAccess[bool]
-	Export                   typeAccess[bool]
 	ExportAs                 typeAccess[string]
 	GeneratedConfigs         typeAccess[map[string]string]
 	Importable               typeAccess[bool]
@@ -81,8 +80,6 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.AzureGeneratedSecrets })
 	result.DefaultAzureName = makeTypeAccess[bool](
 		result, func(c *TypeConfiguration) *configurable[bool] { return &c.DefaultAzureName })
-	result.Export = makeTypeAccess[bool](
-		result, func(c *TypeConfiguration) *configurable[bool] { return &c.Export })
 	result.ExportAs = makeTypeAccess[string](
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.ExportAs })
 	result.GeneratedConfigs = makeTypeAccess[map[string]string](

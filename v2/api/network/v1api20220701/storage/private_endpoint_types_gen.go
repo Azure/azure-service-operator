@@ -31,8 +31,8 @@ import (
 type PrivateEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateEndpoint_Spec                                       `json:"spec,omitempty"`
-	Status            PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              PrivateEndpoint_Spec   `json:"spec,omitempty"`
+	Status            PrivateEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateEndpoint{}
@@ -132,7 +132,7 @@ func (endpoint *PrivateEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *PrivateEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+	return &PrivateEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -148,13 +148,13 @@ func (endpoint *PrivateEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *PrivateEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded); ok {
+	if st, ok := status.(*PrivateEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var st PrivateEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -179,10 +179,10 @@ func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *s
 	endpoint.Spec = spec
 
 	// Status
-	var status PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err = status.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&source.Status)
+	var status PrivateEndpoint_STATUS
+	err = status.AssignProperties_From_PrivateEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -214,10 +214,10 @@ func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination
 	destination.Spec = spec
 
 	// Status
-	var status storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err = endpoint.Status.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&status)
+	var status storage.PrivateEndpoint_STATUS
+	err = endpoint.Status.AssignProperties_To_PrivateEndpoint_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -647,9 +647,9 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 	return nil
 }
 
-// Storage version of v1api20220701.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+// Storage version of v1api20220701.PrivateEndpoint_STATUS
 // Private endpoint resource.
-type PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
+type PrivateEndpoint_STATUS struct {
 	ApplicationSecurityGroups           []ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`
 	Conditions                          []conditions.Condition                                                `json:"conditions,omitempty"`
 	CustomDnsConfigs                    []CustomDnsConfigPropertiesFormat_STATUS                              `json:"customDnsConfigs,omitempty"`
@@ -670,25 +670,25 @@ type PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
 	Type                                *string                                                               `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &PrivateEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
+// ConvertStatusFrom populates our PrivateEndpoint_STATUS from the provided source
+func (endpoint *PrivateEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.PrivateEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(src)
+		return endpoint.AssignProperties_From_PrivateEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+	src = &storage.PrivateEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = embedded.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(src)
+	err = endpoint.AssignProperties_From_PrivateEndpoint_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -696,17 +696,17 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Conv
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
+// ConvertStatusTo populates the provided destination from our PrivateEndpoint_STATUS
+func (endpoint *PrivateEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.PrivateEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
+		return endpoint.AssignProperties_To_PrivateEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
-	err := embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
+	dst = &storage.PrivateEndpoint_STATUS{}
+	err := endpoint.AssignProperties_To_PrivateEndpoint_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -720,8 +720,8 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Conv
 	return nil
 }
 
-// AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(source *storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+// AssignProperties_From_PrivateEndpoint_STATUS populates our PrivateEndpoint_STATUS from the provided source PrivateEndpoint_STATUS
+func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_STATUS(source *storage.PrivateEndpoint_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -738,13 +738,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		embedded.ApplicationSecurityGroups = applicationSecurityGroupList
+		endpoint.ApplicationSecurityGroups = applicationSecurityGroupList
 	} else {
-		embedded.ApplicationSecurityGroups = nil
+		endpoint.ApplicationSecurityGroups = nil
 	}
 
 	// Conditions
-	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CustomDnsConfigs
 	if source.CustomDnsConfigs != nil {
@@ -759,16 +759,16 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			}
 			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
 		}
-		embedded.CustomDnsConfigs = customDnsConfigList
+		endpoint.CustomDnsConfigs = customDnsConfigList
 	} else {
-		embedded.CustomDnsConfigs = nil
+		endpoint.CustomDnsConfigs = nil
 	}
 
 	// CustomNetworkInterfaceName
-	embedded.CustomNetworkInterfaceName = genruntime.ClonePointerToString(source.CustomNetworkInterfaceName)
+	endpoint.CustomNetworkInterfaceName = genruntime.ClonePointerToString(source.CustomNetworkInterfaceName)
 
 	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+	endpoint.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -777,13 +777,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		embedded.ExtendedLocation = &extendedLocation
+		endpoint.ExtendedLocation = &extendedLocation
 	} else {
-		embedded.ExtendedLocation = nil
+		endpoint.ExtendedLocation = nil
 	}
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	endpoint.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
@@ -798,13 +798,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		embedded.IpConfigurations = ipConfigurationList
+		endpoint.IpConfigurations = ipConfigurationList
 	} else {
-		embedded.IpConfigurations = nil
+		endpoint.IpConfigurations = nil
 	}
 
 	// Location
-	embedded.Location = genruntime.ClonePointerToString(source.Location)
+	endpoint.Location = genruntime.ClonePointerToString(source.Location)
 
 	// ManualPrivateLinkServiceConnections
 	if source.ManualPrivateLinkServiceConnections != nil {
@@ -819,13 +819,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			}
 			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
 		}
-		embedded.ManualPrivateLinkServiceConnections = manualPrivateLinkServiceConnectionList
+		endpoint.ManualPrivateLinkServiceConnections = manualPrivateLinkServiceConnectionList
 	} else {
-		embedded.ManualPrivateLinkServiceConnections = nil
+		endpoint.ManualPrivateLinkServiceConnections = nil
 	}
 
 	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
+	endpoint.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
@@ -840,9 +840,9 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
-		embedded.NetworkInterfaces = networkInterfaceList
+		endpoint.NetworkInterfaces = networkInterfaceList
 	} else {
-		embedded.NetworkInterfaces = nil
+		endpoint.NetworkInterfaces = nil
 	}
 
 	// PrivateLinkServiceConnections
@@ -858,13 +858,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			}
 			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
 		}
-		embedded.PrivateLinkServiceConnections = privateLinkServiceConnectionList
+		endpoint.PrivateLinkServiceConnections = privateLinkServiceConnectionList
 	} else {
-		embedded.PrivateLinkServiceConnections = nil
+		endpoint.PrivateLinkServiceConnections = nil
 	}
 
 	// ProvisioningState
-	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	endpoint.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Subnet
 	if source.Subnet != nil {
@@ -873,28 +873,28 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
 		}
-		embedded.Subnet = &subnet
+		endpoint.Subnet = &subnet
 	} else {
-		embedded.Subnet = nil
+		endpoint.Subnet = nil
 	}
 
 	// Tags
-	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	embedded.Type = genruntime.ClonePointerToString(source.Type)
+	endpoint.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
+		endpoint.PropertyBag = propertyBag
 	} else {
-		embedded.PropertyBag = nil
+		endpoint.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded interface (if implemented) to customize the conversion
-	var embeddedAsAny any = embedded
-	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded); ok {
-		err := augmentedEmbedded.AssignPropertiesFrom(source)
+	// Invoke the augmentConversionForPrivateEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForPrivateEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
@@ -904,15 +904,15 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	return nil
 }
 
-// AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+// AssignProperties_To_PrivateEndpoint_STATUS populates the provided destination PrivateEndpoint_STATUS from our PrivateEndpoint_STATUS
+func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STATUS(destination *storage.PrivateEndpoint_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
 
 	// ApplicationSecurityGroups
-	if embedded.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
+	if endpoint.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range endpoint.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
@@ -928,12 +928,12 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(endpoint.Conditions)
 
 	// CustomDnsConfigs
-	if embedded.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]storage.CustomDnsConfigPropertiesFormat_STATUS, len(embedded.CustomDnsConfigs))
-		for customDnsConfigIndex, customDnsConfigItem := range embedded.CustomDnsConfigs {
+	if endpoint.CustomDnsConfigs != nil {
+		customDnsConfigList := make([]storage.CustomDnsConfigPropertiesFormat_STATUS, len(endpoint.CustomDnsConfigs))
+		for customDnsConfigIndex, customDnsConfigItem := range endpoint.CustomDnsConfigs {
 			// Shadow the loop variable to avoid aliasing
 			customDnsConfigItem := customDnsConfigItem
 			var customDnsConfig storage.CustomDnsConfigPropertiesFormat_STATUS
@@ -949,15 +949,15 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// CustomNetworkInterfaceName
-	destination.CustomNetworkInterfaceName = genruntime.ClonePointerToString(embedded.CustomNetworkInterfaceName)
+	destination.CustomNetworkInterfaceName = genruntime.ClonePointerToString(endpoint.CustomNetworkInterfaceName)
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+	destination.Etag = genruntime.ClonePointerToString(endpoint.Etag)
 
 	// ExtendedLocation
-	if embedded.ExtendedLocation != nil {
+	if endpoint.ExtendedLocation != nil {
 		var extendedLocation storage.ExtendedLocation_STATUS
-		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err := endpoint.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
@@ -967,12 +967,12 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
 
 	// IpConfigurations
-	if embedded.IpConfigurations != nil {
-		ipConfigurationList := make([]storage.PrivateEndpointIPConfiguration_STATUS, len(embedded.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range embedded.IpConfigurations {
+	if endpoint.IpConfigurations != nil {
+		ipConfigurationList := make([]storage.PrivateEndpointIPConfiguration_STATUS, len(endpoint.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range endpoint.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.PrivateEndpointIPConfiguration_STATUS
@@ -988,12 +988,12 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(embedded.Location)
+	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
 
 	// ManualPrivateLinkServiceConnections
-	if embedded.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection_STATUS, len(embedded.ManualPrivateLinkServiceConnections))
-		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range embedded.ManualPrivateLinkServiceConnections {
+	if endpoint.ManualPrivateLinkServiceConnections != nil {
+		manualPrivateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection_STATUS, len(endpoint.ManualPrivateLinkServiceConnections))
+		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range endpoint.ManualPrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
 			var manualPrivateLinkServiceConnection storage.PrivateLinkServiceConnection_STATUS
@@ -1009,12 +1009,12 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+	destination.Name = genruntime.ClonePointerToString(endpoint.Name)
 
 	// NetworkInterfaces
-	if embedded.NetworkInterfaces != nil {
-		networkInterfaceList := make([]storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range embedded.NetworkInterfaces {
+	if endpoint.NetworkInterfaces != nil {
+		networkInterfaceList := make([]storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(endpoint.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range endpoint.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
 			var networkInterface storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
@@ -1030,9 +1030,9 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// PrivateLinkServiceConnections
-	if embedded.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection_STATUS, len(embedded.PrivateLinkServiceConnections))
-		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range embedded.PrivateLinkServiceConnections {
+	if endpoint.PrivateLinkServiceConnections != nil {
+		privateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection_STATUS, len(endpoint.PrivateLinkServiceConnections))
+		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range endpoint.PrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
 			var privateLinkServiceConnection storage.PrivateLinkServiceConnection_STATUS
@@ -1048,12 +1048,12 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(endpoint.ProvisioningState)
 
 	// Subnet
-	if embedded.Subnet != nil {
+	if endpoint.Subnet != nil {
 		var subnet storage.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
-		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&subnet)
+		err := endpoint.Subnet.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
 		}
@@ -1063,10 +1063,10 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(embedded.Type)
+	destination.Type = genruntime.ClonePointerToString(endpoint.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1075,10 +1075,10 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded interface (if implemented) to customize the conversion
-	var embeddedAsAny any = embedded
-	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded); ok {
-		err := augmentedEmbedded.AssignPropertiesTo(destination)
+	// Invoke the augmentConversionForPrivateEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForPrivateEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
@@ -1231,9 +1231,9 @@ type augmentConversionForPrivateEndpoint_Spec interface {
 	AssignPropertiesTo(dst *storage.PrivateEndpoint_Spec) error
 }
 
-type augmentConversionForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded interface {
-	AssignPropertiesFrom(src *storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error
-	AssignPropertiesTo(dst *storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error
+type augmentConversionForPrivateEndpoint_STATUS interface {
+	AssignPropertiesFrom(src *storage.PrivateEndpoint_STATUS) error
+	AssignPropertiesTo(dst *storage.PrivateEndpoint_STATUS) error
 }
 
 // Storage version of v1api20220701.CustomDnsConfigPropertiesFormat_STATUS

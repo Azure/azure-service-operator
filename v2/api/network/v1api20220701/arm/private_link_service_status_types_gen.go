@@ -4,7 +4,7 @@
 package arm
 
 // Private link service resource.
-type PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded struct {
+type PrivateLinkService_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -38,9 +38,6 @@ type PrivateLinkServiceProperties_STATUS struct {
 	// AutoApproval: The auto-approval list of the private link service.
 	AutoApproval *ResourceSet_STATUS `json:"autoApproval,omitempty"`
 
-	// DestinationIPAddress: The destination IP address of the private link service.
-	DestinationIPAddress *string `json:"destinationIPAddress,omitempty"`
-
 	// EnableProxyProtocol: Whether the private link service is enabled for proxy protocol or not.
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty"`
 
@@ -60,7 +57,7 @@ type PrivateLinkServiceProperties_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Visibility: The visibility list of the private link service.
 	Visibility *ResourceSet_STATUS `json:"visibility,omitempty"`
@@ -123,10 +120,24 @@ type PrivateLinkServiceIpConfigurationProperties_STATUS struct {
 	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service IP configuration resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
 	Subnet *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded `json:"subnet,omitempty"`
+}
+
+// IP address allocation method.
+type IPAllocationMethod_STATUS string
+
+const (
+	IPAllocationMethod_STATUS_Dynamic = IPAllocationMethod_STATUS("Dynamic")
+	IPAllocationMethod_STATUS_Static  = IPAllocationMethod_STATUS("Static")
+)
+
+// Mapping from string to IPAllocationMethod_STATUS
+var iPAllocationMethod_STATUS_Values = map[string]IPAllocationMethod_STATUS{
+	"dynamic": IPAllocationMethod_STATUS_Dynamic,
+	"static":  IPAllocationMethod_STATUS_Static,
 }
 
 // Subnet in a virtual network resource.

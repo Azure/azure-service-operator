@@ -1592,7 +1592,7 @@ func Test_VirtualNetworkGateway_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateway_STATUS to VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded via AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded & AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded returns original",
+		"Round trip from VirtualNetworkGateway_STATUS to VirtualNetworkGateway_STATUS via AssignProperties_To_VirtualNetworkGateway_STATUS & AssignProperties_From_VirtualNetworkGateway_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS, VirtualNetworkGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1603,15 +1603,15 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS(subject VirtualNet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-	err := copied.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(&other)
+	var other storage.VirtualNetworkGateway_STATUS
+	err := copied.AssignProperties_To_VirtualNetworkGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateway_STATUS
-	err = actual.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

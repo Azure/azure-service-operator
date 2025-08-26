@@ -4,7 +4,7 @@
 package arm
 
 // Private endpoint resource.
-type PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
+type PrivateEndpoint_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -28,15 +28,6 @@ type PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
-}
-
-// ExtendedLocation complex type.
-type ExtendedLocation_STATUS struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
 // Properties of the private endpoint.
@@ -65,7 +56,7 @@ type PrivateEndpointProperties_STATUS struct {
 	PrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUS `json:"privateLinkServiceConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private endpoint resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Subnet: The ID of the subnet from which the private IP will be allocated.
 	Subnet *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded `json:"subnet,omitempty"`
@@ -84,16 +75,6 @@ type CustomDnsConfigPropertiesFormat_STATUS struct {
 
 	// IpAddresses: A list of private ip addresses of the private endpoint.
 	IpAddresses []string `json:"ipAddresses,omitempty"`
-}
-
-// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
-type ExtendedLocationType_STATUS string
-
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
-
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
 }
 
 // A network interface in a resource group.
@@ -166,7 +147,7 @@ type PrivateLinkServiceConnectionProperties_STATUS struct {
 	PrivateLinkServiceId *string `json:"privateLinkServiceId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service connection resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// RequestMessage: A message passed to the owner of the remote resource with this connection request. Restricted to 140
 	// chars.

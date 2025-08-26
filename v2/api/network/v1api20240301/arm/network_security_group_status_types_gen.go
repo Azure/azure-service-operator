@@ -4,7 +4,7 @@
 package arm
 
 // NetworkSecurityGroup resource.
-type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
+type NetworkSecurityGroup_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 

@@ -314,7 +314,7 @@ func PrivateEndpointGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForPrivateEndpoint is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpoint(gens map[string]gopter.Gen) {
 	gens["Spec"] = PrivateEndpoint_SpecGenerator()
-	gens["Status"] = PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
+	gens["Status"] = PrivateEndpoint_STATUSGenerator()
 }
 
 func Test_PrivateEndpointIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -563,20 +563,20 @@ func AddRelatedPropertyGeneratorsForPrivateEndpointOperatorSpec(gens map[string]
 	gens["ConfigMaps"] = gen.PtrOf(PrivateEndpointOperatorConfigMapsGenerator())
 }
 
-func Test_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded, PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+		"Round trip of PrivateEndpoint_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_STATUS, PrivateEndpoint_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(subject PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPrivateEndpoint_STATUS runs a test to see if a specific instance of PrivateEndpoint_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpoint_STATUS(subject PrivateEndpoint_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -584,7 +584,7 @@ func RunJSONSerializationTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResour
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var actual PrivateEndpoint_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -602,34 +602,34 @@ func RunJSONSerializationTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResour
 	return ""
 }
 
-// Generator of PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
-var privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of PrivateEndpoint_STATUS instances for property testing - lazily instantiated by
+// PrivateEndpoint_STATUSGenerator()
+var privateEndpoint_STATUSGenerator gopter.Gen
 
-// PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing.
-// We first initialize privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator with a simplified generator based on the
+// PrivateEndpoint_STATUSGenerator returns a generator of PrivateEndpoint_STATUS instances for property testing.
+// We first initialize privateEndpoint_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
-		return privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+func PrivateEndpoint_STATUSGenerator() gopter.Gen {
+	if privateEndpoint_STATUSGenerator != nil {
+		return privateEndpoint_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
-	privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS(generators)
+	privateEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
-	privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS(generators)
+	privateEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS{}), generators)
 
-	return privateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+	return privateEndpoint_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["CustomNetworkInterfaceName"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -642,8 +642,8 @@ func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_S
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["ApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator())
 	gens["CustomDnsConfigs"] = gen.SliceOf(CustomDnsConfigPropertiesFormat_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())

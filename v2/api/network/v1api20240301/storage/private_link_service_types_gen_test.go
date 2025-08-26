@@ -313,7 +313,7 @@ func PrivateLinkServiceGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForPrivateLinkService is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateLinkService(gens map[string]gopter.Gen) {
 	gens["Spec"] = PrivateLinkService_SpecGenerator()
-	gens["Status"] = PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()
+	gens["Status"] = PrivateLinkService_STATUSGenerator()
 }
 
 func Test_PrivateLinkServiceIpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -594,20 +594,20 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec(gens map[stri
 	gens["ConfigMaps"] = gen.PtrOf(PrivateLinkServiceOperatorConfigMapsGenerator())
 }
 
-func Test_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateLinkService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded, PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()))
+		"Round trip of PrivateLinkService_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkService_STATUS, PrivateLinkService_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded runs a test to see if a specific instance of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(subject PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPrivateLinkService_STATUS runs a test to see if a specific instance of PrivateLinkService_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkService_STATUS(subject PrivateLinkService_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -615,7 +615,7 @@ func RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_Sub
 	}
 
 	// Deserialize back into memory
-	var actual PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
+	var actual PrivateLinkService_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -633,34 +633,34 @@ func RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_Sub
 	return ""
 }
 
-// Generator of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()
-var privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of PrivateLinkService_STATUS instances for property testing - lazily instantiated by
+// PrivateLinkService_STATUSGenerator()
+var privateLinkService_STATUSGenerator gopter.Gen
 
-// PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator returns a generator of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded instances for property testing.
-// We first initialize privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator with a simplified generator based on the
+// PrivateLinkService_STATUSGenerator returns a generator of PrivateLinkService_STATUS instances for property testing.
+// We first initialize privateLinkService_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator() gopter.Gen {
-	if privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator != nil {
-		return privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator
+func PrivateLinkService_STATUSGenerator() gopter.Gen {
+	if privateLinkService_STATUSGenerator != nil {
+		return privateLinkService_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
-	privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS(generators)
+	privateLinkService_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
-	privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS(generators)
+	AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS(generators)
+	privateLinkService_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS{}), generators)
 
-	return privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator
+	return privateLinkService_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS(gens map[string]gopter.Gen) {
 	gens["Alias"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
@@ -676,8 +676,8 @@ func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkSer
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS(gens map[string]gopter.Gen) {
 	gens["AutoApproval"] = gen.PtrOf(ResourceSet_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(PrivateLinkServiceIpConfiguration_STATUSGenerator())
