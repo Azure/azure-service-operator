@@ -77,12 +77,12 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
-|--------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| AuthConfig         | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_authconfig.yaml)         |
-| ContainerApp       | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_containerapp.yaml)       |
-| Job                | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_job.yaml)                |
-| ManagedEnvironment | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_managedenvironment.yaml) |
+| Resource                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
+|----------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| [AuthConfig]({{< relref "/reference/app/v1api20250101#AuthConfig" >}})                 | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_authconfig.yaml)         |
+| [ContainerApp]({{< relref "/reference/app/v1api20250101#ContainerApp" >}})             | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_containerapp.yaml)       |
+| [Job]({{< relref "/reference/app/v1api20250101#Job" >}})                               | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_job.yaml)                |
+| [ManagedEnvironment]({{< relref "/reference/app/v1api20250101#ManagedEnvironment" >}}) | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_managedenvironment.yaml) |
 
 ### Other Supported Versions
 
@@ -218,7 +218,7 @@ To install the CRDs for these resources, your ASO configuration must include `co
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
 |------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| AvailabilitySet                                                                                                        | 2024-11-01  | v1api20241101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20241101/v1api20241101_availabilityset.yaml)          |
+| [AvailabilitySet]({{< relref "/reference/compute/v1api20241101#AvailabilitySet" >}})                                   | 2024-11-01  | v1api20241101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20241101/v1api20241101_availabilityset.yaml)          |
 | [Disk]({{< relref "/reference/compute/v1api20240302#Disk" >}})                                                         | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml)                             |
 | [DiskAccess]({{< relref "/reference/compute/v1api20240302#DiskAccess" >}})                                             | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml)                       |
 | [DiskEncryptionSet]({{< relref "/reference/compute/v1api20240302#DiskEncryptionSet" >}})                               | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml)                |
@@ -626,12 +626,12 @@ To install the CRDs for these resources, your ASO configuration must include `ku
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource            | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
-|---------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| Cluster             | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
-| DataConnection      | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_dataconnection.yaml)      |
-| Database            | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_database.yaml)            |
-| PrincipalAssignment | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_principalassignment.yaml) |
+| Resource                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
+|--------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [Cluster]({{< relref "/reference/kusto/v1api20240413#Cluster" >}})                         | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
+| [DataConnection]({{< relref "/reference/kusto/v1api20240413#DataConnection" >}})           | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_dataconnection.yaml)      |
+| [Database]({{< relref "/reference/kusto/v1api20240413#Database" >}})                       | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_database.yaml)            |
+| [PrincipalAssignment]({{< relref "/reference/kusto/v1api20240413#PrincipalAssignment" >}}) | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_principalassignment.yaml) |
 
 ### Other Supported Versions
 

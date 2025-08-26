@@ -8,12 +8,12 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
-|--------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| AuthConfig         | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_authconfig.yaml)         |
-| ContainerApp       | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_containerapp.yaml)       |
-| Job                | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_job.yaml)                |
-| ManagedEnvironment | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_managedenvironment.yaml) |
+| Resource                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
+|----------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| [AuthConfig]({{< relref "/reference/app/v1api20250101#AuthConfig" >}})                 | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_authconfig.yaml)         |
+| [ContainerApp]({{< relref "/reference/app/v1api20250101#ContainerApp" >}})             | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_containerapp.yaml)       |
+| [Job]({{< relref "/reference/app/v1api20250101#Job" >}})                               | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_job.yaml)                |
+| [ManagedEnvironment]({{< relref "/reference/app/v1api20250101#ManagedEnvironment" >}}) | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_managedenvironment.yaml) |
 
 ### Other Supported Versions
 
