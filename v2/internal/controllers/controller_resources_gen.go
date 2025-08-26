@@ -22,6 +22,9 @@ import (
 	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
 	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
 	app_v20240301w "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/webhook"
+	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
+	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
@@ -86,6 +89,9 @@ import (
 	compute_v20240302 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
 	compute_v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	compute_v20240302w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/webhook"
+	compute_v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
+	compute_v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
+	compute_v20241101w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/webhook"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
@@ -246,6 +252,9 @@ import (
 	kusto_v20230815 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815"
 	kusto_v20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
 	kusto_v20230815w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/webhook"
+	kusto_v20240413 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413"
+	kusto_v20240413s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
+	kusto_v20240413w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/webhook"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
@@ -583,9 +592,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(app_v20240301s.AuthConfig)})
+	result = append(result, &registration.StorageType{Obj: new(app_v20250101s.AuthConfig)})
 	result = append(result, &registration.StorageType{
-		Obj: new(app_v20240301s.ContainerApp),
+		Obj: new(app_v20250101s.ContainerApp),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.configuration.secrets.value",
@@ -599,12 +608,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.configuration.secrets.value",
 					},
-					&app_v20240301s.ContainerAppList{}),
+					&app_v20250101s.ContainerAppList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(app_v20240301s.Job),
+		Obj: new(app_v20250101s.Job),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.configuration.secrets.value",
@@ -618,12 +627,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.configuration.secrets.value",
 					},
-					&app_v20240301s.JobList{}),
+					&app_v20250101s.JobList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(app_v20240301s.ManagedEnvironment),
+		Obj: new(app_v20250101s.ManagedEnvironment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.customDomainConfiguration.certificatePassword",
@@ -657,7 +666,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.daprAIConnectionString",
 						".spec.daprAIInstrumentationKey",
 					},
-					&app_v20240301s.ManagedEnvironmentList{}),
+					&app_v20250101s.ManagedEnvironmentList{}),
 			},
 		},
 	})
@@ -932,6 +941,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.Snapshot)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20241101s.AvailabilitySet)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -1281,6 +1291,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230601s.Workbook)})
 	result = append(result, &registration.StorageType{
@@ -1423,7 +1434,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(kusto_v20230815s.Cluster),
+		Obj: new(kusto_v20240413s.Cluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.virtualClusterGraduationProperties",
@@ -1437,12 +1448,36 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.virtualClusterGraduationProperties",
 					},
-					&kusto_v20230815s.ClusterList{}),
+					&kusto_v20240413s.ClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(kusto_v20230815s.DataConnection)})
-	result = append(result, &registration.StorageType{Obj: new(kusto_v20230815s.Database)})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v20240413s.DataConnection)})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v20240413s.Database)})
+	result = append(result, &registration.StorageType{
+		Obj: new(kusto_v20240413s.PrincipalAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalIdFromConfig",
+				Func: indexKustoPrincipalAssignmentPrincipalIdFromConfig,
+			},
+			{
+				Key:  ".spec.tenantIdFromConfig",
+				Func: indexKustoPrincipalAssignmentTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalIdFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&kusto_v20240413s.PrincipalAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20240401s.Registry)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20240401s.Workspace),
@@ -2726,6 +2761,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(app_v20240301s.ContainerApp)},
 		&registration.KnownType{Obj: new(app_v20240301s.Job)},
 		&registration.KnownType{Obj: new(app_v20240301s.ManagedEnvironment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(app_v20250101.AuthConfig),
+			Defaulter: &app_v20250101w.AuthConfig{},
+			Validator: &app_v20250101w.AuthConfig{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v20250101.ContainerApp),
+			Defaulter: &app_v20250101w.ContainerApp{},
+			Validator: &app_v20250101w.ContainerApp{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v20250101.Job),
+			Defaulter: &app_v20250101w.Job{},
+			Validator: &app_v20250101w.Job{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v20250101.ManagedEnvironment),
+			Defaulter: &app_v20250101w.ManagedEnvironment{},
+			Validator: &app_v20250101w.ManagedEnvironment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(app_v20250101s.AuthConfig)},
+		&registration.KnownType{Obj: new(app_v20250101s.ContainerApp)},
+		&registration.KnownType{Obj: new(app_v20250101s.Job)},
+		&registration.KnownType{Obj: new(app_v20250101s.ManagedEnvironment)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(appconfiguration_v20220501.ConfigurationStore),
 		Defaulter: &appconfiguration_v20220501w.ConfigurationStore{},
@@ -3064,6 +3127,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(compute_v20240302s.DiskAccess)},
 		&registration.KnownType{Obj: new(compute_v20240302s.DiskEncryptionSet)},
 		&registration.KnownType{Obj: new(compute_v20240302s.Snapshot)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v20241101.AvailabilitySet),
+		Defaulter: &compute_v20241101w.AvailabilitySet{},
+		Validator: &compute_v20241101w.AvailabilitySet{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v20241101s.AvailabilitySet)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(containerinstance_v20211001.ContainerGroup),
 		Defaulter: &containerinstance_v20211001w.ContainerGroup{},
@@ -3956,16 +4025,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &insights_v20230101w.ActionGroup{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20230101s.ActionGroup)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(insights_v20230311.DataCollectionEndpoint),
-		Defaulter: &insights_v20230311w.DataCollectionEndpoint{},
-		Validator: &insights_v20230311w.DataCollectionEndpoint{},
-	}, &registration.KnownType{
-		Obj:       new(insights_v20230311.DataCollectionRuleAssociation),
-		Defaulter: &insights_v20230311w.DataCollectionRuleAssociation{},
-		Validator: &insights_v20230311w.DataCollectionRuleAssociation{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)}, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(insights_v20230311.DataCollectionEndpoint),
+			Defaulter: &insights_v20230311w.DataCollectionEndpoint{},
+			Validator: &insights_v20230311w.DataCollectionEndpoint{},
+		},
+		&registration.KnownType{
+			Obj:       new(insights_v20230311.DataCollectionRule),
+			Defaulter: &insights_v20230311w.DataCollectionRule{},
+			Validator: &insights_v20230311w.DataCollectionRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(insights_v20230311.DataCollectionRuleAssociation),
+			Defaulter: &insights_v20230311w.DataCollectionRuleAssociation{},
+			Validator: &insights_v20230311w.DataCollectionRuleAssociation{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)},
+		&registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRule)},
+		&registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20230601.Workbook),
 		Defaulter: &insights_v20230601w.Workbook{},
@@ -4032,6 +4113,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(kusto_v20230815s.Cluster)},
 		&registration.KnownType{Obj: new(kusto_v20230815s.DataConnection)},
 		&registration.KnownType{Obj: new(kusto_v20230815s.Database)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(kusto_v20240413.Cluster),
+			Defaulter: &kusto_v20240413w.Cluster{},
+			Validator: &kusto_v20240413w.Cluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(kusto_v20240413.DataConnection),
+			Defaulter: &kusto_v20240413w.DataConnection{},
+			Validator: &kusto_v20240413w.DataConnection{},
+		},
+		&registration.KnownType{
+			Obj:       new(kusto_v20240413.Database),
+			Defaulter: &kusto_v20240413w.Database{},
+			Validator: &kusto_v20240413w.Database{},
+		},
+		&registration.KnownType{
+			Obj:       new(kusto_v20240413.PrincipalAssignment),
+			Defaulter: &kusto_v20240413w.PrincipalAssignment{},
+			Validator: &kusto_v20240413w.PrincipalAssignment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(kusto_v20240413s.Cluster)},
+		&registration.KnownType{Obj: new(kusto_v20240413s.DataConnection)},
+		&registration.KnownType{Obj: new(kusto_v20240413s.Database)},
+		&registration.KnownType{Obj: new(kusto_v20240413s.PrincipalAssignment)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5239,6 +5348,8 @@ func createScheme() *runtime.Scheme {
 	_ = apimanagement_v20230501ps.AddToScheme(scheme)
 	_ = app_v20240301.AddToScheme(scheme)
 	_ = app_v20240301s.AddToScheme(scheme)
+	_ = app_v20250101.AddToScheme(scheme)
+	_ = app_v20250101s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
@@ -5277,6 +5388,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20220702s.AddToScheme(scheme)
 	_ = compute_v20240302.AddToScheme(scheme)
 	_ = compute_v20240302s.AddToScheme(scheme)
+	_ = compute_v20241101.AddToScheme(scheme)
+	_ = compute_v20241101s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -5373,6 +5486,8 @@ func createScheme() *runtime.Scheme {
 	_ = kubernetesconfiguration_v20241101s.AddToScheme(scheme)
 	_ = kusto_v20230815.AddToScheme(scheme)
 	_ = kusto_v20230815s.AddToScheme(scheme)
+	_ = kusto_v20240413.AddToScheme(scheme)
+	_ = kusto_v20240413s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
 	_ = machinelearningservices_v20240401.AddToScheme(scheme)
@@ -5492,6 +5607,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
+	result = append(result, &compute_customizations.AvailabilitySetExtension{})
 	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
@@ -5563,6 +5679,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.DataCollectionEndpointExtension{})
 	result = append(result, &insights_customizations.DataCollectionRuleAssociationExtension{})
+	result = append(result, &insights_customizations.DataCollectionRuleExtension{})
 	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.PricingPlanExtension{})
@@ -5575,6 +5692,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &kusto_customizations.ClusterExtension{})
 	result = append(result, &kusto_customizations.DataConnectionExtension{})
 	result = append(result, &kusto_customizations.DatabaseExtension{})
+	result = append(result, &kusto_customizations.PrincipalAssignmentExtension{})
 	result = append(result, &machinelearningservices_customizations.RegistryExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
@@ -5984,9 +6102,9 @@ func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 	return obj.Spec.SecondaryKey.Index()
 }
 
-// indexAppContainerAppValue an index function for app_v20240301s.ContainerApp .spec.configuration.secrets.value
+// indexAppContainerAppValue an index function for app_v20250101s.ContainerApp .spec.configuration.secrets.value
 func indexAppContainerAppValue(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ContainerApp)
+	obj, ok := rawObj.(*app_v20250101s.ContainerApp)
 	if !ok {
 		return nil
 	}
@@ -6003,9 +6121,9 @@ func indexAppContainerAppValue(rawObj client.Object) []string {
 	return result
 }
 
-// indexAppJobValue an index function for app_v20240301s.Job .spec.configuration.secrets.value
+// indexAppJobValue an index function for app_v20250101s.Job .spec.configuration.secrets.value
 func indexAppJobValue(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.Job)
+	obj, ok := rawObj.(*app_v20250101s.Job)
 	if !ok {
 		return nil
 	}
@@ -6022,9 +6140,9 @@ func indexAppJobValue(rawObj client.Object) []string {
 	return result
 }
 
-// indexAppManagedEnvironmentCertificatePassword an index function for app_v20240301s.ManagedEnvironment .spec.customDomainConfiguration.certificatePassword
+// indexAppManagedEnvironmentCertificatePassword an index function for app_v20250101s.ManagedEnvironment .spec.customDomainConfiguration.certificatePassword
 func indexAppManagedEnvironmentCertificatePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6037,9 +6155,9 @@ func indexAppManagedEnvironmentCertificatePassword(rawObj client.Object) []strin
 	return obj.Spec.CustomDomainConfiguration.CertificatePassword.Index()
 }
 
-// indexAppManagedEnvironmentCertificateValue an index function for app_v20240301s.ManagedEnvironment .spec.customDomainConfiguration.certificateValue
+// indexAppManagedEnvironmentCertificateValue an index function for app_v20250101s.ManagedEnvironment .spec.customDomainConfiguration.certificateValue
 func indexAppManagedEnvironmentCertificateValue(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6052,9 +6170,9 @@ func indexAppManagedEnvironmentCertificateValue(rawObj client.Object) []string {
 	return obj.Spec.CustomDomainConfiguration.CertificateValue.Index()
 }
 
-// indexAppManagedEnvironmentDaprAIConnectionString an index function for app_v20240301s.ManagedEnvironment .spec.daprAIConnectionString
+// indexAppManagedEnvironmentDaprAIConnectionString an index function for app_v20250101s.ManagedEnvironment .spec.daprAIConnectionString
 func indexAppManagedEnvironmentDaprAIConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6064,9 +6182,9 @@ func indexAppManagedEnvironmentDaprAIConnectionString(rawObj client.Object) []st
 	return obj.Spec.DaprAIConnectionString.Index()
 }
 
-// indexAppManagedEnvironmentDaprAIInstrumentationKey an index function for app_v20240301s.ManagedEnvironment .spec.daprAIInstrumentationKey
+// indexAppManagedEnvironmentDaprAIInstrumentationKey an index function for app_v20250101s.ManagedEnvironment .spec.daprAIInstrumentationKey
 func indexAppManagedEnvironmentDaprAIInstrumentationKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6076,9 +6194,9 @@ func indexAppManagedEnvironmentDaprAIInstrumentationKey(rawObj client.Object) []
 	return obj.Spec.DaprAIInstrumentationKey.Index()
 }
 
-// indexAppManagedEnvironmentSharedKey an index function for app_v20240301s.ManagedEnvironment .spec.appLogsConfiguration.logAnalyticsConfiguration.sharedKey
+// indexAppManagedEnvironmentSharedKey an index function for app_v20250101s.ManagedEnvironment .spec.appLogsConfiguration.logAnalyticsConfiguration.sharedKey
 func indexAppManagedEnvironmentSharedKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -7181,9 +7299,9 @@ func indexKubernetesconfigurationFluxConfigurationTlsConfigPrivateKey(rawObj cli
 	return obj.Spec.OciRepository.TlsConfig.PrivateKey.Index()
 }
 
-// indexKustoClusterVirtualClusterGraduationProperties an index function for kusto_v20230815s.Cluster .spec.virtualClusterGraduationProperties
+// indexKustoClusterVirtualClusterGraduationProperties an index function for kusto_v20240413s.Cluster .spec.virtualClusterGraduationProperties
 func indexKustoClusterVirtualClusterGraduationProperties(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kusto_v20230815s.Cluster)
+	obj, ok := rawObj.(*kusto_v20240413s.Cluster)
 	if !ok {
 		return nil
 	}
@@ -7191,6 +7309,30 @@ func indexKustoClusterVirtualClusterGraduationProperties(rawObj client.Object) [
 		return nil
 	}
 	return obj.Spec.VirtualClusterGraduationProperties.Index()
+}
+
+// indexKustoPrincipalAssignmentPrincipalIdFromConfig an index function for kusto_v20240413s.PrincipalAssignment .spec.principalIdFromConfig
+func indexKustoPrincipalAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v20240413s.PrincipalAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexKustoPrincipalAssignmentTenantIdFromConfig an index function for kusto_v20240413s.PrincipalAssignment .spec.tenantIdFromConfig
+func indexKustoPrincipalAssignmentTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v20240413s.PrincipalAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.TenantIdFromConfig.Index()
 }
 
 // indexMachinelearningservicesWorkspaceIdentityClientIdFromConfig an index function for machinelearningservices_v20240401s.Workspace .spec.encryption.keyVaultProperties.identityClientIdFromConfig

@@ -183,3 +183,43 @@ func TestTypeConfiguration_VerifySupportedFromConsumed_WhenNotConsumed_ReturnsEx
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
+
+/*
+ * Duplicate Key Detection Tests
+ */
+
+func TestTypeConfiguration_UnmarshalYAML_WhenDuplicateProperties_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+Name:
+  $isSecret: true
+Name:
+  $renameTo: "FullName"
+`
+
+	var tc TypeConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &tc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate property configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("Name"))
+}
+
+func TestTypeConfiguration_UnmarshalYAML_WhenDuplicatePropertiesCaseInsensitive_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+name:
+  $isSecret: true
+NAME:
+  $renameTo: "FullName"
+`
+
+	var tc TypeConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &tc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate property configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("NAME"))
+}

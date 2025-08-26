@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AuthConfig{}
 
 // ConvertFrom populates our AuthConfig from the provided hub AuthConfig
 func (config *AuthConfig) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AuthConfig)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20240301/storage/AuthConfig but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AuthConfig
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return config.AssignProperties_From_AuthConfig(source)
+	err = config.AssignProperties_From_AuthConfig(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to config")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AuthConfig from our AuthConfig
 func (config *AuthConfig) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AuthConfig)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20240301/storage/AuthConfig but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AuthConfig
+	err := config.AssignProperties_To_AuthConfig(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from config")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return config.AssignProperties_To_AuthConfig(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AuthConfig{}
@@ -87,17 +101,6 @@ func (config *AuthConfig) SecretDestinationExpressions() []*core.DestinationExpr
 		return nil
 	}
 	return config.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AuthConfig{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (config *AuthConfig) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AuthConfig_STATUS); ok {
-		return config.Spec.Initialize_From_AuthConfig_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AuthConfig_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AuthConfig{}
@@ -732,85 +735,6 @@ func (config *AuthConfig_Spec) AssignProperties_To_AuthConfig_Spec(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AuthConfig_STATUS populates our AuthConfig_Spec from the provided source AuthConfig_STATUS
-func (config *AuthConfig_Spec) Initialize_From_AuthConfig_STATUS(source *AuthConfig_STATUS) error {
-
-	// EncryptionSettings
-	if source.EncryptionSettings != nil {
-		var encryptionSetting EncryptionSettings
-		err := encryptionSetting.Initialize_From_EncryptionSettings_STATUS(source.EncryptionSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EncryptionSettings_STATUS() to populate field EncryptionSettings")
-		}
-		config.EncryptionSettings = &encryptionSetting
-	} else {
-		config.EncryptionSettings = nil
-	}
-
-	// GlobalValidation
-	if source.GlobalValidation != nil {
-		var globalValidation GlobalValidation
-		err := globalValidation.Initialize_From_GlobalValidation_STATUS(source.GlobalValidation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GlobalValidation_STATUS() to populate field GlobalValidation")
-		}
-		config.GlobalValidation = &globalValidation
-	} else {
-		config.GlobalValidation = nil
-	}
-
-	// HttpSettings
-	if source.HttpSettings != nil {
-		var httpSetting HttpSettings
-		err := httpSetting.Initialize_From_HttpSettings_STATUS(source.HttpSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HttpSettings_STATUS() to populate field HttpSettings")
-		}
-		config.HttpSettings = &httpSetting
-	} else {
-		config.HttpSettings = nil
-	}
-
-	// IdentityProviders
-	if source.IdentityProviders != nil {
-		var identityProvider IdentityProviders
-		err := identityProvider.Initialize_From_IdentityProviders_STATUS(source.IdentityProviders)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_IdentityProviders_STATUS() to populate field IdentityProviders")
-		}
-		config.IdentityProviders = &identityProvider
-	} else {
-		config.IdentityProviders = nil
-	}
-
-	// Login
-	if source.Login != nil {
-		var login Login
-		err := login.Initialize_From_Login_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Login_STATUS() to populate field Login")
-		}
-		config.Login = &login
-	} else {
-		config.Login = nil
-	}
-
-	// Platform
-	if source.Platform != nil {
-		var platform AuthPlatform
-		err := platform.Initialize_From_AuthPlatform_STATUS(source.Platform)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AuthPlatform_STATUS() to populate field Platform")
-		}
-		config.Platform = &platform
-	} else {
-		config.Platform = nil
 	}
 
 	// No error
@@ -1474,24 +1398,6 @@ func (platform *AuthPlatform) AssignProperties_To_AuthPlatform(destination *stor
 	return nil
 }
 
-// Initialize_From_AuthPlatform_STATUS populates our AuthPlatform from the provided source AuthPlatform_STATUS
-func (platform *AuthPlatform) Initialize_From_AuthPlatform_STATUS(source *AuthPlatform_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		platform.Enabled = &enabled
-	} else {
-		platform.Enabled = nil
-	}
-
-	// RuntimeVersion
-	platform.RuntimeVersion = genruntime.ClonePointerToString(source.RuntimeVersion)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the platform of ContainerApp Service Authentication/Authorization.
 type AuthPlatform_STATUS struct {
 	// Enabled: <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise,
@@ -1669,19 +1575,6 @@ func (settings *EncryptionSettings) AssignProperties_To_EncryptionSettings(desti
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_EncryptionSettings_STATUS populates our EncryptionSettings from the provided source EncryptionSettings_STATUS
-func (settings *EncryptionSettings) Initialize_From_EncryptionSettings_STATUS(source *EncryptionSettings_STATUS) error {
-
-	// ContainerAppAuthEncryptionSecretName
-	settings.ContainerAppAuthEncryptionSecretName = genruntime.ClonePointerToString(source.ContainerAppAuthEncryptionSecretName)
-
-	// ContainerAppAuthSigningSecretName
-	settings.ContainerAppAuthSigningSecretName = genruntime.ClonePointerToString(source.ContainerAppAuthSigningSecretName)
 
 	// No error
 	return nil
@@ -1888,27 +1781,6 @@ func (validation *GlobalValidation) AssignProperties_To_GlobalValidation(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_GlobalValidation_STATUS populates our GlobalValidation from the provided source GlobalValidation_STATUS
-func (validation *GlobalValidation) Initialize_From_GlobalValidation_STATUS(source *GlobalValidation_STATUS) error {
-
-	// ExcludedPaths
-	validation.ExcludedPaths = genruntime.CloneSliceOfString(source.ExcludedPaths)
-
-	// RedirectToProvider
-	validation.RedirectToProvider = genruntime.ClonePointerToString(source.RedirectToProvider)
-
-	// UnauthenticatedClientAction
-	if source.UnauthenticatedClientAction != nil {
-		unauthenticatedClientAction := genruntime.ToEnum(string(*source.UnauthenticatedClientAction), globalValidation_UnauthenticatedClientAction_Values)
-		validation.UnauthenticatedClientAction = &unauthenticatedClientAction
-	} else {
-		validation.UnauthenticatedClientAction = nil
 	}
 
 	// No error
@@ -2195,45 +2067,6 @@ func (settings *HttpSettings) AssignProperties_To_HttpSettings(destination *stor
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HttpSettings_STATUS populates our HttpSettings from the provided source HttpSettings_STATUS
-func (settings *HttpSettings) Initialize_From_HttpSettings_STATUS(source *HttpSettings_STATUS) error {
-
-	// ForwardProxy
-	if source.ForwardProxy != nil {
-		var forwardProxy ForwardProxy
-		err := forwardProxy.Initialize_From_ForwardProxy_STATUS(source.ForwardProxy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ForwardProxy_STATUS() to populate field ForwardProxy")
-		}
-		settings.ForwardProxy = &forwardProxy
-	} else {
-		settings.ForwardProxy = nil
-	}
-
-	// RequireHttps
-	if source.RequireHttps != nil {
-		requireHttpsHTTPS := *source.RequireHttps
-		settings.RequireHttps = &requireHttpsHTTPS
-	} else {
-		settings.RequireHttps = nil
-	}
-
-	// Routes
-	if source.Routes != nil {
-		var route HttpSettingsRoutes
-		err := route.Initialize_From_HttpSettingsRoutes_STATUS(source.Routes)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HttpSettingsRoutes_STATUS() to populate field Routes")
-		}
-		settings.Routes = &route
-	} else {
-		settings.Routes = nil
 	}
 
 	// No error
@@ -2836,115 +2669,6 @@ func (providers *IdentityProviders) AssignProperties_To_IdentityProviders(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IdentityProviders_STATUS populates our IdentityProviders from the provided source IdentityProviders_STATUS
-func (providers *IdentityProviders) Initialize_From_IdentityProviders_STATUS(source *IdentityProviders_STATUS) error {
-
-	// Apple
-	if source.Apple != nil {
-		var apple Apple
-		err := apple.Initialize_From_Apple_STATUS(source.Apple)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Apple_STATUS() to populate field Apple")
-		}
-		providers.Apple = &apple
-	} else {
-		providers.Apple = nil
-	}
-
-	// AzureActiveDirectory
-	if source.AzureActiveDirectory != nil {
-		var azureActiveDirectory AzureActiveDirectory
-		err := azureActiveDirectory.Initialize_From_AzureActiveDirectory_STATUS(source.AzureActiveDirectory)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureActiveDirectory_STATUS() to populate field AzureActiveDirectory")
-		}
-		providers.AzureActiveDirectory = &azureActiveDirectory
-	} else {
-		providers.AzureActiveDirectory = nil
-	}
-
-	// AzureStaticWebApps
-	if source.AzureStaticWebApps != nil {
-		var azureStaticWebApp AzureStaticWebApps
-		err := azureStaticWebApp.Initialize_From_AzureStaticWebApps_STATUS(source.AzureStaticWebApps)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureStaticWebApps_STATUS() to populate field AzureStaticWebApps")
-		}
-		providers.AzureStaticWebApps = &azureStaticWebApp
-	} else {
-		providers.AzureStaticWebApps = nil
-	}
-
-	// CustomOpenIdConnectProviders
-	if source.CustomOpenIdConnectProviders != nil {
-		customOpenIdConnectProviderMap := make(map[string]CustomOpenIdConnectProvider, len(source.CustomOpenIdConnectProviders))
-		for customOpenIdConnectProviderKey, customOpenIdConnectProviderValue := range source.CustomOpenIdConnectProviders {
-			// Shadow the loop variable to avoid aliasing
-			customOpenIdConnectProviderValue := customOpenIdConnectProviderValue
-			var customOpenIdConnectProvider CustomOpenIdConnectProvider
-			err := customOpenIdConnectProvider.Initialize_From_CustomOpenIdConnectProvider_STATUS(&customOpenIdConnectProviderValue)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_CustomOpenIdConnectProvider_STATUS() to populate field CustomOpenIdConnectProviders")
-			}
-			customOpenIdConnectProviderMap[customOpenIdConnectProviderKey] = customOpenIdConnectProvider
-		}
-		providers.CustomOpenIdConnectProviders = customOpenIdConnectProviderMap
-	} else {
-		providers.CustomOpenIdConnectProviders = nil
-	}
-
-	// Facebook
-	if source.Facebook != nil {
-		var facebook Facebook
-		err := facebook.Initialize_From_Facebook_STATUS(source.Facebook)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Facebook_STATUS() to populate field Facebook")
-		}
-		providers.Facebook = &facebook
-	} else {
-		providers.Facebook = nil
-	}
-
-	// GitHub
-	if source.GitHub != nil {
-		var gitHub GitHub
-		err := gitHub.Initialize_From_GitHub_STATUS(source.GitHub)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GitHub_STATUS() to populate field GitHub")
-		}
-		providers.GitHub = &gitHub
-	} else {
-		providers.GitHub = nil
-	}
-
-	// Google
-	if source.Google != nil {
-		var google Google
-		err := google.Initialize_From_Google_STATUS(source.Google)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Google_STATUS() to populate field Google")
-		}
-		providers.Google = &google
-	} else {
-		providers.Google = nil
-	}
-
-	// Twitter
-	if source.Twitter != nil {
-		var twitter Twitter
-		err := twitter.Initialize_From_Twitter_STATUS(source.Twitter)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Twitter_STATUS() to populate field Twitter")
-		}
-		providers.Twitter = &twitter
-	} else {
-		providers.Twitter = nil
 	}
 
 	// No error
@@ -3614,72 +3338,6 @@ func (login *Login) AssignProperties_To_Login(destination *storage.Login) error 
 	return nil
 }
 
-// Initialize_From_Login_STATUS populates our Login from the provided source Login_STATUS
-func (login *Login) Initialize_From_Login_STATUS(source *Login_STATUS) error {
-
-	// AllowedExternalRedirectUrls
-	login.AllowedExternalRedirectUrls = genruntime.CloneSliceOfString(source.AllowedExternalRedirectUrls)
-
-	// CookieExpiration
-	if source.CookieExpiration != nil {
-		var cookieExpiration CookieExpiration
-		err := cookieExpiration.Initialize_From_CookieExpiration_STATUS(source.CookieExpiration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CookieExpiration_STATUS() to populate field CookieExpiration")
-		}
-		login.CookieExpiration = &cookieExpiration
-	} else {
-		login.CookieExpiration = nil
-	}
-
-	// Nonce
-	if source.Nonce != nil {
-		var nonce Nonce
-		err := nonce.Initialize_From_Nonce_STATUS(source.Nonce)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Nonce_STATUS() to populate field Nonce")
-		}
-		login.Nonce = &nonce
-	} else {
-		login.Nonce = nil
-	}
-
-	// PreserveUrlFragmentsForLogins
-	if source.PreserveUrlFragmentsForLogins != nil {
-		preserveUrlFragmentsForLogin := *source.PreserveUrlFragmentsForLogins
-		login.PreserveUrlFragmentsForLogins = &preserveUrlFragmentsForLogin
-	} else {
-		login.PreserveUrlFragmentsForLogins = nil
-	}
-
-	// Routes
-	if source.Routes != nil {
-		var route LoginRoutes
-		err := route.Initialize_From_LoginRoutes_STATUS(source.Routes)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LoginRoutes_STATUS() to populate field Routes")
-		}
-		login.Routes = &route
-	} else {
-		login.Routes = nil
-	}
-
-	// TokenStore
-	if source.TokenStore != nil {
-		var tokenStore TokenStore
-		err := tokenStore.Initialize_From_TokenStore_STATUS(source.TokenStore)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TokenStore_STATUS() to populate field TokenStore")
-		}
-		login.TokenStore = &tokenStore
-	} else {
-		login.TokenStore = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization.
 type Login_STATUS struct {
 	// AllowedExternalRedirectUrls: External URLs that can be redirected to as part of logging in or logging out of the app.
@@ -4260,45 +3918,6 @@ func (apple *Apple) AssignProperties_To_Apple(destination *storage.Apple) error 
 	return nil
 }
 
-// Initialize_From_Apple_STATUS populates our Apple from the provided source Apple_STATUS
-func (apple *Apple) Initialize_From_Apple_STATUS(source *Apple_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		apple.Enabled = &enabled
-	} else {
-		apple.Enabled = nil
-	}
-
-	// Login
-	if source.Login != nil {
-		var login LoginScopes
-		err := login.Initialize_From_LoginScopes_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LoginScopes_STATUS() to populate field Login")
-		}
-		apple.Login = &login
-	} else {
-		apple.Login = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration AppleRegistration
-		err := registration.Initialize_From_AppleRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AppleRegistration_STATUS() to populate field Registration")
-		}
-		apple.Registration = &registration
-	} else {
-		apple.Registration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Apple provider.
 type Apple_STATUS struct {
 	// Enabled: <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise,
@@ -4708,65 +4327,6 @@ func (directory *AzureActiveDirectory) AssignProperties_To_AzureActiveDirectory(
 	return nil
 }
 
-// Initialize_From_AzureActiveDirectory_STATUS populates our AzureActiveDirectory from the provided source AzureActiveDirectory_STATUS
-func (directory *AzureActiveDirectory) Initialize_From_AzureActiveDirectory_STATUS(source *AzureActiveDirectory_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		directory.Enabled = &enabled
-	} else {
-		directory.Enabled = nil
-	}
-
-	// IsAutoProvisioned
-	if source.IsAutoProvisioned != nil {
-		isAutoProvisioned := *source.IsAutoProvisioned
-		directory.IsAutoProvisioned = &isAutoProvisioned
-	} else {
-		directory.IsAutoProvisioned = nil
-	}
-
-	// Login
-	if source.Login != nil {
-		var login AzureActiveDirectoryLogin
-		err := login.Initialize_From_AzureActiveDirectoryLogin_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureActiveDirectoryLogin_STATUS() to populate field Login")
-		}
-		directory.Login = &login
-	} else {
-		directory.Login = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration AzureActiveDirectoryRegistration
-		err := registration.Initialize_From_AzureActiveDirectoryRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureActiveDirectoryRegistration_STATUS() to populate field Registration")
-		}
-		directory.Registration = &registration
-	} else {
-		directory.Registration = nil
-	}
-
-	// Validation
-	if source.Validation != nil {
-		var validation AzureActiveDirectoryValidation
-		err := validation.Initialize_From_AzureActiveDirectoryValidation_STATUS(source.Validation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureActiveDirectoryValidation_STATUS() to populate field Validation")
-		}
-		directory.Validation = &validation
-	} else {
-		directory.Validation = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Azure Active directory provider.
 type AzureActiveDirectory_STATUS struct {
 	// Enabled: <code>false</code> if the Azure Active Directory provider should not be enabled despite the set registration;
@@ -5112,33 +4672,6 @@ func (apps *AzureStaticWebApps) AssignProperties_To_AzureStaticWebApps(destinati
 	return nil
 }
 
-// Initialize_From_AzureStaticWebApps_STATUS populates our AzureStaticWebApps from the provided source AzureStaticWebApps_STATUS
-func (apps *AzureStaticWebApps) Initialize_From_AzureStaticWebApps_STATUS(source *AzureStaticWebApps_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		apps.Enabled = &enabled
-	} else {
-		apps.Enabled = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration AzureStaticWebAppsRegistration
-		err := registration.Initialize_From_AzureStaticWebAppsRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureStaticWebAppsRegistration_STATUS() to populate field Registration")
-		}
-		apps.Registration = &registration
-	} else {
-		apps.Registration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Azure Static Web Apps provider.
 type AzureStaticWebApps_STATUS struct {
 	// Enabled: <code>false</code> if the Azure Static Web Apps provider should not be enabled despite the set registration;
@@ -5352,24 +4885,6 @@ func (expiration *CookieExpiration) AssignProperties_To_CookieExpiration(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CookieExpiration_STATUS populates our CookieExpiration from the provided source CookieExpiration_STATUS
-func (expiration *CookieExpiration) Initialize_From_CookieExpiration_STATUS(source *CookieExpiration_STATUS) error {
-
-	// Convention
-	if source.Convention != nil {
-		convention := genruntime.ToEnum(string(*source.Convention), cookieExpiration_Convention_Values)
-		expiration.Convention = &convention
-	} else {
-		expiration.Convention = nil
-	}
-
-	// TimeToExpiration
-	expiration.TimeToExpiration = genruntime.ClonePointerToString(source.TimeToExpiration)
 
 	// No error
 	return nil
@@ -5636,45 +5151,6 @@ func (provider *CustomOpenIdConnectProvider) AssignProperties_To_CustomOpenIdCon
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CustomOpenIdConnectProvider_STATUS populates our CustomOpenIdConnectProvider from the provided source CustomOpenIdConnectProvider_STATUS
-func (provider *CustomOpenIdConnectProvider) Initialize_From_CustomOpenIdConnectProvider_STATUS(source *CustomOpenIdConnectProvider_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		provider.Enabled = &enabled
-	} else {
-		provider.Enabled = nil
-	}
-
-	// Login
-	if source.Login != nil {
-		var login OpenIdConnectLogin
-		err := login.Initialize_From_OpenIdConnectLogin_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OpenIdConnectLogin_STATUS() to populate field Login")
-		}
-		provider.Login = &login
-	} else {
-		provider.Login = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration OpenIdConnectRegistration
-		err := registration.Initialize_From_OpenIdConnectRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OpenIdConnectRegistration_STATUS() to populate field Registration")
-		}
-		provider.Registration = &registration
-	} else {
-		provider.Registration = nil
 	}
 
 	// No error
@@ -6028,48 +5504,6 @@ func (facebook *Facebook) AssignProperties_To_Facebook(destination *storage.Face
 	return nil
 }
 
-// Initialize_From_Facebook_STATUS populates our Facebook from the provided source Facebook_STATUS
-func (facebook *Facebook) Initialize_From_Facebook_STATUS(source *Facebook_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		facebook.Enabled = &enabled
-	} else {
-		facebook.Enabled = nil
-	}
-
-	// GraphApiVersion
-	facebook.GraphApiVersion = genruntime.ClonePointerToString(source.GraphApiVersion)
-
-	// Login
-	if source.Login != nil {
-		var login LoginScopes
-		err := login.Initialize_From_LoginScopes_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LoginScopes_STATUS() to populate field Login")
-		}
-		facebook.Login = &login
-	} else {
-		facebook.Login = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration AppRegistration
-		err := registration.Initialize_From_AppRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AppRegistration_STATUS() to populate field Registration")
-		}
-		facebook.Registration = &registration
-	} else {
-		facebook.Registration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Facebook provider.
 type Facebook_STATUS struct {
 	// Enabled: <code>false</code> if the Facebook provider should not be enabled despite the set registration; otherwise,
@@ -6362,27 +5796,6 @@ func (proxy *ForwardProxy) AssignProperties_To_ForwardProxy(destination *storage
 	return nil
 }
 
-// Initialize_From_ForwardProxy_STATUS populates our ForwardProxy from the provided source ForwardProxy_STATUS
-func (proxy *ForwardProxy) Initialize_From_ForwardProxy_STATUS(source *ForwardProxy_STATUS) error {
-
-	// Convention
-	if source.Convention != nil {
-		convention := genruntime.ToEnum(string(*source.Convention), forwardProxy_Convention_Values)
-		proxy.Convention = &convention
-	} else {
-		proxy.Convention = nil
-	}
-
-	// CustomHostHeaderName
-	proxy.CustomHostHeaderName = genruntime.ClonePointerToString(source.CustomHostHeaderName)
-
-	// CustomProtoHeaderName
-	proxy.CustomProtoHeaderName = genruntime.ClonePointerToString(source.CustomProtoHeaderName)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of a forward proxy used to make the requests.
 type ForwardProxy_STATUS struct {
 	// Convention: The convention used to determine the url of the request made.
@@ -6660,45 +6073,6 @@ func (gitHub *GitHub) AssignProperties_To_GitHub(destination *storage.GitHub) er
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_GitHub_STATUS populates our GitHub from the provided source GitHub_STATUS
-func (gitHub *GitHub) Initialize_From_GitHub_STATUS(source *GitHub_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		gitHub.Enabled = &enabled
-	} else {
-		gitHub.Enabled = nil
-	}
-
-	// Login
-	if source.Login != nil {
-		var login LoginScopes
-		err := login.Initialize_From_LoginScopes_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LoginScopes_STATUS() to populate field Login")
-		}
-		gitHub.Login = &login
-	} else {
-		gitHub.Login = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration ClientRegistration
-		err := registration.Initialize_From_ClientRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClientRegistration_STATUS() to populate field Registration")
-		}
-		gitHub.Registration = &registration
-	} else {
-		gitHub.Registration = nil
 	}
 
 	// No error
@@ -7115,57 +6489,6 @@ func (google *Google) AssignProperties_To_Google(destination *storage.Google) er
 	return nil
 }
 
-// Initialize_From_Google_STATUS populates our Google from the provided source Google_STATUS
-func (google *Google) Initialize_From_Google_STATUS(source *Google_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		google.Enabled = &enabled
-	} else {
-		google.Enabled = nil
-	}
-
-	// Login
-	if source.Login != nil {
-		var login LoginScopes
-		err := login.Initialize_From_LoginScopes_STATUS(source.Login)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LoginScopes_STATUS() to populate field Login")
-		}
-		google.Login = &login
-	} else {
-		google.Login = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration ClientRegistration
-		err := registration.Initialize_From_ClientRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClientRegistration_STATUS() to populate field Registration")
-		}
-		google.Registration = &registration
-	} else {
-		google.Registration = nil
-	}
-
-	// Validation
-	if source.Validation != nil {
-		var validation AllowedAudiencesValidation
-		err := validation.Initialize_From_AllowedAudiencesValidation_STATUS(source.Validation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AllowedAudiencesValidation_STATUS() to populate field Validation")
-		}
-		google.Validation = &validation
-	} else {
-		google.Validation = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Google provider.
 type Google_STATUS struct {
 	// Enabled: <code>false</code> if the Google provider should not be enabled despite the set registration; otherwise,
@@ -7424,16 +6747,6 @@ func (routes *HttpSettingsRoutes) AssignProperties_To_HttpSettingsRoutes(destina
 	return nil
 }
 
-// Initialize_From_HttpSettingsRoutes_STATUS populates our HttpSettingsRoutes from the provided source HttpSettingsRoutes_STATUS
-func (routes *HttpSettingsRoutes) Initialize_From_HttpSettingsRoutes_STATUS(source *HttpSettingsRoutes_STATUS) error {
-
-	// ApiPrefix
-	routes.ApiPrefix = genruntime.ClonePointerToString(source.ApiPrefix)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the paths HTTP requests.
 type HttpSettingsRoutes_STATUS struct {
 	// ApiPrefix: The prefix that should precede all the authentication/authorization paths.
@@ -7562,16 +6875,6 @@ func (routes *LoginRoutes) AssignProperties_To_LoginRoutes(destination *storage.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LoginRoutes_STATUS populates our LoginRoutes from the provided source LoginRoutes_STATUS
-func (routes *LoginRoutes) Initialize_From_LoginRoutes_STATUS(source *LoginRoutes_STATUS) error {
-
-	// LogoutEndpoint
-	routes.LogoutEndpoint = genruntime.ClonePointerToString(source.LogoutEndpoint)
 
 	// No error
 	return nil
@@ -7736,24 +7039,6 @@ func (nonce *Nonce) AssignProperties_To_Nonce(destination *storage.Nonce) error 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Nonce_STATUS populates our Nonce from the provided source Nonce_STATUS
-func (nonce *Nonce) Initialize_From_Nonce_STATUS(source *Nonce_STATUS) error {
-
-	// NonceExpirationInterval
-	nonce.NonceExpirationInterval = genruntime.ClonePointerToString(source.NonceExpirationInterval)
-
-	// ValidateNonce
-	if source.ValidateNonce != nil {
-		validateNonce := *source.ValidateNonce
-		nonce.ValidateNonce = &validateNonce
-	} else {
-		nonce.ValidateNonce = nil
 	}
 
 	// No error
@@ -8045,41 +7330,6 @@ func (store *TokenStore) AssignProperties_To_TokenStore(destination *storage.Tok
 	return nil
 }
 
-// Initialize_From_TokenStore_STATUS populates our TokenStore from the provided source TokenStore_STATUS
-func (store *TokenStore) Initialize_From_TokenStore_STATUS(source *TokenStore_STATUS) error {
-
-	// AzureBlobStorage
-	if source.AzureBlobStorage != nil {
-		var azureBlobStorage BlobStorageTokenStore
-		err := azureBlobStorage.Initialize_From_BlobStorageTokenStore_STATUS(source.AzureBlobStorage)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BlobStorageTokenStore_STATUS() to populate field AzureBlobStorage")
-		}
-		store.AzureBlobStorage = &azureBlobStorage
-	} else {
-		store.AzureBlobStorage = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		store.Enabled = &enabled
-	} else {
-		store.Enabled = nil
-	}
-
-	// TokenRefreshExtensionHours
-	if source.TokenRefreshExtensionHours != nil {
-		tokenRefreshExtensionHour := *source.TokenRefreshExtensionHours
-		store.TokenRefreshExtensionHours = &tokenRefreshExtensionHour
-	} else {
-		store.TokenRefreshExtensionHours = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the token store.
 type TokenStore_STATUS struct {
 	// AzureBlobStorage: The configuration settings of the storage of the tokens if blob storage is used.
@@ -8348,33 +7598,6 @@ func (twitter *Twitter) AssignProperties_To_Twitter(destination *storage.Twitter
 	return nil
 }
 
-// Initialize_From_Twitter_STATUS populates our Twitter from the provided source Twitter_STATUS
-func (twitter *Twitter) Initialize_From_Twitter_STATUS(source *Twitter_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		twitter.Enabled = &enabled
-	} else {
-		twitter.Enabled = nil
-	}
-
-	// Registration
-	if source.Registration != nil {
-		var registration TwitterRegistration
-		err := registration.Initialize_From_TwitterRegistration_STATUS(source.Registration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TwitterRegistration_STATUS() to populate field Registration")
-		}
-		twitter.Registration = &registration
-	} else {
-		twitter.Registration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Twitter provider.
 type Twitter_STATUS struct {
 	// Enabled: <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise,
@@ -8555,16 +7778,6 @@ func (validation *AllowedAudiencesValidation) AssignProperties_To_AllowedAudienc
 	return nil
 }
 
-// Initialize_From_AllowedAudiencesValidation_STATUS populates our AllowedAudiencesValidation from the provided source AllowedAudiencesValidation_STATUS
-func (validation *AllowedAudiencesValidation) Initialize_From_AllowedAudiencesValidation_STATUS(source *AllowedAudiencesValidation_STATUS) error {
-
-	// AllowedAudiences
-	validation.AllowedAudiences = genruntime.CloneSliceOfString(source.AllowedAudiences)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Allowed Audiences validation flow.
 type AllowedAudiencesValidation_STATUS struct {
 	// AllowedAudiences: The configuration settings of the allowed list of audiences from which to validate the JWT token.
@@ -8713,19 +7926,6 @@ func (registration *AppleRegistration) AssignProperties_To_AppleRegistration(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AppleRegistration_STATUS populates our AppleRegistration from the provided source AppleRegistration_STATUS
-func (registration *AppleRegistration) Initialize_From_AppleRegistration_STATUS(source *AppleRegistration_STATUS) error {
-
-	// ClientId
-	registration.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ClientSecretSettingName
-	registration.ClientSecretSettingName = genruntime.ClonePointerToString(source.ClientSecretSettingName)
 
 	// No error
 	return nil
@@ -8895,19 +8095,6 @@ func (registration *AppRegistration) AssignProperties_To_AppRegistration(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AppRegistration_STATUS populates our AppRegistration from the provided source AppRegistration_STATUS
-func (registration *AppRegistration) Initialize_From_AppRegistration_STATUS(source *AppRegistration_STATUS) error {
-
-	// AppId
-	registration.AppId = genruntime.ClonePointerToString(source.AppId)
-
-	// AppSecretSettingName
-	registration.AppSecretSettingName = genruntime.ClonePointerToString(source.AppSecretSettingName)
 
 	// No error
 	return nil
@@ -9087,24 +8274,6 @@ func (login *AzureActiveDirectoryLogin) AssignProperties_To_AzureActiveDirectory
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureActiveDirectoryLogin_STATUS populates our AzureActiveDirectoryLogin from the provided source AzureActiveDirectoryLogin_STATUS
-func (login *AzureActiveDirectoryLogin) Initialize_From_AzureActiveDirectoryLogin_STATUS(source *AzureActiveDirectoryLogin_STATUS) error {
-
-	// DisableWWWAuthenticate
-	if source.DisableWWWAuthenticate != nil {
-		disableWWWAuthenticate := *source.DisableWWWAuthenticate
-		login.DisableWWWAuthenticate = &disableWWWAuthenticate
-	} else {
-		login.DisableWWWAuthenticate = nil
-	}
-
-	// LoginParameters
-	login.LoginParameters = genruntime.CloneSliceOfString(source.LoginParameters)
 
 	// No error
 	return nil
@@ -9382,31 +8551,6 @@ func (registration *AzureActiveDirectoryRegistration) AssignProperties_To_AzureA
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureActiveDirectoryRegistration_STATUS populates our AzureActiveDirectoryRegistration from the provided source AzureActiveDirectoryRegistration_STATUS
-func (registration *AzureActiveDirectoryRegistration) Initialize_From_AzureActiveDirectoryRegistration_STATUS(source *AzureActiveDirectoryRegistration_STATUS) error {
-
-	// ClientId
-	registration.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ClientSecretCertificateIssuer
-	registration.ClientSecretCertificateIssuer = genruntime.ClonePointerToString(source.ClientSecretCertificateIssuer)
-
-	// ClientSecretCertificateSubjectAlternativeName
-	registration.ClientSecretCertificateSubjectAlternativeName = genruntime.ClonePointerToString(source.ClientSecretCertificateSubjectAlternativeName)
-
-	// ClientSecretCertificateThumbprint
-	registration.ClientSecretCertificateThumbprint = genruntime.ClonePointerToString(source.ClientSecretCertificateThumbprint)
-
-	// ClientSecretSettingName
-	registration.ClientSecretSettingName = genruntime.ClonePointerToString(source.ClientSecretSettingName)
-
-	// OpenIdIssuer
-	registration.OpenIdIssuer = genruntime.ClonePointerToString(source.OpenIdIssuer)
 
 	// No error
 	return nil
@@ -9727,40 +8871,6 @@ func (validation *AzureActiveDirectoryValidation) AssignProperties_To_AzureActiv
 	return nil
 }
 
-// Initialize_From_AzureActiveDirectoryValidation_STATUS populates our AzureActiveDirectoryValidation from the provided source AzureActiveDirectoryValidation_STATUS
-func (validation *AzureActiveDirectoryValidation) Initialize_From_AzureActiveDirectoryValidation_STATUS(source *AzureActiveDirectoryValidation_STATUS) error {
-
-	// AllowedAudiences
-	validation.AllowedAudiences = genruntime.CloneSliceOfString(source.AllowedAudiences)
-
-	// DefaultAuthorizationPolicy
-	if source.DefaultAuthorizationPolicy != nil {
-		var defaultAuthorizationPolicy DefaultAuthorizationPolicy
-		err := defaultAuthorizationPolicy.Initialize_From_DefaultAuthorizationPolicy_STATUS(source.DefaultAuthorizationPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DefaultAuthorizationPolicy_STATUS() to populate field DefaultAuthorizationPolicy")
-		}
-		validation.DefaultAuthorizationPolicy = &defaultAuthorizationPolicy
-	} else {
-		validation.DefaultAuthorizationPolicy = nil
-	}
-
-	// JwtClaimChecks
-	if source.JwtClaimChecks != nil {
-		var jwtClaimCheck JwtClaimChecks
-		err := jwtClaimCheck.Initialize_From_JwtClaimChecks_STATUS(source.JwtClaimChecks)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JwtClaimChecks_STATUS() to populate field JwtClaimChecks")
-		}
-		validation.JwtClaimChecks = &jwtClaimCheck
-	} else {
-		validation.JwtClaimChecks = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Azure Active Directory token validation flow.
 type AzureActiveDirectoryValidation_STATUS struct {
 	// AllowedAudiences: The list of audiences that can make successful authentication/authorization requests.
@@ -9969,16 +9079,6 @@ func (registration *AzureStaticWebAppsRegistration) AssignProperties_To_AzureSta
 	return nil
 }
 
-// Initialize_From_AzureStaticWebAppsRegistration_STATUS populates our AzureStaticWebAppsRegistration from the provided source AzureStaticWebAppsRegistration_STATUS
-func (registration *AzureStaticWebAppsRegistration) Initialize_From_AzureStaticWebAppsRegistration_STATUS(source *AzureStaticWebAppsRegistration_STATUS) error {
-
-	// ClientId
-	registration.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the registration for the Azure Static Web Apps provider
 type AzureStaticWebAppsRegistration_STATUS struct {
 	// ClientId: The Client ID of the app used for login.
@@ -10108,16 +9208,6 @@ func (store *BlobStorageTokenStore) AssignProperties_To_BlobStorageTokenStore(de
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BlobStorageTokenStore_STATUS populates our BlobStorageTokenStore from the provided source BlobStorageTokenStore_STATUS
-func (store *BlobStorageTokenStore) Initialize_From_BlobStorageTokenStore_STATUS(source *BlobStorageTokenStore_STATUS) error {
-
-	// SasUrlSettingName
-	store.SasUrlSettingName = genruntime.ClonePointerToString(source.SasUrlSettingName)
 
 	// No error
 	return nil
@@ -10272,19 +9362,6 @@ func (registration *ClientRegistration) AssignProperties_To_ClientRegistration(d
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ClientRegistration_STATUS populates our ClientRegistration from the provided source ClientRegistration_STATUS
-func (registration *ClientRegistration) Initialize_From_ClientRegistration_STATUS(source *ClientRegistration_STATUS) error {
-
-	// ClientId
-	registration.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ClientSecretSettingName
-	registration.ClientSecretSettingName = genruntime.ClonePointerToString(source.ClientSecretSettingName)
 
 	// No error
 	return nil
@@ -10494,16 +9571,6 @@ func (scopes *LoginScopes) AssignProperties_To_LoginScopes(destination *storage.
 	return nil
 }
 
-// Initialize_From_LoginScopes_STATUS populates our LoginScopes from the provided source LoginScopes_STATUS
-func (scopes *LoginScopes) Initialize_From_LoginScopes_STATUS(source *LoginScopes_STATUS) error {
-
-	// Scopes
-	scopes.Scopes = genruntime.CloneSliceOfString(source.Scopes)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the login flow, including the scopes that should be requested.
 type LoginScopes_STATUS struct {
 	// Scopes: A list of the scopes that should be requested while authenticating.
@@ -10650,19 +9717,6 @@ func (login *OpenIdConnectLogin) AssignProperties_To_OpenIdConnectLogin(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_OpenIdConnectLogin_STATUS populates our OpenIdConnectLogin from the provided source OpenIdConnectLogin_STATUS
-func (login *OpenIdConnectLogin) Initialize_From_OpenIdConnectLogin_STATUS(source *OpenIdConnectLogin_STATUS) error {
-
-	// NameClaimType
-	login.NameClaimType = genruntime.ClonePointerToString(source.NameClaimType)
-
-	// Scopes
-	login.Scopes = genruntime.CloneSliceOfString(source.Scopes)
 
 	// No error
 	return nil
@@ -10911,40 +9965,6 @@ func (registration *OpenIdConnectRegistration) AssignProperties_To_OpenIdConnect
 	return nil
 }
 
-// Initialize_From_OpenIdConnectRegistration_STATUS populates our OpenIdConnectRegistration from the provided source OpenIdConnectRegistration_STATUS
-func (registration *OpenIdConnectRegistration) Initialize_From_OpenIdConnectRegistration_STATUS(source *OpenIdConnectRegistration_STATUS) error {
-
-	// ClientCredential
-	if source.ClientCredential != nil {
-		var clientCredential OpenIdConnectClientCredential
-		err := clientCredential.Initialize_From_OpenIdConnectClientCredential_STATUS(source.ClientCredential)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OpenIdConnectClientCredential_STATUS() to populate field ClientCredential")
-		}
-		registration.ClientCredential = &clientCredential
-	} else {
-		registration.ClientCredential = nil
-	}
-
-	// ClientId
-	registration.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// OpenIdConnectConfiguration
-	if source.OpenIdConnectConfiguration != nil {
-		var openIdConnectConfiguration OpenIdConnectConfig
-		err := openIdConnectConfiguration.Initialize_From_OpenIdConnectConfig_STATUS(source.OpenIdConnectConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OpenIdConnectConfig_STATUS() to populate field OpenIdConnectConfiguration")
-		}
-		registration.OpenIdConnectConfiguration = &openIdConnectConfiguration
-	} else {
-		registration.OpenIdConnectConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the app registration for the custom Open ID Connect provider.
 type OpenIdConnectRegistration_STATUS struct {
 	// ClientCredential: The authentication credentials of the custom Open ID Connect provider.
@@ -11178,19 +10198,6 @@ func (registration *TwitterRegistration) AssignProperties_To_TwitterRegistration
 	return nil
 }
 
-// Initialize_From_TwitterRegistration_STATUS populates our TwitterRegistration from the provided source TwitterRegistration_STATUS
-func (registration *TwitterRegistration) Initialize_From_TwitterRegistration_STATUS(source *TwitterRegistration_STATUS) error {
-
-	// ConsumerKey
-	registration.ConsumerKey = genruntime.ClonePointerToString(source.ConsumerKey)
-
-	// ConsumerSecretSettingName
-	registration.ConsumerSecretSettingName = genruntime.ClonePointerToString(source.ConsumerSecretSettingName)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the app registration for the Twitter provider.
 type TwitterRegistration_STATUS struct {
 	// ConsumerKey: The OAuth 1.0a consumer key of the Twitter application used for sign-in.
@@ -11388,28 +10395,6 @@ func (policy *DefaultAuthorizationPolicy) AssignProperties_To_DefaultAuthorizati
 	return nil
 }
 
-// Initialize_From_DefaultAuthorizationPolicy_STATUS populates our DefaultAuthorizationPolicy from the provided source DefaultAuthorizationPolicy_STATUS
-func (policy *DefaultAuthorizationPolicy) Initialize_From_DefaultAuthorizationPolicy_STATUS(source *DefaultAuthorizationPolicy_STATUS) error {
-
-	// AllowedApplications
-	policy.AllowedApplications = genruntime.CloneSliceOfString(source.AllowedApplications)
-
-	// AllowedPrincipals
-	if source.AllowedPrincipals != nil {
-		var allowedPrincipal AllowedPrincipals
-		err := allowedPrincipal.Initialize_From_AllowedPrincipals_STATUS(source.AllowedPrincipals)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AllowedPrincipals_STATUS() to populate field AllowedPrincipals")
-		}
-		policy.AllowedPrincipals = &allowedPrincipal
-	} else {
-		policy.AllowedPrincipals = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the Azure Active Directory default authorization policy.
 type DefaultAuthorizationPolicy_STATUS struct {
 	// AllowedApplications: The configuration settings of the Azure Active Directory allowed applications.
@@ -11597,19 +10582,6 @@ func (checks *JwtClaimChecks) AssignProperties_To_JwtClaimChecks(destination *st
 	return nil
 }
 
-// Initialize_From_JwtClaimChecks_STATUS populates our JwtClaimChecks from the provided source JwtClaimChecks_STATUS
-func (checks *JwtClaimChecks) Initialize_From_JwtClaimChecks_STATUS(source *JwtClaimChecks_STATUS) error {
-
-	// AllowedClientApplications
-	checks.AllowedClientApplications = genruntime.CloneSliceOfString(source.AllowedClientApplications)
-
-	// AllowedGroups
-	checks.AllowedGroups = genruntime.CloneSliceOfString(source.AllowedGroups)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the checks that should be made while validating the JWT Claims.
 type JwtClaimChecks_STATUS struct {
 	// AllowedClientApplications: The list of the allowed client applications.
@@ -11786,24 +10758,6 @@ func (credential *OpenIdConnectClientCredential) AssignProperties_To_OpenIdConne
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_OpenIdConnectClientCredential_STATUS populates our OpenIdConnectClientCredential from the provided source OpenIdConnectClientCredential_STATUS
-func (credential *OpenIdConnectClientCredential) Initialize_From_OpenIdConnectClientCredential_STATUS(source *OpenIdConnectClientCredential_STATUS) error {
-
-	// ClientSecretSettingName
-	credential.ClientSecretSettingName = genruntime.ClonePointerToString(source.ClientSecretSettingName)
-
-	// Method
-	if source.Method != nil {
-		method := genruntime.ToEnum(string(*source.Method), openIdConnectClientCredential_Method_Values)
-		credential.Method = &method
-	} else {
-		credential.Method = nil
 	}
 
 	// No error
@@ -12055,28 +11009,6 @@ func (config *OpenIdConnectConfig) AssignProperties_To_OpenIdConnectConfig(desti
 	return nil
 }
 
-// Initialize_From_OpenIdConnectConfig_STATUS populates our OpenIdConnectConfig from the provided source OpenIdConnectConfig_STATUS
-func (config *OpenIdConnectConfig) Initialize_From_OpenIdConnectConfig_STATUS(source *OpenIdConnectConfig_STATUS) error {
-
-	// AuthorizationEndpoint
-	config.AuthorizationEndpoint = genruntime.ClonePointerToString(source.AuthorizationEndpoint)
-
-	// CertificationUri
-	config.CertificationUri = genruntime.ClonePointerToString(source.CertificationUri)
-
-	// Issuer
-	config.Issuer = genruntime.ClonePointerToString(source.Issuer)
-
-	// TokenEndpoint
-	config.TokenEndpoint = genruntime.ClonePointerToString(source.TokenEndpoint)
-
-	// WellKnownOpenIdConfiguration
-	config.WellKnownOpenIdConfiguration = genruntime.ClonePointerToString(source.WellKnownOpenIdConfiguration)
-
-	// No error
-	return nil
-}
-
 // The configuration settings of the endpoints used for the custom Open ID Connect provider.
 type OpenIdConnectConfig_STATUS struct {
 	// AuthorizationEndpoint: The endpoint to be used to make an authorization request.
@@ -12282,19 +11214,6 @@ func (principals *AllowedPrincipals) AssignProperties_To_AllowedPrincipals(desti
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AllowedPrincipals_STATUS populates our AllowedPrincipals from the provided source AllowedPrincipals_STATUS
-func (principals *AllowedPrincipals) Initialize_From_AllowedPrincipals_STATUS(source *AllowedPrincipals_STATUS) error {
-
-	// Groups
-	principals.Groups = genruntime.CloneSliceOfString(source.Groups)
-
-	// Identities
-	principals.Identities = genruntime.CloneSliceOfString(source.Identities)
 
 	// No error
 	return nil

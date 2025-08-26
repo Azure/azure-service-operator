@@ -41,8 +41,7 @@ func TestVersionConfiguration_AddTypeAlias_WhenTypeKnown_AddsAlias(t *testing.T)
 	g := NewGomegaWithT(t)
 
 	vc := NewVersionConfiguration("1")
-	vc.addType("Person", NewTypeConfiguration("Person"))
-
+	g.Expect(vc.addType("Person", NewTypeConfiguration("Person"))).To(Succeed())
 	g.Expect(vc.addTypeAlias("Person", "Party")).To(Succeed())
 
 	party := vc.findType("Party")
@@ -63,8 +62,48 @@ func TestVersionConfiguration_AddTypeAlias_WhenTypeClashes_ReturnsError(t *testi
 	g := NewGomegaWithT(t)
 
 	vc := NewVersionConfiguration("1")
-	vc.addType("Person", NewTypeConfiguration("Person"))
-	vc.addType("Party", NewTypeConfiguration("Party"))
+	g.Expect(vc.addType("Person", NewTypeConfiguration("Person"))).To(Succeed())
+	g.Expect(vc.addType("Party", NewTypeConfiguration("Party"))).To(Succeed())
 
 	g.Expect(vc.addTypeAlias("Person", "Party")).NotTo(Succeed())
+}
+
+/*
+ * Duplicate Key Detection Tests
+ */
+
+func TestVersionConfiguration_UnmarshalYAML_WhenDuplicateTypes_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+Person:
+  $export: true
+Person:
+  $renameTo: "Individual"
+`
+
+	var vc VersionConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &vc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate type configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("Person"))
+}
+
+func TestVersionConfiguration_UnmarshalYAML_WhenDuplicateTypesCaseInsensitive_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+person:
+  $export: true
+PERSON:
+  $renameTo: "Individual"
+`
+
+	var vc VersionConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &vc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate type configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("PERSON"))
 }

@@ -48,6 +48,7 @@ func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 
 func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 
 	ver := "2021-01-01"
 	refTest := test.MakeLocalPackageReference("demo", ver)
@@ -57,7 +58,7 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 
 	groupConfiguration := NewGroupConfiguration("demo")
 	versionConfig := NewVersionConfiguration("2021-01-01")
-	groupConfiguration.addVersion(versionConfig.name, versionConfig)
+	g.Expect(groupConfiguration.addVersion(versionConfig.name, versionConfig)).To(Succeed())
 
 	cases := []struct {
 		name          string
@@ -112,13 +113,13 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	typeConfig.SupportedFrom.Set("vNext")
 
 	versionConfig := NewVersionConfiguration("2022-01-01")
-	versionConfig.addType(typeConfig.name, typeConfig)
+	g.Expect(versionConfig.addType(typeConfig.name, typeConfig)).To(Succeed())
 
 	groupConfig := NewGroupConfiguration("demo")
-	groupConfig.addVersion(versionConfig.name, versionConfig)
+	g.Expect(groupConfig.addVersion(versionConfig.name, versionConfig)).To(Succeed())
 
 	omConfig := NewObjectModelConfiguration()
-	omConfig.addGroup(groupConfig.name, groupConfig)
+	g.Expect(omConfig.addGroup(groupConfig.name, groupConfig)).To(Succeed())
 
 	// Lookup $supportedFrom for our type - version is from 2021 but our config has 2022, so it won't be found
 	tn := astmodel.MakeInternalTypeName(
@@ -181,4 +182,44 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExp
 	err := groupConfig.PayloadType.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
+}
+
+/*
+ * Duplicate Key Detection Tests
+ */
+
+func TestGroupConfiguration_UnmarshalYAML_WhenDuplicateVersions_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+2021-01-01:
+  SomeType: {}
+2021-01-01:
+  OtherType: {}
+`
+
+	var gc GroupConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &gc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate version configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("2021-01-01"))
+}
+
+func TestGroupConfiguration_UnmarshalYAML_WhenDuplicateVersionsCaseInsensitive_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+2021-01-01:
+  SomeType: {}
+2021-01-01:
+  OtherType: {}
+`
+
+	var gc GroupConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &gc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate version configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("2021-01-01"))
 }

@@ -228,7 +228,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 }
 
 // addGroup includes the provided GroupConfiguration in this model configuration
-func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
+func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) error {
 	if omc.groups == nil {
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
@@ -236,7 +236,13 @@ func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfigura
 
 	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
-	omc.groups[strings.ToLower(name)] = group
+	key := strings.ToLower(name)
+	if _, exists := omc.groups[key]; exists {
+		return eris.Errorf("duplicate group configuration: %q already exists", name)
+	}
+
+	omc.groups[key] = group
+	return nil
 }
 
 // visitGroup invokes the provided visitor on the specified group if present.
@@ -305,7 +311,11 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			omc.addGroup(lastID, g)
+			err = omc.addGroup(lastID, g)
+			if err != nil {
+				return eris.Wrapf(err, "adding group %q", lastID)
+			}
+
 			continue
 		}
 
@@ -329,7 +339,10 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 	grp := omc.findGroup(ref)
 	if grp == nil {
 		grp = NewGroupConfiguration(groupName)
-		omc.addGroup(groupName, grp)
+		err := omc.addGroup(groupName, grp)
+		if err != nil {
+			return eris.Wrapf(err, "adding group %q", groupName)
+		}
 	}
 
 	return action(grp)
@@ -349,7 +362,10 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 			ver := configuration.findVersion(ref)
 			if ver == nil {
 				ver = NewVersionConfiguration(version)
-				configuration.addVersion(version, ver)
+				err := configuration.addVersion(version, ver)
+				if err != nil {
+					return eris.Wrapf(err, "adding version %q", version)
+				}
 			}
 
 			return action(ver)
@@ -370,7 +386,10 @@ func (omc *ObjectModelConfiguration) ModifyType(
 			typ := versionConfiguration.findType(typeName)
 			if typ == nil {
 				typ = NewTypeConfiguration(typeName)
-				versionConfiguration.addType(typeName, typ)
+				err := versionConfiguration.addType(typeName, typ)
+				if err != nil {
+					return eris.Wrapf(err, "adding type %q", typeName)
+				}
 			}
 
 			return action(typ)
@@ -392,7 +411,10 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 			if prop == nil {
 				name := property.String()
 				prop = NewPropertyConfiguration(name)
-				typeConfiguration.addProperty(name, prop)
+				err := typeConfiguration.addProperty(name, prop)
+				if err != nil {
+					return eris.Wrapf(err, "adding property %q", name)
+				}
 			}
 
 			return action(prop)

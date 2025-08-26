@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.14.0
+  currentRelease: v2.15.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -328,6 +328,12 @@ typeTransformers:
     property: ProtectedSettings
     remove: true
     because: We don't want Protected settings on status
+
+  - group: compute
+    name: AvailabilitySetProperties
+    property: VirtualMachines
+    remove: true
+    because: VirtualMachines is a list of VMs created in the AvailabilitySet and should only be on status, not spec
 
   # 
   # In the group 'dataprotection',
@@ -1224,6 +1230,74 @@ objectModelConfiguration:
         SubnetResourceId:
           $referenceType: arm
   app:
+    2025-01-01:
+      ContainerApp:
+        $export: true
+        $supportedFrom: v2.15.0
+        $generatedConfigs:
+          EventStreamEndpoint: $.Status.EventStreamEndpoint
+          Fqdn: $.Status.LatestRevisionFqdn
+      ContainerApps_AuthConfig:
+        $exportAs: AuthConfig
+        $supportedFrom: v2.15.0
+      RegistryCredentials:
+        passwordSecretRef:
+          $isSecret: false
+        Identity:
+          $referenceType: arm
+      ServiceBind:
+        ServiceId:
+          $referenceType: arm
+      Secret:
+        Identity:
+          $referenceType: arm
+      ContainerApp_Spec:
+        ManagedBy:
+          $referenceType: arm
+      ContainerApp_Properties_Spec:
+        EnvironmentId:
+          $referenceType: arm
+        ManagedEnvironmentId:
+          $referenceType: arm
+      CustomDomain:
+        CertificateId:
+          $referenceType: arm
+      OpenIdConnectConfig:
+        TokenEndpoint:
+          $isSecret: false
+      ManagedEnvironment:
+        $export: true
+        $supportedFrom: v2.15.0
+      VnetConfiguration:
+        InfrastructureSubnetId:
+          $referenceType: arm
+      Job:
+        $export: true
+        $supportedFrom: v2.15.0
+      Job_Properties_Spec:
+        EnvironmentId:
+          $referenceType: arm
+      IdentitySettings:
+        Identity:
+          $referenceType: arm
+      HttpScaleRule:
+        Identity:
+          $referenceType: arm
+      TcpScaleRule:
+        Identity:
+          $referenceType: arm
+      CustomScaleRule:
+        Identity:
+          $referenceType: arm
+      JobScaleRule:
+        Identity:
+          $referenceType: arm
+      QueueScaleRule:
+        Identity:
+          $referenceType: arm
+      CertificateKeyVaultProperties:
+        Identity:
+          $referenceType: arm
     2024-03-01:
       ContainerApp:
         $exportAs: ContainerApp
@@ -1817,6 +1891,13 @@ objectModelConfiguration:
       # TODO: Confirm that these guys are really ARM IDs
       DiskSecurityProfile:
         SecureVMDiskEncryptionSetId:
+          $referenceType: arm
+    2024-11-01:
+      AvailabilitySet:
+        $exportAs: AvailabilitySet
+        $supportedFrom: v2.15.0
+      SubResource:
+        Id:
           $referenceType: arm
   containerinstance:
     2021-10-01:
@@ -3000,6 +3081,36 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
     2023-03-11:
+      DataCollectionRule:
+        $export: true
+        $supportedFrom: v2.15.0
+      LogAnalyticsDestination:
+        WorkspaceResourceId:
+          $referenceType: arm
+      StorageBlobDestination:
+        StorageAccountResourceId:
+          $referenceType: arm
+      DataCollectionRuleSpec:
+        DataCollectionEndpointId:
+          $referenceType: arm
+      StorageTableDestination:
+        StorageAccountResourceId:
+          $referenceType: arm
+      EventHubDirectDestination:
+        EventHubResourceId:
+          $referenceType: arm
+      AdxDestination:
+        ResourceId:
+          $referenceType: arm
+      StorageBlob:
+        ResourceId:
+          $referenceType: arm
+      MonitoringAccountDestination:
+        AccountResourceId:
+          $referenceType: arm
+      EventHubDestination:
+        EventHubResourceId:
+          $referenceType: arm
       DataCollectionEndpoint:
         $exportAs: DataCollectionEndpoint
         $supportedFrom: v2.15.0
@@ -3104,6 +3215,79 @@ objectModelConfiguration:
           $isSecret: true
 
   kusto:
+    2024-04-13:
+      Cluster:
+        $export: true
+        $supportedFrom: v2.15.0
+        $generatedConfigs:
+          clusterPrincipalId: $.Status.Identity.PrincipalId
+          clusterTenantId:    $.Status.Identity.TenantId
+      VirtualNetworkConfiguration:
+        DataManagementPublicIpId:
+          $referenceType: arm
+        SubnetId:
+          $referenceType: arm
+        EnginePublicIpId:
+          $referenceType: arm
+      KeyVaultProperties:
+        UserIdentity:
+          $referenceType: arm
+      Clusters_Database:
+        $exportAs: Database
+        $supportedFrom: v2.15.0
+      ReadWriteDatabase:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadWriteDatabase_STATUS:
+        $resourceEmbeddedInParent: Clusters_Database
+      Clusters_Databases_DataConnection:
+        $exportAs: DataConnection
+        $supportedFrom: v2.15.0
+      CosmosDbDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      CosmosDbDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      CosmosDbDataConnectionProperties:
+        ManagedIdentityResourceId:
+          $referenceType: arm
+        CosmosDbAccountResourceId:
+          $referenceType: arm
+      EventGridDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventGridDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventGridConnectionProperties:
+        EventGridResourceId:
+          $referenceType: arm
+        ManagedIdentityResourceId:
+          $referenceType: arm
+        EventHubResourceId:
+          $referenceType: arm
+        StorageAccountResourceId:
+          $referenceType: arm
+      EventHubDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventHubDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventHubConnectionProperties:
+        EventHubResourceId:
+          $referenceType: arm
+        ManagedIdentityResourceId:
+          $referenceType: arm
+      IotHubDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      IotHubDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      IotHubConnectionProperties:
+        IotHubResourceId:
+          $referenceType: arm
+      Clusters_Databases_PrincipalAssignment:
+        $exportAs: PrincipalAssignment
+        $supportedFrom: v2.15.0
+      DatabasePrincipalProperties:
+        PrincipalId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
     2023-08-15:
       Cluster:
         $exportAs: Cluster

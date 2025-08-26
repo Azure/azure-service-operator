@@ -1,0 +1,16 @@
+apiVersion: kusto.azure.com/v1api20240413
+kind: PrincipalAssignment
+metadata:
+  name: aso-sample-principalassignment
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-database
+  principalType: "App"
+  role: "Viewer"
+  principalIdFromConfig:
+    name: kusto-outputs
+    key: clusterPrincipalId
+  tenantIdFromConfig:
+    name: kusto-outputs
+    key: clusterTenantId
