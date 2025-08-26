@@ -909,9 +909,6 @@ status:
 #     names more idiomatic for Go and/or Kubernetes use.
 #
 #     For resource types, prefer $exportAs
-#     Note: using $export: + $renameTo: for a resource is not quite the same as
-#     using $exportAs because the renaming happens at a different stage of the
-#     pipeline.
 #
 #     If you have two names differing only by letter case, use a TypeTransform
 #     to selectively rename one of the types.
@@ -1232,7 +1229,7 @@ objectModelConfiguration:
   app:
     2025-01-01:
       ContainerApp:
-        $export: true
+        $exportAs: ContainerApp
         $supportedFrom: v2.15.0
         $generatedConfigs:
           EventStreamEndpoint: $.Status.EventStreamEndpoint
@@ -1266,13 +1263,13 @@ objectModelConfiguration:
         TokenEndpoint:
           $isSecret: false
       ManagedEnvironment:
-        $export: true
+        $exportAs: ManagedEnvironment
         $supportedFrom: v2.15.0
       VnetConfiguration:
         InfrastructureSubnetId:
           $referenceType: arm
       Job:
-        $export: true
+        $exportAs: Job
         $supportedFrom: v2.15.0
       Job_Properties_Spec:
         EnvironmentId:
@@ -3082,7 +3079,7 @@ objectModelConfiguration:
           $referenceType: arm
     2023-03-11:
       DataCollectionRule:
-        $export: true
+        $exportAs: DataCollectionRule
         $supportedFrom: v2.15.0
       LogAnalyticsDestination:
         WorkspaceResourceId:
@@ -3217,7 +3214,7 @@ objectModelConfiguration:
   kusto:
     2024-04-13:
       Cluster:
-        $export: true
+        $exportAs: Cluster
         $supportedFrom: v2.15.0
         $generatedConfigs:
           clusterPrincipalId: $.Status.Identity.PrincipalId
@@ -3806,8 +3803,6 @@ objectModelConfiguration:
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $referenceType: arm
-      VirtualNetworkGateway_STATUS:
-        $nameInNextVersion: VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded # TODO: See if we can get rid of this
       VirtualNetworkGatewayIPConfiguration:
         $resourceEmbeddedInParent: VirtualNetworkGateway
       VirtualNetworkGatewayIPConfiguration_STATUS:
