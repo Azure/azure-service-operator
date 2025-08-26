@@ -20,27 +20,23 @@
 
 <title>Breaking Changes | Azure Service Operator</title>
 <meta name="description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Scheduled for v2.10.0 The following properties on machinelearningservices.WorkspacesCompute will be marked as secrets: SslConfiguration.Key, SslConfiguration.Cert, VirtualMachineSshCredentials.PrivateKeyData, and VirtualMachineSshCredentials.PublicKeyData.
-We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we’ve decided to make a break to correct this issue. Released Breaking Changes 2.9.0 Breaking changes are:">
+Upcoming Breaking Changes Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Breaking Changes">
   <meta property="og:description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Scheduled for v2.10.0 The following properties on machinelearningservices.WorkspacesCompute will be marked as secrets: SslConfiguration.Key, SslConfiguration.Cert, VirtualMachineSshCredentials.PrivateKeyData, and VirtualMachineSshCredentials.PublicKeyData.
-We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we’ve decided to make a break to correct this issue. Released Breaking Changes 2.9.0 Breaking changes are:">
+Upcoming Breaking Changes Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Breaking Changes">
   <meta itemprop="description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Scheduled for v2.10.0 The following properties on machinelearningservices.WorkspacesCompute will be marked as secrets: SslConfiguration.Key, SslConfiguration.Cert, VirtualMachineSshCredentials.PrivateKeyData, and VirtualMachineSshCredentials.PublicKeyData.
-We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we’ve decided to make a break to correct this issue. Released Breaking Changes 2.9.0 Breaking changes are:">
-  <meta itemprop="wordCount" content="913">
+Upcoming Breaking Changes Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
+  <meta itemprop="wordCount" content="582">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Breaking Changes">
   <meta name="twitter:description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Scheduled for v2.10.0 The following properties on machinelearningservices.WorkspacesCompute will be marked as secrets: SslConfiguration.Key, SslConfiguration.Cert, VirtualMachineSshCredentials.PrivateKeyData, and VirtualMachineSshCredentials.PublicKeyData.
-We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we’ve decided to make a break to correct this issue. Released Breaking Changes 2.9.0 Breaking changes are:">
+Upcoming Breaking Changes Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -151,7 +147,9 @@ We try to avoid breaking changes, but in this case, allowing raw keys in the spe
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="td-sidebar-nav-active-item">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
@@ -836,19 +834,7 @@ We try to avoid breaking changes, but in this case, allowing raw keys in the spe
   <ul>
     <li><a href="#upcoming-breaking-changes">Upcoming Breaking Changes</a>
       <ul>
-        <li><a href="#scheduled-for-v2100">Scheduled for v2.10.0</a></li>
-      </ul>
-    </li>
-    <li><a href="#released-breaking-changes">Released Breaking Changes</a>
-      <ul>
-        <li><a href="#290">2.9.0</a></li>
-        <li><a href="#v280">v2.8.0</a></li>
-        <li><a href="#v260">v2.6.0</a></li>
-        <li><a href="#v240">v2.4.0</a></li>
-        <li><a href="#v220">v2.2.0</a></li>
-        <li><a href="#v210">v2.1.0</a></li>
-        <li><a href="#v200">v2.0.0</a></li>
-        <li><a href="#v200-beta4">v2.0.0-beta.4</a></li>
+        <li><a href="#resource-versioning">Resource Versioning</a></li>
       </ul>
     </li>
     <li><a href="#policies">Policies</a>
@@ -883,76 +869,12 @@ We try to avoid breaking changes, but in this case, allowing raw keys in the spe
 </header>
 	<p>We go to great lengths to avoid breaking changes as much as possible, as we&rsquo;re well aware that they can cause issues for our users. However, they do occasionally occur, so we&rsquo;ve committed to providing good documentation each time this occurs.</p>
 <h2 id="upcoming-breaking-changes">Upcoming Breaking Changes</h2>
-<h3 id="scheduled-for-v2100">Scheduled for v2.10.0</h3>
-<ul>
-<li>The following properties on <code>machinelearningservices.WorkspacesCompute</code> will be marked as secrets: <code>SslConfiguration.Key</code>, <code>SslConfiguration.Cert</code>, <code>VirtualMachineSshCredentials.PrivateKeyData</code>, and <code>VirtualMachineSshCredentials.PublicKeyData</code>.<br>
-We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.</li>
-</ul>
-<h2 id="released-breaking-changes">Released Breaking Changes</h2>
-<h3 id="290">2.9.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>DelegatedManagedIdentityResourceId is now a secret</li>
-<li>ContainerService version v1api20230202preview has been deleted</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/">v2.9.0 Breaking Changes</a>.</p>
-<h3 id="v280">v2.8.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string</li>
-<li>Use &ldquo;never&rdquo; rather than &quot;&quot; to prevent syncing for AZURE_SYNC_PERIOD</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/">v2.8.0 Breaking Changes</a>.</p>
-<h3 id="v260">v2.6.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>VirtualMachineScaleSet ProtectedSettings now a SecretReference</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/">v2.6.0 Breaking Changes</a>.</p>
-<h3 id="v240">v2.4.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>Beta CRD versions have been removed</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/">v2.4.0 Breaking Changes</a>.</p>
-<h3 id="v220">v2.2.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>ManagedClusters ManagedClusterServicePrincipalProfile.Secret field is now marked as a SecretReference</li>
-<li>Remove un-used Status properties</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/">v2.2.0 Breaking Changes</a>.</p>
-<h3 id="v210">v2.1.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>The operator no longer installs CRDs by default.</li>
-<li><code>serviceoperator.azure.com/credential-from</code> no longer supports secret references that are outside the namespace the resource is in</li>
-<li>Upgrades from releases prior to <code>v2.0.0-beta.5</code> are still disallowed (same as v2.0.0)</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/">v2.1.0 Breaking Changes</a>.</p>
-<h3 id="v200">v2.0.0</h3>
-<p>Breaking changes are:</p>
-<ul>
-<li>Upgrades from releases prior to <code>v2.0.0-beta.5</code> are disallowed</li>
-<li>Alpha CRD versions have been removed</li>
-<li>Structure change for ResourceGroup status</li>
-</ul>
-<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/">v2.0.0 Breaking Changes</a>.</p>
-<h3 id="v200-beta4">v2.0.0-beta.4</h3>
-<p>In the <code>v2.0.0-beta.4</code> release of Azure Service Operator (ASO) we pivoted to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brought with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.</p>
-<p>Unfortunately, this change also brings with it a number of breaking changes requiring simple manual modifications to pre-existing resources.</p>
-<p>Breaking changes are:</p>
-<ul>
-<li>The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option.</li>
-<li>Enumerated properties that previously had a base type but no enumeration values have been updated to include the enumeration values.</li>
-<li>Objects that were incorrectly generated as nested properties have been directly inlined</li>
-<li>ARM Id fields are now correctly identified as references, allowing linking to a resource in Kubernetes instead of only in Azure.</li>
-<li>Status properties that cannot be set by the end user on a Spec that were included in the Spec in error</li>
-<li>Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.</li>
-<li>Properties that previously included on Spec but actually had no function have been removed.</li>
-<li>Validation rules have been tightened, or added to properties that previously had no validation rules.</li>
-</ul>
-<p>For detailed information, including an exhaustive list of all affected resource properties, see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/">v2.0.0-beta.4 Breaking Changes</a>.</p>
+<h3 id="resource-versioning">Resource Versioning</h3>
+<p>As first reported in <a href="https://github.com/Azure/azure-service-operator/issues/4147">#4147</a> and explored in the ADR <a href="/azure-service-operator/design/adr-2025-05-version-priority/">Resources and Version Priority</a>, the way we&rsquo;re defining our resource versions in ASO is not compliant with Kubernetes rules.</p>
+<p>This failure results in Kubernetes&rsquo; <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-priority">version priority</a> rules consistently selecting the <em>oldest</em> version of any ASO resource.</p>
+<p>This has resulted in confusion, and more importantly, to <em>data loss for users as they work with their resources</em>. (See <a href="https://github.com/Azure/azure-service-operator/issues/4723">ASO #4723</a>, <a href="https://github.com/kubernetes-sigs/cluster-api-provider-azure/issues/5168">CAPZ #5168</a>, and <a href="https://github.com/kubernetes-sigs/cluster-api-provider-azure/issues/5649">CAPZ #5649</a> for examples.)</p>
+<p>In upcoming releases of ASO, we&rsquo;re going to gradually migrate resources to a new compliant approach using <code>v1api</code> as a consistent prefix to just <code>v</code>.</p>
+<p>This will, eventually, be a breaking change but we&rsquo;re going to try and make this as painless as possible by introducing the new versioning scheme alongside the old one (we&rsquo;ll support both <code>v1api20250701</code> and <code>v20250701</code> of the resource simultaneously) wherever possible.</p>
 <h2 id="policies">Policies</h2>
 <p>We know that breaking changes are a problem for many of our users, so we&rsquo;re making the following commitments to keep such things to a minimum.</p>
 <p><strong>No breaking changes to existing resource versions</strong></p>
@@ -975,6 +897,12 @@ There&rsquo;s also a possibilty of a change ocurring upstream, but we consider t
     
     
     <hr class="panel-line">
+        <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/">v2.15.0 Breaking Changes</a>
+                </h5>
+                <p></p>
+            </div>
         <div class="entry">
                 <h5>
                     <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/">v2.11.0 Breaking Changes</a>

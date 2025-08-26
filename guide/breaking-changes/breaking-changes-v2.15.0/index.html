@@ -17,30 +17,34 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>insights.azure.com/v1api20171001 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2017-10-01” PricingPlan Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current
-Used by: PricingPlanList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_SpecOptional status PricingPlan_STATUSOptional PricingPlan_Spec Property Description Type cap Daily data volume cap in GB. float64Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PricingPlanOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a insights.azure.com/Component resource genruntime.KnownResourceReferenceRequired planType Pricing Plan Type Name. stringOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional warningThreshold Reserved, not used for now. intOptional PricingPlan_STATUS Property Description Type cap Daily data volume cap in GB. float64Optional conditions The observed state of the resource conditions.Condition[]Optional id Azure resource Id. stringOptional maxHistoryCap Maximum daily data volume cap that the user can set for this component. float64Optional name Azure resource name. stringOptional planType Pricing Plan Type Name. stringOptional resetHour Daily data volume cap UTC reset hour. intOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional type Azure resource type. stringOptional warningThreshold Reserved, not used for now. intOptional PricingPlanList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20171001/">
+<title>v2.15.0 Breaking Changes | Azure Service Operator</title>
+<meta name="description" content="Breaking changes Improvements to our code generator have resulted in some properties now being more tightly validated, with better alignment to the requirements of the associated Azure resources.
+Some invalid resources that were previously accepted by ASO only to fail when reconciled will now be rejected up front. Valid resources will be unaffected.
+Affected properties are:
+Group Resource Property kubernetesconfiguration fluxConfiguration spec.ociRepository.url machinelearningservices workspacesConnection spec.properties.oAuth2.credentials.authUrl managedidentity federatedIdentityCredential spec.issuer">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="insights.azure.com/v1api20171001">
-  <meta property="og:description" content="APIVersion Value Description “2017-10-01” PricingPlan Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current
-Used by: PricingPlanList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_SpecOptional status PricingPlan_STATUSOptional PricingPlan_Spec Property Description Type cap Daily data volume cap in GB. float64Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PricingPlanOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a insights.azure.com/Component resource genruntime.KnownResourceReferenceRequired planType Pricing Plan Type Name. stringOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional warningThreshold Reserved, not used for now. intOptional PricingPlan_STATUS Property Description Type cap Daily data volume cap in GB. float64Optional conditions The observed state of the resource conditions.Condition[]Optional id Azure resource Id. stringOptional maxHistoryCap Maximum daily data volume cap that the user can set for this component. float64Optional name Azure resource name. stringOptional planType Pricing Plan Type Name. stringOptional resetHour Daily data volume cap UTC reset hour. intOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional type Azure resource type. stringOptional warningThreshold Reserved, not used for now. intOptional PricingPlanList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current">
+  <meta property="og:title" content="v2.15.0 Breaking Changes">
+  <meta property="og:description" content="Breaking changes Improvements to our code generator have resulted in some properties now being more tightly validated, with better alignment to the requirements of the associated Azure resources.
+Some invalid resources that were previously accepted by ASO only to fail when reconciled will now be rejected up front. Valid resources will be unaffected.
+Affected properties are:
+Group Resource Property kubernetesconfiguration fluxConfiguration spec.ociRepository.url machinelearningservices workspacesConnection spec.properties.oAuth2.credentials.authUrl managedidentity federatedIdentityCredential spec.issuer">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="reference">
+    <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="insights.azure.com/v1api20171001">
-  <meta itemprop="description" content="APIVersion Value Description “2017-10-01” PricingPlan Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current
-Used by: PricingPlanList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_SpecOptional status PricingPlan_STATUSOptional PricingPlan_Spec Property Description Type cap Daily data volume cap in GB. float64Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PricingPlanOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a insights.azure.com/Component resource genruntime.KnownResourceReferenceRequired planType Pricing Plan Type Name. stringOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional warningThreshold Reserved, not used for now. intOptional PricingPlan_STATUS Property Description Type cap Daily data volume cap in GB. float64Optional conditions The observed state of the resource conditions.Condition[]Optional id Azure resource Id. stringOptional maxHistoryCap Maximum daily data volume cap that the user can set for this component. float64Optional name Azure resource name. stringOptional planType Pricing Plan Type Name. stringOptional resetHour Daily data volume cap UTC reset hour. intOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional type Azure resource type. stringOptional warningThreshold Reserved, not used for now. intOptional PricingPlanList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current">
-  <meta itemprop="wordCount" content="529">
+  <meta itemprop="name" content="v2.15.0 Breaking Changes">
+  <meta itemprop="description" content="Breaking changes Improvements to our code generator have resulted in some properties now being more tightly validated, with better alignment to the requirements of the associated Azure resources.
+Some invalid resources that were previously accepted by ASO only to fail when reconciled will now be rejected up front. Valid resources will be unaffected.
+Affected properties are:
+Group Resource Property kubernetesconfiguration fluxConfiguration spec.ociRepository.url machinelearningservices workspacesConnection spec.properties.oAuth2.credentials.authUrl managedidentity federatedIdentityCredential spec.issuer">
+  <meta itemprop="wordCount" content="68">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="insights.azure.com/v1api20171001">
-  <meta name="twitter:description" content="APIVersion Value Description “2017-10-01” PricingPlan Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current
-Used by: PricingPlanList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_SpecOptional status PricingPlan_STATUSOptional PricingPlan_Spec Property Description Type cap Daily data volume cap in GB. float64Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PricingPlanOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a insights.azure.com/Component resource genruntime.KnownResourceReferenceRequired planType Pricing Plan Type Name. stringOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional warningThreshold Reserved, not used for now. intOptional PricingPlan_STATUS Property Description Type cap Daily data volume cap in GB. float64Optional conditions The observed state of the resource conditions.Condition[]Optional id Azure resource Id. stringOptional maxHistoryCap Maximum daily data volume cap that the user can set for this component. float64Optional name Azure resource name. stringOptional planType Pricing Plan Type Name. stringOptional resetHour Daily data volume cap UTC reset hour. intOptional stopSendNotificationWhenHitCap Do not send a notification email when the daily data volume cap is met. boolOptional stopSendNotificationWhenHitThreshold Reserved, not used for now. boolOptional type Azure resource type. stringOptional warningThreshold Reserved, not used for now. intOptional PricingPlanList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current">
+  <meta name="twitter:title" content="v2.15.0 Breaking Changes">
+  <meta name="twitter:description" content="Breaking changes Improvements to our code generator have resulted in some properties now being more tightly validated, with better alignment to the requirements of the associated Azure resources.
+Some invalid resources that were previously accepted by ASO only to fail when reconciled will now be rejected up front. Valid resources will be unaffected.
+Affected properties are:
+Group Resource Property kubernetesconfiguration fluxConfiguration spec.ociRepository.url machinelearningservices workspacesConnection spec.properties.oAuth2.credentials.authUrl managedidentity federatedIdentityCredential spec.issuer">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -57,7 +61,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -66,7 +70,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -100,20 +104,20 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -124,11 +128,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -141,57 +145,57 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="td-sidebar-nav-active-item">v2.15.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.9.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -212,7 +216,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -238,10 +242,10 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
@@ -250,7 +254,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" title="alertsmanagement.azure.com/v1api20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">v1api20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -259,21 +263,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" title="apimanagement.azure.com/v1api20230501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">v1api20230501preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
   <a href="/azure-service-operator/reference/app/v1api20240301/" title="app.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" title="appconfiguration.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -282,14 +286,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" title="authorization.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" title="batch.azure.com/v1api20210101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">v1api20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -306,7 +310,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/cache/v1api20250401/" title="cache.azure.com/v1api20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20250401"><span class="">v1api20250401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -315,14 +319,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" title="cdn.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecognitiveservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecognitiveservices-li">
   <a href="/azure-service-operator/reference/cognitiveservices/" title="CognitiveServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecognitiveservices"><span class="">CognitiveServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601-li">
   <a href="/azure-service-operator/reference/cognitiveservices/v1api20250601/" title="cognitiveservices.azure.com/v1api20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601"><span class="">v1api20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -339,14 +343,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/compute/v1api20240302/" title="compute.azure.com/v1api20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">v1api20240302</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" title="containerinstance.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -355,7 +359,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -374,14 +378,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/containerservice/v1api20240901/" title="containerservice.azure.com/v1api20240901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">v1api20240901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" title="datafactory.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -390,14 +394,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" title="dataprotection.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -412,7 +416,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" title="dbformysql.azure.com/v1api20231230" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">v1api20231230</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -429,14 +433,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20240801/" title="dbforpostgresql.azure.com/v1api20240801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20240801"><span class="">v1api20240801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -449,21 +453,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/documentdb/v1api20240815/" title="documentdb.azure.com/v1api20240815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">v1api20240815</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceentra-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceentra-li">
   <a href="/azure-service-operator/reference/entra/" title="Entra Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceentra"><span class="">Entra</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceentrav1-li">
   <a href="/azure-service-operator/reference/entra/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceentrav1"><span class="">entra.azure.com/</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" title="eventgrid.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -472,43 +476,43 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
-  <a href="/azure-service-operator/reference/insights/v1api20171001/" title="insights.azure.com/v1api20171001" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20171001"><span class="td-sidebar-nav-active-item">v1api20171001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
+  <a href="/azure-service-operator/reference/insights/v1api20171001/" title="insights.azure.com/v1api20171001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20171001"><span class="">v1api20171001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
   <a href="/azure-service-operator/reference/insights/v1api20180301/" title="insights.azure.com/v1api20180301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180301"><span class="">v1api20180301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20180501preview/" title="insights.azure.com/v1api20180501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">v1api20180501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
   <a href="/azure-service-operator/reference/insights/v1api20200202/" title="insights.azure.com/v1api20200202" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">v1api20200202</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20201001-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20201001-li">
   <a href="/azure-service-operator/reference/insights/v1api20201001/" title="insights.azure.com/v1api20201001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20201001"><span class="">v1api20201001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20210501preview/" title="insights.azure.com/v1api20210501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="">v1api20210501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
   <a href="/azure-service-operator/reference/insights/v1api20220615/" title="insights.azure.com/v1api20220615" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">v1api20220615</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
   <a href="/azure-service-operator/reference/insights/v1api20221001/" title="insights.azure.com/v1api20221001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20221001"><span class="">v1api20221001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20230101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230101-li">
   <a href="/azure-service-operator/reference/insights/v1api20230101/" title="insights.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">v1api20230101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20230311-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230311-li">
   <a href="/azure-service-operator/reference/insights/v1api20230311/" title="insights.azure.com/v1api20230311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230311"><span class="">v1api20230311</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
   <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="">v1api20230601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20240101preview/" title="insights.azure.com/v1api20240101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">v1api20240101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -517,7 +521,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" title="keyvault.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
@@ -526,14 +530,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekusto-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekusto-li">
   <a href="/azure-service-operator/reference/kusto/" title="Kusto Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekusto"><span class="">Kusto</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20230815-li">
   <a href="/azure-service-operator/reference/kusto/v1api20230815/" title="kusto.azure.com/v1api20230815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov1api20230815"><span class="">v1api20230815</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -542,7 +546,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" title="machinelearningservices.azure.com/v1api20240401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -553,14 +557,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" title="managedidentity.azure.com/v1api20230131" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -583,35 +587,35 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/network/v1api20240601/" title="network.azure.com/v1api20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">v1api20240601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
   <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" title="notificationhubs.azure.com/v1api20230901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">v1api20230901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" title="operationalinsights.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
@@ -620,7 +624,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/search/v1api20231101/" title="search.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -633,7 +637,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -642,7 +646,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" title="signalrservice.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -651,7 +655,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/sql/v1api20211101/" title="sql.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -662,21 +666,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
   <a href="/azure-service-operator/reference/storage/v1api20230101/" title="storage.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" title="subscription.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" title="synapse.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -836,17 +840,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#PricingPlan">PricingPlan</a>
-      <ul>
-        <li><a href="#PricingPlan_Spec">PricingPlan_Spec</a></li>
-        <li><a href="#PricingPlan_STATUS">PricingPlan_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#PricingPlanList">PricingPlanList</a></li>
-    <li><a href="#PricingPlan_Spec">PricingPlan_Spec</a></li>
-    <li><a href="#PricingPlan_STATUS">PricingPlan_STATUS</a></li>
-    <li><a href="#PricingPlanOperatorSpec">PricingPlanOperatorSpec</a></li>
+    <li><a href="#breaking-changes">Breaking changes</a></li>
   </ul>
 </nav>
       </div>
@@ -861,348 +855,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PricingPlan_Spe
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
+    <a href="/azure-service-operator/guide/">Guide</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/insights/">Insights</a></li>
+    <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v1api20171001</li>
+    v2.15.0</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>insights.azure.com/v1api20171001</h1>
+	<h1>v2.15.0 Breaking Changes</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<hr>
-<h2 id="APIVersion">APIVersion</h2>
+	<h2 id="breaking-changes">Breaking changes</h2>
+<p>Improvements to our code generator have resulted in some properties now being more tightly validated, with better alignment to the requirements of the associated Azure resources.</p>
+<p>Some invalid resources that were previously accepted by ASO only to fail when reconciled will now be rejected up front. Valid resources will be unaffected.</p>
+<p>Affected properties are:</p>
 <table>
   <thead>
       <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;2017-10-01&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PricingPlan">PricingPlan</h2>
-<p>Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current</p>
-<p>Used by: <a href="#PricingPlanList">PricingPlanList</a>.</p>
-<table>
-  <thead>
-      <tr>
+          <th>Group</th>
+          <th>Resource</th>
           <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
+          <td>kubernetesconfiguration</td>
+          <td>fluxConfiguration</td>
+          <td>spec.ociRepository.url</td>
       </tr>
       <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
+          <td>machinelearningservices</td>
+          <td>workspacesConnection</td>
+          <td>spec.properties.oAuth2.credentials.authUrl</td>
       </tr>
       <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#PricingPlan_Spec">PricingPlan_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#PricingPlan_STATUS">PricingPlan_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="PricingPlan_Spec">PricingPlan_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>cap</td>
-          <td>Daily data volume cap in GB.</td>
-          <td>float64<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#PricingPlanOperatorSpec">PricingPlanOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a insights.azure.com/Component resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>planType</td>
-          <td>Pricing Plan Type Name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitCap</td>
-          <td>Do not send a notification email when the daily data volume cap is met.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>warningThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="PricingPlan_STATUS">PricingPlan_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>cap</td>
-          <td>Daily data volume cap in GB.</td>
-          <td>float64<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Azure resource Id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxHistoryCap</td>
-          <td>Maximum daily data volume cap that the user can set for this component.</td>
-          <td>float64<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Azure resource name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>planType</td>
-          <td>Pricing Plan Type Name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>resetHour</td>
-          <td>Daily data volume cap UTC reset hour.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitCap</td>
-          <td>Do not send a notification email when the daily data volume cap is met.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Azure resource type.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>warningThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PricingPlanList">PricingPlanList</h2>
-<p>Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.insights/​components/​{resourceName}/​pricingPlans/​current</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#PricingPlan">PricingPlan[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PricingPlan_Spec">PricingPlan_Spec</h2>
-<p>Used by: <a href="#PricingPlan">PricingPlan</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>cap</td>
-          <td>Daily data volume cap in GB.</td>
-          <td>float64<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#PricingPlanOperatorSpec">PricingPlanOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a insights.azure.com/Component resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>planType</td>
-          <td>Pricing Plan Type Name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitCap</td>
-          <td>Do not send a notification email when the daily data volume cap is met.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>warningThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PricingPlan_STATUS">PricingPlan_STATUS</h2>
-<p>Used by: <a href="#PricingPlan">PricingPlan</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>cap</td>
-          <td>Daily data volume cap in GB.</td>
-          <td>float64<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Azure resource Id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxHistoryCap</td>
-          <td>Maximum daily data volume cap that the user can set for this component.</td>
-          <td>float64<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Azure resource name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>planType</td>
-          <td>Pricing Plan Type Name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>resetHour</td>
-          <td>Daily data volume cap UTC reset hour.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitCap</td>
-          <td>Do not send a notification email when the daily data volume cap is met.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>stopSendNotificationWhenHitThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Azure resource type.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>warningThreshold</td>
-          <td>Reserved, not used for now.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PricingPlanOperatorSpec">PricingPlanOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#PricingPlan_Spec">PricingPlan_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>managedidentity</td>
+          <td>federatedIdentityCredential</td>
+          <td>spec.issuer</td>
       </tr>
   </tbody>
 </table>

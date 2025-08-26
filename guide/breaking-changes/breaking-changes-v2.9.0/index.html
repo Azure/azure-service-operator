@@ -151,7 +151,9 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
@@ -831,7 +833,15 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#delegatedmanagedidentityresourceid-is-now-a-secret">DelegatedManagedIdentityResourceId is now a secret</a></li>
+    <li><a href="#containerservice-version-v1api20230202preview-has-been-deleted">ContainerService version v1api20230202preview has been deleted</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
@@ -855,7 +865,7 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
 	<header class="article-meta">
 		
 </header>
-	<h1 id="delegatedmanagedidentityresourceid-is-now-a-secret">DelegatedManagedIdentityResourceId is now a secret</h1>
+	<h2 id="delegatedmanagedidentityresourceid-is-now-a-secret">DelegatedManagedIdentityResourceId is now a secret</h2>
 <p>The RoleAssignment property <code>.spec.delegatedManagedIdentityResourceId</code> has been changed from a string to a
 SecretReference and renamed to <code>.spec.delegatedManagedIdentityResourceReference</code>.</p>
 <p>We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security
@@ -863,7 +873,7 @@ problem and as such we&rsquo;ve decided to make a break to correct this issue.</
 <p><strong>Action required:</strong> If the <code>authorization.azure.com/RoleAssignment</code> resource is used in your cluster, and if you are
 using the <code>DelegatedManagedIdentityResourceId</code> property, you&rsquo;ll need to change your resource to use the new
 <code>DelegatedManagedIdentityResourceReference</code> property, pulling the value from a secret.</p>
-<h1 id="containerservice-version-v1api20230202preview-has-been-deleted">ContainerService version v1api20230202preview has been deleted</h1>
+<h2 id="containerservice-version-v1api20230202preview-has-been-deleted">ContainerService version v1api20230202preview has been deleted</h2>
 <p>The AKS preview version <code>2023-02-02-preview</code> has been deprecated by AKS and is no longer supported. We&rsquo;ve removed it
 from the operator to prevent unrecoverable errors from occurring.</p>
 <p><strong>Action required:</strong></p>
