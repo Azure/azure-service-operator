@@ -78,7 +78,7 @@ func TestVersionConfiguration_UnmarshalYAML_WhenDuplicateTypes_ReturnsError(t *t
 
 	yamlContent := `
 Person:
-  $export: true
+  $exportAs: Person
 Person:
   $renameTo: "Individual"
 `
@@ -96,7 +96,7 @@ func TestVersionConfiguration_UnmarshalYAML_WhenDuplicateTypesCaseInsensitive_Re
 
 	yamlContent := `
 person:
-  $export: true
+  $exportAs: person
 PERSON:
   $renameTo: "Individual"
 `
