@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   <meta itemprop="description" content="APIVersion Value Description “2023-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
 Used by: DataCollectionEndpointList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. DataCollectionEndpoint_Kind_SpecOptional location The geo-location where the resource lives. stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Failover configuration on this endpoint. This property is READ-ONLY. FailoverConfigurationSpec_STATUSOptional id Fully qualified ID of the resource. stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. DataCollectionEndpointResource_Kind_STATUSOptional location The geo-location where the resource lives. stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property is READ-ONLY. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource. stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. DataCollectionEndpoint_ProvisioningState_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
-  <meta itemprop="wordCount" content="2021">
+  <meta itemprop="wordCount" content="7372">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20230311">
   <meta name="twitter:description" content="APIVersion Value Description “2023-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
@@ -264,6 +264,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
   <a href="/azure-service-operator/reference/app/v1api20240301/" title="app.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">v1api20240301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20250101-li">
+  <a href="/azure-service-operator/reference/app/v1api20250101/" title="app.azure.com/v1api20250101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20250101"><span class="">v1api20250101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
@@ -337,6 +339,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   <a href="/azure-service-operator/reference/compute/v1api20220702/" title="compute.azure.com/v1api20220702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">v1api20220702</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20240302-li">
   <a href="/azure-service-operator/reference/compute/v1api20240302/" title="compute.azure.com/v1api20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">v1api20240302</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20241101-li">
+  <a href="/azure-service-operator/reference/compute/v1api20241101/" title="compute.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
@@ -531,6 +535,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20230815-li">
   <a href="/azure-service-operator/reference/kusto/v1api20230815/" title="kusto.azure.com/v1api20230815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov1api20230815"><span class="">v1api20230815</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20240413-li">
+  <a href="/azure-service-operator/reference/kusto/v1api20240413/" title="kusto.azure.com/v1api20240413" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov1api20240413"><span class="">v1api20240413</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
@@ -844,6 +850,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </ul>
     </li>
     <li><a href="#DataCollectionEndpointList">DataCollectionEndpointList</a></li>
+    <li><a href="#DataCollectionRule">DataCollectionRule</a>
+      <ul>
+        <li><a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a></li>
+        <li><a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a></li>
+      </ul>
+    </li>
     <li><a href="#DataCollectionRuleAssociation">DataCollectionRuleAssociation</a>
       <ul>
         <li><a href="#DataCollectionRuleAssociation_Spec">DataCollectionRuleAssociation_Spec</a></li>
@@ -851,17 +863,33 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </ul>
     </li>
     <li><a href="#DataCollectionRuleAssociationList">DataCollectionRuleAssociationList</a></li>
+    <li><a href="#DataCollectionRuleList">DataCollectionRuleList</a></li>
     <li><a href="#DataCollectionEndpoint_Spec">DataCollectionEndpoint_Spec</a></li>
     <li><a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a></li>
+    <li><a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a></li>
     <li><a href="#DataCollectionRuleAssociation_Spec">DataCollectionRuleAssociation_Spec</a></li>
     <li><a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a></li>
+    <li><a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a></li>
+    <li><a href="#AgentSettingsSpec">AgentSettingsSpec</a></li>
+    <li><a href="#AgentSettingsSpec_STATUS">AgentSettingsSpec_STATUS</a></li>
     <li><a href="#ConfigurationAccessEndpointSpec_STATUS">ConfigurationAccessEndpointSpec_STATUS</a></li>
     <li><a href="#DataCollectionEndpoint_Kind_Spec">DataCollectionEndpoint_Kind_Spec</a></li>
     <li><a href="#DataCollectionEndpoint_ProvisioningState_STATUS">DataCollectionEndpoint_ProvisioningState_STATUS</a></li>
     <li><a href="#DataCollectionEndpointOperatorSpec">DataCollectionEndpointOperatorSpec</a></li>
     <li><a href="#DataCollectionEndpointResource_Kind_STATUS">DataCollectionEndpointResource_Kind_STATUS</a></li>
+    <li><a href="#DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</a></li>
+    <li><a href="#DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</a></li>
     <li><a href="#DataCollectionRuleAssociation_ProvisioningState_STATUS">DataCollectionRuleAssociation_ProvisioningState_STATUS</a></li>
     <li><a href="#DataCollectionRuleAssociationOperatorSpec">DataCollectionRuleAssociationOperatorSpec</a></li>
+    <li><a href="#DataCollectionRuleOperatorSpec">DataCollectionRuleOperatorSpec</a></li>
+    <li><a href="#DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</a></li>
+    <li><a href="#DataFlow">DataFlow</a></li>
+    <li><a href="#DataFlow_STATUS">DataFlow_STATUS</a></li>
+    <li><a href="#DataSourcesSpec">DataSourcesSpec</a></li>
+    <li><a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a></li>
+    <li><a href="#DestinationsSpec">DestinationsSpec</a></li>
+    <li><a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a></li>
+    <li><a href="#EndpointsSpec_STATUS">EndpointsSpec_STATUS</a></li>
     <li><a href="#FailoverConfigurationSpec_STATUS">FailoverConfigurationSpec_STATUS</a></li>
     <li><a href="#LogsIngestionEndpointSpec_STATUS">LogsIngestionEndpointSpec_STATUS</a></li>
     <li><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a></li>
@@ -871,17 +899,101 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#NetworkRuleSet">NetworkRuleSet</a></li>
     <li><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a></li>
     <li><a href="#PrivateLinkScopedResource_STATUS">PrivateLinkScopedResource_STATUS</a></li>
+    <li><a href="#ReferencesSpec">ReferencesSpec</a></li>
+    <li><a href="#ReferencesSpec_STATUS">ReferencesSpec_STATUS</a></li>
+    <li><a href="#StreamDeclaration">StreamDeclaration</a></li>
+    <li><a href="#StreamDeclaration_STATUS">StreamDeclaration_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#AdxDestination">AdxDestination</a></li>
+    <li><a href="#AdxDestination_STATUS">AdxDestination_STATUS</a></li>
+    <li><a href="#AgentSetting">AgentSetting</a></li>
+    <li><a href="#AgentSetting_STATUS">AgentSetting_STATUS</a></li>
+    <li><a href="#AzureMonitorMetricsDestination">AzureMonitorMetricsDestination</a></li>
+    <li><a href="#AzureMonitorMetricsDestination_STATUS">AzureMonitorMetricsDestination_STATUS</a></li>
+    <li><a href="#ColumnDefinition">ColumnDefinition</a></li>
+    <li><a href="#ColumnDefinition_STATUS">ColumnDefinition_STATUS</a></li>
+    <li><a href="#DataFlow_Streams">DataFlow_Streams</a></li>
+    <li><a href="#DataFlow_Streams_STATUS">DataFlow_Streams_STATUS</a></li>
+    <li><a href="#DataImportSources">DataImportSources</a></li>
+    <li><a href="#DataImportSources_STATUS">DataImportSources_STATUS</a></li>
+    <li><a href="#EnrichmentData">EnrichmentData</a></li>
+    <li><a href="#EnrichmentData_STATUS">EnrichmentData_STATUS</a></li>
+    <li><a href="#EventHubDestination">EventHubDestination</a></li>
+    <li><a href="#EventHubDestination_STATUS">EventHubDestination_STATUS</a></li>
+    <li><a href="#EventHubDirectDestination">EventHubDirectDestination</a></li>
+    <li><a href="#EventHubDirectDestination_STATUS">EventHubDirectDestination_STATUS</a></li>
+    <li><a href="#ExtensionDataSource">ExtensionDataSource</a></li>
+    <li><a href="#ExtensionDataSource_STATUS">ExtensionDataSource_STATUS</a></li>
+    <li><a href="#IisLogsDataSource">IisLogsDataSource</a></li>
+    <li><a href="#IisLogsDataSource_STATUS">IisLogsDataSource_STATUS</a></li>
     <li><a href="#LocationSpec_STATUS">LocationSpec_STATUS</a></li>
+    <li><a href="#LogAnalyticsDestination">LogAnalyticsDestination</a></li>
+    <li><a href="#LogAnalyticsDestination_STATUS">LogAnalyticsDestination_STATUS</a></li>
+    <li><a href="#LogFilesDataSource">LogFilesDataSource</a></li>
+    <li><a href="#LogFilesDataSource_STATUS">LogFilesDataSource_STATUS</a></li>
     <li><a href="#ManagedServiceIdentityType">ManagedServiceIdentityType</a></li>
     <li><a href="#ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</a></li>
+    <li><a href="#MicrosoftFabricDestination">MicrosoftFabricDestination</a></li>
+    <li><a href="#MicrosoftFabricDestination_STATUS">MicrosoftFabricDestination_STATUS</a></li>
+    <li><a href="#MonitoringAccountDestination">MonitoringAccountDestination</a></li>
+    <li><a href="#MonitoringAccountDestination_STATUS">MonitoringAccountDestination_STATUS</a></li>
     <li><a href="#NetworkRuleSet_PublicNetworkAccess">NetworkRuleSet_PublicNetworkAccess</a></li>
     <li><a href="#NetworkRuleSet_PublicNetworkAccess_STATUS">NetworkRuleSet_PublicNetworkAccess_STATUS</a></li>
+    <li><a href="#PerfCounterDataSource">PerfCounterDataSource</a></li>
+    <li><a href="#PerfCounterDataSource_STATUS">PerfCounterDataSource_STATUS</a></li>
+    <li><a href="#PlatformTelemetryDataSource">PlatformTelemetryDataSource</a></li>
+    <li><a href="#PlatformTelemetryDataSource_STATUS">PlatformTelemetryDataSource_STATUS</a></li>
+    <li><a href="#PrometheusForwarderDataSource">PrometheusForwarderDataSource</a></li>
+    <li><a href="#PrometheusForwarderDataSource_STATUS">PrometheusForwarderDataSource_STATUS</a></li>
+    <li><a href="#StorageBlobDestination">StorageBlobDestination</a></li>
+    <li><a href="#StorageBlobDestination_STATUS">StorageBlobDestination_STATUS</a></li>
+    <li><a href="#StorageTableDestination">StorageTableDestination</a></li>
+    <li><a href="#StorageTableDestination_STATUS">StorageTableDestination_STATUS</a></li>
+    <li><a href="#SyslogDataSource">SyslogDataSource</a></li>
+    <li><a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a></li>
     <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
     <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
+    <li><a href="#WindowsEventLogDataSource">WindowsEventLogDataSource</a></li>
+    <li><a href="#WindowsEventLogDataSource_STATUS">WindowsEventLogDataSource_STATUS</a></li>
+    <li><a href="#WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource</a></li>
+    <li><a href="#WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS</a></li>
+    <li><a href="#AgentSetting_Name">AgentSetting_Name</a></li>
+    <li><a href="#AgentSetting_Name_STATUS">AgentSetting_Name_STATUS</a></li>
+    <li><a href="#ColumnDefinition_Type">ColumnDefinition_Type</a></li>
+    <li><a href="#ColumnDefinition_Type_STATUS">ColumnDefinition_Type_STATUS</a></li>
+    <li><a href="#EventHubDataSource">EventHubDataSource</a></li>
+    <li><a href="#EventHubDataSource_STATUS">EventHubDataSource_STATUS</a></li>
+    <li><a href="#ExtensionDataSource_Streams">ExtensionDataSource_Streams</a></li>
+    <li><a href="#ExtensionDataSource_Streams_STATUS">ExtensionDataSource_Streams_STATUS</a></li>
     <li><a href="#LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</a></li>
+    <li><a href="#LogFilesDataSource_Format">LogFilesDataSource_Format</a></li>
+    <li><a href="#LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</a></li>
+    <li><a href="#LogFileSettings">LogFileSettings</a></li>
+    <li><a href="#LogFileSettings_STATUS">LogFileSettings_STATUS</a></li>
+    <li><a href="#PerfCounterDataSource_Streams">PerfCounterDataSource_Streams</a></li>
+    <li><a href="#PerfCounterDataSource_Streams_STATUS">PerfCounterDataSource_Streams_STATUS</a></li>
+    <li><a href="#PrometheusForwarderDataSource_Streams">PrometheusForwarderDataSource_Streams</a></li>
+    <li><a href="#PrometheusForwarderDataSource_Streams_STATUS">PrometheusForwarderDataSource_Streams_STATUS</a></li>
+    <li><a href="#StorageBlob">StorageBlob</a></li>
+    <li><a href="#StorageBlob_STATUS">StorageBlob_STATUS</a></li>
+    <li><a href="#SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames</a></li>
+    <li><a href="#SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS</a></li>
+    <li><a href="#SyslogDataSource_LogLevels">SyslogDataSource_LogLevels</a></li>
+    <li><a href="#SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS</a></li>
+    <li><a href="#SyslogDataSource_Streams">SyslogDataSource_Streams</a></li>
+    <li><a href="#SyslogDataSource_Streams_STATUS">SyslogDataSource_Streams_STATUS</a></li>
+    <li><a href="#WindowsEventLogDataSource_Streams">WindowsEventLogDataSource_Streams</a></li>
+    <li><a href="#WindowsEventLogDataSource_Streams_STATUS">WindowsEventLogDataSource_Streams_STATUS</a></li>
+    <li><a href="#WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter</a></li>
+    <li><a href="#WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS</a></li>
+    <li><a href="#LogFileTextSettings">LogFileTextSettings</a></li>
+    <li><a href="#LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</a></li>
+    <li><a href="#StorageBlob_LookupType">StorageBlob_LookupType</a></li>
+    <li><a href="#StorageBlob_LookupType_STATUS">StorageBlob_LookupType_STATUS</a></li>
+    <li><a href="#LogFileTextSettings_RecordStartTimestampFormat">LogFileTextSettings_RecordStartTimestampFormat</a></li>
+    <li><a href="#LogFileTextSettings_RecordStartTimestampFormat_STATUS">LogFileTextSettings_RecordStartTimestampFormat_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1156,6 +1268,249 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="DataCollectionRule">DataCollectionRule</h2>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionRules_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionRules/​{dataCollectionRuleName}</p>
+<p>Used by: <a href="#DataCollectionRuleList">DataCollectionRuleList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="DataCollectionRule_Spec">DataCollectionRule_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>agentSettings</td>
+          <td>Agent settings used to modify agent behavior on a given host</td>
+          <td><a href="#AgentSettingsSpec">AgentSettingsSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataCollectionEndpointReference</td>
+          <td>The resource ID of the data collection endpoint that this rule can be used with.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataFlows</td>
+          <td>The specification of data flows.</td>
+          <td><a href="#DataFlow">DataFlow[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataSources</td>
+          <td>The specification of data sources. This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.</td>
+          <td><a href="#DataSourcesSpec">DataSourcesSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>description</td>
+          <td>Description of the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>destinations</td>
+          <td>The specification of destinations.</td>
+          <td><a href="#DestinationsSpec">DestinationsSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Managed service identity of the resource.</td>
+          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>The kind of the resource.</td>
+          <td><a href="#DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DataCollectionRuleOperatorSpec">DataCollectionRuleOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>references</td>
+          <td>Defines all the references that may be used in other sections of the DCR</td>
+          <td><a href="#ReferencesSpec">ReferencesSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streamDeclarations</td>
+          <td>Declaration of custom streams used in this rule.</td>
+          <td><a href="#StreamDeclaration">map[string]StreamDeclaration</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>agentSettings</td>
+          <td>Agent settings used to modify agent behavior on a given host</td>
+          <td><a href="#AgentSettingsSpec_STATUS">AgentSettingsSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataCollectionEndpointId</td>
+          <td>The resource ID of the data collection endpoint that this rule can be used with.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataFlows</td>
+          <td>The specification of data flows.</td>
+          <td><a href="#DataFlow_STATUS">DataFlow_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataSources</td>
+          <td>The specification of data sources. This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.</td>
+          <td><a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>description</td>
+          <td>Description of the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>destinations</td>
+          <td>The specification of destinations.</td>
+          <td><a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>endpoints</td>
+          <td>Defines the ingestion endpoints to send data to via this rule.</td>
+          <td><a href="#EndpointsSpec_STATUS">EndpointsSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>etag</td>
+          <td>Resource entity tag (ETag).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Managed service identity of the resource.</td>
+          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>immutableId</td>
+          <td>The immutable ID of this data collection rule. This property is READ-ONLY.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>The kind of the resource.</td>
+          <td><a href="#DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>metadata</td>
+          <td>Metadata about the resource</td>
+          <td><a href="#Metadata_STATUS">Metadata_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The resource provisioning state.</td>
+          <td><a href="#DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>references</td>
+          <td>Defines all the references that may be used in other sections of the DCR</td>
+          <td><a href="#ReferencesSpec_STATUS">ReferencesSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streamDeclarations</td>
+          <td>Declaration of custom streams used in this rule.</td>
+          <td><a href="#StreamDeclaration_STATUS">map[string]StreamDeclaration_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="DataCollectionRuleAssociation">DataCollectionRuleAssociation</h2>
 <p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionRuleAssociations_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}</p>
 <p>Used by: <a href="#DataCollectionRuleAssociationList">DataCollectionRuleAssociationList</a>.</p>
@@ -1324,6 +1679,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
           <td>items</td>
           <td></td>
           <td><a href="#DataCollectionRuleAssociation">DataCollectionRuleAssociation[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataCollectionRuleList">DataCollectionRuleList</h2>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionRules_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionRules/​{dataCollectionRuleName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#DataCollectionRule">DataCollectionRule[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1499,6 +1882,94 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="DataCollectionRule_Spec">DataCollectionRule_Spec</h2>
+<p>Used by: <a href="#DataCollectionRule">DataCollectionRule</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>agentSettings</td>
+          <td>Agent settings used to modify agent behavior on a given host</td>
+          <td><a href="#AgentSettingsSpec">AgentSettingsSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataCollectionEndpointReference</td>
+          <td>The resource ID of the data collection endpoint that this rule can be used with.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataFlows</td>
+          <td>The specification of data flows.</td>
+          <td><a href="#DataFlow">DataFlow[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataSources</td>
+          <td>The specification of data sources. This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.</td>
+          <td><a href="#DataSourcesSpec">DataSourcesSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>description</td>
+          <td>Description of the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>destinations</td>
+          <td>The specification of destinations.</td>
+          <td><a href="#DestinationsSpec">DestinationsSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Managed service identity of the resource.</td>
+          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>The kind of the resource.</td>
+          <td><a href="#DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DataCollectionRuleOperatorSpec">DataCollectionRuleOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>references</td>
+          <td>Defines all the references that may be used in other sections of the DCR</td>
+          <td><a href="#ReferencesSpec">ReferencesSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streamDeclarations</td>
+          <td>Declaration of custom streams used in this rule.</td>
+          <td><a href="#StreamDeclaration">map[string]StreamDeclaration</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="DataCollectionRuleAssociation_Spec">DataCollectionRuleAssociation_Spec</h2>
 <p>Used by: <a href="#DataCollectionRuleAssociation">DataCollectionRuleAssociation</a>.</p>
 <table>
@@ -1608,6 +2079,168 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
           <td>type</td>
           <td>The type of the resource.</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</h2>
+<p>Definition of ARM tracked top level resource.</p>
+<p>Used by: <a href="#DataCollectionRule">DataCollectionRule</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>agentSettings</td>
+          <td>Agent settings used to modify agent behavior on a given host</td>
+          <td><a href="#AgentSettingsSpec_STATUS">AgentSettingsSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataCollectionEndpointId</td>
+          <td>The resource ID of the data collection endpoint that this rule can be used with.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataFlows</td>
+          <td>The specification of data flows.</td>
+          <td><a href="#DataFlow_STATUS">DataFlow_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataSources</td>
+          <td>The specification of data sources. This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.</td>
+          <td><a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>description</td>
+          <td>Description of the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>destinations</td>
+          <td>The specification of destinations.</td>
+          <td><a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>endpoints</td>
+          <td>Defines the ingestion endpoints to send data to via this rule.</td>
+          <td><a href="#EndpointsSpec_STATUS">EndpointsSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>etag</td>
+          <td>Resource entity tag (ETag).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Managed service identity of the resource.</td>
+          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>immutableId</td>
+          <td>The immutable ID of this data collection rule. This property is READ-ONLY.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>The kind of the resource.</td>
+          <td><a href="#DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>metadata</td>
+          <td>Metadata about the resource</td>
+          <td><a href="#Metadata_STATUS">Metadata_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The resource provisioning state.</td>
+          <td><a href="#DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>references</td>
+          <td>Defines all the references that may be used in other sections of the DCR</td>
+          <td><a href="#ReferencesSpec_STATUS">ReferencesSpec_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streamDeclarations</td>
+          <td>Declaration of custom streams used in this rule.</td>
+          <td><a href="#StreamDeclaration_STATUS">map[string]StreamDeclaration_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AgentSettingsSpec">AgentSettingsSpec</h2>
+<p>An agent setting</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>logs</td>
+          <td>All the settings that are applicable to the logs agent (AMA)</td>
+          <td><a href="#AgentSetting">AgentSetting[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AgentSettingsSpec_STATUS">AgentSettingsSpec_STATUS</h2>
+<p>An agent setting</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>logs</td>
+          <td>All the settings that are applicable to the logs agent (AMA)</td>
+          <td><a href="#AgentSetting_STATUS">AgentSetting_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1730,6 +2363,62 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</h2>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Linux&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Windows&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</h2>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="DataCollectionRuleAssociation_ProvisioningState_STATUS">DataCollectionRuleAssociation_ProvisioningState_STATUS</h2>
 <p>Used by: <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>.</p>
 <table>
@@ -1790,6 +2479,418 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="DataCollectionRuleOperatorSpec">DataCollectionRuleOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</h2>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Linux&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Windows&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataFlow">DataFlow</h2>
+<p>Definition of which streams are sent to which destinations.</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>builtInTransform</td>
+          <td>The builtIn transform to transform stream data</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>captureOverflow</td>
+          <td>Flag to enable overflow column in LA destinations</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>destinations</td>
+          <td>List of destinations for this data flow.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>outputStream</td>
+          <td>The output stream of the transform. Only required if the transform changes data to a different stream.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams for this data flow.</td>
+          <td><a href="#DataFlow_Streams">DataFlow_Streams[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform stream data.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataFlow_STATUS">DataFlow_STATUS</h2>
+<p>Definition of which streams are sent to which destinations.</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>builtInTransform</td>
+          <td>The builtIn transform to transform stream data</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>captureOverflow</td>
+          <td>Flag to enable overflow column in LA destinations</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>destinations</td>
+          <td>List of destinations for this data flow.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>outputStream</td>
+          <td>The output stream of the transform. Only required if the transform changes data to a different stream.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams for this data flow.</td>
+          <td><a href="#DataFlow_Streams_STATUS">DataFlow_Streams_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform stream data.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataSourcesSpec">DataSourcesSpec</h2>
+<p>Specification of data sources that will be collected.</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>dataImports</td>
+          <td>Specifications of pull based data sources</td>
+          <td><a href="#DataImportSources">DataImportSources</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>extensions</td>
+          <td>The list of Azure VM extension data source configurations.</td>
+          <td><a href="#ExtensionDataSource">ExtensionDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>iisLogs</td>
+          <td>The list of IIS logs source configurations.</td>
+          <td><a href="#IisLogsDataSource">IisLogsDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logFiles</td>
+          <td>The list of Log files source configurations.</td>
+          <td><a href="#LogFilesDataSource">LogFilesDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>performanceCounters</td>
+          <td>The list of performance counter data source configurations.</td>
+          <td><a href="#PerfCounterDataSource">PerfCounterDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>platformTelemetry</td>
+          <td>The list of platform telemetry configurations</td>
+          <td><a href="#PlatformTelemetryDataSource">PlatformTelemetryDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>prometheusForwarder</td>
+          <td>The list of Prometheus forwarder data source configurations.</td>
+          <td><a href="#PrometheusForwarderDataSource">PrometheusForwarderDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>syslog</td>
+          <td>The list of Syslog data source configurations.</td>
+          <td><a href="#SyslogDataSource">SyslogDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>windowsEventLogs</td>
+          <td>The list of Windows Event Log data source configurations.</td>
+          <td><a href="#WindowsEventLogDataSource">WindowsEventLogDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>windowsFirewallLogs</td>
+          <td>The list of Windows Firewall logs source configurations.</td>
+          <td><a href="#WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</h2>
+<p>Specification of data sources that will be collected.</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>dataImports</td>
+          <td>Specifications of pull based data sources</td>
+          <td><a href="#DataImportSources_STATUS">DataImportSources_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>extensions</td>
+          <td>The list of Azure VM extension data source configurations.</td>
+          <td><a href="#ExtensionDataSource_STATUS">ExtensionDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>iisLogs</td>
+          <td>The list of IIS logs source configurations.</td>
+          <td><a href="#IisLogsDataSource_STATUS">IisLogsDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logFiles</td>
+          <td>The list of Log files source configurations.</td>
+          <td><a href="#LogFilesDataSource_STATUS">LogFilesDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>performanceCounters</td>
+          <td>The list of performance counter data source configurations.</td>
+          <td><a href="#PerfCounterDataSource_STATUS">PerfCounterDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>platformTelemetry</td>
+          <td>The list of platform telemetry configurations</td>
+          <td><a href="#PlatformTelemetryDataSource_STATUS">PlatformTelemetryDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>prometheusForwarder</td>
+          <td>The list of Prometheus forwarder data source configurations.</td>
+          <td><a href="#PrometheusForwarderDataSource_STATUS">PrometheusForwarderDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>syslog</td>
+          <td>The list of Syslog data source configurations.</td>
+          <td><a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>windowsEventLogs</td>
+          <td>The list of Windows Event Log data source configurations.</td>
+          <td><a href="#WindowsEventLogDataSource_STATUS">WindowsEventLogDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>windowsFirewallLogs</td>
+          <td>The list of Windows Firewall logs source configurations.</td>
+          <td><a href="#WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DestinationsSpec">DestinationsSpec</h2>
+<p>Specification of destinations that can be used in data flows.</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureDataExplorer</td>
+          <td>List of Azure Data Explorer destinations.</td>
+          <td><a href="#AdxDestination">AdxDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureMonitorMetrics</td>
+          <td>Azure Monitor Metrics destination.</td>
+          <td><a href="#AzureMonitorMetricsDestination">AzureMonitorMetricsDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>eventHubs</td>
+          <td>List of Event Hubs destinations.</td>
+          <td><a href="#EventHubDestination">EventHubDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>eventHubsDirect</td>
+          <td>List of Event Hubs Direct destinations.</td>
+          <td><a href="#EventHubDirectDestination">EventHubDirectDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logAnalytics</td>
+          <td>List of Log Analytics destinations.</td>
+          <td><a href="#LogAnalyticsDestination">LogAnalyticsDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>microsoftFabric</td>
+          <td>List of Microsoft Fabric destinations.</td>
+          <td><a href="#MicrosoftFabricDestination">MicrosoftFabricDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>monitoringAccounts</td>
+          <td>List of monitoring account destinations.</td>
+          <td><a href="#MonitoringAccountDestination">MonitoringAccountDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccounts</td>
+          <td>List of storage accounts destinations.</td>
+          <td><a href="#StorageBlobDestination">StorageBlobDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageBlobsDirect</td>
+          <td>List of Storage Blob Direct destinations. To be used only for sending data directly to store from the agent.</td>
+          <td><a href="#StorageBlobDestination">StorageBlobDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageTablesDirect</td>
+          <td>List of Storage Table Direct destinations.</td>
+          <td><a href="#StorageTableDestination">StorageTableDestination[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DestinationsSpec_STATUS">DestinationsSpec_STATUS</h2>
+<p>Specification of destinations that can be used in data flows.</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureDataExplorer</td>
+          <td>List of Azure Data Explorer destinations.</td>
+          <td><a href="#AdxDestination_STATUS">AdxDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureMonitorMetrics</td>
+          <td>Azure Monitor Metrics destination.</td>
+          <td><a href="#AzureMonitorMetricsDestination_STATUS">AzureMonitorMetricsDestination_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>eventHubs</td>
+          <td>List of Event Hubs destinations.</td>
+          <td><a href="#EventHubDestination_STATUS">EventHubDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>eventHubsDirect</td>
+          <td>List of Event Hubs Direct destinations.</td>
+          <td><a href="#EventHubDirectDestination_STATUS">EventHubDirectDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logAnalytics</td>
+          <td>List of Log Analytics destinations.</td>
+          <td><a href="#LogAnalyticsDestination_STATUS">LogAnalyticsDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>microsoftFabric</td>
+          <td>List of Microsoft Fabric destinations.</td>
+          <td><a href="#MicrosoftFabricDestination_STATUS">MicrosoftFabricDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>monitoringAccounts</td>
+          <td>List of monitoring account destinations.</td>
+          <td><a href="#MonitoringAccountDestination_STATUS">MonitoringAccountDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccounts</td>
+          <td>List of storage accounts destinations.</td>
+          <td><a href="#StorageBlobDestination_STATUS">StorageBlobDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageBlobsDirect</td>
+          <td>List of Storage Blob Direct destinations. To be used only for sending data directly to store from the agent.</td>
+          <td><a href="#StorageBlobDestination_STATUS">StorageBlobDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageTablesDirect</td>
+          <td>List of Storage Table Direct destinations.</td>
+          <td><a href="#StorageTableDestination_STATUS">StorageTableDestination_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EndpointsSpec_STATUS">EndpointsSpec_STATUS</h2>
+<p>This defines all the ingestion endpoints that can be used by this rule</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>logsIngestion</td>
+          <td>The ingestion endpoint for logs</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>metricsIngestion</td>
+          <td>The ingestion endpoint for metrics</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="FailoverConfigurationSpec_STATUS">FailoverConfigurationSpec_STATUS</h2>
 <p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
 <table>
@@ -1834,7 +2935,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
 </table>
 <h2 id="ManagedServiceIdentity">ManagedServiceIdentity</h2>
 <p>Managed service identity (system assigned and/or user assigned identities)</p>
-<p>Used by: <a href="#DataCollectionEndpoint_Spec">DataCollectionEndpoint_Spec</a>.</p>
+<p>Used by: <a href="#DataCollectionEndpoint_Spec">DataCollectionEndpoint_Spec</a>, and <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1858,7 +2959,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
 </table>
 <h2 id="ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</h2>
 <p>Managed service identity (system assigned and/or user assigned identities)</p>
-<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
+<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>, and <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1892,7 +2993,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
 </table>
 <h2 id="Metadata_STATUS">Metadata_STATUS</h2>
 <p>Metadata about the resource</p>
-<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>, and <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>.</p>
+<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>, <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>, and <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1999,9 +3100,85 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="ReferencesSpec">ReferencesSpec</h2>
+<p>This section defines all the references that may be used in other sections of the DCR</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>enrichmentData</td>
+          <td>All the enrichment data sources referenced in data flows</td>
+          <td><a href="#EnrichmentData">EnrichmentData</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ReferencesSpec_STATUS">ReferencesSpec_STATUS</h2>
+<p>This section defines all the references that may be used in other sections of the DCR</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>enrichmentData</td>
+          <td>All the enrichment data sources referenced in data flows</td>
+          <td><a href="#EnrichmentData_STATUS">EnrichmentData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StreamDeclaration">StreamDeclaration</h2>
+<p>Declaration of a custom stream.</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>columns</td>
+          <td>List of columns used by data in this stream.</td>
+          <td><a href="#ColumnDefinition">ColumnDefinition[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StreamDeclaration_STATUS">StreamDeclaration_STATUS</h2>
+<p>Declaration of a custom stream.</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>columns</td>
+          <td>List of columns used by data in this stream.</td>
+          <td><a href="#ColumnDefinition_STATUS">ColumnDefinition_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>, and <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>.</p>
+<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>, <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>, and <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2043,6 +3220,579 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="AdxDestination">AdxDestination</h2>
+<p>Azure Data Explorer (Adx) destination.</p>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>databaseName</td>
+          <td>The name of the database to which data will be ingested.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceReference</td>
+          <td>The ARM resource id of the Adx resource.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AdxDestination_STATUS">AdxDestination_STATUS</h2>
+<p>Azure Data Explorer (Adx) destination.</p>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>databaseName</td>
+          <td>The name of the database to which data will be ingested.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>ingestionUri</td>
+          <td>The ingestion uri of the Adx resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceId</td>
+          <td>The ARM resource id of the Adx resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AgentSetting">AgentSetting</h2>
+<p>A setting used to control an agent behavior on a host machine</p>
+<p>Used by: <a href="#AgentSettingsSpec">AgentSettingsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>The name of the setting. Must be part of the list of supported settings</td>
+          <td><a href="#AgentSetting_Name">AgentSetting_Name</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>value</td>
+          <td>The value of the setting</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AgentSetting_STATUS">AgentSetting_STATUS</h2>
+<p>A setting used to control an agent behavior on a host machine</p>
+<p>Used by: <a href="#AgentSettingsSpec_STATUS">AgentSettingsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>The name of the setting. Must be part of the list of supported settings</td>
+          <td><a href="#AgentSetting_Name_STATUS">AgentSetting_Name_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>value</td>
+          <td>The value of the setting</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AzureMonitorMetricsDestination">AzureMonitorMetricsDestination</h2>
+<p>Azure Monitor Metrics destination.</p>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AzureMonitorMetricsDestination_STATUS">AzureMonitorMetricsDestination_STATUS</h2>
+<p>Azure Monitor Metrics destination.</p>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ColumnDefinition">ColumnDefinition</h2>
+<p>Definition of custom data column.</p>
+<p>Used by: <a href="#StreamDeclaration">StreamDeclaration</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>The name of the column.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the column data.</td>
+          <td><a href="#ColumnDefinition_Type">ColumnDefinition_Type</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ColumnDefinition_STATUS">ColumnDefinition_STATUS</h2>
+<p>Definition of custom data column.</p>
+<p>Used by: <a href="#StreamDeclaration_STATUS">StreamDeclaration_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>The name of the column.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the column data.</td>
+          <td><a href="#ColumnDefinition_Type_STATUS">ColumnDefinition_Type_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataFlow_Streams">DataFlow_Streams</h2>
+<p>Used by: <a href="#DataFlow">DataFlow</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Event&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Perf&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataFlow_Streams_STATUS">DataFlow_Streams_STATUS</h2>
+<p>Used by: <a href="#DataFlow_STATUS">DataFlow_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Event&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Perf&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataImportSources">DataImportSources</h2>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eventHub</td>
+          <td>Definition of Event Hub configuration.</td>
+          <td><a href="#EventHubDataSource">EventHubDataSource</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataImportSources_STATUS">DataImportSources_STATUS</h2>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eventHub</td>
+          <td>Definition of Event Hub configuration.</td>
+          <td><a href="#EventHubDataSource_STATUS">EventHubDataSource_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EnrichmentData">EnrichmentData</h2>
+<p>All the enrichment data sources referenced in data flows</p>
+<p>Used by: <a href="#ReferencesSpec">ReferencesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>storageBlobs</td>
+          <td>All the storage blobs used as enrichment data sources</td>
+          <td><a href="#StorageBlob">StorageBlob[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EnrichmentData_STATUS">EnrichmentData_STATUS</h2>
+<p>All the enrichment data sources referenced in data flows</p>
+<p>Used by: <a href="#ReferencesSpec_STATUS">ReferencesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>storageBlobs</td>
+          <td>All the storage blobs used as enrichment data sources</td>
+          <td><a href="#StorageBlob_STATUS">StorageBlob_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EventHubDestination">EventHubDestination</h2>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eventHubResourceReference</td>
+          <td>The resource ID of the event hub.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EventHubDestination_STATUS">EventHubDestination_STATUS</h2>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eventHubResourceId</td>
+          <td>The resource ID of the event hub.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EventHubDirectDestination">EventHubDirectDestination</h2>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eventHubResourceReference</td>
+          <td>The resource ID of the event hub.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EventHubDirectDestination_STATUS">EventHubDirectDestination_STATUS</h2>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eventHubResourceId</td>
+          <td>The resource ID of the event hub.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ExtensionDataSource">ExtensionDataSource</h2>
+<p>Definition of which data will be collected from a separate VM extension that integrates with the Azure Monitor Agent. Collected from either Windows and Linux machines, depending on which extension is defined.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>extensionName</td>
+          <td>The name of the VM extension.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>extensionSettings</td>
+          <td>The extension settings. The format is specific for particular extension.</td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>inputDataSources</td>
+          <td>The list of data sources this extension needs data from.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#ExtensionDataSource_Streams">ExtensionDataSource_Streams[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ExtensionDataSource_STATUS">ExtensionDataSource_STATUS</h2>
+<p>Definition of which data will be collected from a separate VM extension that integrates with the Azure Monitor Agent. Collected from either Windows and Linux machines, depending on which extension is defined.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>extensionName</td>
+          <td>The name of the VM extension.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>extensionSettings</td>
+          <td>The extension settings. The format is specific for particular extension.</td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>inputDataSources</td>
+          <td>The list of data sources this extension needs data from.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#ExtensionDataSource_Streams_STATUS">ExtensionDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IisLogsDataSource">IisLogsDataSource</h2>
+<p>Enables IIS logs to be collected by this data collection rule.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>logDirectories</td>
+          <td>Absolute paths file location</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>IIS streams</td>
+          <td>string[]<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IisLogsDataSource_STATUS">IisLogsDataSource_STATUS</h2>
+<p>Enables IIS logs to be collected by this data collection rule.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>logDirectories</td>
+          <td>Absolute paths file location</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>IIS streams</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="LocationSpec_STATUS">LocationSpec_STATUS</h2>
 <p>Used by: <a href="#FailoverConfigurationSpec_STATUS">FailoverConfigurationSpec_STATUS</a>.</p>
 <table>
@@ -2063,6 +3813,147 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
           <td>provisioningStatus</td>
           <td>The resource provisioning state in this location.</td>
           <td><a href="#LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogAnalyticsDestination">LogAnalyticsDestination</h2>
+<p>Log Analytics destination.</p>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>workspaceResourceReference</td>
+          <td>The resource ID of the Log Analytics workspace.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogAnalyticsDestination_STATUS">LogAnalyticsDestination_STATUS</h2>
+<p>Log Analytics destination.</p>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>workspaceId</td>
+          <td>The Customer ID of the Log Analytics workspace.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>workspaceResourceId</td>
+          <td>The resource ID of the Log Analytics workspace.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFilesDataSource">LogFilesDataSource</h2>
+<p>Definition of which custom log files will be collected by this data collection rule</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>filePatterns</td>
+          <td>File Patterns where the log files are located</td>
+          <td>string[]<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>format</td>
+          <td>The data format of the log files</td>
+          <td><a href="#LogFilesDataSource_Format">LogFilesDataSource_Format</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>settings</td>
+          <td>The log files specific settings.</td>
+          <td><a href="#LogFileSettings">LogFileSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data source</td>
+          <td>string[]<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFilesDataSource_STATUS">LogFilesDataSource_STATUS</h2>
+<p>Definition of which custom log files will be collected by this data collection rule</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>filePatterns</td>
+          <td>File Patterns where the log files are located</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>format</td>
+          <td>The data format of the log files</td>
+          <td><a href="#LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>settings</td>
+          <td>The log files specific settings.</td>
+          <td><a href="#LogFileSettings_STATUS">LogFileSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data source</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2124,6 +4015,137 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="MicrosoftFabricDestination">MicrosoftFabricDestination</h2>
+<p>Microsoft Fabric destination (non-Azure).</p>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>artifactId</td>
+          <td>The artifact id of the Microsoft Fabric resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>databaseName</td>
+          <td>The name of the database to which data will be ingested.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>ingestionUri</td>
+          <td>The ingestion uri of the Microsoft Fabric resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant id of the Microsoft Fabric resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MicrosoftFabricDestination_STATUS">MicrosoftFabricDestination_STATUS</h2>
+<p>Microsoft Fabric destination (non-Azure).</p>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>artifactId</td>
+          <td>The artifact id of the Microsoft Fabric resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>databaseName</td>
+          <td>The name of the database to which data will be ingested.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>ingestionUri</td>
+          <td>The ingestion uri of the Microsoft Fabric resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant id of the Microsoft Fabric resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MonitoringAccountDestination">MonitoringAccountDestination</h2>
+<p>Monitoring account destination.</p>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>accountResourceReference</td>
+          <td>The resource ID of the monitoring account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MonitoringAccountDestination_STATUS">MonitoringAccountDestination_STATUS</h2>
+<p>Monitoring account destination.</p>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>accountId</td>
+          <td>The immutable ID of the account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>accountResourceId</td>
+          <td>The resource ID of the monitoring account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="NetworkRuleSet_PublicNetworkAccess">NetworkRuleSet_PublicNetworkAccess</h2>
 <p>Used by: <a href="#NetworkRuleSet">NetworkRuleSet</a>.</p>
 <table>
@@ -2169,6 +4191,380 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>&ldquo;SecuredByPerimeter&rdquo;</td>
           <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PerfCounterDataSource">PerfCounterDataSource</h2>
+<p>Definition of which performance counters will be collected and how they will be collected by this data collection rule. Collected from both Windows and Linux machines where the counter is present.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>counterSpecifiers</td>
+          <td>A list of specifier names of the performance counters you want to collect. Use a wildcard (*) to collect a counter for all instances. To get a list of performance counters on Windows, run the command <code>typeperf</code>.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>samplingFrequencyInSeconds</td>
+          <td>The number of seconds between consecutive counter measurements (samples).</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#PerfCounterDataSource_Streams">PerfCounterDataSource_Streams[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PerfCounterDataSource_STATUS">PerfCounterDataSource_STATUS</h2>
+<p>Definition of which performance counters will be collected and how they will be collected by this data collection rule. Collected from both Windows and Linux machines where the counter is present.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>counterSpecifiers</td>
+          <td>A list of specifier names of the performance counters you want to collect. Use a wildcard (*) to collect a counter for all instances. To get a list of performance counters on Windows, run the command <code>typeperf</code>.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>samplingFrequencyInSeconds</td>
+          <td>The number of seconds between consecutive counter measurements (samples).</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#PerfCounterDataSource_Streams_STATUS">PerfCounterDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PlatformTelemetryDataSource">PlatformTelemetryDataSource</h2>
+<p>Definition of platform telemetry data source configuration</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of platform telemetry streams to collect</td>
+          <td>string[]<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PlatformTelemetryDataSource_STATUS">PlatformTelemetryDataSource_STATUS</h2>
+<p>Definition of platform telemetry data source configuration</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of platform telemetry streams to collect</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrometheusForwarderDataSource">PrometheusForwarderDataSource</h2>
+<p>Definition of Prometheus metrics forwarding configuration.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>labelIncludeFilter</td>
+          <td>The list of label inclusion filters in the form of label &ldquo;name-value&rdquo; pairs. Currently only one label is supported: <code>microsoft_metrics_include_label</code>. Label values are matched case-insensitively.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to.</td>
+          <td><a href="#PrometheusForwarderDataSource_Streams">PrometheusForwarderDataSource_Streams[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrometheusForwarderDataSource_STATUS">PrometheusForwarderDataSource_STATUS</h2>
+<p>Definition of Prometheus metrics forwarding configuration.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>labelIncludeFilter</td>
+          <td>The list of label inclusion filters in the form of label &ldquo;name-value&rdquo; pairs. Currently only one label is supported: <code>microsoft_metrics_include_label</code>. Label values are matched case-insensitively.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to.</td>
+          <td><a href="#PrometheusForwarderDataSource_Streams_STATUS">PrometheusForwarderDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageBlobDestination">StorageBlobDestination</h2>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>, and <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>containerName</td>
+          <td>The container name of the Storage Blob.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccountResourceReference</td>
+          <td>The resource ID of the storage account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageBlobDestination_STATUS">StorageBlobDestination_STATUS</h2>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>, and <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>containerName</td>
+          <td>The container name of the Storage Blob.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccountResourceId</td>
+          <td>The resource ID of the storage account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageTableDestination">StorageTableDestination</h2>
+<p>Used by: <a href="#DestinationsSpec">DestinationsSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccountResourceReference</td>
+          <td>The resource ID of the storage account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tableName</td>
+          <td>The name of the Storage Table.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageTableDestination_STATUS">StorageTableDestination_STATUS</h2>
+<p>Used by: <a href="#DestinationsSpec_STATUS">DestinationsSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the destination. This name should be unique across all destinations (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccountResourceId</td>
+          <td>The resource ID of the storage account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tableName</td>
+          <td>The name of the Storage Table.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource">SyslogDataSource</h2>
+<p>Definition of which syslog data will be collected and how it will be collected. Only collected from Linux machines.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>facilityNames</td>
+          <td>The list of facility names.</td>
+          <td><a href="#SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logLevels</td>
+          <td>The log levels to collect.</td>
+          <td><a href="#SyslogDataSource_LogLevels">SyslogDataSource_LogLevels[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#SyslogDataSource_Streams">SyslogDataSource_Streams[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_STATUS">SyslogDataSource_STATUS</h2>
+<p>Definition of which syslog data will be collected and how it will be collected. Only collected from Linux machines.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>facilityNames</td>
+          <td>The list of facility names.</td>
+          <td><a href="#SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logLevels</td>
+          <td>The log levels to collect.</td>
+          <td><a href="#SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#SyslogDataSource_Streams_STATUS">SyslogDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2271,6 +4667,372 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="WindowsEventLogDataSource">WindowsEventLogDataSource</h2>
+<p>Definition of which Windows Event Log events will be collected and how they will be collected. Only collected from Windows machines.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#WindowsEventLogDataSource_Streams">WindowsEventLogDataSource_Streams[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>xPathQueries</td>
+          <td>A list of Windows Event Log queries in XPATH format.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsEventLogDataSource_STATUS">WindowsEventLogDataSource_STATUS</h2>
+<p>Definition of which Windows Event Log events will be collected and how they will be collected. Only collected from Windows machines.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
+          <td><a href="#WindowsEventLogDataSource_Streams_STATUS">WindowsEventLogDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>transformKql</td>
+          <td>The KQL query to transform the data source.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>xPathQueries</td>
+          <td>A list of Windows Event Log queries in XPATH format.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource</h2>
+<p>Enables Firewall logs to be collected by this data collection rule.</p>
+<p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>profileFilter</td>
+          <td>Firewall logs profile filter</td>
+          <td><a href="#WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>Firewall logs streams</td>
+          <td>string[]<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS</h2>
+<p>Enables Firewall logs to be collected by this data collection rule.</p>
+<p>Used by: <a href="#DataSourcesSpec_STATUS">DataSourcesSpec_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>profileFilter</td>
+          <td>Firewall logs profile filter</td>
+          <td><a href="#WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>streams</td>
+          <td>Firewall logs streams</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AgentSetting_Name">AgentSetting_Name</h2>
+<p>Used by: <a href="#AgentSetting">AgentSetting</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;MaxDiskQuotaInMB&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UseTimeReceivedForForwardedEvents&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AgentSetting_Name_STATUS">AgentSetting_Name_STATUS</h2>
+<p>Used by: <a href="#AgentSetting_STATUS">AgentSetting_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;MaxDiskQuotaInMB&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UseTimeReceivedForForwardedEvents&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ColumnDefinition_Type">ColumnDefinition_Type</h2>
+<p>Used by: <a href="#ColumnDefinition">ColumnDefinition</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;boolean&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;datetime&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;dynamic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;int&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;long&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;real&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;string&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ColumnDefinition_Type_STATUS">ColumnDefinition_Type_STATUS</h2>
+<p>Used by: <a href="#ColumnDefinition_STATUS">ColumnDefinition_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;boolean&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;datetime&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;dynamic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;int&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;long&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;real&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;string&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EventHubDataSource">EventHubDataSource</h2>
+<p>Used by: <a href="#DataImportSources">DataImportSources</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>consumerGroup</td>
+          <td>Event Hub consumer group name</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>stream</td>
+          <td>The stream to collect from EventHub</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EventHubDataSource_STATUS">EventHubDataSource_STATUS</h2>
+<p>Used by: <a href="#DataImportSources_STATUS">DataImportSources_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>consumerGroup</td>
+          <td>Event Hub consumer group name</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>A friendly name for the data source. This name should be unique across all data sources (regardless of type) within the data collection rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>stream</td>
+          <td>The stream to collect from EventHub</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ExtensionDataSource_Streams">ExtensionDataSource_Streams</h2>
+<p>Used by: <a href="#ExtensionDataSource">ExtensionDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Event&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Perf&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ExtensionDataSource_Streams_STATUS">ExtensionDataSource_Streams_STATUS</h2>
+<p>Used by: <a href="#ExtensionDataSource_STATUS">ExtensionDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Event&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Perf&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</h2>
 <p>Used by: <a href="#LocationSpec_STATUS">LocationSpec_STATUS</a>.</p>
 <table>
@@ -2303,6 +5065,852 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFilesDataSource_Format">LogFilesDataSource_Format</h2>
+<p>Used by: <a href="#LogFilesDataSource">LogFilesDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;json&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;text&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</h2>
+<p>Used by: <a href="#LogFilesDataSource_STATUS">LogFilesDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;json&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;text&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileSettings">LogFileSettings</h2>
+<p>Settings for different log file formats</p>
+<p>Used by: <a href="#LogFilesDataSource">LogFilesDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>text</td>
+          <td>Text settings</td>
+          <td><a href="#LogFileTextSettings">LogFileTextSettings</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileSettings_STATUS">LogFileSettings_STATUS</h2>
+<p>Settings for different log file formats</p>
+<p>Used by: <a href="#LogFilesDataSource_STATUS">LogFilesDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>text</td>
+          <td>Text settings</td>
+          <td><a href="#LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PerfCounterDataSource_Streams">PerfCounterDataSource_Streams</h2>
+<p>Used by: <a href="#PerfCounterDataSource">PerfCounterDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Perf&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PerfCounterDataSource_Streams_STATUS">PerfCounterDataSource_Streams_STATUS</h2>
+<p>Used by: <a href="#PerfCounterDataSource_STATUS">PerfCounterDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-Perf&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrometheusForwarderDataSource_Streams">PrometheusForwarderDataSource_Streams</h2>
+<p>Used by: <a href="#PrometheusForwarderDataSource">PrometheusForwarderDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-PrometheusMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrometheusForwarderDataSource_Streams_STATUS">PrometheusForwarderDataSource_Streams_STATUS</h2>
+<p>Used by: <a href="#PrometheusForwarderDataSource_STATUS">PrometheusForwarderDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-PrometheusMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageBlob">StorageBlob</h2>
+<p>Used by: <a href="#EnrichmentData">EnrichmentData</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>blobUrl</td>
+          <td>Url of the storage blob</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lookupType</td>
+          <td>The type of lookup to perform on the blob</td>
+          <td><a href="#StorageBlob_LookupType">StorageBlob_LookupType</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the enrichment data source used as an alias when referencing this data source in data flows</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceReference</td>
+          <td>Resource Id of the storage account that hosts the blob</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageBlob_STATUS">StorageBlob_STATUS</h2>
+<p>Used by: <a href="#EnrichmentData_STATUS">EnrichmentData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>blobUrl</td>
+          <td>Url of the storage blob</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lookupType</td>
+          <td>The type of lookup to perform on the blob</td>
+          <td><a href="#StorageBlob_LookupType_STATUS">StorageBlob_LookupType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the enrichment data source used as an alias when referencing this data source in data flows</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceId</td>
+          <td>Resource Id of the storage account that hosts the blob</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames</h2>
+<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;audit&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;auth&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;authpriv&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;clock&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;cron&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;daemon&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ftp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;kern&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local0&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local4&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local5&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local6&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local7&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;lpr&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mail&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mark&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;news&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;nopri&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ntp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;user&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;uucp&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS</h2>
+<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;audit&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;auth&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;authpriv&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;clock&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;cron&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;daemon&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ftp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;kern&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local0&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local4&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local5&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local6&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local7&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;lpr&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mail&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mark&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;news&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;nopri&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ntp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;user&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;uucp&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_LogLevels">SyslogDataSource_LogLevels</h2>
+<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Critical&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Debug&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Emergency&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Info&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Notice&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS</h2>
+<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Critical&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Debug&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Emergency&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Info&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Notice&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_Streams">SyslogDataSource_Streams</h2>
+<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SyslogDataSource_Streams_STATUS">SyslogDataSource_Streams_STATUS</h2>
+<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsEventLogDataSource_Streams">WindowsEventLogDataSource_Streams</h2>
+<p>Used by: <a href="#WindowsEventLogDataSource">WindowsEventLogDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Event&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsEventLogDataSource_Streams_STATUS">WindowsEventLogDataSource_Streams_STATUS</h2>
+<p>Used by: <a href="#WindowsEventLogDataSource_STATUS">WindowsEventLogDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-Event&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter</h2>
+<p>Used by: <a href="#WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Domain&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Private&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Public&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS</h2>
+<p>Used by: <a href="#WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Domain&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Private&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Public&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileTextSettings">LogFileTextSettings</h2>
+<p>Settings for text log files</p>
+<p>Used by: <a href="#LogFileSettings">LogFileSettings</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>recordStartTimestampFormat</td>
+          <td>One of the supported timestamp formats</td>
+          <td><a href="#LogFileTextSettings_RecordStartTimestampFormat">LogFileTextSettings_RecordStartTimestampFormat</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</h2>
+<p>Settings for text log files</p>
+<p>Used by: <a href="#LogFileSettings_STATUS">LogFileSettings_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>recordStartTimestampFormat</td>
+          <td>One of the supported timestamp formats</td>
+          <td><a href="#LogFileTextSettings_RecordStartTimestampFormat_STATUS">LogFileTextSettings_RecordStartTimestampFormat_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageBlob_LookupType">StorageBlob_LookupType</h2>
+<p>Used by: <a href="#StorageBlob">StorageBlob</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Cidr&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;String&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StorageBlob_LookupType_STATUS">StorageBlob_LookupType_STATUS</h2>
+<p>Used by: <a href="#StorageBlob_STATUS">StorageBlob_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Cidr&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;String&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileTextSettings_RecordStartTimestampFormat">LogFileTextSettings_RecordStartTimestampFormat</h2>
+<p>Used by: <a href="#LogFileTextSettings">LogFileTextSettings</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;dd/MMM/yyyy:HH:mm:ss zzz&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ddMMyy HH:mm:ss&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ISO 8601&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;M/D/YYYY HH:MM:SS AM/PM&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;MMM d hh:mm:ss&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Mon DD, YYYY HH:MM:SS&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;YYYY-MM-DD HH:MM:SS&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;yyMMdd HH:mm:ss&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;yyyy-MM-ddTHH:mm:ssK&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileTextSettings_RecordStartTimestampFormat_STATUS">LogFileTextSettings_RecordStartTimestampFormat_STATUS</h2>
+<p>Used by: <a href="#LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;dd/MMM/yyyy:HH:mm:ss zzz&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ddMMyy HH:mm:ss&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ISO 8601&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;M/D/YYYY HH:MM:SS AM/PM&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;MMM d hh:mm:ss&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Mon DD, YYYY HH:MM:SS&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;YYYY-MM-DD HH:MM:SS&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;yyMMdd HH:mm:ss&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;yyyy-MM-ddTHH:mm:ssK&rdquo;</td>
           <td></td>
       </tr>
   </tbody>

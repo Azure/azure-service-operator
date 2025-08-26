@@ -538,6 +538,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20240402preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/kusto/v1api20240413/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20240701/</loc>
@@ -548,7 +550,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20240901/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20241101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/app/v1api20250101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20250401/</loc>
   </url><url>
