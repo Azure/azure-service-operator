@@ -182,9 +182,9 @@ func (gateway *VirtualNetworkGateway) AssignProperties_From_VirtualNetworkGatewa
 
 	// Status
 	var status VirtualNetworkGateway_STATUS
-	err = status.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(&source.Status)
+	err = status.AssignProperties_From_VirtualNetworkGateway_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateway_STATUS() to populate field Status")
 	}
 	gateway.Status = status
 
@@ -216,10 +216,10 @@ func (gateway *VirtualNetworkGateway) AssignProperties_To_VirtualNetworkGateway(
 	destination.Spec = spec
 
 	// Status
-	var status v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-	err = gateway.Status.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(&status)
+	var status v20240301s.VirtualNetworkGateway_STATUS
+	err = gateway.Status.AssignProperties_To_VirtualNetworkGateway_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateway_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -995,21 +995,21 @@ var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
 
 // ConvertStatusFrom populates our VirtualNetworkGateway_STATUS from the provided source
 func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded)
+	src, ok := source.(*v20240301s.VirtualNetworkGateway_STATUS)
 	if ok {
 		// Populate our instance from source
-		return gateway.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(src)
+		return gateway.AssignProperties_From_VirtualNetworkGateway_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+	src = &v20240301s.VirtualNetworkGateway_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = gateway.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(src)
+	err = gateway.AssignProperties_From_VirtualNetworkGateway_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1019,15 +1019,15 @@ func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime
 
 // ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS
 func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded)
+	dst, ok := destination.(*v20240301s.VirtualNetworkGateway_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return gateway.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(dst)
+		return gateway.AssignProperties_To_VirtualNetworkGateway_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
-	err := gateway.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(dst)
+	dst = &v20240301s.VirtualNetworkGateway_STATUS{}
+	err := gateway.AssignProperties_To_VirtualNetworkGateway_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1041,8 +1041,8 @@ func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genrunt
 	return nil
 }
 
-// AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded populates our VirtualNetworkGateway_STATUS from the provided source VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(source *v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error {
+// AssignProperties_From_VirtualNetworkGateway_STATUS populates our VirtualNetworkGateway_STATUS from the provided source VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetworkGateway_STATUS(source *v20240301s.VirtualNetworkGateway_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1315,8 +1315,8 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 	return nil
 }
 
-// AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded populates the provided destination VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded from our VirtualNetworkGateway_STATUS
-func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(destination *v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error {
+// AssignProperties_To_VirtualNetworkGateway_STATUS populates the provided destination VirtualNetworkGateway_STATUS from our VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkGateway_STATUS(destination *v20240301s.VirtualNetworkGateway_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gateway.PropertyBag)
 
@@ -1655,8 +1655,8 @@ type augmentConversionForVirtualNetworkGateway_Spec interface {
 }
 
 type augmentConversionForVirtualNetworkGateway_STATUS interface {
-	AssignPropertiesFrom(src *v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error
-	AssignPropertiesTo(dst *v20240301s.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error
+	AssignPropertiesFrom(src *v20240301s.VirtualNetworkGateway_STATUS) error
+	AssignPropertiesTo(dst *v20240301s.VirtualNetworkGateway_STATUS) error
 }
 
 // Storage version of v1api20201101.BgpSettings

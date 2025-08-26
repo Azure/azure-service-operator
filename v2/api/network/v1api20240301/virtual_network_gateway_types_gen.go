@@ -31,8 +31,8 @@ import (
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworkGateway_Spec                                             `json:"spec,omitempty"`
-	Status            VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              VirtualNetworkGateway_Spec   `json:"spec,omitempty"`
+	Status            VirtualNetworkGateway_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworkGateway{}
@@ -93,11 +93,11 @@ var _ genruntime.ImportableResource = &VirtualNetworkGateway{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (gateway *VirtualNetworkGateway) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded); ok {
-		return gateway.Spec.Initialize_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(s)
+	if s, ok := status.(*VirtualNetworkGateway_STATUS); ok {
+		return gateway.Spec.Initialize_From_VirtualNetworkGateway_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded but received %T instead", status)
+	return fmt.Errorf("expected Status of type VirtualNetworkGateway_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetworkGateway{}
@@ -143,7 +143,7 @@ func (gateway *VirtualNetworkGateway) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (gateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+	return &VirtualNetworkGateway_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -159,13 +159,13 @@ func (gateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (gateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded); ok {
+	if st, ok := status.(*VirtualNetworkGateway_STATUS); ok {
 		gateway.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
+	var st VirtualNetworkGateway_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -190,10 +190,10 @@ func (gateway *VirtualNetworkGateway) AssignProperties_From_VirtualNetworkGatewa
 	gateway.Spec = spec
 
 	// Status
-	var status VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-	err = status.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(&source.Status)
+	var status VirtualNetworkGateway_STATUS
+	err = status.AssignProperties_From_VirtualNetworkGateway_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateway_STATUS() to populate field Status")
 	}
 	gateway.Status = status
 
@@ -216,10 +216,10 @@ func (gateway *VirtualNetworkGateway) AssignProperties_To_VirtualNetworkGateway(
 	destination.Spec = spec
 
 	// Status
-	var status storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-	err = gateway.Status.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(&status)
+	var status storage.VirtualNetworkGateway_STATUS
+	err = gateway.Status.AssignProperties_To_VirtualNetworkGateway_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateway_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -1543,8 +1543,8 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 	return nil
 }
 
-// Initialize_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded populates our VirtualNetworkGateway_Spec from the provided source VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(source *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error {
+// Initialize_From_VirtualNetworkGateway_STATUS populates our VirtualNetworkGateway_Spec from the provided source VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway_STATUS(source *VirtualNetworkGateway_STATUS) error {
 
 	// ActiveActive
 	if source.ActiveActive != nil {
@@ -1829,7 +1829,7 @@ func (gateway *VirtualNetworkGateway_Spec) SetAzureName(azureName string) {
 }
 
 // A common class for general resource information.
-type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded struct {
+type VirtualNetworkGateway_STATUS struct {
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
@@ -1944,25 +1944,25 @@ type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded stru
 	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS `json:"vpnType,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded from the provided source
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded)
+// ConvertStatusFrom populates our VirtualNetworkGateway_STATUS from the provided source
+func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.VirtualNetworkGateway_STATUS)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(src)
+		return gateway.AssignProperties_From_VirtualNetworkGateway_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+	src = &storage.VirtualNetworkGateway_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = embedded.AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(src)
+	err = gateway.AssignProperties_From_VirtualNetworkGateway_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1970,17 +1970,17 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded)
+// ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.VirtualNetworkGateway_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(dst)
+		return gateway.AssignProperties_To_VirtualNetworkGateway_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
-	err := embedded.AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(dst)
+	dst = &storage.VirtualNetworkGateway_STATUS{}
+	err := gateway.AssignProperties_To_VirtualNetworkGateway_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1994,18 +1994,18 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &VirtualNetworkGateway_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+func (gateway *VirtualNetworkGateway_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.VirtualNetworkGateway_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded)
+func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.VirtualNetworkGateway_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualNetworkGateway_STATUS, got %T", armInput)
 	}
 
 	// Set property "ActiveActive":
@@ -2013,7 +2013,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ActiveActive != nil {
 			activeActive := *typedInput.Properties.ActiveActive
-			embedded.ActiveActive = &activeActive
+			gateway.ActiveActive = &activeActive
 		}
 	}
 
@@ -2024,7 +2024,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			var temp string
 			temp = string(*typedInput.Properties.AdminState)
 			adminState := VirtualNetworkGatewayPropertiesFormat_AdminState_STATUS(temp)
-			embedded.AdminState = &adminState
+			gateway.AdminState = &adminState
 		}
 	}
 
@@ -2033,7 +2033,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowRemoteVnetTraffic != nil {
 			allowRemoteVnetTraffic := *typedInput.Properties.AllowRemoteVnetTraffic
-			embedded.AllowRemoteVnetTraffic = &allowRemoteVnetTraffic
+			gateway.AllowRemoteVnetTraffic = &allowRemoteVnetTraffic
 		}
 	}
 
@@ -2042,7 +2042,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowVirtualWanTraffic != nil {
 			allowVirtualWanTraffic := *typedInput.Properties.AllowVirtualWanTraffic
-			embedded.AllowVirtualWanTraffic = &allowVirtualWanTraffic
+			gateway.AllowVirtualWanTraffic = &allowVirtualWanTraffic
 		}
 	}
 
@@ -2056,7 +2056,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 				return err
 			}
 			autoScaleConfiguration := autoScaleConfiguration1
-			embedded.AutoScaleConfiguration = &autoScaleConfiguration
+			gateway.AutoScaleConfiguration = &autoScaleConfiguration
 		}
 	}
 
@@ -2070,7 +2070,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 				return err
 			}
 			bgpSettings := bgpSettings1
-			embedded.BgpSettings = &bgpSettings
+			gateway.BgpSettings = &bgpSettings
 		}
 	}
 
@@ -2086,7 +2086,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 				return err
 			}
 			customRoutes := customRoutes1
-			embedded.CustomRoutes = &customRoutes
+			gateway.CustomRoutes = &customRoutes
 		}
 	}
 
@@ -2095,7 +2095,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableIPSecReplayProtection != nil {
 			disableIPSecReplayProtection := *typedInput.Properties.DisableIPSecReplayProtection
-			embedded.DisableIPSecReplayProtection = &disableIPSecReplayProtection
+			gateway.DisableIPSecReplayProtection = &disableIPSecReplayProtection
 		}
 	}
 
@@ -2104,7 +2104,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBgp != nil {
 			enableBgp := *typedInput.Properties.EnableBgp
-			embedded.EnableBgp = &enableBgp
+			gateway.EnableBgp = &enableBgp
 		}
 	}
 
@@ -2113,7 +2113,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBgpRouteTranslationForNat != nil {
 			enableBgpRouteTranslationForNat := *typedInput.Properties.EnableBgpRouteTranslationForNat
-			embedded.EnableBgpRouteTranslationForNat = &enableBgpRouteTranslationForNat
+			gateway.EnableBgpRouteTranslationForNat = &enableBgpRouteTranslationForNat
 		}
 	}
 
@@ -2122,7 +2122,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDnsForwarding != nil {
 			enableDnsForwarding := *typedInput.Properties.EnableDnsForwarding
-			embedded.EnableDnsForwarding = &enableDnsForwarding
+			gateway.EnableDnsForwarding = &enableDnsForwarding
 		}
 	}
 
@@ -2131,14 +2131,14 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePrivateIpAddress != nil {
 			enablePrivateIpAddress := *typedInput.Properties.EnablePrivateIpAddress
-			embedded.EnablePrivateIpAddress = &enablePrivateIpAddress
+			gateway.EnablePrivateIpAddress = &enablePrivateIpAddress
 		}
 	}
 
 	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		embedded.Etag = &etag
+		gateway.Etag = &etag
 	}
 
 	// Set property "ExtendedLocation":
@@ -2149,7 +2149,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			return err
 		}
 		extendedLocation := extendedLocation1
-		embedded.ExtendedLocation = &extendedLocation
+		gateway.ExtendedLocation = &extendedLocation
 	}
 
 	// Set property "GatewayDefaultSite":
@@ -2162,7 +2162,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 				return err
 			}
 			gatewayDefaultSite := gatewayDefaultSite1
-			embedded.GatewayDefaultSite = &gatewayDefaultSite
+			gateway.GatewayDefaultSite = &gatewayDefaultSite
 		}
 	}
 
@@ -2173,14 +2173,14 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			var temp string
 			temp = string(*typedInput.Properties.GatewayType)
 			gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS(temp)
-			embedded.GatewayType = &gatewayType
+			gateway.GatewayType = &gatewayType
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		gateway.Id = &id
 	}
 
 	// Set property "Identity":
@@ -2191,7 +2191,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			return err
 		}
 		identity := identity1
-		embedded.Identity = &identity
+		gateway.Identity = &identity
 	}
 
 	// Set property "InboundDnsForwardingEndpoint":
@@ -2199,7 +2199,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InboundDnsForwardingEndpoint != nil {
 			inboundDnsForwardingEndpoint := *typedInput.Properties.InboundDnsForwardingEndpoint
-			embedded.InboundDnsForwardingEndpoint = &inboundDnsForwardingEndpoint
+			gateway.InboundDnsForwardingEndpoint = &inboundDnsForwardingEndpoint
 		}
 	}
 
@@ -2212,20 +2212,20 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			if err != nil {
 				return err
 			}
-			embedded.IpConfigurations = append(embedded.IpConfigurations, item1)
+			gateway.IpConfigurations = append(gateway.IpConfigurations, item1)
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		embedded.Location = &location
+		gateway.Location = &location
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		embedded.Name = &name
+		gateway.Name = &name
 	}
 
 	// Set property "NatRules":
@@ -2237,7 +2237,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			if err != nil {
 				return err
 			}
-			embedded.NatRules = append(embedded.NatRules, item1)
+			gateway.NatRules = append(gateway.NatRules, item1)
 		}
 	}
 
@@ -2248,7 +2248,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
 			provisioningState := ProvisioningState_STATUS(temp)
-			embedded.ProvisioningState = &provisioningState
+			gateway.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -2259,7 +2259,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			var temp string
 			temp = string(*typedInput.Properties.ResiliencyModel)
 			resiliencyModel := VirtualNetworkGatewayPropertiesFormat_ResiliencyModel_STATUS(temp)
-			embedded.ResiliencyModel = &resiliencyModel
+			gateway.ResiliencyModel = &resiliencyModel
 		}
 	}
 
@@ -2268,7 +2268,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
 			resourceGuid := *typedInput.Properties.ResourceGuid
-			embedded.ResourceGuid = &resourceGuid
+			gateway.ResourceGuid = &resourceGuid
 		}
 	}
 
@@ -2282,22 +2282,22 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 				return err
 			}
 			sku := sku1
-			embedded.Sku = &sku
+			gateway.Sku = &sku
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string, len(typedInput.Tags))
+		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			embedded.Tags[key] = value
+			gateway.Tags[key] = value
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		embedded.Type = &typeVar
+		gateway.Type = &typeVar
 	}
 
 	// Set property "VNetExtendedLocationResourceId":
@@ -2305,7 +2305,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VNetExtendedLocationResourceId != nil {
 			vNetExtendedLocationResourceId := *typedInput.Properties.VNetExtendedLocationResourceId
-			embedded.VNetExtendedLocationResourceId = &vNetExtendedLocationResourceId
+			gateway.VNetExtendedLocationResourceId = &vNetExtendedLocationResourceId
 		}
 	}
 
@@ -2318,7 +2318,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			if err != nil {
 				return err
 			}
-			embedded.VirtualNetworkGatewayPolicyGroups = append(embedded.VirtualNetworkGatewayPolicyGroups, item1)
+			gateway.VirtualNetworkGatewayPolicyGroups = append(gateway.VirtualNetworkGatewayPolicyGroups, item1)
 		}
 	}
 
@@ -2332,7 +2332,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 				return err
 			}
 			vpnClientConfiguration := vpnClientConfiguration1
-			embedded.VpnClientConfiguration = &vpnClientConfiguration
+			gateway.VpnClientConfiguration = &vpnClientConfiguration
 		}
 	}
 
@@ -2343,7 +2343,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			var temp string
 			temp = string(*typedInput.Properties.VpnGatewayGeneration)
 			vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS(temp)
-			embedded.VpnGatewayGeneration = &vpnGatewayGeneration
+			gateway.VpnGatewayGeneration = &vpnGatewayGeneration
 		}
 	}
 
@@ -2354,7 +2354,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			var temp string
 			temp = string(*typedInput.Properties.VpnType)
 			vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS(temp)
-			embedded.VpnType = &vpnType
+			gateway.VpnType = &vpnType
 		}
 	}
 
@@ -2362,40 +2362,40 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	return nil
 }
 
-// AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded populates our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded from the provided source VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) AssignProperties_From_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(source *storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error {
+// AssignProperties_From_VirtualNetworkGateway_STATUS populates our VirtualNetworkGateway_STATUS from the provided source VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetworkGateway_STATUS(source *storage.VirtualNetworkGateway_STATUS) error {
 
 	// ActiveActive
 	if source.ActiveActive != nil {
 		activeActive := *source.ActiveActive
-		embedded.ActiveActive = &activeActive
+		gateway.ActiveActive = &activeActive
 	} else {
-		embedded.ActiveActive = nil
+		gateway.ActiveActive = nil
 	}
 
 	// AdminState
 	if source.AdminState != nil {
 		adminState := *source.AdminState
 		adminStateTemp := genruntime.ToEnum(adminState, virtualNetworkGatewayPropertiesFormat_AdminState_STATUS_Values)
-		embedded.AdminState = &adminStateTemp
+		gateway.AdminState = &adminStateTemp
 	} else {
-		embedded.AdminState = nil
+		gateway.AdminState = nil
 	}
 
 	// AllowRemoteVnetTraffic
 	if source.AllowRemoteVnetTraffic != nil {
 		allowRemoteVnetTraffic := *source.AllowRemoteVnetTraffic
-		embedded.AllowRemoteVnetTraffic = &allowRemoteVnetTraffic
+		gateway.AllowRemoteVnetTraffic = &allowRemoteVnetTraffic
 	} else {
-		embedded.AllowRemoteVnetTraffic = nil
+		gateway.AllowRemoteVnetTraffic = nil
 	}
 
 	// AllowVirtualWanTraffic
 	if source.AllowVirtualWanTraffic != nil {
 		allowVirtualWanTraffic := *source.AllowVirtualWanTraffic
-		embedded.AllowVirtualWanTraffic = &allowVirtualWanTraffic
+		gateway.AllowVirtualWanTraffic = &allowVirtualWanTraffic
 	} else {
-		embedded.AllowVirtualWanTraffic = nil
+		gateway.AllowVirtualWanTraffic = nil
 	}
 
 	// AutoScaleConfiguration
@@ -2405,9 +2405,9 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkGatewayAutoScaleConfiguration_STATUS() to populate field AutoScaleConfiguration")
 		}
-		embedded.AutoScaleConfiguration = &autoScaleConfiguration
+		gateway.AutoScaleConfiguration = &autoScaleConfiguration
 	} else {
-		embedded.AutoScaleConfiguration = nil
+		gateway.AutoScaleConfiguration = nil
 	}
 
 	// BgpSettings
@@ -2417,13 +2417,13 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_BgpSettings_STATUS() to populate field BgpSettings")
 		}
-		embedded.BgpSettings = &bgpSetting
+		gateway.BgpSettings = &bgpSetting
 	} else {
-		embedded.BgpSettings = nil
+		gateway.BgpSettings = nil
 	}
 
 	// Conditions
-	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	gateway.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CustomRoutes
 	if source.CustomRoutes != nil {
@@ -2432,53 +2432,53 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_AddressSpace_STATUS() to populate field CustomRoutes")
 		}
-		embedded.CustomRoutes = &customRoute
+		gateway.CustomRoutes = &customRoute
 	} else {
-		embedded.CustomRoutes = nil
+		gateway.CustomRoutes = nil
 	}
 
 	// DisableIPSecReplayProtection
 	if source.DisableIPSecReplayProtection != nil {
 		disableIPSecReplayProtection := *source.DisableIPSecReplayProtection
-		embedded.DisableIPSecReplayProtection = &disableIPSecReplayProtection
+		gateway.DisableIPSecReplayProtection = &disableIPSecReplayProtection
 	} else {
-		embedded.DisableIPSecReplayProtection = nil
+		gateway.DisableIPSecReplayProtection = nil
 	}
 
 	// EnableBgp
 	if source.EnableBgp != nil {
 		enableBgp := *source.EnableBgp
-		embedded.EnableBgp = &enableBgp
+		gateway.EnableBgp = &enableBgp
 	} else {
-		embedded.EnableBgp = nil
+		gateway.EnableBgp = nil
 	}
 
 	// EnableBgpRouteTranslationForNat
 	if source.EnableBgpRouteTranslationForNat != nil {
 		enableBgpRouteTranslationForNat := *source.EnableBgpRouteTranslationForNat
-		embedded.EnableBgpRouteTranslationForNat = &enableBgpRouteTranslationForNat
+		gateway.EnableBgpRouteTranslationForNat = &enableBgpRouteTranslationForNat
 	} else {
-		embedded.EnableBgpRouteTranslationForNat = nil
+		gateway.EnableBgpRouteTranslationForNat = nil
 	}
 
 	// EnableDnsForwarding
 	if source.EnableDnsForwarding != nil {
 		enableDnsForwarding := *source.EnableDnsForwarding
-		embedded.EnableDnsForwarding = &enableDnsForwarding
+		gateway.EnableDnsForwarding = &enableDnsForwarding
 	} else {
-		embedded.EnableDnsForwarding = nil
+		gateway.EnableDnsForwarding = nil
 	}
 
 	// EnablePrivateIpAddress
 	if source.EnablePrivateIpAddress != nil {
 		enablePrivateIpAddress := *source.EnablePrivateIpAddress
-		embedded.EnablePrivateIpAddress = &enablePrivateIpAddress
+		gateway.EnablePrivateIpAddress = &enablePrivateIpAddress
 	} else {
-		embedded.EnablePrivateIpAddress = nil
+		gateway.EnablePrivateIpAddress = nil
 	}
 
 	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+	gateway.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -2487,9 +2487,9 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		embedded.ExtendedLocation = &extendedLocation
+		gateway.ExtendedLocation = &extendedLocation
 	} else {
-		embedded.ExtendedLocation = nil
+		gateway.ExtendedLocation = nil
 	}
 
 	// GatewayDefaultSite
@@ -2499,22 +2499,22 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field GatewayDefaultSite")
 		}
-		embedded.GatewayDefaultSite = &gatewayDefaultSite
+		gateway.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
-		embedded.GatewayDefaultSite = nil
+		gateway.GatewayDefaultSite = nil
 	}
 
 	// GatewayType
 	if source.GatewayType != nil {
 		gatewayType := *source.GatewayType
 		gatewayTypeTemp := genruntime.ToEnum(gatewayType, virtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_Values)
-		embedded.GatewayType = &gatewayTypeTemp
+		gateway.GatewayType = &gatewayTypeTemp
 	} else {
-		embedded.GatewayType = nil
+		gateway.GatewayType = nil
 	}
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	gateway.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -2523,13 +2523,13 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
-		embedded.Identity = &identity
+		gateway.Identity = &identity
 	} else {
-		embedded.Identity = nil
+		gateway.Identity = nil
 	}
 
 	// InboundDnsForwardingEndpoint
-	embedded.InboundDnsForwardingEndpoint = genruntime.ClonePointerToString(source.InboundDnsForwardingEndpoint)
+	gateway.InboundDnsForwardingEndpoint = genruntime.ClonePointerToString(source.InboundDnsForwardingEndpoint)
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
@@ -2544,16 +2544,16 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		embedded.IpConfigurations = ipConfigurationList
+		gateway.IpConfigurations = ipConfigurationList
 	} else {
-		embedded.IpConfigurations = nil
+		gateway.IpConfigurations = nil
 	}
 
 	// Location
-	embedded.Location = genruntime.ClonePointerToString(source.Location)
+	gateway.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
+	gateway.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NatRules
 	if source.NatRules != nil {
@@ -2568,31 +2568,31 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			}
 			natRuleList[natRuleIndex] = natRule
 		}
-		embedded.NatRules = natRuleList
+		gateway.NatRules = natRuleList
 	} else {
-		embedded.NatRules = nil
+		gateway.NatRules = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
 		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
-		embedded.ProvisioningState = &provisioningStateTemp
+		gateway.ProvisioningState = &provisioningStateTemp
 	} else {
-		embedded.ProvisioningState = nil
+		gateway.ProvisioningState = nil
 	}
 
 	// ResiliencyModel
 	if source.ResiliencyModel != nil {
 		resiliencyModel := *source.ResiliencyModel
 		resiliencyModelTemp := genruntime.ToEnum(resiliencyModel, virtualNetworkGatewayPropertiesFormat_ResiliencyModel_STATUS_Values)
-		embedded.ResiliencyModel = &resiliencyModelTemp
+		gateway.ResiliencyModel = &resiliencyModelTemp
 	} else {
-		embedded.ResiliencyModel = nil
+		gateway.ResiliencyModel = nil
 	}
 
 	// ResourceGuid
-	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	gateway.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Sku
 	if source.Sku != nil {
@@ -2601,19 +2601,19 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkGatewaySku_STATUS() to populate field Sku")
 		}
-		embedded.Sku = &sku
+		gateway.Sku = &sku
 	} else {
-		embedded.Sku = nil
+		gateway.Sku = nil
 	}
 
 	// Tags
-	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	gateway.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	embedded.Type = genruntime.ClonePointerToString(source.Type)
+	gateway.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VNetExtendedLocationResourceId
-	embedded.VNetExtendedLocationResourceId = genruntime.ClonePointerToString(source.VNetExtendedLocationResourceId)
+	gateway.VNetExtendedLocationResourceId = genruntime.ClonePointerToString(source.VNetExtendedLocationResourceId)
 
 	// VirtualNetworkGatewayPolicyGroups
 	if source.VirtualNetworkGatewayPolicyGroups != nil {
@@ -2628,9 +2628,9 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 			}
 			virtualNetworkGatewayPolicyGroupList[virtualNetworkGatewayPolicyGroupIndex] = virtualNetworkGatewayPolicyGroup
 		}
-		embedded.VirtualNetworkGatewayPolicyGroups = virtualNetworkGatewayPolicyGroupList
+		gateway.VirtualNetworkGatewayPolicyGroups = virtualNetworkGatewayPolicyGroupList
 	} else {
-		embedded.VirtualNetworkGatewayPolicyGroups = nil
+		gateway.VirtualNetworkGatewayPolicyGroups = nil
 	}
 
 	// VpnClientConfiguration
@@ -2640,74 +2640,74 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_VpnClientConfiguration_STATUS() to populate field VpnClientConfiguration")
 		}
-		embedded.VpnClientConfiguration = &vpnClientConfiguration
+		gateway.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
-		embedded.VpnClientConfiguration = nil
+		gateway.VpnClientConfiguration = nil
 	}
 
 	// VpnGatewayGeneration
 	if source.VpnGatewayGeneration != nil {
 		vpnGatewayGeneration := *source.VpnGatewayGeneration
 		vpnGatewayGenerationTemp := genruntime.ToEnum(vpnGatewayGeneration, virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Values)
-		embedded.VpnGatewayGeneration = &vpnGatewayGenerationTemp
+		gateway.VpnGatewayGeneration = &vpnGatewayGenerationTemp
 	} else {
-		embedded.VpnGatewayGeneration = nil
+		gateway.VpnGatewayGeneration = nil
 	}
 
 	// VpnType
 	if source.VpnType != nil {
 		vpnType := *source.VpnType
 		vpnTypeTemp := genruntime.ToEnum(vpnType, virtualNetworkGatewayPropertiesFormat_VpnType_STATUS_Values)
-		embedded.VpnType = &vpnTypeTemp
+		gateway.VpnType = &vpnTypeTemp
 	} else {
-		embedded.VpnType = nil
+		gateway.VpnType = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded populates the provided destination VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded from our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) AssignProperties_To_VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded(destination *storage.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) error {
+// AssignProperties_To_VirtualNetworkGateway_STATUS populates the provided destination VirtualNetworkGateway_STATUS from our VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkGateway_STATUS(destination *storage.VirtualNetworkGateway_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActiveActive
-	if embedded.ActiveActive != nil {
-		activeActive := *embedded.ActiveActive
+	if gateway.ActiveActive != nil {
+		activeActive := *gateway.ActiveActive
 		destination.ActiveActive = &activeActive
 	} else {
 		destination.ActiveActive = nil
 	}
 
 	// AdminState
-	if embedded.AdminState != nil {
-		adminState := string(*embedded.AdminState)
+	if gateway.AdminState != nil {
+		adminState := string(*gateway.AdminState)
 		destination.AdminState = &adminState
 	} else {
 		destination.AdminState = nil
 	}
 
 	// AllowRemoteVnetTraffic
-	if embedded.AllowRemoteVnetTraffic != nil {
-		allowRemoteVnetTraffic := *embedded.AllowRemoteVnetTraffic
+	if gateway.AllowRemoteVnetTraffic != nil {
+		allowRemoteVnetTraffic := *gateway.AllowRemoteVnetTraffic
 		destination.AllowRemoteVnetTraffic = &allowRemoteVnetTraffic
 	} else {
 		destination.AllowRemoteVnetTraffic = nil
 	}
 
 	// AllowVirtualWanTraffic
-	if embedded.AllowVirtualWanTraffic != nil {
-		allowVirtualWanTraffic := *embedded.AllowVirtualWanTraffic
+	if gateway.AllowVirtualWanTraffic != nil {
+		allowVirtualWanTraffic := *gateway.AllowVirtualWanTraffic
 		destination.AllowVirtualWanTraffic = &allowVirtualWanTraffic
 	} else {
 		destination.AllowVirtualWanTraffic = nil
 	}
 
 	// AutoScaleConfiguration
-	if embedded.AutoScaleConfiguration != nil {
+	if gateway.AutoScaleConfiguration != nil {
 		var autoScaleConfiguration storage.VirtualNetworkGatewayAutoScaleConfiguration_STATUS
-		err := embedded.AutoScaleConfiguration.AssignProperties_To_VirtualNetworkGatewayAutoScaleConfiguration_STATUS(&autoScaleConfiguration)
+		err := gateway.AutoScaleConfiguration.AssignProperties_To_VirtualNetworkGatewayAutoScaleConfiguration_STATUS(&autoScaleConfiguration)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkGatewayAutoScaleConfiguration_STATUS() to populate field AutoScaleConfiguration")
 		}
@@ -2717,9 +2717,9 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// BgpSettings
-	if embedded.BgpSettings != nil {
+	if gateway.BgpSettings != nil {
 		var bgpSetting storage.BgpSettings_STATUS
-		err := embedded.BgpSettings.AssignProperties_To_BgpSettings_STATUS(&bgpSetting)
+		err := gateway.BgpSettings.AssignProperties_To_BgpSettings_STATUS(&bgpSetting)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BgpSettings_STATUS() to populate field BgpSettings")
 		}
@@ -2729,12 +2729,12 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(gateway.Conditions)
 
 	// CustomRoutes
-	if embedded.CustomRoutes != nil {
+	if gateway.CustomRoutes != nil {
 		var customRoute storage.AddressSpace_STATUS
-		err := embedded.CustomRoutes.AssignProperties_To_AddressSpace_STATUS(&customRoute)
+		err := gateway.CustomRoutes.AssignProperties_To_AddressSpace_STATUS(&customRoute)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AddressSpace_STATUS() to populate field CustomRoutes")
 		}
@@ -2744,52 +2744,52 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// DisableIPSecReplayProtection
-	if embedded.DisableIPSecReplayProtection != nil {
-		disableIPSecReplayProtection := *embedded.DisableIPSecReplayProtection
+	if gateway.DisableIPSecReplayProtection != nil {
+		disableIPSecReplayProtection := *gateway.DisableIPSecReplayProtection
 		destination.DisableIPSecReplayProtection = &disableIPSecReplayProtection
 	} else {
 		destination.DisableIPSecReplayProtection = nil
 	}
 
 	// EnableBgp
-	if embedded.EnableBgp != nil {
-		enableBgp := *embedded.EnableBgp
+	if gateway.EnableBgp != nil {
+		enableBgp := *gateway.EnableBgp
 		destination.EnableBgp = &enableBgp
 	} else {
 		destination.EnableBgp = nil
 	}
 
 	// EnableBgpRouteTranslationForNat
-	if embedded.EnableBgpRouteTranslationForNat != nil {
-		enableBgpRouteTranslationForNat := *embedded.EnableBgpRouteTranslationForNat
+	if gateway.EnableBgpRouteTranslationForNat != nil {
+		enableBgpRouteTranslationForNat := *gateway.EnableBgpRouteTranslationForNat
 		destination.EnableBgpRouteTranslationForNat = &enableBgpRouteTranslationForNat
 	} else {
 		destination.EnableBgpRouteTranslationForNat = nil
 	}
 
 	// EnableDnsForwarding
-	if embedded.EnableDnsForwarding != nil {
-		enableDnsForwarding := *embedded.EnableDnsForwarding
+	if gateway.EnableDnsForwarding != nil {
+		enableDnsForwarding := *gateway.EnableDnsForwarding
 		destination.EnableDnsForwarding = &enableDnsForwarding
 	} else {
 		destination.EnableDnsForwarding = nil
 	}
 
 	// EnablePrivateIpAddress
-	if embedded.EnablePrivateIpAddress != nil {
-		enablePrivateIpAddress := *embedded.EnablePrivateIpAddress
+	if gateway.EnablePrivateIpAddress != nil {
+		enablePrivateIpAddress := *gateway.EnablePrivateIpAddress
 		destination.EnablePrivateIpAddress = &enablePrivateIpAddress
 	} else {
 		destination.EnablePrivateIpAddress = nil
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+	destination.Etag = genruntime.ClonePointerToString(gateway.Etag)
 
 	// ExtendedLocation
-	if embedded.ExtendedLocation != nil {
+	if gateway.ExtendedLocation != nil {
 		var extendedLocation storage.ExtendedLocation_STATUS
-		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err := gateway.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
@@ -2799,9 +2799,9 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// GatewayDefaultSite
-	if embedded.GatewayDefaultSite != nil {
+	if gateway.GatewayDefaultSite != nil {
 		var gatewayDefaultSite storage.SubResource_STATUS
-		err := embedded.GatewayDefaultSite.AssignProperties_To_SubResource_STATUS(&gatewayDefaultSite)
+		err := gateway.GatewayDefaultSite.AssignProperties_To_SubResource_STATUS(&gatewayDefaultSite)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field GatewayDefaultSite")
 		}
@@ -2811,20 +2811,20 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// GatewayType
-	if embedded.GatewayType != nil {
-		gatewayType := string(*embedded.GatewayType)
+	if gateway.GatewayType != nil {
+		gatewayType := string(*gateway.GatewayType)
 		destination.GatewayType = &gatewayType
 	} else {
 		destination.GatewayType = nil
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(gateway.Id)
 
 	// Identity
-	if embedded.Identity != nil {
+	if gateway.Identity != nil {
 		var identity storage.ManagedServiceIdentity_STATUS
-		err := embedded.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
+		err := gateway.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
@@ -2834,12 +2834,12 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// InboundDnsForwardingEndpoint
-	destination.InboundDnsForwardingEndpoint = genruntime.ClonePointerToString(embedded.InboundDnsForwardingEndpoint)
+	destination.InboundDnsForwardingEndpoint = genruntime.ClonePointerToString(gateway.InboundDnsForwardingEndpoint)
 
 	// IpConfigurations
-	if embedded.IpConfigurations != nil {
-		ipConfigurationList := make([]storage.VirtualNetworkGatewayIPConfiguration_STATUS, len(embedded.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range embedded.IpConfigurations {
+	if gateway.IpConfigurations != nil {
+		ipConfigurationList := make([]storage.VirtualNetworkGatewayIPConfiguration_STATUS, len(gateway.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range gateway.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.VirtualNetworkGatewayIPConfiguration_STATUS
@@ -2855,15 +2855,15 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(embedded.Location)
+	destination.Location = genruntime.ClonePointerToString(gateway.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+	destination.Name = genruntime.ClonePointerToString(gateway.Name)
 
 	// NatRules
-	if embedded.NatRules != nil {
-		natRuleList := make([]storage.VirtualNetworkGatewayNatRule_STATUS, len(embedded.NatRules))
-		for natRuleIndex, natRuleItem := range embedded.NatRules {
+	if gateway.NatRules != nil {
+		natRuleList := make([]storage.VirtualNetworkGatewayNatRule_STATUS, len(gateway.NatRules))
+		for natRuleIndex, natRuleItem := range gateway.NatRules {
 			// Shadow the loop variable to avoid aliasing
 			natRuleItem := natRuleItem
 			var natRule storage.VirtualNetworkGatewayNatRule_STATUS
@@ -2879,28 +2879,28 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
+	if gateway.ProvisioningState != nil {
+		provisioningState := string(*gateway.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// ResiliencyModel
-	if embedded.ResiliencyModel != nil {
-		resiliencyModel := string(*embedded.ResiliencyModel)
+	if gateway.ResiliencyModel != nil {
+		resiliencyModel := string(*gateway.ResiliencyModel)
 		destination.ResiliencyModel = &resiliencyModel
 	} else {
 		destination.ResiliencyModel = nil
 	}
 
 	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
+	destination.ResourceGuid = genruntime.ClonePointerToString(gateway.ResourceGuid)
 
 	// Sku
-	if embedded.Sku != nil {
+	if gateway.Sku != nil {
 		var sku storage.VirtualNetworkGatewaySku_STATUS
-		err := embedded.Sku.AssignProperties_To_VirtualNetworkGatewaySku_STATUS(&sku)
+		err := gateway.Sku.AssignProperties_To_VirtualNetworkGatewaySku_STATUS(&sku)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkGatewaySku_STATUS() to populate field Sku")
 		}
@@ -2910,18 +2910,18 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(gateway.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(embedded.Type)
+	destination.Type = genruntime.ClonePointerToString(gateway.Type)
 
 	// VNetExtendedLocationResourceId
-	destination.VNetExtendedLocationResourceId = genruntime.ClonePointerToString(embedded.VNetExtendedLocationResourceId)
+	destination.VNetExtendedLocationResourceId = genruntime.ClonePointerToString(gateway.VNetExtendedLocationResourceId)
 
 	// VirtualNetworkGatewayPolicyGroups
-	if embedded.VirtualNetworkGatewayPolicyGroups != nil {
-		virtualNetworkGatewayPolicyGroupList := make([]storage.VirtualNetworkGatewayPolicyGroup_STATUS, len(embedded.VirtualNetworkGatewayPolicyGroups))
-		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range embedded.VirtualNetworkGatewayPolicyGroups {
+	if gateway.VirtualNetworkGatewayPolicyGroups != nil {
+		virtualNetworkGatewayPolicyGroupList := make([]storage.VirtualNetworkGatewayPolicyGroup_STATUS, len(gateway.VirtualNetworkGatewayPolicyGroups))
+		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range gateway.VirtualNetworkGatewayPolicyGroups {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkGatewayPolicyGroupItem := virtualNetworkGatewayPolicyGroupItem
 			var virtualNetworkGatewayPolicyGroup storage.VirtualNetworkGatewayPolicyGroup_STATUS
@@ -2937,9 +2937,9 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// VpnClientConfiguration
-	if embedded.VpnClientConfiguration != nil {
+	if gateway.VpnClientConfiguration != nil {
 		var vpnClientConfiguration storage.VpnClientConfiguration_STATUS
-		err := embedded.VpnClientConfiguration.AssignProperties_To_VpnClientConfiguration_STATUS(&vpnClientConfiguration)
+		err := gateway.VpnClientConfiguration.AssignProperties_To_VpnClientConfiguration_STATUS(&vpnClientConfiguration)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_VpnClientConfiguration_STATUS() to populate field VpnClientConfiguration")
 		}
@@ -2949,16 +2949,16 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 	}
 
 	// VpnGatewayGeneration
-	if embedded.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := string(*embedded.VpnGatewayGeneration)
+	if gateway.VpnGatewayGeneration != nil {
+		vpnGatewayGeneration := string(*gateway.VpnGatewayGeneration)
 		destination.VpnGatewayGeneration = &vpnGatewayGeneration
 	} else {
 		destination.VpnGatewayGeneration = nil
 	}
 
 	// VpnType
-	if embedded.VpnType != nil {
-		vpnType := string(*embedded.VpnType)
+	if gateway.VpnType != nil {
+		vpnType := string(*gateway.VpnType)
 		destination.VpnType = &vpnType
 	} else {
 		destination.VpnType = nil

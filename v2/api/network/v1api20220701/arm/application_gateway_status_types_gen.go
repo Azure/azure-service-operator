@@ -4,7 +4,7 @@
 package arm
 
 // Application gateway resource.
-type ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded struct {
+type ApplicationGateway_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 

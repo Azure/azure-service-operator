@@ -161,7 +161,7 @@ func ApplicationGatewayGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForApplicationGateway is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApplicationGateway(gens map[string]gopter.Gen) {
 	gens["Spec"] = ApplicationGateway_SpecGenerator()
-	gens["Status"] = ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()
+	gens["Status"] = ApplicationGateway_STATUSGenerator()
 }
 
 func Test_ApplicationGatewayAuthenticationCertificate_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8106,32 +8106,32 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayWebApplicationFirewallConf
 	gens["Exclusions"] = gen.SliceOf(ApplicationGatewayFirewallExclusion_STATUSGenerator())
 }
 
-func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ApplicationGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded to ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded via AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded & AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()))
+		"Round trip from ApplicationGateway_STATUS to ApplicationGateway_STATUS via AssignProperties_To_ApplicationGateway_STATUS & AssignProperties_From_ApplicationGateway_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGateway_STATUS, ApplicationGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForApplicationGateway_STATUS tests if a specific instance of ApplicationGateway_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGateway_STATUS(subject ApplicationGateway_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err := copied.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
+	var other storage.ApplicationGateway_STATUS
+	err := copied.AssignProperties_To_ApplicationGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err = actual.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
+	var actual ApplicationGateway_STATUS
+	err = actual.AssignProperties_From_ApplicationGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -8148,20 +8148,20 @@ func RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_Su
 	return ""
 }
 
-func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApplicationGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()))
+		"Round trip of ApplicationGateway_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGateway_STATUS, ApplicationGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded runs a test to see if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
+// RunJSONSerializationTestForApplicationGateway_STATUS runs a test to see if a specific instance of ApplicationGateway_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGateway_STATUS(subject ApplicationGateway_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -8169,7 +8169,7 @@ func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_Sub
 	}
 
 	// Deserialize back into memory
-	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	var actual ApplicationGateway_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -8187,34 +8187,34 @@ func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_Sub
 	return ""
 }
 
-// Generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded instances for property testing - lazily
-// instantiated by ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()
-var applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of ApplicationGateway_STATUS instances for property testing - lazily instantiated by
+// ApplicationGateway_STATUSGenerator()
+var applicationGateway_STATUSGenerator gopter.Gen
 
-// ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator returns a generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded instances for property testing.
-// We first initialize applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator with a simplified generator based on the
+// ApplicationGateway_STATUSGenerator returns a generator of ApplicationGateway_STATUS instances for property testing.
+// We first initialize applicationGateway_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator() gopter.Gen {
-	if applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator != nil {
-		return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator
+func ApplicationGateway_STATUSGenerator() gopter.Gen {
+	if applicationGateway_STATUSGenerator != nil {
+		return applicationGateway_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
-	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS(generators)
+	applicationGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
-	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS(generators)
+	AddRelatedPropertyGeneratorsForApplicationGateway_STATUS(generators)
+	applicationGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS{}), generators)
 
-	return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator
+	return applicationGateway_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApplicationGateway_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS(gens map[string]gopter.Gen) {
 	gens["EnableFips"] = gen.PtrOf(gen.Bool())
 	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
@@ -8240,8 +8240,8 @@ func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGat
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForApplicationGateway_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGateway_STATUS(gens map[string]gopter.Gen) {
 	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificate_STATUSGenerator())
 	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfiguration_STATUSGenerator())
 	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPool_STATUSGenerator())

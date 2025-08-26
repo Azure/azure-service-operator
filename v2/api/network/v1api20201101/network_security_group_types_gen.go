@@ -31,8 +31,8 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
-	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              NetworkSecurityGroup_Spec   `json:"spec,omitempty"`
+	Status            NetworkSecurityGroup_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroup{}
@@ -146,7 +146,7 @@ func (group *NetworkSecurityGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+	return &NetworkSecurityGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -162,13 +162,13 @@ func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (group *NetworkSecurityGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+	if st, ok := status.(*NetworkSecurityGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	var st NetworkSecurityGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -193,10 +193,10 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	group.Spec = spec
 
 	// Status
-	var status NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-	err = status.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&source.Status)
+	var status NetworkSecurityGroup_STATUS
+	err = status.AssignProperties_From_NetworkSecurityGroup_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -219,10 +219,10 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	destination.Spec = spec
 
 	// Status
-	var status storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-	err = group.Status.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&status)
+	var status storage.NetworkSecurityGroup_STATUS
+	err = group.Status.AssignProperties_To_NetworkSecurityGroup_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -485,7 +485,7 @@ func (group *NetworkSecurityGroup_Spec) OriginalVersion() string {
 func (group *NetworkSecurityGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
 // NetworkSecurityGroup resource.
-type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
+type NetworkSecurityGroup_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -526,25 +526,25 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_STATUS{}
 
-// ConvertStatusFrom populates our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source
-func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
+// ConvertStatusFrom populates our NetworkSecurityGroup_STATUS from the provided source
+func (group *NetworkSecurityGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.NetworkSecurityGroup_STATUS)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(src)
+		return group.AssignProperties_From_NetworkSecurityGroup_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+	src = &storage.NetworkSecurityGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = embedded.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(src)
+	err = group.AssignProperties_From_NetworkSecurityGroup_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -552,17 +552,17 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
+// ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_STATUS
+func (group *NetworkSecurityGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.NetworkSecurityGroup_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(dst)
+		return group.AssignProperties_To_NetworkSecurityGroup_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
-	err := embedded.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(dst)
+	dst = &storage.NetworkSecurityGroup_STATUS{}
+	err := group.AssignProperties_To_NetworkSecurityGroup_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -576,18 +576,18 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &NetworkSecurityGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+func (group *NetworkSecurityGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.NetworkSecurityGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
+func (group *NetworkSecurityGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.NetworkSecurityGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkSecurityGroup_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -601,14 +601,14 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			if err != nil {
 				return err
 			}
-			embedded.DefaultSecurityRules = append(embedded.DefaultSecurityRules, item1)
+			group.DefaultSecurityRules = append(group.DefaultSecurityRules, item1)
 		}
 	}
 
 	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		embedded.Etag = &etag
+		group.Etag = &etag
 	}
 
 	// Set property "FlowLogs":
@@ -620,26 +620,26 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			if err != nil {
 				return err
 			}
-			embedded.FlowLogs = append(embedded.FlowLogs, item1)
+			group.FlowLogs = append(group.FlowLogs, item1)
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		group.Id = &id
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		embedded.Location = &location
+		group.Location = &location
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		embedded.Name = &name
+		group.Name = &name
 	}
 
 	// Set property "NetworkInterfaces":
@@ -651,7 +651,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			if err != nil {
 				return err
 			}
-			embedded.NetworkInterfaces = append(embedded.NetworkInterfaces, item1)
+			group.NetworkInterfaces = append(group.NetworkInterfaces, item1)
 		}
 	}
 
@@ -662,7 +662,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
 			provisioningState := ProvisioningState_STATUS(temp)
-			embedded.ProvisioningState = &provisioningState
+			group.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -671,7 +671,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
 			resourceGuid := *typedInput.Properties.ResourceGuid
-			embedded.ResourceGuid = &resourceGuid
+			group.ResourceGuid = &resourceGuid
 		}
 	}
 
@@ -684,33 +684,33 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			if err != nil {
 				return err
 			}
-			embedded.Subnets = append(embedded.Subnets, item1)
+			group.Subnets = append(group.Subnets, item1)
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string, len(typedInput.Tags))
+		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			embedded.Tags[key] = value
+			group.Tags[key] = value
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		embedded.Type = &typeVar
+		group.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded populates our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(source *storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignProperties_From_NetworkSecurityGroup_STATUS populates our NetworkSecurityGroup_STATUS from the provided source NetworkSecurityGroup_STATUS
+func (group *NetworkSecurityGroup_STATUS) AssignProperties_From_NetworkSecurityGroup_STATUS(source *storage.NetworkSecurityGroup_STATUS) error {
 
 	// Conditions
-	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DefaultSecurityRules
 	if source.DefaultSecurityRules != nil {
@@ -725,13 +725,13 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
-		embedded.DefaultSecurityRules = defaultSecurityRuleList
+		group.DefaultSecurityRules = defaultSecurityRuleList
 	} else {
-		embedded.DefaultSecurityRules = nil
+		group.DefaultSecurityRules = nil
 	}
 
 	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+	group.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// FlowLogs
 	if source.FlowLogs != nil {
@@ -746,19 +746,19 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
-		embedded.FlowLogs = flowLogList
+		group.FlowLogs = flowLogList
 	} else {
-		embedded.FlowLogs = nil
+		group.FlowLogs = nil
 	}
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	group.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	embedded.Location = genruntime.ClonePointerToString(source.Location)
+	group.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
+	group.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
@@ -773,22 +773,22 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
-		embedded.NetworkInterfaces = networkInterfaceList
+		group.NetworkInterfaces = networkInterfaceList
 	} else {
-		embedded.NetworkInterfaces = nil
+		group.NetworkInterfaces = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
 		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
-		embedded.ProvisioningState = &provisioningStateTemp
+		group.ProvisioningState = &provisioningStateTemp
 	} else {
-		embedded.ProvisioningState = nil
+		group.ProvisioningState = nil
 	}
 
 	// ResourceGuid
-	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	group.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Subnets
 	if source.Subnets != nil {
@@ -803,33 +803,33 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			}
 			subnetList[subnetIndex] = subnet
 		}
-		embedded.Subnets = subnetList
+		group.Subnets = subnetList
 	} else {
-		embedded.Subnets = nil
+		group.Subnets = nil
 	}
 
 	// Tags
-	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	embedded.Type = genruntime.ClonePointerToString(source.Type)
+	group.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded populates the provided destination NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(destination *storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignProperties_To_NetworkSecurityGroup_STATUS populates the provided destination NetworkSecurityGroup_STATUS from our NetworkSecurityGroup_STATUS
+func (group *NetworkSecurityGroup_STATUS) AssignProperties_To_NetworkSecurityGroup_STATUS(destination *storage.NetworkSecurityGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(group.Conditions)
 
 	// DefaultSecurityRules
-	if embedded.DefaultSecurityRules != nil {
-		defaultSecurityRuleList := make([]storage.SecurityRule_STATUS, len(embedded.DefaultSecurityRules))
-		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range embedded.DefaultSecurityRules {
+	if group.DefaultSecurityRules != nil {
+		defaultSecurityRuleList := make([]storage.SecurityRule_STATUS, len(group.DefaultSecurityRules))
+		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range group.DefaultSecurityRules {
 			// Shadow the loop variable to avoid aliasing
 			defaultSecurityRuleItem := defaultSecurityRuleItem
 			var defaultSecurityRule storage.SecurityRule_STATUS
@@ -845,12 +845,12 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+	destination.Etag = genruntime.ClonePointerToString(group.Etag)
 
 	// FlowLogs
-	if embedded.FlowLogs != nil {
-		flowLogList := make([]storage.FlowLog_STATUS, len(embedded.FlowLogs))
-		for flowLogIndex, flowLogItem := range embedded.FlowLogs {
+	if group.FlowLogs != nil {
+		flowLogList := make([]storage.FlowLog_STATUS, len(group.FlowLogs))
+		for flowLogIndex, flowLogItem := range group.FlowLogs {
 			// Shadow the loop variable to avoid aliasing
 			flowLogItem := flowLogItem
 			var flowLog storage.FlowLog_STATUS
@@ -866,18 +866,18 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(group.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(embedded.Location)
+	destination.Location = genruntime.ClonePointerToString(group.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+	destination.Name = genruntime.ClonePointerToString(group.Name)
 
 	// NetworkInterfaces
-	if embedded.NetworkInterfaces != nil {
-		networkInterfaceList := make([]storage.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range embedded.NetworkInterfaces {
+	if group.NetworkInterfaces != nil {
+		networkInterfaceList := make([]storage.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(group.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range group.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
 			var networkInterface storage.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
@@ -893,20 +893,20 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
+	if group.ProvisioningState != nil {
+		provisioningState := string(*group.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
+	destination.ResourceGuid = genruntime.ClonePointerToString(group.ResourceGuid)
 
 	// Subnets
-	if embedded.Subnets != nil {
-		subnetList := make([]storage.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.Subnets))
-		for subnetIndex, subnetItem := range embedded.Subnets {
+	if group.Subnets != nil {
+		subnetList := make([]storage.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(group.Subnets))
+		for subnetIndex, subnetItem := range group.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
 			var subnet storage.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
@@ -922,10 +922,10 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(embedded.Type)
+	destination.Type = genruntime.ClonePointerToString(group.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

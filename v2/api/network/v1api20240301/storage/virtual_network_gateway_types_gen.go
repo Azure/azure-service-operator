@@ -32,8 +32,8 @@ import (
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworkGateway_Spec                                             `json:"spec,omitempty"`
-	Status            VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              VirtualNetworkGateway_Spec   `json:"spec,omitempty"`
+	Status            VirtualNetworkGateway_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworkGateway{}
@@ -111,7 +111,7 @@ func (gateway *VirtualNetworkGateway) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (gateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+	return &VirtualNetworkGateway_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -127,13 +127,13 @@ func (gateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (gateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded); ok {
+	if st, ok := status.(*VirtualNetworkGateway_STATUS); ok {
 		gateway.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
+	var st VirtualNetworkGateway_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -233,9 +233,9 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertSpecTo(destination genruntime.
 	return destination.ConvertSpecFrom(gateway)
 }
 
-// Storage version of v1api20240301.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
+// Storage version of v1api20240301.VirtualNetworkGateway_STATUS
 // A common class for general resource information.
-type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded struct {
+type VirtualNetworkGateway_STATUS struct {
 	ActiveActive                      *bool                                               `json:"activeActive,omitempty"`
 	AdminState                        *string                                             `json:"adminState,omitempty"`
 	AllowRemoteVnetTraffic            *bool                                               `json:"allowRemoteVnetTraffic,omitempty"`
@@ -274,24 +274,24 @@ type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded stru
 	VpnType                           *string                                             `json:"vpnType,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded from the provided source
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == embedded {
+// ConvertStatusFrom populates our VirtualNetworkGateway_STATUS from the provided source
+func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == gateway {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(embedded)
+	return source.ConvertStatusTo(gateway)
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
-func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == embedded {
+// ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == gateway {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(embedded)
+	return destination.ConvertStatusFrom(gateway)
 }
 
 // Storage version of v1api20240301.BgpSettings
