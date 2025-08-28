@@ -92,7 +92,7 @@ func MakeCountingTypeVisitor() *CountingTypeVisitor {
 
 	countEachObject := func(this *TypeVisitor[any], it *ObjectType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return IdentityVisitOfObjectType[any](this, it, ctx)
+		return IdentityVisitOfObjectType(this, it, ctx)
 	}
 
 	countEachMap := func(this *TypeVisitor[any], it *MapType, ctx interface{}) (Type, error) {
@@ -107,12 +107,12 @@ func MakeCountingTypeVisitor() *CountingTypeVisitor {
 
 	countEachOptional := func(this *TypeVisitor[any], it *OptionalType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return IdentityVisitOfOptionalType[any](this, it, ctx)
+		return IdentityVisitOfOptionalType(this, it, ctx)
 	}
 
 	countEachResource := func(this *TypeVisitor[any], it *ResourceType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return IdentityVisitOfResourceType[any](this, it, ctx)
+		return IdentityVisitOfResourceType(this, it, ctx)
 	}
 
 	result.TypeVisitor = TypeVisitorBuilder[any]{

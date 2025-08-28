@@ -148,7 +148,7 @@ func TestFlaggedType_WithoutFlags_GivenPartiallyMatchingFlags_ReturnsNewFlaggedT
 	g := NewGomegaWithT(t)
 	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag)
 	result := original.WithoutFlags(ARMFlag, DoNotPrune).(*FlaggedType)
-	
+
 	g.Expect(result).ToNot(BeIdenticalTo(original))
 	g.Expect(result.HasFlag(ARMFlag)).To(BeFalse())
 	g.Expect(result.HasFlag(StorageFlag)).To(BeTrue())
@@ -161,7 +161,7 @@ func TestFlaggedType_WithoutFlags_GivenAllMatchingFlags_ReturnsUnderlyingType(t 
 	g := NewGomegaWithT(t)
 	original := NewFlaggedType(StringType, ARMFlag, StorageFlag)
 	result := original.WithoutFlags(ARMFlag, StorageFlag)
-	
+
 	g.Expect(result).To(Equal(StringType))
 	g.Expect(result).ToNot(BeAssignableToTypeOf(&FlaggedType{}))
 }
@@ -171,7 +171,7 @@ func TestFlaggedType_WithoutFlags_GivenAllMatchingFlagsAndMore_ReturnsUnderlying
 	g := NewGomegaWithT(t)
 	original := NewFlaggedType(StringType, ARMFlag, StorageFlag)
 	result := original.WithoutFlags(ARMFlag, StorageFlag, OneOfFlag, DoNotPrune)
-	
+
 	g.Expect(result).To(Equal(StringType))
 	g.Expect(result).ToNot(BeAssignableToTypeOf(&FlaggedType{}))
 }
@@ -181,7 +181,7 @@ func TestFlaggedType_WithoutFlags_GivenSingleFlagMatch_ReturnsNewFlaggedTypeWith
 	g := NewGomegaWithT(t)
 	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag)
 	result := original.WithoutFlags(StorageFlag).(*FlaggedType)
-	
+
 	g.Expect(result).ToNot(BeIdenticalTo(original))
 	g.Expect(result.HasFlag(ARMFlag)).To(BeTrue())
 	g.Expect(result.HasFlag(StorageFlag)).To(BeFalse())
@@ -194,7 +194,7 @@ func TestFlaggedType_WithoutFlags_GivenSingleFlagType_ReturnsUnderlyingType(t *t
 	g := NewGomegaWithT(t)
 	original := NewFlaggedType(StringType, ARMFlag)
 	result := original.WithoutFlags(ARMFlag)
-	
+
 	g.Expect(result).To(Equal(StringType))
 	g.Expect(result).ToNot(BeAssignableToTypeOf(&FlaggedType{}))
 }
@@ -204,7 +204,7 @@ func TestFlaggedType_WithoutFlags_GivenMixedMatchingAndNonMatchingFlags_ReturnsN
 	g := NewGomegaWithT(t)
 	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag, WellknownFlag)
 	result := original.WithoutFlags(StorageFlag, DoNotPrune, WellknownFlag, CompatibilityFlag).(*FlaggedType)
-	
+
 	g.Expect(result).ToNot(BeIdenticalTo(original))
 	g.Expect(result.HasFlag(ARMFlag)).To(BeTrue())
 	g.Expect(result.HasFlag(StorageFlag)).To(BeFalse())

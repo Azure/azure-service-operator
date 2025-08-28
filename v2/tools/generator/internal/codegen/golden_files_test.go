@@ -410,10 +410,7 @@ func TestGolden(t *testing.T) {
 		t.Fatalf("Expected at least %d test groups, found: %d", minExpectedTestGroups, len(testGroups))
 	}
 
-	// Skip linting next line, see https://github.com/kunwardeep/paralleltest/issues/14. Linter doesn't support maps
-	// nolint:paralleltest
 	for groupName, fs := range testGroups {
-		fs := fs
 		groupName := groupName
 
 		configPath := fmt.Sprintf("%s/%s/config.yaml", testDataRoot, groupName)

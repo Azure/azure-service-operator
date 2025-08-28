@@ -69,7 +69,7 @@ func makeReferencePropertyName(existing *astmodel.PropertyDefinition, isSlice bo
 
 	var referencePropertyName string
 	// Special case for "Id" and properties that end in "Id", which are quite common in the specs. This is primarily
-	// because it's awkward to have a field called "Id" not just be a string and instead but a complex type describing
+	// because it's awkward to have a field called "Id" not just be a string and instead be a complex type describing
 	// a reference.
 	s := existing.PropertyName().String()
 
