@@ -165,25 +165,35 @@ func MakeARMIDPropertyTypeVisitor(
 		var newProps []*astmodel.PropertyDefinition
 		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			classification := visitor.isPropertyAnARMReference(ctx, prop)
+
+			wasType := astmodel.DebugDescription(prop.PropertyType())
+
 			switch classification {
-			case ARMIDPropertyClassificationSet:
-				log.V(1).Info(
-					"Transforming property",
-					"definition", ctx,
-					"property", prop.PropertyName(),
-					"was", prop.PropertyType(),
-					"now", "astmodel.ARMID")
-				prop = makeARMIDProperty(prop)
-			case ARMIDPropertyClassificationUnset:
-				log.V(1).Info(
-					"Transforming property",
-					"definition", ctx,
-					"property", prop.PropertyName(),
-					"was", prop.PropertyType(),
-					"now", "string")
-				prop = unsetARMIDProperty(prop)
-			case ARMIDPropertyClassificationUnspecified:
+			case ReferenceTypeARM:
+				prop = makeARMReferenceProperty(prop)
+
+			case ReferenceTypeString:
+				prop = makeStringReferenceProperty(prop)
+
+			case ReferenceTypeARMWellknown:
+				prop = makeWellKnownARMReferenceProperty(prop)
+
+			case ReferenceTypeARMCompat:
+				prop = makeCompatibleARMReferenceProperty(prop)
+
+			case ReferenceTypeUnspecified:
 				// Do nothing, we don't know what this is
+			}
+
+			nowType := astmodel.DebugDescription(prop.PropertyType())
+
+			if wasType != nowType {
+				log.V(1).Info(
+					"Transformed property",
+					"definition", ctx,
+					"property", prop.PropertyName(),
+					"was", wasType,
+					"now", nowType)
 			}
 
 			newProps = append(newProps, prop)
@@ -241,13 +251,37 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	return false
 }
 
-func makeARMIDProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-	return makeARMIDPropertyImpl(existing, astmodel.ARMIDType)
+// makeARMReferenceProperty modifies an existing property definition into an ARM reference property.
+func makeARMReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+	return makeReferenceProperty(existing, astmodel.ARMIDType)
 }
 
-func makeARMIDPropertyImpl(existing *astmodel.PropertyDefinition, newType astmodel.Type) *astmodel.PropertyDefinition {
-	_, isSlice := astmodel.AsArrayType(existing.PropertyType())
-	_, isMap := astmodel.AsMapType(existing.PropertyType())
+// makeWellKnownARMReferenceProperty modifies an existing property definition into a well-known ARM reference property.
+func makeWellKnownARMReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+	return makeReferenceProperty(existing, astmodel.ARMIDType, astmodel.WellknownFlag)
+}
+
+// makeCompatibleARMReferenceProperty modifies an existing property definition into a ARM reference property with backward compatibility characteristics.
+func makeCompatibleARMReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+	return makeReferenceProperty(existing, astmodel.ARMIDType, astmodel.CompatibilityFlag)
+}
+
+// makeStringReferenceProperty modifies an existing property definition into a string reference property.
+func makeStringReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+	return makeReferenceProperty(existing, astmodel.StringType)
+}
+
+// makeReferenceProperty modifies an existing property definition to use the specified type and any associated flags.
+// property is the existing property definition.
+// newType is the new type to use for the property.
+// flags is an optional set of flags to apply.
+func makeReferenceProperty(
+	property *astmodel.PropertyDefinition,
+	newType astmodel.Type,
+	flags ...astmodel.TypeFlag,
+) *astmodel.PropertyDefinition {
+	_, isSlice := astmodel.AsArrayType(property.PropertyType())
+	_, isMap := astmodel.AsMapType(property.PropertyType())
 
 	var newPropType astmodel.Type
 
@@ -259,13 +293,14 @@ func makeARMIDPropertyImpl(existing *astmodel.PropertyDefinition, newType astmod
 		newPropType = astmodel.NewOptionalType(newType)
 	}
 
-	newProp := existing.WithType(newPropType)
+	// Apply flags
+	for _, f := range flags {
+		newPropType = f.ApplyTo(newPropType)
+	}
+
+	newProp := property.WithType(newPropType)
 
 	return newProp
-}
-
-func unsetARMIDProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-	return makeARMIDPropertyImpl(existing, astmodel.StringType)
 }
 
 // isTypeARMID determines if the type has an ARM ID somewhere inside of it

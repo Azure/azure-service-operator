@@ -336,13 +336,13 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 			isCrossResourceReference := func(
 				_ astmodel.InternalTypeName,
 				prop *astmodel.PropertyDefinition,
-			) pipeline.ARMIDPropertyClassification {
+			) pipeline.ReferenceType {
 				ref := pipeline.DoesPropertyLookLikeARMReference(prop)
 				if ref {
-					return pipeline.ARMIDPropertyClassificationSet
+					return pipeline.ReferenceTypeARM
 				}
 
-				return pipeline.ARMIDPropertyClassificationUnspecified
+				return pipeline.ReferenceTypeUnspecified
 			}
 
 			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference, logr.Discard())
