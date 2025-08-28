@@ -17,12 +17,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-type ARMIDPropertyClassification string
+type ReferenceType string
 
 const (
-	ARMIDPropertyClassificationUnset       = ARMIDPropertyClassification("unset")
-	ARMIDPropertyClassificationSet         = ARMIDPropertyClassification("set")
-	ARMIDPropertyClassificationUnspecified = ARMIDPropertyClassification("unspecified")
+	ReferenceTypeString       = ReferenceType("string")        // A simple string
+	ReferenceTypeARM          = ReferenceType("arm")           // A full ARM reference
+	ReferenceTypeARMWellknown = ReferenceType("arm+wellknown") // A full ARM reference OR a well known identifier
+	ReferenceTypeARMCompat    = ReferenceType("arm+compat")    // A full ARM reference, but backward compatible
+	ReferenceTypeUnspecified  = ReferenceType("unspecified")   // We don't know what to do with this
 )
 
 // ApplyCrossResourceReferencesFromConfigStageID is the unique identifier for this pipeline stage
@@ -41,7 +43,7 @@ func ApplyCrossResourceReferencesFromConfig(
 
 			var crossResourceReferenceErrs []error
 
-			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
+			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ReferenceType {
 				// First check if we know that this property is an ARMID already
 				referenceType, ok := configuration.ObjectModelConfiguration.ReferenceType.Lookup(typeName, prop.PropertyName())
 				isSwaggerARMID := isTypeARMID(prop.PropertyType())
@@ -50,8 +52,9 @@ func ApplyCrossResourceReferencesFromConfig(
 				if ok && isSwaggerARMID {
 					switch referenceType {
 					case config.ReferenceTypeSimple:
-						// We allow overriding the reference type of a property to "other" in our config
-						return ARMIDPropertyClassificationUnset
+						// We permit "simple" in the config to force a reference to be handled as a string
+						return ReferenceTypeString
+
 					case config.ReferenceTypeARM:
 						// Swagger has marked this field as a reference, and we also have it marked in our
 						// config. Record an error saying that the config entry is no longer needed
@@ -61,13 +64,18 @@ func ApplyCrossResourceReferencesFromConfig(
 								typeName.String(),
 								prop.PropertyName().String()),
 						)
+					case config.ReferenceTypeWellknown:
+						// We permit "arm+wellknown" in config to accomodate references that are MORE than a simple ARM ID
+						return ReferenceTypeARMWellknown
+
+					case config.ReferenceTypeCompatible:
+						// We permit "arm+compat" in config to accomodate references that need to be specially handled for backward compatibility
+						return ReferenceTypeARMCompat
 					}
 				}
 
 				if DoesPropertyLookLikeARMReference(prop) && !ok {
-					// This is an error for now to ensure that we don't accidentally miss adding references.
-					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
-					// trust the Swagger.
+					// This is an error to ensure that we don't accidentally miss adding references.
 					crossResourceReferenceErrs = append(
 						crossResourceReferenceErrs,
 						eris.Errorf(
@@ -77,13 +85,22 @@ func ApplyCrossResourceReferencesFromConfig(
 					)
 				}
 
+				// Convert from configuration reference types to internal reference types
 				switch referenceType {
 				case config.ReferenceTypeARM:
-					return ARMIDPropertyClassificationSet
+					return ReferenceTypeARM
+
 				case config.ReferenceTypeSimple:
-					return ARMIDPropertyClassificationUnspecified
+					return ReferenceTypeString
+
+				case config.ReferenceTypeWellknown:
+					return ReferenceTypeARMWellknown
+
+				case config.ReferenceTypeCompatible:
+					return ReferenceTypeARMCompat
+
 				default:
-					return ARMIDPropertyClassificationUnspecified
+					return ReferenceTypeUnspecified
 				}
 			}
 
@@ -123,7 +140,7 @@ func ApplyCrossResourceReferencesFromConfig(
 		})
 }
 
-type crossResourceReferenceChecker func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification
+type crossResourceReferenceChecker func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ReferenceType
 
 type ARMIDPropertyTypeVisitor struct {
 	astmodel.TypeVisitor[astmodel.InternalTypeName]
