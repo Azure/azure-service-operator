@@ -124,6 +124,96 @@ func TestFlaggedType_Equals_GivenOther_HasExpectedResult(t *testing.T) {
 }
 
 /*
+ * WithoutFlags() tests
+ */
+
+func TestFlaggedType_WithoutFlags_GivenNoFlags_ReturnsSameInstance(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag)
+	result := original.WithoutFlags()
+	g.Expect(result).To(BeIdenticalTo(original))
+}
+
+func TestFlaggedType_WithoutFlags_GivenNonMatchingFlags_ReturnsSameInstance(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag)
+	result := original.WithoutFlags(OneOfFlag, DoNotPrune)
+	g.Expect(result).To(BeIdenticalTo(original))
+}
+
+func TestFlaggedType_WithoutFlags_GivenPartiallyMatchingFlags_ReturnsNewFlaggedTypeWithRemainingFlags(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag)
+	result := original.WithoutFlags(ARMFlag, DoNotPrune).(*FlaggedType)
+	
+	g.Expect(result).ToNot(BeIdenticalTo(original))
+	g.Expect(result.HasFlag(ARMFlag)).To(BeFalse())
+	g.Expect(result.HasFlag(StorageFlag)).To(BeTrue())
+	g.Expect(result.HasFlag(OneOfFlag)).To(BeTrue())
+	g.Expect(result.Element()).To(Equal(StringType))
+}
+
+func TestFlaggedType_WithoutFlags_GivenAllMatchingFlags_ReturnsUnderlyingType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag)
+	result := original.WithoutFlags(ARMFlag, StorageFlag)
+	
+	g.Expect(result).To(Equal(StringType))
+	g.Expect(result).ToNot(BeAssignableToTypeOf(&FlaggedType{}))
+}
+
+func TestFlaggedType_WithoutFlags_GivenAllMatchingFlagsAndMore_ReturnsUnderlyingType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag)
+	result := original.WithoutFlags(ARMFlag, StorageFlag, OneOfFlag, DoNotPrune)
+	
+	g.Expect(result).To(Equal(StringType))
+	g.Expect(result).ToNot(BeAssignableToTypeOf(&FlaggedType{}))
+}
+
+func TestFlaggedType_WithoutFlags_GivenSingleFlagMatch_ReturnsNewFlaggedTypeWithRemainingFlags(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag)
+	result := original.WithoutFlags(StorageFlag).(*FlaggedType)
+	
+	g.Expect(result).ToNot(BeIdenticalTo(original))
+	g.Expect(result.HasFlag(ARMFlag)).To(BeTrue())
+	g.Expect(result.HasFlag(StorageFlag)).To(BeFalse())
+	g.Expect(result.HasFlag(OneOfFlag)).To(BeTrue())
+	g.Expect(result.Element()).To(Equal(StringType))
+}
+
+func TestFlaggedType_WithoutFlags_GivenSingleFlagType_ReturnsUnderlyingType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag)
+	result := original.WithoutFlags(ARMFlag)
+	
+	g.Expect(result).To(Equal(StringType))
+	g.Expect(result).ToNot(BeAssignableToTypeOf(&FlaggedType{}))
+}
+
+func TestFlaggedType_WithoutFlags_GivenMixedMatchingAndNonMatchingFlags_ReturnsNewFlaggedTypeWithCorrectFlags(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag, WellknownFlag)
+	result := original.WithoutFlags(StorageFlag, DoNotPrune, WellknownFlag, CompatibilityFlag).(*FlaggedType)
+	
+	g.Expect(result).ToNot(BeIdenticalTo(original))
+	g.Expect(result.HasFlag(ARMFlag)).To(BeTrue())
+	g.Expect(result.HasFlag(StorageFlag)).To(BeFalse())
+	g.Expect(result.HasFlag(OneOfFlag)).To(BeTrue())
+	g.Expect(result.HasFlag(WellknownFlag)).To(BeFalse())
+	g.Expect(result.Element()).To(Equal(StringType))
+}
+
+/*
  * String() tests
  */
 
