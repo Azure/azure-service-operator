@@ -98,7 +98,7 @@ var (
 	// Optional types - GenRuntime
 	OptionalConfigMapReferenceType         = NewOptionalType(ConfigMapReferenceType)
 	OptionalKnownResourceReferenceType     = NewOptionalType(KnownResourceReferenceType)
-	OptionalWellknownResourceReferenceType = NewOptionalType(WellKnownResourceReferenceType)
+	OptionalWellKnownResourceReferenceType = NewOptionalType(WellKnownResourceReferenceType)
 	OptionalResourceReferenceType          = NewOptionalType(ResourceReferenceType)
 	OptionalSecretReferenceType            = NewOptionalType(SecretReferenceType)
 	OptionalSecretMapReferenceType         = NewOptionalType(SecretMapReferenceType)
