@@ -377,7 +377,13 @@ func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
 //
 // <expr>.<name0>.(<name1>.<name2>…)
 func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
-	exprs := []dst.Expr{dst.Clone(expr).(dst.Expr)}
+	// Value fields are accessible via pointers, so we don't need to dereference expr if it's a StarExpr
+	root := dst.Clone(expr).(dst.Expr)
+	if st, ok := expr.(*dst.StarExpr); ok {
+		root = st.X
+	}
+
+	exprs := []dst.Expr{root}
 	for _, name := range names {
 		exprs = append(exprs, dst.NewIdent(name))
 	}
