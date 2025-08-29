@@ -243,7 +243,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Foo":
 	if resource.Foo != nil {
-		foo_ARM, err := (*resource.Foo).ConvertToARM(resolved)
+		foo_ARM, err := resource.Foo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -256,7 +256,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "OptionalFoo":
 	if resource.OptionalFoo != nil {
-		optionalFoo_ARM, err := (*resource.OptionalFoo).ConvertToARM(resolved)
+		optionalFoo_ARM, err := resource.OptionalFoo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

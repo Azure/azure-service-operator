@@ -54,7 +54,7 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Properties":
 	if person.Properties != nil {
-		properties_ARM, err := (*person.Properties).ConvertToARM(resolved)
+		properties_ARM, err := person.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
