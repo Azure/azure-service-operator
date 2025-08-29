@@ -132,6 +132,30 @@ func (v *ARMIDToReferenceTypeConverter) transformARMIDToResourceReference(
 	return it, nil
 }
 
+func (v *ARMIDToReferenceTypeConverter) handleTransformationFlags(
+	visitor *astmodel.TypeVisitor[ARMIDToReferenceTypeConverterContext],
+	it *astmodel.FlaggedType,
+	ctx ARMIDToReferenceTypeConverterContext,
+) (astmodel.Type, error) {
+	// If a Wellknown Resource Reference is required, use it and remove the flag
+	if it.HasFlag(astmodel.WellknownFlag) {
+		ctx.SelectedReferenceType = astmodel.WellknownResourceReferenceType
+		elem, err := visitor.Visit(it.Element(), ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		return it.WithElement(elem).WithoutFlag(astmodel.WellknownFlag), nil
+	}
+
+	elem, err := visitor.Visit(it.Element(), ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return it.WithElement(elem), nil
+}
+
 func (v *ARMIDToReferenceTypeConverter) renamePropertiesWithARMIDReferences(
 	this *astmodel.TypeVisitor[ARMIDToReferenceTypeConverterContext],
 	it *astmodel.ObjectType,
@@ -163,7 +187,9 @@ func (v *ARMIDToReferenceTypeConverter) renamePropertiesWithARMIDReferences(
 			return
 		}
 
-		newProp := makeResourceReferenceProperty(ctx, v.idFactory, prop)
+		// TODO: Handle compatibility flag here too
+
+		newProp := makeResourceReferenceProperty(ctx.DefinitionName, v.idFactory, prop)
 		newProps = append(newProps, newProp)
 	})
 
@@ -209,6 +235,7 @@ func MakeARMIDToResourceReferenceTypeVisitor(
 		VisitPrimitive:     result.transformARMIDToResourceReference,
 		VisitObjectType:    result.renamePropertiesWithARMIDReferences,
 		VisitValidatedType: result.stripValidationForResourceReferences,
+		VisitFlaggedType:   result.handleTransformationFlags,
 	}.Build()
 
 	return result

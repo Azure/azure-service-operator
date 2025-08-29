@@ -66,6 +66,7 @@ func newConvertToARMFunctionBuilder(
 	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(
 		result.convertUserAssignedIdentitiesCollection,
+		result.convertWellknownReferenceProperty,
 		result.convertReferenceProperty,
 		result.convertSecretProperty,
 		result.convertSecretMapProperty,
@@ -737,13 +738,13 @@ func (builder *convertToARMBuilder) convertReferenceProperty(
 	_ *astmodel.ConversionFunctionBuilder,
 	params astmodel.ConversionParameters,
 ) ([]dst.Stmt, error) {
-	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
-	if !isString {
+	destinationIsString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
+	if !destinationIsString {
 		return nil, nil
 	}
 
-	isReference := astmodel.TypeEquals(params.SourceType, astmodel.ResourceReferenceType)
-	if !isReference {
+	sourceIsReference := astmodel.TypeEquals(params.SourceType, astmodel.ResourceReferenceType)
+	if !sourceIsReference {
 		return nil, nil
 	}
 
@@ -762,6 +763,83 @@ func (builder *convertToARMBuilder) convertReferenceProperty(
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
 	return astbuilder.Statements(armIDLookup, returnIfNotNil, result), nil
+}
+
+// convertWellknownReferenceProperty handles conversion of well known reference properties.
+// This function generates code that looks like this:
+//
+//	if <source>.WellknownName != "" {
+//		<destination> = <source.WellknownName>
+//	} else {
+//		<namehint>ARMID, err := resolved.ResolvedReferences.Lookup(<source>)
+//		if err != nil {
+//			return nil, err
+//		}
+//		<destination> = <namehint>ARMID
+//	 }
+func (builder *convertToARMBuilder) convertWellknownReferenceProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
+	destinationIsString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
+	if !destinationIsString {
+		return nil, nil
+	}
+
+	sourceIsReference := astmodel.TypeEquals(params.SourceType, astmodel.WellknownResourceReferenceType)
+	if !sourceIsReference {
+		return nil, nil
+	}
+
+	// ID for our temporary variable
+	id := builder.idFactory.CreateLocal(params.NameHint + "Temp")
+
+	// Start by declaring our temporary variable
+	declareId := astbuilder.VariableDeclaration(id, dst.NewIdent("string"), "")
+
+	// Finish by assigning the temporary variable to the destination
+	finalAssignment := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(id))
+
+	// Selector for a possible wellknown name.
+	wellknownName := astbuilder.Selector(params.Source, "WellknownName")
+
+	// Assign well known name to temporary variable
+	assignWellknownName := astbuilder.Statements(
+		astbuilder.SimpleAssignment(
+			dst.NewIdent(id),
+			wellknownName))
+
+	// Lookup ARM ID by reference
+	armIDLookup := astbuilder.SimpleAssignmentWithErr(
+		dst.NewIdent("armID"),
+		token.DEFINE,
+		astbuilder.CallExpr(
+			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedReferences"),
+			"Lookup",
+			astbuilder.Selector(params.Source, "ResourceReference")))
+
+	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), astbuilder.Nil(), dst.NewIdent("err"))
+	returnIfNotNil.Decorations().After = dst.EmptyLine
+
+	assignArmID := astbuilder.SimpleAssignment(
+		dst.NewIdent(id),
+		dst.NewIdent("armID"))
+
+	lookupArmID := astbuilder.Statements(armIDLookup, returnIfNotNil, assignArmID)
+
+	// Choose between wellknown name and lookup as the source for the ARM ID
+	condition := astbuilder.SimpleIfElse(
+		astbuilder.AreNotEqual(wellknownName, astbuilder.StringLiteral("")),
+		assignWellknownName,
+		lookupArmID,
+	)
+	condition.Decorations().After = dst.EmptyLine
+
+	return astbuilder.Statements(
+		declareId,
+		condition,
+		finalAssignment,
+	), nil
 }
 
 // convertSecretProperty handles conversion of secret properties.
