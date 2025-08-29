@@ -49,7 +49,7 @@ func (database *ClusterDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ReadOnlyFollowing":
 	if database.ReadOnlyFollowing != nil {
-		readOnlyFollowing_ARM, err := (*database.ReadOnlyFollowing).ConvertToARM(resolved)
+		readOnlyFollowing_ARM, err := database.ReadOnlyFollowing.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -60,7 +60,7 @@ func (database *ClusterDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ReadWrite":
 	if database.ReadWrite != nil {
-		readWrite_ARM, err := (*database.ReadWrite).ConvertToARM(resolved)
+		readWrite_ARM, err := database.ReadWrite.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
