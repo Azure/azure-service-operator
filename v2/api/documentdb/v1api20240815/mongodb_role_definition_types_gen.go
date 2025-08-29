@@ -1128,7 +1128,7 @@ func (privilege *Privilege) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Resource":
 	if privilege.Resource != nil {
-		resource_ARM, err := (*privilege.Resource).ConvertToARM(resolved)
+		resource_ARM, err := privilege.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

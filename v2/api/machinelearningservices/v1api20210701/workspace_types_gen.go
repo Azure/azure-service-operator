@@ -345,7 +345,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Identity":
 	if workspace.Identity != nil {
-		identity_ARM, err := (*workspace.Identity).ConvertToARM(resolved)
+		identity_ARM, err := workspace.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -409,7 +409,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.DiscoveryUrl = &discoveryUrl
 	}
 	if workspace.Encryption != nil {
-		encryption_ARM, err := (*workspace.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := workspace.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -451,7 +451,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if workspace.ServiceManagedResourcesSettings != nil {
-		serviceManagedResourcesSettings_ARM, err := (*workspace.ServiceManagedResourcesSettings).ConvertToARM(resolved)
+		serviceManagedResourcesSettings_ARM, err := workspace.ServiceManagedResourcesSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -476,7 +476,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Sku":
 	if workspace.Sku != nil {
-		sku_ARM, err := (*workspace.Sku).ConvertToARM(resolved)
+		sku_ARM, err := workspace.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -486,7 +486,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "SystemData":
 	if workspace.SystemData != nil {
-		systemData_ARM, err := (*workspace.SystemData).ConvertToARM(resolved)
+		systemData_ARM, err := workspace.SystemData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2093,7 +2093,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Identity":
 	if property.Identity != nil {
-		identity_ARM, err := (*property.Identity).ConvertToARM(resolved)
+		identity_ARM, err := property.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2103,7 +2103,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "KeyVaultProperties":
 	if property.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*property.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := property.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2850,7 +2850,7 @@ func (settings *ServiceManagedResourcesSettings) ConvertToARM(resolved genruntim
 
 	// Set property "CosmosDb":
 	if settings.CosmosDb != nil {
-		cosmosDb_ARM, err := (*settings.CosmosDb).ConvertToARM(resolved)
+		cosmosDb_ARM, err := settings.CosmosDb.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

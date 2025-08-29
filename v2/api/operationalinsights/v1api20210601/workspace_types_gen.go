@@ -341,7 +341,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties = &arm.WorkspaceProperties{}
 	}
 	if workspace.Features != nil {
-		features_ARM, err := (*workspace.Features).ConvertToARM(resolved)
+		features_ARM, err := workspace.Features.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -375,7 +375,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.RetentionInDays = &retentionInDays
 	}
 	if workspace.Sku != nil {
-		sku_ARM, err := (*workspace.Sku).ConvertToARM(resolved)
+		sku_ARM, err := workspace.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -383,7 +383,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.Sku = &sku
 	}
 	if workspace.WorkspaceCapping != nil {
-		workspaceCapping_ARM, err := (*workspace.WorkspaceCapping).ConvertToARM(resolved)
+		workspaceCapping_ARM, err := workspace.WorkspaceCapping.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

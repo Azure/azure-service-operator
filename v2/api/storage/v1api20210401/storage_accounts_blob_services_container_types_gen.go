@@ -312,7 +312,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) ConvertToARM(resolve
 		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	}
 	if container.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioning_ARM, err := (*container.ImmutableStorageWithVersioning).ConvertToARM(resolved)
+		immutableStorageWithVersioning_ARM, err := container.ImmutableStorageWithVersioning.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

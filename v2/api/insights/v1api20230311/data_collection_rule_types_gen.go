@@ -313,7 +313,7 @@ func (rule *DataCollectionRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Identity":
 	if rule.Identity != nil {
-		identity_ARM, err := (*rule.Identity).ConvertToARM(resolved)
+		identity_ARM, err := rule.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -350,7 +350,7 @@ func (rule *DataCollectionRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties = &arm.DataCollectionRuleSpec{}
 	}
 	if rule.AgentSettings != nil {
-		agentSettings_ARM, err := (*rule.AgentSettings).ConvertToARM(resolved)
+		agentSettings_ARM, err := rule.AgentSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -373,7 +373,7 @@ func (rule *DataCollectionRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.DataFlows = append(result.Properties.DataFlows, *item_ARM.(*arm.DataFlow))
 	}
 	if rule.DataSources != nil {
-		dataSources_ARM, err := (*rule.DataSources).ConvertToARM(resolved)
+		dataSources_ARM, err := rule.DataSources.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -385,7 +385,7 @@ func (rule *DataCollectionRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Description = &description
 	}
 	if rule.Destinations != nil {
-		destinations_ARM, err := (*rule.Destinations).ConvertToARM(resolved)
+		destinations_ARM, err := rule.Destinations.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -393,7 +393,7 @@ func (rule *DataCollectionRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Destinations = &destinations
 	}
 	if rule.References != nil {
-		references_ARM, err := (*rule.References).ConvertToARM(resolved)
+		references_ARM, err := rule.References.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2658,7 +2658,7 @@ func (sources *DataSourcesSpec) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "DataImports":
 	if sources.DataImports != nil {
-		dataImports_ARM, err := (*sources.DataImports).ConvertToARM(resolved)
+		dataImports_ARM, err := sources.DataImports.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3995,7 +3995,7 @@ func (destinations *DestinationsSpec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "AzureMonitorMetrics":
 	if destinations.AzureMonitorMetrics != nil {
-		azureMonitorMetrics_ARM, err := (*destinations.AzureMonitorMetrics).ConvertToARM(resolved)
+		azureMonitorMetrics_ARM, err := destinations.AzureMonitorMetrics.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5361,7 +5361,7 @@ func (references *ReferencesSpec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "EnrichmentData":
 	if references.EnrichmentData != nil {
-		enrichmentData_ARM, err := (*references.EnrichmentData).ConvertToARM(resolved)
+		enrichmentData_ARM, err := references.EnrichmentData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6660,7 +6660,7 @@ func (sources *DataImportSources) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "EventHub":
 	if sources.EventHub != nil {
-		eventHub_ARM, err := (*sources.EventHub).ConvertToARM(resolved)
+		eventHub_ARM, err := sources.EventHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8411,7 +8411,7 @@ func (source *LogFilesDataSource) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Settings":
 	if source.Settings != nil {
-		settings_ARM, err := (*source.Settings).ConvertToARM(resolved)
+		settings_ARM, err := source.Settings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12049,7 +12049,7 @@ func (settings *LogFileSettings) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Text":
 	if settings.Text != nil {
-		text_ARM, err := (*settings.Text).ConvertToARM(resolved)
+		text_ARM, err := settings.Text.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

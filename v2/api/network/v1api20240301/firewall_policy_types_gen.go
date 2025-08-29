@@ -315,7 +315,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Identity":
 	if policy.Identity != nil {
-		identity_ARM, err := (*policy.Identity).ConvertToARM(resolved)
+		identity_ARM, err := policy.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -347,7 +347,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties = &arm.FirewallPolicyPropertiesFormat{}
 	}
 	if policy.BasePolicy != nil {
-		basePolicy_ARM, err := (*policy.BasePolicy).ConvertToARM(resolved)
+		basePolicy_ARM, err := policy.BasePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -355,7 +355,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.BasePolicy = &basePolicy
 	}
 	if policy.DnsSettings != nil {
-		dnsSettings_ARM, err := (*policy.DnsSettings).ConvertToARM(resolved)
+		dnsSettings_ARM, err := policy.DnsSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -363,7 +363,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if policy.ExplicitProxy != nil {
-		explicitProxy_ARM, err := (*policy.ExplicitProxy).ConvertToARM(resolved)
+		explicitProxy_ARM, err := policy.ExplicitProxy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -371,7 +371,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.ExplicitProxy = &explicitProxy
 	}
 	if policy.Insights != nil {
-		insights_ARM, err := (*policy.Insights).ConvertToARM(resolved)
+		insights_ARM, err := policy.Insights.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -379,7 +379,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Insights = &insights
 	}
 	if policy.IntrusionDetection != nil {
-		intrusionDetection_ARM, err := (*policy.IntrusionDetection).ConvertToARM(resolved)
+		intrusionDetection_ARM, err := policy.IntrusionDetection.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -387,7 +387,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.IntrusionDetection = &intrusionDetection
 	}
 	if policy.Sku != nil {
-		sku_ARM, err := (*policy.Sku).ConvertToARM(resolved)
+		sku_ARM, err := policy.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -395,7 +395,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Sku = &sku
 	}
 	if policy.Snat != nil {
-		snat_ARM, err := (*policy.Snat).ConvertToARM(resolved)
+		snat_ARM, err := policy.Snat.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -403,7 +403,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Snat = &snat
 	}
 	if policy.Sql != nil {
-		sql_ARM, err := (*policy.Sql).ConvertToARM(resolved)
+		sql_ARM, err := policy.Sql.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -417,7 +417,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.ThreatIntelMode = &threatIntelMode
 	}
 	if policy.ThreatIntelWhitelist != nil {
-		threatIntelWhitelist_ARM, err := (*policy.ThreatIntelWhitelist).ConvertToARM(resolved)
+		threatIntelWhitelist_ARM, err := policy.ThreatIntelWhitelist.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -425,7 +425,7 @@ func (policy *FirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.ThreatIntelWhitelist = &threatIntelWhitelist
 	}
 	if policy.TransportSecurity != nil {
-		transportSecurity_ARM, err := (*policy.TransportSecurity).ConvertToARM(resolved)
+		transportSecurity_ARM, err := policy.TransportSecurity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2794,7 +2794,7 @@ func (insights *FirewallPolicyInsights) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "LogAnalyticsResources":
 	if insights.LogAnalyticsResources != nil {
-		logAnalyticsResources_ARM, err := (*insights.LogAnalyticsResources).ConvertToARM(resolved)
+		logAnalyticsResources_ARM, err := insights.LogAnalyticsResources.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3095,7 +3095,7 @@ func (detection *FirewallPolicyIntrusionDetection) ConvertToARM(resolved genrunt
 
 	// Set property "Configuration":
 	if detection.Configuration != nil {
-		configuration_ARM, err := (*detection.Configuration).ConvertToARM(resolved)
+		configuration_ARM, err := detection.Configuration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4275,7 +4275,7 @@ func (security *FirewallPolicyTransportSecurity) ConvertToARM(resolved genruntim
 
 	// Set property "CertificateAuthority":
 	if security.CertificateAuthority != nil {
-		certificateAuthority_ARM, err := (*security.CertificateAuthority).ConvertToARM(resolved)
+		certificateAuthority_ARM, err := security.CertificateAuthority.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5458,7 +5458,7 @@ func (resources *FirewallPolicyLogAnalyticsResources) ConvertToARM(resolved genr
 
 	// Set property "DefaultWorkspaceId":
 	if resources.DefaultWorkspaceId != nil {
-		defaultWorkspaceId_ARM, err := (*resources.DefaultWorkspaceId).ConvertToARM(resolved)
+		defaultWorkspaceId_ARM, err := resources.DefaultWorkspaceId.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6640,7 +6640,7 @@ func (workspace *FirewallPolicyLogAnalyticsWorkspace) ConvertToARM(resolved genr
 
 	// Set property "WorkspaceId":
 	if workspace.WorkspaceId != nil {
-		workspaceId_ARM, err := (*workspace.WorkspaceId).ConvertToARM(resolved)
+		workspaceId_ARM, err := workspace.WorkspaceId.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

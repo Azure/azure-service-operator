@@ -389,7 +389,7 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if service.Identity != nil {
-		identity_ARM, err := (*service.Identity).ConvertToARM(resolved)
+		identity_ARM, err := service.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -436,7 +436,7 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.AdditionalLocations = append(result.Properties.AdditionalLocations, *item_ARM.(*arm.AdditionalLocation))
 	}
 	if service.ApiVersionConstraint != nil {
-		apiVersionConstraint_ARM, err := (*service.ApiVersionConstraint).ConvertToARM(resolved)
+		apiVersionConstraint_ARM, err := service.ApiVersionConstraint.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -451,7 +451,7 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Certificates = append(result.Properties.Certificates, *item_ARM.(*arm.CertificateConfiguration))
 	}
 	if service.ConfigurationApi != nil {
-		configurationApi_ARM, err := (*service.ConfigurationApi).ConvertToARM(resolved)
+		configurationApi_ARM, err := service.ConfigurationApi.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -528,7 +528,7 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Restore = &restore
 	}
 	if service.VirtualNetworkConfiguration != nil {
-		virtualNetworkConfiguration_ARM, err := (*service.VirtualNetworkConfiguration).ConvertToARM(resolved)
+		virtualNetworkConfiguration_ARM, err := service.VirtualNetworkConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -544,7 +544,7 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if service.Sku != nil {
-		sku_ARM, err := (*service.Sku).ConvertToARM(resolved)
+		sku_ARM, err := service.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2723,7 +2723,7 @@ func (location *AdditionalLocation) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Sku":
 	if location.Sku != nil {
-		sku_ARM, err := (*location.Sku).ConvertToARM(resolved)
+		sku_ARM, err := location.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2733,7 +2733,7 @@ func (location *AdditionalLocation) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "VirtualNetworkConfiguration":
 	if location.VirtualNetworkConfiguration != nil {
-		virtualNetworkConfiguration_ARM, err := (*location.VirtualNetworkConfiguration).ConvertToARM(resolved)
+		virtualNetworkConfiguration_ARM, err := location.VirtualNetworkConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4075,7 +4075,7 @@ func (configuration *CertificateConfiguration) ConvertToARM(resolved genruntime.
 
 	// Set property "Certificate":
 	if configuration.Certificate != nil {
-		certificate_ARM, err := (*configuration.Certificate).ConvertToARM(resolved)
+		certificate_ARM, err := configuration.Certificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4588,7 +4588,7 @@ func (configuration *HostnameConfiguration) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Certificate":
 	if configuration.Certificate != nil {
-		certificate_ARM, err := (*configuration.Certificate).ConvertToARM(resolved)
+		certificate_ARM, err := configuration.Certificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

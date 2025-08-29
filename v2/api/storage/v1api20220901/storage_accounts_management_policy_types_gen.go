@@ -283,7 +283,7 @@ func (policy *StorageAccountsManagementPolicy_Spec) ConvertToARM(resolved genrun
 		result.Properties = &arm.ManagementPolicyProperties{}
 	}
 	if policy.Policy != nil {
-		policy_ARM, err := (*policy.Policy).ConvertToARM(resolved)
+		policy_ARM, err := policy.Policy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1029,7 +1029,7 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Definition":
 	if rule.Definition != nil {
-		definition_ARM, err := (*rule.Definition).ConvertToARM(resolved)
+		definition_ARM, err := rule.Definition.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1364,7 +1364,7 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 
 	// Set property "Actions":
 	if definition.Actions != nil {
-		actions_ARM, err := (*definition.Actions).ConvertToARM(resolved)
+		actions_ARM, err := definition.Actions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1374,7 +1374,7 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 
 	// Set property "Filters":
 	if definition.Filters != nil {
-		filters_ARM, err := (*definition.Filters).ConvertToARM(resolved)
+		filters_ARM, err := definition.Filters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1655,7 +1655,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "BaseBlob":
 	if action.BaseBlob != nil {
-		baseBlob_ARM, err := (*action.BaseBlob).ConvertToARM(resolved)
+		baseBlob_ARM, err := action.BaseBlob.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1665,7 +1665,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Snapshot":
 	if action.Snapshot != nil {
-		snapshot_ARM, err := (*action.Snapshot).ConvertToARM(resolved)
+		snapshot_ARM, err := action.Snapshot.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1675,7 +1675,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Version":
 	if action.Version != nil {
-		version_ARM, err := (*action.Version).ConvertToARM(resolved)
+		version_ARM, err := action.Version.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2296,7 +2296,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Delete":
 	if blob.Delete != nil {
-		delete_ARM, err := (*blob.Delete).ConvertToARM(resolved)
+		delete_ARM, err := blob.Delete.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2312,7 +2312,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToArchive":
 	if blob.TierToArchive != nil {
-		tierToArchive_ARM, err := (*blob.TierToArchive).ConvertToARM(resolved)
+		tierToArchive_ARM, err := blob.TierToArchive.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2322,7 +2322,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToCold":
 	if blob.TierToCold != nil {
-		tierToCold_ARM, err := (*blob.TierToCold).ConvertToARM(resolved)
+		tierToCold_ARM, err := blob.TierToCold.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2332,7 +2332,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToCool":
 	if blob.TierToCool != nil {
-		tierToCool_ARM, err := (*blob.TierToCool).ConvertToARM(resolved)
+		tierToCool_ARM, err := blob.TierToCool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2342,7 +2342,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToHot":
 	if blob.TierToHot != nil {
-		tierToHot_ARM, err := (*blob.TierToHot).ConvertToARM(resolved)
+		tierToHot_ARM, err := blob.TierToHot.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2879,7 +2879,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Delete":
 	if shot.Delete != nil {
-		delete_ARM, err := (*shot.Delete).ConvertToARM(resolved)
+		delete_ARM, err := shot.Delete.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2889,7 +2889,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToArchive":
 	if shot.TierToArchive != nil {
-		tierToArchive_ARM, err := (*shot.TierToArchive).ConvertToARM(resolved)
+		tierToArchive_ARM, err := shot.TierToArchive.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2899,7 +2899,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToCold":
 	if shot.TierToCold != nil {
-		tierToCold_ARM, err := (*shot.TierToCold).ConvertToARM(resolved)
+		tierToCold_ARM, err := shot.TierToCold.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2909,7 +2909,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToCool":
 	if shot.TierToCool != nil {
-		tierToCool_ARM, err := (*shot.TierToCool).ConvertToARM(resolved)
+		tierToCool_ARM, err := shot.TierToCool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2919,7 +2919,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "TierToHot":
 	if shot.TierToHot != nil {
-		tierToHot_ARM, err := (*shot.TierToHot).ConvertToARM(resolved)
+		tierToHot_ARM, err := shot.TierToHot.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3408,7 +3408,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Delete":
 	if version.Delete != nil {
-		delete_ARM, err := (*version.Delete).ConvertToARM(resolved)
+		delete_ARM, err := version.Delete.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3418,7 +3418,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "TierToArchive":
 	if version.TierToArchive != nil {
-		tierToArchive_ARM, err := (*version.TierToArchive).ConvertToARM(resolved)
+		tierToArchive_ARM, err := version.TierToArchive.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3428,7 +3428,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "TierToCold":
 	if version.TierToCold != nil {
-		tierToCold_ARM, err := (*version.TierToCold).ConvertToARM(resolved)
+		tierToCold_ARM, err := version.TierToCold.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3438,7 +3438,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "TierToCool":
 	if version.TierToCool != nil {
-		tierToCool_ARM, err := (*version.TierToCool).ConvertToARM(resolved)
+		tierToCool_ARM, err := version.TierToCool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3448,7 +3448,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "TierToHot":
 	if version.TierToHot != nil {
-		tierToHot_ARM, err := (*version.TierToHot).ConvertToARM(resolved)
+		tierToHot_ARM, err := version.TierToHot.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

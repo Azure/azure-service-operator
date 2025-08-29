@@ -1219,7 +1219,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "ResolveConfiguration":
 	if rule.ResolveConfiguration != nil {
-		resolveConfiguration_ARM, err := (*rule.ResolveConfiguration).ConvertToARM(resolved)
+		resolveConfiguration_ARM, err := rule.ResolveConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

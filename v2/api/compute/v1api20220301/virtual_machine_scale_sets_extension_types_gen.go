@@ -351,7 +351,7 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) ConvertToARM(resolved ge
 		result.Properties.ProtectedSettings = temp
 	}
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVault_ARM, err := (*extension.ProtectedSettingsFromKeyVault).ConvertToARM(resolved)
+		protectedSettingsFromKeyVault_ARM, err := extension.ProtectedSettingsFromKeyVault.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1313,7 +1313,7 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "SourceVault":
 	if reference.SourceVault != nil {
-		sourceVault_ARM, err := (*reference.SourceVault).ConvertToARM(resolved)
+		sourceVault_ARM, err := reference.SourceVault.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

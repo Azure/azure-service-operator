@@ -295,7 +295,7 @@ func (cluster *MongoCluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Properties":
 	if cluster.Properties != nil {
-		properties_ARM, err := (*cluster.Properties).ConvertToARM(resolved)
+		properties_ARM, err := cluster.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -966,7 +966,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Administrator":
 	if properties.Administrator != nil {
-		administrator_ARM, err := (*properties.Administrator).ConvertToARM(resolved)
+		administrator_ARM, err := properties.Administrator.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -976,7 +976,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Compute":
 	if properties.Compute != nil {
-		compute_ARM, err := (*properties.Compute).ConvertToARM(resolved)
+		compute_ARM, err := properties.Compute.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -994,7 +994,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "HighAvailability":
 	if properties.HighAvailability != nil {
-		highAvailability_ARM, err := (*properties.HighAvailability).ConvertToARM(resolved)
+		highAvailability_ARM, err := properties.HighAvailability.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1019,7 +1019,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "ReplicaParameters":
 	if properties.ReplicaParameters != nil {
-		replicaParameters_ARM, err := (*properties.ReplicaParameters).ConvertToARM(resolved)
+		replicaParameters_ARM, err := properties.ReplicaParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1029,7 +1029,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "RestoreParameters":
 	if properties.RestoreParameters != nil {
-		restoreParameters_ARM, err := (*properties.RestoreParameters).ConvertToARM(resolved)
+		restoreParameters_ARM, err := properties.RestoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1045,7 +1045,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Sharding":
 	if properties.Sharding != nil {
-		sharding_ARM, err := (*properties.Sharding).ConvertToARM(resolved)
+		sharding_ARM, err := properties.Sharding.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1055,7 +1055,7 @@ func (properties *MongoClusterProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Storage":
 	if properties.Storage != nil {
-		storage_ARM, err := (*properties.Storage).ConvertToARM(resolved)
+		storage_ARM, err := properties.Storage.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

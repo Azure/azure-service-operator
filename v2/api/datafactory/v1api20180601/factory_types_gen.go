@@ -316,7 +316,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if factory.Identity != nil {
-		identity_ARM, err := (*factory.Identity).ConvertToARM(resolved)
+		identity_ARM, err := factory.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -342,7 +342,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties = &arm.FactoryProperties{}
 	}
 	if factory.Encryption != nil {
-		encryption_ARM, err := (*factory.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := factory.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -366,7 +366,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if factory.PurviewConfiguration != nil {
-		purviewConfiguration_ARM, err := (*factory.PurviewConfiguration).ConvertToARM(resolved)
+		purviewConfiguration_ARM, err := factory.PurviewConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -374,7 +374,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.PurviewConfiguration = &purviewConfiguration
 	}
 	if factory.RepoConfiguration != nil {
-		repoConfiguration_ARM, err := (*factory.RepoConfiguration).ConvertToARM(resolved)
+		repoConfiguration_ARM, err := factory.RepoConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1501,7 +1501,7 @@ func (configuration *EncryptionConfiguration) ConvertToARM(resolved genruntime.C
 
 	// Set property "Identity":
 	if configuration.Identity != nil {
-		identity_ARM, err := (*configuration.Identity).ConvertToARM(resolved)
+		identity_ARM, err := configuration.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2253,7 +2253,7 @@ func (configuration *FactoryRepoConfiguration) ConvertToARM(resolved genruntime.
 
 	// Set property "FactoryGitHub":
 	if configuration.FactoryGitHub != nil {
-		factoryGitHub_ARM, err := (*configuration.FactoryGitHub).ConvertToARM(resolved)
+		factoryGitHub_ARM, err := configuration.FactoryGitHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2263,7 +2263,7 @@ func (configuration *FactoryRepoConfiguration) ConvertToARM(resolved genruntime.
 
 	// Set property "FactoryVSTS":
 	if configuration.FactoryVSTS != nil {
-		factoryVSTS_ARM, err := (*configuration.FactoryVSTS).ConvertToARM(resolved)
+		factoryVSTS_ARM, err := configuration.FactoryVSTS.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3173,7 +3173,7 @@ func (configuration *FactoryGitHubConfiguration) ConvertToARM(resolved genruntim
 
 	// Set property "ClientSecret":
 	if configuration.ClientSecret != nil {
-		clientSecret_ARM, err := (*configuration.ClientSecret).ConvertToARM(resolved)
+		clientSecret_ARM, err := configuration.ClientSecret.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

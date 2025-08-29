@@ -342,7 +342,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Identity":
 	if server.Identity != nil {
-		identity_ARM, err := (*server.Identity).ConvertToARM(resolved)
+		identity_ARM, err := server.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -385,7 +385,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.AdministratorLoginPassword = &administratorLoginPassword
 	}
 	if server.Administrators != nil {
-		administrators_ARM, err := (*server.Administrators).ConvertToARM(resolved)
+		administrators_ARM, err := server.Administrators.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

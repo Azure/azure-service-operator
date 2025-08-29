@@ -296,7 +296,7 @@ func (configuration *MaintenanceConfiguration_Spec) ConvertToARM(resolved genrun
 		result.Properties = &arm.MaintenanceConfigurationProperties{}
 	}
 	if configuration.MaintenanceWindow != nil {
-		maintenanceWindow_ARM, err := (*configuration.MaintenanceWindow).ConvertToARM(resolved)
+		maintenanceWindow_ARM, err := configuration.MaintenanceWindow.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1166,7 +1166,7 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Schedule":
 	if window.Schedule != nil {
-		schedule_ARM, err := (*window.Schedule).ConvertToARM(resolved)
+		schedule_ARM, err := window.Schedule.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2430,7 +2430,7 @@ func (schedule *Schedule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "AbsoluteMonthly":
 	if schedule.AbsoluteMonthly != nil {
-		absoluteMonthly_ARM, err := (*schedule.AbsoluteMonthly).ConvertToARM(resolved)
+		absoluteMonthly_ARM, err := schedule.AbsoluteMonthly.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2440,7 +2440,7 @@ func (schedule *Schedule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Daily":
 	if schedule.Daily != nil {
-		daily_ARM, err := (*schedule.Daily).ConvertToARM(resolved)
+		daily_ARM, err := schedule.Daily.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2450,7 +2450,7 @@ func (schedule *Schedule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "RelativeMonthly":
 	if schedule.RelativeMonthly != nil {
-		relativeMonthly_ARM, err := (*schedule.RelativeMonthly).ConvertToARM(resolved)
+		relativeMonthly_ARM, err := schedule.RelativeMonthly.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2460,7 +2460,7 @@ func (schedule *Schedule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Weekly":
 	if schedule.Weekly != nil {
-		weekly_ARM, err := (*schedule.Weekly).ConvertToARM(resolved)
+		weekly_ARM, err := schedule.Weekly.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

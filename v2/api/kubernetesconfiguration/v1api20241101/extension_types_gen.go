@@ -339,7 +339,7 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Identity":
 	if extension.Identity != nil {
-		identity_ARM, err := (*extension.Identity).ConvertToARM(resolved)
+		identity_ARM, err := extension.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -352,7 +352,7 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Plan":
 	if extension.Plan != nil {
-		plan_ARM, err := (*extension.Plan).ConvertToARM(resolved)
+		plan_ARM, err := extension.Plan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -372,7 +372,7 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties = &arm.Extension_Properties_Spec{}
 	}
 	if extension.AksAssignedIdentity != nil {
-		aksAssignedIdentity_ARM, err := (*extension.AksAssignedIdentity).ConvertToARM(resolved)
+		aksAssignedIdentity_ARM, err := extension.AksAssignedIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -407,7 +407,7 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ReleaseTrain = &releaseTrain
 	}
 	if extension.Scope != nil {
-		scope_ARM, err := (*extension.Scope).ConvertToARM(resolved)
+		scope_ARM, err := extension.Scope.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -421,7 +421,7 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "SystemData":
 	if extension.SystemData != nil {
-		systemData_ARM, err := (*extension.SystemData).ConvertToARM(resolved)
+		systemData_ARM, err := extension.SystemData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2793,7 +2793,7 @@ func (scope *Scope) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Cluster":
 	if scope.Cluster != nil {
-		cluster_ARM, err := (*scope.Cluster).ConvertToARM(resolved)
+		cluster_ARM, err := scope.Cluster.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2803,7 +2803,7 @@ func (scope *Scope) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Namespace":
 	if scope.Namespace != nil {
-		namespace_ARM, err := (*scope.Namespace).ConvertToARM(resolved)
+		namespace_ARM, err := scope.Namespace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

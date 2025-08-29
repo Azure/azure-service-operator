@@ -311,7 +311,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 		result.Properties.CustomRules = append(result.Properties.CustomRules, *item_ARM.(*arm.WebApplicationFirewallCustomRule))
 	}
 	if policy.ManagedRules != nil {
-		managedRules_ARM, err := (*policy.ManagedRules).ConvertToARM(resolved)
+		managedRules_ARM, err := policy.ManagedRules.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -319,7 +319,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 		result.Properties.ManagedRules = &managedRules
 	}
 	if policy.PolicySettings != nil {
-		policySettings_ARM, err := (*policy.PolicySettings).ConvertToARM(resolved)
+		policySettings_ARM, err := policy.PolicySettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1752,7 +1752,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "LogScrubbing":
 	if settings.LogScrubbing != nil {
-		logScrubbing_ARM, err := (*settings.LogScrubbing).ConvertToARM(resolved)
+		logScrubbing_ARM, err := settings.LogScrubbing.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

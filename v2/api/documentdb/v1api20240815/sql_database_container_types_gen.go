@@ -297,7 +297,7 @@ func (container *SqlDatabaseContainer_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties = &arm.SqlContainerCreateUpdateProperties{}
 	}
 	if container.Options != nil {
-		options_ARM, err := (*container.Options).ConvertToARM(resolved)
+		options_ARM, err := container.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -305,7 +305,7 @@ func (container *SqlDatabaseContainer_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.Options = &options
 	}
 	if container.Resource != nil {
-		resource_ARM, err := (*container.Resource).ConvertToARM(resolved)
+		resource_ARM, err := container.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1386,7 +1386,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ClientEncryptionPolicy":
 	if resource.ClientEncryptionPolicy != nil {
-		clientEncryptionPolicy_ARM, err := (*resource.ClientEncryptionPolicy).ConvertToARM(resolved)
+		clientEncryptionPolicy_ARM, err := resource.ClientEncryptionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1405,7 +1405,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ConflictResolutionPolicy":
 	if resource.ConflictResolutionPolicy != nil {
-		conflictResolutionPolicy_ARM, err := (*resource.ConflictResolutionPolicy).ConvertToARM(resolved)
+		conflictResolutionPolicy_ARM, err := resource.ConflictResolutionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1435,7 +1435,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "IndexingPolicy":
 	if resource.IndexingPolicy != nil {
-		indexingPolicy_ARM, err := (*resource.IndexingPolicy).ConvertToARM(resolved)
+		indexingPolicy_ARM, err := resource.IndexingPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1445,7 +1445,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "PartitionKey":
 	if resource.PartitionKey != nil {
-		partitionKey_ARM, err := (*resource.PartitionKey).ConvertToARM(resolved)
+		partitionKey_ARM, err := resource.PartitionKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1455,7 +1455,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "RestoreParameters":
 	if resource.RestoreParameters != nil {
-		restoreParameters_ARM, err := (*resource.RestoreParameters).ConvertToARM(resolved)
+		restoreParameters_ARM, err := resource.RestoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1465,7 +1465,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "UniqueKeyPolicy":
 	if resource.UniqueKeyPolicy != nil {
-		uniqueKeyPolicy_ARM, err := (*resource.UniqueKeyPolicy).ConvertToARM(resolved)
+		uniqueKeyPolicy_ARM, err := resource.UniqueKeyPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

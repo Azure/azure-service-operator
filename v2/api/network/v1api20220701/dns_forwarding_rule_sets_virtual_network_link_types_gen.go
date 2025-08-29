@@ -292,7 +292,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertToARM(resolved 
 		}
 	}
 	if link.VirtualNetwork != nil {
-		virtualNetwork_ARM, err := (*link.VirtualNetwork).ConvertToARM(resolved)
+		virtualNetwork_ARM, err := link.VirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

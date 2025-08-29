@@ -421,7 +421,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.ApiVersionDescription = &apiVersionDescription
 	}
 	if api.ApiVersionSet != nil {
-		apiVersionSet_ARM, err := (*api.ApiVersionSet).ConvertToARM(resolved)
+		apiVersionSet_ARM, err := api.ApiVersionSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -437,7 +437,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.ApiVersionSetId = &apiVersionSetId
 	}
 	if api.AuthenticationSettings != nil {
-		authenticationSettings_ARM, err := (*api.AuthenticationSettings).ConvertToARM(resolved)
+		authenticationSettings_ARM, err := api.AuthenticationSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -445,7 +445,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.AuthenticationSettings = &authenticationSettings
 	}
 	if api.Contact != nil {
-		contact_ARM, err := (*api.Contact).ConvertToARM(resolved)
+		contact_ARM, err := api.Contact.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -471,7 +471,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.IsCurrent = &isCurrent
 	}
 	if api.License != nil {
-		license_ARM, err := (*api.License).ConvertToARM(resolved)
+		license_ARM, err := api.License.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -500,7 +500,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.SourceApiId = &sourceApiId
 	}
 	if api.SubscriptionKeyParameterNames != nil {
-		subscriptionKeyParameterNames_ARM, err := (*api.SubscriptionKeyParameterNames).ConvertToARM(resolved)
+		subscriptionKeyParameterNames_ARM, err := api.SubscriptionKeyParameterNames.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -532,7 +532,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.Value = &value
 	}
 	if api.WsdlSelector != nil {
-		wsdlSelector_ARM, err := (*api.WsdlSelector).ConvertToARM(resolved)
+		wsdlSelector_ARM, err := api.WsdlSelector.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3320,7 +3320,7 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 
 	// Set property "OAuth2":
 	if contract.OAuth2 != nil {
-		oAuth2_ARM, err := (*contract.OAuth2).ConvertToARM(resolved)
+		oAuth2_ARM, err := contract.OAuth2.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3339,7 +3339,7 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 
 	// Set property "Openid":
 	if contract.Openid != nil {
-		openid_ARM, err := (*contract.Openid).ConvertToARM(resolved)
+		openid_ARM, err := contract.Openid.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

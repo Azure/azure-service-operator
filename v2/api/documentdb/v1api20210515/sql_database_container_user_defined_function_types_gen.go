@@ -300,7 +300,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction_Spec) ConvertToARM(resol
 		result.Properties = &arm.SqlUserDefinedFunctionCreateUpdateProperties{}
 	}
 	if function.Options != nil {
-		options_ARM, err := (*function.Options).ConvertToARM(resolved)
+		options_ARM, err := function.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -308,7 +308,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction_Spec) ConvertToARM(resol
 		result.Properties.Options = &options
 	}
 	if function.Resource != nil {
-		resource_ARM, err := (*function.Resource).ConvertToARM(resolved)
+		resource_ARM, err := function.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

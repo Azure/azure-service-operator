@@ -300,7 +300,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertToARM(resolved genruntim
 		result.Properties = &arm.SqlTriggerCreateUpdateProperties{}
 	}
 	if trigger.Options != nil {
-		options_ARM, err := (*trigger.Options).ConvertToARM(resolved)
+		options_ARM, err := trigger.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -308,7 +308,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertToARM(resolved genruntim
 		result.Properties.Options = &options
 	}
 	if trigger.Resource != nil {
-		resource_ARM, err := (*trigger.Resource).ConvertToARM(resolved)
+		resource_ARM, err := trigger.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -336,7 +336,7 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties = &arm.AFDOriginProperties{}
 	}
 	if origin.AzureOrigin != nil {
-		azureOrigin_ARM, err := (*origin.AzureOrigin).ConvertToARM(resolved)
+		azureOrigin_ARM, err := origin.AzureOrigin.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -382,7 +382,7 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties.Priority = &priority
 	}
 	if origin.SharedPrivateLinkResource != nil {
-		sharedPrivateLinkResource_ARM, err := (*origin.SharedPrivateLinkResource).ConvertToARM(resolved)
+		sharedPrivateLinkResource_ARM, err := origin.SharedPrivateLinkResource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1576,7 +1576,7 @@ func (properties *SharedPrivateLinkResourceProperties) ConvertToARM(resolved gen
 
 	// Set property "PrivateLink":
 	if properties.PrivateLink != nil {
-		privateLink_ARM, err := (*properties.PrivateLink).ConvertToARM(resolved)
+		privateLink_ARM, err := properties.PrivateLink.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

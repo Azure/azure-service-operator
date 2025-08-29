@@ -450,7 +450,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ExtendedLocation":
 	if account.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*account.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := account.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -460,7 +460,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Identity":
 	if account.Identity != nil {
-		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)
+		identity_ARM, err := account.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -536,7 +536,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AllowedCopyScope = &allowedCopyScope
 	}
 	if account.AzureFilesIdentityBasedAuthentication != nil {
-		azureFilesIdentityBasedAuthentication_ARM, err := (*account.AzureFilesIdentityBasedAuthentication).ConvertToARM(resolved)
+		azureFilesIdentityBasedAuthentication_ARM, err := account.AzureFilesIdentityBasedAuthentication.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -544,7 +544,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	}
 	if account.CustomDomain != nil {
-		customDomain_ARM, err := (*account.CustomDomain).ConvertToARM(resolved)
+		customDomain_ARM, err := account.CustomDomain.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -562,7 +562,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.DnsEndpointType = &dnsEndpointType
 	}
 	if account.Encryption != nil {
-		encryption_ARM, err := (*account.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := account.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -570,7 +570,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.Encryption = &encryption
 	}
 	if account.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioning_ARM, err := (*account.ImmutableStorageWithVersioning).ConvertToARM(resolved)
+		immutableStorageWithVersioning_ARM, err := account.ImmutableStorageWithVersioning.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -594,7 +594,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.IsSftpEnabled = &isSftpEnabled
 	}
 	if account.KeyPolicy != nil {
-		keyPolicy_ARM, err := (*account.KeyPolicy).ConvertToARM(resolved)
+		keyPolicy_ARM, err := account.KeyPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -614,7 +614,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 	if account.NetworkAcls != nil {
-		networkAcls_ARM, err := (*account.NetworkAcls).ConvertToARM(resolved)
+		networkAcls_ARM, err := account.NetworkAcls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -628,7 +628,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if account.RoutingPreference != nil {
-		routingPreference_ARM, err := (*account.RoutingPreference).ConvertToARM(resolved)
+		routingPreference_ARM, err := account.RoutingPreference.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -636,7 +636,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.RoutingPreference = &routingPreference
 	}
 	if account.SasPolicy != nil {
-		sasPolicy_ARM, err := (*account.SasPolicy).ConvertToARM(resolved)
+		sasPolicy_ARM, err := account.SasPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -650,7 +650,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Sku":
 	if account.Sku != nil {
-		sku_ARM, err := (*account.Sku).ConvertToARM(resolved)
+		sku_ARM, err := account.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3636,7 +3636,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 
 	// Set property "ActiveDirectoryProperties":
 	if authentication.ActiveDirectoryProperties != nil {
-		activeDirectoryProperties_ARM, err := (*authentication.ActiveDirectoryProperties).ConvertToARM(resolved)
+		activeDirectoryProperties_ARM, err := authentication.ActiveDirectoryProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4341,7 +4341,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Identity":
 	if encryption.Identity != nil {
-		identity_ARM, err := (*encryption.Identity).ConvertToARM(resolved)
+		identity_ARM, err := encryption.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4359,7 +4359,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Keyvaultproperties":
 	if encryption.Keyvaultproperties != nil {
-		keyvaultproperties_ARM, err := (*encryption.Keyvaultproperties).ConvertToARM(resolved)
+		keyvaultproperties_ARM, err := encryption.Keyvaultproperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4375,7 +4375,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Services":
 	if encryption.Services != nil {
-		services_ARM, err := (*encryption.Services).ConvertToARM(resolved)
+		services_ARM, err := encryption.Services.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5829,7 +5829,7 @@ func (account *ImmutableStorageAccount) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "ImmutabilityPolicy":
 	if account.ImmutabilityPolicy != nil {
-		immutabilityPolicy_ARM, err := (*account.ImmutabilityPolicy).ConvertToARM(resolved)
+		immutabilityPolicy_ARM, err := account.ImmutabilityPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9456,7 +9456,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Blob":
 	if services.Blob != nil {
-		blob_ARM, err := (*services.Blob).ConvertToARM(resolved)
+		blob_ARM, err := services.Blob.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9466,7 +9466,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "File":
 	if services.File != nil {
-		file_ARM, err := (*services.File).ConvertToARM(resolved)
+		file_ARM, err := services.File.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9476,7 +9476,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Queue":
 	if services.Queue != nil {
-		queue_ARM, err := (*services.Queue).ConvertToARM(resolved)
+		queue_ARM, err := services.Queue.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9486,7 +9486,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Table":
 	if services.Table != nil {
-		table_ARM, err := (*services.Table).ConvertToARM(resolved)
+		table_ARM, err := services.Table.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

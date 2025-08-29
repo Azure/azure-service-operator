@@ -379,7 +379,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties = &arm.ScheduledQueryRuleProperties{}
 	}
 	if rule.Actions != nil {
-		actions_ARM, err := (*rule.Actions).ConvertToARM(resolved)
+		actions_ARM, err := rule.Actions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -395,7 +395,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.CheckWorkspaceAlertsStorageConfigured = &checkWorkspaceAlertsStorageConfigured
 	}
 	if rule.Criteria != nil {
-		criteria_ARM, err := (*rule.Criteria).ConvertToARM(resolved)
+		criteria_ARM, err := rule.Criteria.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2625,7 +2625,7 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "FailingPeriods":
 	if condition.FailingPeriods != nil {
-		failingPeriods_ARM, err := (*condition.FailingPeriods).ConvertToARM(resolved)
+		failingPeriods_ARM, err := condition.FailingPeriods.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

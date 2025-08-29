@@ -396,7 +396,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Identity":
 	if account.Identity != nil {
-		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)
+		identity_ARM, err := account.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -456,7 +456,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties = &arm.DatabaseAccountCreateUpdateProperties{}
 	}
 	if account.AnalyticalStorageConfiguration != nil {
-		analyticalStorageConfiguration_ARM, err := (*account.AnalyticalStorageConfiguration).ConvertToARM(resolved)
+		analyticalStorageConfiguration_ARM, err := account.AnalyticalStorageConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -464,7 +464,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	}
 	if account.ApiProperties != nil {
-		apiProperties_ARM, err := (*account.ApiProperties).ConvertToARM(resolved)
+		apiProperties_ARM, err := account.ApiProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -472,7 +472,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.ApiProperties = &apiProperties
 	}
 	if account.BackupPolicy != nil {
-		backupPolicy_ARM, err := (*account.BackupPolicy).ConvertToARM(resolved)
+		backupPolicy_ARM, err := account.BackupPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -487,7 +487,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Capabilities = append(result.Properties.Capabilities, *item_ARM.(*arm.Capability))
 	}
 	if account.Capacity != nil {
-		capacity_ARM, err := (*account.Capacity).ConvertToARM(resolved)
+		capacity_ARM, err := account.Capacity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -501,7 +501,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.ConnectorOffer = &connectorOffer
 	}
 	if account.ConsistencyPolicy != nil {
-		consistencyPolicy_ARM, err := (*account.ConsistencyPolicy).ConvertToARM(resolved)
+		consistencyPolicy_ARM, err := account.ConsistencyPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -619,7 +619,7 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if account.RestoreParameters != nil {
-		restoreParameters_ARM, err := (*account.RestoreParameters).ConvertToARM(resolved)
+		restoreParameters_ARM, err := account.RestoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3823,7 +3823,7 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Continuous":
 	if policy.Continuous != nil {
-		continuous_ARM, err := (*policy.Continuous).ConvertToARM(resolved)
+		continuous_ARM, err := policy.Continuous.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3833,7 +3833,7 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Periodic":
 	if policy.Periodic != nil {
-		periodic_ARM, err := (*policy.Periodic).ConvertToARM(resolved)
+		periodic_ARM, err := policy.Periodic.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7293,7 +7293,7 @@ func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "ContinuousModeProperties":
 	if policy.ContinuousModeProperties != nil {
-		continuousModeProperties_ARM, err := (*policy.ContinuousModeProperties).ConvertToARM(resolved)
+		continuousModeProperties_ARM, err := policy.ContinuousModeProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7303,7 +7303,7 @@ func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "MigrationState":
 	if policy.MigrationState != nil {
-		migrationState_ARM, err := (*policy.MigrationState).ConvertToARM(resolved)
+		migrationState_ARM, err := policy.MigrationState.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8189,7 +8189,7 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "MigrationState":
 	if policy.MigrationState != nil {
-		migrationState_ARM, err := (*policy.MigrationState).ConvertToARM(resolved)
+		migrationState_ARM, err := policy.MigrationState.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8199,7 +8199,7 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "PeriodicModeProperties":
 	if policy.PeriodicModeProperties != nil {
-		periodicModeProperties_ARM, err := (*policy.PeriodicModeProperties).ConvertToARM(resolved)
+		periodicModeProperties_ARM, err := policy.PeriodicModeProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -332,7 +332,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Identity":
 	if group.Identity != nil {
-		identity_ARM, err := (*group.Identity).ConvertToARM(resolved)
+		identity_ARM, err := group.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -372,7 +372,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.Containers = append(result.Properties.Containers, *item_ARM.(*arm.Container))
 	}
 	if group.Diagnostics != nil {
-		diagnostics_ARM, err := (*group.Diagnostics).ConvertToARM(resolved)
+		diagnostics_ARM, err := group.Diagnostics.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -380,7 +380,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.Diagnostics = &diagnostics
 	}
 	if group.DnsConfig != nil {
-		dnsConfig_ARM, err := (*group.DnsConfig).ConvertToARM(resolved)
+		dnsConfig_ARM, err := group.DnsConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -388,7 +388,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.DnsConfig = &dnsConfig
 	}
 	if group.EncryptionProperties != nil {
-		encryptionProperties_ARM, err := (*group.EncryptionProperties).ConvertToARM(resolved)
+		encryptionProperties_ARM, err := group.EncryptionProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -410,7 +410,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.InitContainers = append(result.Properties.InitContainers, *item_ARM.(*arm.InitContainerDefinition))
 	}
 	if group.IpAddress != nil {
-		ipAddress_ARM, err := (*group.IpAddress).ConvertToARM(resolved)
+		ipAddress_ARM, err := group.IpAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2252,7 +2252,7 @@ func (container *Container) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.Image = &image
 	}
 	if container.LivenessProbe != nil {
-		livenessProbe_ARM, err := (*container.LivenessProbe).ConvertToARM(resolved)
+		livenessProbe_ARM, err := container.LivenessProbe.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2267,7 +2267,7 @@ func (container *Container) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.Ports = append(result.Properties.Ports, *item_ARM.(*arm.ContainerPort))
 	}
 	if container.ReadinessProbe != nil {
-		readinessProbe_ARM, err := (*container.ReadinessProbe).ConvertToARM(resolved)
+		readinessProbe_ARM, err := container.ReadinessProbe.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2275,7 +2275,7 @@ func (container *Container) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.ReadinessProbe = &readinessProbe
 	}
 	if container.Resources != nil {
-		resources_ARM, err := (*container.Resources).ConvertToARM(resolved)
+		resources_ARM, err := container.Resources.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3335,7 +3335,7 @@ func (diagnostics *ContainerGroupDiagnostics) ConvertToARM(resolved genruntime.C
 
 	// Set property "LogAnalytics":
 	if diagnostics.LogAnalytics != nil {
-		logAnalytics_ARM, err := (*diagnostics.LogAnalytics).ConvertToARM(resolved)
+		logAnalytics_ARM, err := diagnostics.LogAnalytics.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5958,7 +5958,7 @@ func (volume *Volume) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "AzureFile":
 	if volume.AzureFile != nil {
-		azureFile_ARM, err := (*volume.AzureFile).ConvertToARM(resolved)
+		azureFile_ARM, err := volume.AzureFile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5976,7 +5976,7 @@ func (volume *Volume) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "GitRepo":
 	if volume.GitRepo != nil {
-		gitRepo_ARM, err := (*volume.GitRepo).ConvertToARM(resolved)
+		gitRepo_ARM, err := volume.GitRepo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6981,7 +6981,7 @@ func (probe *ContainerProbe) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Exec":
 	if probe.Exec != nil {
-		exec_ARM, err := (*probe.Exec).ConvertToARM(resolved)
+		exec_ARM, err := probe.Exec.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6997,7 +6997,7 @@ func (probe *ContainerProbe) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "HttpGet":
 	if probe.HttpGet != nil {
-		httpGet_ARM, err := (*probe.HttpGet).ConvertToARM(resolved)
+		httpGet_ARM, err := probe.HttpGet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9008,7 +9008,7 @@ func (requirements *ResourceRequirements) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Limits":
 	if requirements.Limits != nil {
-		limits_ARM, err := (*requirements.Limits).ConvertToARM(resolved)
+		limits_ARM, err := requirements.Limits.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9018,7 +9018,7 @@ func (requirements *ResourceRequirements) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Requests":
 	if requirements.Requests != nil {
-		requests_ARM, err := (*requirements.Requests).ConvertToARM(resolved)
+		requests_ARM, err := requirements.Requests.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10395,7 +10395,7 @@ func (limits *ResourceLimits) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Gpu":
 	if limits.Gpu != nil {
-		gpu_ARM, err := (*limits.Gpu).ConvertToARM(resolved)
+		gpu_ARM, err := limits.Gpu.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10727,7 +10727,7 @@ func (requests *ResourceRequests) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Gpu":
 	if requests.Gpu != nil {
-		gpu_ARM, err := (*requests.Gpu).ConvertToARM(resolved)
+		gpu_ARM, err := requests.Gpu.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

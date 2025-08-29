@@ -346,7 +346,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if signalR.Identity != nil {
-		identity_ARM, err := (*signalR.Identity).ConvertToARM(resolved)
+		identity_ARM, err := signalR.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -388,7 +388,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties = &arm.SignalRProperties{}
 	}
 	if signalR.Cors != nil {
-		cors_ARM, err := (*signalR.Cors).ConvertToARM(resolved)
+		cors_ARM, err := signalR.Cors.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -411,7 +411,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Features = append(result.Properties.Features, *item_ARM.(*arm.SignalRFeature))
 	}
 	if signalR.LiveTraceConfiguration != nil {
-		liveTraceConfiguration_ARM, err := (*signalR.LiveTraceConfiguration).ConvertToARM(resolved)
+		liveTraceConfiguration_ARM, err := signalR.LiveTraceConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -419,7 +419,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.LiveTraceConfiguration = &liveTraceConfiguration
 	}
 	if signalR.NetworkACLs != nil {
-		networkACLs_ARM, err := (*signalR.NetworkACLs).ConvertToARM(resolved)
+		networkACLs_ARM, err := signalR.NetworkACLs.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -435,7 +435,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.RegionEndpointEnabled = &regionEndpointEnabled
 	}
 	if signalR.ResourceLogConfiguration != nil {
-		resourceLogConfiguration_ARM, err := (*signalR.ResourceLogConfiguration).ConvertToARM(resolved)
+		resourceLogConfiguration_ARM, err := signalR.ResourceLogConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -447,7 +447,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.ResourceStopped = &resourceStopped
 	}
 	if signalR.Serverless != nil {
-		serverless_ARM, err := (*signalR.Serverless).ConvertToARM(resolved)
+		serverless_ARM, err := signalR.Serverless.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -455,7 +455,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Serverless = &serverless
 	}
 	if signalR.Tls != nil {
-		tls_ARM, err := (*signalR.Tls).ConvertToARM(resolved)
+		tls_ARM, err := signalR.Tls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -463,7 +463,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Tls = &tls
 	}
 	if signalR.Upstream != nil {
-		upstream_ARM, err := (*signalR.Upstream).ConvertToARM(resolved)
+		upstream_ARM, err := signalR.Upstream.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -473,7 +473,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if signalR.Sku != nil {
-		sku_ARM, err := (*signalR.Sku).ConvertToARM(resolved)
+		sku_ARM, err := signalR.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4200,7 +4200,7 @@ func (acLs *SignalRNetworkACLs) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "PublicNetwork":
 	if acLs.PublicNetwork != nil {
-		publicNetwork_ARM, err := (*acLs.PublicNetwork).ConvertToARM(resolved)
+		publicNetwork_ARM, err := acLs.PublicNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6493,7 +6493,7 @@ func (template *UpstreamTemplate) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Auth":
 	if template.Auth != nil {
-		auth_ARM, err := (*template.Auth).ConvertToARM(resolved)
+		auth_ARM, err := template.Auth.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7005,7 +7005,7 @@ func (settings *UpstreamAuthSettings) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ManagedIdentity":
 	if settings.ManagedIdentity != nil {
-		managedIdentity_ARM, err := (*settings.ManagedIdentity).ConvertToARM(resolved)
+		managedIdentity_ARM, err := settings.ManagedIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

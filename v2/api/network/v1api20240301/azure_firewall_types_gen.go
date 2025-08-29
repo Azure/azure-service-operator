@@ -361,7 +361,7 @@ func (firewall *AzureFirewall_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ApplicationRuleCollections = append(result.Properties.ApplicationRuleCollections, *item_ARM.(*arm.AzureFirewallApplicationRuleCollection))
 	}
 	if firewall.AutoscaleConfiguration != nil {
-		autoscaleConfiguration_ARM, err := (*firewall.AutoscaleConfiguration).ConvertToARM(resolved)
+		autoscaleConfiguration_ARM, err := firewall.AutoscaleConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -369,7 +369,7 @@ func (firewall *AzureFirewall_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AutoscaleConfiguration = &autoscaleConfiguration
 	}
 	if firewall.FirewallPolicy != nil {
-		firewallPolicy_ARM, err := (*firewall.FirewallPolicy).ConvertToARM(resolved)
+		firewallPolicy_ARM, err := firewall.FirewallPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -377,7 +377,7 @@ func (firewall *AzureFirewall_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if firewall.HubIPAddresses != nil {
-		hubIPAddresses_ARM, err := (*firewall.HubIPAddresses).ConvertToARM(resolved)
+		hubIPAddresses_ARM, err := firewall.HubIPAddresses.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -392,7 +392,7 @@ func (firewall *AzureFirewall_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.AzureFirewallIPConfiguration))
 	}
 	if firewall.ManagementIpConfiguration != nil {
-		managementIpConfiguration_ARM, err := (*firewall.ManagementIpConfiguration).ConvertToARM(resolved)
+		managementIpConfiguration_ARM, err := firewall.ManagementIpConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -414,7 +414,7 @@ func (firewall *AzureFirewall_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.NetworkRuleCollections = append(result.Properties.NetworkRuleCollections, *item_ARM.(*arm.AzureFirewallNetworkRuleCollection))
 	}
 	if firewall.Sku != nil {
-		sku_ARM, err := (*firewall.Sku).ConvertToARM(resolved)
+		sku_ARM, err := firewall.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -428,7 +428,7 @@ func (firewall *AzureFirewall_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ThreatIntelMode = &threatIntelMode
 	}
 	if firewall.VirtualHub != nil {
-		virtualHub_ARM, err := (*firewall.VirtualHub).ConvertToARM(resolved)
+		virtualHub_ARM, err := firewall.VirtualHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2123,7 +2123,7 @@ func (collection *AzureFirewallApplicationRuleCollection) ConvertToARM(resolved 
 		result.Properties = &arm.AzureFirewallApplicationRuleCollectionPropertiesFormat{}
 	}
 	if collection.Action != nil {
-		action_ARM, err := (*collection.Action).ConvertToARM(resolved)
+		action_ARM, err := collection.Action.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2584,7 +2584,7 @@ func (configuration *AzureFirewallIPConfiguration) ConvertToARM(resolved genrunt
 		result.Properties = &arm.AzureFirewallIPConfigurationPropertiesFormat{}
 	}
 	if configuration.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*configuration.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := configuration.PublicIPAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2592,7 +2592,7 @@ func (configuration *AzureFirewallIPConfiguration) ConvertToARM(resolved genrunt
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2908,7 +2908,7 @@ func (collection *AzureFirewallNatRuleCollection) ConvertToARM(resolved genrunti
 		result.Properties = &arm.AzureFirewallNatRuleCollectionProperties{}
 	}
 	if collection.Action != nil {
-		action_ARM, err := (*collection.Action).ConvertToARM(resolved)
+		action_ARM, err := collection.Action.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3187,7 +3187,7 @@ func (collection *AzureFirewallNetworkRuleCollection) ConvertToARM(resolved genr
 		result.Properties = &arm.AzureFirewallNetworkRuleCollectionPropertiesFormat{}
 	}
 	if collection.Action != nil {
-		action_ARM, err := (*collection.Action).ConvertToARM(resolved)
+		action_ARM, err := collection.Action.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3838,7 +3838,7 @@ func (addresses *HubIPAddresses) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "PublicIPs":
 	if addresses.PublicIPs != nil {
-		publicIPs_ARM, err := (*addresses.PublicIPs).ConvertToARM(resolved)
+		publicIPs_ARM, err := addresses.PublicIPs.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

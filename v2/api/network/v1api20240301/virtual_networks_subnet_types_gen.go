@@ -368,7 +368,7 @@ func (subnet *VirtualNetworksSubnet_Spec) ConvertToARM(resolved genruntime.Conve
 		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *item_ARM.(*arm.SubResource))
 	}
 	if subnet.NatGateway != nil {
-		natGateway_ARM, err := (*subnet.NatGateway).ConvertToARM(resolved)
+		natGateway_ARM, err := subnet.NatGateway.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -376,7 +376,7 @@ func (subnet *VirtualNetworksSubnet_Spec) ConvertToARM(resolved genruntime.Conve
 		result.Properties.NatGateway = &natGateway
 	}
 	if subnet.NetworkSecurityGroup != nil {
-		networkSecurityGroup_ARM, err := (*subnet.NetworkSecurityGroup).ConvertToARM(resolved)
+		networkSecurityGroup_ARM, err := subnet.NetworkSecurityGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -396,7 +396,7 @@ func (subnet *VirtualNetworksSubnet_Spec) ConvertToARM(resolved genruntime.Conve
 		result.Properties.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 	}
 	if subnet.RouteTable != nil {
-		routeTable_ARM, err := (*subnet.RouteTable).ConvertToARM(resolved)
+		routeTable_ARM, err := subnet.RouteTable.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3508,7 +3508,7 @@ func (format *ServiceEndpointPropertiesFormat) ConvertToARM(resolved genruntime.
 
 	// Set property "NetworkIdentifier":
 	if format.NetworkIdentifier != nil {
-		networkIdentifier_ARM, err := (*format.NetworkIdentifier).ConvertToARM(resolved)
+		networkIdentifier_ARM, err := format.NetworkIdentifier.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

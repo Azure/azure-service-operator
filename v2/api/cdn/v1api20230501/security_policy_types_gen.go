@@ -282,7 +282,7 @@ func (policy *SecurityPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties = &arm.SecurityPolicyProperties{}
 	}
 	if policy.Parameters != nil {
-		parameters_ARM, err := (*policy.Parameters).ConvertToARM(resolved)
+		parameters_ARM, err := policy.Parameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -968,7 +968,7 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 
 	// Set property "WebApplicationFirewall":
 	if parameters.WebApplicationFirewall != nil {
-		webApplicationFirewall_ARM, err := (*parameters.WebApplicationFirewall).ConvertToARM(resolved)
+		webApplicationFirewall_ARM, err := parameters.WebApplicationFirewall.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1193,7 +1193,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 
 	// Set property "WafPolicy":
 	if parameters.WafPolicy != nil {
-		wafPolicy_ARM, err := (*parameters.WafPolicy).ConvertToARM(resolved)
+		wafPolicy_ARM, err := parameters.WafPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

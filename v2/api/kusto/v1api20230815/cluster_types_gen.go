@@ -356,7 +356,7 @@ func (cluster *Cluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if cluster.Identity != nil {
-		identity_ARM, err := (*cluster.Identity).ConvertToARM(resolved)
+		identity_ARM, err := cluster.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -434,7 +434,7 @@ func (cluster *Cluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.EngineType = &engineType
 	}
 	if cluster.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*cluster.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := cluster.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -442,7 +442,7 @@ func (cluster *Cluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.KeyVaultProperties = &keyVaultProperties
 	}
 	if cluster.LanguageExtensions != nil {
-		languageExtensions_ARM, err := (*cluster.LanguageExtensions).ConvertToARM(resolved)
+		languageExtensions_ARM, err := cluster.LanguageExtensions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -450,7 +450,7 @@ func (cluster *Cluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.LanguageExtensions = &languageExtensions
 	}
 	if cluster.OptimizedAutoscale != nil {
-		optimizedAutoscale_ARM, err := (*cluster.OptimizedAutoscale).ConvertToARM(resolved)
+		optimizedAutoscale_ARM, err := cluster.OptimizedAutoscale.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -491,7 +491,7 @@ func (cluster *Cluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.VirtualClusterGraduationProperties = &virtualClusterGraduationProperties
 	}
 	if cluster.VirtualNetworkConfiguration != nil {
-		virtualNetworkConfiguration_ARM, err := (*cluster.VirtualNetworkConfiguration).ConvertToARM(resolved)
+		virtualNetworkConfiguration_ARM, err := cluster.VirtualNetworkConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -501,7 +501,7 @@ func (cluster *Cluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if cluster.Sku != nil {
-		sku_ARM, err := (*cluster.Sku).ConvertToARM(resolved)
+		sku_ARM, err := cluster.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

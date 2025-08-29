@@ -324,7 +324,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties = &arm.OpenShiftClusterProperties{}
 	}
 	if cluster.ApiserverProfile != nil {
-		apiserverProfile_ARM, err := (*cluster.ApiserverProfile).ConvertToARM(resolved)
+		apiserverProfile_ARM, err := cluster.ApiserverProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -332,7 +332,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.ApiserverProfile = &apiserverProfile
 	}
 	if cluster.ClusterProfile != nil {
-		clusterProfile_ARM, err := (*cluster.ClusterProfile).ConvertToARM(resolved)
+		clusterProfile_ARM, err := cluster.ClusterProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -347,7 +347,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.IngressProfiles = append(result.Properties.IngressProfiles, *item_ARM.(*arm.IngressProfile))
 	}
 	if cluster.MasterProfile != nil {
-		masterProfile_ARM, err := (*cluster.MasterProfile).ConvertToARM(resolved)
+		masterProfile_ARM, err := cluster.MasterProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -355,7 +355,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.MasterProfile = &masterProfile
 	}
 	if cluster.NetworkProfile != nil {
-		networkProfile_ARM, err := (*cluster.NetworkProfile).ConvertToARM(resolved)
+		networkProfile_ARM, err := cluster.NetworkProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -363,7 +363,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.NetworkProfile = &networkProfile
 	}
 	if cluster.ServicePrincipalProfile != nil {
-		servicePrincipalProfile_ARM, err := (*cluster.ServicePrincipalProfile).ConvertToARM(resolved)
+		servicePrincipalProfile_ARM, err := cluster.ServicePrincipalProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2793,7 +2793,7 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "LoadBalancerProfile":
 	if profile.LoadBalancerProfile != nil {
-		loadBalancerProfile_ARM, err := (*profile.LoadBalancerProfile).ConvertToARM(resolved)
+		loadBalancerProfile_ARM, err := profile.LoadBalancerProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4221,7 +4221,7 @@ func (profile *LoadBalancerProfile) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ManagedOutboundIps":
 	if profile.ManagedOutboundIps != nil {
-		managedOutboundIps_ARM, err := (*profile.ManagedOutboundIps).ConvertToARM(resolved)
+		managedOutboundIps_ARM, err := profile.ManagedOutboundIps.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

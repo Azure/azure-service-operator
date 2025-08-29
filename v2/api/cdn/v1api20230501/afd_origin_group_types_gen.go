@@ -298,7 +298,7 @@ func (group *AfdOriginGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties = &arm.AFDOriginGroupProperties{}
 	}
 	if group.HealthProbeSettings != nil {
-		healthProbeSettings_ARM, err := (*group.HealthProbeSettings).ConvertToARM(resolved)
+		healthProbeSettings_ARM, err := group.HealthProbeSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -306,7 +306,7 @@ func (group *AfdOriginGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.HealthProbeSettings = &healthProbeSettings
 	}
 	if group.LoadBalancingSettings != nil {
-		loadBalancingSettings_ARM, err := (*group.LoadBalancingSettings).ConvertToARM(resolved)
+		loadBalancingSettings_ARM, err := group.LoadBalancingSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -474,7 +474,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.Count = &count
 	}
 	if pool.CreationData != nil {
-		creationData_ARM, err := (*pool.CreationData).ConvertToARM(resolved)
+		creationData_ARM, err := pool.CreationData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -516,7 +516,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.HostGroupID = &hostGroupID
 	}
 	if pool.KubeletConfig != nil {
-		kubeletConfig_ARM, err := (*pool.KubeletConfig).ConvertToARM(resolved)
+		kubeletConfig_ARM, err := pool.KubeletConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -530,7 +530,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.KubeletDiskType = &kubeletDiskType
 	}
 	if pool.LinuxOSConfig != nil {
-		linuxOSConfig_ARM, err := (*pool.LinuxOSConfig).ConvertToARM(resolved)
+		linuxOSConfig_ARM, err := pool.LinuxOSConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -614,7 +614,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.PodSubnetID = &podSubnetID
 	}
 	if pool.PowerState != nil {
-		powerState_ARM, err := (*pool.PowerState).ConvertToARM(resolved)
+		powerState_ARM, err := pool.PowerState.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -667,7 +667,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.Type = &typeVar
 	}
 	if pool.UpgradeSettings != nil {
-		upgradeSettings_ARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
+		upgradeSettings_ARM, err := pool.UpgradeSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3914,7 +3914,7 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sysctls":
 	if config.Sysctls != nil {
-		sysctls_ARM, err := (*config.Sysctls).ConvertToARM(resolved)
+		sysctls_ARM, err := config.Sysctls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

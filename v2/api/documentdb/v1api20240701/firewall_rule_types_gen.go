@@ -287,7 +287,7 @@ func (rule *FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Properties":
 	if rule.Properties != nil {
-		properties_ARM, err := (*rule.Properties).ConvertToARM(resolved)
+		properties_ARM, err := rule.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -344,7 +344,7 @@ func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.Notifications = append(result.Properties.Notifications, *item_ARM.(*arm.AutoscaleNotification))
 	}
 	if setting.PredictiveAutoscalePolicy != nil {
-		predictiveAutoscalePolicy_ARM, err := (*setting.PredictiveAutoscalePolicy).ConvertToARM(resolved)
+		predictiveAutoscalePolicy_ARM, err := setting.PredictiveAutoscalePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1321,7 +1321,7 @@ func (notification *AutoscaleNotification) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Email":
 	if notification.Email != nil {
-		email_ARM, err := (*notification.Email).ConvertToARM(resolved)
+		email_ARM, err := notification.Email.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1730,7 +1730,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Capacity":
 	if profile.Capacity != nil {
-		capacity_ARM, err := (*profile.Capacity).ConvertToARM(resolved)
+		capacity_ARM, err := profile.Capacity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1740,7 +1740,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "FixedDate":
 	if profile.FixedDate != nil {
-		fixedDate_ARM, err := (*profile.FixedDate).ConvertToARM(resolved)
+		fixedDate_ARM, err := profile.FixedDate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1756,7 +1756,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Recurrence":
 	if profile.Recurrence != nil {
-		recurrence_ARM, err := (*profile.Recurrence).ConvertToARM(resolved)
+		recurrence_ARM, err := profile.Recurrence.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3099,7 +3099,7 @@ func (recurrence *Recurrence) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Schedule":
 	if recurrence.Schedule != nil {
-		schedule_ARM, err := (*recurrence.Schedule).ConvertToARM(resolved)
+		schedule_ARM, err := recurrence.Schedule.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3602,7 +3602,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "MetricTrigger":
 	if rule.MetricTrigger != nil {
-		metricTrigger_ARM, err := (*rule.MetricTrigger).ConvertToARM(resolved)
+		metricTrigger_ARM, err := rule.MetricTrigger.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3612,7 +3612,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "ScaleAction":
 	if rule.ScaleAction != nil {
-		scaleAction_ARM, err := (*rule.ScaleAction).ConvertToARM(resolved)
+		scaleAction_ARM, err := rule.ScaleAction.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

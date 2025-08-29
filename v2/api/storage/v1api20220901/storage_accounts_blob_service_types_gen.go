@@ -319,7 +319,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
 	}
 	if service.ChangeFeed != nil {
-		changeFeed_ARM, err := (*service.ChangeFeed).ConvertToARM(resolved)
+		changeFeed_ARM, err := service.ChangeFeed.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -327,7 +327,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.ChangeFeed = &changeFeed
 	}
 	if service.ContainerDeleteRetentionPolicy != nil {
-		containerDeleteRetentionPolicy_ARM, err := (*service.ContainerDeleteRetentionPolicy).ConvertToARM(resolved)
+		containerDeleteRetentionPolicy_ARM, err := service.ContainerDeleteRetentionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -335,7 +335,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	}
 	if service.Cors != nil {
-		cors_ARM, err := (*service.Cors).ConvertToARM(resolved)
+		cors_ARM, err := service.Cors.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -347,7 +347,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.DefaultServiceVersion = &defaultServiceVersion
 	}
 	if service.DeleteRetentionPolicy != nil {
-		deleteRetentionPolicy_ARM, err := (*service.DeleteRetentionPolicy).ConvertToARM(resolved)
+		deleteRetentionPolicy_ARM, err := service.DeleteRetentionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -359,7 +359,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.IsVersioningEnabled = &isVersioningEnabled
 	}
 	if service.LastAccessTimeTrackingPolicy != nil {
-		lastAccessTimeTrackingPolicy_ARM, err := (*service.LastAccessTimeTrackingPolicy).ConvertToARM(resolved)
+		lastAccessTimeTrackingPolicy_ARM, err := service.LastAccessTimeTrackingPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -367,7 +367,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	}
 	if service.RestorePolicy != nil {
-		restorePolicy_ARM, err := (*service.RestorePolicy).ConvertToARM(resolved)
+		restorePolicy_ARM, err := service.RestorePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

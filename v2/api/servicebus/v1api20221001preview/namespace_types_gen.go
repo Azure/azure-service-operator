@@ -316,7 +316,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Identity":
 	if namespace.Identity != nil {
-		identity_ARM, err := (*namespace.Identity).ConvertToARM(resolved)
+		identity_ARM, err := namespace.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -352,7 +352,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
 	if namespace.Encryption != nil {
-		encryption_ARM, err := (*namespace.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := namespace.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -382,7 +382,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Sku":
 	if namespace.Sku != nil {
-		sku_ARM, err := (*namespace.Sku).ConvertToARM(resolved)
+		sku_ARM, err := namespace.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2857,7 +2857,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Identity":
 	if properties.Identity != nil {
-		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
+		identity_ARM, err := properties.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

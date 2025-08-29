@@ -373,7 +373,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.EnableOnlyIPv6Peering = &enableOnlyIPv6Peering
 	}
 	if peering.LocalAddressSpace != nil {
-		localAddressSpace_ARM, err := (*peering.LocalAddressSpace).ConvertToARM(resolved)
+		localAddressSpace_ARM, err := peering.LocalAddressSpace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -384,7 +384,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.LocalSubnetNames = append(result.Properties.LocalSubnetNames, item)
 	}
 	if peering.LocalVirtualNetworkAddressSpace != nil {
-		localVirtualNetworkAddressSpace_ARM, err := (*peering.LocalVirtualNetworkAddressSpace).ConvertToARM(resolved)
+		localVirtualNetworkAddressSpace_ARM, err := peering.LocalVirtualNetworkAddressSpace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -408,7 +408,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.PeeringSyncLevel = &peeringSyncLevel
 	}
 	if peering.RemoteAddressSpace != nil {
-		remoteAddressSpace_ARM, err := (*peering.RemoteAddressSpace).ConvertToARM(resolved)
+		remoteAddressSpace_ARM, err := peering.RemoteAddressSpace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -416,7 +416,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.RemoteAddressSpace = &remoteAddressSpace
 	}
 	if peering.RemoteBgpCommunities != nil {
-		remoteBgpCommunities_ARM, err := (*peering.RemoteBgpCommunities).ConvertToARM(resolved)
+		remoteBgpCommunities_ARM, err := peering.RemoteBgpCommunities.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -427,7 +427,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.RemoteSubnetNames = append(result.Properties.RemoteSubnetNames, item)
 	}
 	if peering.RemoteVirtualNetwork != nil {
-		remoteVirtualNetwork_ARM, err := (*peering.RemoteVirtualNetwork).ConvertToARM(resolved)
+		remoteVirtualNetwork_ARM, err := peering.RemoteVirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -435,7 +435,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.RemoteVirtualNetwork = &remoteVirtualNetwork
 	}
 	if peering.RemoteVirtualNetworkAddressSpace != nil {
-		remoteVirtualNetworkAddressSpace_ARM, err := (*peering.RemoteVirtualNetworkAddressSpace).ConvertToARM(resolved)
+		remoteVirtualNetworkAddressSpace_ARM, err := peering.RemoteVirtualNetworkAddressSpace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

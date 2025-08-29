@@ -325,7 +325,7 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties = &arm.RouteProperties{}
 	}
 	if route.CacheConfiguration != nil {
-		cacheConfiguration_ARM, err := (*route.CacheConfiguration).ConvertToARM(resolved)
+		cacheConfiguration_ARM, err := route.CacheConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -364,7 +364,7 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.LinkToDefaultDomain = &linkToDefaultDomain
 	}
 	if route.OriginGroup != nil {
-		originGroup_ARM, err := (*route.OriginGroup).ConvertToARM(resolved)
+		originGroup_ARM, err := route.OriginGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1899,7 +1899,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 
 	// Set property "CompressionSettings":
 	if configuration.CompressionSettings != nil {
-		compressionSettings_ARM, err := (*configuration.CompressionSettings).ConvertToARM(resolved)
+		compressionSettings_ARM, err := configuration.CompressionSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

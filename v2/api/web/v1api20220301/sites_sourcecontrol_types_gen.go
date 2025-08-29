@@ -320,7 +320,7 @@ func (sourcecontrol *SitesSourcecontrol_Spec) ConvertToARM(resolved genruntime.C
 		result.Properties.DeploymentRollbackEnabled = &deploymentRollbackEnabled
 	}
 	if sourcecontrol.GitHubActionConfiguration != nil {
-		gitHubActionConfiguration_ARM, err := (*sourcecontrol.GitHubActionConfiguration).ConvertToARM(resolved)
+		gitHubActionConfiguration_ARM, err := sourcecontrol.GitHubActionConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1112,7 +1112,7 @@ func (configuration *GitHubActionConfiguration) ConvertToARM(resolved genruntime
 
 	// Set property "CodeConfiguration":
 	if configuration.CodeConfiguration != nil {
-		codeConfiguration_ARM, err := (*configuration.CodeConfiguration).ConvertToARM(resolved)
+		codeConfiguration_ARM, err := configuration.CodeConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1122,7 +1122,7 @@ func (configuration *GitHubActionConfiguration) ConvertToARM(resolved genruntime
 
 	// Set property "ContainerConfiguration":
 	if configuration.ContainerConfiguration != nil {
-		containerConfiguration_ARM, err := (*configuration.ContainerConfiguration).ConvertToARM(resolved)
+		containerConfiguration_ARM, err := configuration.ContainerConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

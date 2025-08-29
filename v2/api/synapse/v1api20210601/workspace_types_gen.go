@@ -334,7 +334,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Identity":
 	if workspace.Identity != nil {
-		identity_ARM, err := (*workspace.Identity).ConvertToARM(resolved)
+		identity_ARM, err := workspace.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -373,7 +373,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 	if workspace.CspWorkspaceAdminProperties != nil {
-		cspWorkspaceAdminProperties_ARM, err := (*workspace.CspWorkspaceAdminProperties).ConvertToARM(resolved)
+		cspWorkspaceAdminProperties_ARM, err := workspace.CspWorkspaceAdminProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -381,7 +381,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperties
 	}
 	if workspace.DefaultDataLakeStorage != nil {
-		defaultDataLakeStorage_ARM, err := (*workspace.DefaultDataLakeStorage).ConvertToARM(resolved)
+		defaultDataLakeStorage_ARM, err := workspace.DefaultDataLakeStorage.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -389,7 +389,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.DefaultDataLakeStorage = &defaultDataLakeStorage
 	}
 	if workspace.Encryption != nil {
-		encryption_ARM, err := (*workspace.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := workspace.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -405,7 +405,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ManagedVirtualNetwork = &managedVirtualNetwork
 	}
 	if workspace.ManagedVirtualNetworkSettings != nil {
-		managedVirtualNetworkSettings_ARM, err := (*workspace.ManagedVirtualNetworkSettings).ConvertToARM(resolved)
+		managedVirtualNetworkSettings_ARM, err := workspace.ManagedVirtualNetworkSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -419,7 +419,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if workspace.PurviewConfiguration != nil {
-		purviewConfiguration_ARM, err := (*workspace.PurviewConfiguration).ConvertToARM(resolved)
+		purviewConfiguration_ARM, err := workspace.PurviewConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -443,7 +443,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.TrustedServiceBypassEnabled = &trustedServiceBypassEnabled
 	}
 	if workspace.VirtualNetworkProfile != nil {
-		virtualNetworkProfile_ARM, err := (*workspace.VirtualNetworkProfile).ConvertToARM(resolved)
+		virtualNetworkProfile_ARM, err := workspace.VirtualNetworkProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -451,7 +451,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.VirtualNetworkProfile = &virtualNetworkProfile
 	}
 	if workspace.WorkspaceRepositoryConfiguration != nil {
-		workspaceRepositoryConfiguration_ARM, err := (*workspace.WorkspaceRepositoryConfiguration).ConvertToARM(resolved)
+		workspaceRepositoryConfiguration_ARM, err := workspace.WorkspaceRepositoryConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2583,7 +2583,7 @@ func (details *EncryptionDetails) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Cmk":
 	if details.Cmk != nil {
-		cmk_ARM, err := (*details.Cmk).ConvertToARM(resolved)
+		cmk_ARM, err := details.Cmk.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4351,7 +4351,7 @@ func (details *CustomerManagedKeyDetails) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "KekIdentity":
 	if details.KekIdentity != nil {
-		kekIdentity_ARM, err := (*details.KekIdentity).ConvertToARM(resolved)
+		kekIdentity_ARM, err := details.KekIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4361,7 +4361,7 @@ func (details *CustomerManagedKeyDetails) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Key":
 	if details.Key != nil {
-		key_ARM, err := (*details.Key).ConvertToARM(resolved)
+		key_ARM, err := details.Key.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4805,7 +4805,7 @@ func (properties *KekIdentityProperties) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "UseSystemAssignedIdentity":
 	if properties.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *(*properties.UseSystemAssignedIdentity).DeepCopy()
+		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity.DeepCopy()
 		result.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	}
 
@@ -4835,7 +4835,7 @@ func (properties *KekIdentityProperties) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "UseSystemAssignedIdentity":
 	if typedInput.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *(*typedInput.UseSystemAssignedIdentity).DeepCopy()
+		useSystemAssignedIdentity := *typedInput.UseSystemAssignedIdentity.DeepCopy()
 		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	}
 
@@ -4940,7 +4940,7 @@ func (properties *KekIdentityProperties_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "UseSystemAssignedIdentity":
 	if typedInput.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *(*typedInput.UseSystemAssignedIdentity).DeepCopy()
+		useSystemAssignedIdentity := *typedInput.UseSystemAssignedIdentity.DeepCopy()
 		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	}
 

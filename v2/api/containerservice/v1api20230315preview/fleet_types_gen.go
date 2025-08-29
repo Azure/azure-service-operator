@@ -303,7 +303,7 @@ func (fleet *Fleet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties = &arm.FleetProperties{}
 	}
 	if fleet.HubProfile != nil {
-		hubProfile_ARM, err := (*fleet.HubProfile).ConvertToARM(resolved)
+		hubProfile_ARM, err := fleet.HubProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -289,7 +289,7 @@ func (connection *DataConnection_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "CosmosDb":
 	if connection.CosmosDb != nil {
-		cosmosDb_ARM, err := (*connection.CosmosDb).ConvertToARM(resolved)
+		cosmosDb_ARM, err := connection.CosmosDb.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -300,7 +300,7 @@ func (connection *DataConnection_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "EventGrid":
 	if connection.EventGrid != nil {
-		eventGrid_ARM, err := (*connection.EventGrid).ConvertToARM(resolved)
+		eventGrid_ARM, err := connection.EventGrid.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -311,7 +311,7 @@ func (connection *DataConnection_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "EventHub":
 	if connection.EventHub != nil {
-		eventHub_ARM, err := (*connection.EventHub).ConvertToARM(resolved)
+		eventHub_ARM, err := connection.EventHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -322,7 +322,7 @@ func (connection *DataConnection_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "IotHub":
 	if connection.IotHub != nil {
-		iotHub_ARM, err := (*connection.IotHub).ConvertToARM(resolved)
+		iotHub_ARM, err := connection.IotHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

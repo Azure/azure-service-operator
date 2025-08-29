@@ -336,7 +336,7 @@ func (containerApp *ContainerApp_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "ExtendedLocation":
 	if containerApp.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*containerApp.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := containerApp.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -346,7 +346,7 @@ func (containerApp *ContainerApp_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Identity":
 	if containerApp.Identity != nil {
-		identity_ARM, err := (*containerApp.Identity).ConvertToARM(resolved)
+		identity_ARM, err := containerApp.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -382,7 +382,7 @@ func (containerApp *ContainerApp_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties = &arm.ContainerApp_Properties_Spec{}
 	}
 	if containerApp.Configuration != nil {
-		configuration_ARM, err := (*containerApp.Configuration).ConvertToARM(resolved)
+		configuration_ARM, err := containerApp.Configuration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -406,7 +406,7 @@ func (containerApp *ContainerApp_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.ManagedEnvironmentId = &managedEnvironmentId
 	}
 	if containerApp.Template != nil {
-		template_ARM, err := (*containerApp.Template).ConvertToARM(resolved)
+		template_ARM, err := containerApp.Template.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1462,7 +1462,7 @@ func (configuration *Configuration) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Dapr":
 	if configuration.Dapr != nil {
-		dapr_ARM, err := (*configuration.Dapr).ConvertToARM(resolved)
+		dapr_ARM, err := configuration.Dapr.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1472,7 +1472,7 @@ func (configuration *Configuration) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Ingress":
 	if configuration.Ingress != nil {
-		ingress_ARM, err := (*configuration.Ingress).ConvertToARM(resolved)
+		ingress_ARM, err := configuration.Ingress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1506,7 +1506,7 @@ func (configuration *Configuration) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Service":
 	if configuration.Service != nil {
-		service_ARM, err := (*configuration.Service).ConvertToARM(resolved)
+		service_ARM, err := configuration.Service.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2796,7 +2796,7 @@ func (template *Template) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Scale":
 	if template.Scale != nil {
-		scale_ARM, err := (*template.Scale).ConvertToARM(resolved)
+		scale_ARM, err := template.Scale.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3492,7 +3492,7 @@ func (container *BaseContainer) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Resources":
 	if container.Resources != nil {
-		resources_ARM, err := (*container.Resources).ConvertToARM(resolved)
+		resources_ARM, err := container.Resources.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4066,7 +4066,7 @@ func (container *Container) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Resources":
 	if container.Resources != nil {
-		resources_ARM, err := (*container.Resources).ConvertToARM(resolved)
+		resources_ARM, err := container.Resources.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5276,7 +5276,7 @@ func (ingress *Ingress) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "CorsPolicy":
 	if ingress.CorsPolicy != nil {
-		corsPolicy_ARM, err := (*ingress.CorsPolicy).ConvertToARM(resolved)
+		corsPolicy_ARM, err := ingress.CorsPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5316,7 +5316,7 @@ func (ingress *Ingress) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "StickySessions":
 	if ingress.StickySessions != nil {
-		stickySessions_ARM, err := (*ingress.StickySessions).ConvertToARM(resolved)
+		stickySessions_ARM, err := ingress.StickySessions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7902,7 +7902,7 @@ func (probe *ContainerAppProbe) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "HttpGet":
 	if probe.HttpGet != nil {
-		httpGet_ARM, err := (*probe.HttpGet).ConvertToARM(resolved)
+		httpGet_ARM, err := probe.HttpGet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7930,7 +7930,7 @@ func (probe *ContainerAppProbe) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "TcpSocket":
 	if probe.TcpSocket != nil {
-		tcpSocket_ARM, err := (*probe.TcpSocket).ConvertToARM(resolved)
+		tcpSocket_ARM, err := probe.TcpSocket.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10206,7 +10206,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "AzureQueue":
 	if rule.AzureQueue != nil {
-		azureQueue_ARM, err := (*rule.AzureQueue).ConvertToARM(resolved)
+		azureQueue_ARM, err := rule.AzureQueue.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10216,7 +10216,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "Custom":
 	if rule.Custom != nil {
-		custom_ARM, err := (*rule.Custom).ConvertToARM(resolved)
+		custom_ARM, err := rule.Custom.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10226,7 +10226,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "Http":
 	if rule.Http != nil {
-		http_ARM, err := (*rule.Http).ConvertToARM(resolved)
+		http_ARM, err := rule.Http.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10242,7 +10242,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "Tcp":
 	if rule.Tcp != nil {
-		tcp_ARM, err := (*rule.Tcp).ConvertToARM(resolved)
+		tcp_ARM, err := rule.Tcp.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

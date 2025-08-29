@@ -352,7 +352,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties = &arm.WebTestProperties{}
 	}
 	if webtest.Configuration != nil {
-		configuration_ARM, err := (*webtest.Configuration).ConvertToARM(resolved)
+		configuration_ARM, err := webtest.Configuration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -389,7 +389,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Name = &name
 	}
 	if webtest.Request != nil {
-		request_ARM, err := (*webtest.Request).ConvertToARM(resolved)
+		request_ARM, err := webtest.Request.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -409,7 +409,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Timeout = &timeout
 	}
 	if webtest.ValidationRules != nil {
-		validationRules_ARM, err := (*webtest.ValidationRules).ConvertToARM(resolved)
+		validationRules_ARM, err := webtest.ValidationRules.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2334,7 +2334,7 @@ func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime
 
 	// Set property "ContentValidation":
 	if rules.ContentValidation != nil {
-		contentValidation_ARM, err := (*rules.ContentValidation).ConvertToARM(resolved)
+		contentValidation_ARM, err := rules.ContentValidation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

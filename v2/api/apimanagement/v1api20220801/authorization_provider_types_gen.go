@@ -303,7 +303,7 @@ func (provider *AuthorizationProvider_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.IdentityProvider = &identityProvider
 	}
 	if provider.Oauth2 != nil {
-		oauth2_ARM, err := (*provider.Oauth2).ConvertToARM(resolved)
+		oauth2_ARM, err := provider.Oauth2.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -812,7 +812,7 @@ func (settings *AuthorizationProviderOAuth2Settings) ConvertToARM(resolved genru
 
 	// Set property "GrantTypes":
 	if settings.GrantTypes != nil {
-		grantTypes_ARM, err := (*settings.GrantTypes).ConvertToARM(resolved)
+		grantTypes_ARM, err := settings.GrantTypes.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -377,7 +377,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if redis.RedisConfiguration != nil {
-		redisConfiguration_ARM, err := (*redis.RedisConfiguration).ConvertToARM(resolved)
+		redisConfiguration_ARM, err := redis.RedisConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -401,7 +401,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.ShardCount = &shardCount
 	}
 	if redis.Sku != nil {
-		sku_ARM, err := (*redis.Sku).ConvertToARM(resolved)
+		sku_ARM, err := redis.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

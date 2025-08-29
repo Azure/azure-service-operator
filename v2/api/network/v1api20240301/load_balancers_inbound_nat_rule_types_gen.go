@@ -327,7 +327,7 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 		result.Properties = &arm.InboundNatRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := rule.BackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -347,7 +347,7 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if rule.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := rule.FrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

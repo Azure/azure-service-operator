@@ -305,7 +305,7 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ExtendedLocation":
 	if endpoint.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*endpoint.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := endpoint.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -364,7 +364,7 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.PrivateLinkServiceConnections = append(result.Properties.PrivateLinkServiceConnections, *item_ARM.(*arm.PrivateLinkServiceConnection))
 	}
 	if endpoint.Subnet != nil {
-		subnet_ARM, err := (*endpoint.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := endpoint.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2427,7 +2427,7 @@ func (connection *PrivateLinkServiceConnection) ConvertToARM(resolved genruntime
 		result.Properties.GroupIds = append(result.Properties.GroupIds, item)
 	}
 	if connection.PrivateLinkServiceConnectionState != nil {
-		privateLinkServiceConnectionState_ARM, err := (*connection.PrivateLinkServiceConnectionState).ConvertToARM(resolved)
+		privateLinkServiceConnectionState_ARM, err := connection.PrivateLinkServiceConnectionState.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -363,7 +363,7 @@ func (alert *MetricAlert_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.AutoMitigate = &autoMitigate
 	}
 	if alert.Criteria != nil {
-		criteria_ARM, err := (*alert.Criteria).ConvertToARM(resolved)
+		criteria_ARM, err := alert.Criteria.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1649,7 +1649,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "MicrosoftAzureMonitorMultipleResourceMultipleMetric":
 	if criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric != nil {
-		microsoftAzureMonitorMultipleResourceMultipleMetric_ARM, err := (*criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric).ConvertToARM(resolved)
+		microsoftAzureMonitorMultipleResourceMultipleMetric_ARM, err := criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1659,7 +1659,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "MicrosoftAzureMonitorSingleResourceMultipleMetric":
 	if criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric != nil {
-		microsoftAzureMonitorSingleResourceMultipleMetric_ARM, err := (*criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric).ConvertToARM(resolved)
+		microsoftAzureMonitorSingleResourceMultipleMetric_ARM, err := criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1669,7 +1669,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "MicrosoftAzureMonitorWebtestLocationAvailability":
 	if criteria.MicrosoftAzureMonitorWebtestLocationAvailability != nil {
-		microsoftAzureMonitorWebtestLocationAvailability_ARM, err := (*criteria.MicrosoftAzureMonitorWebtestLocationAvailability).ConvertToARM(resolved)
+		microsoftAzureMonitorWebtestLocationAvailability_ARM, err := criteria.MicrosoftAzureMonitorWebtestLocationAvailability.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4183,7 +4183,7 @@ func (criteria *MultiMetricCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Dynamic":
 	if criteria.Dynamic != nil {
-		dynamic_ARM, err := (*criteria.Dynamic).ConvertToARM(resolved)
+		dynamic_ARM, err := criteria.Dynamic.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4193,7 +4193,7 @@ func (criteria *MultiMetricCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Static":
 	if criteria.Static != nil {
-		static_ARM, err := (*criteria.Static).ConvertToARM(resolved)
+		static_ARM, err := criteria.Static.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4574,7 +4574,7 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "FailingPeriods":
 	if criteria.FailingPeriods != nil {
-		failingPeriods_ARM, err := (*criteria.FailingPeriods).ConvertToARM(resolved)
+		failingPeriods_ARM, err := criteria.FailingPeriods.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

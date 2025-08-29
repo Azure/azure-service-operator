@@ -294,7 +294,7 @@ func (updateRun *FleetsUpdateRun_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties = &arm.UpdateRunProperties{}
 	}
 	if updateRun.ManagedClusterUpdate != nil {
-		managedClusterUpdate_ARM, err := (*updateRun.ManagedClusterUpdate).ConvertToARM(resolved)
+		managedClusterUpdate_ARM, err := updateRun.ManagedClusterUpdate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -302,7 +302,7 @@ func (updateRun *FleetsUpdateRun_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.ManagedClusterUpdate = &managedClusterUpdate
 	}
 	if updateRun.Strategy != nil {
-		strategy_ARM, err := (*updateRun.Strategy).ConvertToARM(resolved)
+		strategy_ARM, err := updateRun.Strategy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1064,7 +1064,7 @@ func (update *ManagedClusterUpdate) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Upgrade":
 	if update.Upgrade != nil {
-		upgrade_ARM, err := (*update.Upgrade).ConvertToARM(resolved)
+		upgrade_ARM, err := update.Upgrade.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

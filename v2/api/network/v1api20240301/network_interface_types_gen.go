@@ -316,7 +316,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property "ExtendedLocation":
 	if networkInterface.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*networkInterface.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := networkInterface.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -364,7 +364,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.DisableTcpStateTracking = &disableTcpStateTracking
 	}
 	if networkInterface.DnsSettings != nil {
-		dnsSettings_ARM, err := (*networkInterface.DnsSettings).ConvertToARM(resolved)
+		dnsSettings_ARM, err := networkInterface.DnsSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -387,7 +387,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded))
 	}
 	if networkInterface.NetworkSecurityGroup != nil {
-		networkSecurityGroup_ARM, err := (*networkInterface.NetworkSecurityGroup).ConvertToARM(resolved)
+		networkSecurityGroup_ARM, err := networkInterface.NetworkSecurityGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -401,7 +401,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.NicType = &nicType
 	}
 	if networkInterface.PrivateLinkService != nil {
-		privateLinkService_ARM, err := (*networkInterface.PrivateLinkService).ConvertToARM(resolved)
+		privateLinkService_ARM, err := networkInterface.PrivateLinkService.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2387,7 +2387,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *item_ARM.(*arm.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded))
 	}
 	if embedded.GatewayLoadBalancer != nil {
-		gatewayLoadBalancer_ARM, err := (*embedded.GatewayLoadBalancer).ConvertToARM(resolved)
+		gatewayLoadBalancer_ARM, err := embedded.GatewayLoadBalancer.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2433,7 +2433,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if embedded.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*embedded.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := embedded.PublicIPAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2441,7 +2441,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if embedded.Subnet != nil {
-		subnet_ARM, err := (*embedded.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := embedded.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
