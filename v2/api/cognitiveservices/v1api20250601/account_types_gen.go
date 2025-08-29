@@ -5,6 +5,7 @@ package v1api20250601
 
 import (
 	"fmt"
+
 	arm "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -13,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -295,6 +296,7 @@ func (account *Account_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if account.Identity != nil {
+		identity_ARM, err := account.Identity.ConvertToARM(resolved)
 		identity_ARM, err := account.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
