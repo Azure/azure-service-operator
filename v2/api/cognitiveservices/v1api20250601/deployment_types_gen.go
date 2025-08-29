@@ -285,7 +285,7 @@ func (deployment *Deployment_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Properties":
 	if deployment.Properties != nil {
-		properties_ARM, err := (*deployment.Properties).ConvertToARM(resolved)
+		properties_ARM, err := deployment.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -295,7 +295,7 @@ func (deployment *Deployment_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Sku":
 	if deployment.Sku != nil {
-		sku_ARM, err := (*deployment.Sku).ConvertToARM(resolved)
+		sku_ARM, err := deployment.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1025,7 +1025,7 @@ func (properties *DeploymentProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "CapacitySettings":
 	if properties.CapacitySettings != nil {
-		capacitySettings_ARM, err := (*properties.CapacitySettings).ConvertToARM(resolved)
+		capacitySettings_ARM, err := properties.CapacitySettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1035,7 +1035,7 @@ func (properties *DeploymentProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Model":
 	if properties.Model != nil {
-		model_ARM, err := (*properties.Model).ConvertToARM(resolved)
+		model_ARM, err := properties.Model.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1057,7 +1057,7 @@ func (properties *DeploymentProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "ScaleSettings":
 	if properties.ScaleSettings != nil {
-		scaleSettings_ARM, err := (*properties.ScaleSettings).ConvertToARM(resolved)
+		scaleSettings_ARM, err := properties.ScaleSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

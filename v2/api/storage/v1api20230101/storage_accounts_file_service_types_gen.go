@@ -287,7 +287,7 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 		result.Properties = &arm.StorageAccounts_FileService_Properties_Spec{}
 	}
 	if service.Cors != nil {
-		cors_ARM, err := (*service.Cors).ConvertToARM(resolved)
+		cors_ARM, err := service.Cors.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -295,7 +295,7 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.Cors = &cors
 	}
 	if service.ProtocolSettings != nil {
-		protocolSettings_ARM, err := (*service.ProtocolSettings).ConvertToARM(resolved)
+		protocolSettings_ARM, err := service.ProtocolSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -303,7 +303,7 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 		result.Properties.ProtocolSettings = &protocolSettings
 	}
 	if service.ShareDeleteRetentionPolicy != nil {
-		shareDeleteRetentionPolicy_ARM, err := (*service.ShareDeleteRetentionPolicy).ConvertToARM(resolved)
+		shareDeleteRetentionPolicy_ARM, err := service.ShareDeleteRetentionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -945,7 +945,7 @@ func (settings *ProtocolSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Smb":
 	if settings.Smb != nil {
-		smb_ARM, err := (*settings.Smb).ConvertToARM(resolved)
+		smb_ARM, err := settings.Smb.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1285,7 +1285,7 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Multichannel":
 	if setting.Multichannel != nil {
-		multichannel_ARM, err := (*setting.Multichannel).ConvertToARM(resolved)
+		multichannel_ARM, err := setting.Multichannel.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

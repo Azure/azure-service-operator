@@ -296,7 +296,7 @@ func (job *Job_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 
 	// Set property "Identity":
 	if job.Identity != nil {
-		identity_ARM, err := (*job.Identity).ConvertToARM(resolved)
+		identity_ARM, err := job.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -321,7 +321,7 @@ func (job *Job_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties = &arm.Job_Properties_Spec{}
 	}
 	if job.Configuration != nil {
-		configuration_ARM, err := (*job.Configuration).ConvertToARM(resolved)
+		configuration_ARM, err := job.Configuration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -337,7 +337,7 @@ func (job *Job_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		result.Properties.EnvironmentId = &environmentId
 	}
 	if job.Template != nil {
-		template_ARM, err := (*job.Template).ConvertToARM(resolved)
+		template_ARM, err := job.Template.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1255,7 +1255,7 @@ func (configuration *JobConfiguration) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "EventTriggerConfig":
 	if configuration.EventTriggerConfig != nil {
-		eventTriggerConfig_ARM, err := (*configuration.EventTriggerConfig).ConvertToARM(resolved)
+		eventTriggerConfig_ARM, err := configuration.EventTriggerConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1274,7 +1274,7 @@ func (configuration *JobConfiguration) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "ManualTriggerConfig":
 	if configuration.ManualTriggerConfig != nil {
-		manualTriggerConfig_ARM, err := (*configuration.ManualTriggerConfig).ConvertToARM(resolved)
+		manualTriggerConfig_ARM, err := configuration.ManualTriggerConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1305,7 +1305,7 @@ func (configuration *JobConfiguration) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "ScheduleTriggerConfig":
 	if configuration.ScheduleTriggerConfig != nil {
-		scheduleTriggerConfig_ARM, err := (*configuration.ScheduleTriggerConfig).ConvertToARM(resolved)
+		scheduleTriggerConfig_ARM, err := configuration.ScheduleTriggerConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2756,7 +2756,7 @@ func (config *JobConfiguration_EventTriggerConfig) ConvertToARM(resolved genrunt
 
 	// Set property "Scale":
 	if config.Scale != nil {
-		scale_ARM, err := (*config.Scale).ConvertToARM(resolved)
+		scale_ARM, err := config.Scale.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

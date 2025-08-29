@@ -335,7 +335,7 @@ func (rule *SmartDetectorAlertRule_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties = &arm.AlertRuleProperties{}
 	}
 	if rule.ActionGroups != nil {
-		actionGroups_ARM, err := (*rule.ActionGroups).ConvertToARM(resolved)
+		actionGroups_ARM, err := rule.ActionGroups.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -347,7 +347,7 @@ func (rule *SmartDetectorAlertRule_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.Description = &description
 	}
 	if rule.Detector != nil {
-		detector_ARM, err := (*rule.Detector).ConvertToARM(resolved)
+		detector_ARM, err := rule.Detector.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -378,7 +378,7 @@ func (rule *SmartDetectorAlertRule_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.State = &state
 	}
 	if rule.Throttling != nil {
-		throttling_ARM, err := (*rule.Throttling).ConvertToARM(resolved)
+		throttling_ARM, err := rule.Throttling.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

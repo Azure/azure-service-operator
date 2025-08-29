@@ -282,7 +282,7 @@ func (service *StorageAccountsQueueService_Spec) ConvertToARM(resolved genruntim
 		result.Properties = &arm.StorageAccounts_QueueService_Properties_Spec{}
 	}
 	if service.Cors != nil {
-		cors_ARM, err := (*service.Cors).ConvertToARM(resolved)
+		cors_ARM, err := service.Cors.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

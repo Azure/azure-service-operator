@@ -318,7 +318,7 @@ func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Identity":
 	if store.Identity != nil {
-		identity_ARM, err := (*store.Identity).ConvertToARM(resolved)
+		identity_ARM, err := store.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -359,7 +359,7 @@ func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.EnablePurgeProtection = &enablePurgeProtection
 	}
 	if store.Encryption != nil {
-		encryption_ARM, err := (*store.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := store.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -379,7 +379,7 @@ func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Sku":
 	if store.Sku != nil {
-		sku_ARM, err := (*store.Sku).ConvertToARM(resolved)
+		sku_ARM, err := store.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -389,7 +389,7 @@ func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "SystemData":
 	if store.SystemData != nil {
-		systemData_ARM, err := (*store.SystemData).ConvertToARM(resolved)
+		systemData_ARM, err := store.SystemData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1769,7 +1769,7 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "KeyVaultProperties":
 	if properties.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*properties.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := properties.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

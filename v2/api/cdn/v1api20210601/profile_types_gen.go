@@ -316,7 +316,7 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if profile.Sku != nil {
-		sku_ARM, err := (*profile.Sku).ConvertToARM(resolved)
+		sku_ARM, err := profile.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

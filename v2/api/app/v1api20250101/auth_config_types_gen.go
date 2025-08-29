@@ -311,7 +311,7 @@ func (config *AuthConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties = &arm.ContainerApps_AuthConfig_Properties_Spec{}
 	}
 	if config.EncryptionSettings != nil {
-		encryptionSettings_ARM, err := (*config.EncryptionSettings).ConvertToARM(resolved)
+		encryptionSettings_ARM, err := config.EncryptionSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -319,7 +319,7 @@ func (config *AuthConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.EncryptionSettings = &encryptionSettings
 	}
 	if config.GlobalValidation != nil {
-		globalValidation_ARM, err := (*config.GlobalValidation).ConvertToARM(resolved)
+		globalValidation_ARM, err := config.GlobalValidation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -327,7 +327,7 @@ func (config *AuthConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.GlobalValidation = &globalValidation
 	}
 	if config.HttpSettings != nil {
-		httpSettings_ARM, err := (*config.HttpSettings).ConvertToARM(resolved)
+		httpSettings_ARM, err := config.HttpSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -335,7 +335,7 @@ func (config *AuthConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.HttpSettings = &httpSettings
 	}
 	if config.IdentityProviders != nil {
-		identityProviders_ARM, err := (*config.IdentityProviders).ConvertToARM(resolved)
+		identityProviders_ARM, err := config.IdentityProviders.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -343,7 +343,7 @@ func (config *AuthConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.IdentityProviders = &identityProviders
 	}
 	if config.Login != nil {
-		login_ARM, err := (*config.Login).ConvertToARM(resolved)
+		login_ARM, err := config.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -351,7 +351,7 @@ func (config *AuthConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Login = &login
 	}
 	if config.Platform != nil {
-		platform_ARM, err := (*config.Platform).ConvertToARM(resolved)
+		platform_ARM, err := config.Platform.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2044,7 +2044,7 @@ func (settings *HttpSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ForwardProxy":
 	if settings.ForwardProxy != nil {
-		forwardProxy_ARM, err := (*settings.ForwardProxy).ConvertToARM(resolved)
+		forwardProxy_ARM, err := settings.ForwardProxy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2060,7 +2060,7 @@ func (settings *HttpSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Routes":
 	if settings.Routes != nil {
-		routes_ARM, err := (*settings.Routes).ConvertToARM(resolved)
+		routes_ARM, err := settings.Routes.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2427,7 +2427,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Apple":
 	if providers.Apple != nil {
-		apple_ARM, err := (*providers.Apple).ConvertToARM(resolved)
+		apple_ARM, err := providers.Apple.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2437,7 +2437,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AzureActiveDirectory":
 	if providers.AzureActiveDirectory != nil {
-		azureActiveDirectory_ARM, err := (*providers.AzureActiveDirectory).ConvertToARM(resolved)
+		azureActiveDirectory_ARM, err := providers.AzureActiveDirectory.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2447,7 +2447,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AzureStaticWebApps":
 	if providers.AzureStaticWebApps != nil {
-		azureStaticWebApps_ARM, err := (*providers.AzureStaticWebApps).ConvertToARM(resolved)
+		azureStaticWebApps_ARM, err := providers.AzureStaticWebApps.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2469,7 +2469,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Facebook":
 	if providers.Facebook != nil {
-		facebook_ARM, err := (*providers.Facebook).ConvertToARM(resolved)
+		facebook_ARM, err := providers.Facebook.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2479,7 +2479,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "GitHub":
 	if providers.GitHub != nil {
-		gitHub_ARM, err := (*providers.GitHub).ConvertToARM(resolved)
+		gitHub_ARM, err := providers.GitHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2489,7 +2489,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Google":
 	if providers.Google != nil {
-		google_ARM, err := (*providers.Google).ConvertToARM(resolved)
+		google_ARM, err := providers.Google.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2499,7 +2499,7 @@ func (providers *IdentityProviders) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Twitter":
 	if providers.Twitter != nil {
-		twitter_ARM, err := (*providers.Twitter).ConvertToARM(resolved)
+		twitter_ARM, err := providers.Twitter.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3356,7 +3356,7 @@ func (login *Login) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "CookieExpiration":
 	if login.CookieExpiration != nil {
-		cookieExpiration_ARM, err := (*login.CookieExpiration).ConvertToARM(resolved)
+		cookieExpiration_ARM, err := login.CookieExpiration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3366,7 +3366,7 @@ func (login *Login) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Nonce":
 	if login.Nonce != nil {
-		nonce_ARM, err := (*login.Nonce).ConvertToARM(resolved)
+		nonce_ARM, err := login.Nonce.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3382,7 +3382,7 @@ func (login *Login) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Routes":
 	if login.Routes != nil {
-		routes_ARM, err := (*login.Routes).ConvertToARM(resolved)
+		routes_ARM, err := login.Routes.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3392,7 +3392,7 @@ func (login *Login) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "TokenStore":
 	if login.TokenStore != nil {
-		tokenStore_ARM, err := (*login.TokenStore).ConvertToARM(resolved)
+		tokenStore_ARM, err := login.TokenStore.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4109,7 +4109,7 @@ func (apple *Apple) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Login":
 	if apple.Login != nil {
-		login_ARM, err := (*apple.Login).ConvertToARM(resolved)
+		login_ARM, err := apple.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4119,7 +4119,7 @@ func (apple *Apple) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Registration":
 	if apple.Registration != nil {
-		registration_ARM, err := (*apple.Registration).ConvertToARM(resolved)
+		registration_ARM, err := apple.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4490,7 +4490,7 @@ func (directory *AzureActiveDirectory) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Login":
 	if directory.Login != nil {
-		login_ARM, err := (*directory.Login).ConvertToARM(resolved)
+		login_ARM, err := directory.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4500,7 +4500,7 @@ func (directory *AzureActiveDirectory) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Registration":
 	if directory.Registration != nil {
-		registration_ARM, err := (*directory.Registration).ConvertToARM(resolved)
+		registration_ARM, err := directory.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4510,7 +4510,7 @@ func (directory *AzureActiveDirectory) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Validation":
 	if directory.Validation != nil {
-		validation_ARM, err := (*directory.Validation).ConvertToARM(resolved)
+		validation_ARM, err := directory.Validation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5006,7 +5006,7 @@ func (apps *AzureStaticWebApps) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Registration":
 	if apps.Registration != nil {
-		registration_ARM, err := (*apps.Registration).ConvertToARM(resolved)
+		registration_ARM, err := apps.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5491,7 +5491,7 @@ func (provider *CustomOpenIdConnectProvider) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Login":
 	if provider.Login != nil {
-		login_ARM, err := (*provider.Login).ConvertToARM(resolved)
+		login_ARM, err := provider.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5501,7 +5501,7 @@ func (provider *CustomOpenIdConnectProvider) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Registration":
 	if provider.Registration != nil {
-		registration_ARM, err := (*provider.Registration).ConvertToARM(resolved)
+		registration_ARM, err := provider.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5865,7 +5865,7 @@ func (facebook *Facebook) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Login":
 	if facebook.Login != nil {
-		login_ARM, err := (*facebook.Login).ConvertToARM(resolved)
+		login_ARM, err := facebook.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5875,7 +5875,7 @@ func (facebook *Facebook) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Registration":
 	if facebook.Registration != nil {
-		registration_ARM, err := (*facebook.Registration).ConvertToARM(resolved)
+		registration_ARM, err := facebook.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6515,7 +6515,7 @@ func (gitHub *GitHub) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Login":
 	if gitHub.Login != nil {
-		login_ARM, err := (*gitHub.Login).ConvertToARM(resolved)
+		login_ARM, err := gitHub.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6525,7 +6525,7 @@ func (gitHub *GitHub) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Registration":
 	if gitHub.Registration != nil {
-		registration_ARM, err := (*gitHub.Registration).ConvertToARM(resolved)
+		registration_ARM, err := gitHub.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6919,7 +6919,7 @@ func (google *Google) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Login":
 	if google.Login != nil {
-		login_ARM, err := (*google.Login).ConvertToARM(resolved)
+		login_ARM, err := google.Login.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6929,7 +6929,7 @@ func (google *Google) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Registration":
 	if google.Registration != nil {
-		registration_ARM, err := (*google.Registration).ConvertToARM(resolved)
+		registration_ARM, err := google.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6939,7 +6939,7 @@ func (google *Google) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Validation":
 	if google.Validation != nil {
-		validation_ARM, err := (*google.Validation).ConvertToARM(resolved)
+		validation_ARM, err := google.Validation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7905,7 +7905,7 @@ func (store *TokenStore) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "AzureBlobStorage":
 	if store.AzureBlobStorage != nil {
-		azureBlobStorage_ARM, err := (*store.AzureBlobStorage).ConvertToARM(resolved)
+		azureBlobStorage_ARM, err := store.AzureBlobStorage.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8242,7 +8242,7 @@ func (twitter *Twitter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "Registration":
 	if twitter.Registration != nil {
-		registration_ARM, err := (*twitter.Registration).ConvertToARM(resolved)
+		registration_ARM, err := twitter.Registration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9587,7 +9587,7 @@ func (validation *AzureActiveDirectoryValidation) ConvertToARM(resolved genrunti
 
 	// Set property "DefaultAuthorizationPolicy":
 	if validation.DefaultAuthorizationPolicy != nil {
-		defaultAuthorizationPolicy_ARM, err := (*validation.DefaultAuthorizationPolicy).ConvertToARM(resolved)
+		defaultAuthorizationPolicy_ARM, err := validation.DefaultAuthorizationPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9597,7 +9597,7 @@ func (validation *AzureActiveDirectoryValidation) ConvertToARM(resolved genrunti
 
 	// Set property "JwtClaimChecks":
 	if validation.JwtClaimChecks != nil {
-		jwtClaimChecks_ARM, err := (*validation.JwtClaimChecks).ConvertToARM(resolved)
+		jwtClaimChecks_ARM, err := validation.JwtClaimChecks.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10764,7 +10764,7 @@ func (registration *OpenIdConnectRegistration) ConvertToARM(resolved genruntime.
 
 	// Set property "ClientCredential":
 	if registration.ClientCredential != nil {
-		clientCredential_ARM, err := (*registration.ClientCredential).ConvertToARM(resolved)
+		clientCredential_ARM, err := registration.ClientCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10780,7 +10780,7 @@ func (registration *OpenIdConnectRegistration) ConvertToARM(resolved genruntime.
 
 	// Set property "OpenIdConnectConfiguration":
 	if registration.OpenIdConnectConfiguration != nil {
-		openIdConnectConfiguration_ARM, err := (*registration.OpenIdConnectConfiguration).ConvertToARM(resolved)
+		openIdConnectConfiguration_ARM, err := registration.OpenIdConnectConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11293,7 +11293,7 @@ func (policy *DefaultAuthorizationPolicy) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "AllowedPrincipals":
 	if policy.AllowedPrincipals != nil {
-		allowedPrincipals_ARM, err := (*policy.AllowedPrincipals).ConvertToARM(resolved)
+		allowedPrincipals_ARM, err := policy.AllowedPrincipals.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

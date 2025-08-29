@@ -318,7 +318,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Sku":
 	if enterprise.Sku != nil {
-		sku_ARM, err := (*enterprise.Sku).ConvertToARM(resolved)
+		sku_ARM, err := enterprise.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

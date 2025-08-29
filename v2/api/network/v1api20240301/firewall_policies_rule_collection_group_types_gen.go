@@ -957,7 +957,7 @@ func (collection *FirewallPolicyRuleCollection) ConvertToARM(resolved genruntime
 
 	// Set property "FirewallPolicyFilter":
 	if collection.FirewallPolicyFilter != nil {
-		firewallPolicyFilter_ARM, err := (*collection.FirewallPolicyFilter).ConvertToARM(resolved)
+		firewallPolicyFilter_ARM, err := collection.FirewallPolicyFilter.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -967,7 +967,7 @@ func (collection *FirewallPolicyRuleCollection) ConvertToARM(resolved genruntime
 
 	// Set property "FirewallPolicyNat":
 	if collection.FirewallPolicyNat != nil {
-		firewallPolicyNat_ARM, err := (*collection.FirewallPolicyNat).ConvertToARM(resolved)
+		firewallPolicyNat_ARM, err := collection.FirewallPolicyNat.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1267,7 +1267,7 @@ func (collection *FirewallPolicyFilterRuleCollection) ConvertToARM(resolved genr
 
 	// Set property "Action":
 	if collection.Action != nil {
-		action_ARM, err := (*collection.Action).ConvertToARM(resolved)
+		action_ARM, err := collection.Action.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1744,7 +1744,7 @@ func (collection *FirewallPolicyNatRuleCollection) ConvertToARM(resolved genrunt
 
 	// Set property "Action":
 	if collection.Action != nil {
-		action_ARM, err := (*collection.Action).ConvertToARM(resolved)
+		action_ARM, err := collection.Action.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2602,7 +2602,7 @@ func (rule *FirewallPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Application":
 	if rule.Application != nil {
-		application_ARM, err := (*rule.Application).ConvertToARM(resolved)
+		application_ARM, err := rule.Application.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2612,7 +2612,7 @@ func (rule *FirewallPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Nat":
 	if rule.Nat != nil {
-		nat_ARM, err := (*rule.Nat).ConvertToARM(resolved)
+		nat_ARM, err := rule.Nat.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2622,7 +2622,7 @@ func (rule *FirewallPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Network":
 	if rule.Network != nil {
-		network_ARM, err := (*rule.Network).ConvertToARM(resolved)
+		network_ARM, err := rule.Network.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -291,7 +291,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) ConvertToARM(res
 		result.Properties = &arm.ThroughputSettingsUpdateProperties{}
 	}
 	if setting.Resource != nil {
-		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
+		resource_ARM, err := setting.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1045,7 +1045,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 
 	// Set property "AutoscaleSettings":
 	if resource.AutoscaleSettings != nil {
-		autoscaleSettings_ARM, err := (*resource.AutoscaleSettings).ConvertToARM(resolved)
+		autoscaleSettings_ARM, err := resource.AutoscaleSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1168,7 +1168,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "AutoUpgradePolicy":
 	if resource.AutoUpgradePolicy != nil {
-		autoUpgradePolicy_ARM, err := (*resource.AutoUpgradePolicy).ConvertToARM(resolved)
+		autoUpgradePolicy_ARM, err := resource.AutoUpgradePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1400,7 +1400,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "ThroughputPolicy":
 	if resource.ThroughputPolicy != nil {
-		throughputPolicy_ARM, err := (*resource.ThroughputPolicy).ConvertToARM(resolved)
+		throughputPolicy_ARM, err := resource.ThroughputPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

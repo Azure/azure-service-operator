@@ -1499,7 +1499,7 @@ func (identifier *SignedIdentifier) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
-		accessPolicy_ARM, err := (*identifier.AccessPolicy).ConvertToARM(resolved)
+		accessPolicy_ARM, err := identifier.AccessPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

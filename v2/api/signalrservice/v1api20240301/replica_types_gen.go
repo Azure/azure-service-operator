@@ -319,7 +319,7 @@ func (replica *Replica_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if replica.Sku != nil {
-		sku_ARM, err := (*replica.Sku).ConvertToARM(resolved)
+		sku_ARM, err := replica.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

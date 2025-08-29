@@ -383,7 +383,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.BastionHostIPConfiguration))
 	}
 	if host.NetworkAcls != nil {
-		networkAcls_ARM, err := (*host.NetworkAcls).ConvertToARM(resolved)
+		networkAcls_ARM, err := host.NetworkAcls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -395,7 +395,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties.ScaleUnits = &scaleUnits
 	}
 	if host.VirtualNetwork != nil {
-		virtualNetwork_ARM, err := (*host.VirtualNetwork).ConvertToARM(resolved)
+		virtualNetwork_ARM, err := host.VirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -405,7 +405,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Sku":
 	if host.Sku != nil {
-		sku_ARM, err := (*host.Sku).ConvertToARM(resolved)
+		sku_ARM, err := host.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1808,7 +1808,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*configuration.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := configuration.PublicIPAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1816,7 +1816,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

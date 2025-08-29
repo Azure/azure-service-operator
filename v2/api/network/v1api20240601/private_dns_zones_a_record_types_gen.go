@@ -341,7 +341,7 @@ func (record *PrivateDnsZonesARecord_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.AaaaRecords = append(result.Properties.AaaaRecords, *item_ARM.(*arm.AaaaRecord))
 	}
 	if record.CnameRecord != nil {
-		cnameRecord_ARM, err := (*record.CnameRecord).ConvertToARM(resolved)
+		cnameRecord_ARM, err := record.CnameRecord.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -369,7 +369,7 @@ func (record *PrivateDnsZonesARecord_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.PtrRecords = append(result.Properties.PtrRecords, *item_ARM.(*arm.PtrRecord))
 	}
 	if record.SoaRecord != nil {
-		soaRecord_ARM, err := (*record.SoaRecord).ConvertToARM(resolved)
+		soaRecord_ARM, err := record.SoaRecord.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

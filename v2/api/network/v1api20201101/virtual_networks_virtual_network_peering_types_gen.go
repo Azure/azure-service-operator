@@ -346,7 +346,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.PeeringState = &peeringState
 	}
 	if peering.RemoteAddressSpace != nil {
-		remoteAddressSpace_ARM, err := (*peering.RemoteAddressSpace).ConvertToARM(resolved)
+		remoteAddressSpace_ARM, err := peering.RemoteAddressSpace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -354,7 +354,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.RemoteAddressSpace = &remoteAddressSpace
 	}
 	if peering.RemoteBgpCommunities != nil {
-		remoteBgpCommunities_ARM, err := (*peering.RemoteBgpCommunities).ConvertToARM(resolved)
+		remoteBgpCommunities_ARM, err := peering.RemoteBgpCommunities.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -362,7 +362,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		result.Properties.RemoteBgpCommunities = &remoteBgpCommunities
 	}
 	if peering.RemoteVirtualNetwork != nil {
-		remoteVirtualNetwork_ARM, err := (*peering.RemoteVirtualNetwork).ConvertToARM(resolved)
+		remoteVirtualNetwork_ARM, err := peering.RemoteVirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -405,7 +405,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Identity":
 	if gateway.Identity != nil {
-		identity_ARM, err := (*gateway.Identity).ConvertToARM(resolved)
+		identity_ARM, err := gateway.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -464,7 +464,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*arm.ApplicationGatewayAuthenticationCertificate))
 	}
 	if gateway.AutoscaleConfiguration != nil {
-		autoscaleConfiguration_ARM, err := (*gateway.AutoscaleConfiguration).ConvertToARM(resolved)
+		autoscaleConfiguration_ARM, err := gateway.AutoscaleConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -508,7 +508,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.EnableHttp2 = &enableHttp2
 	}
 	if gateway.FirewallPolicy != nil {
-		firewallPolicy_ARM, err := (*gateway.FirewallPolicy).ConvertToARM(resolved)
+		firewallPolicy_ARM, err := gateway.FirewallPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -541,7 +541,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.GatewayIPConfigurations = append(result.Properties.GatewayIPConfigurations, *item_ARM.(*arm.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded))
 	}
 	if gateway.GlobalConfiguration != nil {
-		globalConfiguration_ARM, err := (*gateway.GlobalConfiguration).ConvertToARM(resolved)
+		globalConfiguration_ARM, err := gateway.GlobalConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -612,7 +612,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.RoutingRules = append(result.Properties.RoutingRules, *item_ARM.(*arm.ApplicationGatewayRoutingRule))
 	}
 	if gateway.Sku != nil {
-		sku_ARM, err := (*gateway.Sku).ConvertToARM(resolved)
+		sku_ARM, err := gateway.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -627,7 +627,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.SslCertificates = append(result.Properties.SslCertificates, *item_ARM.(*arm.ApplicationGatewaySslCertificate))
 	}
 	if gateway.SslPolicy != nil {
-		sslPolicy_ARM, err := (*gateway.SslPolicy).ConvertToARM(resolved)
+		sslPolicy_ARM, err := gateway.SslPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -663,7 +663,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*arm.ApplicationGatewayUrlPathMap))
 	}
 	if gateway.WebApplicationFirewallConfiguration != nil {
-		webApplicationFirewallConfiguration_ARM, err := (*gateway.WebApplicationFirewallConfiguration).ConvertToARM(resolved)
+		webApplicationFirewallConfiguration_ARM, err := gateway.WebApplicationFirewallConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5347,7 +5347,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*arm.SubResource))
 	}
 	if settings.ConnectionDraining != nil {
-		connectionDraining_ARM, err := (*settings.ConnectionDraining).ConvertToARM(resolved)
+		connectionDraining_ARM, err := settings.ConnectionDraining.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5377,7 +5377,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		result.Properties.Port = &port
 	}
 	if settings.Probe != nil {
-		probe_ARM, err := (*settings.Probe).ConvertToARM(resolved)
+		probe_ARM, err := settings.Probe.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5947,7 +5947,7 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		result.Properties.Port = &port
 	}
 	if settings.Probe != nil {
-		probe_ARM, err := (*settings.Probe).ConvertToARM(resolved)
+		probe_ARM, err := settings.Probe.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6546,7 +6546,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PrivateLinkConfiguration != nil {
-		privateLinkConfiguration_ARM, err := (*configuration.PrivateLinkConfiguration).ConvertToARM(resolved)
+		privateLinkConfiguration_ARM, err := configuration.PrivateLinkConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6554,7 +6554,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		result.Properties.PrivateLinkConfiguration = &privateLinkConfiguration
 	}
 	if configuration.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*configuration.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := configuration.PublicIPAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6562,7 +6562,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7317,7 +7317,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		result.Properties.CustomErrorConfigurations = append(result.Properties.CustomErrorConfigurations, *item_ARM.(*arm.ApplicationGatewayCustomError))
 	}
 	if listener.FirewallPolicy != nil {
-		firewallPolicy_ARM, err := (*listener.FirewallPolicy).ConvertToARM(resolved)
+		firewallPolicy_ARM, err := listener.FirewallPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7325,7 +7325,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if listener.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*listener.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := listener.FrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7333,7 +7333,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if listener.FrontendPort != nil {
-		frontendPort_ARM, err := (*listener.FrontendPort).ConvertToARM(resolved)
+		frontendPort_ARM, err := listener.FrontendPort.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7358,7 +7358,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		result.Properties.RequireServerNameIndication = &requireServerNameIndication
 	}
 	if listener.SslCertificate != nil {
-		sslCertificate_ARM, err := (*listener.SslCertificate).ConvertToARM(resolved)
+		sslCertificate_ARM, err := listener.SslCertificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7366,7 +7366,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		result.Properties.SslCertificate = &sslCertificate
 	}
 	if listener.SslProfile != nil {
-		sslProfile_ARM, err := (*listener.SslProfile).ConvertToARM(resolved)
+		sslProfile_ARM, err := listener.SslProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7843,7 +7843,7 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 		result.Properties = &arm.ApplicationGatewayIPConfigurationPropertiesFormat{}
 	}
 	if embedded.Subnet != nil {
-		subnet_ARM, err := (*embedded.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := embedded.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8053,7 +8053,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		result.Properties = &arm.ApplicationGatewayListenerPropertiesFormat{}
 	}
 	if listener.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*listener.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := listener.FrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8061,7 +8061,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if listener.FrontendPort != nil {
-		frontendPort_ARM, err := (*listener.FrontendPort).ConvertToARM(resolved)
+		frontendPort_ARM, err := listener.FrontendPort.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8075,7 +8075,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		result.Properties.Protocol = &protocol
 	}
 	if listener.SslCertificate != nil {
-		sslCertificate_ARM, err := (*listener.SslCertificate).ConvertToARM(resolved)
+		sslCertificate_ARM, err := listener.SslCertificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8083,7 +8083,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		result.Properties.SslCertificate = &sslCertificate
 	}
 	if listener.SslProfile != nil {
-		sslProfile_ARM, err := (*listener.SslProfile).ConvertToARM(resolved)
+		sslProfile_ARM, err := listener.SslProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9083,7 +9083,7 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.Interval = &interval
 	}
 	if probe.Match != nil {
-		match_ARM, err := (*probe.Match).ConvertToARM(resolved)
+		match_ARM, err := probe.Match.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9585,7 +9585,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*arm.SubResource))
 	}
 	if configuration.TargetListener != nil {
-		targetListener_ARM, err := (*configuration.TargetListener).ConvertToARM(resolved)
+		targetListener_ARM, err := configuration.TargetListener.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10064,7 +10064,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties = &arm.ApplicationGatewayRequestRoutingRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := rule.BackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10072,7 +10072,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendHttpSettings != nil {
-		backendHttpSettings_ARM, err := (*rule.BackendHttpSettings).ConvertToARM(resolved)
+		backendHttpSettings_ARM, err := rule.BackendHttpSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10080,7 +10080,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.BackendHttpSettings = &backendHttpSettings
 	}
 	if rule.HttpListener != nil {
-		httpListener_ARM, err := (*rule.HttpListener).ConvertToARM(resolved)
+		httpListener_ARM, err := rule.HttpListener.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10088,7 +10088,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.HttpListener = &httpListener
 	}
 	if rule.LoadDistributionPolicy != nil {
-		loadDistributionPolicy_ARM, err := (*rule.LoadDistributionPolicy).ConvertToARM(resolved)
+		loadDistributionPolicy_ARM, err := rule.LoadDistributionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10100,7 +10100,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.Priority = &priority
 	}
 	if rule.RedirectConfiguration != nil {
-		redirectConfiguration_ARM, err := (*rule.RedirectConfiguration).ConvertToARM(resolved)
+		redirectConfiguration_ARM, err := rule.RedirectConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10108,7 +10108,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.RedirectConfiguration = &redirectConfiguration
 	}
 	if rule.RewriteRuleSet != nil {
-		rewriteRuleSet_ARM, err := (*rule.RewriteRuleSet).ConvertToARM(resolved)
+		rewriteRuleSet_ARM, err := rule.RewriteRuleSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10122,7 +10122,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.RuleType = &ruleType
 	}
 	if rule.UrlPathMap != nil {
-		urlPathMap_ARM, err := (*rule.UrlPathMap).ConvertToARM(resolved)
+		urlPathMap_ARM, err := rule.UrlPathMap.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10810,7 +10810,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		result.Properties = &arm.ApplicationGatewayRoutingRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := rule.BackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10818,7 +10818,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendSettings != nil {
-		backendSettings_ARM, err := (*rule.BackendSettings).ConvertToARM(resolved)
+		backendSettings_ARM, err := rule.BackendSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10826,7 +10826,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		result.Properties.BackendSettings = &backendSettings
 	}
 	if rule.Listener != nil {
-		listener_ARM, err := (*rule.Listener).ConvertToARM(resolved)
+		listener_ARM, err := rule.Listener.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12177,7 +12177,7 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 		result.Properties = &arm.ApplicationGatewaySslProfilePropertiesFormat{}
 	}
 	if profile.ClientAuthConfiguration != nil {
-		clientAuthConfiguration_ARM, err := (*profile.ClientAuthConfiguration).ConvertToARM(resolved)
+		clientAuthConfiguration_ARM, err := profile.ClientAuthConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12185,7 +12185,7 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 		result.Properties.ClientAuthConfiguration = &clientAuthConfiguration
 	}
 	if profile.SslPolicy != nil {
-		sslPolicy_ARM, err := (*profile.SslPolicy).ConvertToARM(resolved)
+		sslPolicy_ARM, err := profile.SslPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12863,7 +12863,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		result.Properties = &arm.ApplicationGatewayUrlPathMapPropertiesFormat{}
 	}
 	if pathMap.DefaultBackendAddressPool != nil {
-		defaultBackendAddressPool_ARM, err := (*pathMap.DefaultBackendAddressPool).ConvertToARM(resolved)
+		defaultBackendAddressPool_ARM, err := pathMap.DefaultBackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12871,7 +12871,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		result.Properties.DefaultBackendAddressPool = &defaultBackendAddressPool
 	}
 	if pathMap.DefaultBackendHttpSettings != nil {
-		defaultBackendHttpSettings_ARM, err := (*pathMap.DefaultBackendHttpSettings).ConvertToARM(resolved)
+		defaultBackendHttpSettings_ARM, err := pathMap.DefaultBackendHttpSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12879,7 +12879,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		result.Properties.DefaultBackendHttpSettings = &defaultBackendHttpSettings
 	}
 	if pathMap.DefaultLoadDistributionPolicy != nil {
-		defaultLoadDistributionPolicy_ARM, err := (*pathMap.DefaultLoadDistributionPolicy).ConvertToARM(resolved)
+		defaultLoadDistributionPolicy_ARM, err := pathMap.DefaultLoadDistributionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12887,7 +12887,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		result.Properties.DefaultLoadDistributionPolicy = &defaultLoadDistributionPolicy
 	}
 	if pathMap.DefaultRedirectConfiguration != nil {
-		defaultRedirectConfiguration_ARM, err := (*pathMap.DefaultRedirectConfiguration).ConvertToARM(resolved)
+		defaultRedirectConfiguration_ARM, err := pathMap.DefaultRedirectConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12895,7 +12895,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		result.Properties.DefaultRedirectConfiguration = &defaultRedirectConfiguration
 	}
 	if pathMap.DefaultRewriteRuleSet != nil {
-		defaultRewriteRuleSet_ARM, err := (*pathMap.DefaultRewriteRuleSet).ConvertToARM(resolved)
+		defaultRewriteRuleSet_ARM, err := pathMap.DefaultRewriteRuleSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15495,7 +15495,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 		result.Properties = &arm.ApplicationGatewayPathRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := rule.BackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15503,7 +15503,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendHttpSettings != nil {
-		backendHttpSettings_ARM, err := (*rule.BackendHttpSettings).ConvertToARM(resolved)
+		backendHttpSettings_ARM, err := rule.BackendHttpSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15511,7 +15511,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 		result.Properties.BackendHttpSettings = &backendHttpSettings
 	}
 	if rule.FirewallPolicy != nil {
-		firewallPolicy_ARM, err := (*rule.FirewallPolicy).ConvertToARM(resolved)
+		firewallPolicy_ARM, err := rule.FirewallPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15519,7 +15519,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if rule.LoadDistributionPolicy != nil {
-		loadDistributionPolicy_ARM, err := (*rule.LoadDistributionPolicy).ConvertToARM(resolved)
+		loadDistributionPolicy_ARM, err := rule.LoadDistributionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15530,7 +15530,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 		result.Properties.Paths = append(result.Properties.Paths, item)
 	}
 	if rule.RedirectConfiguration != nil {
-		redirectConfiguration_ARM, err := (*rule.RedirectConfiguration).ConvertToARM(resolved)
+		redirectConfiguration_ARM, err := rule.RedirectConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15538,7 +15538,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 		result.Properties.RedirectConfiguration = &redirectConfiguration
 	}
 	if rule.RewriteRuleSet != nil {
-		rewriteRuleSet_ARM, err := (*rule.RewriteRuleSet).ConvertToARM(resolved)
+		rewriteRuleSet_ARM, err := rule.RewriteRuleSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16078,7 +16078,7 @@ func (rule *ApplicationGatewayRewriteRule) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "ActionSet":
 	if rule.ActionSet != nil {
-		actionSet_ARM, err := (*rule.ActionSet).ConvertToARM(resolved)
+		actionSet_ARM, err := rule.ActionSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16849,7 +16849,7 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) ConvertToARM(resolved g
 
 	// Set property "UrlConfiguration":
 	if actionSet.UrlConfiguration != nil {
-		urlConfiguration_ARM, err := (*actionSet.UrlConfiguration).ConvertToARM(resolved)
+		urlConfiguration_ARM, err := actionSet.UrlConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

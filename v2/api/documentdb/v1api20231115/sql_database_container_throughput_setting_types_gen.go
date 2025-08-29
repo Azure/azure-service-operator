@@ -291,7 +291,7 @@ func (setting *SqlDatabaseContainerThroughputSetting_Spec) ConvertToARM(resolved
 		result.Properties = &arm.ThroughputSettingsUpdateProperties{}
 	}
 	if setting.Resource != nil {
-		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
+		resource_ARM, err := setting.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

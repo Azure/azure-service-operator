@@ -432,7 +432,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ExtendedLocation":
 	if cluster.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*cluster.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := cluster.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -442,7 +442,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Identity":
 	if cluster.Identity != nil {
-		identity_ARM, err := (*cluster.Identity).ConvertToARM(resolved)
+		identity_ARM, err := cluster.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -497,7 +497,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties = &arm.ManagedClusterProperties{}
 	}
 	if cluster.AadProfile != nil {
-		aadProfile_ARM, err := (*cluster.AadProfile).ConvertToARM(resolved)
+		aadProfile_ARM, err := cluster.AadProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -522,7 +522,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AgentPoolProfiles = append(result.Properties.AgentPoolProfiles, *item_ARM.(*arm.ManagedClusterAgentPoolProfile))
 	}
 	if cluster.ApiServerAccessProfile != nil {
-		apiServerAccessProfile_ARM, err := (*cluster.ApiServerAccessProfile).ConvertToARM(resolved)
+		apiServerAccessProfile_ARM, err := cluster.ApiServerAccessProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -530,7 +530,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ApiServerAccessProfile = &apiServerAccessProfile
 	}
 	if cluster.AutoScalerProfile != nil {
-		autoScalerProfile_ARM, err := (*cluster.AutoScalerProfile).ConvertToARM(resolved)
+		autoScalerProfile_ARM, err := cluster.AutoScalerProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -538,7 +538,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AutoScalerProfile = &autoScalerProfile
 	}
 	if cluster.AutoUpgradeProfile != nil {
-		autoUpgradeProfile_ARM, err := (*cluster.AutoUpgradeProfile).ConvertToARM(resolved)
+		autoUpgradeProfile_ARM, err := cluster.AutoUpgradeProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -546,7 +546,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AutoUpgradeProfile = &autoUpgradeProfile
 	}
 	if cluster.AzureMonitorProfile != nil {
-		azureMonitorProfile_ARM, err := (*cluster.AzureMonitorProfile).ConvertToARM(resolved)
+		azureMonitorProfile_ARM, err := cluster.AzureMonitorProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -582,7 +582,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.FqdnSubdomain = &fqdnSubdomain
 	}
 	if cluster.HttpProxyConfig != nil {
-		httpProxyConfig_ARM, err := (*cluster.HttpProxyConfig).ConvertToARM(resolved)
+		httpProxyConfig_ARM, err := cluster.HttpProxyConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -600,7 +600,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 	}
 	if cluster.IngressProfile != nil {
-		ingressProfile_ARM, err := (*cluster.IngressProfile).ConvertToARM(resolved)
+		ingressProfile_ARM, err := cluster.IngressProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -612,7 +612,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.KubernetesVersion = &kubernetesVersion
 	}
 	if cluster.LinuxProfile != nil {
-		linuxProfile_ARM, err := (*cluster.LinuxProfile).ConvertToARM(resolved)
+		linuxProfile_ARM, err := cluster.LinuxProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -620,7 +620,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.LinuxProfile = &linuxProfile
 	}
 	if cluster.MetricsProfile != nil {
-		metricsProfile_ARM, err := (*cluster.MetricsProfile).ConvertToARM(resolved)
+		metricsProfile_ARM, err := cluster.MetricsProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -628,7 +628,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.MetricsProfile = &metricsProfile
 	}
 	if cluster.NetworkProfile != nil {
-		networkProfile_ARM, err := (*cluster.NetworkProfile).ConvertToARM(resolved)
+		networkProfile_ARM, err := cluster.NetworkProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -640,7 +640,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.NodeResourceGroup = &nodeResourceGroup
 	}
 	if cluster.NodeResourceGroupProfile != nil {
-		nodeResourceGroupProfile_ARM, err := (*cluster.NodeResourceGroupProfile).ConvertToARM(resolved)
+		nodeResourceGroupProfile_ARM, err := cluster.NodeResourceGroupProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -648,7 +648,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.NodeResourceGroupProfile = &nodeResourceGroupProfile
 	}
 	if cluster.OidcIssuerProfile != nil {
-		oidcIssuerProfile_ARM, err := (*cluster.OidcIssuerProfile).ConvertToARM(resolved)
+		oidcIssuerProfile_ARM, err := cluster.OidcIssuerProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -656,7 +656,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.OidcIssuerProfile = &oidcIssuerProfile
 	}
 	if cluster.PodIdentityProfile != nil {
-		podIdentityProfile_ARM, err := (*cluster.PodIdentityProfile).ConvertToARM(resolved)
+		podIdentityProfile_ARM, err := cluster.PodIdentityProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -677,7 +677,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if cluster.SecurityProfile != nil {
-		securityProfile_ARM, err := (*cluster.SecurityProfile).ConvertToARM(resolved)
+		securityProfile_ARM, err := cluster.SecurityProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -685,7 +685,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.SecurityProfile = &securityProfile
 	}
 	if cluster.ServiceMeshProfile != nil {
-		serviceMeshProfile_ARM, err := (*cluster.ServiceMeshProfile).ConvertToARM(resolved)
+		serviceMeshProfile_ARM, err := cluster.ServiceMeshProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -693,7 +693,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ServiceMeshProfile = &serviceMeshProfile
 	}
 	if cluster.ServicePrincipalProfile != nil {
-		servicePrincipalProfile_ARM, err := (*cluster.ServicePrincipalProfile).ConvertToARM(resolved)
+		servicePrincipalProfile_ARM, err := cluster.ServicePrincipalProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -701,7 +701,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ServicePrincipalProfile = &servicePrincipalProfile
 	}
 	if cluster.StorageProfile != nil {
-		storageProfile_ARM, err := (*cluster.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := cluster.StorageProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -715,7 +715,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.SupportPlan = &supportPlan
 	}
 	if cluster.UpgradeSettings != nil {
-		upgradeSettings_ARM, err := (*cluster.UpgradeSettings).ConvertToARM(resolved)
+		upgradeSettings_ARM, err := cluster.UpgradeSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -723,7 +723,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.UpgradeSettings = &upgradeSettings
 	}
 	if cluster.WindowsProfile != nil {
-		windowsProfile_ARM, err := (*cluster.WindowsProfile).ConvertToARM(resolved)
+		windowsProfile_ARM, err := cluster.WindowsProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -731,7 +731,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.WindowsProfile = &windowsProfile
 	}
 	if cluster.WorkloadAutoScalerProfile != nil {
-		workloadAutoScalerProfile_ARM, err := (*cluster.WorkloadAutoScalerProfile).ConvertToARM(resolved)
+		workloadAutoScalerProfile_ARM, err := cluster.WorkloadAutoScalerProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -741,7 +741,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Sku":
 	if cluster.Sku != nil {
-		sku_ARM, err := (*cluster.Sku).ConvertToARM(resolved)
+		sku_ARM, err := cluster.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4463,7 +4463,7 @@ func (settings *ClusterUpgradeSettings) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "OverrideSettings":
 	if settings.OverrideSettings != nil {
-		overrideSettings_ARM, err := (*settings.OverrideSettings).ConvertToARM(resolved)
+		overrideSettings_ARM, err := settings.OverrideSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4677,7 +4677,7 @@ func (profile *ContainerServiceLinuxProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Ssh":
 	if profile.Ssh != nil {
-		ssh_ARM, err := (*profile.Ssh).ConvertToARM(resolved)
+		ssh_ARM, err := profile.Ssh.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4966,7 +4966,7 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "AdvancedNetworking":
 	if profile.AdvancedNetworking != nil {
-		advancedNetworking_ARM, err := (*profile.AdvancedNetworking).ConvertToARM(resolved)
+		advancedNetworking_ARM, err := profile.AdvancedNetworking.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4989,7 +4989,7 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "LoadBalancerProfile":
 	if profile.LoadBalancerProfile != nil {
-		loadBalancerProfile_ARM, err := (*profile.LoadBalancerProfile).ConvertToARM(resolved)
+		loadBalancerProfile_ARM, err := profile.LoadBalancerProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5007,7 +5007,7 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "NatGatewayProfile":
 	if profile.NatGatewayProfile != nil {
-		natGatewayProfile_ARM, err := (*profile.NatGatewayProfile).ConvertToARM(resolved)
+		natGatewayProfile_ARM, err := profile.NatGatewayProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7219,7 +7219,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "CreationData":
 	if profile.CreationData != nil {
-		creationData_ARM, err := (*profile.CreationData).ConvertToARM(resolved)
+		creationData_ARM, err := profile.CreationData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7277,7 +7277,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "KubeletConfig":
 	if profile.KubeletConfig != nil {
-		kubeletConfig_ARM, err := (*profile.KubeletConfig).ConvertToARM(resolved)
+		kubeletConfig_ARM, err := profile.KubeletConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7295,7 +7295,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "LinuxOSConfig":
 	if profile.LinuxOSConfig != nil {
-		linuxOSConfig_ARM, err := (*profile.LinuxOSConfig).ConvertToARM(resolved)
+		linuxOSConfig_ARM, err := profile.LinuxOSConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7337,7 +7337,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "NetworkProfile":
 	if profile.NetworkProfile != nil {
-		networkProfile_ARM, err := (*profile.NetworkProfile).ConvertToARM(resolved)
+		networkProfile_ARM, err := profile.NetworkProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7423,7 +7423,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "PowerState":
 	if profile.PowerState != nil {
-		powerState_ARM, err := (*profile.PowerState).ConvertToARM(resolved)
+		powerState_ARM, err := profile.PowerState.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7467,7 +7467,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "SecurityProfile":
 	if profile.SecurityProfile != nil {
-		securityProfile_ARM, err := (*profile.SecurityProfile).ConvertToARM(resolved)
+		securityProfile_ARM, err := profile.SecurityProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7502,7 +7502,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "UpgradeSettings":
 	if profile.UpgradeSettings != nil {
-		upgradeSettings_ARM, err := (*profile.UpgradeSettings).ConvertToARM(resolved)
+		upgradeSettings_ARM, err := profile.UpgradeSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7528,7 +7528,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "WindowsProfile":
 	if profile.WindowsProfile != nil {
-		windowsProfile_ARM, err := (*profile.WindowsProfile).ConvertToARM(resolved)
+		windowsProfile_ARM, err := profile.WindowsProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10652,7 +10652,7 @@ func (profile *ManagedClusterAzureMonitorProfile) ConvertToARM(resolved genrunti
 
 	// Set property "Metrics":
 	if profile.Metrics != nil {
-		metrics_ARM, err := (*profile.Metrics).ConvertToARM(resolved)
+		metrics_ARM, err := profile.Metrics.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11576,7 +11576,7 @@ func (profile *ManagedClusterIngressProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "WebAppRouting":
 	if profile.WebAppRouting != nil {
-		webAppRouting_ARM, err := (*profile.WebAppRouting).ConvertToARM(resolved)
+		webAppRouting_ARM, err := profile.WebAppRouting.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11779,7 +11779,7 @@ func (profile *ManagedClusterMetricsProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "CostAnalysis":
 	if profile.CostAnalysis != nil {
-		costAnalysis_ARM, err := (*profile.CostAnalysis).ConvertToARM(resolved)
+		costAnalysis_ARM, err := profile.CostAnalysis.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14048,7 +14048,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 
 	// Set property "AzureKeyVaultKms":
 	if profile.AzureKeyVaultKms != nil {
-		azureKeyVaultKms_ARM, err := (*profile.AzureKeyVaultKms).ConvertToARM(resolved)
+		azureKeyVaultKms_ARM, err := profile.AzureKeyVaultKms.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14058,7 +14058,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 
 	// Set property "Defender":
 	if profile.Defender != nil {
-		defender_ARM, err := (*profile.Defender).ConvertToARM(resolved)
+		defender_ARM, err := profile.Defender.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14068,7 +14068,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 
 	// Set property "ImageCleaner":
 	if profile.ImageCleaner != nil {
-		imageCleaner_ARM, err := (*profile.ImageCleaner).ConvertToARM(resolved)
+		imageCleaner_ARM, err := profile.ImageCleaner.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14078,7 +14078,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 
 	// Set property "WorkloadIdentity":
 	if profile.WorkloadIdentity != nil {
-		workloadIdentity_ARM, err := (*profile.WorkloadIdentity).ConvertToARM(resolved)
+		workloadIdentity_ARM, err := profile.WorkloadIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14971,7 +14971,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "BlobCSIDriver":
 	if profile.BlobCSIDriver != nil {
-		blobCSIDriver_ARM, err := (*profile.BlobCSIDriver).ConvertToARM(resolved)
+		blobCSIDriver_ARM, err := profile.BlobCSIDriver.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14981,7 +14981,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "DiskCSIDriver":
 	if profile.DiskCSIDriver != nil {
-		diskCSIDriver_ARM, err := (*profile.DiskCSIDriver).ConvertToARM(resolved)
+		diskCSIDriver_ARM, err := profile.DiskCSIDriver.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14991,7 +14991,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "FileCSIDriver":
 	if profile.FileCSIDriver != nil {
-		fileCSIDriver_ARM, err := (*profile.FileCSIDriver).ConvertToARM(resolved)
+		fileCSIDriver_ARM, err := profile.FileCSIDriver.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15001,7 +15001,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "SnapshotController":
 	if profile.SnapshotController != nil {
-		snapshotController_ARM, err := (*profile.SnapshotController).ConvertToARM(resolved)
+		snapshotController_ARM, err := profile.SnapshotController.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15510,7 +15510,7 @@ func (profile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "GmsaProfile":
 	if profile.GmsaProfile != nil {
-		gmsaProfile_ARM, err := (*profile.GmsaProfile).ConvertToARM(resolved)
+		gmsaProfile_ARM, err := profile.GmsaProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15895,7 +15895,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) ConvertToARM(resolved ge
 
 	// Set property "Keda":
 	if profile.Keda != nil {
-		keda_ARM, err := (*profile.Keda).ConvertToARM(resolved)
+		keda_ARM, err := profile.Keda.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15905,7 +15905,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) ConvertToARM(resolved ge
 
 	// Set property "VerticalPodAutoscaler":
 	if profile.VerticalPodAutoscaler != nil {
-		verticalPodAutoscaler_ARM, err := (*profile.VerticalPodAutoscaler).ConvertToARM(resolved)
+		verticalPodAutoscaler_ARM, err := profile.VerticalPodAutoscaler.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16594,7 +16594,7 @@ func (profile *ServiceMeshProfile) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Istio":
 	if profile.Istio != nil {
-		istio_ARM, err := (*profile.Istio).ConvertToARM(resolved)
+		istio_ARM, err := profile.Istio.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17116,7 +17116,7 @@ func (networking *AdvancedNetworking) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Observability":
 	if networking.Observability != nil {
-		observability_ARM, err := (*networking.Observability).ConvertToARM(resolved)
+		observability_ARM, err := networking.Observability.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17126,7 +17126,7 @@ func (networking *AdvancedNetworking) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Security":
 	if networking.Security != nil {
-		security_ARM, err := (*networking.Security).ConvertToARM(resolved)
+		security_ARM, err := networking.Security.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -18581,7 +18581,7 @@ func (mesh *IstioServiceMesh) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "CertificateAuthority":
 	if mesh.CertificateAuthority != nil {
-		certificateAuthority_ARM, err := (*mesh.CertificateAuthority).ConvertToARM(resolved)
+		certificateAuthority_ARM, err := mesh.CertificateAuthority.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -18591,7 +18591,7 @@ func (mesh *IstioServiceMesh) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Components":
 	if mesh.Components != nil {
-		components_ARM, err := (*mesh.Components).ConvertToARM(resolved)
+		components_ARM, err := mesh.Components.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -19003,7 +19003,7 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) ConvertToARM(resolved g
 
 	// Set property "KubeStateMetrics":
 	if metrics.KubeStateMetrics != nil {
-		kubeStateMetrics_ARM, err := (*metrics.KubeStateMetrics).ConvertToARM(resolved)
+		kubeStateMetrics_ARM, err := metrics.KubeStateMetrics.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -19869,7 +19869,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 
 	// Set property "ManagedOutboundIPs":
 	if profile.ManagedOutboundIPs != nil {
-		managedOutboundIPs_ARM, err := (*profile.ManagedOutboundIPs).ConvertToARM(resolved)
+		managedOutboundIPs_ARM, err := profile.ManagedOutboundIPs.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -19879,7 +19879,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 
 	// Set property "OutboundIPPrefixes":
 	if profile.OutboundIPPrefixes != nil {
-		outboundIPPrefixes_ARM, err := (*profile.OutboundIPPrefixes).ConvertToARM(resolved)
+		outboundIPPrefixes_ARM, err := profile.OutboundIPPrefixes.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -19889,7 +19889,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 
 	// Set property "OutboundIPs":
 	if profile.OutboundIPs != nil {
-		outboundIPs_ARM, err := (*profile.OutboundIPs).ConvertToARM(resolved)
+		outboundIPs_ARM, err := profile.OutboundIPs.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -20576,7 +20576,7 @@ func (profile *ManagedClusterNATGatewayProfile) ConvertToARM(resolved genruntime
 
 	// Set property "ManagedOutboundIPProfile":
 	if profile.ManagedOutboundIPProfile != nil {
-		managedOutboundIPProfile_ARM, err := (*profile.ManagedOutboundIPProfile).ConvertToARM(resolved)
+		managedOutboundIPProfile_ARM, err := profile.ManagedOutboundIPProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -21077,7 +21077,7 @@ func (identity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Identity":
 	if identity.Identity != nil {
-		identity_ARM, err := (*identity.Identity).ConvertToARM(resolved)
+		identity_ARM, err := identity.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -21727,7 +21727,7 @@ func (defender *ManagedClusterSecurityProfileDefender) ConvertToARM(resolved gen
 
 	// Set property "SecurityMonitoring":
 	if defender.SecurityMonitoring != nil {
-		securityMonitoring_ARM, err := (*defender.SecurityMonitoring).ConvertToARM(resolved)
+		securityMonitoring_ARM, err := defender.SecurityMonitoring.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -24485,7 +24485,7 @@ func (authority *IstioCertificateAuthority) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Plugin":
 	if authority.Plugin != nil {
-		plugin_ARM, err := (*authority.Plugin).ConvertToARM(resolved)
+		plugin_ARM, err := authority.Plugin.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -332,7 +332,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "ExtendedLocation":
 	if gateway.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*gateway.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := gateway.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -371,7 +371,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.ActiveActive = &activeActive
 	}
 	if gateway.BgpSettings != nil {
-		bgpSettings_ARM, err := (*gateway.BgpSettings).ConvertToARM(resolved)
+		bgpSettings_ARM, err := gateway.BgpSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -379,7 +379,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.BgpSettings = &bgpSettings
 	}
 	if gateway.CustomRoutes != nil {
-		customRoutes_ARM, err := (*gateway.CustomRoutes).ConvertToARM(resolved)
+		customRoutes_ARM, err := gateway.CustomRoutes.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -399,7 +399,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.EnablePrivateIpAddress = &enablePrivateIpAddress
 	}
 	if gateway.GatewayDefaultSite != nil {
-		gatewayDefaultSite_ARM, err := (*gateway.GatewayDefaultSite).ConvertToARM(resolved)
+		gatewayDefaultSite_ARM, err := gateway.GatewayDefaultSite.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -420,7 +420,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.VirtualNetworkGatewayIPConfiguration))
 	}
 	if gateway.Sku != nil {
-		sku_ARM, err := (*gateway.Sku).ConvertToARM(resolved)
+		sku_ARM, err := gateway.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -436,7 +436,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.VNetExtendedLocationResourceId = &vNetExtendedLocationResourceId
 	}
 	if gateway.VpnClientConfiguration != nil {
-		vpnClientConfiguration_ARM, err := (*gateway.VpnClientConfiguration).ConvertToARM(resolved)
+		vpnClientConfiguration_ARM, err := gateway.VpnClientConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2289,7 +2289,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) ConvertToARM(resolved
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*configuration.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := configuration.PublicIPAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2297,7 +2297,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) ConvertToARM(resolved
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3245,7 +3245,7 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 
 	// Set property "VpnClientAddressPool":
 	if configuration.VpnClientAddressPool != nil {
-		vpnClientAddressPool_ARM, err := (*configuration.VpnClientAddressPool).ConvertToARM(resolved)
+		vpnClientAddressPool_ARM, err := configuration.VpnClientAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

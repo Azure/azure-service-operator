@@ -331,7 +331,7 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 		result.Properties.Modules = append(result.Properties.Modules, *item_ARM.(*arm.Module))
 	}
 	if database.Persistence != nil {
-		persistence_ARM, err := (*database.Persistence).ConvertToARM(resolved)
+		persistence_ARM, err := database.Persistence.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -326,7 +326,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties = &arm.BackendContractProperties{}
 	}
 	if backend.Credentials != nil {
-		credentials_ARM, err := (*backend.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := backend.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -338,7 +338,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Description = &description
 	}
 	if backend.Properties != nil {
-		properties_ARM, err := (*backend.Properties).ConvertToARM(resolved)
+		properties_ARM, err := backend.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -352,7 +352,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Protocol = &protocol
 	}
 	if backend.Proxy != nil {
-		proxy_ARM, err := (*backend.Proxy).ConvertToARM(resolved)
+		proxy_ARM, err := backend.Proxy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -372,7 +372,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Title = &title
 	}
 	if backend.Tls != nil {
-		tls_ARM, err := (*backend.Tls).ConvertToARM(resolved)
+		tls_ARM, err := backend.Tls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1342,7 +1342,7 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Authorization":
 	if contract.Authorization != nil {
-		authorization_ARM, err := (*contract.Authorization).ConvertToARM(resolved)
+		authorization_ARM, err := contract.Authorization.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1922,7 +1922,7 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "ServiceFabricCluster":
 	if properties.ServiceFabricCluster != nil {
-		serviceFabricCluster_ARM, err := (*properties.ServiceFabricCluster).ConvertToARM(resolved)
+		serviceFabricCluster_ARM, err := properties.ServiceFabricCluster.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

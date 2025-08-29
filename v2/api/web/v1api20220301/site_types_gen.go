@@ -386,7 +386,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "ExtendedLocation":
 	if site.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*site.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := site.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -396,7 +396,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property "Identity":
 	if site.Identity != nil {
-		identity_ARM, err := (*site.Identity).ConvertToARM(resolved)
+		identity_ARM, err := site.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -468,7 +468,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.ClientCertMode = &clientCertMode
 	}
 	if site.CloningInfo != nil {
-		cloningInfo_ARM, err := (*site.CloningInfo).ConvertToARM(resolved)
+		cloningInfo_ARM, err := site.CloningInfo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -503,7 +503,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.HostNamesDisabled = &hostNamesDisabled
 	}
 	if site.HostingEnvironmentProfile != nil {
-		hostingEnvironmentProfile_ARM, err := (*site.HostingEnvironmentProfile).ConvertToARM(resolved)
+		hostingEnvironmentProfile_ARM, err := site.HostingEnvironmentProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -553,7 +553,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.ServerFarmId = &serverFarmId
 	}
 	if site.SiteConfig != nil {
-		siteConfig_ARM, err := (*site.SiteConfig).ConvertToARM(resolved)
+		siteConfig_ARM, err := site.SiteConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4986,7 +4986,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ApiDefinition":
 	if config.ApiDefinition != nil {
-		apiDefinition_ARM, err := (*config.ApiDefinition).ConvertToARM(resolved)
+		apiDefinition_ARM, err := config.ApiDefinition.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4996,7 +4996,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ApiManagementConfig":
 	if config.ApiManagementConfig != nil {
-		apiManagementConfig_ARM, err := (*config.ApiManagementConfig).ConvertToARM(resolved)
+		apiManagementConfig_ARM, err := config.ApiManagementConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5027,7 +5027,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "AutoHealRules":
 	if config.AutoHealRules != nil {
-		autoHealRules_ARM, err := (*config.AutoHealRules).ConvertToARM(resolved)
+		autoHealRules_ARM, err := config.AutoHealRules.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5064,7 +5064,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Cors":
 	if config.Cors != nil {
-		cors_ARM, err := (*config.Cors).ConvertToARM(resolved)
+		cors_ARM, err := config.Cors.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5091,7 +5091,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Experiments":
 	if config.Experiments != nil {
-		experiments_ARM, err := (*config.Experiments).ConvertToARM(resolved)
+		experiments_ARM, err := config.Experiments.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5181,7 +5181,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Limits":
 	if config.Limits != nil {
-		limits_ARM, err := (*config.Limits).ConvertToARM(resolved)
+		limits_ARM, err := config.Limits.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5293,7 +5293,7 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Push":
 	if config.Push != nil {
-		push_ARM, err := (*config.Push).ConvertToARM(resolved)
+		push_ARM, err := config.Push.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9566,7 +9566,7 @@ func (rules *AutoHealRules) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Actions":
 	if rules.Actions != nil {
-		actions_ARM, err := (*rules.Actions).ConvertToARM(resolved)
+		actions_ARM, err := rules.Actions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9576,7 +9576,7 @@ func (rules *AutoHealRules) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Triggers":
 	if rules.Triggers != nil {
-		triggers_ARM, err := (*rules.Triggers).ConvertToARM(resolved)
+		triggers_ARM, err := rules.Triggers.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13579,7 +13579,7 @@ func (actions *AutoHealActions) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "CustomAction":
 	if actions.CustomAction != nil {
-		customAction_ARM, err := (*actions.CustomAction).ConvertToARM(resolved)
+		customAction_ARM, err := actions.CustomAction.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13900,7 +13900,7 @@ func (triggers *AutoHealTriggers) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Requests":
 	if triggers.Requests != nil {
-		requests_ARM, err := (*triggers.Requests).ConvertToARM(resolved)
+		requests_ARM, err := triggers.Requests.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13910,7 +13910,7 @@ func (triggers *AutoHealTriggers) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "SlowRequests":
 	if triggers.SlowRequests != nil {
-		slowRequests_ARM, err := (*triggers.SlowRequests).ConvertToARM(resolved)
+		slowRequests_ARM, err := triggers.SlowRequests.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

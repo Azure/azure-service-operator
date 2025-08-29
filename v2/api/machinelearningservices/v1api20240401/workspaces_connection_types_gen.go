@@ -280,7 +280,7 @@ func (connection *WorkspacesConnection_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Properties":
 	if connection.Properties != nil {
-		properties_ARM, err := (*connection.Properties).ConvertToARM(resolved)
+		properties_ARM, err := connection.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -776,7 +776,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "AAD":
 	if v2.AAD != nil {
-		aad_ARM, err := (*v2.AAD).ConvertToARM(resolved)
+		aad_ARM, err := v2.AAD.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -786,7 +786,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "AccessKey":
 	if v2.AccessKey != nil {
-		accessKey_ARM, err := (*v2.AccessKey).ConvertToARM(resolved)
+		accessKey_ARM, err := v2.AccessKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -796,7 +796,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "AccountKey":
 	if v2.AccountKey != nil {
-		accountKey_ARM, err := (*v2.AccountKey).ConvertToARM(resolved)
+		accountKey_ARM, err := v2.AccountKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -806,7 +806,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "ApiKey":
 	if v2.ApiKey != nil {
-		apiKey_ARM, err := (*v2.ApiKey).ConvertToARM(resolved)
+		apiKey_ARM, err := v2.ApiKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -816,7 +816,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "CustomKeys":
 	if v2.CustomKeys != nil {
-		customKeys_ARM, err := (*v2.CustomKeys).ConvertToARM(resolved)
+		customKeys_ARM, err := v2.CustomKeys.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -826,7 +826,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "ManagedIdentity":
 	if v2.ManagedIdentity != nil {
-		managedIdentity_ARM, err := (*v2.ManagedIdentity).ConvertToARM(resolved)
+		managedIdentity_ARM, err := v2.ManagedIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -836,7 +836,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "None":
 	if v2.None != nil {
-		none_ARM, err := (*v2.None).ConvertToARM(resolved)
+		none_ARM, err := v2.None.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -846,7 +846,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "OAuth2":
 	if v2.OAuth2 != nil {
-		oAuth2_ARM, err := (*v2.OAuth2).ConvertToARM(resolved)
+		oAuth2_ARM, err := v2.OAuth2.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -856,7 +856,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "PAT":
 	if v2.PAT != nil {
-		pat_ARM, err := (*v2.PAT).ConvertToARM(resolved)
+		pat_ARM, err := v2.PAT.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -866,7 +866,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "SAS":
 	if v2.SAS != nil {
-		sas_ARM, err := (*v2.SAS).ConvertToARM(resolved)
+		sas_ARM, err := v2.SAS.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -876,7 +876,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "ServicePrincipal":
 	if v2.ServicePrincipal != nil {
-		servicePrincipal_ARM, err := (*v2.ServicePrincipal).ConvertToARM(resolved)
+		servicePrincipal_ARM, err := v2.ServicePrincipal.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -886,7 +886,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "UsernamePassword":
 	if v2.UsernamePassword != nil {
-		usernamePassword_ARM, err := (*v2.UsernamePassword).ConvertToARM(resolved)
+		usernamePassword_ARM, err := v2.UsernamePassword.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2765,7 +2765,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(r
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3464,7 +3464,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4165,7 +4165,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) ConvertToARM(resolved
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4868,7 +4868,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) ConvertToARM(resolved
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5569,7 +5569,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) ConvertT
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6876,7 +6876,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) ConvertToARM(reso
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7578,7 +7578,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8277,7 +8277,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8976,7 +8976,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Convert
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9675,7 +9675,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Convert
 
 	// Set property "Credentials":
 	if properties.Credentials != nil {
-		credentials_ARM, err := (*properties.Credentials).ConvertToARM(resolved)
+		credentials_ARM, err := properties.Credentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

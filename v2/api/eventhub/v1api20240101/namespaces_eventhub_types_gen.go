@@ -302,7 +302,7 @@ func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties = &arm.Namespaces_Eventhub_Properties_Spec{}
 	}
 	if eventhub.CaptureDescription != nil {
-		captureDescription_ARM, err := (*eventhub.CaptureDescription).ConvertToARM(resolved)
+		captureDescription_ARM, err := eventhub.CaptureDescription.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -318,7 +318,7 @@ func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.PartitionCount = &partitionCount
 	}
 	if eventhub.RetentionDescription != nil {
-		retentionDescription_ARM, err := (*eventhub.RetentionDescription).ConvertToARM(resolved)
+		retentionDescription_ARM, err := eventhub.RetentionDescription.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1110,7 +1110,7 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Destination":
 	if description.Destination != nil {
-		destination_ARM, err := (*description.Destination).ConvertToARM(resolved)
+		destination_ARM, err := description.Destination.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2022,7 +2022,7 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Identity":
 	if destination.Identity != nil {
-		identity_ARM, err := (*destination.Identity).ConvertToARM(resolved)
+		identity_ARM, err := destination.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

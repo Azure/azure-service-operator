@@ -850,7 +850,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
-		accessPolicy_ARM, err := (*identifier.AccessPolicy).ConvertToARM(resolved)
+		accessPolicy_ARM, err := identifier.AccessPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

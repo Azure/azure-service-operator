@@ -300,7 +300,7 @@ func (database *SqlDatabase_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties = &arm.SqlDatabaseCreateUpdateProperties{}
 	}
 	if database.Options != nil {
-		options_ARM, err := (*database.Options).ConvertToARM(resolved)
+		options_ARM, err := database.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -308,7 +308,7 @@ func (database *SqlDatabase_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.Options = &options
 	}
 	if database.Resource != nil {
-		resource_ARM, err := (*database.Resource).ConvertToARM(resolved)
+		resource_ARM, err := database.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1195,7 +1195,7 @@ func (resource *SqlDatabaseResource) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "RestoreParameters":
 	if resource.RestoreParameters != nil {
-		restoreParameters_ARM, err := (*resource.RestoreParameters).ConvertToARM(resolved)
+		restoreParameters_ARM, err := resource.RestoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

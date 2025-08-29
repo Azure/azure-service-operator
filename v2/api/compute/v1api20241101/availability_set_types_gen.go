@@ -327,7 +327,7 @@ func (availabilitySet *AvailabilitySet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.PlatformUpdateDomainCount = &platformUpdateDomainCount
 	}
 	if availabilitySet.ProximityPlacementGroup != nil {
-		proximityPlacementGroup_ARM, err := (*availabilitySet.ProximityPlacementGroup).ConvertToARM(resolved)
+		proximityPlacementGroup_ARM, err := availabilitySet.ProximityPlacementGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -335,7 +335,7 @@ func (availabilitySet *AvailabilitySet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if availabilitySet.ScheduledEventsPolicy != nil {
-		scheduledEventsPolicy_ARM, err := (*availabilitySet.ScheduledEventsPolicy).ConvertToARM(resolved)
+		scheduledEventsPolicy_ARM, err := availabilitySet.ScheduledEventsPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -345,7 +345,7 @@ func (availabilitySet *AvailabilitySet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Sku":
 	if availabilitySet.Sku != nil {
-		sku_ARM, err := (*availabilitySet.Sku).ConvertToARM(resolved)
+		sku_ARM, err := availabilitySet.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1499,7 +1499,7 @@ func (policy *ScheduledEventsPolicy) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "ScheduledEventsAdditionalPublishingTargets":
 	if policy.ScheduledEventsAdditionalPublishingTargets != nil {
-		scheduledEventsAdditionalPublishingTargets_ARM, err := (*policy.ScheduledEventsAdditionalPublishingTargets).ConvertToARM(resolved)
+		scheduledEventsAdditionalPublishingTargets_ARM, err := policy.ScheduledEventsAdditionalPublishingTargets.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1509,7 +1509,7 @@ func (policy *ScheduledEventsPolicy) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "UserInitiatedReboot":
 	if policy.UserInitiatedReboot != nil {
-		userInitiatedReboot_ARM, err := (*policy.UserInitiatedReboot).ConvertToARM(resolved)
+		userInitiatedReboot_ARM, err := policy.UserInitiatedReboot.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1519,7 +1519,7 @@ func (policy *ScheduledEventsPolicy) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "UserInitiatedRedeploy":
 	if policy.UserInitiatedRedeploy != nil {
-		userInitiatedRedeploy_ARM, err := (*policy.UserInitiatedRedeploy).ConvertToARM(resolved)
+		userInitiatedRedeploy_ARM, err := policy.UserInitiatedRedeploy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2525,7 +2525,7 @@ func (targets *ScheduledEventsAdditionalPublishingTargets) ConvertToARM(resolved
 
 	// Set property "EventGridAndResourceGraph":
 	if targets.EventGridAndResourceGraph != nil {
-		eventGridAndResourceGraph_ARM, err := (*targets.EventGridAndResourceGraph).ConvertToARM(resolved)
+		eventGridAndResourceGraph_ARM, err := targets.EventGridAndResourceGraph.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

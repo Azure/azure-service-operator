@@ -287,7 +287,7 @@ func (domain *CustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties = &arm.CustomDomainProperties{}
 	}
 	if domain.CustomCertificate != nil {
-		customCertificate_ARM, err := (*domain.CustomCertificate).ConvertToARM(resolved)
+		customCertificate_ARM, err := domain.CustomCertificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

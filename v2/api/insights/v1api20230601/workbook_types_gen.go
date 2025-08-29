@@ -318,7 +318,7 @@ func (workbook *Workbook_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Identity":
 	if workbook.Identity != nil {
-		identity_ARM, err := (*workbook.Identity).ConvertToARM(resolved)
+		identity_ARM, err := workbook.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

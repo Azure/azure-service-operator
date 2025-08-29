@@ -279,7 +279,7 @@ func (policy *BackupVaultsBackupPolicy_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Properties":
 	if policy.Properties != nil {
-		properties_ARM, err := (*policy.Properties).ConvertToARM(resolved)
+		properties_ARM, err := policy.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -847,7 +847,7 @@ func (policy *BaseBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "BackupPolicy":
 	if policy.BackupPolicy != nil {
-		backupPolicy_ARM, err := (*policy.BackupPolicy).ConvertToARM(resolved)
+		backupPolicy_ARM, err := policy.BackupPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1403,7 +1403,7 @@ func (rule *BasePolicyRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "AzureBackup":
 	if rule.AzureBackup != nil {
-		azureBackup_ARM, err := (*rule.AzureBackup).ConvertToARM(resolved)
+		azureBackup_ARM, err := rule.AzureBackup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1413,7 +1413,7 @@ func (rule *BasePolicyRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "AzureRetention":
 	if rule.AzureRetention != nil {
-		azureRetention_ARM, err := (*rule.AzureRetention).ConvertToARM(resolved)
+		azureRetention_ARM, err := rule.AzureRetention.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1710,7 +1710,7 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "BackupParameters":
 	if rule.BackupParameters != nil {
-		backupParameters_ARM, err := (*rule.BackupParameters).ConvertToARM(resolved)
+		backupParameters_ARM, err := rule.BackupParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1720,7 +1720,7 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "DataStore":
 	if rule.DataStore != nil {
-		dataStore_ARM, err := (*rule.DataStore).ConvertToARM(resolved)
+		dataStore_ARM, err := rule.DataStore.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1745,7 +1745,7 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Trigger":
 	if rule.Trigger != nil {
-		trigger_ARM, err := (*rule.Trigger).ConvertToARM(resolved)
+		trigger_ARM, err := rule.Trigger.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2628,7 +2628,7 @@ func (parameters *BackupParameters) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AzureBackupParams":
 	if parameters.AzureBackupParams != nil {
-		azureBackupParams_ARM, err := (*parameters.AzureBackupParams).ConvertToARM(resolved)
+		azureBackupParams_ARM, err := parameters.AzureBackupParams.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3051,7 +3051,7 @@ func (cycle *SourceLifeCycle) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "DeleteAfter":
 	if cycle.DeleteAfter != nil {
-		deleteAfter_ARM, err := (*cycle.DeleteAfter).ConvertToARM(resolved)
+		deleteAfter_ARM, err := cycle.DeleteAfter.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3061,7 +3061,7 @@ func (cycle *SourceLifeCycle) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "SourceDataStore":
 	if cycle.SourceDataStore != nil {
-		sourceDataStore_ARM, err := (*cycle.SourceDataStore).ConvertToARM(resolved)
+		sourceDataStore_ARM, err := cycle.SourceDataStore.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3469,7 +3469,7 @@ func (context *TriggerContext) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Adhoc":
 	if context.Adhoc != nil {
-		adhoc_ARM, err := (*context.Adhoc).ConvertToARM(resolved)
+		adhoc_ARM, err := context.Adhoc.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3479,7 +3479,7 @@ func (context *TriggerContext) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Schedule":
 	if context.Schedule != nil {
-		schedule_ARM, err := (*context.Schedule).ConvertToARM(resolved)
+		schedule_ARM, err := context.Schedule.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3778,7 +3778,7 @@ func (context *AdhocBasedTriggerContext) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "TaggingCriteria":
 	if context.TaggingCriteria != nil {
-		taggingCriteria_ARM, err := (*context.TaggingCriteria).ConvertToARM(resolved)
+		taggingCriteria_ARM, err := context.TaggingCriteria.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4282,7 +4282,7 @@ func (option *DeleteOption) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "AbsoluteDeleteOption":
 	if option.AbsoluteDeleteOption != nil {
-		absoluteDeleteOption_ARM, err := (*option.AbsoluteDeleteOption).ConvertToARM(resolved)
+		absoluteDeleteOption_ARM, err := option.AbsoluteDeleteOption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4500,7 +4500,7 @@ func (context *ScheduleBasedTriggerContext) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Schedule":
 	if context.Schedule != nil {
-		schedule_ARM, err := (*context.Schedule).ConvertToARM(resolved)
+		schedule_ARM, err := context.Schedule.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4887,7 +4887,7 @@ func (setting *TargetCopySetting) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "CopyAfter":
 	if setting.CopyAfter != nil {
-		copyAfter_ARM, err := (*setting.CopyAfter).ConvertToARM(resolved)
+		copyAfter_ARM, err := setting.CopyAfter.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4897,7 +4897,7 @@ func (setting *TargetCopySetting) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "DataStore":
 	if setting.DataStore != nil {
-		dataStore_ARM, err := (*setting.DataStore).ConvertToARM(resolved)
+		dataStore_ARM, err := setting.DataStore.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5398,7 +5398,7 @@ func (criteria *AdhocBasedTaggingCriteria) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "TagInfo":
 	if criteria.TagInfo != nil {
-		tagInfo_ARM, err := (*criteria.TagInfo).ConvertToARM(resolved)
+		tagInfo_ARM, err := criteria.TagInfo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5823,7 +5823,7 @@ func (option *CopyOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "CopyOnExpiry":
 	if option.CopyOnExpiry != nil {
-		copyOnExpiry_ARM, err := (*option.CopyOnExpiry).ConvertToARM(resolved)
+		copyOnExpiry_ARM, err := option.CopyOnExpiry.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5833,7 +5833,7 @@ func (option *CopyOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "CustomCopy":
 	if option.CustomCopy != nil {
-		customCopy_ARM, err := (*option.CustomCopy).ConvertToARM(resolved)
+		customCopy_ARM, err := option.CustomCopy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5843,7 +5843,7 @@ func (option *CopyOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ImmediateCopy":
 	if option.ImmediateCopy != nil {
-		immediateCopy_ARM, err := (*option.ImmediateCopy).ConvertToARM(resolved)
+		immediateCopy_ARM, err := option.ImmediateCopy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6260,7 +6260,7 @@ func (criteria *TaggingCriteria) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "TagInfo":
 	if criteria.TagInfo != nil {
-		tagInfo_ARM, err := (*criteria.TagInfo).ConvertToARM(resolved)
+		tagInfo_ARM, err := criteria.TagInfo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6684,7 +6684,7 @@ func (criteria *BackupCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "ScheduleBasedBackupCriteria":
 	if criteria.ScheduleBasedBackupCriteria != nil {
-		scheduleBasedBackupCriteria_ARM, err := (*criteria.ScheduleBasedBackupCriteria).ConvertToARM(resolved)
+		scheduleBasedBackupCriteria_ARM, err := criteria.ScheduleBasedBackupCriteria.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

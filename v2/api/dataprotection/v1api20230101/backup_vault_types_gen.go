@@ -317,7 +317,7 @@ func (vault *BackupVault_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Identity":
 	if vault.Identity != nil {
-		identity_ARM, err := (*vault.Identity).ConvertToARM(resolved)
+		identity_ARM, err := vault.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -336,7 +336,7 @@ func (vault *BackupVault_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Properties":
 	if vault.Properties != nil {
-		properties_ARM, err := (*vault.Properties).ConvertToARM(resolved)
+		properties_ARM, err := vault.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1402,7 +1402,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "FeatureSettings":
 	if vault.FeatureSettings != nil {
-		featureSettings_ARM, err := (*vault.FeatureSettings).ConvertToARM(resolved)
+		featureSettings_ARM, err := vault.FeatureSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1412,7 +1412,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "MonitoringSettings":
 	if vault.MonitoringSettings != nil {
-		monitoringSettings_ARM, err := (*vault.MonitoringSettings).ConvertToARM(resolved)
+		monitoringSettings_ARM, err := vault.MonitoringSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1422,7 +1422,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "SecuritySettings":
 	if vault.SecuritySettings != nil {
-		securitySettings_ARM, err := (*vault.SecuritySettings).ConvertToARM(resolved)
+		securitySettings_ARM, err := vault.SecuritySettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2064,7 +2064,7 @@ func (settings *FeatureSettings) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "CrossSubscriptionRestoreSettings":
 	if settings.CrossSubscriptionRestoreSettings != nil {
-		crossSubscriptionRestoreSettings_ARM, err := (*settings.CrossSubscriptionRestoreSettings).ConvertToARM(resolved)
+		crossSubscriptionRestoreSettings_ARM, err := settings.CrossSubscriptionRestoreSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2247,7 +2247,7 @@ func (settings *MonitoringSettings) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AzureMonitorAlertSettings":
 	if settings.AzureMonitorAlertSettings != nil {
-		azureMonitorAlertSettings_ARM, err := (*settings.AzureMonitorAlertSettings).ConvertToARM(resolved)
+		azureMonitorAlertSettings_ARM, err := settings.AzureMonitorAlertSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2552,7 +2552,7 @@ func (settings *SecuritySettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "ImmutabilitySettings":
 	if settings.ImmutabilitySettings != nil {
-		immutabilitySettings_ARM, err := (*settings.ImmutabilitySettings).ConvertToARM(resolved)
+		immutabilitySettings_ARM, err := settings.ImmutabilitySettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2562,7 +2562,7 @@ func (settings *SecuritySettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "SoftDeleteSettings":
 	if settings.SoftDeleteSettings != nil {
-		softDeleteSettings_ARM, err := (*settings.SoftDeleteSettings).ConvertToARM(resolved)
+		softDeleteSettings_ARM, err := settings.SoftDeleteSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

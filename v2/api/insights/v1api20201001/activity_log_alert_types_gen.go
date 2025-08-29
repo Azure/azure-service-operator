@@ -316,7 +316,7 @@ func (alert *ActivityLogAlert_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties = &arm.AlertRuleProperties{}
 	}
 	if alert.Actions != nil {
-		actions_ARM, err := (*alert.Actions).ConvertToARM(resolved)
+		actions_ARM, err := alert.Actions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -324,7 +324,7 @@ func (alert *ActivityLogAlert_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.Actions = &actions
 	}
 	if alert.Condition != nil {
-		condition_ARM, err := (*alert.Condition).ConvertToARM(resolved)
+		condition_ARM, err := alert.Condition.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

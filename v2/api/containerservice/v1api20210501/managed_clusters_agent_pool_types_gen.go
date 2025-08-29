@@ -471,7 +471,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.GpuInstanceProfile = &gpuInstanceProfile
 	}
 	if pool.KubeletConfig != nil {
-		kubeletConfig_ARM, err := (*pool.KubeletConfig).ConvertToARM(resolved)
+		kubeletConfig_ARM, err := pool.KubeletConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -485,7 +485,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.KubeletDiskType = &kubeletDiskType
 	}
 	if pool.LinuxOSConfig != nil {
-		linuxOSConfig_ARM, err := (*pool.LinuxOSConfig).ConvertToARM(resolved)
+		linuxOSConfig_ARM, err := pool.LinuxOSConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -604,7 +604,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.Type = &typeVar
 	}
 	if pool.UpgradeSettings != nil {
-		upgradeSettings_ARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
+		upgradeSettings_ARM, err := pool.UpgradeSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3403,7 +3403,7 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sysctls":
 	if config.Sysctls != nil {
-		sysctls_ARM, err := (*config.Sysctls).ConvertToARM(resolved)
+		sysctls_ARM, err := config.Sysctls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

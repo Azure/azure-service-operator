@@ -297,7 +297,7 @@ func (collection *MongodbDatabaseCollection_Spec) ConvertToARM(resolved genrunti
 		result.Properties = &arm.MongoDBCollectionCreateUpdateProperties{}
 	}
 	if collection.Options != nil {
-		options_ARM, err := (*collection.Options).ConvertToARM(resolved)
+		options_ARM, err := collection.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -305,7 +305,7 @@ func (collection *MongodbDatabaseCollection_Spec) ConvertToARM(resolved genrunti
 		result.Properties.Options = &options
 	}
 	if collection.Resource != nil {
-		resource_ARM, err := (*collection.Resource).ConvertToARM(resolved)
+		resource_ARM, err := collection.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1202,7 +1202,7 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "RestoreParameters":
 	if resource.RestoreParameters != nil {
-		restoreParameters_ARM, err := (*resource.RestoreParameters).ConvertToARM(resolved)
+		restoreParameters_ARM, err := resource.RestoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1581,7 +1581,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Key":
 	if index.Key != nil {
-		key_ARM, err := (*index.Key).ConvertToARM(resolved)
+		key_ARM, err := index.Key.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1591,7 +1591,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Options":
 	if index.Options != nil {
-		options_ARM, err := (*index.Options).ConvertToARM(resolved)
+		options_ARM, err := index.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

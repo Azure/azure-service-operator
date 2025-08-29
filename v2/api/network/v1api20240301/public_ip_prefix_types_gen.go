@@ -303,7 +303,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "ExtendedLocation":
 	if prefix.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*prefix.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := prefix.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -329,7 +329,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties = &arm.PublicIPPrefixPropertiesFormat{}
 	}
 	if prefix.CustomIPPrefix != nil {
-		customIPPrefix_ARM, err := (*prefix.CustomIPPrefix).ConvertToARM(resolved)
+		customIPPrefix_ARM, err := prefix.CustomIPPrefix.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -344,7 +344,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*arm.IpTag))
 	}
 	if prefix.NatGateway != nil {
-		natGateway_ARM, err := (*prefix.NatGateway).ConvertToARM(resolved)
+		natGateway_ARM, err := prefix.NatGateway.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -364,7 +364,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Sku":
 	if prefix.Sku != nil {
-		sku_ARM, err := (*prefix.Sku).ConvertToARM(resolved)
+		sku_ARM, err := prefix.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

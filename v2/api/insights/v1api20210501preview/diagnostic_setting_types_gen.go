@@ -1410,7 +1410,7 @@ func (settings *LogSettings) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "RetentionPolicy":
 	if settings.RetentionPolicy != nil {
-		retentionPolicy_ARM, err := (*settings.RetentionPolicy).ConvertToARM(resolved)
+		retentionPolicy_ARM, err := settings.RetentionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1752,7 +1752,7 @@ func (settings *MetricSettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "RetentionPolicy":
 	if settings.RetentionPolicy != nil {
-		retentionPolicy_ARM, err := (*settings.RetentionPolicy).ConvertToARM(resolved)
+		retentionPolicy_ARM, err := settings.RetentionPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

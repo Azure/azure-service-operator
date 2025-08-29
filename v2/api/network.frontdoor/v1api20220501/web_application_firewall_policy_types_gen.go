@@ -320,7 +320,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 		result.Properties = &arm.WebApplicationFirewallPolicyProperties{}
 	}
 	if policy.CustomRules != nil {
-		customRules_ARM, err := (*policy.CustomRules).ConvertToARM(resolved)
+		customRules_ARM, err := policy.CustomRules.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -328,7 +328,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 		result.Properties.CustomRules = &customRules
 	}
 	if policy.ManagedRules != nil {
-		managedRules_ARM, err := (*policy.ManagedRules).ConvertToARM(resolved)
+		managedRules_ARM, err := policy.ManagedRules.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -336,7 +336,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 		result.Properties.ManagedRules = &managedRules
 	}
 	if policy.PolicySettings != nil {
-		policySettings_ARM, err := (*policy.PolicySettings).ConvertToARM(resolved)
+		policySettings_ARM, err := policy.PolicySettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -346,7 +346,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 
 	// Set property "Sku":
 	if policy.Sku != nil {
-		sku_ARM, err := (*policy.Sku).ConvertToARM(resolved)
+		sku_ARM, err := policy.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

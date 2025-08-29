@@ -343,7 +343,7 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Identity":
 	if registry.Identity != nil {
-		identity_ARM, err := (*registry.Identity).ConvertToARM(resolved)
+		identity_ARM, err := registry.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -385,7 +385,7 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.IntellectualPropertyPublisher = &intellectualPropertyPublisher
 	}
 	if registry.ManagedResourceGroup != nil {
-		managedResourceGroup_ARM, err := (*registry.ManagedResourceGroup).ConvertToARM(resolved)
+		managedResourceGroup_ARM, err := registry.ManagedResourceGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -417,7 +417,7 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Sku":
 	if registry.Sku != nil {
-		sku_ARM, err := (*registry.Sku).ConvertToARM(resolved)
+		sku_ARM, err := registry.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2200,7 +2200,7 @@ func (connection *RegistryPrivateEndpointConnection) ConvertToARM(resolved genru
 		result.Properties.GroupIds = append(result.Properties.GroupIds, item)
 	}
 	if connection.PrivateEndpoint != nil {
-		privateEndpoint_ARM, err := (*connection.PrivateEndpoint).ConvertToARM(resolved)
+		privateEndpoint_ARM, err := connection.PrivateEndpoint.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2212,7 +2212,7 @@ func (connection *RegistryPrivateEndpointConnection) ConvertToARM(resolved genru
 		result.Properties.ProvisioningState = &provisioningState
 	}
 	if connection.RegistryPrivateLinkServiceConnectionState != nil {
-		registryPrivateLinkServiceConnectionState_ARM, err := (*connection.RegistryPrivateLinkServiceConnectionState).ConvertToARM(resolved)
+		registryPrivateLinkServiceConnectionState_ARM, err := connection.RegistryPrivateLinkServiceConnectionState.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3546,7 +3546,7 @@ func (details *AcrDetails) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "SystemCreatedAcrAccount":
 	if details.SystemCreatedAcrAccount != nil {
-		systemCreatedAcrAccount_ARM, err := (*details.SystemCreatedAcrAccount).ConvertToARM(resolved)
+		systemCreatedAcrAccount_ARM, err := details.SystemCreatedAcrAccount.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4315,7 +4315,7 @@ func (details *StorageAccountDetails) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "SystemCreatedStorageAccount":
 	if details.SystemCreatedStorageAccount != nil {
-		systemCreatedStorageAccount_ARM, err := (*details.SystemCreatedStorageAccount).ConvertToARM(resolved)
+		systemCreatedStorageAccount_ARM, err := details.SystemCreatedStorageAccount.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

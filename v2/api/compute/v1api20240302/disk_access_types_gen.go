@@ -283,7 +283,7 @@ func (access *DiskAccess_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "ExtendedLocation":
 	if access.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*access.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := access.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

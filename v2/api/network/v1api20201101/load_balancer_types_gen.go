@@ -321,7 +321,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "ExtendedLocation":
 	if balancer.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*balancer.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := balancer.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -400,7 +400,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Sku":
 	if balancer.Sku != nil {
-		sku_ARM, err := (*balancer.Sku).ConvertToARM(resolved)
+		sku_ARM, err := balancer.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2499,7 +2499,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if embedded.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*embedded.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := embedded.PublicIPAddress.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2507,7 +2507,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if embedded.PublicIPPrefix != nil {
-		publicIPPrefix_ARM, err := (*embedded.PublicIPPrefix).ConvertToARM(resolved)
+		publicIPPrefix_ARM, err := embedded.PublicIPPrefix.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2515,7 +2515,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if embedded.Subnet != nil {
-		subnet_ARM, err := (*embedded.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := embedded.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3418,7 +3418,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if pool.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*pool.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := pool.FrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4086,7 +4086,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if embedded.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*embedded.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := embedded.FrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5096,7 +5096,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties = &arm.LoadBalancingRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := rule.BackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5120,7 +5120,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if rule.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := rule.FrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5142,7 +5142,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.LoadDistribution = &loadDistribution
 	}
 	if rule.Probe != nil {
-		probe_ARM, err := (*rule.Probe).ConvertToARM(resolved)
+		probe_ARM, err := rule.Probe.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6025,7 +6025,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Properties.AllocatedOutboundPorts = &allocatedOutboundPorts
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := rule.BackendAddressPool.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7203,7 +7203,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		result.Properties.IpAddress = &ipAddress
 	}
 	if address.LoadBalancerFrontendIPConfiguration != nil {
-		loadBalancerFrontendIPConfiguration_ARM, err := (*address.LoadBalancerFrontendIPConfiguration).ConvertToARM(resolved)
+		loadBalancerFrontendIPConfiguration_ARM, err := address.LoadBalancerFrontendIPConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7211,7 +7211,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		result.Properties.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	}
 	if address.Subnet != nil {
-		subnet_ARM, err := (*address.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := address.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7219,7 +7219,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		result.Properties.Subnet = &subnet
 	}
 	if address.VirtualNetwork != nil {
-		virtualNetwork_ARM, err := (*address.VirtualNetwork).ConvertToARM(resolved)
+		virtualNetwork_ARM, err := address.VirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

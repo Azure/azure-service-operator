@@ -295,7 +295,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Identity":
 	if iotHub.Identity != nil {
-		identity_ARM, err := (*iotHub.Identity).ConvertToARM(resolved)
+		identity_ARM, err := iotHub.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -314,7 +314,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Properties":
 	if iotHub.Properties != nil {
-		properties_ARM, err := (*iotHub.Properties).ConvertToARM(resolved)
+		properties_ARM, err := iotHub.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -324,7 +324,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Sku":
 	if iotHub.Sku != nil {
-		sku_ARM, err := (*iotHub.Sku).ConvertToARM(resolved)
+		sku_ARM, err := iotHub.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1570,7 +1570,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "CloudToDevice":
 	if properties.CloudToDevice != nil {
-		cloudToDevice_ARM, err := (*properties.CloudToDevice).ConvertToARM(resolved)
+		cloudToDevice_ARM, err := properties.CloudToDevice.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1663,7 +1663,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "NetworkRuleSets":
 	if properties.NetworkRuleSets != nil {
-		networkRuleSets_ARM, err := (*properties.NetworkRuleSets).ConvertToARM(resolved)
+		networkRuleSets_ARM, err := properties.NetworkRuleSets.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1687,7 +1687,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Routing":
 	if properties.Routing != nil {
-		routing_ARM, err := (*properties.Routing).ConvertToARM(resolved)
+		routing_ARM, err := properties.Routing.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3872,7 +3872,7 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Feedback":
 	if properties.Feedback != nil {
-		feedback_ARM, err := (*properties.Feedback).ConvertToARM(resolved)
+		feedback_ARM, err := properties.Feedback.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5728,7 +5728,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Endpoints":
 	if properties.Endpoints != nil {
-		endpoints_ARM, err := (*properties.Endpoints).ConvertToARM(resolved)
+		endpoints_ARM, err := properties.Endpoints.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5747,7 +5747,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "FallbackRoute":
 	if properties.FallbackRoute != nil {
-		fallbackRoute_ARM, err := (*properties.FallbackRoute).ConvertToARM(resolved)
+		fallbackRoute_ARM, err := properties.FallbackRoute.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6533,7 +6533,7 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Identity":
 	if properties.Identity != nil {
-		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
+		identity_ARM, err := properties.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9470,7 +9470,7 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Identity":
 	if properties.Identity != nil {
-		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
+		identity_ARM, err := properties.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10030,7 +10030,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 
 	// Set property "Identity":
 	if properties.Identity != nil {
-		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
+		identity_ARM, err := properties.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10590,7 +10590,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 
 	// Set property "Identity":
 	if properties.Identity != nil {
-		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
+		identity_ARM, err := properties.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11191,7 +11191,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 
 	// Set property "Identity":
 	if properties.Identity != nil {
-		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
+		identity_ARM, err := properties.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -299,7 +299,7 @@ func (vault *Vault_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Properties":
 	if vault.Properties != nil {
-		properties_ARM, err := (*vault.Properties).ConvertToARM(resolved)
+		properties_ARM, err := vault.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1217,7 +1217,7 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "NetworkAcls":
 	if properties.NetworkAcls != nil {
-		networkAcls_ARM, err := (*properties.NetworkAcls).ConvertToARM(resolved)
+		networkAcls_ARM, err := properties.NetworkAcls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1241,7 +1241,7 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Sku":
 	if properties.Sku != nil {
-		sku_ARM, err := (*properties.Sku).ConvertToARM(resolved)
+		sku_ARM, err := properties.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2391,7 +2391,7 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Permissions":
 	if entry.Permissions != nil {
-		permissions_ARM, err := (*entry.Permissions).ConvertToARM(resolved)
+		permissions_ARM, err := entry.Permissions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

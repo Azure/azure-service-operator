@@ -295,7 +295,7 @@ func (account *Account_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if account.Identity != nil {
-		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)
+		identity_ARM, err := account.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -320,7 +320,7 @@ func (account *Account_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Properties":
 	if account.Properties != nil {
-		properties_ARM, err := (*account.Properties).ConvertToARM(resolved)
+		properties_ARM, err := account.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -330,7 +330,7 @@ func (account *Account_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if account.Sku != nil {
-		sku_ARM, err := (*account.Sku).ConvertToARM(resolved)
+		sku_ARM, err := account.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1279,7 +1279,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "AmlWorkspace":
 	if properties.AmlWorkspace != nil {
-		amlWorkspace_ARM, err := (*properties.AmlWorkspace).ConvertToARM(resolved)
+		amlWorkspace_ARM, err := properties.AmlWorkspace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1289,7 +1289,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "ApiProperties":
 	if properties.ApiProperties != nil {
-		apiProperties_ARM, err := (*properties.ApiProperties).ConvertToARM(resolved)
+		apiProperties_ARM, err := properties.ApiProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1328,7 +1328,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Encryption":
 	if properties.Encryption != nil {
-		encryption_ARM, err := (*properties.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := properties.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1338,7 +1338,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Locations":
 	if properties.Locations != nil {
-		locations_ARM, err := (*properties.Locations).ConvertToARM(resolved)
+		locations_ARM, err := properties.Locations.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1358,7 +1358,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "NetworkAcls":
 	if properties.NetworkAcls != nil {
-		networkAcls_ARM, err := (*properties.NetworkAcls).ConvertToARM(resolved)
+		networkAcls_ARM, err := properties.NetworkAcls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1368,7 +1368,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "NetworkInjections":
 	if properties.NetworkInjections != nil {
-		networkInjections_ARM, err := (*properties.NetworkInjections).ConvertToARM(resolved)
+		networkInjections_ARM, err := properties.NetworkInjections.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1386,7 +1386,7 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "RaiMonitorConfig":
 	if properties.RaiMonitorConfig != nil {
-		raiMonitorConfig_ARM, err := (*properties.RaiMonitorConfig).ConvertToARM(resolved)
+		raiMonitorConfig_ARM, err := properties.RaiMonitorConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5179,7 +5179,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "KeyVaultProperties":
 	if encryption.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*encryption.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := encryption.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

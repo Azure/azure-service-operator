@@ -359,7 +359,7 @@ func (pool *WorkspacesBigDataPool_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties = &arm.BigDataPoolResourceProperties{}
 	}
 	if pool.AutoPause != nil {
-		autoPause_ARM, err := (*pool.AutoPause).ConvertToARM(resolved)
+		autoPause_ARM, err := pool.AutoPause.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -367,7 +367,7 @@ func (pool *WorkspacesBigDataPool_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.AutoPause = &autoPause
 	}
 	if pool.AutoScale != nil {
-		autoScale_ARM, err := (*pool.AutoScale).ConvertToARM(resolved)
+		autoScale_ARM, err := pool.AutoScale.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -390,7 +390,7 @@ func (pool *WorkspacesBigDataPool_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.DefaultSparkLogFolder = &defaultSparkLogFolder
 	}
 	if pool.DynamicExecutorAllocation != nil {
-		dynamicExecutorAllocation_ARM, err := (*pool.DynamicExecutorAllocation).ConvertToARM(resolved)
+		dynamicExecutorAllocation_ARM, err := pool.DynamicExecutorAllocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -406,7 +406,7 @@ func (pool *WorkspacesBigDataPool_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.IsComputeIsolationEnabled = &isComputeIsolationEnabled
 	}
 	if pool.LibraryRequirements != nil {
-		libraryRequirements_ARM, err := (*pool.LibraryRequirements).ConvertToARM(resolved)
+		libraryRequirements_ARM, err := pool.LibraryRequirements.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -438,7 +438,7 @@ func (pool *WorkspacesBigDataPool_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.SessionLevelPackagesEnabled = &sessionLevelPackagesEnabled
 	}
 	if pool.SparkConfigProperties != nil {
-		sparkConfigProperties_ARM, err := (*pool.SparkConfigProperties).ConvertToARM(resolved)
+		sparkConfigProperties_ARM, err := pool.SparkConfigProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

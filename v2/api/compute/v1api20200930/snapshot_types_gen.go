@@ -328,7 +328,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "ExtendedLocation":
 	if snapshot.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*snapshot.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := snapshot.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -360,7 +360,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties = &arm.SnapshotProperties{}
 	}
 	if snapshot.CreationData != nil {
-		creationData_ARM, err := (*snapshot.CreationData).ConvertToARM(resolved)
+		creationData_ARM, err := snapshot.CreationData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -386,7 +386,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.DiskState = &diskState
 	}
 	if snapshot.Encryption != nil {
-		encryption_ARM, err := (*snapshot.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := snapshot.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -394,7 +394,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Encryption = &encryption
 	}
 	if snapshot.EncryptionSettingsCollection != nil {
-		encryptionSettingsCollection_ARM, err := (*snapshot.EncryptionSettingsCollection).ConvertToARM(resolved)
+		encryptionSettingsCollection_ARM, err := snapshot.EncryptionSettingsCollection.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -424,7 +424,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.OsType = &osType
 	}
 	if snapshot.PurchasePlan != nil {
-		purchasePlan_ARM, err := (*snapshot.PurchasePlan).ConvertToARM(resolved)
+		purchasePlan_ARM, err := snapshot.PurchasePlan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -434,7 +434,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Sku":
 	if snapshot.Sku != nil {
-		sku_ARM, err := (*snapshot.Sku).ConvertToARM(resolved)
+		sku_ARM, err := snapshot.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
