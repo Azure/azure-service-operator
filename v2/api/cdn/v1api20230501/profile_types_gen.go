@@ -293,7 +293,7 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if profile.Identity != nil {
-		identity_ARM, err := (*profile.Identity).ConvertToARM(resolved)
+		identity_ARM, err := profile.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -321,7 +321,7 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if profile.Sku != nil {
-		sku_ARM, err := (*profile.Sku).ConvertToARM(resolved)
+		sku_ARM, err := profile.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

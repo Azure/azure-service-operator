@@ -282,7 +282,7 @@ func (secret *Secret_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties = &arm.SecretProperties{}
 	}
 	if secret.Parameters != nil {
-		parameters_ARM, err := (*secret.Parameters).ConvertToARM(resolved)
+		parameters_ARM, err := secret.Parameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -941,7 +941,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AzureFirstPartyManagedCertificate":
 	if parameters.AzureFirstPartyManagedCertificate != nil {
-		azureFirstPartyManagedCertificate_ARM, err := (*parameters.AzureFirstPartyManagedCertificate).ConvertToARM(resolved)
+		azureFirstPartyManagedCertificate_ARM, err := parameters.AzureFirstPartyManagedCertificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -951,7 +951,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "CustomerCertificate":
 	if parameters.CustomerCertificate != nil {
-		customerCertificate_ARM, err := (*parameters.CustomerCertificate).ConvertToARM(resolved)
+		customerCertificate_ARM, err := parameters.CustomerCertificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -961,7 +961,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ManagedCertificate":
 	if parameters.ManagedCertificate != nil {
-		managedCertificate_ARM, err := (*parameters.ManagedCertificate).ConvertToARM(resolved)
+		managedCertificate_ARM, err := parameters.ManagedCertificate.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -971,7 +971,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "UrlSigningKey":
 	if parameters.UrlSigningKey != nil {
-		urlSigningKey_ARM, err := (*parameters.UrlSigningKey).ConvertToARM(resolved)
+		urlSigningKey_ARM, err := parameters.UrlSigningKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1782,7 +1782,7 @@ func (parameters *CustomerCertificateParameters) ConvertToARM(resolved genruntim
 
 	// Set property "SecretSource":
 	if parameters.SecretSource != nil {
-		secretSource_ARM, err := (*parameters.SecretSource).ConvertToARM(resolved)
+		secretSource_ARM, err := parameters.SecretSource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2459,7 +2459,7 @@ func (parameters *UrlSigningKeyParameters) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "SecretSource":
 	if parameters.SecretSource != nil {
-		secretSource_ARM, err := (*parameters.SecretSource).ConvertToARM(resolved)
+		secretSource_ARM, err := parameters.SecretSource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

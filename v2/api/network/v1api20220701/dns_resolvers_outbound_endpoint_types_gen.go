@@ -296,7 +296,7 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertToARM(resolved genrunt
 		result.Properties = &arm.OutboundEndpointProperties{}
 	}
 	if endpoint.Subnet != nil {
-		subnet_ARM, err := (*endpoint.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := endpoint.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

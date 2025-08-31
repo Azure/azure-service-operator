@@ -268,7 +268,7 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Properties":
 	if alias.Properties != nil {
-		properties_ARM, err := (*alias.Properties).ConvertToARM(resolved)
+		properties_ARM, err := alias.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -831,7 +831,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "AdditionalProperties":
 	if properties.AdditionalProperties != nil {
-		additionalProperties_ARM, err := (*properties.AdditionalProperties).ConvertToARM(resolved)
+		additionalProperties_ARM, err := properties.AdditionalProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

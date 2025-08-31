@@ -301,7 +301,7 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties = &arm.AFDDomainProperties{}
 	}
 	if domain.AzureDnsZone != nil {
-		azureDnsZone_ARM, err := (*domain.AzureDnsZone).ConvertToARM(resolved)
+		azureDnsZone_ARM, err := domain.AzureDnsZone.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -319,7 +319,7 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.HostName = &hostName
 	}
 	if domain.PreValidatedCustomDomainResourceId != nil {
-		preValidatedCustomDomainResourceId_ARM, err := (*domain.PreValidatedCustomDomainResourceId).ConvertToARM(resolved)
+		preValidatedCustomDomainResourceId_ARM, err := domain.PreValidatedCustomDomainResourceId.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -327,7 +327,7 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	}
 	if domain.TlsSettings != nil {
-		tlsSettings_ARM, err := (*domain.TlsSettings).ConvertToARM(resolved)
+		tlsSettings_ARM, err := domain.TlsSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1339,7 +1339,7 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Secret":
 	if parameters.Secret != nil {
-		secret_ARM, err := (*parameters.Secret).ConvertToARM(resolved)
+		secret_ARM, err := parameters.Secret.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

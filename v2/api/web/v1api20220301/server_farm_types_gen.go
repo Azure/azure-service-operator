@@ -342,7 +342,7 @@ func (farm *ServerFarm_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "ExtendedLocation":
 	if farm.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*farm.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := farm.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -392,7 +392,7 @@ func (farm *ServerFarm_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.FreeOfferExpirationTime = &freeOfferExpirationTime
 	}
 	if farm.HostingEnvironmentProfile != nil {
-		hostingEnvironmentProfile_ARM, err := (*farm.HostingEnvironmentProfile).ConvertToARM(resolved)
+		hostingEnvironmentProfile_ARM, err := farm.HostingEnvironmentProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -412,7 +412,7 @@ func (farm *ServerFarm_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.IsXenon = &isXenon
 	}
 	if farm.KubeEnvironmentProfile != nil {
-		kubeEnvironmentProfile_ARM, err := (*farm.KubeEnvironmentProfile).ConvertToARM(resolved)
+		kubeEnvironmentProfile_ARM, err := farm.KubeEnvironmentProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -454,7 +454,7 @@ func (farm *ServerFarm_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Sku":
 	if farm.Sku != nil {
-		sku_ARM, err := (*farm.Sku).ConvertToARM(resolved)
+		sku_ARM, err := farm.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2795,7 +2795,7 @@ func (description *SkuDescription) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "SkuCapacity":
 	if description.SkuCapacity != nil {
-		skuCapacity_ARM, err := (*description.SkuCapacity).ConvertToARM(resolved)
+		skuCapacity_ARM, err := description.SkuCapacity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

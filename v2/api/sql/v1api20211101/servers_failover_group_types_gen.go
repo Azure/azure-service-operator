@@ -313,7 +313,7 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.PartnerServers = append(result.Properties.PartnerServers, *item_ARM.(*arm.PartnerInfo))
 	}
 	if group.ReadOnlyEndpoint != nil {
-		readOnlyEndpoint_ARM, err := (*group.ReadOnlyEndpoint).ConvertToARM(resolved)
+		readOnlyEndpoint_ARM, err := group.ReadOnlyEndpoint.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -321,7 +321,7 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.ReadOnlyEndpoint = &readOnlyEndpoint
 	}
 	if group.ReadWriteEndpoint != nil {
-		readWriteEndpoint_ARM, err := (*group.ReadWriteEndpoint).ConvertToARM(resolved)
+		readWriteEndpoint_ARM, err := group.ReadWriteEndpoint.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

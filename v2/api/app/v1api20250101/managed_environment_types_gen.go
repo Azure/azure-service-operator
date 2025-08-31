@@ -321,7 +321,7 @@ func (environment *ManagedEnvironment_Spec) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Identity":
 	if environment.Identity != nil {
-		identity_ARM, err := (*environment.Identity).ConvertToARM(resolved)
+		identity_ARM, err := environment.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -358,7 +358,7 @@ func (environment *ManagedEnvironment_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties = &arm.ManagedEnvironment_Properties_Spec{}
 	}
 	if environment.AppLogsConfiguration != nil {
-		appLogsConfiguration_ARM, err := (*environment.AppLogsConfiguration).ConvertToARM(resolved)
+		appLogsConfiguration_ARM, err := environment.AppLogsConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -366,7 +366,7 @@ func (environment *ManagedEnvironment_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.AppLogsConfiguration = &appLogsConfiguration
 	}
 	if environment.CustomDomainConfiguration != nil {
-		customDomainConfiguration_ARM, err := (*environment.CustomDomainConfiguration).ConvertToARM(resolved)
+		customDomainConfiguration_ARM, err := environment.CustomDomainConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -394,7 +394,7 @@ func (environment *ManagedEnvironment_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.InfrastructureResourceGroup = &infrastructureResourceGroup
 	}
 	if environment.PeerAuthentication != nil {
-		peerAuthentication_ARM, err := (*environment.PeerAuthentication).ConvertToARM(resolved)
+		peerAuthentication_ARM, err := environment.PeerAuthentication.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -402,7 +402,7 @@ func (environment *ManagedEnvironment_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.PeerAuthentication = &peerAuthentication
 	}
 	if environment.PeerTrafficConfiguration != nil {
-		peerTrafficConfiguration_ARM, err := (*environment.PeerTrafficConfiguration).ConvertToARM(resolved)
+		peerTrafficConfiguration_ARM, err := environment.PeerTrafficConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -410,7 +410,7 @@ func (environment *ManagedEnvironment_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.PeerTrafficConfiguration = &peerTrafficConfiguration
 	}
 	if environment.VnetConfiguration != nil {
-		vnetConfiguration_ARM, err := (*environment.VnetConfiguration).ConvertToARM(resolved)
+		vnetConfiguration_ARM, err := environment.VnetConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1895,7 +1895,7 @@ func (configuration *AppLogsConfiguration) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "LogAnalyticsConfiguration":
 	if configuration.LogAnalyticsConfiguration != nil {
-		logAnalyticsConfiguration_ARM, err := (*configuration.LogAnalyticsConfiguration).ConvertToARM(resolved)
+		logAnalyticsConfiguration_ARM, err := configuration.LogAnalyticsConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2137,7 +2137,7 @@ func (configuration *CustomDomainConfiguration) ConvertToARM(resolved genruntime
 
 	// Set property "CertificateKeyVaultProperties":
 	if configuration.CertificateKeyVaultProperties != nil {
-		certificateKeyVaultProperties_ARM, err := (*configuration.CertificateKeyVaultProperties).ConvertToARM(resolved)
+		certificateKeyVaultProperties_ARM, err := configuration.CertificateKeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2608,7 +2608,7 @@ func (authentication *ManagedEnvironment_Properties_PeerAuthentication_Spec) Con
 
 	// Set property "Mtls":
 	if authentication.Mtls != nil {
-		mtls_ARM, err := (*authentication.Mtls).ConvertToARM(resolved)
+		mtls_ARM, err := authentication.Mtls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2808,7 +2808,7 @@ func (configuration *ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec
 
 	// Set property "Encryption":
 	if configuration.Encryption != nil {
-		encryption_ARM, err := (*configuration.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := configuration.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

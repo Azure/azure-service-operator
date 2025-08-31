@@ -353,7 +353,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.MinCapacity = &minCapacity
 	}
 	if pool.PerDatabaseSettings != nil {
-		perDatabaseSettings_ARM, err := (*pool.PerDatabaseSettings).ConvertToARM(resolved)
+		perDatabaseSettings_ARM, err := pool.PerDatabaseSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -367,7 +367,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Sku":
 	if pool.Sku != nil {
-		sku_ARM, err := (*pool.Sku).ConvertToARM(resolved)
+		sku_ARM, err := pool.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -353,7 +353,7 @@ func (record *DnsZonesARecord_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*arm.ARecord))
 	}
 	if record.CNAMERecord != nil {
-		cnameRecord_ARM, err := (*record.CNAMERecord).ConvertToARM(resolved)
+		cnameRecord_ARM, err := record.CNAMERecord.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -395,7 +395,7 @@ func (record *DnsZonesARecord_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PTRRecords = append(result.Properties.PTRRecords, *item_ARM.(*arm.PtrRecord))
 	}
 	if record.SOARecord != nil {
-		soaRecord_ARM, err := (*record.SOARecord).ConvertToARM(resolved)
+		soaRecord_ARM, err := record.SOARecord.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -421,7 +421,7 @@ func (record *DnsZonesARecord_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.TXTRecords = append(result.Properties.TXTRecords, *item_ARM.(*arm.TxtRecord))
 	}
 	if record.TargetResource != nil {
-		targetResource_ARM, err := (*record.TargetResource).ConvertToARM(resolved)
+		targetResource_ARM, err := record.TargetResource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -310,7 +310,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Identity":
 	if enterprise.Identity != nil {
-		identity_ARM, err := (*enterprise.Identity).ConvertToARM(resolved)
+		identity_ARM, err := enterprise.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -342,7 +342,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties = &arm.ClusterProperties{}
 	}
 	if enterprise.Encryption != nil {
-		encryption_ARM, err := (*enterprise.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := enterprise.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -364,7 +364,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Sku":
 	if enterprise.Sku != nil {
-		sku_ARM, err := (*enterprise.Sku).ConvertToARM(resolved)
+		sku_ARM, err := enterprise.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1452,7 +1452,7 @@ func (encryption *ClusterProperties_Encryption) ConvertToARM(resolved genruntime
 
 	// Set property "CustomerManagedKeyEncryption":
 	if encryption.CustomerManagedKeyEncryption != nil {
-		customerManagedKeyEncryption_ARM, err := (*encryption.CustomerManagedKeyEncryption).ConvertToARM(resolved)
+		customerManagedKeyEncryption_ARM, err := encryption.CustomerManagedKeyEncryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2529,7 +2529,7 @@ func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) Con
 
 	// Set property "KeyEncryptionKeyIdentity":
 	if encryption.KeyEncryptionKeyIdentity != nil {
-		keyEncryptionKeyIdentity_ARM, err := (*encryption.KeyEncryptionKeyIdentity).ConvertToARM(resolved)
+		keyEncryptionKeyIdentity_ARM, err := encryption.KeyEncryptionKeyIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

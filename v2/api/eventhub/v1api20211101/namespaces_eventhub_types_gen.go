@@ -297,7 +297,7 @@ func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties = &arm.Namespaces_Eventhub_Properties_Spec{}
 	}
 	if eventhub.CaptureDescription != nil {
-		captureDescription_ARM, err := (*eventhub.CaptureDescription).ConvertToARM(resolved)
+		captureDescription_ARM, err := eventhub.CaptureDescription.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -941,7 +941,7 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Destination":
 	if description.Destination != nil {
-		destination_ARM, err := (*description.Destination).ConvertToARM(resolved)
+		destination_ARM, err := description.Destination.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

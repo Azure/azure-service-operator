@@ -298,7 +298,7 @@ func (notificationHub *NotificationHub_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Properties":
 	if notificationHub.Properties != nil {
-		properties_ARM, err := (*notificationHub.Properties).ConvertToARM(resolved)
+		properties_ARM, err := notificationHub.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -308,7 +308,7 @@ func (notificationHub *NotificationHub_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Sku":
 	if notificationHub.Sku != nil {
-		sku_ARM, err := (*notificationHub.Sku).ConvertToARM(resolved)
+		sku_ARM, err := notificationHub.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1089,7 +1089,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "AdmCredential":
 	if properties.AdmCredential != nil {
-		admCredential_ARM, err := (*properties.AdmCredential).ConvertToARM(resolved)
+		admCredential_ARM, err := properties.AdmCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1099,7 +1099,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "ApnsCredential":
 	if properties.ApnsCredential != nil {
-		apnsCredential_ARM, err := (*properties.ApnsCredential).ConvertToARM(resolved)
+		apnsCredential_ARM, err := properties.ApnsCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1109,7 +1109,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "BaiduCredential":
 	if properties.BaiduCredential != nil {
-		baiduCredential_ARM, err := (*properties.BaiduCredential).ConvertToARM(resolved)
+		baiduCredential_ARM, err := properties.BaiduCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1119,7 +1119,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "BrowserCredential":
 	if properties.BrowserCredential != nil {
-		browserCredential_ARM, err := (*properties.BrowserCredential).ConvertToARM(resolved)
+		browserCredential_ARM, err := properties.BrowserCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1129,7 +1129,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "GcmCredential":
 	if properties.GcmCredential != nil {
-		gcmCredential_ARM, err := (*properties.GcmCredential).ConvertToARM(resolved)
+		gcmCredential_ARM, err := properties.GcmCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1139,7 +1139,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "MpnsCredential":
 	if properties.MpnsCredential != nil {
-		mpnsCredential_ARM, err := (*properties.MpnsCredential).ConvertToARM(resolved)
+		mpnsCredential_ARM, err := properties.MpnsCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1161,7 +1161,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "WnsCredential":
 	if properties.WnsCredential != nil {
-		wnsCredential_ARM, err := (*properties.WnsCredential).ConvertToARM(resolved)
+		wnsCredential_ARM, err := properties.WnsCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1171,7 +1171,7 @@ func (properties *NotificationHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "XiaomiCredential":
 	if properties.XiaomiCredential != nil {
-		xiaomiCredential_ARM, err := (*properties.XiaomiCredential).ConvertToARM(resolved)
+		xiaomiCredential_ARM, err := properties.XiaomiCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2091,7 +2091,7 @@ func (credential *AdmCredential) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2294,7 +2294,7 @@ func (credential *ApnsCredential) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2497,7 +2497,7 @@ func (credential *BaiduCredential) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2700,7 +2700,7 @@ func (credential *BrowserCredential) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2903,7 +2903,7 @@ func (credential *GcmCredential) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3106,7 +3106,7 @@ func (credential *MpnsCredential) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3414,7 +3414,7 @@ func (credential *WnsCredential) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3617,7 +3617,7 @@ func (credential *XiaomiCredential) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Properties":
 	if credential.Properties != nil {
-		properties_ARM, err := (*credential.Properties).ConvertToARM(resolved)
+		properties_ARM, err := credential.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

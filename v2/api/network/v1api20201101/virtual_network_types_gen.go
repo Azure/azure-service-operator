@@ -307,7 +307,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ExtendedLocation":
 	if network.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := network.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -335,7 +335,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties = &arm.VirtualNetworkPropertiesFormat{}
 	}
 	if network.AddressSpace != nil {
-		addressSpace_ARM, err := (*network.AddressSpace).ConvertToARM(resolved)
+		addressSpace_ARM, err := network.AddressSpace.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -343,7 +343,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AddressSpace = &addressSpace
 	}
 	if network.BgpCommunities != nil {
-		bgpCommunities_ARM, err := (*network.BgpCommunities).ConvertToARM(resolved)
+		bgpCommunities_ARM, err := network.BgpCommunities.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -351,7 +351,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.BgpCommunities = &bgpCommunities
 	}
 	if network.DdosProtectionPlan != nil {
-		ddosProtectionPlan_ARM, err := (*network.DdosProtectionPlan).ConvertToARM(resolved)
+		ddosProtectionPlan_ARM, err := network.DdosProtectionPlan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -359,7 +359,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.DdosProtectionPlan = &ddosProtectionPlan
 	}
 	if network.DhcpOptions != nil {
-		dhcpOptions_ARM, err := (*network.DhcpOptions).ConvertToARM(resolved)
+		dhcpOptions_ARM, err := network.DhcpOptions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -348,7 +348,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "ExtendedLocation":
 	if snapshot.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*snapshot.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := snapshot.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -391,7 +391,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.CompletionPercent = &completionPercent
 	}
 	if snapshot.CopyCompletionError != nil {
-		copyCompletionError_ARM, err := (*snapshot.CopyCompletionError).ConvertToARM(resolved)
+		copyCompletionError_ARM, err := snapshot.CopyCompletionError.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -399,7 +399,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.CopyCompletionError = &copyCompletionError
 	}
 	if snapshot.CreationData != nil {
-		creationData_ARM, err := (*snapshot.CreationData).ConvertToARM(resolved)
+		creationData_ARM, err := snapshot.CreationData.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -431,7 +431,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.DiskState = &diskState
 	}
 	if snapshot.Encryption != nil {
-		encryption_ARM, err := (*snapshot.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := snapshot.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -439,7 +439,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Encryption = &encryption
 	}
 	if snapshot.EncryptionSettingsCollection != nil {
-		encryptionSettingsCollection_ARM, err := (*snapshot.EncryptionSettingsCollection).ConvertToARM(resolved)
+		encryptionSettingsCollection_ARM, err := snapshot.EncryptionSettingsCollection.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -475,7 +475,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if snapshot.PurchasePlan != nil {
-		purchasePlan_ARM, err := (*snapshot.PurchasePlan).ConvertToARM(resolved)
+		purchasePlan_ARM, err := snapshot.PurchasePlan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -483,7 +483,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.PurchasePlan = &purchasePlan
 	}
 	if snapshot.SecurityProfile != nil {
-		securityProfile_ARM, err := (*snapshot.SecurityProfile).ConvertToARM(resolved)
+		securityProfile_ARM, err := snapshot.SecurityProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -491,7 +491,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.SecurityProfile = &securityProfile
 	}
 	if snapshot.SupportedCapabilities != nil {
-		supportedCapabilities_ARM, err := (*snapshot.SupportedCapabilities).ConvertToARM(resolved)
+		supportedCapabilities_ARM, err := snapshot.SupportedCapabilities.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -505,7 +505,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Sku":
 	if snapshot.Sku != nil {
-		sku_ARM, err := (*snapshot.Sku).ConvertToARM(resolved)
+		sku_ARM, err := snapshot.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

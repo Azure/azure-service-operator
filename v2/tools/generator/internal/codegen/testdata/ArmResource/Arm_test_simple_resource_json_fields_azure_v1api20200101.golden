@@ -243,7 +243,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "MandatoryJson":
 	if resource.MandatoryJson != nil {
-		mandatoryJson := *(*resource.MandatoryJson).DeepCopy()
+		mandatoryJson := *resource.MandatoryJson.DeepCopy()
 		result.MandatoryJson = &mandatoryJson
 	}
 
@@ -252,7 +252,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "OptionalJson":
 	if resource.OptionalJson != nil {
-		optionalJson := *(*resource.OptionalJson).DeepCopy()
+		optionalJson := *resource.OptionalJson.DeepCopy()
 		result.OptionalJson = &optionalJson
 	}
 
@@ -293,7 +293,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "MandatoryJson":
 	if typedInput.MandatoryJson != nil {
-		mandatoryJson := *(*typedInput.MandatoryJson).DeepCopy()
+		mandatoryJson := *typedInput.MandatoryJson.DeepCopy()
 		resource.MandatoryJson = &mandatoryJson
 	}
 
@@ -301,7 +301,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "OptionalJson":
 	if typedInput.OptionalJson != nil {
-		optionalJson := *(*typedInput.OptionalJson).DeepCopy()
+		optionalJson := *typedInput.OptionalJson.DeepCopy()
 		resource.OptionalJson = &optionalJson
 	}
 

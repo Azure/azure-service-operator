@@ -353,7 +353,7 @@ func (extension *VirtualMachinesExtension_Spec) ConvertToARM(resolved genruntime
 		result.Properties.ForceUpdateTag = &forceUpdateTag
 	}
 	if extension.InstanceView != nil {
-		instanceView_ARM, err := (*extension.InstanceView).ConvertToARM(resolved)
+		instanceView_ARM, err := extension.InstanceView.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -370,7 +370,7 @@ func (extension *VirtualMachinesExtension_Spec) ConvertToARM(resolved genruntime
 		result.Properties.ProtectedSettings = temp
 	}
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVault_ARM, err := (*extension.ProtectedSettingsFromKeyVault).ConvertToARM(resolved)
+		protectedSettingsFromKeyVault_ARM, err := extension.ProtectedSettingsFromKeyVault.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

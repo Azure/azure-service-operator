@@ -365,7 +365,7 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Identity":
 	if service.Identity != nil {
-		identity_ARM, err := (*service.Identity).ConvertToARM(resolved)
+		identity_ARM, err := service.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -395,7 +395,7 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties = &arm.SearchServiceProperties{}
 	}
 	if service.AuthOptions != nil {
-		authOptions_ARM, err := (*service.AuthOptions).ConvertToARM(resolved)
+		authOptions_ARM, err := service.AuthOptions.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -407,7 +407,7 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
 	if service.EncryptionWithCmk != nil {
-		encryptionWithCmk_ARM, err := (*service.EncryptionWithCmk).ConvertToARM(resolved)
+		encryptionWithCmk_ARM, err := service.EncryptionWithCmk.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -421,7 +421,7 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.HostingMode = &hostingMode
 	}
 	if service.NetworkRuleSet != nil {
-		networkRuleSet_ARM, err := (*service.NetworkRuleSet).ConvertToARM(resolved)
+		networkRuleSet_ARM, err := service.NetworkRuleSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -451,7 +451,7 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Sku":
 	if service.Sku != nil {
-		sku_ARM, err := (*service.Sku).ConvertToARM(resolved)
+		sku_ARM, err := service.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1852,7 +1852,7 @@ func (options *DataPlaneAuthOptions) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "AadOrApiKey":
 	if options.AadOrApiKey != nil {
-		aadOrApiKey_ARM, err := (*options.AadOrApiKey).ConvertToARM(resolved)
+		aadOrApiKey_ARM, err := options.AadOrApiKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

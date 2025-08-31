@@ -296,7 +296,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Properties":
 	if server.Properties != nil {
-		properties_ARM, err := (*server.Properties).ConvertToARM(resolved)
+		properties_ARM, err := server.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -306,7 +306,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Sku":
 	if server.Sku != nil {
-		sku_ARM, err := (*server.Sku).ConvertToARM(resolved)
+		sku_ARM, err := server.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1482,7 +1482,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Default":
 	if create.Default != nil {
-		default_ARM, err := (*create.Default).ConvertToARM(resolved)
+		default_ARM, err := create.Default.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1492,7 +1492,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "GeoRestore":
 	if create.GeoRestore != nil {
-		geoRestore_ARM, err := (*create.GeoRestore).ConvertToARM(resolved)
+		geoRestore_ARM, err := create.GeoRestore.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1502,7 +1502,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "PointInTimeRestore":
 	if create.PointInTimeRestore != nil {
-		pointInTimeRestore_ARM, err := (*create.PointInTimeRestore).ConvertToARM(resolved)
+		pointInTimeRestore_ARM, err := create.PointInTimeRestore.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1512,7 +1512,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Replica":
 	if create.Replica != nil {
-		replica_ARM, err := (*create.Replica).ConvertToARM(resolved)
+		replica_ARM, err := create.Replica.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2477,7 +2477,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 
 	// Set property "StorageProfile":
 	if create.StorageProfile != nil {
-		storageProfile_ARM, err := (*create.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := create.StorageProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2799,7 +2799,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 
 	// Set property "StorageProfile":
 	if restore.StorageProfile != nil {
-		storageProfile_ARM, err := (*restore.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := restore.StorageProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3103,7 +3103,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "StorageProfile":
 	if replica.StorageProfile != nil {
-		storageProfile_ARM, err := (*replica.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := replica.StorageProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3417,7 +3417,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "StorageProfile":
 	if restore.StorageProfile != nil {
-		storageProfile_ARM, err := (*restore.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := restore.StorageProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

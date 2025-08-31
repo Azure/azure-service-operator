@@ -342,7 +342,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
 	}
 	if subscription.ClientAffineProperties != nil {
-		clientAffineProperties_ARM, err := (*subscription.ClientAffineProperties).ConvertToARM(resolved)
+		clientAffineProperties_ARM, err := subscription.ClientAffineProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

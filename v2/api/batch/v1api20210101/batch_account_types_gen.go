@@ -309,7 +309,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Identity":
 	if account.Identity != nil {
-		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)
+		identity_ARM, err := account.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -335,7 +335,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties = &arm.BatchAccountCreateProperties{}
 	}
 	if account.AutoStorage != nil {
-		autoStorage_ARM, err := (*account.AutoStorage).ConvertToARM(resolved)
+		autoStorage_ARM, err := account.AutoStorage.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -343,7 +343,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.AutoStorage = &autoStorage
 	}
 	if account.Encryption != nil {
-		encryption_ARM, err := (*account.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := account.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -351,7 +351,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.Encryption = &encryption
 	}
 	if account.KeyVaultReference != nil {
-		keyVaultReference_ARM, err := (*account.KeyVaultReference).ConvertToARM(resolved)
+		keyVaultReference_ARM, err := account.KeyVaultReference.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2167,7 +2167,7 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "KeyVaultProperties":
 	if properties.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*properties.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := properties.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

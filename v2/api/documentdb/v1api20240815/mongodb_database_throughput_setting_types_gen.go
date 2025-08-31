@@ -288,7 +288,7 @@ func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertToARM(resolved genr
 		result.Properties = &arm.ThroughputSettingsUpdateProperties{}
 	}
 	if setting.Resource != nil {
-		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
+		resource_ARM, err := setting.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

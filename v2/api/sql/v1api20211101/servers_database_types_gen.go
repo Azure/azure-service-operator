@@ -413,7 +413,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Identity":
 	if database.Identity != nil {
-		identity_ARM, err := (*database.Identity).ConvertToARM(resolved)
+		identity_ARM, err := database.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -603,7 +603,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Sku":
 	if database.Sku != nil {
-		sku_ARM, err := (*database.Sku).ConvertToARM(resolved)
+		sku_ARM, err := database.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

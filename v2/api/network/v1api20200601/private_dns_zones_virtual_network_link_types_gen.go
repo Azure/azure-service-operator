@@ -314,7 +314,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertToARM(resolved genrun
 		result.Properties.RegistrationEnabled = &registrationEnabled
 	}
 	if link.VirtualNetwork != nil {
-		virtualNetwork_ARM, err := (*link.VirtualNetwork).ConvertToARM(resolved)
+		virtualNetwork_ARM, err := link.VirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

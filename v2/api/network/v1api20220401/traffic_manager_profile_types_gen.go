@@ -355,7 +355,7 @@ func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.AllowedEndpointRecordTypes = append(result.Properties.AllowedEndpointRecordTypes, arm.AllowedEndpointRecordType(temp))
 	}
 	if profile.DnsConfig != nil {
-		dnsConfig_ARM, err := (*profile.DnsConfig).ConvertToARM(resolved)
+		dnsConfig_ARM, err := profile.DnsConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -367,7 +367,7 @@ func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.MaxReturn = &maxReturn
 	}
 	if profile.MonitorConfig != nil {
-		monitorConfig_ARM, err := (*profile.MonitorConfig).ConvertToARM(resolved)
+		monitorConfig_ARM, err := profile.MonitorConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

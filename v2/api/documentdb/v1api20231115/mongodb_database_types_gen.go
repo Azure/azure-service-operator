@@ -300,7 +300,7 @@ func (database *MongodbDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties = &arm.MongoDBDatabaseCreateUpdateProperties{}
 	}
 	if database.Options != nil {
-		options_ARM, err := (*database.Options).ConvertToARM(resolved)
+		options_ARM, err := database.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -308,7 +308,7 @@ func (database *MongodbDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.Options = &options
 	}
 	if database.Resource != nil {
-		resource_ARM, err := (*database.Resource).ConvertToARM(resolved)
+		resource_ARM, err := database.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -866,7 +866,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "AutoscaleSettings":
 	if options.AutoscaleSettings != nil {
-		autoscaleSettings_ARM, err := (*options.AutoscaleSettings).ConvertToARM(resolved)
+		autoscaleSettings_ARM, err := options.AutoscaleSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1289,7 +1289,7 @@ func (resource *MongoDBDatabaseResource) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "RestoreParameters":
 	if resource.RestoreParameters != nil {
-		restoreParameters_ARM, err := (*resource.RestoreParameters).ConvertToARM(resolved)
+		restoreParameters_ARM, err := resource.RestoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

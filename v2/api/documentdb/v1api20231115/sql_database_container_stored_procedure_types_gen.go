@@ -300,7 +300,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertToARM(resolved
 		result.Properties = &arm.SqlStoredProcedureCreateUpdateProperties{}
 	}
 	if procedure.Options != nil {
-		options_ARM, err := (*procedure.Options).ConvertToARM(resolved)
+		options_ARM, err := procedure.Options.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -308,7 +308,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertToARM(resolved
 		result.Properties.Options = &options
 	}
 	if procedure.Resource != nil {
-		resource_ARM, err := (*procedure.Resource).ConvertToARM(resolved)
+		resource_ARM, err := procedure.Resource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

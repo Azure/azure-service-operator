@@ -326,7 +326,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties = &arm.FluxConfiguration_Properties_Spec{}
 	}
 	if configuration.AzureBlob != nil {
-		azureBlob_ARM, err := (*configuration.AzureBlob).ConvertToARM(resolved)
+		azureBlob_ARM, err := configuration.AzureBlob.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -334,7 +334,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.AzureBlob = &azureBlob
 	}
 	if configuration.Bucket != nil {
-		bucket_ARM, err := (*configuration.Bucket).ConvertToARM(resolved)
+		bucket_ARM, err := configuration.Bucket.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -351,7 +351,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.ConfigurationProtectedSettings = temp
 	}
 	if configuration.GitRepository != nil {
-		gitRepository_ARM, err := (*configuration.GitRepository).ConvertToARM(resolved)
+		gitRepository_ARM, err := configuration.GitRepository.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -373,7 +373,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.Namespace = &namespace
 	}
 	if configuration.OciRepository != nil {
-		ociRepository_ARM, err := (*configuration.OciRepository).ConvertToARM(resolved)
+		ociRepository_ARM, err := configuration.OciRepository.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1817,7 +1817,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "ManagedIdentity":
 	if definition.ManagedIdentity != nil {
-		managedIdentity_ARM, err := (*definition.ManagedIdentity).ConvertToARM(resolved)
+		managedIdentity_ARM, err := definition.ManagedIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1837,7 +1837,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "ServicePrincipal":
 	if definition.ServicePrincipal != nil {
-		servicePrincipal_ARM, err := (*definition.ServicePrincipal).ConvertToARM(resolved)
+		servicePrincipal_ARM, err := definition.ServicePrincipal.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2905,7 +2905,7 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "RepositoryRef":
 	if definition.RepositoryRef != nil {
-		repositoryRef_ARM, err := (*definition.RepositoryRef).ConvertToARM(resolved)
+		repositoryRef_ARM, err := definition.RepositoryRef.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3436,7 +3436,7 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "PostBuild":
 	if definition.PostBuild != nil {
-		postBuild_ARM, err := (*definition.PostBuild).ConvertToARM(resolved)
+		postBuild_ARM, err := definition.PostBuild.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4280,7 +4280,7 @@ func (definition *OCIRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "LayerSelector":
 	if definition.LayerSelector != nil {
-		layerSelector_ARM, err := (*definition.LayerSelector).ConvertToARM(resolved)
+		layerSelector_ARM, err := definition.LayerSelector.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4296,7 +4296,7 @@ func (definition *OCIRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "RepositoryRef":
 	if definition.RepositoryRef != nil {
-		repositoryRef_ARM, err := (*definition.RepositoryRef).ConvertToARM(resolved)
+		repositoryRef_ARM, err := definition.RepositoryRef.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4324,7 +4324,7 @@ func (definition *OCIRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "TlsConfig":
 	if definition.TlsConfig != nil {
-		tlsConfig_ARM, err := (*definition.TlsConfig).ConvertToARM(resolved)
+		tlsConfig_ARM, err := definition.TlsConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4346,7 +4346,7 @@ func (definition *OCIRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Verify":
 	if definition.Verify != nil {
-		verify_ARM, err := (*definition.Verify).ConvertToARM(resolved)
+		verify_ARM, err := definition.Verify.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

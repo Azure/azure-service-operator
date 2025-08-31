@@ -294,7 +294,7 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertToARM(resolved genruntime.C
 
 	// Set property "Properties":
 	if rule.Properties != nil {
-		properties_ARM, err := (*rule.Properties).ConvertToARM(resolved)
+		properties_ARM, err := rule.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

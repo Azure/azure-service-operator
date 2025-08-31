@@ -297,7 +297,7 @@ func (endpoint *DataCollectionEndpoint_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Identity":
 	if endpoint.Identity != nil {
-		identity_ARM, err := (*endpoint.Identity).ConvertToARM(resolved)
+		identity_ARM, err := endpoint.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -331,7 +331,7 @@ func (endpoint *DataCollectionEndpoint_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.Description = &description
 	}
 	if endpoint.NetworkAcls != nil {
-		networkAcls_ARM, err := (*endpoint.NetworkAcls).ConvertToARM(resolved)
+		networkAcls_ARM, err := endpoint.NetworkAcls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

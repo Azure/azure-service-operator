@@ -352,7 +352,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Identity":
 	if workspace.Identity != nil {
-		identity_ARM, err := (*workspace.Identity).ConvertToARM(resolved)
+		identity_ARM, err := workspace.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -437,7 +437,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.EnableDataIsolation = &enableDataIsolation
 	}
 	if workspace.Encryption != nil {
-		encryption_ARM, err := (*workspace.Encryption).ConvertToARM(resolved)
+		encryption_ARM, err := workspace.Encryption.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -445,7 +445,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.Encryption = &encryption
 	}
 	if workspace.FeatureStoreSettings != nil {
-		featureStoreSettings_ARM, err := (*workspace.FeatureStoreSettings).ConvertToARM(resolved)
+		featureStoreSettings_ARM, err := workspace.FeatureStoreSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -481,7 +481,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.KeyVault = &keyVault
 	}
 	if workspace.ManagedNetwork != nil {
-		managedNetwork_ARM, err := (*workspace.ManagedNetwork).ConvertToARM(resolved)
+		managedNetwork_ARM, err := workspace.ManagedNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -503,7 +503,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if workspace.ServerlessComputeSettings != nil {
-		serverlessComputeSettings_ARM, err := (*workspace.ServerlessComputeSettings).ConvertToARM(resolved)
+		serverlessComputeSettings_ARM, err := workspace.ServerlessComputeSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -511,7 +511,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ServerlessComputeSettings = &serverlessComputeSettings
 	}
 	if workspace.ServiceManagedResourcesSettings != nil {
-		serviceManagedResourcesSettings_ARM, err := (*workspace.ServiceManagedResourcesSettings).ConvertToARM(resolved)
+		serviceManagedResourcesSettings_ARM, err := workspace.ServiceManagedResourcesSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -538,7 +538,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.V1LegacyMode = &v1LegacyMode
 	}
 	if workspace.WorkspaceHubConfig != nil {
-		workspaceHubConfig_ARM, err := (*workspace.WorkspaceHubConfig).ConvertToARM(resolved)
+		workspaceHubConfig_ARM, err := workspace.WorkspaceHubConfig.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -548,7 +548,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Sku":
 	if workspace.Sku != nil {
-		sku_ARM, err := (*workspace.Sku).ConvertToARM(resolved)
+		sku_ARM, err := workspace.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2819,7 +2819,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Identity":
 	if property.Identity != nil {
-		identity_ARM, err := (*property.Identity).ConvertToARM(resolved)
+		identity_ARM, err := property.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2829,7 +2829,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "KeyVaultProperties":
 	if property.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*property.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := property.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3145,7 +3145,7 @@ func (settings *FeatureStoreSettings) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "ComputeRuntime":
 	if settings.ComputeRuntime != nil {
-		computeRuntime_ARM, err := (*settings.ComputeRuntime).ConvertToARM(resolved)
+		computeRuntime_ARM, err := settings.ComputeRuntime.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3439,7 +3439,7 @@ func (settings *ManagedNetworkSettings) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Status":
 	if settings.Status != nil {
-		status_ARM, err := (*settings.Status).ConvertToARM(resolved)
+		status_ARM, err := settings.Status.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4217,7 +4217,7 @@ func (settings *ServiceManagedResourcesSettings) ConvertToARM(resolved genruntim
 
 	// Set property "CosmosDb":
 	if settings.CosmosDb != nil {
-		cosmosDb_ARM, err := (*settings.CosmosDb).ConvertToARM(resolved)
+		cosmosDb_ARM, err := settings.CosmosDb.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6195,7 +6195,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "FQDN":
 	if rule.FQDN != nil {
-		fqdn_ARM, err := (*rule.FQDN).ConvertToARM(resolved)
+		fqdn_ARM, err := rule.FQDN.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6205,7 +6205,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "PrivateEndpoint":
 	if rule.PrivateEndpoint != nil {
-		privateEndpoint_ARM, err := (*rule.PrivateEndpoint).ConvertToARM(resolved)
+		privateEndpoint_ARM, err := rule.PrivateEndpoint.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6215,7 +6215,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ServiceTag":
 	if rule.ServiceTag != nil {
-		serviceTag_ARM, err := (*rule.ServiceTag).ConvertToARM(resolved)
+		serviceTag_ARM, err := rule.ServiceTag.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7188,7 +7188,7 @@ func (rule *PrivateEndpointOutboundRule) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Destination":
 	if rule.Destination != nil {
-		destination_ARM, err := (*rule.Destination).ConvertToARM(resolved)
+		destination_ARM, err := rule.Destination.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7603,7 +7603,7 @@ func (rule *ServiceTagOutboundRule) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Destination":
 	if rule.Destination != nil {
-		destination_ARM, err := (*rule.Destination).ConvertToARM(resolved)
+		destination_ARM, err := rule.Destination.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

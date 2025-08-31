@@ -283,7 +283,7 @@ func (database *Database_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "ReadWrite":
 	if database.ReadWrite != nil {
-		readWrite_ARM, err := (*database.ReadWrite).ConvertToARM(resolved)
+		readWrite_ARM, err := database.ReadWrite.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -804,7 +804,7 @@ func (database *ReadWriteDatabase) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.HotCachePeriod = &hotCachePeriod
 	}
 	if database.KeyVaultProperties != nil {
-		keyVaultProperties_ARM, err := (*database.KeyVaultProperties).ConvertToARM(resolved)
+		keyVaultProperties_ARM, err := database.KeyVaultProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

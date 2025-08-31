@@ -1057,7 +1057,7 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Subnet":
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

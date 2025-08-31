@@ -282,7 +282,7 @@ func (instance *BackupVaultsBackupInstance_Spec) ConvertToARM(resolved genruntim
 
 	// Set property "Properties":
 	if instance.Properties != nil {
-		properties_ARM, err := (*instance.Properties).ConvertToARM(resolved)
+		properties_ARM, err := instance.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -814,7 +814,7 @@ func (instance *BackupInstance) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "DataSourceInfo":
 	if instance.DataSourceInfo != nil {
-		dataSourceInfo_ARM, err := (*instance.DataSourceInfo).ConvertToARM(resolved)
+		dataSourceInfo_ARM, err := instance.DataSourceInfo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -824,7 +824,7 @@ func (instance *BackupInstance) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "DataSourceSetInfo":
 	if instance.DataSourceSetInfo != nil {
-		dataSourceSetInfo_ARM, err := (*instance.DataSourceSetInfo).ConvertToARM(resolved)
+		dataSourceSetInfo_ARM, err := instance.DataSourceSetInfo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -834,7 +834,7 @@ func (instance *BackupInstance) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "DatasourceAuthCredentials":
 	if instance.DatasourceAuthCredentials != nil {
-		datasourceAuthCredentials_ARM, err := (*instance.DatasourceAuthCredentials).ConvertToARM(resolved)
+		datasourceAuthCredentials_ARM, err := instance.DatasourceAuthCredentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -850,7 +850,7 @@ func (instance *BackupInstance) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "IdentityDetails":
 	if instance.IdentityDetails != nil {
-		identityDetails_ARM, err := (*instance.IdentityDetails).ConvertToARM(resolved)
+		identityDetails_ARM, err := instance.IdentityDetails.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -866,7 +866,7 @@ func (instance *BackupInstance) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "PolicyInfo":
 	if instance.PolicyInfo != nil {
-		policyInfo_ARM, err := (*instance.PolicyInfo).ConvertToARM(resolved)
+		policyInfo_ARM, err := instance.PolicyInfo.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1759,7 +1759,7 @@ func (credentials *AuthCredentials) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "SecretStoreBasedAuthCredentials":
 	if credentials.SecretStoreBasedAuthCredentials != nil {
-		secretStoreBasedAuthCredentials_ARM, err := (*credentials.SecretStoreBasedAuthCredentials).ConvertToARM(resolved)
+		secretStoreBasedAuthCredentials_ARM, err := credentials.SecretStoreBasedAuthCredentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2077,7 +2077,7 @@ func (datasource *Datasource) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ResourceProperties":
 	if datasource.ResourceProperties != nil {
-		resourceProperties_ARM, err := (*datasource.ResourceProperties).ConvertToARM(resolved)
+		resourceProperties_ARM, err := datasource.ResourceProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2562,7 +2562,7 @@ func (datasourceSet *DatasourceSet) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ResourceProperties":
 	if datasourceSet.ResourceProperties != nil {
-		resourceProperties_ARM, err := (*datasourceSet.ResourceProperties).ConvertToARM(resolved)
+		resourceProperties_ARM, err := datasourceSet.ResourceProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3208,7 +3208,7 @@ func (info *PolicyInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "PolicyParameters":
 	if info.PolicyParameters != nil {
-		policyParameters_ARM, err := (*info.PolicyParameters).ConvertToARM(resolved)
+		policyParameters_ARM, err := info.PolicyParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3827,7 +3827,7 @@ func (properties *BaseResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "DefaultResourceProperties":
 	if properties.DefaultResourceProperties != nil {
-		defaultResourceProperties_ARM, err := (*properties.DefaultResourceProperties).ConvertToARM(resolved)
+		defaultResourceProperties_ARM, err := properties.DefaultResourceProperties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4529,7 +4529,7 @@ func (credentials *SecretStoreBasedAuthCredentials) ConvertToARM(resolved genrun
 
 	// Set property "SecretStoreResource":
 	if credentials.SecretStoreResource != nil {
-		secretStoreResource_ARM, err := (*credentials.SecretStoreResource).ConvertToARM(resolved)
+		secretStoreResource_ARM, err := credentials.SecretStoreResource.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4996,7 +4996,7 @@ func (parameters *BackupDatasourceParameters) ConvertToARM(resolved genruntime.C
 
 	// Set property "Blob":
 	if parameters.Blob != nil {
-		blob_ARM, err := (*parameters.Blob).ConvertToARM(resolved)
+		blob_ARM, err := parameters.Blob.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5006,7 +5006,7 @@ func (parameters *BackupDatasourceParameters) ConvertToARM(resolved genruntime.C
 
 	// Set property "KubernetesCluster":
 	if parameters.KubernetesCluster != nil {
-		kubernetesCluster_ARM, err := (*parameters.KubernetesCluster).ConvertToARM(resolved)
+		kubernetesCluster_ARM, err := parameters.KubernetesCluster.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5291,7 +5291,7 @@ func (parameters *DataStoreParameters) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "AzureOperationalStoreParameters":
 	if parameters.AzureOperationalStoreParameters != nil {
-		azureOperationalStoreParameters_ARM, err := (*parameters.AzureOperationalStoreParameters).ConvertToARM(resolved)
+		azureOperationalStoreParameters_ARM, err := parameters.AzureOperationalStoreParameters.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -306,7 +306,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties = &arm.EventSubscriptionProperties{}
 	}
 	if subscription.DeadLetterDestination != nil {
-		deadLetterDestination_ARM, err := (*subscription.DeadLetterDestination).ConvertToARM(resolved)
+		deadLetterDestination_ARM, err := subscription.DeadLetterDestination.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -314,7 +314,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.DeadLetterDestination = &deadLetterDestination
 	}
 	if subscription.Destination != nil {
-		destination_ARM, err := (*subscription.Destination).ConvertToARM(resolved)
+		destination_ARM, err := subscription.Destination.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -332,7 +332,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.ExpirationTimeUtc = &expirationTimeUtc
 	}
 	if subscription.Filter != nil {
-		filter_ARM, err := (*subscription.Filter).ConvertToARM(resolved)
+		filter_ARM, err := subscription.Filter.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -343,7 +343,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.Labels = append(result.Properties.Labels, item)
 	}
 	if subscription.RetryPolicy != nil {
-		retryPolicy_ARM, err := (*subscription.RetryPolicy).ConvertToARM(resolved)
+		retryPolicy_ARM, err := subscription.RetryPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1271,7 +1271,7 @@ func (destination *DeadLetterDestination) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "StorageBlob":
 	if destination.StorageBlob != nil {
-		storageBlob_ARM, err := (*destination.StorageBlob).ConvertToARM(resolved)
+		storageBlob_ARM, err := destination.StorageBlob.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1489,7 +1489,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "AzureFunction":
 	if destination.AzureFunction != nil {
-		azureFunction_ARM, err := (*destination.AzureFunction).ConvertToARM(resolved)
+		azureFunction_ARM, err := destination.AzureFunction.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1499,7 +1499,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "EventHub":
 	if destination.EventHub != nil {
-		eventHub_ARM, err := (*destination.EventHub).ConvertToARM(resolved)
+		eventHub_ARM, err := destination.EventHub.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1509,7 +1509,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "HybridConnection":
 	if destination.HybridConnection != nil {
-		hybridConnection_ARM, err := (*destination.HybridConnection).ConvertToARM(resolved)
+		hybridConnection_ARM, err := destination.HybridConnection.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1519,7 +1519,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "ServiceBusQueue":
 	if destination.ServiceBusQueue != nil {
-		serviceBusQueue_ARM, err := (*destination.ServiceBusQueue).ConvertToARM(resolved)
+		serviceBusQueue_ARM, err := destination.ServiceBusQueue.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1529,7 +1529,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "ServiceBusTopic":
 	if destination.ServiceBusTopic != nil {
-		serviceBusTopic_ARM, err := (*destination.ServiceBusTopic).ConvertToARM(resolved)
+		serviceBusTopic_ARM, err := destination.ServiceBusTopic.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1539,7 +1539,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "StorageQueue":
 	if destination.StorageQueue != nil {
-		storageQueue_ARM, err := (*destination.StorageQueue).ConvertToARM(resolved)
+		storageQueue_ARM, err := destination.StorageQueue.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1549,7 +1549,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 	// Set property "WebHook":
 	if destination.WebHook != nil {
-		webHook_ARM, err := (*destination.WebHook).ConvertToARM(resolved)
+		webHook_ARM, err := destination.WebHook.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3049,7 +3049,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "BoolEquals":
 	if filter.BoolEquals != nil {
-		boolEquals_ARM, err := (*filter.BoolEquals).ConvertToARM(resolved)
+		boolEquals_ARM, err := filter.BoolEquals.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3059,7 +3059,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "NumberGreaterThan":
 	if filter.NumberGreaterThan != nil {
-		numberGreaterThan_ARM, err := (*filter.NumberGreaterThan).ConvertToARM(resolved)
+		numberGreaterThan_ARM, err := filter.NumberGreaterThan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3069,7 +3069,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "NumberGreaterThanOrEquals":
 	if filter.NumberGreaterThanOrEquals != nil {
-		numberGreaterThanOrEquals_ARM, err := (*filter.NumberGreaterThanOrEquals).ConvertToARM(resolved)
+		numberGreaterThanOrEquals_ARM, err := filter.NumberGreaterThanOrEquals.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3079,7 +3079,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "NumberIn":
 	if filter.NumberIn != nil {
-		numberIn_ARM, err := (*filter.NumberIn).ConvertToARM(resolved)
+		numberIn_ARM, err := filter.NumberIn.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3089,7 +3089,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "NumberLessThan":
 	if filter.NumberLessThan != nil {
-		numberLessThan_ARM, err := (*filter.NumberLessThan).ConvertToARM(resolved)
+		numberLessThan_ARM, err := filter.NumberLessThan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3099,7 +3099,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "NumberLessThanOrEquals":
 	if filter.NumberLessThanOrEquals != nil {
-		numberLessThanOrEquals_ARM, err := (*filter.NumberLessThanOrEquals).ConvertToARM(resolved)
+		numberLessThanOrEquals_ARM, err := filter.NumberLessThanOrEquals.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3109,7 +3109,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "NumberNotIn":
 	if filter.NumberNotIn != nil {
-		numberNotIn_ARM, err := (*filter.NumberNotIn).ConvertToARM(resolved)
+		numberNotIn_ARM, err := filter.NumberNotIn.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3119,7 +3119,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "StringBeginsWith":
 	if filter.StringBeginsWith != nil {
-		stringBeginsWith_ARM, err := (*filter.StringBeginsWith).ConvertToARM(resolved)
+		stringBeginsWith_ARM, err := filter.StringBeginsWith.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3129,7 +3129,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "StringContains":
 	if filter.StringContains != nil {
-		stringContains_ARM, err := (*filter.StringContains).ConvertToARM(resolved)
+		stringContains_ARM, err := filter.StringContains.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3139,7 +3139,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "StringEndsWith":
 	if filter.StringEndsWith != nil {
-		stringEndsWith_ARM, err := (*filter.StringEndsWith).ConvertToARM(resolved)
+		stringEndsWith_ARM, err := filter.StringEndsWith.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3149,7 +3149,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "StringIn":
 	if filter.StringIn != nil {
-		stringIn_ARM, err := (*filter.StringIn).ConvertToARM(resolved)
+		stringIn_ARM, err := filter.StringIn.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3159,7 +3159,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "StringNotIn":
 	if filter.StringNotIn != nil {
-		stringNotIn_ARM, err := (*filter.StringNotIn).ConvertToARM(resolved)
+		stringNotIn_ARM, err := filter.StringNotIn.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

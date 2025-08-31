@@ -345,7 +345,7 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.InputSchema = &inputSchema
 	}
 	if topic.InputSchemaMapping != nil {
-		inputSchemaMapping_ARM, err := (*topic.InputSchemaMapping).ConvertToARM(resolved)
+		inputSchemaMapping_ARM, err := topic.InputSchemaMapping.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

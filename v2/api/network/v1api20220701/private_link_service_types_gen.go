@@ -324,7 +324,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "ExtendedLocation":
 	if service.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*service.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := service.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -351,7 +351,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties = &arm.PrivateLinkServiceProperties{}
 	}
 	if service.AutoApproval != nil {
-		autoApproval_ARM, err := (*service.AutoApproval).ConvertToARM(resolved)
+		autoApproval_ARM, err := service.AutoApproval.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -380,7 +380,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.LoadBalancerFrontendIpConfigurations = append(result.Properties.LoadBalancerFrontendIpConfigurations, *item_ARM.(*arm.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded))
 	}
 	if service.Visibility != nil {
-		visibility_ARM, err := (*service.Visibility).ConvertToARM(resolved)
+		visibility_ARM, err := service.Visibility.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1774,7 +1774,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

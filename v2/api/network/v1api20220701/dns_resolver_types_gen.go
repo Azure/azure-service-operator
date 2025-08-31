@@ -296,7 +296,7 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties = &arm.DnsResolverProperties{}
 	}
 	if resolver.VirtualNetwork != nil {
-		virtualNetwork_ARM, err := (*resolver.VirtualNetwork).ConvertToARM(resolved)
+		virtualNetwork_ARM, err := resolver.VirtualNetwork.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

@@ -233,7 +233,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Properties":
 	if resource.Properties != nil {
-		properties_ARM, err := (*resource.Properties).ConvertToARM(resolved)
+		properties_ARM, err := resource.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

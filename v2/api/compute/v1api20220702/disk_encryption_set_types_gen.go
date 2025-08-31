@@ -310,7 +310,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Identity":
 	if encryptionSet.Identity != nil {
-		identity_ARM, err := (*encryptionSet.Identity).ConvertToARM(resolved)
+		identity_ARM, err := encryptionSet.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -336,7 +336,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties = &arm.EncryptionSetProperties{}
 	}
 	if encryptionSet.ActiveKey != nil {
-		activeKey_ARM, err := (*encryptionSet.ActiveKey).ConvertToARM(resolved)
+		activeKey_ARM, err := encryptionSet.ActiveKey.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1852,7 +1852,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) ConvertToARM(resolved genruntime.C
 
 	// Set property "SourceVault":
 	if encryptionSet.SourceVault != nil {
-		sourceVault_ARM, err := (*encryptionSet.SourceVault).ConvertToARM(resolved)
+		sourceVault_ARM, err := encryptionSet.SourceVault.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

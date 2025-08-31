@@ -328,7 +328,7 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.InputSchema = &inputSchema
 	}
 	if domain.InputSchemaMapping != nil {
-		inputSchemaMapping_ARM, err := (*domain.InputSchemaMapping).ConvertToARM(resolved)
+		inputSchemaMapping_ARM, err := domain.InputSchemaMapping.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1646,7 +1646,7 @@ func (mapping *InputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Json":
 	if mapping.Json != nil {
-		json_ARM, err := (*mapping.Json).ConvertToARM(resolved)
+		json_ARM, err := mapping.Json.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2119,7 +2119,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties = &arm.JsonInputSchemaMappingProperties{}
 	}
 	if mapping.DataVersion != nil {
-		dataVersion_ARM, err := (*mapping.DataVersion).ConvertToARM(resolved)
+		dataVersion_ARM, err := mapping.DataVersion.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2127,7 +2127,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.DataVersion = &dataVersion
 	}
 	if mapping.EventTime != nil {
-		eventTime_ARM, err := (*mapping.EventTime).ConvertToARM(resolved)
+		eventTime_ARM, err := mapping.EventTime.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2135,7 +2135,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.EventTime = &eventTime
 	}
 	if mapping.EventType != nil {
-		eventType_ARM, err := (*mapping.EventType).ConvertToARM(resolved)
+		eventType_ARM, err := mapping.EventType.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2143,7 +2143,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.EventType = &eventType
 	}
 	if mapping.Id != nil {
-		id_ARM, err := (*mapping.Id).ConvertToARM(resolved)
+		id_ARM, err := mapping.Id.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2151,7 +2151,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.Id = &id
 	}
 	if mapping.Subject != nil {
-		subject_ARM, err := (*mapping.Subject).ConvertToARM(resolved)
+		subject_ARM, err := mapping.Subject.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2159,7 +2159,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.Subject = &subject
 	}
 	if mapping.Topic != nil {
-		topic_ARM, err := (*mapping.Topic).ConvertToARM(resolved)
+		topic_ARM, err := mapping.Topic.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

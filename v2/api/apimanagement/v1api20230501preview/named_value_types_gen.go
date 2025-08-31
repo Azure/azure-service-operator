@@ -315,7 +315,7 @@ func (value *NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties.DisplayName = &displayName
 	}
 	if value.KeyVault != nil {
-		keyVault_ARM, err := (*value.KeyVault).ConvertToARM(resolved)
+		keyVault_ARM, err := value.KeyVault.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

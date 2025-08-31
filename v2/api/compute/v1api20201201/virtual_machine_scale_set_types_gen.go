@@ -351,7 +351,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "ExtendedLocation":
 	if scaleSet.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*scaleSet.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := scaleSet.ExtendedLocation.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -361,7 +361,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Identity":
 	if scaleSet.Identity != nil {
-		identity_ARM, err := (*scaleSet.Identity).ConvertToARM(resolved)
+		identity_ARM, err := scaleSet.Identity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -380,7 +380,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Plan":
 	if scaleSet.Plan != nil {
-		plan_ARM, err := (*scaleSet.Plan).ConvertToARM(resolved)
+		plan_ARM, err := scaleSet.Plan.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -405,7 +405,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties = &arm.VirtualMachineScaleSetProperties{}
 	}
 	if scaleSet.AdditionalCapabilities != nil {
-		additionalCapabilities_ARM, err := (*scaleSet.AdditionalCapabilities).ConvertToARM(resolved)
+		additionalCapabilities_ARM, err := scaleSet.AdditionalCapabilities.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -413,7 +413,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.AdditionalCapabilities = &additionalCapabilities
 	}
 	if scaleSet.AutomaticRepairsPolicy != nil {
-		automaticRepairsPolicy_ARM, err := (*scaleSet.AutomaticRepairsPolicy).ConvertToARM(resolved)
+		automaticRepairsPolicy_ARM, err := scaleSet.AutomaticRepairsPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -425,7 +425,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVMs
 	}
 	if scaleSet.HostGroup != nil {
-		hostGroup_ARM, err := (*scaleSet.HostGroup).ConvertToARM(resolved)
+		hostGroup_ARM, err := scaleSet.HostGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -447,7 +447,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.PlatformFaultDomainCount = &platformFaultDomainCount
 	}
 	if scaleSet.ProximityPlacementGroup != nil {
-		proximityPlacementGroup_ARM, err := (*scaleSet.ProximityPlacementGroup).ConvertToARM(resolved)
+		proximityPlacementGroup_ARM, err := scaleSet.ProximityPlacementGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -455,7 +455,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if scaleSet.ScaleInPolicy != nil {
-		scaleInPolicy_ARM, err := (*scaleSet.ScaleInPolicy).ConvertToARM(resolved)
+		scaleInPolicy_ARM, err := scaleSet.ScaleInPolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -467,7 +467,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.SinglePlacementGroup = &singlePlacementGroup
 	}
 	if scaleSet.UpgradePolicy != nil {
-		upgradePolicy_ARM, err := (*scaleSet.UpgradePolicy).ConvertToARM(resolved)
+		upgradePolicy_ARM, err := scaleSet.UpgradePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -475,7 +475,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.UpgradePolicy = &upgradePolicy
 	}
 	if scaleSet.VirtualMachineProfile != nil {
-		virtualMachineProfile_ARM, err := (*scaleSet.VirtualMachineProfile).ConvertToARM(resolved)
+		virtualMachineProfile_ARM, err := scaleSet.VirtualMachineProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -489,7 +489,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Sku":
 	if scaleSet.Sku != nil {
-		sku_ARM, err := (*scaleSet.Sku).ConvertToARM(resolved)
+		sku_ARM, err := scaleSet.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2764,7 +2764,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "AutomaticOSUpgradePolicy":
 	if policy.AutomaticOSUpgradePolicy != nil {
-		automaticOSUpgradePolicy_ARM, err := (*policy.AutomaticOSUpgradePolicy).ConvertToARM(resolved)
+		automaticOSUpgradePolicy_ARM, err := policy.AutomaticOSUpgradePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2782,7 +2782,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "RollingUpgradePolicy":
 	if policy.RollingUpgradePolicy != nil {
-		rollingUpgradePolicy_ARM, err := (*policy.RollingUpgradePolicy).ConvertToARM(resolved)
+		rollingUpgradePolicy_ARM, err := policy.RollingUpgradePolicy.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3551,7 +3551,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "BillingProfile":
 	if profile.BillingProfile != nil {
-		billingProfile_ARM, err := (*profile.BillingProfile).ConvertToARM(resolved)
+		billingProfile_ARM, err := profile.BillingProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3561,7 +3561,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "DiagnosticsProfile":
 	if profile.DiagnosticsProfile != nil {
-		diagnosticsProfile_ARM, err := (*profile.DiagnosticsProfile).ConvertToARM(resolved)
+		diagnosticsProfile_ARM, err := profile.DiagnosticsProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3579,7 +3579,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "ExtensionProfile":
 	if profile.ExtensionProfile != nil {
-		extensionProfile_ARM, err := (*profile.ExtensionProfile).ConvertToARM(resolved)
+		extensionProfile_ARM, err := profile.ExtensionProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3595,7 +3595,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "NetworkProfile":
 	if profile.NetworkProfile != nil {
-		networkProfile_ARM, err := (*profile.NetworkProfile).ConvertToARM(resolved)
+		networkProfile_ARM, err := profile.NetworkProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3605,7 +3605,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "OsProfile":
 	if profile.OsProfile != nil {
-		osProfile_ARM, err := (*profile.OsProfile).ConvertToARM(resolved)
+		osProfile_ARM, err := profile.OsProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3623,7 +3623,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "ScheduledEventsProfile":
 	if profile.ScheduledEventsProfile != nil {
-		scheduledEventsProfile_ARM, err := (*profile.ScheduledEventsProfile).ConvertToARM(resolved)
+		scheduledEventsProfile_ARM, err := profile.ScheduledEventsProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3633,7 +3633,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "SecurityProfile":
 	if profile.SecurityProfile != nil {
-		securityProfile_ARM, err := (*profile.SecurityProfile).ConvertToARM(resolved)
+		securityProfile_ARM, err := profile.SecurityProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3643,7 +3643,7 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "StorageProfile":
 	if profile.StorageProfile != nil {
-		storageProfile_ARM, err := (*profile.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := profile.StorageProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5111,7 +5111,7 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "TerminateNotificationProfile":
 	if profile.TerminateNotificationProfile != nil {
-		terminateNotificationProfile_ARM, err := (*profile.TerminateNotificationProfile).ConvertToARM(resolved)
+		terminateNotificationProfile_ARM, err := profile.TerminateNotificationProfile.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5683,7 +5683,7 @@ func (profile *VirtualMachineScaleSetNetworkProfile) ConvertToARM(resolved genru
 
 	// Set property "HealthProbe":
 	if profile.HealthProbe != nil {
-		healthProbe_ARM, err := (*profile.HealthProbe).ConvertToARM(resolved)
+		healthProbe_ARM, err := profile.HealthProbe.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6053,7 +6053,7 @@ func (profile *VirtualMachineScaleSetOSProfile) ConvertToARM(resolved genruntime
 
 	// Set property "LinuxConfiguration":
 	if profile.LinuxConfiguration != nil {
-		linuxConfiguration_ARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
+		linuxConfiguration_ARM, err := profile.LinuxConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6072,7 +6072,7 @@ func (profile *VirtualMachineScaleSetOSProfile) ConvertToARM(resolved genruntime
 
 	// Set property "WindowsConfiguration":
 	if profile.WindowsConfiguration != nil {
-		windowsConfiguration_ARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
+		windowsConfiguration_ARM, err := profile.WindowsConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6563,7 +6563,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 
 	// Set property "ImageReference":
 	if profile.ImageReference != nil {
-		imageReference_ARM, err := (*profile.ImageReference).ConvertToARM(resolved)
+		imageReference_ARM, err := profile.ImageReference.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6573,7 +6573,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 
 	// Set property "OsDisk":
 	if profile.OsDisk != nil {
-		osDisk_ARM, err := (*profile.OsDisk).ConvertToARM(resolved)
+		osDisk_ARM, err := profile.OsDisk.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7340,7 +7340,7 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 
 	// Set property "ManagedDisk":
 	if disk.ManagedDisk != nil {
-		managedDisk_ARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
+		managedDisk_ARM, err := disk.ManagedDisk.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8520,7 +8520,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) ConvertToARM(re
 		result.Properties = &arm.VirtualMachineScaleSetNetworkConfigurationProperties{}
 	}
 	if configuration.DnsSettings != nil {
-		dnsSettings_ARM, err := (*configuration.DnsSettings).ConvertToARM(resolved)
+		dnsSettings_ARM, err := configuration.DnsSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8547,7 +8547,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) ConvertToARM(re
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.VirtualMachineScaleSetIPConfiguration))
 	}
 	if configuration.NetworkSecurityGroup != nil {
-		networkSecurityGroup_ARM, err := (*configuration.NetworkSecurityGroup).ConvertToARM(resolved)
+		networkSecurityGroup_ARM, err := configuration.NetworkSecurityGroup.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9251,7 +9251,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "DiffDiskSettings":
 	if disk.DiffDiskSettings != nil {
-		diffDiskSettings_ARM, err := (*disk.DiffDiskSettings).ConvertToARM(resolved)
+		diffDiskSettings_ARM, err := disk.DiffDiskSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9267,7 +9267,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Image":
 	if disk.Image != nil {
-		image_ARM, err := (*disk.Image).ConvertToARM(resolved)
+		image_ARM, err := disk.Image.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9277,7 +9277,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "ManagedDisk":
 	if disk.ManagedDisk != nil {
-		managedDisk_ARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
+		managedDisk_ARM, err := disk.ManagedDisk.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10030,7 +10030,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) ConvertToARM(resolve
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if configuration.PublicIPAddressConfiguration != nil {
-		publicIPAddressConfiguration_ARM, err := (*configuration.PublicIPAddressConfiguration).ConvertToARM(resolved)
+		publicIPAddressConfiguration_ARM, err := configuration.PublicIPAddressConfiguration.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10038,7 +10038,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) ConvertToARM(resolve
 		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	}
 	if configuration.Subnet != nil {
-		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10893,7 +10893,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(reso
 
 	// Set property "DiskEncryptionSet":
 	if parameters.DiskEncryptionSet != nil {
-		diskEncryptionSet_ARM, err := (*parameters.DiskEncryptionSet).ConvertToARM(resolved)
+		diskEncryptionSet_ARM, err := parameters.DiskEncryptionSet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11352,7 +11352,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Convert
 		result.Properties = &arm.VirtualMachineScaleSetPublicIPAddressConfigurationProperties{}
 	}
 	if configuration.DnsSettings != nil {
-		dnsSettings_ARM, err := (*configuration.DnsSettings).ConvertToARM(resolved)
+		dnsSettings_ARM, err := configuration.DnsSettings.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11377,7 +11377,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Convert
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 	if configuration.PublicIPPrefix != nil {
-		publicIPPrefix_ARM, err := (*configuration.PublicIPPrefix).ConvertToARM(resolved)
+		publicIPPrefix_ARM, err := configuration.PublicIPPrefix.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

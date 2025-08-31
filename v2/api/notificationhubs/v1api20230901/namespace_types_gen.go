@@ -327,7 +327,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Properties":
 	if namespace.Properties != nil {
-		properties_ARM, err := (*namespace.Properties).ConvertToARM(resolved)
+		properties_ARM, err := namespace.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -337,7 +337,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Sku":
 	if namespace.Sku != nil {
-		sku_ARM, err := (*namespace.Sku).ConvertToARM(resolved)
+		sku_ARM, err := namespace.Sku.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1151,7 +1151,7 @@ func (properties *NamespaceProperties) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "NetworkAcls":
 	if properties.NetworkAcls != nil {
-		networkAcls_ARM, err := (*properties.NetworkAcls).ConvertToARM(resolved)
+		networkAcls_ARM, err := properties.NetworkAcls.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1161,7 +1161,7 @@ func (properties *NamespaceProperties) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "PnsCredentials":
 	if properties.PnsCredentials != nil {
-		pnsCredentials_ARM, err := (*properties.PnsCredentials).ConvertToARM(resolved)
+		pnsCredentials_ARM, err := properties.PnsCredentials.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2748,7 +2748,7 @@ func (acls *NetworkAcls) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "PublicNetworkRule":
 	if acls.PublicNetworkRule != nil {
-		publicNetworkRule_ARM, err := (*acls.PublicNetworkRule).ConvertToARM(resolved)
+		publicNetworkRule_ARM, err := acls.PublicNetworkRule.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3109,7 +3109,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "AdmCredential":
 	if credentials.AdmCredential != nil {
-		admCredential_ARM, err := (*credentials.AdmCredential).ConvertToARM(resolved)
+		admCredential_ARM, err := credentials.AdmCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3119,7 +3119,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "ApnsCredential":
 	if credentials.ApnsCredential != nil {
-		apnsCredential_ARM, err := (*credentials.ApnsCredential).ConvertToARM(resolved)
+		apnsCredential_ARM, err := credentials.ApnsCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3129,7 +3129,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "BaiduCredential":
 	if credentials.BaiduCredential != nil {
-		baiduCredential_ARM, err := (*credentials.BaiduCredential).ConvertToARM(resolved)
+		baiduCredential_ARM, err := credentials.BaiduCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3139,7 +3139,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "BrowserCredential":
 	if credentials.BrowserCredential != nil {
-		browserCredential_ARM, err := (*credentials.BrowserCredential).ConvertToARM(resolved)
+		browserCredential_ARM, err := credentials.BrowserCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3149,7 +3149,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "GcmCredential":
 	if credentials.GcmCredential != nil {
-		gcmCredential_ARM, err := (*credentials.GcmCredential).ConvertToARM(resolved)
+		gcmCredential_ARM, err := credentials.GcmCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3159,7 +3159,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "MpnsCredential":
 	if credentials.MpnsCredential != nil {
-		mpnsCredential_ARM, err := (*credentials.MpnsCredential).ConvertToARM(resolved)
+		mpnsCredential_ARM, err := credentials.MpnsCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3169,7 +3169,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "WnsCredential":
 	if credentials.WnsCredential != nil {
-		wnsCredential_ARM, err := (*credentials.WnsCredential).ConvertToARM(resolved)
+		wnsCredential_ARM, err := credentials.WnsCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3179,7 +3179,7 @@ func (credentials *PnsCredentials) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "XiaomiCredential":
 	if credentials.XiaomiCredential != nil {
-		xiaomiCredential_ARM, err := (*credentials.XiaomiCredential).ConvertToARM(resolved)
+		xiaomiCredential_ARM, err := credentials.XiaomiCredential.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}

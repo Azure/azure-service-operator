@@ -294,7 +294,7 @@ func (rule *NotificationHubsAuthorizationRule_Spec) ConvertToARM(resolved genrun
 
 	// Set property "Properties":
 	if rule.Properties != nil {
-		properties_ARM, err := (*rule.Properties).ConvertToARM(resolved)
+		properties_ARM, err := rule.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
