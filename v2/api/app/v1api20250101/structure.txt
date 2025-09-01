@@ -305,7 +305,7 @@ ContainerApp: Resource
 │   │   │       ├── "info"
 │   │   │       └── "warn"
 │   │   ├── IdentitySettings: Object (2 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   └── Lifecycle: *Enum (4 values)
 │   │   │       ├── "All"
 │   │   │       ├── "Init"
@@ -360,7 +360,7 @@ ContainerApp: Resource
 │   │   │       └── "tcp"
 │   │   ├── MaxInactiveRevisions: *int
 │   │   ├── Registries: Object (4 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   ├── PasswordSecretRef: *string
 │   │   │   ├── Server: *string
 │   │   │   └── Username: *string
@@ -368,7 +368,7 @@ ContainerApp: Resource
 │   │   │   └── Java: *Object (1 property)
 │   │   │       └── EnableMetrics: *bool
 │   │   ├── Secrets: Object (4 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   ├── Name: *string
 │   │   │   └── Value: *genruntime.SecretReference
@@ -467,28 +467,28 @@ ContainerApp: Resource
 │   │   │       │   ├── Auth: Object (2 properties)[]
 │   │   │       │   │   ├── SecretRef: *string
 │   │   │       │   │   └── TriggerParameter: *string
-│   │   │       │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │       │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │       │   ├── QueueLength: *int
 │   │   │       │   └── QueueName: *string
 │   │   │       ├── Custom: *Object (4 properties)
 │   │   │       │   ├── Auth: Object (2 properties)[]
 │   │   │       │   │   ├── SecretRef: *string
 │   │   │       │   │   └── TriggerParameter: *string
-│   │   │       │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │       │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │       │   ├── Metadata: map[string]string
 │   │   │       │   └── Type: *string
 │   │   │       ├── Http: *Object (3 properties)
 │   │   │       │   ├── Auth: Object (2 properties)[]
 │   │   │       │   │   ├── SecretRef: *string
 │   │   │       │   │   └── TriggerParameter: *string
-│   │   │       │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │       │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │       │   └── Metadata: map[string]string
 │   │   │       ├── Name: *string
 │   │   │       └── Tcp: *Object (3 properties)
 │   │   │           ├── Auth: Object (2 properties)[]
 │   │   │           │   ├── SecretRef: *string
 │   │   │           │   └── TriggerParameter: *string
-│   │   │           ├── IdentityReference: *genruntime.ResourceReference
+│   │   │           ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │           └── Metadata: map[string]string
 │   │   ├── ServiceBinds: Object (2 properties)[]
 │   │   │   ├── Name: *string
@@ -783,12 +783,12 @@ Job: Resource
 │   │   │           ├── Auth: Object (2 properties)[]
 │   │   │           │   ├── SecretRef: *string
 │   │   │           │   └── TriggerParameter: *string
-│   │   │           ├── IdentityReference: *genruntime.ResourceReference
+│   │   │           ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │           ├── Metadata: map[string]v1.JSON
 │   │   │           ├── Name: *string
 │   │   │           └── Type: *string
 │   │   ├── IdentitySettings: Object (2 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   └── Lifecycle: *Enum (4 values)
 │   │   │       ├── "All"
 │   │   │       ├── "Init"
@@ -798,7 +798,7 @@ Job: Resource
 │   │   │   ├── Parallelism: *int
 │   │   │   └── ReplicaCompletionCount: *int
 │   │   ├── Registries: Object (4 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   ├── PasswordSecretRef: *string
 │   │   │   ├── Server: *string
 │   │   │   └── Username: *string
@@ -809,7 +809,7 @@ Job: Resource
 │   │   │   ├── Parallelism: *int
 │   │   │   └── ReplicaCompletionCount: *int
 │   │   ├── Secrets: Object (4 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   ├── Name: *string
 │   │   │   └── Value: *genruntime.SecretReference
@@ -1073,7 +1073,7 @@ ManagedEnvironment: Resource
 │   ├── AzureName: string
 │   ├── CustomDomainConfiguration: *Object (4 properties)
 │   │   ├── CertificateKeyVaultProperties: *Object (2 properties)
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
 │   │   │   └── KeyVaultUrl: Validated<*string> (1 rule)
 │   │   │       └── Rule 0: Pattern: "^[a-zA-Z][a-zA-Z0-9+-.]*:[^\\s]*$"
 │   │   ├── CertificatePassword: *genruntime.SecretReference
