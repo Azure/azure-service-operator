@@ -86,6 +86,68 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
+func Test_Authorization_RoleAssignmentOfBuiltInRole_OnResourceGroup_CRUD(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	configMapName := "my-configmap"
+	principalIdKey := "principalId"
+
+	// Create a dummy managed identity which we will assign to a role
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  principalIdKey,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
+
+	// Now assign that managed identity to a new role
+	roleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMeta("roleassignment"),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(rg),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  principalIdKey,
+			},
+			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+				WellknownName: "Contributor",
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(roleAssignment)
+
+	tc.Expect(roleAssignment.Status.Id).ToNot(BeNil())
+	armId := *roleAssignment.Status.Id
+
+	tc.DeleteResourceAndWait(roleAssignment)
+
+	// Ensure that the resource group was really deleted in Azure
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
+		tc.Ctx,
+		armId,
+		string(authorization.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
+}
+
 func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	t.Parallel()
 
