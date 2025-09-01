@@ -20,6 +20,8 @@ type directClient struct {
 	inner client.Client
 }
 
+var _ client.Client = &directClient{}
+
 // NewTestClient is a thin wrapper around controller-runtime client.New, except that we
 // repopulate the objects GVK since for some reason they do that in the cached client and not
 // in the direct one...
@@ -32,6 +34,10 @@ func NewTestClient(config *rest.Config, options client.Options) (client.Client, 
 	return &directClient{
 		inner: inner,
 	}, nil
+}
+
+func (c *directClient) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...client.ApplyOption) error {
+	return c.inner.Apply(ctx, obj, opts...)
 }
 
 func (d *directClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object, opts ...client.GetOption) error {
