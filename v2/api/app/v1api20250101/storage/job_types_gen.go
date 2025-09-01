@@ -382,11 +382,11 @@ type JobScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
-	Metadata          map[string]v1.JSON            `json:"metadata,omitempty"`
-	Name              *string                       `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type              *string                       `json:"type,omitempty"`
+	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	Metadata          map[string]v1.JSON                     `json:"metadata,omitempty"`
+	Name              *string                                `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	Type              *string                                `json:"type,omitempty"`
 }
 
 // Storage version of v1api20250101.JobScaleRule_STATUS

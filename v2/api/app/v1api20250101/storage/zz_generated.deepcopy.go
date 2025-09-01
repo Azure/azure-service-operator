@@ -1344,7 +1344,7 @@ func (in *CertificateKeyVaultProperties) DeepCopyInto(out *CertificateKeyVaultPr
 	*out = *in
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.KeyVaultUrl != nil {
@@ -2965,7 +2965,7 @@ func (in *CustomScaleRule) DeepCopyInto(out *CustomScaleRule) {
 	}
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -3864,7 +3864,7 @@ func (in *HttpScaleRule) DeepCopyInto(out *HttpScaleRule) {
 	}
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -4195,7 +4195,7 @@ func (in *IdentitySettings) DeepCopyInto(out *IdentitySettings) {
 	*out = *in
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.Lifecycle != nil {
@@ -5168,7 +5168,7 @@ func (in *JobScaleRule) DeepCopyInto(out *JobScaleRule) {
 	}
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -6948,7 +6948,7 @@ func (in *QueueScaleRule) DeepCopyInto(out *QueueScaleRule) {
 	}
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.PropertyBag != nil {
@@ -7034,7 +7034,7 @@ func (in *RegistryCredentials) DeepCopyInto(out *RegistryCredentials) {
 	*out = *in
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.PasswordSecretRef != nil {
@@ -7482,7 +7482,7 @@ func (in *Secret) DeepCopyInto(out *Secret) {
 	*out = *in
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.KeyVaultUrl != nil {
@@ -7802,7 +7802,7 @@ func (in *TcpScaleRule) DeepCopyInto(out *TcpScaleRule) {
 	}
 	if in.IdentityReference != nil {
 		in, out := &in.IdentityReference, &out.IdentityReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellknownResourceReference)
 		**out = **in
 	}
 	if in.Metadata != nil {

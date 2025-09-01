@@ -4380,11 +4380,11 @@ func (ingress *Ingress_STATUS) AssignProperties_To_Ingress_STATUS(destination *s
 type RegistryCredentials struct {
 	// IdentityReference: A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned
 	// identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system'
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
-	PasswordSecretRef *string                       `json:"passwordSecretRef,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Server            *string                       `json:"server,omitempty"`
-	Username          *string                       `json:"username,omitempty"`
+	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	PasswordSecretRef *string                                `json:"passwordSecretRef,omitempty"`
+	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	Server            *string                                `json:"server,omitempty"`
+	Username          *string                                `json:"username,omitempty"`
 }
 
 // AssignProperties_From_RegistryCredentials populates our RegistryCredentials from the provided source RegistryCredentials
@@ -4854,11 +4854,11 @@ func (scale *Scale_STATUS) AssignProperties_To_Scale_STATUS(destination *storage
 type Secret struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
-	KeyVaultUrl       *string                       `json:"keyVaultUrl,omitempty"`
-	Name              *string                       `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Value             *genruntime.SecretReference   `json:"value,omitempty"`
+	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	KeyVaultUrl       *string                                `json:"keyVaultUrl,omitempty"`
+	Name              *string                                `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	Value             *genruntime.SecretReference            `json:"value,omitempty"`
 }
 
 // AssignProperties_From_Secret populates our Secret from the provided source Secret
@@ -8677,7 +8677,7 @@ func (rule *CustomScaleRule) AssignProperties_To_CustomScaleRule(destination *st
 
 	// IdentityReference
 	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.ResourceReference
+		var identityReference genruntime.WellknownResourceReference
 		err := propertyBag.Pull("IdentityReference", &identityReference)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
@@ -8927,7 +8927,7 @@ func (rule *HttpScaleRule) AssignProperties_To_HttpScaleRule(destination *storag
 
 	// IdentityReference
 	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.ResourceReference
+		var identityReference genruntime.WellknownResourceReference
 		err := propertyBag.Pull("IdentityReference", &identityReference)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
@@ -9191,7 +9191,7 @@ func (rule *QueueScaleRule) AssignProperties_To_QueueScaleRule(destination *stor
 
 	// IdentityReference
 	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.ResourceReference
+		var identityReference genruntime.WellknownResourceReference
 		err := propertyBag.Pull("IdentityReference", &identityReference)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
@@ -9461,7 +9461,7 @@ func (rule *TcpScaleRule) AssignProperties_To_TcpScaleRule(destination *storage.
 
 	// IdentityReference
 	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.ResourceReference
+		var identityReference genruntime.WellknownResourceReference
 		err := propertyBag.Pull("IdentityReference", &identityReference)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
