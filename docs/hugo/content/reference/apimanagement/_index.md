@@ -5,6 +5,27 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                         | ARM Version | CRD Version   | Supported From | Sample |
+|--------------------------------------------------|-------------|---------------|----------------|--------|
+| Api                                              | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| ApiVersionSet                                    | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| AuthorizationProvider                            | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| AuthorizationProvidersAuthorization              | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| AuthorizationProvidersAuthorizationsAccessPolicy | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| Backend                                          | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| NamedValue                                       | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| Policy                                           | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| PolicyFragment                                   | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| Product                                          | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| ProductApi                                       | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| ProductPolicy                                    | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| Service                                          | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| Subscription                                     | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

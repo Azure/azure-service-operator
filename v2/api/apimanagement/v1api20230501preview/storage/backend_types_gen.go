@@ -4,8 +4,8 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801sc "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage/compat"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Backend{}
 
 // ConvertFrom populates our Backend from the provided hub Backend
 func (backend *Backend) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Backend)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Backend but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220801s.Backend
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return backend.AssignProperties_From_Backend(source)
+	err = backend.AssignProperties_From_Backend(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to backend")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Backend from our Backend
 func (backend *Backend) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Backend)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Backend but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220801s.Backend
+	err := backend.AssignProperties_To_Backend(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from backend")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return backend.AssignProperties_To_Backend(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Backend{}
@@ -166,7 +180,7 @@ func (backend *Backend) SetStatus(status genruntime.ConvertibleStatus) error {
 }
 
 // AssignProperties_From_Backend populates our Backend from the provided source Backend
-func (backend *Backend) AssignProperties_From_Backend(source *storage.Backend) error {
+func (backend *Backend) AssignProperties_From_Backend(source *v20220801s.Backend) error {
 
 	// ObjectMeta
 	backend.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -201,13 +215,13 @@ func (backend *Backend) AssignProperties_From_Backend(source *storage.Backend) e
 }
 
 // AssignProperties_To_Backend populates the provided destination Backend from our Backend
-func (backend *Backend) AssignProperties_To_Backend(destination *storage.Backend) error {
+func (backend *Backend) AssignProperties_To_Backend(destination *v20220801s.Backend) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *backend.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Backend_Spec
+	var spec v20220801s.Backend_Spec
 	err := backend.Spec.AssignProperties_To_Backend_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_Backend_Spec() to populate field Spec")
@@ -215,7 +229,7 @@ func (backend *Backend) AssignProperties_To_Backend(destination *storage.Backend
 	destination.Spec = spec
 
 	// Status
-	var status storage.Backend_STATUS
+	var status v20220801s.Backend_STATUS
 	err = backend.Status.AssignProperties_To_Backend_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_Backend_STATUS() to populate field Status")
@@ -256,8 +270,8 @@ type BackendList struct {
 }
 
 type augmentConversionForBackend interface {
-	AssignPropertiesFrom(src *storage.Backend) error
-	AssignPropertiesTo(dst *storage.Backend) error
+	AssignPropertiesFrom(src *v20220801s.Backend) error
+	AssignPropertiesTo(dst *v20220801s.Backend) error
 }
 
 // Storage version of v1api20230501preview.Backend_Spec
@@ -295,14 +309,14 @@ var _ genruntime.ConvertibleSpec = &Backend_Spec{}
 
 // ConvertSpecFrom populates our Backend_Spec from the provided source
 func (backend *Backend_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Backend_Spec)
+	src, ok := source.(*v20220801s.Backend_Spec)
 	if ok {
 		// Populate our instance from source
 		return backend.AssignProperties_From_Backend_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Backend_Spec{}
+	src = &v20220801s.Backend_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -319,14 +333,14 @@ func (backend *Backend_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 
 // ConvertSpecTo populates the provided destination from our Backend_Spec
 func (backend *Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Backend_Spec)
+	dst, ok := destination.(*v20220801s.Backend_Spec)
 	if ok {
 		// Populate destination from our instance
 		return backend.AssignProperties_To_Backend_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Backend_Spec{}
+	dst = &v20220801s.Backend_Spec{}
 	err := backend.AssignProperties_To_Backend_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -342,7 +356,7 @@ func (backend *Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 }
 
 // AssignProperties_From_Backend_Spec populates our Backend_Spec from the provided source Backend_Spec
-func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.Backend_Spec) error {
+func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *v20220801s.Backend_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -500,7 +514,7 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 }
 
 // AssignProperties_To_Backend_Spec populates the provided destination Backend_Spec from our Backend_Spec
-func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *storage.Backend_Spec) error {
+func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *v20220801s.Backend_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backend.PropertyBag)
 
@@ -516,7 +530,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Credentials
 	if backend.Credentials != nil {
-		var credential storage.BackendCredentialsContract
+		var credential v20220801s.BackendCredentialsContract
 		err := backend.Credentials.AssignProperties_To_BackendCredentialsContract(&credential)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendCredentialsContract() to populate field Credentials")
@@ -531,7 +545,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// OperatorSpec
 	if backend.OperatorSpec != nil {
-		var operatorSpec storage.BackendOperatorSpec
+		var operatorSpec v20220801s.BackendOperatorSpec
 		err := backend.OperatorSpec.AssignProperties_To_BackendOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendOperatorSpec() to populate field OperatorSpec")
@@ -561,7 +575,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Properties
 	if backend.Properties != nil {
-		var property storage.BackendProperties
+		var property v20220801s.BackendProperties
 		err := backend.Properties.AssignProperties_To_BackendProperties(&property)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendProperties() to populate field Properties")
@@ -576,7 +590,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Proxy
 	if backend.Proxy != nil {
-		var proxy storage.BackendProxyContract
+		var proxy v20220801s.BackendProxyContract
 		err := backend.Proxy.AssignProperties_To_BackendProxyContract(&proxy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendProxyContract() to populate field Proxy")
@@ -599,7 +613,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Tls
 	if backend.Tls != nil {
-		var tl storage.BackendTlsProperties
+		var tl v20220801s.BackendTlsProperties
 		err := backend.Tls.AssignProperties_To_BackendTlsProperties(&tl)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendTlsProperties() to populate field Tls")
@@ -664,14 +678,14 @@ var _ genruntime.ConvertibleStatus = &Backend_STATUS{}
 
 // ConvertStatusFrom populates our Backend_STATUS from the provided source
 func (backend *Backend_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Backend_STATUS)
+	src, ok := source.(*v20220801s.Backend_STATUS)
 	if ok {
 		// Populate our instance from source
 		return backend.AssignProperties_From_Backend_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Backend_STATUS{}
+	src = &v20220801s.Backend_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -688,14 +702,14 @@ func (backend *Backend_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 
 // ConvertStatusTo populates the provided destination from our Backend_STATUS
 func (backend *Backend_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Backend_STATUS)
+	dst, ok := destination.(*v20220801s.Backend_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return backend.AssignProperties_To_Backend_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Backend_STATUS{}
+	dst = &v20220801s.Backend_STATUS{}
 	err := backend.AssignProperties_To_Backend_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -711,7 +725,7 @@ func (backend *Backend_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Backend_STATUS populates our Backend_STATUS from the provided source Backend_STATUS
-func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *storage.Backend_STATUS) error {
+func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *v20220801s.Backend_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -850,7 +864,7 @@ func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *stor
 }
 
 // AssignProperties_To_Backend_STATUS populates the provided destination Backend_STATUS from our Backend_STATUS
-func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *storage.Backend_STATUS) error {
+func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *v20220801s.Backend_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backend.PropertyBag)
 
@@ -866,7 +880,7 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 
 	// Credentials
 	if backend.Credentials != nil {
-		var credential storage.BackendCredentialsContract_STATUS
+		var credential v20220801s.BackendCredentialsContract_STATUS
 		err := backend.Credentials.AssignProperties_To_BackendCredentialsContract_STATUS(&credential)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendCredentialsContract_STATUS() to populate field Credentials")
@@ -894,7 +908,7 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 
 	// Properties
 	if backend.Properties != nil {
-		var property storage.BackendProperties_STATUS
+		var property v20220801s.BackendProperties_STATUS
 		err := backend.Properties.AssignProperties_To_BackendProperties_STATUS(&property)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendProperties_STATUS() to populate field Properties")
@@ -916,7 +930,7 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 
 	// Proxy
 	if backend.Proxy != nil {
-		var proxy storage.BackendProxyContract_STATUS
+		var proxy v20220801s.BackendProxyContract_STATUS
 		err := backend.Proxy.AssignProperties_To_BackendProxyContract_STATUS(&proxy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendProxyContract_STATUS() to populate field Proxy")
@@ -934,7 +948,7 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 
 	// Tls
 	if backend.Tls != nil {
-		var tl storage.BackendTlsProperties_STATUS
+		var tl v20220801s.BackendTlsProperties_STATUS
 		err := backend.Tls.AssignProperties_To_BackendTlsProperties_STATUS(&tl)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendTlsProperties_STATUS() to populate field Tls")
@@ -971,13 +985,13 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 }
 
 type augmentConversionForBackend_Spec interface {
-	AssignPropertiesFrom(src *storage.Backend_Spec) error
-	AssignPropertiesTo(dst *storage.Backend_Spec) error
+	AssignPropertiesFrom(src *v20220801s.Backend_Spec) error
+	AssignPropertiesTo(dst *v20220801s.Backend_Spec) error
 }
 
 type augmentConversionForBackend_STATUS interface {
-	AssignPropertiesFrom(src *storage.Backend_STATUS) error
-	AssignPropertiesTo(dst *storage.Backend_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.Backend_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.Backend_STATUS) error
 }
 
 // Storage version of v1api20230501preview.BackendCircuitBreaker
@@ -987,11 +1001,183 @@ type BackendCircuitBreaker struct {
 	Rules       []CircuitBreakerRule   `json:"rules,omitempty"`
 }
 
+// AssignProperties_From_BackendCircuitBreaker populates our BackendCircuitBreaker from the provided source BackendCircuitBreaker
+func (breaker *BackendCircuitBreaker) AssignProperties_From_BackendCircuitBreaker(source *v20220801sc.BackendCircuitBreaker) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]CircuitBreakerRule, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule CircuitBreakerRule
+			err := rule.AssignProperties_From_CircuitBreakerRule(&ruleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		breaker.Rules = ruleList
+	} else {
+		breaker.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		breaker.PropertyBag = propertyBag
+	} else {
+		breaker.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendCircuitBreaker interface (if implemented) to customize the conversion
+	var breakerAsAny any = breaker
+	if augmentedBreaker, ok := breakerAsAny.(augmentConversionForBackendCircuitBreaker); ok {
+		err := augmentedBreaker.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendCircuitBreaker populates the provided destination BackendCircuitBreaker from our BackendCircuitBreaker
+func (breaker *BackendCircuitBreaker) AssignProperties_To_BackendCircuitBreaker(destination *v20220801sc.BackendCircuitBreaker) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(breaker.PropertyBag)
+
+	// Rules
+	if breaker.Rules != nil {
+		ruleList := make([]v20220801sc.CircuitBreakerRule, len(breaker.Rules))
+		for ruleIndex, ruleItem := range breaker.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v20220801sc.CircuitBreakerRule
+			err := ruleItem.AssignProperties_To_CircuitBreakerRule(&rule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendCircuitBreaker interface (if implemented) to customize the conversion
+	var breakerAsAny any = breaker
+	if augmentedBreaker, ok := breakerAsAny.(augmentConversionForBackendCircuitBreaker); ok {
+		err := augmentedBreaker.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.BackendCircuitBreaker_STATUS
 // The configuration of the backend circuit breaker
 type BackendCircuitBreaker_STATUS struct {
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	Rules       []CircuitBreakerRule_STATUS `json:"rules,omitempty"`
+}
+
+// AssignProperties_From_BackendCircuitBreaker_STATUS populates our BackendCircuitBreaker_STATUS from the provided source BackendCircuitBreaker_STATUS
+func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_From_BackendCircuitBreaker_STATUS(source *v20220801sc.BackendCircuitBreaker_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]CircuitBreakerRule_STATUS, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule CircuitBreakerRule_STATUS
+			err := rule.AssignProperties_From_CircuitBreakerRule_STATUS(&ruleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerRule_STATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		breaker.Rules = ruleList
+	} else {
+		breaker.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		breaker.PropertyBag = propertyBag
+	} else {
+		breaker.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendCircuitBreaker_STATUS interface (if implemented) to customize the conversion
+	var breakerAsAny any = breaker
+	if augmentedBreaker, ok := breakerAsAny.(augmentConversionForBackendCircuitBreaker_STATUS); ok {
+		err := augmentedBreaker.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendCircuitBreaker_STATUS populates the provided destination BackendCircuitBreaker_STATUS from our BackendCircuitBreaker_STATUS
+func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_To_BackendCircuitBreaker_STATUS(destination *v20220801sc.BackendCircuitBreaker_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(breaker.PropertyBag)
+
+	// Rules
+	if breaker.Rules != nil {
+		ruleList := make([]v20220801sc.CircuitBreakerRule_STATUS, len(breaker.Rules))
+		for ruleIndex, ruleItem := range breaker.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v20220801sc.CircuitBreakerRule_STATUS
+			err := ruleItem.AssignProperties_To_CircuitBreakerRule_STATUS(&rule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerRule_STATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendCircuitBreaker_STATUS interface (if implemented) to customize the conversion
+	var breakerAsAny any = breaker
+	if augmentedBreaker, ok := breakerAsAny.(augmentConversionForBackendCircuitBreaker_STATUS); ok {
+		err := augmentedBreaker.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501preview.BackendCredentialsContract
@@ -1006,7 +1192,7 @@ type BackendCredentialsContract struct {
 }
 
 // AssignProperties_From_BackendCredentialsContract populates our BackendCredentialsContract from the provided source BackendCredentialsContract
-func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredentialsContract(source *storage.BackendCredentialsContract) error {
+func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredentialsContract(source *v20220801s.BackendCredentialsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1075,13 +1261,13 @@ func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredent
 }
 
 // AssignProperties_To_BackendCredentialsContract populates the provided destination BackendCredentialsContract from our BackendCredentialsContract
-func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentialsContract(destination *storage.BackendCredentialsContract) error {
+func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentialsContract(destination *v20220801s.BackendCredentialsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
 	// Authorization
 	if contract.Authorization != nil {
-		var authorization storage.BackendAuthorizationHeaderCredentials
+		var authorization v20220801s.BackendAuthorizationHeaderCredentials
 		err := contract.Authorization.AssignProperties_To_BackendAuthorizationHeaderCredentials(&authorization)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendAuthorizationHeaderCredentials() to populate field Authorization")
@@ -1155,7 +1341,7 @@ type BackendCredentialsContract_STATUS struct {
 }
 
 // AssignProperties_From_BackendCredentialsContract_STATUS populates our BackendCredentialsContract_STATUS from the provided source BackendCredentialsContract_STATUS
-func (contract *BackendCredentialsContract_STATUS) AssignProperties_From_BackendCredentialsContract_STATUS(source *storage.BackendCredentialsContract_STATUS) error {
+func (contract *BackendCredentialsContract_STATUS) AssignProperties_From_BackendCredentialsContract_STATUS(source *v20220801s.BackendCredentialsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1224,13 +1410,13 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_From_Backend
 }
 
 // AssignProperties_To_BackendCredentialsContract_STATUS populates the provided destination BackendCredentialsContract_STATUS from our BackendCredentialsContract_STATUS
-func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCredentialsContract_STATUS(destination *storage.BackendCredentialsContract_STATUS) error {
+func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCredentialsContract_STATUS(destination *v20220801s.BackendCredentialsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
 	// Authorization
 	if contract.Authorization != nil {
-		var authorization storage.BackendAuthorizationHeaderCredentials_STATUS
+		var authorization v20220801s.BackendAuthorizationHeaderCredentials_STATUS
 		err := contract.Authorization.AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS(&authorization)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS() to populate field Authorization")
@@ -1301,7 +1487,7 @@ type BackendOperatorSpec struct {
 }
 
 // AssignProperties_From_BackendOperatorSpec populates our BackendOperatorSpec from the provided source BackendOperatorSpec
-func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(source *storage.BackendOperatorSpec) error {
+func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(source *v20220801s.BackendOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1362,7 +1548,7 @@ func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(s
 }
 
 // AssignProperties_To_BackendOperatorSpec populates the provided destination BackendOperatorSpec from our BackendOperatorSpec
-func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(destination *storage.BackendOperatorSpec) error {
+func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(destination *v20220801s.BackendOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -1429,11 +1615,183 @@ type BackendPool struct {
 	Services    []BackendPoolItem      `json:"services,omitempty"`
 }
 
+// AssignProperties_From_BackendPool populates our BackendPool from the provided source BackendPool
+func (pool *BackendPool) AssignProperties_From_BackendPool(source *v20220801sc.BackendPool) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Services
+	if source.Services != nil {
+		serviceList := make([]BackendPoolItem, len(source.Services))
+		for serviceIndex, serviceItem := range source.Services {
+			// Shadow the loop variable to avoid aliasing
+			serviceItem := serviceItem
+			var service BackendPoolItem
+			err := service.AssignProperties_From_BackendPoolItem(&serviceItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		pool.Services = serviceList
+	} else {
+		pool.Services = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		pool.PropertyBag = propertyBag
+	} else {
+		pool.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPool interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendPool); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendPool populates the provided destination BackendPool from our BackendPool
+func (pool *BackendPool) AssignProperties_To_BackendPool(destination *v20220801sc.BackendPool) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
+
+	// Services
+	if pool.Services != nil {
+		serviceList := make([]v20220801sc.BackendPoolItem, len(pool.Services))
+		for serviceIndex, serviceItem := range pool.Services {
+			// Shadow the loop variable to avoid aliasing
+			serviceItem := serviceItem
+			var service v20220801sc.BackendPoolItem
+			err := serviceItem.AssignProperties_To_BackendPoolItem(&service)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		destination.Services = serviceList
+	} else {
+		destination.Services = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPool interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendPool); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.BackendPool_STATUS
 // Backend pool information
 type BackendPool_STATUS struct {
 	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 	Services    []BackendPoolItem_STATUS `json:"services,omitempty"`
+}
+
+// AssignProperties_From_BackendPool_STATUS populates our BackendPool_STATUS from the provided source BackendPool_STATUS
+func (pool *BackendPool_STATUS) AssignProperties_From_BackendPool_STATUS(source *v20220801sc.BackendPool_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Services
+	if source.Services != nil {
+		serviceList := make([]BackendPoolItem_STATUS, len(source.Services))
+		for serviceIndex, serviceItem := range source.Services {
+			// Shadow the loop variable to avoid aliasing
+			serviceItem := serviceItem
+			var service BackendPoolItem_STATUS
+			err := service.AssignProperties_From_BackendPoolItem_STATUS(&serviceItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem_STATUS() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		pool.Services = serviceList
+	} else {
+		pool.Services = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		pool.PropertyBag = propertyBag
+	} else {
+		pool.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPool_STATUS interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendPool_STATUS); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendPool_STATUS populates the provided destination BackendPool_STATUS from our BackendPool_STATUS
+func (pool *BackendPool_STATUS) AssignProperties_To_BackendPool_STATUS(destination *v20220801sc.BackendPool_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
+
+	// Services
+	if pool.Services != nil {
+		serviceList := make([]v20220801sc.BackendPoolItem_STATUS, len(pool.Services))
+		for serviceIndex, serviceItem := range pool.Services {
+			// Shadow the loop variable to avoid aliasing
+			serviceItem := serviceItem
+			var service v20220801sc.BackendPoolItem_STATUS
+			err := serviceItem.AssignProperties_To_BackendPoolItem_STATUS(&service)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem_STATUS() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		destination.Services = serviceList
+	} else {
+		destination.Services = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPool_STATUS interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendPool_STATUS); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501preview.BackendProperties
@@ -1444,7 +1802,7 @@ type BackendProperties struct {
 }
 
 // AssignProperties_From_BackendProperties populates our BackendProperties from the provided source BackendProperties
-func (properties *BackendProperties) AssignProperties_From_BackendProperties(source *storage.BackendProperties) error {
+func (properties *BackendProperties) AssignProperties_From_BackendProperties(source *v20220801s.BackendProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1481,13 +1839,13 @@ func (properties *BackendProperties) AssignProperties_From_BackendProperties(sou
 }
 
 // AssignProperties_To_BackendProperties populates the provided destination BackendProperties from our BackendProperties
-func (properties *BackendProperties) AssignProperties_To_BackendProperties(destination *storage.BackendProperties) error {
+func (properties *BackendProperties) AssignProperties_To_BackendProperties(destination *v20220801s.BackendProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// ServiceFabricCluster
 	if properties.ServiceFabricCluster != nil {
-		var serviceFabricCluster storage.BackendServiceFabricClusterProperties
+		var serviceFabricCluster v20220801s.BackendServiceFabricClusterProperties
 		err := properties.ServiceFabricCluster.AssignProperties_To_BackendServiceFabricClusterProperties(&serviceFabricCluster)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendServiceFabricClusterProperties() to populate field ServiceFabricCluster")
@@ -1525,7 +1883,7 @@ type BackendProperties_STATUS struct {
 }
 
 // AssignProperties_From_BackendProperties_STATUS populates our BackendProperties_STATUS from the provided source BackendProperties_STATUS
-func (properties *BackendProperties_STATUS) AssignProperties_From_BackendProperties_STATUS(source *storage.BackendProperties_STATUS) error {
+func (properties *BackendProperties_STATUS) AssignProperties_From_BackendProperties_STATUS(source *v20220801s.BackendProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1562,13 +1920,13 @@ func (properties *BackendProperties_STATUS) AssignProperties_From_BackendPropert
 }
 
 // AssignProperties_To_BackendProperties_STATUS populates the provided destination BackendProperties_STATUS from our BackendProperties_STATUS
-func (properties *BackendProperties_STATUS) AssignProperties_To_BackendProperties_STATUS(destination *storage.BackendProperties_STATUS) error {
+func (properties *BackendProperties_STATUS) AssignProperties_To_BackendProperties_STATUS(destination *v20220801s.BackendProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// ServiceFabricCluster
 	if properties.ServiceFabricCluster != nil {
-		var serviceFabricCluster storage.BackendServiceFabricClusterProperties_STATUS
+		var serviceFabricCluster v20220801s.BackendServiceFabricClusterProperties_STATUS
 		err := properties.ServiceFabricCluster.AssignProperties_To_BackendServiceFabricClusterProperties_STATUS(&serviceFabricCluster)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_BackendServiceFabricClusterProperties_STATUS() to populate field ServiceFabricCluster")
@@ -1608,7 +1966,7 @@ type BackendProxyContract struct {
 }
 
 // AssignProperties_From_BackendProxyContract populates our BackendProxyContract from the provided source BackendProxyContract
-func (contract *BackendProxyContract) AssignProperties_From_BackendProxyContract(source *storage.BackendProxyContract) error {
+func (contract *BackendProxyContract) AssignProperties_From_BackendProxyContract(source *v20220801s.BackendProxyContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1647,7 +2005,7 @@ func (contract *BackendProxyContract) AssignProperties_From_BackendProxyContract
 }
 
 // AssignProperties_To_BackendProxyContract populates the provided destination BackendProxyContract from our BackendProxyContract
-func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(destination *storage.BackendProxyContract) error {
+func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(destination *v20220801s.BackendProxyContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -1694,7 +2052,7 @@ type BackendProxyContract_STATUS struct {
 }
 
 // AssignProperties_From_BackendProxyContract_STATUS populates our BackendProxyContract_STATUS from the provided source BackendProxyContract_STATUS
-func (contract *BackendProxyContract_STATUS) AssignProperties_From_BackendProxyContract_STATUS(source *storage.BackendProxyContract_STATUS) error {
+func (contract *BackendProxyContract_STATUS) AssignProperties_From_BackendProxyContract_STATUS(source *v20220801s.BackendProxyContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1725,7 +2083,7 @@ func (contract *BackendProxyContract_STATUS) AssignProperties_From_BackendProxyC
 }
 
 // AssignProperties_To_BackendProxyContract_STATUS populates the provided destination BackendProxyContract_STATUS from our BackendProxyContract_STATUS
-func (contract *BackendProxyContract_STATUS) AssignProperties_To_BackendProxyContract_STATUS(destination *storage.BackendProxyContract_STATUS) error {
+func (contract *BackendProxyContract_STATUS) AssignProperties_To_BackendProxyContract_STATUS(destination *v20220801s.BackendProxyContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -1764,7 +2122,7 @@ type BackendTlsProperties struct {
 }
 
 // AssignProperties_From_BackendTlsProperties populates our BackendTlsProperties from the provided source BackendTlsProperties
-func (properties *BackendTlsProperties) AssignProperties_From_BackendTlsProperties(source *storage.BackendTlsProperties) error {
+func (properties *BackendTlsProperties) AssignProperties_From_BackendTlsProperties(source *v20220801s.BackendTlsProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1805,7 +2163,7 @@ func (properties *BackendTlsProperties) AssignProperties_From_BackendTlsProperti
 }
 
 // AssignProperties_To_BackendTlsProperties populates the provided destination BackendTlsProperties from our BackendTlsProperties
-func (properties *BackendTlsProperties) AssignProperties_To_BackendTlsProperties(destination *storage.BackendTlsProperties) error {
+func (properties *BackendTlsProperties) AssignProperties_To_BackendTlsProperties(destination *v20220801s.BackendTlsProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1854,7 +2212,7 @@ type BackendTlsProperties_STATUS struct {
 }
 
 // AssignProperties_From_BackendTlsProperties_STATUS populates our BackendTlsProperties_STATUS from the provided source BackendTlsProperties_STATUS
-func (properties *BackendTlsProperties_STATUS) AssignProperties_From_BackendTlsProperties_STATUS(source *storage.BackendTlsProperties_STATUS) error {
+func (properties *BackendTlsProperties_STATUS) AssignProperties_From_BackendTlsProperties_STATUS(source *v20220801s.BackendTlsProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1895,7 +2253,7 @@ func (properties *BackendTlsProperties_STATUS) AssignProperties_From_BackendTlsP
 }
 
 // AssignProperties_To_BackendTlsProperties_STATUS populates the provided destination BackendTlsProperties_STATUS from our BackendTlsProperties_STATUS
-func (properties *BackendTlsProperties_STATUS) AssignProperties_To_BackendTlsProperties_STATUS(destination *storage.BackendTlsProperties_STATUS) error {
+func (properties *BackendTlsProperties_STATUS) AssignProperties_To_BackendTlsProperties_STATUS(destination *v20220801s.BackendTlsProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1935,49 +2293,69 @@ func (properties *BackendTlsProperties_STATUS) AssignProperties_To_BackendTlsPro
 	return nil
 }
 
+type augmentConversionForBackendCircuitBreaker interface {
+	AssignPropertiesFrom(src *v20220801sc.BackendCircuitBreaker) error
+	AssignPropertiesTo(dst *v20220801sc.BackendCircuitBreaker) error
+}
+
+type augmentConversionForBackendCircuitBreaker_STATUS interface {
+	AssignPropertiesFrom(src *v20220801sc.BackendCircuitBreaker_STATUS) error
+	AssignPropertiesTo(dst *v20220801sc.BackendCircuitBreaker_STATUS) error
+}
+
 type augmentConversionForBackendCredentialsContract interface {
-	AssignPropertiesFrom(src *storage.BackendCredentialsContract) error
-	AssignPropertiesTo(dst *storage.BackendCredentialsContract) error
+	AssignPropertiesFrom(src *v20220801s.BackendCredentialsContract) error
+	AssignPropertiesTo(dst *v20220801s.BackendCredentialsContract) error
 }
 
 type augmentConversionForBackendCredentialsContract_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackendCredentialsContract_STATUS) error
-	AssignPropertiesTo(dst *storage.BackendCredentialsContract_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.BackendCredentialsContract_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.BackendCredentialsContract_STATUS) error
 }
 
 type augmentConversionForBackendOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.BackendOperatorSpec) error
-	AssignPropertiesTo(dst *storage.BackendOperatorSpec) error
+	AssignPropertiesFrom(src *v20220801s.BackendOperatorSpec) error
+	AssignPropertiesTo(dst *v20220801s.BackendOperatorSpec) error
+}
+
+type augmentConversionForBackendPool interface {
+	AssignPropertiesFrom(src *v20220801sc.BackendPool) error
+	AssignPropertiesTo(dst *v20220801sc.BackendPool) error
+}
+
+type augmentConversionForBackendPool_STATUS interface {
+	AssignPropertiesFrom(src *v20220801sc.BackendPool_STATUS) error
+	AssignPropertiesTo(dst *v20220801sc.BackendPool_STATUS) error
 }
 
 type augmentConversionForBackendProperties interface {
-	AssignPropertiesFrom(src *storage.BackendProperties) error
-	AssignPropertiesTo(dst *storage.BackendProperties) error
+	AssignPropertiesFrom(src *v20220801s.BackendProperties) error
+	AssignPropertiesTo(dst *v20220801s.BackendProperties) error
 }
 
 type augmentConversionForBackendProperties_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackendProperties_STATUS) error
-	AssignPropertiesTo(dst *storage.BackendProperties_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.BackendProperties_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.BackendProperties_STATUS) error
 }
 
 type augmentConversionForBackendProxyContract interface {
-	AssignPropertiesFrom(src *storage.BackendProxyContract) error
-	AssignPropertiesTo(dst *storage.BackendProxyContract) error
+	AssignPropertiesFrom(src *v20220801s.BackendProxyContract) error
+	AssignPropertiesTo(dst *v20220801s.BackendProxyContract) error
 }
 
 type augmentConversionForBackendProxyContract_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackendProxyContract_STATUS) error
-	AssignPropertiesTo(dst *storage.BackendProxyContract_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.BackendProxyContract_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.BackendProxyContract_STATUS) error
 }
 
 type augmentConversionForBackendTlsProperties interface {
-	AssignPropertiesFrom(src *storage.BackendTlsProperties) error
-	AssignPropertiesTo(dst *storage.BackendTlsProperties) error
+	AssignPropertiesFrom(src *v20220801s.BackendTlsProperties) error
+	AssignPropertiesTo(dst *v20220801s.BackendTlsProperties) error
 }
 
 type augmentConversionForBackendTlsProperties_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackendTlsProperties_STATUS) error
-	AssignPropertiesTo(dst *storage.BackendTlsProperties_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.BackendTlsProperties_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.BackendTlsProperties_STATUS) error
 }
 
 // Storage version of v1api20230501preview.BackendAuthorizationHeaderCredentials
@@ -1989,7 +2367,7 @@ type BackendAuthorizationHeaderCredentials struct {
 }
 
 // AssignProperties_From_BackendAuthorizationHeaderCredentials populates our BackendAuthorizationHeaderCredentials from the provided source BackendAuthorizationHeaderCredentials
-func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_From_BackendAuthorizationHeaderCredentials(source *storage.BackendAuthorizationHeaderCredentials) error {
+func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_From_BackendAuthorizationHeaderCredentials(source *v20220801s.BackendAuthorizationHeaderCredentials) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2020,7 +2398,7 @@ func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_From_
 }
 
 // AssignProperties_To_BackendAuthorizationHeaderCredentials populates the provided destination BackendAuthorizationHeaderCredentials from our BackendAuthorizationHeaderCredentials
-func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_To_BackendAuthorizationHeaderCredentials(destination *storage.BackendAuthorizationHeaderCredentials) error {
+func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_To_BackendAuthorizationHeaderCredentials(destination *v20220801s.BackendAuthorizationHeaderCredentials) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
 
@@ -2059,7 +2437,7 @@ type BackendAuthorizationHeaderCredentials_STATUS struct {
 }
 
 // AssignProperties_From_BackendAuthorizationHeaderCredentials_STATUS populates our BackendAuthorizationHeaderCredentials_STATUS from the provided source BackendAuthorizationHeaderCredentials_STATUS
-func (credentials *BackendAuthorizationHeaderCredentials_STATUS) AssignProperties_From_BackendAuthorizationHeaderCredentials_STATUS(source *storage.BackendAuthorizationHeaderCredentials_STATUS) error {
+func (credentials *BackendAuthorizationHeaderCredentials_STATUS) AssignProperties_From_BackendAuthorizationHeaderCredentials_STATUS(source *v20220801s.BackendAuthorizationHeaderCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2090,7 +2468,7 @@ func (credentials *BackendAuthorizationHeaderCredentials_STATUS) AssignPropertie
 }
 
 // AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS populates the provided destination BackendAuthorizationHeaderCredentials_STATUS from our BackendAuthorizationHeaderCredentials_STATUS
-func (credentials *BackendAuthorizationHeaderCredentials_STATUS) AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS(destination *storage.BackendAuthorizationHeaderCredentials_STATUS) error {
+func (credentials *BackendAuthorizationHeaderCredentials_STATUS) AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS(destination *v20220801s.BackendAuthorizationHeaderCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
 
@@ -2130,11 +2508,133 @@ type BackendPoolItem struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_BackendPoolItem populates our BackendPoolItem from the provided source BackendPoolItem
+func (item *BackendPoolItem) AssignProperties_From_BackendPoolItem(source *v20220801sc.BackendPoolItem) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		item.Reference = &reference
+	} else {
+		item.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		item.PropertyBag = propertyBag
+	} else {
+		item.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPoolItem interface (if implemented) to customize the conversion
+	var itemAsAny any = item
+	if augmentedItem, ok := itemAsAny.(augmentConversionForBackendPoolItem); ok {
+		err := augmentedItem.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendPoolItem populates the provided destination BackendPoolItem from our BackendPoolItem
+func (item *BackendPoolItem) AssignProperties_To_BackendPoolItem(destination *v20220801sc.BackendPoolItem) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(item.PropertyBag)
+
+	// Reference
+	if item.Reference != nil {
+		reference := item.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPoolItem interface (if implemented) to customize the conversion
+	var itemAsAny any = item
+	if augmentedItem, ok := itemAsAny.(augmentConversionForBackendPoolItem); ok {
+		err := augmentedItem.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.BackendPoolItem_STATUS
 // Backend pool service information
 type BackendPoolItem_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_BackendPoolItem_STATUS populates our BackendPoolItem_STATUS from the provided source BackendPoolItem_STATUS
+func (item *BackendPoolItem_STATUS) AssignProperties_From_BackendPoolItem_STATUS(source *v20220801sc.BackendPoolItem_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	item.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		item.PropertyBag = propertyBag
+	} else {
+		item.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPoolItem_STATUS interface (if implemented) to customize the conversion
+	var itemAsAny any = item
+	if augmentedItem, ok := itemAsAny.(augmentConversionForBackendPoolItem_STATUS); ok {
+		err := augmentedItem.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendPoolItem_STATUS populates the provided destination BackendPoolItem_STATUS from our BackendPoolItem_STATUS
+func (item *BackendPoolItem_STATUS) AssignProperties_To_BackendPoolItem_STATUS(destination *v20220801sc.BackendPoolItem_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(item.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(item.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendPoolItem_STATUS interface (if implemented) to customize the conversion
+	var itemAsAny any = item
+	if augmentedItem, ok := itemAsAny.(augmentConversionForBackendPoolItem_STATUS); ok {
+		err := augmentedItem.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501preview.BackendServiceFabricClusterProperties
@@ -2150,7 +2650,7 @@ type BackendServiceFabricClusterProperties struct {
 }
 
 // AssignProperties_From_BackendServiceFabricClusterProperties populates our BackendServiceFabricClusterProperties from the provided source BackendServiceFabricClusterProperties
-func (properties *BackendServiceFabricClusterProperties) AssignProperties_From_BackendServiceFabricClusterProperties(source *storage.BackendServiceFabricClusterProperties) error {
+func (properties *BackendServiceFabricClusterProperties) AssignProperties_From_BackendServiceFabricClusterProperties(source *v20220801s.BackendServiceFabricClusterProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2208,7 +2708,7 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_From_B
 }
 
 // AssignProperties_To_BackendServiceFabricClusterProperties populates the provided destination BackendServiceFabricClusterProperties from our BackendServiceFabricClusterProperties
-func (properties *BackendServiceFabricClusterProperties) AssignProperties_To_BackendServiceFabricClusterProperties(destination *storage.BackendServiceFabricClusterProperties) error {
+func (properties *BackendServiceFabricClusterProperties) AssignProperties_To_BackendServiceFabricClusterProperties(destination *v20220801s.BackendServiceFabricClusterProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -2229,11 +2729,11 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_To_Bac
 
 	// ServerX509Names
 	if properties.ServerX509Names != nil {
-		serverX509NameList := make([]storage.X509CertificateName, len(properties.ServerX509Names))
+		serverX509NameList := make([]v20220801s.X509CertificateName, len(properties.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range properties.ServerX509Names {
 			// Shadow the loop variable to avoid aliasing
 			serverX509NameItem := serverX509NameItem
-			var serverX509Name storage.X509CertificateName
+			var serverX509Name v20220801s.X509CertificateName
 			err := serverX509NameItem.AssignProperties_To_X509CertificateName(&serverX509Name)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_X509CertificateName() to populate field ServerX509Names")
@@ -2278,7 +2778,7 @@ type BackendServiceFabricClusterProperties_STATUS struct {
 }
 
 // AssignProperties_From_BackendServiceFabricClusterProperties_STATUS populates our BackendServiceFabricClusterProperties_STATUS from the provided source BackendServiceFabricClusterProperties_STATUS
-func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties_From_BackendServiceFabricClusterProperties_STATUS(source *storage.BackendServiceFabricClusterProperties_STATUS) error {
+func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties_From_BackendServiceFabricClusterProperties_STATUS(source *v20220801s.BackendServiceFabricClusterProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2336,7 +2836,7 @@ func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties
 }
 
 // AssignProperties_To_BackendServiceFabricClusterProperties_STATUS populates the provided destination BackendServiceFabricClusterProperties_STATUS from our BackendServiceFabricClusterProperties_STATUS
-func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties_To_BackendServiceFabricClusterProperties_STATUS(destination *storage.BackendServiceFabricClusterProperties_STATUS) error {
+func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties_To_BackendServiceFabricClusterProperties_STATUS(destination *v20220801s.BackendServiceFabricClusterProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -2357,11 +2857,11 @@ func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties
 
 	// ServerX509Names
 	if properties.ServerX509Names != nil {
-		serverX509NameList := make([]storage.X509CertificateName_STATUS, len(properties.ServerX509Names))
+		serverX509NameList := make([]v20220801s.X509CertificateName_STATUS, len(properties.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range properties.ServerX509Names {
 			// Shadow the loop variable to avoid aliasing
 			serverX509NameItem := serverX509NameItem
-			var serverX509Name storage.X509CertificateName_STATUS
+			var serverX509Name v20220801s.X509CertificateName_STATUS
 			err := serverX509NameItem.AssignProperties_To_X509CertificateName_STATUS(&serverX509Name)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_X509CertificateName_STATUS() to populate field ServerX509Names")
@@ -2402,6 +2902,92 @@ type CircuitBreakerRule struct {
 	TripDuration     *string                         `json:"tripDuration,omitempty"`
 }
 
+// AssignProperties_From_CircuitBreakerRule populates our CircuitBreakerRule from the provided source CircuitBreakerRule
+func (rule *CircuitBreakerRule) AssignProperties_From_CircuitBreakerRule(source *v20220801sc.CircuitBreakerRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailureCondition
+	if source.FailureCondition != nil {
+		var failureCondition CircuitBreakerFailureCondition
+		err := failureCondition.AssignProperties_From_CircuitBreakerFailureCondition(source.FailureCondition)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerFailureCondition() to populate field FailureCondition")
+		}
+		rule.FailureCondition = &failureCondition
+	} else {
+		rule.FailureCondition = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// TripDuration
+	rule.TripDuration = genruntime.ClonePointerToString(source.TripDuration)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCircuitBreakerRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CircuitBreakerRule populates the provided destination CircuitBreakerRule from our CircuitBreakerRule
+func (rule *CircuitBreakerRule) AssignProperties_To_CircuitBreakerRule(destination *v20220801sc.CircuitBreakerRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// FailureCondition
+	if rule.FailureCondition != nil {
+		var failureCondition v20220801sc.CircuitBreakerFailureCondition
+		err := rule.FailureCondition.AssignProperties_To_CircuitBreakerFailureCondition(&failureCondition)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerFailureCondition() to populate field FailureCondition")
+		}
+		destination.FailureCondition = &failureCondition
+	} else {
+		destination.FailureCondition = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// TripDuration
+	destination.TripDuration = genruntime.ClonePointerToString(rule.TripDuration)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCircuitBreakerRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.CircuitBreakerRule_STATUS
 // Rule configuration to trip the backend.
 type CircuitBreakerRule_STATUS struct {
@@ -2411,24 +2997,130 @@ type CircuitBreakerRule_STATUS struct {
 	TripDuration     *string                                `json:"tripDuration,omitempty"`
 }
 
+// AssignProperties_From_CircuitBreakerRule_STATUS populates our CircuitBreakerRule_STATUS from the provided source CircuitBreakerRule_STATUS
+func (rule *CircuitBreakerRule_STATUS) AssignProperties_From_CircuitBreakerRule_STATUS(source *v20220801sc.CircuitBreakerRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailureCondition
+	if source.FailureCondition != nil {
+		var failureCondition CircuitBreakerFailureCondition_STATUS
+		err := failureCondition.AssignProperties_From_CircuitBreakerFailureCondition_STATUS(source.FailureCondition)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
+		}
+		rule.FailureCondition = &failureCondition
+	} else {
+		rule.FailureCondition = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// TripDuration
+	rule.TripDuration = genruntime.ClonePointerToString(source.TripDuration)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCircuitBreakerRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CircuitBreakerRule_STATUS populates the provided destination CircuitBreakerRule_STATUS from our CircuitBreakerRule_STATUS
+func (rule *CircuitBreakerRule_STATUS) AssignProperties_To_CircuitBreakerRule_STATUS(destination *v20220801sc.CircuitBreakerRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// FailureCondition
+	if rule.FailureCondition != nil {
+		var failureCondition v20220801sc.CircuitBreakerFailureCondition_STATUS
+		err := rule.FailureCondition.AssignProperties_To_CircuitBreakerFailureCondition_STATUS(&failureCondition)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
+		}
+		destination.FailureCondition = &failureCondition
+	} else {
+		destination.FailureCondition = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// TripDuration
+	destination.TripDuration = genruntime.ClonePointerToString(rule.TripDuration)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCircuitBreakerRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForBackendAuthorizationHeaderCredentials interface {
-	AssignPropertiesFrom(src *storage.BackendAuthorizationHeaderCredentials) error
-	AssignPropertiesTo(dst *storage.BackendAuthorizationHeaderCredentials) error
+	AssignPropertiesFrom(src *v20220801s.BackendAuthorizationHeaderCredentials) error
+	AssignPropertiesTo(dst *v20220801s.BackendAuthorizationHeaderCredentials) error
 }
 
 type augmentConversionForBackendAuthorizationHeaderCredentials_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackendAuthorizationHeaderCredentials_STATUS) error
-	AssignPropertiesTo(dst *storage.BackendAuthorizationHeaderCredentials_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.BackendAuthorizationHeaderCredentials_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.BackendAuthorizationHeaderCredentials_STATUS) error
+}
+
+type augmentConversionForBackendPoolItem interface {
+	AssignPropertiesFrom(src *v20220801sc.BackendPoolItem) error
+	AssignPropertiesTo(dst *v20220801sc.BackendPoolItem) error
+}
+
+type augmentConversionForBackendPoolItem_STATUS interface {
+	AssignPropertiesFrom(src *v20220801sc.BackendPoolItem_STATUS) error
+	AssignPropertiesTo(dst *v20220801sc.BackendPoolItem_STATUS) error
 }
 
 type augmentConversionForBackendServiceFabricClusterProperties interface {
-	AssignPropertiesFrom(src *storage.BackendServiceFabricClusterProperties) error
-	AssignPropertiesTo(dst *storage.BackendServiceFabricClusterProperties) error
+	AssignPropertiesFrom(src *v20220801s.BackendServiceFabricClusterProperties) error
+	AssignPropertiesTo(dst *v20220801s.BackendServiceFabricClusterProperties) error
 }
 
 type augmentConversionForBackendServiceFabricClusterProperties_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackendServiceFabricClusterProperties_STATUS) error
-	AssignPropertiesTo(dst *storage.BackendServiceFabricClusterProperties_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.BackendServiceFabricClusterProperties_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.BackendServiceFabricClusterProperties_STATUS) error
+}
+
+type augmentConversionForCircuitBreakerRule interface {
+	AssignPropertiesFrom(src *v20220801sc.CircuitBreakerRule) error
+	AssignPropertiesTo(dst *v20220801sc.CircuitBreakerRule) error
+}
+
+type augmentConversionForCircuitBreakerRule_STATUS interface {
+	AssignPropertiesFrom(src *v20220801sc.CircuitBreakerRule_STATUS) error
+	AssignPropertiesTo(dst *v20220801sc.CircuitBreakerRule_STATUS) error
 }
 
 // Storage version of v1api20230501preview.CircuitBreakerFailureCondition
@@ -2442,6 +3134,116 @@ type CircuitBreakerFailureCondition struct {
 	StatusCodeRanges []FailureStatusCodeRange `json:"statusCodeRanges,omitempty"`
 }
 
+// AssignProperties_From_CircuitBreakerFailureCondition populates our CircuitBreakerFailureCondition from the provided source CircuitBreakerFailureCondition
+func (condition *CircuitBreakerFailureCondition) AssignProperties_From_CircuitBreakerFailureCondition(source *v20220801sc.CircuitBreakerFailureCondition) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Count
+	condition.Count = genruntime.ClonePointerToInt(source.Count)
+
+	// ErrorReasons
+	condition.ErrorReasons = genruntime.CloneSliceOfString(source.ErrorReasons)
+
+	// Interval
+	condition.Interval = genruntime.ClonePointerToString(source.Interval)
+
+	// Percentage
+	condition.Percentage = genruntime.ClonePointerToInt(source.Percentage)
+
+	// StatusCodeRanges
+	if source.StatusCodeRanges != nil {
+		statusCodeRangeList := make([]FailureStatusCodeRange, len(source.StatusCodeRanges))
+		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
+			// Shadow the loop variable to avoid aliasing
+			statusCodeRangeItem := statusCodeRangeItem
+			var statusCodeRange FailureStatusCodeRange
+			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange(&statusCodeRangeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_FailureStatusCodeRange() to populate field StatusCodeRanges")
+			}
+			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
+		}
+		condition.StatusCodeRanges = statusCodeRangeList
+	} else {
+		condition.StatusCodeRanges = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		condition.PropertyBag = propertyBag
+	} else {
+		condition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerFailureCondition interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForCircuitBreakerFailureCondition); ok {
+		err := augmentedCondition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CircuitBreakerFailureCondition populates the provided destination CircuitBreakerFailureCondition from our CircuitBreakerFailureCondition
+func (condition *CircuitBreakerFailureCondition) AssignProperties_To_CircuitBreakerFailureCondition(destination *v20220801sc.CircuitBreakerFailureCondition) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
+
+	// Count
+	destination.Count = genruntime.ClonePointerToInt(condition.Count)
+
+	// ErrorReasons
+	destination.ErrorReasons = genruntime.CloneSliceOfString(condition.ErrorReasons)
+
+	// Interval
+	destination.Interval = genruntime.ClonePointerToString(condition.Interval)
+
+	// Percentage
+	destination.Percentage = genruntime.ClonePointerToInt(condition.Percentage)
+
+	// StatusCodeRanges
+	if condition.StatusCodeRanges != nil {
+		statusCodeRangeList := make([]v20220801sc.FailureStatusCodeRange, len(condition.StatusCodeRanges))
+		for statusCodeRangeIndex, statusCodeRangeItem := range condition.StatusCodeRanges {
+			// Shadow the loop variable to avoid aliasing
+			statusCodeRangeItem := statusCodeRangeItem
+			var statusCodeRange v20220801sc.FailureStatusCodeRange
+			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange(&statusCodeRange)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_FailureStatusCodeRange() to populate field StatusCodeRanges")
+			}
+			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
+		}
+		destination.StatusCodeRanges = statusCodeRangeList
+	} else {
+		destination.StatusCodeRanges = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerFailureCondition interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForCircuitBreakerFailureCondition); ok {
+		err := augmentedCondition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.CircuitBreakerFailureCondition_STATUS
 // The trip conditions of the circuit breaker
 type CircuitBreakerFailureCondition_STATUS struct {
@@ -2453,6 +3255,116 @@ type CircuitBreakerFailureCondition_STATUS struct {
 	StatusCodeRanges []FailureStatusCodeRange_STATUS `json:"statusCodeRanges,omitempty"`
 }
 
+// AssignProperties_From_CircuitBreakerFailureCondition_STATUS populates our CircuitBreakerFailureCondition_STATUS from the provided source CircuitBreakerFailureCondition_STATUS
+func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_From_CircuitBreakerFailureCondition_STATUS(source *v20220801sc.CircuitBreakerFailureCondition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Count
+	condition.Count = genruntime.ClonePointerToInt(source.Count)
+
+	// ErrorReasons
+	condition.ErrorReasons = genruntime.CloneSliceOfString(source.ErrorReasons)
+
+	// Interval
+	condition.Interval = genruntime.ClonePointerToString(source.Interval)
+
+	// Percentage
+	condition.Percentage = genruntime.ClonePointerToInt(source.Percentage)
+
+	// StatusCodeRanges
+	if source.StatusCodeRanges != nil {
+		statusCodeRangeList := make([]FailureStatusCodeRange_STATUS, len(source.StatusCodeRanges))
+		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
+			// Shadow the loop variable to avoid aliasing
+			statusCodeRangeItem := statusCodeRangeItem
+			var statusCodeRange FailureStatusCodeRange_STATUS
+			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange_STATUS(&statusCodeRangeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
+			}
+			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
+		}
+		condition.StatusCodeRanges = statusCodeRangeList
+	} else {
+		condition.StatusCodeRanges = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		condition.PropertyBag = propertyBag
+	} else {
+		condition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerFailureCondition_STATUS interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForCircuitBreakerFailureCondition_STATUS); ok {
+		err := augmentedCondition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CircuitBreakerFailureCondition_STATUS populates the provided destination CircuitBreakerFailureCondition_STATUS from our CircuitBreakerFailureCondition_STATUS
+func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_To_CircuitBreakerFailureCondition_STATUS(destination *v20220801sc.CircuitBreakerFailureCondition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
+
+	// Count
+	destination.Count = genruntime.ClonePointerToInt(condition.Count)
+
+	// ErrorReasons
+	destination.ErrorReasons = genruntime.CloneSliceOfString(condition.ErrorReasons)
+
+	// Interval
+	destination.Interval = genruntime.ClonePointerToString(condition.Interval)
+
+	// Percentage
+	destination.Percentage = genruntime.ClonePointerToInt(condition.Percentage)
+
+	// StatusCodeRanges
+	if condition.StatusCodeRanges != nil {
+		statusCodeRangeList := make([]v20220801sc.FailureStatusCodeRange_STATUS, len(condition.StatusCodeRanges))
+		for statusCodeRangeIndex, statusCodeRangeItem := range condition.StatusCodeRanges {
+			// Shadow the loop variable to avoid aliasing
+			statusCodeRangeItem := statusCodeRangeItem
+			var statusCodeRange v20220801sc.FailureStatusCodeRange_STATUS
+			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange_STATUS(&statusCodeRange)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
+			}
+			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
+		}
+		destination.StatusCodeRanges = statusCodeRangeList
+	} else {
+		destination.StatusCodeRanges = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCircuitBreakerFailureCondition_STATUS interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForCircuitBreakerFailureCondition_STATUS); ok {
+		err := augmentedCondition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.X509CertificateName
 // Properties of server X509Names.
 type X509CertificateName struct {
@@ -2462,7 +3374,7 @@ type X509CertificateName struct {
 }
 
 // AssignProperties_From_X509CertificateName populates our X509CertificateName from the provided source X509CertificateName
-func (name *X509CertificateName) AssignProperties_From_X509CertificateName(source *storage.X509CertificateName) error {
+func (name *X509CertificateName) AssignProperties_From_X509CertificateName(source *v20220801s.X509CertificateName) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2493,7 +3405,7 @@ func (name *X509CertificateName) AssignProperties_From_X509CertificateName(sourc
 }
 
 // AssignProperties_To_X509CertificateName populates the provided destination X509CertificateName from our X509CertificateName
-func (name *X509CertificateName) AssignProperties_To_X509CertificateName(destination *storage.X509CertificateName) error {
+func (name *X509CertificateName) AssignProperties_To_X509CertificateName(destination *v20220801s.X509CertificateName) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(name.PropertyBag)
 
@@ -2532,7 +3444,7 @@ type X509CertificateName_STATUS struct {
 }
 
 // AssignProperties_From_X509CertificateName_STATUS populates our X509CertificateName_STATUS from the provided source X509CertificateName_STATUS
-func (name *X509CertificateName_STATUS) AssignProperties_From_X509CertificateName_STATUS(source *storage.X509CertificateName_STATUS) error {
+func (name *X509CertificateName_STATUS) AssignProperties_From_X509CertificateName_STATUS(source *v20220801s.X509CertificateName_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2563,7 +3475,7 @@ func (name *X509CertificateName_STATUS) AssignProperties_From_X509CertificateNam
 }
 
 // AssignProperties_To_X509CertificateName_STATUS populates the provided destination X509CertificateName_STATUS from our X509CertificateName_STATUS
-func (name *X509CertificateName_STATUS) AssignProperties_To_X509CertificateName_STATUS(destination *storage.X509CertificateName_STATUS) error {
+func (name *X509CertificateName_STATUS) AssignProperties_To_X509CertificateName_STATUS(destination *v20220801s.X509CertificateName_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(name.PropertyBag)
 
@@ -2593,14 +3505,24 @@ func (name *X509CertificateName_STATUS) AssignProperties_To_X509CertificateName_
 	return nil
 }
 
+type augmentConversionForCircuitBreakerFailureCondition interface {
+	AssignPropertiesFrom(src *v20220801sc.CircuitBreakerFailureCondition) error
+	AssignPropertiesTo(dst *v20220801sc.CircuitBreakerFailureCondition) error
+}
+
+type augmentConversionForCircuitBreakerFailureCondition_STATUS interface {
+	AssignPropertiesFrom(src *v20220801sc.CircuitBreakerFailureCondition_STATUS) error
+	AssignPropertiesTo(dst *v20220801sc.CircuitBreakerFailureCondition_STATUS) error
+}
+
 type augmentConversionForX509CertificateName interface {
-	AssignPropertiesFrom(src *storage.X509CertificateName) error
-	AssignPropertiesTo(dst *storage.X509CertificateName) error
+	AssignPropertiesFrom(src *v20220801s.X509CertificateName) error
+	AssignPropertiesTo(dst *v20220801s.X509CertificateName) error
 }
 
 type augmentConversionForX509CertificateName_STATUS interface {
-	AssignPropertiesFrom(src *storage.X509CertificateName_STATUS) error
-	AssignPropertiesTo(dst *storage.X509CertificateName_STATUS) error
+	AssignPropertiesFrom(src *v20220801s.X509CertificateName_STATUS) error
+	AssignPropertiesTo(dst *v20220801s.X509CertificateName_STATUS) error
 }
 
 // Storage version of v1api20230501preview.FailureStatusCodeRange
@@ -2611,12 +3533,146 @@ type FailureStatusCodeRange struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_FailureStatusCodeRange populates our FailureStatusCodeRange from the provided source FailureStatusCodeRange
+func (codeRange *FailureStatusCodeRange) AssignProperties_From_FailureStatusCodeRange(source *v20220801sc.FailureStatusCodeRange) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Max
+	codeRange.Max = genruntime.ClonePointerToInt(source.Max)
+
+	// Min
+	codeRange.Min = genruntime.ClonePointerToInt(source.Min)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		codeRange.PropertyBag = propertyBag
+	} else {
+		codeRange.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailureStatusCodeRange interface (if implemented) to customize the conversion
+	var codeRangeAsAny any = codeRange
+	if augmentedCodeRange, ok := codeRangeAsAny.(augmentConversionForFailureStatusCodeRange); ok {
+		err := augmentedCodeRange.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FailureStatusCodeRange populates the provided destination FailureStatusCodeRange from our FailureStatusCodeRange
+func (codeRange *FailureStatusCodeRange) AssignProperties_To_FailureStatusCodeRange(destination *v20220801sc.FailureStatusCodeRange) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(codeRange.PropertyBag)
+
+	// Max
+	destination.Max = genruntime.ClonePointerToInt(codeRange.Max)
+
+	// Min
+	destination.Min = genruntime.ClonePointerToInt(codeRange.Min)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailureStatusCodeRange interface (if implemented) to customize the conversion
+	var codeRangeAsAny any = codeRange
+	if augmentedCodeRange, ok := codeRangeAsAny.(augmentConversionForFailureStatusCodeRange); ok {
+		err := augmentedCodeRange.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.FailureStatusCodeRange_STATUS
 // The failure http status code range
 type FailureStatusCodeRange_STATUS struct {
 	Max         *int                   `json:"max,omitempty"`
 	Min         *int                   `json:"min,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_FailureStatusCodeRange_STATUS populates our FailureStatusCodeRange_STATUS from the provided source FailureStatusCodeRange_STATUS
+func (codeRange *FailureStatusCodeRange_STATUS) AssignProperties_From_FailureStatusCodeRange_STATUS(source *v20220801sc.FailureStatusCodeRange_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Max
+	codeRange.Max = genruntime.ClonePointerToInt(source.Max)
+
+	// Min
+	codeRange.Min = genruntime.ClonePointerToInt(source.Min)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		codeRange.PropertyBag = propertyBag
+	} else {
+		codeRange.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailureStatusCodeRange_STATUS interface (if implemented) to customize the conversion
+	var codeRangeAsAny any = codeRange
+	if augmentedCodeRange, ok := codeRangeAsAny.(augmentConversionForFailureStatusCodeRange_STATUS); ok {
+		err := augmentedCodeRange.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FailureStatusCodeRange_STATUS populates the provided destination FailureStatusCodeRange_STATUS from our FailureStatusCodeRange_STATUS
+func (codeRange *FailureStatusCodeRange_STATUS) AssignProperties_To_FailureStatusCodeRange_STATUS(destination *v20220801sc.FailureStatusCodeRange_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(codeRange.PropertyBag)
+
+	// Max
+	destination.Max = genruntime.ClonePointerToInt(codeRange.Max)
+
+	// Min
+	destination.Min = genruntime.ClonePointerToInt(codeRange.Min)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailureStatusCodeRange_STATUS interface (if implemented) to customize the conversion
+	var codeRangeAsAny any = codeRange
+	if augmentedCodeRange, ok := codeRangeAsAny.(augmentConversionForFailureStatusCodeRange_STATUS); ok {
+		err := augmentedCodeRange.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForFailureStatusCodeRange interface {
+	AssignPropertiesFrom(src *v20220801sc.FailureStatusCodeRange) error
+	AssignPropertiesTo(dst *v20220801sc.FailureStatusCodeRange) error
+}
+
+type augmentConversionForFailureStatusCodeRange_STATUS interface {
+	AssignPropertiesFrom(src *v20220801sc.FailureStatusCodeRange_STATUS) error
+	AssignPropertiesTo(dst *v20220801sc.FailureStatusCodeRange_STATUS) error
 }
 
 func init() {

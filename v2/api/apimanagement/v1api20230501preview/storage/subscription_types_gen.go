@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Subscription{}
 
 // ConvertFrom populates our Subscription from the provided hub Subscription
 func (subscription *Subscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Subscription)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Subscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Subscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_Subscription(source)
+	err = subscription.AssignProperties_From_Subscription(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Subscription from our Subscription
 func (subscription *Subscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Subscription)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Subscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Subscription
+	err := subscription.AssignProperties_To_Subscription(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_Subscription(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Subscription{}

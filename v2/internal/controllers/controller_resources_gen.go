@@ -18,6 +18,9 @@ import (
 	apimanagement_v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
 	apimanagement_v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	apimanagement_v20230501pw "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/webhook"
+	apimanagement_v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501"
+	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/webhook"
 	app_customizations "github.com/Azure/azure-service-operator/v2/api/app/customizations"
 	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
 	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
@@ -390,10 +393,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20210401s.SmartDetectorAlertRule)})
 	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20230301s.PrometheusRuleGroup)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Api)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ApiVersionSet)})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.AuthorizationProvider),
+		Obj: new(apimanagement_v20240501s.AuthorizationProvider),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.oauth2.grantTypes.authorizationCode",
@@ -412,12 +415,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.oauth2.grantTypes.authorizationCode",
 						".spec.oauth2.grantTypes.clientCredentials",
 					},
-					&apimanagement_v20220801s.AuthorizationProviderList{}),
+					&apimanagement_v20240501s.AuthorizationProviderList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorization),
+		Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorization),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.parameters",
@@ -431,12 +434,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.parameters",
 					},
-					&apimanagement_v20220801s.AuthorizationProvidersAuthorizationList{}),
+					&apimanagement_v20240501s.AuthorizationProvidersAuthorizationList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy),
+		Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.objectIdFromConfig",
@@ -455,12 +458,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.objectIdFromConfig",
 						".spec.tenantIdFromConfig",
 					},
-					&apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicyList{}),
+					&apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicyList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.Backend),
+		Obj: new(apimanagement_v20240501s.Backend),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.proxy.password",
@@ -474,12 +477,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.proxy.password",
 					},
-					&apimanagement_v20220801s.BackendList{}),
+					&apimanagement_v20240501s.BackendList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.NamedValue),
+		Obj: new(apimanagement_v20240501s.NamedValue),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.keyVault.identityClientIdFromConfig",
@@ -493,17 +496,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.keyVault.identityClientIdFromConfig",
 					},
-					&apimanagement_v20220801s.NamedValueList{}),
+					&apimanagement_v20240501s.NamedValueList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Policy)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.PolicyFragment)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Product)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ProductApi)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ProductPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Policy)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.PolicyFragment)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Product)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ProductApi)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ProductPolicy)})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.Service),
+		Obj: new(apimanagement_v20240501s.Service),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.certificates.certificatePassword",
@@ -550,7 +553,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.certificates.certificatePassword",
 						".spec.hostnameConfigurations.certificatePassword",
 					},
-					&apimanagement_v20220801s.ServiceList{}),
+					&apimanagement_v20240501s.ServiceList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -564,12 +567,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.hostnameConfigurations.certificate.thumbprintFromConfig",
 						".spec.hostnameConfigurations.identityClientIdFromConfig",
 					},
-					&apimanagement_v20220801s.ServiceList{}),
+					&apimanagement_v20240501s.ServiceList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(apimanagement_v20220801s.Subscription),
+		Obj: new(apimanagement_v20240501s.Subscription),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.primaryKey",
@@ -588,7 +591,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.primaryKey",
 						".spec.secondaryKey",
 					},
-					&apimanagement_v20220801s.SubscriptionList{}),
+					&apimanagement_v20240501s.SubscriptionList{}),
 			},
 		},
 	})
@@ -2733,6 +2736,94 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20230501ps.ProductPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20230501ps.Service)},
 		&registration.KnownType{Obj: new(apimanagement_v20230501ps.Subscription)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Api),
+			Defaulter: &apimanagement_v20240501w.Api{},
+			Validator: &apimanagement_v20240501w.Api{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ApiVersionSet),
+			Defaulter: &apimanagement_v20240501w.ApiVersionSet{},
+			Validator: &apimanagement_v20240501w.ApiVersionSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.AuthorizationProvider),
+			Defaulter: &apimanagement_v20240501w.AuthorizationProvider{},
+			Validator: &apimanagement_v20240501w.AuthorizationProvider{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.AuthorizationProvidersAuthorization),
+			Defaulter: &apimanagement_v20240501w.AuthorizationProvidersAuthorization{},
+			Validator: &apimanagement_v20240501w.AuthorizationProvidersAuthorization{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.AuthorizationProvidersAuthorizationsAccessPolicy),
+			Defaulter: &apimanagement_v20240501w.AuthorizationProvidersAuthorizationsAccessPolicy{},
+			Validator: &apimanagement_v20240501w.AuthorizationProvidersAuthorizationsAccessPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Backend),
+			Defaulter: &apimanagement_v20240501w.Backend{},
+			Validator: &apimanagement_v20240501w.Backend{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.NamedValue),
+			Defaulter: &apimanagement_v20240501w.NamedValue{},
+			Validator: &apimanagement_v20240501w.NamedValue{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Policy),
+			Defaulter: &apimanagement_v20240501w.Policy{},
+			Validator: &apimanagement_v20240501w.Policy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.PolicyFragment),
+			Defaulter: &apimanagement_v20240501w.PolicyFragment{},
+			Validator: &apimanagement_v20240501w.PolicyFragment{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Product),
+			Defaulter: &apimanagement_v20240501w.Product{},
+			Validator: &apimanagement_v20240501w.Product{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ProductApi),
+			Defaulter: &apimanagement_v20240501w.ProductApi{},
+			Validator: &apimanagement_v20240501w.ProductApi{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ProductPolicy),
+			Defaulter: &apimanagement_v20240501w.ProductPolicy{},
+			Validator: &apimanagement_v20240501w.ProductPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Service),
+			Defaulter: &apimanagement_v20240501w.Service{},
+			Validator: &apimanagement_v20240501w.Service{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Subscription),
+			Defaulter: &apimanagement_v20240501w.Subscription{},
+			Validator: &apimanagement_v20240501w.Subscription{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Api)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ApiVersionSet)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvider)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorization)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Backend)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.NamedValue)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Policy)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.PolicyFragment)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Product)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductApi)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Service)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Subscription)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5346,6 +5437,8 @@ func createScheme() *runtime.Scheme {
 	_ = apimanagement_v20220801s.AddToScheme(scheme)
 	_ = apimanagement_v20230501p.AddToScheme(scheme)
 	_ = apimanagement_v20230501ps.AddToScheme(scheme)
+	_ = apimanagement_v20240501.AddToScheme(scheme)
+	_ = apimanagement_v20240501s.AddToScheme(scheme)
 	_ = app_v20240301.AddToScheme(scheme)
 	_ = app_v20240301s.AddToScheme(scheme)
 	_ = app_v20250101.AddToScheme(scheme)
@@ -5814,9 +5907,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	return result
 }
 
-// indexApimanagementAuthorizationProviderAuthorizationCode an index function for apimanagement_v20220801s.AuthorizationProvider .spec.oauth2.grantTypes.authorizationCode
+// indexApimanagementAuthorizationProviderAuthorizationCode an index function for apimanagement_v20240501s.AuthorizationProvider .spec.oauth2.grantTypes.authorizationCode
 func indexApimanagementAuthorizationProviderAuthorizationCode(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvider)
+	obj, ok := rawObj.(*apimanagement_v20240501s.AuthorizationProvider)
 	if !ok {
 		return nil
 	}
@@ -5832,9 +5925,9 @@ func indexApimanagementAuthorizationProviderAuthorizationCode(rawObj client.Obje
 	return obj.Spec.Oauth2.GrantTypes.AuthorizationCode.Index()
 }
 
-// indexApimanagementAuthorizationProviderClientCredentials an index function for apimanagement_v20220801s.AuthorizationProvider .spec.oauth2.grantTypes.clientCredentials
+// indexApimanagementAuthorizationProviderClientCredentials an index function for apimanagement_v20240501s.AuthorizationProvider .spec.oauth2.grantTypes.clientCredentials
 func indexApimanagementAuthorizationProviderClientCredentials(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvider)
+	obj, ok := rawObj.(*apimanagement_v20240501s.AuthorizationProvider)
 	if !ok {
 		return nil
 	}
@@ -5850,9 +5943,9 @@ func indexApimanagementAuthorizationProviderClientCredentials(rawObj client.Obje
 	return obj.Spec.Oauth2.GrantTypes.ClientCredentials.Index()
 }
 
-// indexApimanagementAuthorizationProvidersAuthorizationParameters an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorization .spec.parameters
+// indexApimanagementAuthorizationProvidersAuthorizationParameters an index function for apimanagement_v20240501s.AuthorizationProvidersAuthorization .spec.parameters
 func indexApimanagementAuthorizationProvidersAuthorizationParameters(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorization)
+	obj, ok := rawObj.(*apimanagement_v20240501s.AuthorizationProvidersAuthorization)
 	if !ok {
 		return nil
 	}
@@ -5862,9 +5955,9 @@ func indexApimanagementAuthorizationProvidersAuthorizationParameters(rawObj clie
 	return obj.Spec.Parameters.Index()
 }
 
-// indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.objectIdFromConfig
+// indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig an index function for apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.objectIdFromConfig
 func indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)
+	obj, ok := rawObj.(*apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)
 	if !ok {
 		return nil
 	}
@@ -5874,9 +5967,9 @@ func indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdF
 	return obj.Spec.ObjectIdFromConfig.Index()
 }
 
-// indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdFromConfig an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.tenantIdFromConfig
+// indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdFromConfig an index function for apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.tenantIdFromConfig
 func indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)
+	obj, ok := rawObj.(*apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)
 	if !ok {
 		return nil
 	}
@@ -5886,9 +5979,9 @@ func indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdF
 	return obj.Spec.TenantIdFromConfig.Index()
 }
 
-// indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password
+// indexApimanagementBackendPassword an index function for apimanagement_v20240501s.Backend .spec.proxy.password
 func indexApimanagementBackendPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Backend)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Backend)
 	if !ok {
 		return nil
 	}
@@ -5901,9 +5994,9 @@ func indexApimanagementBackendPassword(rawObj client.Object) []string {
 	return obj.Spec.Proxy.Password.Index()
 }
 
-// indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20220801s.NamedValue .spec.keyVault.identityClientIdFromConfig
+// indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20240501s.NamedValue .spec.keyVault.identityClientIdFromConfig
 func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.NamedValue)
+	obj, ok := rawObj.(*apimanagement_v20240501s.NamedValue)
 	if !ok {
 		return nil
 	}
@@ -5916,9 +6009,9 @@ func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object
 	return obj.Spec.KeyVault.IdentityClientIdFromConfig.Index()
 }
 
-// indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20220801s.Service .spec.certificates.certificatePassword
+// indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20240501s.Service .spec.certificates.certificatePassword
 func indexApimanagementServiceCertificatesCertificatePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -5932,9 +6025,9 @@ func indexApimanagementServiceCertificatesCertificatePassword(rawObj client.Obje
 	return result
 }
 
-// indexApimanagementServiceCertificatesExpiryFromConfig an index function for apimanagement_v20220801s.Service .spec.certificates.certificate.expiryFromConfig
+// indexApimanagementServiceCertificatesExpiryFromConfig an index function for apimanagement_v20240501s.Service .spec.certificates.certificate.expiryFromConfig
 func indexApimanagementServiceCertificatesExpiryFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -5951,9 +6044,9 @@ func indexApimanagementServiceCertificatesExpiryFromConfig(rawObj client.Object)
 	return result
 }
 
-// indexApimanagementServiceCertificatesSubjectFromConfig an index function for apimanagement_v20220801s.Service .spec.certificates.certificate.subjectFromConfig
+// indexApimanagementServiceCertificatesSubjectFromConfig an index function for apimanagement_v20240501s.Service .spec.certificates.certificate.subjectFromConfig
 func indexApimanagementServiceCertificatesSubjectFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -5970,9 +6063,9 @@ func indexApimanagementServiceCertificatesSubjectFromConfig(rawObj client.Object
 	return result
 }
 
-// indexApimanagementServiceCertificatesThumbprintFromConfig an index function for apimanagement_v20220801s.Service .spec.certificates.certificate.thumbprintFromConfig
+// indexApimanagementServiceCertificatesThumbprintFromConfig an index function for apimanagement_v20240501s.Service .spec.certificates.certificate.thumbprintFromConfig
 func indexApimanagementServiceCertificatesThumbprintFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -5989,9 +6082,9 @@ func indexApimanagementServiceCertificatesThumbprintFromConfig(rawObj client.Obj
 	return result
 }
 
-// indexApimanagementServiceHostnameConfigurationsCertificatePassword an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificatePassword
+// indexApimanagementServiceHostnameConfigurationsCertificatePassword an index function for apimanagement_v20240501s.Service .spec.hostnameConfigurations.certificatePassword
 func indexApimanagementServiceHostnameConfigurationsCertificatePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -6005,9 +6098,9 @@ func indexApimanagementServiceHostnameConfigurationsCertificatePassword(rawObj c
 	return result
 }
 
-// indexApimanagementServiceHostnameConfigurationsExpiryFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificate.expiryFromConfig
+// indexApimanagementServiceHostnameConfigurationsExpiryFromConfig an index function for apimanagement_v20240501s.Service .spec.hostnameConfigurations.certificate.expiryFromConfig
 func indexApimanagementServiceHostnameConfigurationsExpiryFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -6024,9 +6117,9 @@ func indexApimanagementServiceHostnameConfigurationsExpiryFromConfig(rawObj clie
 	return result
 }
 
-// indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.identityClientIdFromConfig
+// indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig an index function for apimanagement_v20240501s.Service .spec.hostnameConfigurations.identityClientIdFromConfig
 func indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -6040,9 +6133,9 @@ func indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig(r
 	return result
 }
 
-// indexApimanagementServiceHostnameConfigurationsSubjectFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificate.subjectFromConfig
+// indexApimanagementServiceHostnameConfigurationsSubjectFromConfig an index function for apimanagement_v20240501s.Service .spec.hostnameConfigurations.certificate.subjectFromConfig
 func indexApimanagementServiceHostnameConfigurationsSubjectFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -6059,9 +6152,9 @@ func indexApimanagementServiceHostnameConfigurationsSubjectFromConfig(rawObj cli
 	return result
 }
 
-// indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificate.thumbprintFromConfig
+// indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig an index function for apimanagement_v20240501s.Service .spec.hostnameConfigurations.certificate.thumbprintFromConfig
 func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Service)
 	if !ok {
 		return nil
 	}
@@ -6078,9 +6171,9 @@ func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj 
 	return result
 }
 
-// indexApimanagementSubscriptionPrimaryKey an index function for apimanagement_v20220801s.Subscription .spec.primaryKey
+// indexApimanagementSubscriptionPrimaryKey an index function for apimanagement_v20240501s.Subscription .spec.primaryKey
 func indexApimanagementSubscriptionPrimaryKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Subscription)
 	if !ok {
 		return nil
 	}
@@ -6090,9 +6183,9 @@ func indexApimanagementSubscriptionPrimaryKey(rawObj client.Object) []string {
 	return obj.Spec.PrimaryKey.Index()
 }
 
-// indexApimanagementSubscriptionSecondaryKey an index function for apimanagement_v20220801s.Subscription .spec.secondaryKey
+// indexApimanagementSubscriptionSecondaryKey an index function for apimanagement_v20240501s.Subscription .spec.secondaryKey
 func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	obj, ok := rawObj.(*apimanagement_v20240501s.Subscription)
 	if !ok {
 		return nil
 	}

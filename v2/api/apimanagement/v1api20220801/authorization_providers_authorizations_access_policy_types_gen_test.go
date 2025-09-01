@@ -5,7 +5,8 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForAuthorizationProvidersAuthorizationsAccessPolic
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AuthorizationProvidersAuthorizationsAccessPolicy
+	var hub v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvidersAuthorizationsAccessPolicy
+	var other v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
+	var other v20220801s.AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
+	var other v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -386,7 +387,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvidersAuthorizationsAccessPolicy_Spec
+	var other v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy_Spec
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()

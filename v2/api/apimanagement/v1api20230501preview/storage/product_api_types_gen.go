@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ProductApi{}
 
 // ConvertFrom populates our ProductApi from the provided hub ProductApi
 func (productApi *ProductApi) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ProductApi)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ProductApi
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return productApi.AssignProperties_From_ProductApi(source)
+	err = productApi.AssignProperties_From_ProductApi(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to productApi")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ProductApi from our ProductApi
 func (productApi *ProductApi) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ProductApi)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ProductApi
+	err := productApi.AssignProperties_To_ProductApi(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from productApi")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return productApi.AssignProperties_To_ProductApi(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ProductApi{}

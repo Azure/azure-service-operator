@@ -1226,6 +1226,113 @@ objectModelConfiguration:
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $referenceType: arm
+    2024-05-01:
+      AdditionalLocation:
+        PublicIpAddressId:
+          $referenceType: arm
+      ApiCreateOrUpdateProperties:
+        ApiVersionSetId:
+          $referenceType: arm
+        SourceApiId:
+          $referenceType: arm
+      ApiVersionSetContractDetails:
+        Id: 
+          $referenceType: arm
+      ApiManagementServiceProperties:
+        PublicIpAddressId:
+          $referenceType: arm
+      AuthorizationAccessPolicyContractProperties:
+        TenantId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      AuthorizationContractProperties:
+        Parameters:
+          $isSecret: true
+      AuthorizationProviderOAuth2GrantTypes:
+        AuthorizationCode:
+          $isSecret: true
+        ClientCredentials:
+          $isSecret: true
+      BackendContractProperties:
+        ResourceId:
+          $referenceType: arm
+      BackendProxyContract:
+        Password:
+          $isSecret: true
+      CertificateInformation:
+        Expiry:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+        Thumbprint:
+          $importConfigMapMode: optional
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
+      KeyVaultContractCreateProperties:
+        IdentityClientId:
+          $importConfigMapMode: optional
+      Service:
+        $exportAs: Service
+        $supportedFrom: v2.16.0
+      Service_Api:
+        $exportAs: Api
+        $supportedFrom: v2.16.0
+      Service_ApiVersionSet:
+        $exportAs: ApiVersionSet
+        $supportedFrom: v2.16.0
+      Service_AuthorizationProvider:
+        $exportAs: AuthorizationProvider
+        $supportedFrom: v2.16.0
+      Service_AuthorizationProviders_Authorization:
+        $exportAs: AuthorizationProvidersAuthorization
+        $supportedFrom: v2.16.0
+      Service_AuthorizationProviders_Authorizations_AccessPolicy:
+        $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+        $supportedFrom: v2.16.0
+      Service_Backend:
+        $exportAs: Backend
+        $supportedFrom: v2.16.0
+      Service_NamedValue:
+        $exportAs: NamedValue
+        $supportedFrom: v2.16.0
+      Service_Policy:
+        $exportAs: Policy
+        $supportedFrom: v2.16.0
+      Service_PolicyFragment:
+        $exportAs: PolicyFragment
+        $supportedFrom: v2.16.0
+      Service_Product:
+        $exportAs: Product
+        $supportedFrom: v2.16.0
+      Service_Products_Api:
+        $exportAs: ProductApi
+        $supportedFrom: v2.16.0
+      Service_Products_Policy:
+        $exportAs: ProductPolicy
+        $supportedFrom: v2.16.0
+      Service_Subscription:
+        $exportAs: Subscription
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+      SubscriptionCreateParameterProperties:
+        PrimaryKey:
+          $isSecret: true
+        SecondaryKey:
+          $isSecret: true
+        OwnerId:
+          $referenceType: arm
+      VirtualNetworkConfiguration:
+        SubnetResourceId:
+          $referenceType: arm
   app:
     2025-01-01:
       ContainerApp:

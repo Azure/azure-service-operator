@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ProductPolicy{}
 
 // ConvertFrom populates our ProductPolicy from the provided hub ProductPolicy
 func (policy *ProductPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ProductPolicy)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ProductPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ProductPolicy(source)
+	err = policy.AssignProperties_From_ProductPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ProductPolicy from our ProductPolicy
 func (policy *ProductPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ProductPolicy)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ProductPolicy
+	err := policy.AssignProperties_To_ProductPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ProductPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ProductPolicy{}
