@@ -60,8 +60,10 @@ var dataCollectionRule_Kind_Spec_Values = map[string]DataCollectionRule_Kind_Spe
 // Definition of what monitoring data to collect and where that data should be sent.
 type DataCollectionRuleSpec struct {
 	// AgentSettings: Agent settings used to modify agent behavior on a given host
-	AgentSettings            *AgentSettingsSpec `json:"agentSettings,omitempty"`
-	DataCollectionEndpointId *string            `json:"dataCollectionEndpointId,omitempty"`
+	AgentSettings *AgentSettingsSpec `json:"agentSettings,omitempty"`
+
+	// DataCollectionEndpointId: The resource ID of the data collection endpoint that this rule can be used with.
+	DataCollectionEndpointId *string `json:"dataCollectionEndpointId,omitempty"`
 
 	// DataFlows: The specification of data flows.
 	DataFlows []DataFlow `json:"dataFlows,omitempty"`
@@ -197,7 +199,9 @@ type AdxDestination struct {
 
 	// Name: A friendly name for the destination.
 	// This name should be unique across all destinations (regardless of type) within the data collection rule.
-	Name       *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// ResourceId: The ARM resource id of the Adx resource.
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
@@ -259,6 +263,7 @@ type EnrichmentData struct {
 }
 
 type EventHubDestination struct {
+	// EventHubResourceId: The resource ID of the event hub.
 	EventHubResourceId *string `json:"eventHubResourceId,omitempty"`
 
 	// Name: A friendly name for the destination.
@@ -267,6 +272,7 @@ type EventHubDestination struct {
 }
 
 type EventHubDirectDestination struct {
+	// EventHubResourceId: The resource ID of the event hub.
 	EventHubResourceId *string `json:"eventHubResourceId,omitempty"`
 
 	// Name: A friendly name for the destination.
@@ -317,7 +323,9 @@ type IisLogsDataSource struct {
 type LogAnalyticsDestination struct {
 	// Name: A friendly name for the destination.
 	// This name should be unique across all destinations (regardless of type) within the data collection rule.
-	Name                *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// WorkspaceResourceId: The resource ID of the Log Analytics workspace.
 	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
 }
 
@@ -365,6 +373,7 @@ type MicrosoftFabricDestination struct {
 
 // Monitoring account destination.
 type MonitoringAccountDestination struct {
+	// AccountResourceId: The resource ID of the monitoring account.
 	AccountResourceId *string `json:"accountResourceId,omitempty"`
 
 	// Name: A friendly name for the destination.
@@ -428,14 +437,18 @@ type StorageBlobDestination struct {
 
 	// Name: A friendly name for the destination.
 	// This name should be unique across all destinations (regardless of type) within the data collection rule.
-	Name                     *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// StorageAccountResourceId: The resource ID of the storage account.
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }
 
 type StorageTableDestination struct {
 	// Name: A friendly name for the destination.
 	// This name should be unique across all destinations (regardless of type) within the data collection rule.
-	Name                     *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// StorageAccountResourceId: The resource ID of the storage account.
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 
 	// TableName: The name of the Storage Table.
@@ -619,7 +632,9 @@ type StorageBlob struct {
 	LookupType *StorageBlob_LookupType `json:"lookupType,omitempty"`
 
 	// Name: The name of the enrichment data source used as an alias when referencing this data source in data flows
-	Name       *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// ResourceId: Resource Id of the storage account that hosts the blob
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 

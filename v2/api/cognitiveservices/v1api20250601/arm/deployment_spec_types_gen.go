@@ -79,8 +79,12 @@ type DeploymentModel struct {
 	Name *string `json:"name,omitempty" optionalConfigMapPair:"Name"`
 
 	// Publisher: Deployment model publisher.
-	Publisher     *string `json:"publisher,omitempty" optionalConfigMapPair:"Publisher"`
-	Source        *string `json:"source,omitempty"`
+	Publisher *string `json:"publisher,omitempty" optionalConfigMapPair:"Publisher"`
+
+	// Source: Optional. Deployment model source ARM resource ID.
+	Source *string `json:"source,omitempty"`
+
+	// SourceAccount: Optional. Source of the model, another Microsoft.CognitiveServices accounts ARM resource ID.
 	SourceAccount *string `json:"sourceAccount,omitempty"`
 
 	// Version: Optional. Deployment model version. If version is not specified, a default version will be assigned. The

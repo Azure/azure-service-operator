@@ -53,6 +53,11 @@ var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {
+	// OptionalVNet: A string of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	OptionalVNet *string `json:"optionalVNet,omitempty"`
+
+	// RequiredVNet: A string of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	RequiredVNet *string `json:"requiredVNet,omitempty"`
 }

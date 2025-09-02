@@ -108,8 +108,10 @@ type AutomationRunbookReceiver struct {
 	ServiceUri *string `json:"serviceUri,omitempty"`
 
 	// UseCommonAlertSchema: Indicates whether to use common alert schema.
-	UseCommonAlertSchema *bool   `json:"useCommonAlertSchema,omitempty"`
-	WebhookResourceId    *string `json:"webhookResourceId,omitempty"`
+	UseCommonAlertSchema *bool `json:"useCommonAlertSchema,omitempty"`
+
+	// WebhookResourceId: The resource id for webhook linked to this runbook.
+	WebhookResourceId *string `json:"webhookResourceId,omitempty"`
 }
 
 // The Azure mobile App push notification receiver.
@@ -123,6 +125,7 @@ type AzureAppPushReceiver struct {
 
 // An azure function receiver.
 type AzureFunctionReceiver struct {
+	// FunctionAppResourceId: The azure resource id of the function app.
 	FunctionAppResourceId *string `json:"functionAppResourceId,omitempty"`
 
 	// FunctionName: The function name in the function app.
@@ -197,7 +200,9 @@ type LogicAppReceiver struct {
 	CallbackUrl *string `json:"callbackUrl,omitempty"`
 
 	// Name: The name of the logic app receiver. Names must be unique across all receivers within an action group.
-	Name       *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// ResourceId: The azure resource id of the logic app receiver.
 	ResourceId *string `json:"resourceId,omitempty"`
 
 	// UseCommonAlertSchema: Indicates whether to use common alert schema.

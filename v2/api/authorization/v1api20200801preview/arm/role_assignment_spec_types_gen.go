@@ -37,7 +37,9 @@ type RoleAssignmentProperties struct {
 	Condition *string `json:"condition,omitempty"`
 
 	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
-	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
+	ConditionVersion *string `json:"conditionVersion,omitempty"`
+
+	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
 	// Description: Description of role assignment
@@ -47,8 +49,10 @@ type RoleAssignmentProperties struct {
 	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType    *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId *string                                 `json:"roleDefinitionId,omitempty"`
+	PrincipalType *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
+
+	// RoleDefinitionId: The role definition ID.
+	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}

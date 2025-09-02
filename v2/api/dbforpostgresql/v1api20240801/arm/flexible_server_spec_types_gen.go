@@ -85,8 +85,12 @@ type ServerProperties struct {
 	Replica *Replica `json:"replica,omitempty"`
 
 	// ReplicationRole: Role of the server in a replication set.
-	ReplicationRole        *ReplicationRole `json:"replicationRole,omitempty"`
-	SourceServerResourceId *string          `json:"sourceServerResourceId,omitempty"`
+	ReplicationRole *ReplicationRole `json:"replicationRole,omitempty"`
+
+	// SourceServerResourceId: Identifier of the flexible server to be used as the source of the new flexible server. Required
+	// when 'createMode' is 'PointInTimeRestore', 'GeoRestore', 'Replica', or 'ReviveDropped'. This property is returned only
+	// when the target flexible server is a read replica.
+	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// Storage: Storage properties of a flexible server.
 	Storage *Storage `json:"storage,omitempty"`
@@ -145,7 +149,11 @@ type DataEncryption struct {
 	// GeoBackupKeyURI: Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data
 	// encryption of the geographically redundant storage associated to a flexible server that is configured to support
 	// geographically redundant backups.
-	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
+	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
+
+	// GeoBackupUserAssignedIdentityId: Identifier of the user assigned managed identity used to access the key in Azure Key
+	// Vault for data encryption of the geographically redundant storage associated to a flexible server that is configured to
+	// support geographically redundant backups.
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
 	// PrimaryEncryptionKeyStatus: Status of key used by a flexible server configured with data encryption based on customer
@@ -154,7 +162,10 @@ type DataEncryption struct {
 
 	// PrimaryKeyURI: URI of the key in Azure Key Vault used for data encryption of the primary storage associated to a
 	// flexible server.
-	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
+	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
+
+	// PrimaryUserAssignedIdentityId: Identifier of the user assigned managed identity used to access the key in Azure Key
+	// Vault for data encryption of the primary storage associated to a flexible server.
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type used by a flexible server.
@@ -188,7 +199,14 @@ type MaintenanceWindow struct {
 
 // Network properties of a flexible server.
 type Network struct {
-	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
+	// DelegatedSubnetResourceId: Resource identifier of the delegated subnet. Required during creation of a new server, in
+	// case you want the server to be integrated into your own virtual network. For an update operation, you only have to
+	// provide this property if you want to change the value assigned for the private DNS zone.
+	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
+
+	// PrivateDnsZoneArmResourceId: Identifier of the private DNS zone. Required during creation of a new server, in case you
+	// want the server to be integrated into your own virtual network. For an update operation, you only have to provide this
+	// property if you want to change the value assigned for the private DNS zone.
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 
 	// PublicNetworkAccess: Indicates if public network access is enabled or not.

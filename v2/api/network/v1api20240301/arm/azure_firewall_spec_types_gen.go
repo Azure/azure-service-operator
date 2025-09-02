@@ -160,6 +160,7 @@ type HubIPAddresses struct {
 
 // Reference to another subresource.
 type SubResource struct {
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 

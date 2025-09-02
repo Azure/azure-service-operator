@@ -115,14 +115,18 @@ type HighAvailabilityProperties struct {
 // Parameters used for replica operations.
 type MongoClusterReplicaParameters struct {
 	// SourceLocation: The location of the source cluster
-	SourceLocation   *string `json:"sourceLocation,omitempty"`
+	SourceLocation *string `json:"sourceLocation,omitempty"`
+
+	// SourceResourceId: The id of the replication source cluster.
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 }
 
 // Parameters used for restore operations
 type MongoClusterRestoreParameters struct {
 	// PointInTimeUTC: UTC point in time to restore a mongo cluster
-	PointInTimeUTC   *string `json:"pointInTimeUTC,omitempty"`
+	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
+
+	// SourceResourceId: Resource ID to locate the source cluster to restore
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 }
 

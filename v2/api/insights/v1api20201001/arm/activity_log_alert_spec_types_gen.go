@@ -48,8 +48,11 @@ type AlertRuleProperties struct {
 
 	// Enabled: Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then
 	// none of its actions will be activated.
-	Enabled *bool    `json:"enabled,omitempty"`
-	Scopes  []string `json:"scopes,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Scopes: A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with
+	// resource IDs that fall under one of these prefixes. This list must include at least one item.
+	Scopes []string `json:"scopes,omitempty"`
 }
 
 // A list of Activity Log Alert rule actions.
@@ -66,6 +69,7 @@ type AlertRuleAllOfCondition struct {
 
 // A pointer to an Azure Action Group.
 type ActionGroupReference struct {
+	// ActionGroupId: The resource ID of the Action Group. This cannot be null or empty.
 	ActionGroupId *string `json:"actionGroupId,omitempty"`
 
 	// WebhookProperties: the dictionary of custom properties to include with the post operation. These data are appended to
