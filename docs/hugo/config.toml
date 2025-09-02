@@ -170,4 +170,4 @@ path = "github.com/google/docsy"
 path = "github.com/google/docsy/dependencies"
 
 [params.mermaid]
-enable = true
+enable = false

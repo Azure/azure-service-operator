@@ -1,6 +1,7 @@
 ---
 title: '2024-10 OneOf Resouces'
 toc_hide: false
+draft: true
 ---
 
 ## Context
