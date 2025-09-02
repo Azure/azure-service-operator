@@ -53,8 +53,19 @@ var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {
-	Id       *string           `json:"id,omitempty"`
-	NsgIds   []string          `json:"nsgIds,omitempty"`
-	NsgMap   map[string]string `json:"nsgMap,omitempty"`
-	SubnetId *string           `json:"subnetId,omitempty"`
+	// Id: A string of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	Id *string `json:"id,omitempty"`
+
+	// NsgIds: A collection of NSG IDs of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
+	NsgIds []string `json:"nsgIds,omitempty"`
+
+	// NsgMap: A map of NSG IDs of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
+	NsgMap map[string]string `json:"nsgMap,omitempty"`
+
+	// SubnetId: A string of the form
+	// /SUBSCRIPTIONS/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	SubnetId *string `json:"subnetId,omitempty"`
 }
