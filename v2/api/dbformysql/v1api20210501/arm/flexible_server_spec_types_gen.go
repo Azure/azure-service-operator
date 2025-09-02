@@ -114,11 +114,16 @@ type Backup struct {
 // The date encryption for cmk.
 type DataEncryption struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
-	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
+
+	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
+	// same region as geo backup
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
 	// PrimaryKeyURI: Primary key uri
-	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
+
+	// PrimaryUserAssignedIdentityId: Primary user identity resource id
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
@@ -161,8 +166,11 @@ type MaintenanceWindow struct {
 
 // Network related properties of a server
 type Network struct {
+	// DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
-	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
+
+	// PrivateDnsZoneResourceId: Private DNS zone resource id.
+	PrivateDnsZoneResourceId *string `json:"privateDnsZoneResourceId,omitempty"`
 }
 
 // The replication role.

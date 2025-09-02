@@ -31,8 +31,11 @@ func (association *DataCollectionRuleAssociation_Spec) GetType() string {
 
 // Definition of association of a data collection rule with a monitored Azure resource.
 type DataCollectionRuleAssociationSpec struct {
+	// DataCollectionEndpointId: The resource ID of the data collection endpoint that is to be associated.
 	DataCollectionEndpointId *string `json:"dataCollectionEndpointId,omitempty"`
-	DataCollectionRuleId     *string `json:"dataCollectionRuleId,omitempty"`
+
+	// DataCollectionRuleId: The resource ID of the data collection rule that is to be associated.
+	DataCollectionRuleId *string `json:"dataCollectionRuleId,omitempty"`
 
 	// Description: Description of the association.
 	Description *string `json:"description,omitempty"`

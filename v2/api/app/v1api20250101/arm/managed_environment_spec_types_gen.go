@@ -116,7 +116,10 @@ type ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec struct {
 type VnetConfiguration struct {
 	// DockerBridgeCidr: CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other
 	// provided IP ranges.
-	DockerBridgeCidr       *string `json:"dockerBridgeCidr,omitempty"`
+	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
+
+	// InfrastructureSubnetId: Resource ID of a subnet for infrastructure components. Must not overlap with any other provided
+	// IP ranges.
 	InfrastructureSubnetId *string `json:"infrastructureSubnetId,omitempty"`
 
 	// Internal: Boolean indicating the environment only has an internal load balancer. These environments do not have a public
@@ -149,6 +152,8 @@ type WorkloadProfile struct {
 
 // Properties for a certificate stored in a Key Vault.
 type CertificateKeyVaultProperties struct {
+	// Identity: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned
+	// identity.
 	Identity *string `json:"identity,omitempty"`
 
 	// KeyVaultUrl: URL pointing to the Azure Key Vault secret that holds the certificate.

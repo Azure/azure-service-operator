@@ -55,7 +55,9 @@ type SnapshotProperties struct {
 
 	// DataAccessAuthMode: Additional authentication requirements when exporting or uploading to a disk or snapshot.
 	DataAccessAuthMode *DataAccessAuthMode `json:"dataAccessAuthMode,omitempty"`
-	DiskAccessId       *string             `json:"diskAccessId,omitempty"`
+
+	// DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
+	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
 	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
