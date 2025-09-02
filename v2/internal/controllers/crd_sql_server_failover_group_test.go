@@ -23,7 +23,7 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Use a different region where we have quota
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = to.Ptr("westus2")
 
 	secondaryRegion := to.Ptr("eastus2")
 
