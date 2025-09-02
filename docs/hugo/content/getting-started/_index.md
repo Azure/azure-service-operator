@@ -73,6 +73,8 @@ recommended on AKS Free-tier clusters.
 See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
 {{% /alert %}}
 
+For a full list of available CRDs, you can look for the values of different `group:` parameters in [this file](https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_customresourcedefinitions_v2.0.0.yaml).
+
 {{% alert title="Note" %}}
 When installing ASO in an AKS cluster, see [AKS Best Practices]({{< relref "best-practices#aks-best-practices" >}}).
 {{% /alert %}}
@@ -98,20 +100,20 @@ First, set the following environment variables to your Azure Tenant ID and Subsc
 {{% tab header="**Shell**:" disabled=true /%}}
 {{% tab header="bash" %}}
 ``` bash
-$ export AZURE_TENANT_ID=<your-tenant-id-goes-here>
-$ export AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+$ export AZURE_TENANT_ID=<your-tenant-id-goes-here> # This is "TenantId," or if your account is managed by other tenants, "homeTenantId"
+$ export AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here> # This is "id" from az account show
 ```
 {{% /tab %}}
 {{% tab header="PowerShell" %}}
 ``` powershell
-PS> $AZURE_TENANT_ID=<your-tenant-id-goes-here>
-PS> $AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+PS> $AZURE_TENANT_ID=<your-tenant-id-goes-here> # This is "TenantId," or if your account is managed by other tenants, "homeTenantId"
+PS> $AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here> # This is "id" from az account show
 ```
 {{% /tab %}}
 {{% tab header="CMD" %}}
 ``` cmd
-C:\> SET AZURE_TENANT_ID=<your-tenant-id-goes-here>
-C:\> SET AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+C:\> SET AZURE_TENANT_ID=<your-tenant-id-goes-here> # This is "TenantId," or if your account is managed by other tenants, "homeTenantId"
+C:\> SET AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here> # This is "id" from az account show
 ```
 {{% /tab %}}
 {{< /tabpane >}}
