@@ -385,7 +385,7 @@ func (generator *CodeGenerator) executeStage(
 		}
 	}
 
-	return
+	return newState, err
 }
 
 // RemoveStages will remove all stages from the pipeline with the given ids.

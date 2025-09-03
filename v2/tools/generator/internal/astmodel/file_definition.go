@@ -262,5 +262,5 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 		Decls: decls,
 	}
 
-	return
+	return result, err
 }

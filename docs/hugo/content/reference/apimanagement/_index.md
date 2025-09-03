@@ -9,22 +9,22 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                         | ARM Version | CRD Version   | Supported From | Sample |
-|--------------------------------------------------|-------------|---------------|----------------|--------|
-| Api                                              | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| ApiVersionSet                                    | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| AuthorizationProvider                            | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| AuthorizationProvidersAuthorization              | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| AuthorizationProvidersAuthorizationsAccessPolicy | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| Backend                                          | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| NamedValue                                       | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| Policy                                           | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| PolicyFragment                                   | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| Product                                          | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| ProductApi                                       | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| ProductPolicy                                    | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| Service                                          | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
-| Subscription                                     | 2024-05-01  | v1api20240501 | v2.16.0        | -      |
+| Resource                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
+|--------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Api                                              | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_api.yaml)                                              |
+| ApiVersionSet                                    | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_apiversionset.yaml)                                    |
+| AuthorizationProvider                            | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovider.yaml)                            |
+| AuthorizationProvidersAuthorization              | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorization.yaml)              |
+| AuthorizationProvidersAuthorizationsAccessPolicy | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorizationsaccesspolicy.yaml) |
+| Backend                                          | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_backend.yaml)                                          |
+| NamedValue                                       | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_namedvalue.yaml)                                       |
+| Policy                                           | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policy.yaml)                                           |
+| PolicyFragment                                   | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policyfragment.yaml)                                   |
+| Product                                          | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_product.yaml)                                          |
+| ProductApi                                       | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productapi.yaml)                                       |
+| ProductPolicy                                    | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productpolicy.yaml)                                    |
+| Service                                          | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_service.yaml)                                          |
+| Subscription                                     | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_subscription.yaml)                                     |
 
 ### Latest Released Versions
 
