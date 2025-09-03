@@ -9,7 +9,7 @@ ARG TARGETARCH
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release graphviz zip nodejs npm python3-pip \
+    && apt-get -y install --no-install-recommends bash-completion lsb-release graphviz zip nodejs npm python3-pip \
     # install az-cli
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
 
