@@ -4274,6 +4274,9 @@ func (forCmk *IdentityForCmk) ConvertToARM(resolved genruntime.ConvertToARMResol
 		}
 		userAssignedIdentityReference := userAssignedIdentityReferenceARMID
 		result.UserAssignedIdentity = &userAssignedIdentityReference
+	} else if forCmk.UserAssignedIdentity != nil {
+		userAssignedIdentity := *forCmk.UserAssignedIdentity
+		result.UserAssignedIdentity = &userAssignedIdentity
 	}
 	return result, nil
 }
@@ -4452,6 +4455,9 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		}
 		keyVaultArmReference := keyVaultArmReferenceARMID
 		result.KeyVaultArmId = &keyVaultArmReference
+	} else if properties.KeyVaultArmId != nil {
+		keyVaultArmId := *properties.KeyVaultArmId
+		result.KeyVaultArmId = &keyVaultArmId
 	}
 	return result, nil
 }

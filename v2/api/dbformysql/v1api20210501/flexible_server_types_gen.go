@@ -485,6 +485,9 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 		sourceServerResourceId := sourceServerResourceIdARMID
 		result.Properties.SourceServerResourceId = &sourceServerResourceId
+	} else if server.SourceServerResourceId != nil {
+		sourceServerResourceId := *server.SourceServerResourceId
+		result.Properties.SourceServerResourceId = &sourceServerResourceId
 	}
 	if server.Storage != nil {
 		storage_ARM, err := server.Storage.ConvertToARM(resolved)
