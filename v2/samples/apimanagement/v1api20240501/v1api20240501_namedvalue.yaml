@@ -1,0 +1,12 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: NamedValue
+metadata:
+  name: samplenamedvalue
+  namespace: default
+spec:
+  azureName: "test_namedvalue"
+  displayName: "My_Key"
+  value: "It's value"
+  secret: false
+  owner:
+    name: sampleapimservice
