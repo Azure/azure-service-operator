@@ -81,9 +81,7 @@ type ServerProperties struct {
 	ReplicationRole *ReplicationRole `json:"replicationRole,omitempty"`
 
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
-	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
-
-	// SourceServerResourceId: The source MySQL server id.
+	RestorePointInTime     *string `json:"restorePointInTime,omitempty"`
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// Storage: Storage related properties of a server.
