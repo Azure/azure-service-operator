@@ -1467,6 +1467,9 @@ func (action *MetricAlertAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 		}
 		actionGroupReference := actionGroupReferenceARMID
 		result.ActionGroupId = &actionGroupReference
+	} else if action.ActionGroupId != nil {
+		actionGroupId := *action.ActionGroupId
+		result.ActionGroupId = &actionGroupId
 	}
 
 	// Set property "WebHookProperties":
