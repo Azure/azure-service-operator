@@ -343,6 +343,9 @@ type FlexibleServer_Spec struct {
 	// SourceServerResourceId: The source MySQL server id.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
+	// SourceServerResourceReference: The source MySQL server id.
+	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
+
 	// Storage: Storage related properties of a server.
 	Storage *Storage `json:"storage,omitempty"`
 
@@ -394,6 +397,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		server.ReplicationRole != nil ||
 		server.RestorePointInTime != nil ||
 		server.SourceServerResourceId != nil ||
+		server.SourceServerResourceReference != nil ||
 		server.Storage != nil ||
 		server.Version != nil {
 		result.Properties = &arm.ServerProperties{}
@@ -472,6 +476,14 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	if server.SourceServerResourceId != nil {
 		sourceServerResourceId := *server.SourceServerResourceId
+		result.Properties.SourceServerResourceId = &sourceServerResourceId
+	}
+	if server.SourceServerResourceReference != nil {
+		sourceServerResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*server.SourceServerResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		sourceServerResourceId := sourceServerResourceIdARMID
 		result.Properties.SourceServerResourceId = &sourceServerResourceId
 	}
 	if server.Storage != nil {
@@ -689,6 +701,8 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			server.SourceServerResourceId = &sourceServerResourceId
 		}
 	}
+
+	// no assignment for property "SourceServerResourceReference"
 
 	// Set property "Storage":
 	// copying flattened property:
@@ -928,6 +942,14 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	// SourceServerResourceId
 	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
 
+	// SourceServerResourceReference
+	if source.SourceServerResourceReference != nil {
+		sourceServerResourceReference := source.SourceServerResourceReference.Copy()
+		server.SourceServerResourceReference = &sourceServerResourceReference
+	} else {
+		server.SourceServerResourceReference = nil
+	}
+
 	// Storage
 	if source.Storage != nil {
 		var storage Storage
@@ -1109,6 +1131,14 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// SourceServerResourceId
 	destination.SourceServerResourceId = genruntime.ClonePointerToString(server.SourceServerResourceId)
+
+	// SourceServerResourceReference
+	if server.SourceServerResourceReference != nil {
+		sourceServerResourceReference := server.SourceServerResourceReference.Copy()
+		destination.SourceServerResourceReference = &sourceServerResourceReference
+	} else {
+		destination.SourceServerResourceReference = nil
+	}
 
 	// Storage
 	if server.Storage != nil {

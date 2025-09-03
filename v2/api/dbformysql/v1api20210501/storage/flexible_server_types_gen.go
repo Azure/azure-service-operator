@@ -336,9 +336,12 @@ type FlexibleServer_Spec struct {
 	RestorePointInTime     *string                            `json:"restorePointInTime,omitempty"`
 	Sku                    *Sku                               `json:"sku,omitempty"`
 	SourceServerResourceId *string                            `json:"sourceServerResourceId,omitempty"`
-	Storage                *Storage                           `json:"storage,omitempty"`
-	Tags                   map[string]string                  `json:"tags,omitempty"`
-	Version                *string                            `json:"version,omitempty"`
+
+	// SourceServerResourceReference: The source MySQL server id.
+	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
+	Storage                       *Storage                      `json:"storage,omitempty"`
+	Tags                          map[string]string             `json:"tags,omitempty"`
+	Version                       *string                       `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
@@ -554,9 +557,10 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// SourceServerResourceReference
 	if source.SourceServerResourceReference != nil {
-		propertyBag.Add("SourceServerResourceReference", *source.SourceServerResourceReference)
+		sourceServerResourceReference := source.SourceServerResourceReference.Copy()
+		server.SourceServerResourceReference = &sourceServerResourceReference
 	} else {
-		propertyBag.Remove("SourceServerResourceReference")
+		server.SourceServerResourceReference = nil
 	}
 
 	// Storage
@@ -759,13 +763,8 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	}
 
 	// SourceServerResourceReference
-	if propertyBag.Contains("SourceServerResourceReference") {
-		var sourceServerResourceReference genruntime.ResourceReference
-		err := propertyBag.Pull("SourceServerResourceReference", &sourceServerResourceReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SourceServerResourceReference' from propertyBag")
-		}
-
+	if server.SourceServerResourceReference != nil {
+		sourceServerResourceReference := server.SourceServerResourceReference.Copy()
 		destination.SourceServerResourceReference = &sourceServerResourceReference
 	} else {
 		destination.SourceServerResourceReference = nil
