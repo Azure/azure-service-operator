@@ -148,6 +148,16 @@ func (v *ARMIDToReferenceTypeConverter) handleTransformationFlags(
 		return it.WithElement(elem).WithoutFlag(astmodel.WellknownFlag), nil
 	}
 
+	// If a Compatible Resource Reference is required, use it and remove the flag
+	if it.HasFlag(astmodel.CompatibilityFlag) {
+		elem, err := visitor.Visit(it.Element(), ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		return it.WithElement(elem).WithoutFlag(astmodel.CompatibilityFlag), nil
+	}
+
 	elem, err := visitor.Visit(it.Element(), ctx)
 	if err != nil {
 		return nil, err
@@ -183,13 +193,25 @@ func (v *ARMIDToReferenceTypeConverter) renamePropertiesWithARMIDReferences(
 		}
 
 		if origProp.Equals(prop, astmodel.EqualityOverrides{}) {
+			// No change to the property type
 			newProps = append(newProps, prop)
 			return
 		}
 
-		// TODO: Handle compatibility flag here too
-
 		newProp := makeResourceReferenceProperty(ctx.DefinitionName, v.idFactory, prop)
+
+		if astmodel.CompatibilityFlag.IsOn(origProp.PropertyType()) {
+			// If the original property is flagged for compatibility,
+			// We keep both versions to avoid breaking existing CRs
+			// but need to remove the flag first
+			pr, err := v.createCompatibilityProperty(origProp)
+			if err != nil {
+				errs = append(errs, eris.Wrapf(err, "removing compatibility flag from property %s", origProp.PropertyName()))
+			}
+
+			newProps = append(newProps, pr)
+		}
+
 		newProps = append(newProps, newProp)
 	})
 
@@ -223,6 +245,17 @@ func (v *ARMIDToReferenceTypeConverter) stripValidationForResourceReferences(
 		return nil, eris.Errorf("expected IdentityVisitOfValidatedType to return a ValidatedType, but it instead returned %T", result)
 	}
 	return validated.ElementType(), nil
+}
+
+func (v *ARMIDToReferenceTypeConverter) createCompatibilityProperty(
+	property *astmodel.PropertyDefinition,
+) (*astmodel.PropertyDefinition, error) {
+	t, err := astmodel.CompatibilityFlag.RemoveFrom(property.PropertyType())
+	if err != nil {
+		return nil, eris.Wrapf(err, "removing compatibility flag from property %s", property.PropertyName())
+	}
+
+	return property.WithType(t), nil
 }
 
 func MakeARMIDToResourceReferenceTypeVisitor(
