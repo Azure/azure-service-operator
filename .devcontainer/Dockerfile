@@ -44,13 +44,10 @@ RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.2.0/completion/b
 
 ENV KIND_CLUSTER_NAME=aso
 
-# install docker, from: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
-COPY library-scripts/docker-debian.sh /tmp/library-scripts/
-
-# these are all the default values except for the last one (USE_MOBY) which is what we want to set.
-# currently packages.microsoft.com does not have Moby packages for Debian Bullseye, which the
-# devcontainer image is based on: https://github.com/microsoft/vscode-dev-containers/issues/1008
-RUN bash /tmp/library-scripts/docker-debian.sh true /var/run/docker-host.sock /var/run/docker.sock automatic false
+# install docker, from: https://github.com/devcontainers/features/tree/main/src/docker-in-docker
+COPY library-scripts/docker-in-docker.sh /tmp/library-scripts/
+RUN bash -c "MOBY=false /tmp/library-scripts/docker-in-docker.sh" \
+    && rm -rf /tmp/library-scripts
 
 ENTRYPOINT ["/usr/local/share/docker-init.sh"]
 CMD ["sleep", "infinity"]
