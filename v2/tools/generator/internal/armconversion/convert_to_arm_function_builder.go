@@ -357,15 +357,8 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 		return notHandled, nil
 	}
 
-	source := &dst.SelectorExpr{
-		X:   dst.NewIdent(builder.receiverIdent),
-		Sel: dst.NewIdent(string(fromProp.PropertyName())),
-	}
-
-	destination := &dst.SelectorExpr{
-		X:   dst.NewIdent(builder.resultIdent),
-		Sel: dst.NewIdent(string(toProp.PropertyName())),
-	}
+	source := astbuilder.QualifiedName(builder.receiverIdent, fromProp.PropertyName())
+	destination := astbuilder.QualifiedName(builder.resultIdent, toProp.PropertyName())
 
 	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
@@ -387,7 +380,58 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 				fromProp.PropertyName())
 	}
 
+	// Look to see if we _also_ have a compatibility property to fall back to
+	// See https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references for why
+	if prop, foundCompat := fromType.Property(toProp.PropertyName()); foundCompat {
+		err = builder.fallbackReferencePropertyConversion(toProp, prop, destination, conversion)
+		if err != nil {
+			return notHandled, eris.Wrapf(err, "applying fallback conversion for %s", toProp.PropertyName())
+		}
+	}
+
 	return handleWith(conversion), nil
+}
+
+func (builder *convertToARMBuilder) fallbackReferencePropertyConversion(
+	toProp *astmodel.PropertyDefinition,
+	fromProp *astmodel.PropertyDefinition,
+	destination *dst.SelectorExpr,
+	existingConversion []dst.Stmt,
+) error {
+	// We're expecting to have exactly an IfStmt onto which we can add our fallback
+	if len(existingConversion) != 1 {
+		return eris.New("expected initial conversion to have one statement")
+	}
+
+	ifStmt, ok := existingConversion[0].(*dst.IfStmt)
+	if !ok {
+		return eris.New("expected initial conversion to be an IfStmt")
+	}
+
+	source := astbuilder.QualifiedName(builder.receiverIdent, fromProp.PropertyName())
+	fallback, err := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:              source,
+			SourceType:          fromProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(fromProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      fromProp,
+			DestinationProperty: toProp,
+		},
+	)
+	if err != nil {
+		return eris.Wrapf(err,
+			"unable to build compatibilty conversion for property %s",
+			fromProp.PropertyName())
+	}
+
+	// Add fallback as the alternative if the reference property is not populated
+	ifStmt.Else = astbuilder.StatementOrBlock(fallback...)
+
+	return nil
 }
 
 // flattenedPropertyHandler generates conversions for properties that
@@ -477,9 +521,11 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		// find the corresponding inner property on the to-prop type
 		// TODO: If this property is an ARM reference we need a bit of special handling.
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1651 for possible improvements to this.
+		lookForReferenceFallback := false
 		toSubPropName := fromProp.FlattenedFrom()[len(fromProp.FlattenedFrom())-1]
 		if values, ok := fromProp.Tag(astmodel.ARMReferenceTag); ok {
 			toSubPropName = astmodel.PropertyName(values[0])
+			lookForReferenceFallback = true
 		}
 
 		toSubProp, ok := toPropObjType.Property(toSubPropName)
@@ -492,11 +538,12 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		}
 
 		// generate conversion
+		destination := astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName), string(toSubProp.PropertyName()))
 		conversion, err := builder.typeConversionBuilder.BuildConversion(
 			astmodel.ConversionParameters{
 				Source:              astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName())),
 				SourceType:          fromProp.PropertyType(),
-				Destination:         astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName), string(toSubProp.PropertyName())),
+				Destination:         destination,
 				DestinationType:     toSubProp.PropertyType(),
 				NameHint:            string(toSubProp.PropertyName()),
 				ConversionContext:   nil,
@@ -515,6 +562,17 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		// we were unable to generate an inner conversion, so we cannot generate the overall conversion
 		if len(conversion) == 0 {
 			return notHandled, nil
+		}
+
+		// Look to see if we _also_ have a compatibility property to fall back to
+		// See https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references for why
+		if lookForReferenceFallback {
+			if prop, foundCompat := fromType.Property(toSubProp.PropertyName()); foundCompat {
+				err = builder.fallbackReferencePropertyConversion(toSubProp, prop, destination, conversion)
+				if err != nil {
+					return notHandled, eris.Wrapf(err, "applying fallback conversion for %s", toSubProp.PropertyName())
+				}
+			}
 		}
 
 		result = append(result, conversion...)
