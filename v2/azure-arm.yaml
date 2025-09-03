@@ -2379,7 +2379,8 @@ objectModelConfiguration:
         $nameInNextVersion: MySQLServerSku_STATUS
       ServerProperties:
         SourceServerResourceId:
-          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here. It's fixed in 2023-06-30
+          $referenceType: simple 
     2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
@@ -3028,6 +3029,9 @@ objectModelConfiguration:
       WebtestLocationAvailabilityCriteria:
         ComponentId:
           $referenceType: arm
+      MetricAlertAction:
+        ActionGroupId:
+          $referenceType: arm+compat
       MetricAlertProperties:
         Scopes:
           $referenceType: arm
@@ -3448,11 +3452,11 @@ objectModelConfiguration:
           $referenceType: arm
       IdentityForCmk:
         UserAssignedIdentity:
-          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: arm+compat
       KeyVaultProperties:
         $nameInNextVersion: EncryptionKeyVaultProperties
         KeyVaultArmId:
-          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: arm+compat
       Kubernetes:
         ResourceId:
           $referenceType: arm
