@@ -30,6 +30,27 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
+|--------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Api                                              | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_api.yaml)                                              |
+| ApiVersionSet                                    | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_apiversionset.yaml)                                    |
+| AuthorizationProvider                            | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovider.yaml)                            |
+| AuthorizationProvidersAuthorization              | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorization.yaml)              |
+| AuthorizationProvidersAuthorizationsAccessPolicy | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorizationsaccesspolicy.yaml) |
+| Backend                                          | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_backend.yaml)                                          |
+| NamedValue                                       | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_namedvalue.yaml)                                       |
+| Policy                                           | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policy.yaml)                                           |
+| PolicyFragment                                   | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policyfragment.yaml)                                   |
+| Product                                          | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_product.yaml)                                          |
+| ProductApi                                       | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productapi.yaml)                                       |
+| ProductPolicy                                    | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productpolicy.yaml)                                    |
+| Service                                          | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_service.yaml)                                          |
+| Subscription                                     | 2024-05-01  | v1api20240501 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_subscription.yaml)                                     |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
