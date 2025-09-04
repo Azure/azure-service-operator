@@ -10,6 +10,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
+	"github.com/go-logr/logr"
+	"github.com/rotisserie/eris"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
+
 	api "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -18,12 +24,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-	"github.com/go-logr/logr"
-	"github.com/rotisserie/eris"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
-
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
 )
 
 var _ extensions.Importer = &RoleAssignmentExtension{}
