@@ -366,8 +366,10 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 			if err != nil {
 				return nil, err
 			}
+
 			roleDefinitionIdTemp = armID
 		}
+
 		roleDefinitionId := roleDefinitionIdTemp
 		result.Properties.RoleDefinitionId = &roleDefinitionId
 	}
