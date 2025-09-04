@@ -69,6 +69,15 @@ func (o *JSONSerializationTestCase) AsFuncs(
 ) ([]dst.Decl, error) {
 	properties := o.container.Properties().Copy()
 
+	// Remove any properties that "collide" with other ResourceReference properties in the same object
+	o.container.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
+		// Check whether this property has an ARM ID tag
+		if values, ok := prop.Tag(astmodel.ARMReferenceTag); ok && len(values) > 0 {
+			id := values[0]
+			delete(properties, astmodel.PropertyName(id))
+		}
+	})
+
 	// Special handling for large objects with more than 50 properties - we skip testing primitive properties
 	// Gopter can't test structs with >50 generators due to a Go Runtime limitation.
 	// See https://github.com/golang/go/issues/54669 for more information

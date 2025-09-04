@@ -535,6 +535,11 @@ func (in *FlexibleServer_Spec) DeepCopyInto(out *FlexibleServer_Spec) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceServerResourceReference != nil {
+		in, out := &in.SourceServerResourceReference, &out.SourceServerResourceReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
+	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
 		*out = new(Storage)

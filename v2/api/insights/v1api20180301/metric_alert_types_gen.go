@@ -1442,6 +1442,9 @@ type MetricAlertAction struct {
 	// ActionGroupId: the id of the action group to use.
 	ActionGroupId *string `json:"actionGroupId,omitempty"`
 
+	// ActionGroupReference: the id of the action group to use.
+	ActionGroupReference *genruntime.ResourceReference `armReference:"ActionGroupId" json:"actionGroupReference,omitempty"`
+
 	// WebHookProperties: This field allows specifying custom properties, which would be appended to the alert payload sent as
 	// input to the webhook.
 	WebHookProperties map[string]string `json:"webHookProperties,omitempty"`
@@ -1457,7 +1460,14 @@ func (action *MetricAlertAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 	result := &arm.MetricAlertAction{}
 
 	// Set property "ActionGroupId":
-	if action.ActionGroupId != nil {
+	if action.ActionGroupReference != nil {
+		actionGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*action.ActionGroupReference)
+		if err != nil {
+			return nil, err
+		}
+		actionGroupReference := actionGroupReferenceARMID
+		result.ActionGroupId = &actionGroupReference
+	} else if action.ActionGroupId != nil {
 		actionGroupId := *action.ActionGroupId
 		result.ActionGroupId = &actionGroupId
 	}
@@ -1490,6 +1500,8 @@ func (action *MetricAlertAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 		action.ActionGroupId = &actionGroupId
 	}
 
+	// no assignment for property "ActionGroupReference"
+
 	// Set property "WebHookProperties":
 	if typedInput.WebHookProperties != nil {
 		action.WebHookProperties = make(map[string]string, len(typedInput.WebHookProperties))
@@ -1508,6 +1520,14 @@ func (action *MetricAlertAction) AssignProperties_From_MetricAlertAction(source 
 	// ActionGroupId
 	action.ActionGroupId = genruntime.ClonePointerToString(source.ActionGroupId)
 
+	// ActionGroupReference
+	if source.ActionGroupReference != nil {
+		actionGroupReference := source.ActionGroupReference.Copy()
+		action.ActionGroupReference = &actionGroupReference
+	} else {
+		action.ActionGroupReference = nil
+	}
+
 	// WebHookProperties
 	action.WebHookProperties = genruntime.CloneMapOfStringToString(source.WebHookProperties)
 
@@ -1522,6 +1542,14 @@ func (action *MetricAlertAction) AssignProperties_To_MetricAlertAction(destinati
 
 	// ActionGroupId
 	destination.ActionGroupId = genruntime.ClonePointerToString(action.ActionGroupId)
+
+	// ActionGroupReference
+	if action.ActionGroupReference != nil {
+		actionGroupReference := action.ActionGroupReference.Copy()
+		destination.ActionGroupReference = &actionGroupReference
+	} else {
+		destination.ActionGroupReference = nil
+	}
 
 	// WebHookProperties
 	destination.WebHookProperties = genruntime.CloneMapOfStringToString(action.WebHookProperties)

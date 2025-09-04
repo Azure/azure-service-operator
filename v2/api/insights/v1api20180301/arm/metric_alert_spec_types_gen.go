@@ -78,7 +78,6 @@ type MetricAlertProperties struct {
 
 // An alert action.
 type MetricAlertAction struct {
-	// ActionGroupId: the id of the action group to use.
 	ActionGroupId *string `json:"actionGroupId,omitempty"`
 
 	// WebHookProperties: This field allows specifying custom properties, which would be appended to the alert payload sent as
