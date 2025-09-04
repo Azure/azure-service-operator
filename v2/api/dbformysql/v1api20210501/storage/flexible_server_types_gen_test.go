@@ -1140,7 +1140,6 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

@@ -733,7 +733,6 @@ func MetricAlertActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForMetricAlertAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertAction(gens map[string]gopter.Gen) {
-	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["WebHookProperties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

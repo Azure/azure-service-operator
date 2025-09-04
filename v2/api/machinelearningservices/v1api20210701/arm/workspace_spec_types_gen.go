@@ -218,7 +218,6 @@ type CosmosDbSettings struct {
 
 // Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk struct {
-	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
@@ -228,8 +227,6 @@ type KeyVaultProperties struct {
 
 	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	// KeyVaultArmId: The ArmId of the keyVault where the customer owned encryption key is present.
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
