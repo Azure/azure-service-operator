@@ -367,9 +367,16 @@ func WrappedError(errorsPackage string, str string) dst.Expr {
 //
 // <pkg>.<name>
 func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
+	return QualifiedName(pkg, name)
+}
+
+// QualifiedName generates a selector based on an identifier
+//
+// <pkg>.<name>
+func QualifiedName[S ~string](pkg string, name S) *dst.SelectorExpr {
 	return &dst.SelectorExpr{
 		X:   dst.NewIdent(pkg),
-		Sel: dst.NewIdent(name),
+		Sel: dst.NewIdent(string(name)),
 	}
 }
 

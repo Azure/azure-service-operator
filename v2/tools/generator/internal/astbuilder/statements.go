@@ -84,3 +84,16 @@ func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {
 		List: stmts,
 	}
 }
+
+// StatementOrBlock returns a single statement if we have only one, or a StatementBlock if needed
+func StatementOrBlock(statements ...dst.Stmt) dst.Stmt {
+	stmts := Statements(statements)
+
+	if len(stmts) == 1 {
+		return stmts[0]
+	}
+
+	return &dst.BlockStmt{
+		List: stmts,
+	}
+}

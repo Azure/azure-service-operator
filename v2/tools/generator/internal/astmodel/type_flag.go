@@ -10,10 +10,12 @@ import "fmt"
 type TypeFlag string
 
 const (
-	StorageFlag = TypeFlag("storage")
-	ARMFlag     = TypeFlag("arm")
-	OneOfFlag   = TypeFlag("oneof")
-	DoNotPrune  = TypeFlag("donotprune")
+	StorageFlag       = TypeFlag("storage")
+	ARMFlag           = TypeFlag("arm")
+	OneOfFlag         = TypeFlag("oneof")
+	DoNotPrune        = TypeFlag("donotprune")
+	WellknownFlag     = TypeFlag("wellknown")
+	CompatibilityFlag = TypeFlag("compatible")
 )
 
 var _ fmt.Stringer = TypeFlag("")

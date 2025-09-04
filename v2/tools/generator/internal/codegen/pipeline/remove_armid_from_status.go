@@ -68,6 +68,10 @@ func replaceStatusARMIDWithString(defs astmodel.TypeDefinitionSet) (astmodel.Typ
 
 			return it, nil
 		},
+		VisitFlaggedType: func(this *astmodel.TypeVisitor[any], it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+			// Remove WellKnown and Compatibility flags
+			return it.WithoutFlags(astmodel.WellknownFlag, astmodel.CompatibilityFlag), nil
+		},
 	}.Build()
 
 	updatedDefs, err := replaceARMIDWithStringVisitor.VisitDefinitions(astmodel.FindStatusDefinitions(defs), nil)
