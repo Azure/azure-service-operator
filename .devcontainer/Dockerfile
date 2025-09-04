@@ -44,10 +44,14 @@ RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.2.0/completion/b
 
 ENV KIND_CLUSTER_NAME=aso
 
-# install docker, from: https://github.com/devcontainers/features/tree/main/src/docker-in-docker
-COPY library-scripts/docker-in-docker.sh /tmp/library-scripts/
-RUN bash -c "MOBY=false /tmp/library-scripts/docker-in-docker.sh" \
-    && rm -rf /tmp/library-scripts
+# Install Docker CLI for docker-from-docker pattern
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends docker-ce-cli docker-compose-plugin \
+    && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/usr/local/share/docker-init.sh"]
+# Add user to docker group for docker socket access
+RUN groupadd -f docker && usermod -aG docker vscode
+
 CMD ["sleep", "infinity"]
