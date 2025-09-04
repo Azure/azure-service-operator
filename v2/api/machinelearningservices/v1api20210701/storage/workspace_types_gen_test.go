@@ -651,15 +651,9 @@ func IdentityForCmkGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityForCmk(generators)
 	identityForCmkGenerator = gen.Struct(reflect.TypeOf(IdentityForCmk{}), generators)
 
 	return identityForCmkGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIdentityForCmk is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentityForCmk(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_IdentityForCmk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -986,7 +980,6 @@ func KeyVaultPropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForKeyVaultProperties(gens map[string]gopter.Gen) {
 	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyVaultArmId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

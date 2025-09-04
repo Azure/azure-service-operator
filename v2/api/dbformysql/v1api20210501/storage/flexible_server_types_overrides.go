@@ -15,10 +15,11 @@ func (server *FlexibleServer_Spec) AssignPropertiesFrom(src *v20230630s.Flexible
 	// Clone the existing property bag
 	pb := genruntime.NewPropertyBag(server.PropertyBag)
 
+	// We populate both properties from SourceServerResourceReference
+	// SourceServerResourceId is manually handled here, SourceServerResourceReference is handled by the code generator
 	if src.SourceServerResourceReference != nil {
 		armID := src.SourceServerResourceReference.ARMID
 		server.SourceServerResourceId = &armID
-		pb.Remove("SourceServerResourceReference")
 	}
 
 	// Store updated property bag
@@ -32,7 +33,11 @@ func (server *FlexibleServer_Spec) AssignPropertiesTo(dst *v20230630s.FlexibleSe
 	// Get the current property bag
 	pb := genruntime.NewPropertyBag(dst.PropertyBag)
 
-	if server.SourceServerResourceId != nil {
+	// If we only have the legacy property, populate the new one from it
+	if server.SourceServerResourceReference == nil &&
+		server.SourceServerResourceId != nil &&
+		*server.SourceServerResourceId != "" {
+
 		dst.SourceServerResourceReference = &genruntime.ResourceReference{
 			ARMID: *server.SourceServerResourceId,
 		}
