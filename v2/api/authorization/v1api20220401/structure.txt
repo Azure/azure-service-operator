@@ -24,7 +24,7 @@ RoleAssignment: Resource
 │   │   ├── "Group"
 │   │   ├── "ServicePrincipal"
 │   │   └── "User"
-│   └── RoleDefinitionReference: *genruntime.WellknownResourceReference
+│   └── RoleDefinitionReference: *genruntime.WellKnownResourceReference
 └── Status: Object (16 properties)
     ├── Condition: *string
     ├── ConditionVersion: *string
