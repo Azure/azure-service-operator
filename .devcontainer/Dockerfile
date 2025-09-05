@@ -7,16 +7,16 @@ FROM mcr.microsoft.com/devcontainers/go:1.24
 ARG TARGETARCH
 
 # APT dependencies
+# including docker-cli for docker-from-docker pattern
+# and az-cli for interacting with azure resources
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-    && apt-get -y install --no-install-recommends bash-completion lsb-release graphviz zip nodejs npm python3-pip \
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends bash-completion lsb-release graphviz zip nodejs npm python3-pip docker-ce-cli docker-compose-plugin\
     # install az-cli
-    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
-
-# install docker
-# - not yet needed?
-# RUN curl -fsSL https://get.docker.com | sh -
-# RUN usermod -aG docker vscode
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash - \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
@@ -43,13 +43,6 @@ RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.2.0/completion/b
     && echo 'source /etc/.task.completion.sh' >> "/etc/bash.bashrc"
 
 ENV KIND_CLUSTER_NAME=aso
-
-# Install Docker CLI for docker-from-docker pattern
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends docker-ce-cli docker-compose-plugin \
-    && rm -rf /var/lib/apt/lists/*
 
 # Add user to docker group for docker socket access
 RUN groupadd -f docker && usermod -aG docker vscode
