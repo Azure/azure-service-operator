@@ -54,7 +54,7 @@ import (
 )
 
 func getRoot() (string, error) {
-	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
+	cmd := exec.CommandContext(context.Background(), "git", "rev-parse", "--show-toplevel")
 	out, err := cmd.Output()
 	if err != nil {
 		return "", eris.Wrapf(err, "failed to get root directory")
