@@ -4,6 +4,7 @@
 FROM mcr.microsoft.com/devcontainers/go:1.24
 
 # https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
+
 ARG TARGETARCH
 
 # APT dependencies
@@ -16,6 +17,9 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
     && apt-get -y install --no-install-recommends bash-completion lsb-release graphviz zip nodejs npm python3-pip docker-ce-cli docker-compose-plugin\
     # install az-cli
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash - \
+    # Temporary fix to avoid regression in v2.77
+    && apt-get remove azure-cli --assume-yes \
+    && apt-get -y install azure-cli=2.76.0-1~bookworm \
     && rm -rf /var/lib/apt/lists/*
 
 COPY install-dependencies.sh .
