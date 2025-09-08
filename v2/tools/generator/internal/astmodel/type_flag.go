@@ -14,8 +14,8 @@ const (
 	ARMFlag           = TypeFlag("arm")
 	OneOfFlag         = TypeFlag("oneof")
 	DoNotPrune        = TypeFlag("donotprune")
-	WellknownFlag     = TypeFlag("wellknown")
-	CompatibilityFlag = TypeFlag("compatible")
+	WellknownFlag     = TypeFlag("wellknown")  // Indicates a resource reference that should support well-known names
+	CompatibilityFlag = TypeFlag("compatible") // Indicates a resource reference that needs to maintain backwards compatibility
 )
 
 var _ fmt.Stringer = TypeFlag("")
