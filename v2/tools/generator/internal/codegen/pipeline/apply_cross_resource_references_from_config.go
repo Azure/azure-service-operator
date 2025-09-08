@@ -65,11 +65,11 @@ func ApplyCrossResourceReferencesFromConfig(
 								prop.PropertyName().String()),
 						)
 					case config.ReferenceTypeWellknown:
-						// We permit "arm+wellknown" in config to accomodate references that are MORE than a simple ARM ID
+						// We permit "arm+wellknown" in config to accommodate references that are MORE than a simple ARM ID
 						return ReferenceTypeARMWellknown
 
 					case config.ReferenceTypeCompatible:
-						// We permit "arm+compat" in config to accomodate references that need to be specially handled for backward compatibility
+						// We permit "arm+compat" in config to accommodate references that need to be specially handled for backward compatibility
 						return ReferenceTypeARMCompat
 					}
 				}

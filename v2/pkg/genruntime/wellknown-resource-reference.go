@@ -18,7 +18,7 @@ func (ref *WellknownResourceReference) Copy() WellknownResourceReference {
 	return *ref
 }
 
-// CreateResourceReferenceFromARMID creates a new ResourceReference from a string representing an ARM ID
+// CreateWellknownResourceReferenceFromARMID creates a new WellknownResourceReference from a string representing an ARM ID
 func CreateWellknownResourceReferenceFromARMID(armID string) WellknownResourceReference {
 	return WellknownResourceReference{
 		ResourceReference: ResourceReference{
