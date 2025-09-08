@@ -34,6 +34,7 @@ type Person_STATUS struct {
 }
 
 type PersonProperties struct {
+	// FamilyName: Shared name of the family
 	FamilyName *string `json:"familyName,omitempty"`
 
 	// FullName: As would be used to address mail

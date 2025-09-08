@@ -88,8 +88,11 @@ type ManagedClusterAgentPoolProfileProperties struct {
 	Mode *AgentPoolMode `json:"mode,omitempty"`
 
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
-	NodeLabels           map[string]string `json:"nodeLabels" serializationType:"explicitEmptyCollection"`
-	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
+	NodeLabels map[string]string `json:"nodeLabels" serializationType:"explicitEmptyCollection"`
+
+	// NodePublicIPPrefixID: This is of the form:
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
 	// NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints" serializationType:"explicitEmptyCollection"`
@@ -111,7 +114,11 @@ type ManagedClusterAgentPoolProfileProperties struct {
 	OsSKU *OSSKU `json:"osSKU,omitempty"`
 
 	// OsType: The operating system type. The default is Linux.
-	OsType      *OSType `json:"osType,omitempty"`
+	OsType *OSType `json:"osType,omitempty"`
+
+	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
+	// of the form:
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
@@ -141,7 +148,11 @@ type ManagedClusterAgentPoolProfileProperties struct {
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
 	// might fail to run correctly. For more details on restricted VM sizes, see:
 	// https://docs.microsoft.com/azure/aks/quotas-skus-regions
-	VmSize       *string `json:"vmSize,omitempty"`
+	VmSize *string `json:"vmSize,omitempty"`
+
+	// VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
+	// this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 

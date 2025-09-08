@@ -286,8 +286,12 @@ type ClusterProperties_Encryption_CustomerManagedKeyEncryption struct {
 
 type ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity struct {
 	// IdentityType: Only userAssignedIdentity is supported in this API version; other types may be supported in the future
-	IdentityType                   *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType `json:"identityType,omitempty"`
-	UserAssignedIdentityResourceId *string                                                                                          `json:"userAssignedIdentityResourceId,omitempty"`
+	IdentityType *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType `json:"identityType,omitempty"`
+
+	// UserAssignedIdentityResourceId: User assigned identity to use for accessing key encryption key Url. Ex:
+	// /subscriptions/<sub uuid>/resourceGroups/<resource
+	// group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId.
+	UserAssignedIdentityResourceId *string `json:"userAssignedIdentityResourceId,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"systemAssignedIdentity","userAssignedIdentity"}

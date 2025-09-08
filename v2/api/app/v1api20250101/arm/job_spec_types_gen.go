@@ -44,7 +44,9 @@ func (job *Job_Spec) GetType() string {
 type Job_Properties_Spec struct {
 	// Configuration: Container Apps Job configuration properties.
 	Configuration *JobConfiguration `json:"configuration,omitempty"`
-	EnvironmentId *string           `json:"environmentId,omitempty"`
+
+	// EnvironmentId: Resource ID of environment.
+	EnvironmentId *string `json:"environmentId,omitempty"`
 
 	// Template: Container Apps job definition.
 	Template *JobTemplate `json:"template,omitempty"`
@@ -151,8 +153,11 @@ type JobScale struct {
 // Scaling rule.
 type JobScaleRule struct {
 	// Auth: Authentication secrets for the scale rule.
-	Auth     []ScaleRuleAuth `json:"auth,omitempty"`
-	Identity *string         `json:"identity,omitempty"`
+	Auth []ScaleRuleAuth `json:"auth,omitempty"`
+
+	// Identity: The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for
+	// system-assigned identity.
+	Identity *string `json:"identity,omitempty"`
 
 	// Metadata: Metadata properties to describe the scale rule.
 	Metadata map[string]v1.JSON `json:"metadata,omitempty"`

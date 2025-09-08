@@ -70,8 +70,12 @@ type WorkbookProperties struct {
 
 	// SerializedData: Configuration of this particular workbook. Configuration data is a string containing valid JSON
 	SerializedData *string `json:"serializedData,omitempty"`
-	SourceId       *string `json:"sourceId,omitempty"`
-	StorageUri     *string `json:"storageUri,omitempty"`
+
+	// SourceId: ResourceId for a source resource.
+	SourceId *string `json:"sourceId,omitempty"`
+
+	// StorageUri: The resourceId to the storage account when bring your own storage is used
+	StorageUri *string `json:"storageUri,omitempty"`
 
 	// Tags: Being deprecated, please use the other tags field
 	Tags []string `json:"tags,omitempty"`

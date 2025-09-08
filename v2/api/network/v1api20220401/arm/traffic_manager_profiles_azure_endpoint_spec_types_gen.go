@@ -82,7 +82,9 @@ type EndpointProperties struct {
 
 	// Target: The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses
 	// to direct traffic to this endpoint.
-	Target           *string `json:"target,omitempty"`
+	Target *string `json:"target,omitempty"`
+
+	// TargetResourceId: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
 	TargetResourceId *string `json:"targetResourceId,omitempty"`
 
 	// Weight: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.

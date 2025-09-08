@@ -466,6 +466,7 @@ var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
 
 // Reference to another ARM resource.
 type SubResource struct {
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1113,6 +1114,7 @@ var applicationGatewayLoadDistributionAlgorithmEnum_Values = map[string]Applicat
 
 // Load Distribution Target of an application gateway.
 type ApplicationGatewayLoadDistributionTarget struct {
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1127,6 +1129,7 @@ type ApplicationGatewayPathRule struct {
 
 // The application gateway private link ip configuration.
 type ApplicationGatewayPrivateLinkIpConfiguration struct {
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 

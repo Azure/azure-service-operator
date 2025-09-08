@@ -99,8 +99,11 @@ type VirtualNetworkGatewayPropertiesFormat struct {
 
 	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
 	// gateway.
-	Sku                            *VirtualNetworkGatewaySku `json:"sku,omitempty"`
-	VNetExtendedLocationResourceId *string                   `json:"vNetExtendedLocationResourceId,omitempty"`
+	Sku *VirtualNetworkGatewaySku `json:"sku,omitempty"`
+
+	// VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
+	// with the customer vnet.
+	VNetExtendedLocationResourceId *string `json:"vNetExtendedLocationResourceId,omitempty"`
 
 	// VirtualNetworkGatewayPolicyGroups: The reference to the VirtualNetworkGatewayPolicyGroup resource which represents the
 	// available VirtualNetworkGatewayPolicyGroup for the gateway.
@@ -493,6 +496,7 @@ var virtualNetworkGatewaySku_Tier_Values = map[string]VirtualNetworkGatewaySku_T
 
 // A vpn client connection configuration for client connection configuration.
 type VngClientConnectionConfiguration struct {
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 

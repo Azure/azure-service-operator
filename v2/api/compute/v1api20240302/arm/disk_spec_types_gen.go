@@ -58,7 +58,9 @@ type DiskProperties struct {
 
 	// DataAccessAuthMode: Additional authentication requirements when exporting or uploading to a disk or snapshot.
 	DataAccessAuthMode *DataAccessAuthMode `json:"dataAccessAuthMode,omitempty"`
-	DiskAccessId       *string             `json:"diskAccessId,omitempty"`
+
+	// DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
+	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
 	// DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
 	// operation can transfer between 4k and 256k bytes.
@@ -138,8 +140,11 @@ type DiskSku struct {
 // Data used when creating a disk.
 type CreationData struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption         *CreationData_CreateOption `json:"createOption,omitempty"`
-	ElasticSanResourceId *string                    `json:"elasticSanResourceId,omitempty"`
+	CreateOption *CreationData_CreateOption `json:"createOption,omitempty"`
+
+	// ElasticSanResourceId: Required if createOption is CopyFromSanSnapshot. This is the ARM id of the source elastic san
+	// volume snapshot.
+	ElasticSanResourceId *string `json:"elasticSanResourceId,omitempty"`
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id/sharedGalleryImageId/communityGalleryImageId of
 	// the ImageDiskReference will be the ARM id of the shared galley image version from which to create a disk.
@@ -160,7 +165,9 @@ type CreationData struct {
 	ProvisionedBandwidthCopySpeed *CreationData_ProvisionedBandwidthCopySpeed `json:"provisionedBandwidthCopySpeed,omitempty"`
 
 	// SecurityDataUri: If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state.
-	SecurityDataUri  *string `json:"securityDataUri,omitempty"`
+	SecurityDataUri *string `json:"securityDataUri,omitempty"`
+
+	// SourceResourceId: If createOption is Copy, this is the ARM id of the source snapshot or disk.
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 
 	// SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.
@@ -221,6 +228,8 @@ var diskProperties_OsType_Values = map[string]DiskProperties_OsType{
 
 // Contains the security related information for the resource.
 type DiskSecurityProfile struct {
+	// SecureVMDiskEncryptionSetId: ResourceId of the disk encryption set associated to Confidential VM supported disk
+	// encrypted with customer managed key
 	SecureVMDiskEncryptionSetId *string `json:"secureVMDiskEncryptionSetId,omitempty"`
 
 	// SecurityType: Specifies the SecurityType of the VM. Applicable for OS disks only.
@@ -253,6 +262,7 @@ var diskSku_Name_Values = map[string]DiskSku_Name{
 
 // Encryption at rest settings for disk or snapshot
 type Encryption struct {
+	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
 
 	// Type: The type of key used to encrypt the data of the disk.
@@ -432,7 +442,9 @@ var encryptionType_Values = map[string]EncryptionType{
 type ImageDiskReference struct {
 	// CommunityGalleryImageId: A relative uri containing a community Azure Compute Gallery image reference.
 	CommunityGalleryImageId *string `json:"communityGalleryImageId,omitempty"`
-	Id                      *string `json:"id,omitempty"`
+
+	// Id: A relative uri containing either a Platform Image Repository, user image, or Azure Compute Gallery image reference.
+	Id *string `json:"id,omitempty"`
 
 	// Lun: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the
 	// image to use. For OS disks, this field is null.
