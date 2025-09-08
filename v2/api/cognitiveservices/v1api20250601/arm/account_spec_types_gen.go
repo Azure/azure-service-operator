@@ -219,8 +219,10 @@ type MultiRegionSettings struct {
 type NetworkInjections struct {
 	// Scenario: Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent
 	// scenarios. 'none' means no network injection.
-	Scenario    *NetworkInjections_Scenario `json:"scenario,omitempty"`
-	SubnetArmId *string                     `json:"subnetArmId,omitempty"`
+	Scenario *NetworkInjections_Scenario `json:"scenario,omitempty"`
+
+	// SubnetArmId: Specify the subnet for which your Agent Client is injected into.
+	SubnetArmId *string `json:"subnetArmId,omitempty"`
 
 	// UseMicrosoftManagedNetwork: Boolean to enable Microsoft Managed Network for subnet delegation
 	UseMicrosoftManagedNetwork *bool `json:"useMicrosoftManagedNetwork,omitempty"`
@@ -244,6 +246,7 @@ type NetworkRuleSet struct {
 
 // Cognitive Services Rai Monitor Config.
 type RaiMonitorConfig struct {
+	// AdxStorageResourceId: The storage resource Id.
 	AdxStorageResourceId *string `json:"adxStorageResourceId,omitempty"`
 
 	// IdentityClientId: The identity client Id to access the storage.
@@ -278,13 +281,17 @@ type UserAssignedIdentityDetails struct {
 type UserOwnedAmlWorkspace struct {
 	// IdentityClientId: Identity Client id of a AML account resource.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-	ResourceId       *string `json:"resourceId,omitempty"`
+
+	// ResourceId: Full resource id of a AML account resource.
+	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // The user owned storage for Cognitive Services account.
 type UserOwnedStorage struct {
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-	ResourceId       *string `json:"resourceId,omitempty"`
+
+	// ResourceId: Full resource id of a Microsoft.Storage resource.
+	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.CognitiveServices","Microsoft.KeyVault"}
@@ -394,6 +401,8 @@ type RegionSetting struct {
 
 // A rule governing the accessibility from a specific virtual network.
 type VirtualNetworkRule struct {
+	// Id: Full resource id of a vnet subnet, such as
+	// '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
 	Id *string `json:"id,omitempty"`
 
 	// IgnoreMissingVnetServiceEndpoint: Ignore missing vnet service endpoint or not.

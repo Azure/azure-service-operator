@@ -45,7 +45,9 @@ func (snapshot *Snapshot_Spec) GetType() string {
 type SnapshotProperties struct {
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData `json:"creationData,omitempty"`
-	DiskAccessId *string       `json:"diskAccessId,omitempty"`
+
+	// DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
+	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
 	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only

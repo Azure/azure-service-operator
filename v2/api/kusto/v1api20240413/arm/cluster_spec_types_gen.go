@@ -379,7 +379,9 @@ type KeyVaultProperties struct {
 	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
 
 	// KeyVersion: The version of the key vault key.
-	KeyVersion   *string `json:"keyVersion,omitempty"`
+	KeyVersion *string `json:"keyVersion,omitempty"`
+
+	// UserIdentity: The user assigned identity (ARM resource id) that has access to the key.
 	UserIdentity *string `json:"userIdentity,omitempty"`
 }
 
@@ -416,13 +418,18 @@ type UserAssignedIdentityDetails struct {
 
 // A class that contains virtual network definition.
 type VirtualNetworkConfiguration struct {
+	// DataManagementPublicIpId: Data management's service public IP address resource id.
 	DataManagementPublicIpId *string `json:"dataManagementPublicIpId,omitempty"`
-	EnginePublicIpId         *string `json:"enginePublicIpId,omitempty"`
+
+	// EnginePublicIpId: Engine service's public IP address resource id.
+	EnginePublicIpId *string `json:"enginePublicIpId,omitempty"`
 
 	// State: When enabled, the cluster is deployed into the configured subnet, when disabled it will be removed from the
 	// subnet.
-	State    *VirtualNetworkConfiguration_State `json:"state,omitempty"`
-	SubnetId *string                            `json:"subnetId,omitempty"`
+	State *VirtualNetworkConfiguration_State `json:"state,omitempty"`
+
+	// SubnetId: The subnet resource id.
+	SubnetId *string `json:"subnetId,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"azure_digital_twins","azure_openai","cosmosdb","external_data","genevametrics","kusto","mysql","postgresql","sandbox_artifacts","sql","webapi"}
