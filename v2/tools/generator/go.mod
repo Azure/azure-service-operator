@@ -28,14 +28,14 @@ require (
 	github.com/rotisserie/eris v0.5.4
 	github.com/rs/zerolog v1.34.0
 	github.com/sebdah/goldie/v2 v2.7.1
-	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.9
+	github.com/spf13/cobra v1.10.1
+	github.com/spf13/pflag v1.0.10
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
-	golang.org/x/mod v0.27.0
+	golang.org/x/mod v0.28.0
 	golang.org/x/net v0.43.0
-	golang.org/x/sync v0.16.0
-	golang.org/x/text v0.28.0
+	golang.org/x/sync v0.17.0
+	golang.org/x/text v0.29.0
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.33.4
 )
