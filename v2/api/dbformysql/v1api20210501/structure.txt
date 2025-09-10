@@ -6,7 +6,7 @@ APIVersion: Enum (1 value)
 
 FlexibleServer: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (21 properties)
+├── Spec: Object (22 properties)
 │   ├── AdministratorLogin: *string
 │   ├── AdministratorLoginPassword: *genruntime.SecretReference
 │   ├── AvailabilityZone: *string
@@ -70,6 +70,7 @@ FlexibleServer: Resource
 │   │       ├── "GeneralPurpose"
 │   │       └── "MemoryOptimized"
 │   ├── SourceServerResourceId: *string
+│   ├── SourceServerResourceReference: *genruntime.ResourceReference
 │   ├── Storage: *Object (3 properties)
 │   │   ├── AutoGrow: *Enum (2 values)
 │   │   │   ├── "Disabled"
