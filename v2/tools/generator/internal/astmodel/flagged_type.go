@@ -69,20 +69,60 @@ func (ft *FlaggedType) WithFlag(flag TypeFlag) *FlaggedType {
 // If the flag is not present, the existing FlaggedType is returned unmodified
 // If the last flag is removed, the underlying type is returned
 func (ft *FlaggedType) WithoutFlag(flag TypeFlag) Type {
+	// If we have no flags, nothing to remove
 	if !ft.HasFlag(flag) {
 		return ft
 	}
 
+	// If the only flag we have is the one we're removing,
+	// return the underlying type
 	if len(ft.flags) == 1 {
 		return ft.element
 	}
 
+	// Otherwise, create a new FlaggedType with the updated flags
 	flags := ft.flags.Copy()
 	flags.Remove(flag)
 
 	return &FlaggedType{
 		element: ft.element,
 		flags:   flags,
+	}
+}
+
+// WithoutFlags returns a new FlaggedType without any of the specified flags.
+// If none of the flags are present, the underlying FlaggedType is returned unmodified.
+// If the last flag is removed, the underlying type is returned.
+func (ft *FlaggedType) WithoutFlags(flags ...TypeFlag) Type {
+	// If we have no flags, nothing to remove
+	if len(flags) == 0 {
+		return ft
+	}
+
+	// Remove any of the flags that are present
+	changed := false
+	newFlags := ft.flags.Copy()
+	for _, f := range flags {
+		if newFlags.Contains(f) {
+			newFlags.Remove(f)
+			changed = true
+		}
+	}
+
+	// If no change, keep the existing type
+	if !changed {
+		return ft
+	}
+
+	// If no flags left, return the underlying type
+	if len(newFlags) == 0 {
+		return ft.element
+	}
+
+	// Otherwise return a new FlaggedType with the updated flags
+	return &FlaggedType{
+		element: ft.element,
+		flags:   newFlags,
 	}
 }
 

@@ -53,8 +53,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
-func getRoot() (string, error) {
-	cmd := exec.CommandContext(context.Background(), "git", "rev-parse", "--show-toplevel")
+func getRoot(
+	ctx context.Context,
+) (string, error) {
+	cmd := exec.CommandContext(ctx, "git", "rev-parse", "--show-toplevel")
 	out, err := cmd.Output()
 	if err != nil {
 		return "", eris.Wrapf(err, "failed to get root directory")
@@ -63,12 +65,16 @@ func getRoot() (string, error) {
 	return strings.TrimSpace(string(out)), nil
 }
 
-func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources) (*runningEnvTest, error) {
+func createSharedEnvTest(
+	ctx context.Context,
+	cfg testConfig,
+	namespaceResources *namespaceResources,
+) (*runningEnvTest, error) {
 	log.Printf("Creating shared envtest environment: %s\n", cfgToKey(cfg))
 
 	scheme := controllers.CreateScheme()
 
-	root, err := getRoot()
+	root, err := getRoot(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -273,6 +279,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			return nil, err
 		}
 
+		//nolint:contextcheck // No need, the method is synchronous
 		err = generic.RegisterAll(
 			mgr,
 			indexer,
@@ -294,7 +301,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		}
 	}
 
-	ctx, stopManager := context.WithCancel(context.Background())
+	ctx, stopManager := context.WithCancel(ctx)
 	go func() {
 		// this blocks until the input ctx is cancelled
 		//nolint:shadow // We want shadowing here
@@ -416,7 +423,11 @@ func (set *sharedEnvTests) getRunningEnvTest(key string) *runningEnvTest {
 	return nil
 }
 
-func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConfig, logger logr.Logger) (*runningEnvTest, error) {
+func (set *sharedEnvTests) getEnvTestForConfig(
+	ctx context.Context,
+	cfg testConfig,
+	logger logr.Logger,
+) (*runningEnvTest, error) {
 	envTestKey := cfgToKey(cfg)
 	envTest := set.getRunningEnvTest(envTestKey)
 	if envTest != nil {
@@ -436,8 +447,8 @@ func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConf
 	defer set.envtestLock.Unlock()
 	logger.V(2).Info("Starting envtest")
 	// no envtest exists for this config; make one
-	//nolint: contextcheck // 2022-09 @unrepentantgeek Seems to be a false positive
-	newEnvTest, err := createSharedEnvTest(cfg, set.namespaceResources)
+
+	newEnvTest, err := createSharedEnvTest(ctx, cfg, set.namespaceResources)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create shared envtest environment")
 	}
