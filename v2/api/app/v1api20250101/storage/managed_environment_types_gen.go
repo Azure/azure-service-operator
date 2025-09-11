@@ -401,9 +401,9 @@ type WorkloadProfile_STATUS struct {
 type CertificateKeyVaultProperties struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
-	KeyVaultUrl       *string                       `json:"keyVaultUrl,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	KeyVaultUrl       *string                                `json:"keyVaultUrl,omitempty"`
+	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20250101.CertificateKeyVaultProperties_STATUS
