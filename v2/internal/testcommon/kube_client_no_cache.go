@@ -34,6 +34,10 @@ func NewClient(client client.Client, indexer *Indexer) client.Client {
 	}
 }
 
+func (c *noCacheClient) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...client.ApplyOption) error {
+	return c.client.Apply(ctx, obj, opts...)
+}
+
 func (c *noCacheClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object, opts ...client.GetOption) error {
 	return c.client.Get(ctx, key, obj, opts...)
 }
