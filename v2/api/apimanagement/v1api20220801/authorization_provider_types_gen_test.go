@@ -5,7 +5,8 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForAuthorizationProvider(subject AuthorizationProv
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AuthorizationProvider
+	var hub v20240501s.AuthorizationProvider
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForAuthorizationProvider(subject AuthorizationProv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvider
+	var other v20220801s.AuthorizationProvider
 	err := copied.AssignProperties_To_AuthorizationProvider(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForAuthorizationProviderOAuth2GrantTypes(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProviderOAuth2GrantTypes
+	var other v20220801s.AuthorizationProviderOAuth2GrantTypes
 	err := copied.AssignProperties_To_AuthorizationProviderOAuth2GrantTypes(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForAuthorizationProviderOAuth2GrantTypes_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProviderOAuth2GrantTypes_STATUS
+	var other v20220801s.AuthorizationProviderOAuth2GrantTypes_STATUS
 	err := copied.AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -387,7 +388,7 @@ func RunPropertyAssignmentTestForAuthorizationProviderOAuth2Settings(subject Aut
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProviderOAuth2Settings
+	var other v20220801s.AuthorizationProviderOAuth2Settings
 	err := copied.AssignProperties_To_AuthorizationProviderOAuth2Settings(&other)
 	if err != nil {
 		return err.Error()
@@ -504,7 +505,7 @@ func RunPropertyAssignmentTestForAuthorizationProviderOAuth2Settings_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProviderOAuth2Settings_STATUS
+	var other v20220801s.AuthorizationProviderOAuth2Settings_STATUS
 	err := copied.AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -621,7 +622,7 @@ func RunPropertyAssignmentTestForAuthorizationProviderOperatorSpec(subject Autho
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProviderOperatorSpec
+	var other v20220801s.AuthorizationProviderOperatorSpec
 	err := copied.AssignProperties_To_AuthorizationProviderOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -718,7 +719,7 @@ func RunPropertyAssignmentTestForAuthorizationProvider_STATUS(subject Authorizat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvider_STATUS
+	var other v20220801s.AuthorizationProvider_STATUS
 	err := copied.AssignProperties_To_AuthorizationProvider_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -839,7 +840,7 @@ func RunPropertyAssignmentTestForAuthorizationProvider_Spec(subject Authorizatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AuthorizationProvider_Spec
+	var other v20220801s.AuthorizationProvider_Spec
 	err := copied.AssignProperties_To_AuthorizationProvider_Spec(&other)
 	if err != nil {
 		return err.Error()

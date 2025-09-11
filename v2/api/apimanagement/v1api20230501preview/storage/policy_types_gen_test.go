@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForPolicy(subject Policy) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Policy
+	var hub v20240501s.Policy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForPolicy(subject Policy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Policy
+	var other v20220801s.Policy
 	err := copied.AssignProperties_To_Policy(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForPolicyOperatorSpec(subject PolicyOperatorSpec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PolicyOperatorSpec
+	var other v20220801s.PolicyOperatorSpec
 	err := copied.AssignProperties_To_PolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -277,7 +278,7 @@ func RunPropertyAssignmentTestForPolicy_STATUS(subject Policy_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Policy_STATUS
+	var other v20220801s.Policy_STATUS
 	err := copied.AssignProperties_To_Policy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -383,7 +384,7 @@ func RunPropertyAssignmentTestForPolicy_Spec(subject Policy_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Policy_Spec
+	var other v20220801s.Policy_Spec
 	err := copied.AssignProperties_To_Policy_Spec(&other)
 	if err != nil {
 		return err.Error()

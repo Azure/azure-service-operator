@@ -1,0 +1,9 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: ProductPolicy
+metadata:
+  name: sampleproductpolicy
+  namespace: default
+spec:
+  value: "<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"
+  owner:
+    name: sampleproduct

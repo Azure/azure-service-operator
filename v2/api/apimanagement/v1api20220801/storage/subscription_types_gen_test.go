@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Subscription_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subscription to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSubscription, SubscriptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSubscription tests if a specific instance of Subscription round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSubscription(subject Subscription) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.Subscription
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Subscription
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Subscription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subscription to Subscription via AssignProperties_To_Subscription & AssignProperties_From_Subscription returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubscription, SubscriptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubscription tests if a specific instance of Subscription can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubscription(subject Subscription) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Subscription
+	err := copied.AssignProperties_To_Subscription(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subscription
+	err = actual.AssignProperties_From_Subscription(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Subscription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +164,48 @@ func AddRelatedPropertyGeneratorsForSubscription(gens map[string]gopter.Gen) {
 	gens["Status"] = Subscription_STATUSGenerator()
 }
 
+func Test_SubscriptionOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubscriptionOperatorSecrets to SubscriptionOperatorSecrets via AssignProperties_To_SubscriptionOperatorSecrets & AssignProperties_From_SubscriptionOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubscriptionOperatorSecrets, SubscriptionOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubscriptionOperatorSecrets tests if a specific instance of SubscriptionOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubscriptionOperatorSecrets(subject SubscriptionOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SubscriptionOperatorSecrets
+	err := copied.AssignProperties_To_SubscriptionOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubscriptionOperatorSecrets
+	err = actual.AssignProperties_From_SubscriptionOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SubscriptionOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -131,6 +259,48 @@ func SubscriptionOperatorSecretsGenerator() gopter.Gen {
 	subscriptionOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(SubscriptionOperatorSecrets{}), generators)
 
 	return subscriptionOperatorSecretsGenerator
+}
+
+func Test_SubscriptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubscriptionOperatorSpec to SubscriptionOperatorSpec via AssignProperties_To_SubscriptionOperatorSpec & AssignProperties_From_SubscriptionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubscriptionOperatorSpec, SubscriptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubscriptionOperatorSpec tests if a specific instance of SubscriptionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubscriptionOperatorSpec(subject SubscriptionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SubscriptionOperatorSpec
+	err := copied.AssignProperties_To_SubscriptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubscriptionOperatorSpec
+	err = actual.AssignProperties_From_SubscriptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SubscriptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -192,6 +362,48 @@ func SubscriptionOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSubscriptionOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSubscriptionOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(SubscriptionOperatorSecretsGenerator())
+}
+
+func Test_Subscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subscription_STATUS to Subscription_STATUS via AssignProperties_To_Subscription_STATUS & AssignProperties_From_Subscription_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubscription_STATUS, Subscription_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubscription_STATUS tests if a specific instance of Subscription_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubscription_STATUS(subject Subscription_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Subscription_STATUS
+	err := copied.AssignProperties_To_Subscription_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subscription_STATUS
+	err = actual.AssignProperties_From_Subscription_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -266,6 +478,48 @@ func AddIndependentPropertyGeneratorsForSubscription_STATUS(gens map[string]gopt
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 	gens["StateComment"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Subscription_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subscription_Spec to Subscription_Spec via AssignProperties_To_Subscription_Spec & AssignProperties_From_Subscription_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubscription_Spec, Subscription_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubscription_Spec tests if a specific instance of Subscription_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubscription_Spec(subject Subscription_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Subscription_Spec
+	err := copied.AssignProperties_To_Subscription_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subscription_Spec
+	err = actual.AssignProperties_From_Subscription_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Subscription_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

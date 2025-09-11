@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AuthorizationProvidersAuthorization{}
 
 // ConvertFrom populates our AuthorizationProvidersAuthorization from the provided hub AuthorizationProvidersAuthorization
 func (authorization *AuthorizationProvidersAuthorization) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AuthorizationProvidersAuthorization)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AuthorizationProvidersAuthorization
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return authorization.AssignProperties_From_AuthorizationProvidersAuthorization(source)
+	err = authorization.AssignProperties_From_AuthorizationProvidersAuthorization(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to authorization")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AuthorizationProvidersAuthorization from our AuthorizationProvidersAuthorization
 func (authorization *AuthorizationProvidersAuthorization) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AuthorizationProvidersAuthorization)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AuthorizationProvidersAuthorization
+	err := authorization.AssignProperties_To_AuthorizationProvidersAuthorization(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from authorization")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return authorization.AssignProperties_To_AuthorizationProvidersAuthorization(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AuthorizationProvidersAuthorization{}
@@ -87,17 +101,6 @@ func (authorization *AuthorizationProvidersAuthorization) SecretDestinationExpre
 		return nil
 	}
 	return authorization.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AuthorizationProvidersAuthorization{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (authorization *AuthorizationProvidersAuthorization) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AuthorizationProvidersAuthorization_STATUS); ok {
-		return authorization.Spec.Initialize_From_AuthorizationProvidersAuthorization_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AuthorizationProvidersAuthorization_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AuthorizationProvidersAuthorization{}
@@ -533,29 +536,6 @@ func (authorization *AuthorizationProvidersAuthorization_Spec) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AuthorizationProvidersAuthorization_STATUS populates our AuthorizationProvidersAuthorization_Spec from the provided source AuthorizationProvidersAuthorization_STATUS
-func (authorization *AuthorizationProvidersAuthorization_Spec) Initialize_From_AuthorizationProvidersAuthorization_STATUS(source *AuthorizationProvidersAuthorization_STATUS) error {
-
-	// AuthorizationType
-	if source.AuthorizationType != nil {
-		authorizationType := genruntime.ToEnum(string(*source.AuthorizationType), authorizationContractProperties_AuthorizationType_Values)
-		authorization.AuthorizationType = &authorizationType
-	} else {
-		authorization.AuthorizationType = nil
-	}
-
-	// Oauth2GrantType
-	if source.Oauth2GrantType != nil {
-		oauth2GrantType := genruntime.ToEnum(string(*source.Oauth2GrantType), authorizationContractProperties_Oauth2GrantType_Values)
-		authorization.Oauth2GrantType = &oauth2GrantType
-	} else {
-		authorization.Oauth2GrantType = nil
 	}
 
 	// No error
