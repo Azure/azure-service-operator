@@ -1378,7 +1378,7 @@ objectModelConfiguration:
         DelegatedManagedIdentityResourceId:
           $referenceType: arm 
         RoleDefinitionId:
-          $referenceType: arm
+          $referenceType: arm+wellknown
         PrincipalId:
           $importConfigMapMode: optional
     2022-04-01:
@@ -1394,7 +1394,7 @@ objectModelConfiguration:
         DelegatedManagedIdentityResourceId:
           $referenceType: arm
         RoleDefinitionId:
-          $referenceType: arm
+          $referenceType: arm+wellknown
         PrincipalId:
           $importConfigMapMode: optional
       RoleDefinition:
