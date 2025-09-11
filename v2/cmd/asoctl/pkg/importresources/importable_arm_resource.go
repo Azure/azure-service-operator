@@ -372,6 +372,7 @@ var skipCodes = set.Make(
 	"ValidationFailed",
 	"NoRegisteredProviderFound",
 	"ResourceTypeNotSupported",
+	"UnsupportedResourceType",
 )
 
 func (*importableARMResource) classifyError(err error) (string, bool) {
