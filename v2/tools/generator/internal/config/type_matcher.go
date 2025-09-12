@@ -19,8 +19,10 @@ type TypeMatcher struct {
 	Group   FieldMatcher `yaml:",omitempty"` // Filter matching types by group
 	Version FieldMatcher `yaml:",omitempty"` // Filter matching types by version
 	Name    FieldMatcher `yaml:",omitempty"` // Filter matching types by name
+
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
+
 	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
 	// The default is true.
 	// Don't access directly, use the MustMatch() method instead.
