@@ -58,36 +58,34 @@ func (t *TypeMatcher) RequiredTypesWereMatched() error {
 	return nil
 }
 
-// WasMatched returns nil if this matcher ever matched at least one type, otherwise a diagnostic error
+// WasMatched returns nil if all our nested matchers had a match, otherwise returning a diagnostic error.
+// If we're configured to match multiple groups with `group: foo;bar;baz` only only `foo` and `bar` have matched, we
+// need to return an error because `baz` didn't match anything. This is because we want to flag any ineffective
+// configuration to avoid user surprise.
 func (t *TypeMatcher) WasMatched() error {
-	if t.matchedAnything {
-		// Matched at least one type
-		return nil
-	}
-
 	if err := t.Group.WasMatched(); err != nil {
 		return eris.Wrapf(
 			err,
-			"type matcher [%s] matched no types; every group was excluded",
+			"type matcher [%s], incomplete match for group",
 			t.String())
 	}
 
 	if err := t.Version.WasMatched(); err != nil {
 		return eris.Wrapf(
 			err,
-			"type matcher [%s] matched no types; groups matched, but every version was excluded",
+			"type matcher [%s], incomplete match for version",
 			t.String())
 	}
 
 	if err := t.Name.WasMatched(); err != nil {
 		return eris.Wrapf(
 			err,
-			"type matcher [%s] matched no types; groups and versions matched, but every type was excluded",
+			"type matcher [%s], incomplete match for name",
 			t.String())
 	}
 
-	// Don't expect this case to ever be used, but be informative anyway
-	return eris.Errorf("Type matcher [%s] matched no types", t.String())
+	// Everything matched, no error
+	return nil
 }
 
 // String returns a description of this filter
@@ -95,22 +93,22 @@ func (t *TypeMatcher) String() string {
 	var result strings.Builder
 	var spacer string
 	if t.Group.IsRestrictive() {
-		result.WriteString(fmt.Sprintf("Group: %q", t.Group.String()))
+		result.WriteString(fmt.Sprintf("Group: '%s'", t.Group.String()))
 		spacer = "; "
 	}
 
 	if t.Version.IsRestrictive() {
-		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version.String()))
+		result.WriteString(fmt.Sprintf("%sVersion: '%s'", spacer, t.Version.String()))
 		spacer = "; "
 	}
 
 	if t.Name.IsRestrictive() {
-		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name.String()))
+		result.WriteString(fmt.Sprintf("%sName: '%s'", spacer, t.Name.String()))
 		spacer = "; "
 	}
 
 	if t.Because != "" {
-		result.WriteString(fmt.Sprintf("%sBecause: %q", spacer, t.Because))
+		result.WriteString(fmt.Sprintf("%sBecause: '%s'", spacer, t.Because))
 	}
 
 	return result.String()

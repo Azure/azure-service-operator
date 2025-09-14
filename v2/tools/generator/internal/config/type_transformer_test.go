@@ -802,15 +802,15 @@ func Test_TypeTransformer_RequiredTypesWereMatched_ReturnsExpectedResults(t *tes
 		},
 		"When no match on group": {
 			typeName:      differentGroup,
-			expectedError: "every group was excluded",
+			expectedError: "incomplete match for group",
 		},
 		"When no match on version": {
 			typeName:      differentVersion,
-			expectedError: "groups matched, but every version was excluded",
+			expectedError: "incomplete match for version",
 		},
 		"When no match on name": {
 			typeName:      differentName,
-			expectedError: "groups and versions matched, but every type was excluded",
+			expectedError: "incomplete match for name",
 		},
 	}
 
@@ -863,15 +863,15 @@ func Test_TypeTransformer_RequirePropertiesWereMatched_ReturnsExpectedResults(t 
 		},
 		"When no match on group": {
 			definition:    differentGroup,
-			expectedError: "every group was excluded",
+			expectedError: "incomplete match for group: no match for \"party\"",
 		},
 		"When no match on version": {
 			definition:    differentVersion,
-			expectedError: "groups matched, but every version was excluded",
+			expectedError: "incomplete match for version: no match for \"v2025\"",
 		},
 		"When no match on name": {
 			definition:    differentName,
-			expectedError: "groups and versions matched, but every type was excluded",
+			expectedError: "incomplete match for name: no match for \"person\"",
 		},
 		"When no match on property": {
 			definition:    differentProperty,
