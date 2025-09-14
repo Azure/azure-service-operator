@@ -187,7 +187,6 @@ type DatabaseAccount_Spec struct {
 	ConsistencyPolicy                  *ConsistencyPolicy             `json:"consistencyPolicy,omitempty"`
 	Cors                               []CorsPolicy                   `json:"cors,omitempty"`
 	CreateMode                         *string                        `json:"createMode,omitempty"`
-	CustomerManagedKeyStatus           *string                        `json:"customerManagedKeyStatus,omitempty"`
 	DatabaseAccountOfferType           *string                        `json:"databaseAccountOfferType,omitempty"`
 	DefaultIdentity                    *string                        `json:"defaultIdentity,omitempty"`
 	DisableKeyBasedMetadataWriteAccess *bool                          `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
