@@ -8233,10 +8233,12 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 // Storage version of v1api20230201.UserAssignedIdentity
 type UserAssignedIdentity struct {
-	ClientId          *string                       `json:"clientId,omitempty"`
-	ObjectId          *string                       `json:"objectId,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ObjectId           *string                        `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ResourceReference  *genruntime.ResourceReference  `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 // AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
@@ -8247,8 +8249,24 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		identity.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		identity.ClientIdFromConfig = nil
+	}
+
 	// ObjectId
 	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		identity.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		identity.ObjectIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -8286,8 +8304,24 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
 
+	// ClientIdFromConfig
+	if identity.ClientIdFromConfig != nil {
+		clientIdFromConfig := identity.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
+	}
+
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ObjectIdFromConfig
+	if identity.ObjectIdFromConfig != nil {
+		objectIdFromConfig := identity.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if identity.ResourceReference != nil {
