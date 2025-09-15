@@ -187,7 +187,7 @@ func AddRelatedPropertyGeneratorsForAccountProperties_STATUS(gens map[string]gop
 	gens["Encryption"] = gen.PtrOf(Encryption_STATUSGenerator())
 	gens["Locations"] = gen.PtrOf(MultiRegionSettings_STATUSGenerator())
 	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSet_STATUSGenerator())
-	gens["NetworkInjections"] = gen.PtrOf(NetworkInjections_STATUSGenerator())
+	gens["NetworkInjections"] = gen.SliceOf(NetworkInjection_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
 	gens["QuotaLimit"] = gen.PtrOf(QuotaLimit_STATUSGenerator())
 	gens["RaiMonitorConfig"] = gen.PtrOf(RaiMonitorConfig_STATUSGenerator())
@@ -840,20 +840,20 @@ func AddRelatedPropertyGeneratorsForMultiRegionSettings_STATUS(gens map[string]g
 	gens["Regions"] = gen.SliceOf(RegionSetting_STATUSGenerator())
 }
 
-func Test_NetworkInjections_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NetworkInjection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NetworkInjections_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkInjections_STATUS, NetworkInjections_STATUSGenerator()))
+		"Round trip of NetworkInjection_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInjection_STATUS, NetworkInjection_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkInjections_STATUS runs a test to see if a specific instance of NetworkInjections_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkInjections_STATUS(subject NetworkInjections_STATUS) string {
+// RunJSONSerializationTestForNetworkInjection_STATUS runs a test to see if a specific instance of NetworkInjection_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInjection_STATUS(subject NetworkInjection_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -861,7 +861,7 @@ func RunJSONSerializationTestForNetworkInjections_STATUS(subject NetworkInjectio
 	}
 
 	// Deserialize back into memory
-	var actual NetworkInjections_STATUS
+	var actual NetworkInjection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -879,26 +879,26 @@ func RunJSONSerializationTestForNetworkInjections_STATUS(subject NetworkInjectio
 	return ""
 }
 
-// Generator of NetworkInjections_STATUS instances for property testing - lazily instantiated by
-// NetworkInjections_STATUSGenerator()
-var networkInjections_STATUSGenerator gopter.Gen
+// Generator of NetworkInjection_STATUS instances for property testing - lazily instantiated by
+// NetworkInjection_STATUSGenerator()
+var networkInjection_STATUSGenerator gopter.Gen
 
-// NetworkInjections_STATUSGenerator returns a generator of NetworkInjections_STATUS instances for property testing.
-func NetworkInjections_STATUSGenerator() gopter.Gen {
-	if networkInjections_STATUSGenerator != nil {
-		return networkInjections_STATUSGenerator
+// NetworkInjection_STATUSGenerator returns a generator of NetworkInjection_STATUS instances for property testing.
+func NetworkInjection_STATUSGenerator() gopter.Gen {
+	if networkInjection_STATUSGenerator != nil {
+		return networkInjection_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInjections_STATUS(generators)
-	networkInjections_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkInjections_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkInjection_STATUS(generators)
+	networkInjection_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkInjection_STATUS{}), generators)
 
-	return networkInjections_STATUSGenerator
+	return networkInjection_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkInjections_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkInjections_STATUS(gens map[string]gopter.Gen) {
-	gens["Scenario"] = gen.PtrOf(gen.OneConstOf(NetworkInjections_Scenario_STATUS_Agent, NetworkInjections_Scenario_STATUS_None))
+// AddIndependentPropertyGeneratorsForNetworkInjection_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInjection_STATUS(gens map[string]gopter.Gen) {
+	gens["Scenario"] = gen.PtrOf(gen.OneConstOf(NetworkInjection_Scenario_STATUS_Agent, NetworkInjection_Scenario_STATUS_None))
 	gens["SubnetArmId"] = gen.PtrOf(gen.AlphaString())
 	gens["UseMicrosoftManagedNetwork"] = gen.PtrOf(gen.Bool())
 }
