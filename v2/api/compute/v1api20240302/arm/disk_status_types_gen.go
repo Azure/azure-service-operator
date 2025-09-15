@@ -8,10 +8,11 @@ type Disk_STATUS struct {
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// ManagedBy: A relative URI containing the ID of the VM that has the disk attached.
@@ -21,20 +22,20 @@ type Disk_STATUS struct {
 	// set to a value greater than one for disks to allow attaching them to multiple VMs.
 	ManagedByExtended []string `json:"managedByExtended,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Disk resource properties.
 	Properties *DiskProperties_STATUS `json:"properties,omitempty"`
 
 	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS,
-	// or  PremiumV2_LRS.
+	// or PremiumV2_LRS.
 	Sku *DiskSku_STATUS `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	// Zones: The Logical zone list for Disk.

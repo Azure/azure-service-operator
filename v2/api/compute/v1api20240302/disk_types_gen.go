@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/disk.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (disk *Disk) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/disk.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type DiskList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -308,7 +308,7 @@ type Disk_Spec struct {
 	HyperVGeneration *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
@@ -348,7 +348,7 @@ type Disk_Spec struct {
 	SecurityProfile *DiskSecurityProfile `json:"securityProfile,omitempty"`
 
 	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS,
-	// or  PremiumV2_LRS.
+	// or PremiumV2_LRS.
 	Sku *DiskSku `json:"sku,omitempty"`
 
 	// SupportedCapabilities: List of supported capabilities for the image from which the OS disk was created.
@@ -357,7 +357,7 @@ type Disk_Spec struct {
 	// SupportsHibernation: Indicates the OS on a disk supports hibernation.
 	SupportsHibernation *bool `json:"supportsHibernation,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
@@ -1710,14 +1710,15 @@ type Disk_STATUS struct {
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *DiskProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// LastOwnershipUpdateTime: The UTC time when the ownership state of the disk was last changed i.e., the time the disk was
 	// last attached or detached from a VM or the time when the VM to which the disk was attached was deallocated or started.
 	LastOwnershipUpdateTime *string `json:"LastOwnershipUpdateTime,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// ManagedBy: A relative URI containing the ID of the VM that has the disk attached.
@@ -1731,7 +1732,7 @@ type Disk_STATUS struct {
 	// disk that can be mounted on multiple VMs at the same time.
 	MaxShares *int `json:"maxShares,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
@@ -1767,7 +1768,7 @@ type Disk_STATUS struct {
 	ShareInfo []ShareInfoElement_STATUS `json:"shareInfo,omitempty"`
 
 	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS,
-	// or  PremiumV2_LRS.
+	// or PremiumV2_LRS.
 	Sku *DiskSku_STATUS `json:"sku,omitempty"`
 
 	// SupportedCapabilities: List of supported capabilities for the image from which the OS disk was created.
@@ -1776,7 +1777,7 @@ type Disk_STATUS struct {
 	// SupportsHibernation: Indicates the OS on a disk supports hibernation.
 	SupportsHibernation *bool `json:"supportsHibernation,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
@@ -1786,7 +1787,7 @@ type Disk_STATUS struct {
 	// TimeCreated: The time when the disk was created.
 	TimeCreated *string `json:"timeCreated,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	// UniqueId: Unique Guid identifying the resource.

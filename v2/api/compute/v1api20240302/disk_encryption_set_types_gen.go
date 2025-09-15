@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/diskEncryptionSet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 type DiskEncryptionSet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (encryptionSet *DiskEncryptionSet) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/diskEncryptionSet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 type DiskEncryptionSetList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -266,11 +266,11 @@ type DiskEncryptionSet_Spec struct {
 	FederatedClientIdFromConfig *genruntime.ConfigMapReference `json:"federatedClientIdFromConfig,omitempty" optionalConfigMapPair:"FederatedClientId"`
 
 	// Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-	// be used  to encrypt disks.
+	// be used to encrypt disks.
 	Identity *EncryptionSetIdentity `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -287,7 +287,7 @@ type DiskEncryptionSet_Spec struct {
 	// latest key version.
 	RotationToLatestKeyVersionEnabled *bool `json:"rotationToLatestKeyVersionEnabled,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -787,20 +787,21 @@ type DiskEncryptionSet_STATUS struct {
 	// 'None' will clear the property.
 	FederatedClientId *string `json:"federatedClientId,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-	// be used  to encrypt disks.
+	// be used to encrypt disks.
 	Identity *EncryptionSetIdentity_STATUS `json:"identity,omitempty"`
 
 	// LastKeyRotationTimestamp: The time when the active key of this disk encryption set was updated.
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PreviousKeys: A readonly collection of key vault keys previously used by this disk encryption set while a key rotation
@@ -814,10 +815,10 @@ type DiskEncryptionSet_STATUS struct {
 	// latest key version.
 	RotationToLatestKeyVersionEnabled *bool `json:"rotationToLatestKeyVersionEnabled,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

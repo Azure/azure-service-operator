@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/diskAccess.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}
 type DiskAccess struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (access *DiskAccess) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/diskAccess.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}
 type DiskAccessList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -255,7 +255,7 @@ type DiskAccess_Spec struct {
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -268,7 +268,7 @@ type DiskAccess_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -561,13 +561,14 @@ type DiskAccess_STATUS struct {
 	// ExtendedLocation: The extended location where the disk access will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PrivateEndpointConnections: A readonly collection of private endpoint connections created on the disk. Currently only
@@ -577,13 +578,13 @@ type DiskAccess_STATUS struct {
 	// ProvisioningState: The disk access resource provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// TimeCreated: The time when the disk access was created.
 	TimeCreated *string `json:"timeCreated,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -968,7 +969,8 @@ func (operator *DiskAccessOperatorSpec) AssignProperties_To_DiskAccessOperatorSp
 
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: private endpoint connection Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 

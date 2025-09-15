@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20180501.DnsZonesAAAARecord
 // Generator information:
-// - Generated from: /dns/resource-manager/Microsoft.Network/stable/2018-05-01/dns.json
+// - Generated from: /dns/resource-manager/Microsoft.Network/Dns/stable/2018-05-01/dns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/AAAA/{relativeRecordSetName}
 type DnsZonesAAAARecord struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (record *DnsZonesAAAARecord) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20180501.DnsZonesAAAARecord
 // Generator information:
-// - Generated from: /dns/resource-manager/Microsoft.Network/stable/2018-05-01/dns.json
+// - Generated from: /dns/resource-manager/Microsoft.Network/Dns/stable/2018-05-01/dns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/AAAA/{relativeRecordSetName}
 type DnsZonesAAAARecordList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -7,8 +7,8 @@ type PrivateDnsZonesVirtualNetworkLink_STATUS struct {
 	// Etag: The ETag of the virtual network link.
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified resource Id for the resource. Example -
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Location: The Azure Region where the resource lives
@@ -23,7 +23,7 @@ type PrivateDnsZonesVirtualNetworkLink_STATUS struct {
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

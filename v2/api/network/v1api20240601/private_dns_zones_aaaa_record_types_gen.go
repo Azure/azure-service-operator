@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/AAAA/{relativeRecordSetName}
 type PrivateDnsZonesAAAARecord struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (record *PrivateDnsZonesAAAARecord) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/AAAA/{relativeRecordSetName}
 type PrivateDnsZonesAAAARecordList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1137,8 +1137,8 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// Fqdn: Fully qualified domain name of the record set.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// Id: Fully qualified resource Id for the resource. Example -
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// IsAutoRegistered: Is the record set auto-registered in the Private DNS zone through a virtual network link?
@@ -1150,7 +1150,7 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// MxRecords: The list of MX records in the record set.
 	MxRecords []MxRecord_STATUS `json:"mxRecords,omitempty"`
 
-	// Name: The name of the record set.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PtrRecords: The list of PTR records in the record set.
@@ -1168,7 +1168,7 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// TxtRecords: The list of TXT records in the record set.
 	TxtRecords []TxtRecord_STATUS `json:"txtRecords,omitempty"`
 
-	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

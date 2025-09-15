@@ -5,24 +5,25 @@ package arm
 
 // disk encryption set resource.
 type DiskEncryptionSet_STATUS struct {
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-	// be used  to encrypt disks.
+	// be used to encrypt disks.
 	Identity *EncryptionSetIdentity_STATUS `json:"identity,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name       *string                         `json:"name,omitempty"`
 	Properties *EncryptionSetProperties_STATUS `json:"properties,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

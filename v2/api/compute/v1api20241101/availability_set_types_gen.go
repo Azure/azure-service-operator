@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (availabilitySet *AvailabilitySet) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySetList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -257,7 +257,7 @@ type AvailabilitySet_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -289,7 +289,7 @@ type AvailabilitySet_Spec struct {
 	// Default value is 'Classic'.
 	Sku *Sku `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -755,13 +755,14 @@ type AvailabilitySet_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PlatformFaultDomainCount: Fault Domain count.
@@ -786,10 +787,13 @@ type AvailabilitySet_STATUS struct {
 	// Statuses: The resource status information.
 	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
 
-	// Tags: Resource tags
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	// VirtualMachineScaleSetMigrationInfo: Describes the migration properties on the Availability Set.

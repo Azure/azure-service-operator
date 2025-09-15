@@ -7,15 +7,15 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DiskEncryptionSet_Spec struct {
 	// Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-	// be used  to encrypt disks.
+	// be used to encrypt disks.
 	Identity *EncryptionSetIdentity `json:"identity,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location   *string                  `json:"location,omitempty"`
 	Name       string                   `json:"name,omitempty"`
 	Properties *EncryptionSetProperties `json:"properties,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

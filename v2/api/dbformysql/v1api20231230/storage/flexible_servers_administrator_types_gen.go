@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20231230.FlexibleServersAdministrator
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-12-30/AzureADAdministrator.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/AzureADAdministrator.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
 type FlexibleServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (administrator *FlexibleServersAdministrator) OriginalGVK() *schema.GroupVe
 // +kubebuilder:object:root=true
 // Storage version of v1api20231230.FlexibleServersAdministrator
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-12-30/AzureADAdministrator.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/AzureADAdministrator.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
 type FlexibleServersAdministratorList struct {
 	metav1.TypeMeta `json:",inline"`

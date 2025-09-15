@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -241,7 +241,7 @@ func (credential *FederatedIdentityCredential) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 type FederatedIdentityCredentialList struct {
 	metav1.TypeMeta `json:",inline"`

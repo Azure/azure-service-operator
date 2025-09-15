@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220101.FlexibleServersConfiguration
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Configurations/stable/2022-01-01/Configurations.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2022-01-01/Configurations.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -258,7 +258,7 @@ func (configuration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVe
 // +kubebuilder:object:root=true
 // Storage version of v1api20220101.FlexibleServersConfiguration
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Configurations/stable/2022-01-01/Configurations.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2022-01-01/Configurations.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}
 type FlexibleServersConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`

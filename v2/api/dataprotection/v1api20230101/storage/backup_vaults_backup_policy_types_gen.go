@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230101.BackupVaultsBackupPolicy
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-01-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}
 type BackupVaultsBackupPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (policy *BackupVaultsBackupPolicy) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230101.BackupVaultsBackupPolicy
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-01-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}
 type BackupVaultsBackupPolicyList struct {
 	metav1.TypeMeta `json:",inline"`

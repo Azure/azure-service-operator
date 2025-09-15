@@ -9,7 +9,7 @@ type Snapshot_Spec struct {
 	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
@@ -17,10 +17,10 @@ type Snapshot_Spec struct {
 	Properties *SnapshotProperties `json:"properties,omitempty"`
 
 	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	// incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 	Sku *SnapshotSku `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

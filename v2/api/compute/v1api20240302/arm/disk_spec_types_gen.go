@@ -9,7 +9,7 @@ type Disk_Spec struct {
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
@@ -17,10 +17,10 @@ type Disk_Spec struct {
 	Properties *DiskProperties `json:"properties,omitempty"`
 
 	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS,
-	// or  PremiumV2_LRS.
+	// or PremiumV2_LRS.
 	Sku *DiskSku `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: The Logical zone list for Disk.

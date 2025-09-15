@@ -8,20 +8,21 @@ type DiskAccess_STATUS struct {
 	// ExtendedLocation: The extended location where the disk access will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name       *string                      `json:"name,omitempty"`
 	Properties *DiskAccessProperties_STATUS `json:"properties,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -58,6 +59,7 @@ var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
 
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: private endpoint connection Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }

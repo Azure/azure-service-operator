@@ -284,8 +284,7 @@ type Backend_Spec struct {
 	// Properties: Backend Properties contract
 	Properties *BackendProperties `json:"properties,omitempty"`
 
-	// +kubebuilder:validation:Required
-	// Protocol: Backend communication protocol.
+	// Protocol: Backend communication protocol. Required when backend type is 'Single'.
 	Protocol *BackendContractProperties_Protocol `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
@@ -306,10 +305,9 @@ type Backend_Spec struct {
 	// Type: Type of the backend. A backend can be either Single or Pool.
 	Type *BackendContractProperties_Type `json:"type,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=2000
 	// +kubebuilder:validation:MinLength=1
-	// Url: Runtime Url of the Backend.
+	// Url: Runtime Url of the Backend. Required when backend type is 'Single'.
 	Url *string `json:"url,omitempty"`
 }
 
@@ -956,7 +954,7 @@ type Backend_STATUS struct {
 	// PropertiesType: Type of the backend. A backend can be either Single or Pool.
 	PropertiesType *BackendContractProperties_Type_STATUS `json:"properties_type,omitempty"`
 
-	// Protocol: Backend communication protocol.
+	// Protocol: Backend communication protocol. Required when backend type is 'Single'.
 	Protocol *BackendContractProperties_Protocol_STATUS `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
@@ -975,7 +973,7 @@ type Backend_STATUS struct {
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	// Url: Runtime Url of the Backend.
+	// Url: Runtime Url of the Backend. Required when backend type is 'Single'.
 	Url *string `json:"url,omitempty"`
 }
 
