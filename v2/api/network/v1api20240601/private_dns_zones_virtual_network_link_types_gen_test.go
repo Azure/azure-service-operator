@@ -376,19 +376,19 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Canceled,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Creating,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Deleting,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Failed,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Succeeded,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_ResolutionPolicy_STATUS_Default, VirtualNetworkLinkProperties_ResolutionPolicy_STATUS_NxDomainRedirect))
+	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(ResolutionPolicy_STATUS_Default, ResolutionPolicy_STATUS_NxDomainRedirect))
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Completed, VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_InProgress))
+	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkState_STATUS_Completed, VirtualNetworkLinkState_STATUS_InProgress))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS is a factory method for creating gopter generators
@@ -510,7 +510,7 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec(g
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_ResolutionPolicy_Default, VirtualNetworkLinkProperties_ResolutionPolicy_NxDomainRedirect))
+	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(ResolutionPolicy_Default, ResolutionPolicy_NxDomainRedirect))
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

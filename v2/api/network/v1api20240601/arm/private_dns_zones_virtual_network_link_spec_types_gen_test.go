@@ -225,7 +225,7 @@ func VirtualNetworkLinkPropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties(gens map[string]gopter.Gen) {
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_ResolutionPolicy_Default, VirtualNetworkLinkProperties_ResolutionPolicy_NxDomainRedirect))
+	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(ResolutionPolicy_Default, ResolutionPolicy_NxDomainRedirect))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkLinkProperties is a factory method for creating gopter generators

@@ -347,6 +347,9 @@ func RunJSONSerializationTestForPrivateDnsZone_STATUS(subject PrivateDnsZone_STA
 var privateDnsZone_STATUSGenerator gopter.Gen
 
 // PrivateDnsZone_STATUSGenerator returns a generator of PrivateDnsZone_STATUS instances for property testing.
+// We first initialize privateDnsZone_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func PrivateDnsZone_STATUSGenerator() gopter.Gen {
 	if privateDnsZone_STATUSGenerator != nil {
 		return privateDnsZone_STATUSGenerator
@@ -354,6 +357,12 @@ func PrivateDnsZone_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS(generators)
+	privateDnsZone_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZone_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS(generators)
+	AddRelatedPropertyGeneratorsForPrivateDnsZone_STATUS(generators)
 	privateDnsZone_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZone_STATUS{}), generators)
 
 	return privateDnsZone_STATUSGenerator
@@ -373,12 +382,12 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS(gens map[string]go
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZoneProperties_ProvisioningState_STATUS_Canceled,
-		PrivateZoneProperties_ProvisioningState_STATUS_Creating,
-		PrivateZoneProperties_ProvisioningState_STATUS_Deleting,
-		PrivateZoneProperties_ProvisioningState_STATUS_Failed,
-		PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
-		PrivateZoneProperties_ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
