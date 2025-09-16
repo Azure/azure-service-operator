@@ -4,6 +4,7 @@
 package storage
 
 import (
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -208,7 +209,7 @@ type Disk_Spec struct {
 	Owner                 *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess   *string                            `json:"publicNetworkAccess,omitempty"`
-	PurchasePlan          *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	PurchasePlan          *DiskPurchasePlan                  `json:"purchasePlan,omitempty"`
 	SecurityProfile       *DiskSecurityProfile               `json:"securityProfile,omitempty"`
 	Sku                   *DiskSku                           `json:"sku,omitempty"`
 	SupportedCapabilities *SupportedCapabilities             `json:"supportedCapabilities,omitempty"`
@@ -273,12 +274,13 @@ type Disk_STATUS struct {
 	PropertyUpdatesInProgress    *PropertyUpdatesInProgress_STATUS    `json:"propertyUpdatesInProgress,omitempty"`
 	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
 	PublicNetworkAccess          *string                              `json:"publicNetworkAccess,omitempty"`
-	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	PurchasePlan                 *DiskPurchasePlan_STATUS             `json:"purchasePlan,omitempty"`
 	SecurityProfile              *DiskSecurityProfile_STATUS          `json:"securityProfile,omitempty"`
 	ShareInfo                    []ShareInfoElement_STATUS            `json:"shareInfo,omitempty"`
 	Sku                          *DiskSku_STATUS                      `json:"sku,omitempty"`
 	SupportedCapabilities        *SupportedCapabilities_STATUS        `json:"supportedCapabilities,omitempty"`
 	SupportsHibernation          *bool                                `json:"supportsHibernation,omitempty"`
+	SystemData                   *SystemData_STATUS                   `json:"systemData,omitempty"`
 	Tags                         map[string]string                    `json:"tags,omitempty"`
 	Tier                         *string                              `json:"tier,omitempty"`
 	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
@@ -355,6 +357,26 @@ type DiskOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// Storage version of v1api20240302.DiskPurchasePlan
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlan struct {
+	Name          *string                `json:"name,omitempty"`
+	Product       *string                `json:"product,omitempty"`
+	PromotionCode *string                `json:"promotionCode,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Publisher     *string                `json:"publisher,omitempty"`
+}
+
+// Storage version of v1api20240302.DiskPurchasePlan_STATUS
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlan_STATUS struct {
+	Name          *string                `json:"name,omitempty"`
+	Product       *string                `json:"product,omitempty"`
+	PromotionCode *string                `json:"promotionCode,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Publisher     *string                `json:"publisher,omitempty"`
 }
 
 // Storage version of v1api20240302.DiskSecurityProfile
@@ -449,26 +471,6 @@ type ExtendedLocation_STATUS struct {
 type PropertyUpdatesInProgress_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TargetTier  *string                `json:"targetTier,omitempty"`
-}
-
-// Storage version of v1api20240302.PurchasePlan
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlan struct {
-	Name          *string                `json:"name,omitempty"`
-	Product       *string                `json:"product,omitempty"`
-	PromotionCode *string                `json:"promotionCode,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Publisher     *string                `json:"publisher,omitempty"`
-}
-
-// Storage version of v1api20240302.PurchasePlan_STATUS
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlan_STATUS struct {
-	Name          *string                `json:"name,omitempty"`
-	Product       *string                `json:"product,omitempty"`
-	PromotionCode *string                `json:"promotionCode,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Publisher     *string                `json:"publisher,omitempty"`
 }
 
 // Storage version of v1api20240302.ShareInfoElement_STATUS

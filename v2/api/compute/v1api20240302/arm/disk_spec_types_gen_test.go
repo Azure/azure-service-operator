@@ -84,21 +84,21 @@ func CreationDataGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCreationData is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationData(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
-		CreationData_CreateOption_Attach,
-		CreationData_CreateOption_Copy,
-		CreationData_CreateOption_CopyFromSanSnapshot,
-		CreationData_CreateOption_CopyStart,
-		CreationData_CreateOption_Empty,
-		CreationData_CreateOption_FromImage,
-		CreationData_CreateOption_Import,
-		CreationData_CreateOption_ImportSecure,
-		CreationData_CreateOption_Restore,
-		CreationData_CreateOption_Upload,
-		CreationData_CreateOption_UploadPreparedSecure))
+		DiskCreateOption_Attach,
+		DiskCreateOption_Copy,
+		DiskCreateOption_CopyFromSanSnapshot,
+		DiskCreateOption_CopyStart,
+		DiskCreateOption_Empty,
+		DiskCreateOption_FromImage,
+		DiskCreateOption_Import,
+		DiskCreateOption_ImportSecure,
+		DiskCreateOption_Restore,
+		DiskCreateOption_Upload,
+		DiskCreateOption_UploadPreparedSecure))
 	gens["ElasticSanResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["PerformancePlus"] = gen.PtrOf(gen.Bool())
-	gens["ProvisionedBandwidthCopySpeed"] = gen.PtrOf(gen.OneConstOf(CreationData_ProvisionedBandwidthCopySpeed_Enhanced, CreationData_ProvisionedBandwidthCopySpeed_None))
+	gens["ProvisionedBandwidthCopySpeed"] = gen.PtrOf(gen.OneConstOf(ProvisionedBandwidthCopyOption_Enhanced, ProvisionedBandwidthCopyOption_None))
 	gens["SecurityDataUri"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
@@ -187,11 +187,11 @@ func AddIndependentPropertyGeneratorsForDiskProperties(gens map[string]gopter.Ge
 	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_V1, DiskProperties_HyperVGeneration_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGeneration_V1, HyperVGeneration_V2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
 	gens["OptimizedForFrequentAttach"] = gen.PtrOf(gen.Bool())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_Linux, DiskProperties_OsType_Windows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OperatingSystemTypes_Linux, OperatingSystemTypes_Windows))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
@@ -202,9 +202,72 @@ func AddRelatedPropertyGeneratorsForDiskProperties(gens map[string]gopter.Gen) {
 	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(DiskPurchasePlanGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfileGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilitiesGenerator())
+}
+
+func Test_DiskPurchasePlan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskPurchasePlan via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskPurchasePlan, DiskPurchasePlanGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskPurchasePlan runs a test to see if a specific instance of DiskPurchasePlan round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskPurchasePlan(subject DiskPurchasePlan) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskPurchasePlan
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskPurchasePlan instances for property testing - lazily instantiated by DiskPurchasePlanGenerator()
+var diskPurchasePlanGenerator gopter.Gen
+
+// DiskPurchasePlanGenerator returns a generator of DiskPurchasePlan instances for property testing.
+func DiskPurchasePlanGenerator() gopter.Gen {
+	if diskPurchasePlanGenerator != nil {
+		return diskPurchasePlanGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDiskPurchasePlan(generators)
+	diskPurchasePlanGenerator = gen.Struct(reflect.TypeOf(DiskPurchasePlan{}), generators)
+
+	return diskPurchasePlanGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDiskPurchasePlan is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiskPurchasePlan(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Product"] = gen.PtrOf(gen.AlphaString())
+	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DiskSecurityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -267,11 +330,11 @@ func DiskSecurityProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDiskSecurityProfile(gens map[string]gopter.Gen) {
 	gens["SecureVMDiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["SecurityType"] = gen.PtrOf(gen.OneConstOf(
-		DiskSecurityType_ConfidentialVM_DiskEncryptedWithCustomerKey,
-		DiskSecurityType_ConfidentialVM_DiskEncryptedWithPlatformKey,
-		DiskSecurityType_ConfidentialVM_NonPersistedTPM,
-		DiskSecurityType_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey,
-		DiskSecurityType_TrustedLaunch))
+		DiskSecurityTypes_ConfidentialVM_DiskEncryptedWithCustomerKey,
+		DiskSecurityTypes_ConfidentialVM_DiskEncryptedWithPlatformKey,
+		DiskSecurityTypes_ConfidentialVM_NonPersistedTPM,
+		DiskSecurityTypes_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey,
+		DiskSecurityTypes_TrustedLaunch))
 }
 
 func Test_DiskSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -332,13 +395,13 @@ func DiskSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DiskSku_Name_PremiumV2_LRS,
-		DiskSku_Name_Premium_LRS,
-		DiskSku_Name_Premium_ZRS,
-		DiskSku_Name_StandardSSD_LRS,
-		DiskSku_Name_StandardSSD_ZRS,
-		DiskSku_Name_Standard_LRS,
-		DiskSku_Name_UltraSSD_LRS))
+		DiskStorageAccountTypes_PremiumV2_LRS,
+		DiskStorageAccountTypes_Premium_LRS,
+		DiskStorageAccountTypes_Premium_ZRS,
+		DiskStorageAccountTypes_StandardSSD_LRS,
+		DiskStorageAccountTypes_StandardSSD_ZRS,
+		DiskStorageAccountTypes_Standard_LRS,
+		DiskStorageAccountTypes_UltraSSD_LRS))
 }
 
 func Test_Disk_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -834,69 +897,6 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference(gens map[string]g
 	gens["SourceVault"] = gen.PtrOf(SourceVaultGenerator())
 }
 
-func Test_PurchasePlan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PurchasePlan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPurchasePlan, PurchasePlanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPurchasePlan runs a test to see if a specific instance of PurchasePlan round trips to JSON and back losslessly
-func RunJSONSerializationTestForPurchasePlan(subject PurchasePlan) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PurchasePlan
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PurchasePlan instances for property testing - lazily instantiated by PurchasePlanGenerator()
-var purchasePlanGenerator gopter.Gen
-
-// PurchasePlanGenerator returns a generator of PurchasePlan instances for property testing.
-func PurchasePlanGenerator() gopter.Gen {
-	if purchasePlanGenerator != nil {
-		return purchasePlanGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPurchasePlan(generators)
-	purchasePlanGenerator = gen.Struct(reflect.TypeOf(PurchasePlan{}), generators)
-
-	return purchasePlanGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPurchasePlan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPurchasePlan(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Product"] = gen.PtrOf(gen.AlphaString())
-	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_SupportedCapabilities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -956,6 +956,6 @@ func SupportedCapabilitiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSupportedCapabilities is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSupportedCapabilities(gens map[string]gopter.Gen) {
 	gens["AcceleratedNetwork"] = gen.PtrOf(gen.Bool())
-	gens["Architecture"] = gen.PtrOf(gen.OneConstOf(SupportedCapabilities_Architecture_Arm64, SupportedCapabilities_Architecture_X64))
+	gens["Architecture"] = gen.PtrOf(gen.OneConstOf(Architecture_Arm64, Architecture_X64))
 	gens["DiskControllerTypes"] = gen.PtrOf(gen.AlphaString())
 }

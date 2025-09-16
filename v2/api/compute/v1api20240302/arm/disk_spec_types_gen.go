@@ -91,7 +91,7 @@ type DiskProperties struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
@@ -107,14 +107,14 @@ type DiskProperties struct {
 	OptimizedForFrequentAttach *bool `json:"optimizedForFrequentAttach,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *DiskProperties_OsType `json:"osType,omitempty"`
+	OsType *OperatingSystemTypes `json:"osType,omitempty"`
 
 	// PublicNetworkAccess: Policy for controlling export on the disk.
 	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
 	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
-	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
+	PurchasePlan *DiskPurchasePlan `json:"purchasePlan,omitempty"`
 
 	// SecurityProfile: Contains the security related information for the resource.
 	SecurityProfile *DiskSecurityProfile `json:"securityProfile,omitempty"`
@@ -134,13 +134,13 @@ type DiskProperties struct {
 // PremiumV2_LRS.
 type DiskSku struct {
 	// Name: The sku name.
-	Name *DiskSku_Name `json:"name,omitempty"`
+	Name *DiskStorageAccountTypes `json:"name,omitempty"`
 }
 
 // Data used when creating a disk.
 type CreationData struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption *CreationData_CreateOption `json:"createOption,omitempty"`
+	CreateOption *DiskCreateOption `json:"createOption,omitempty"`
 
 	// ElasticSanResourceId: Required if createOption is CopyFromSanSnapshot. This is the ARM id of the source elastic san
 	// volume snapshot.
@@ -162,7 +162,7 @@ type CreationData struct {
 
 	// ProvisionedBandwidthCopySpeed: If this field is set on a snapshot and createOption is CopyStart, the snapshot will be
 	// copied at a quicker speed.
-	ProvisionedBandwidthCopySpeed *CreationData_ProvisionedBandwidthCopySpeed `json:"provisionedBandwidthCopySpeed,omitempty"`
+	ProvisionedBandwidthCopySpeed *ProvisionedBandwidthCopyOption `json:"provisionedBandwidthCopySpeed,omitempty"`
 
 	// SecurityDataUri: If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state.
 	SecurityDataUri *string `json:"securityDataUri,omitempty"`
@@ -198,41 +198,18 @@ var dataAccessAuthMode_Values = map[string]DataAccessAuthMode{
 	"none":                 DataAccessAuthMode_None,
 }
 
-// +kubebuilder:validation:Enum={"V1","V2"}
-type DiskProperties_HyperVGeneration string
-
-const (
-	DiskProperties_HyperVGeneration_V1 = DiskProperties_HyperVGeneration("V1")
-	DiskProperties_HyperVGeneration_V2 = DiskProperties_HyperVGeneration("V2")
-)
 // Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type DiskPurchasePlan struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
 
-// Mapping from string to DiskProperties_HyperVGeneration
-var diskProperties_HyperVGeneration_Values = map[string]DiskProperties_HyperVGeneration{
-	"v1": DiskProperties_HyperVGeneration_V1,
-	"v2": DiskProperties_HyperVGeneration_V2,
-}
 	// Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
 	// imageReference element.
 	Product *string `json:"product,omitempty"`
 
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type DiskProperties_OsType string
 	// PromotionCode: The Offer Promotion Code.
 	PromotionCode *string `json:"promotionCode,omitempty"`
 
-const (
-	DiskProperties_OsType_Linux   = DiskProperties_OsType("Linux")
-	DiskProperties_OsType_Windows = DiskProperties_OsType("Windows")
-)
-
-// Mapping from string to DiskProperties_OsType
-var diskProperties_OsType_Values = map[string]DiskProperties_OsType{
-	"linux":   DiskProperties_OsType_Linux,
-	"windows": DiskProperties_OsType_Windows,
 	// Publisher: The publisher ID.
 	Publisher *string `json:"publisher,omitempty"`
 }
@@ -244,31 +221,32 @@ type DiskSecurityProfile struct {
 	SecureVMDiskEncryptionSetId *string `json:"secureVMDiskEncryptionSetId,omitempty"`
 
 	// SecurityType: Specifies the SecurityType of the VM. Applicable for OS disks only.
-	SecurityType *DiskSecurityType `json:"securityType,omitempty"`
+	SecurityType *DiskSecurityTypes `json:"securityType,omitempty"`
 }
 
+// The sku name.
 // +kubebuilder:validation:Enum={"PremiumV2_LRS","Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
-type DiskSku_Name string
+type DiskStorageAccountTypes string
 
 const (
-	DiskSku_Name_PremiumV2_LRS   = DiskSku_Name("PremiumV2_LRS")
-	DiskSku_Name_Premium_LRS     = DiskSku_Name("Premium_LRS")
-	DiskSku_Name_Premium_ZRS     = DiskSku_Name("Premium_ZRS")
-	DiskSku_Name_StandardSSD_LRS = DiskSku_Name("StandardSSD_LRS")
-	DiskSku_Name_StandardSSD_ZRS = DiskSku_Name("StandardSSD_ZRS")
-	DiskSku_Name_Standard_LRS    = DiskSku_Name("Standard_LRS")
-	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
+	DiskStorageAccountTypes_PremiumV2_LRS   = DiskStorageAccountTypes("PremiumV2_LRS")
+	DiskStorageAccountTypes_Premium_LRS     = DiskStorageAccountTypes("Premium_LRS")
+	DiskStorageAccountTypes_Premium_ZRS     = DiskStorageAccountTypes("Premium_ZRS")
+	DiskStorageAccountTypes_StandardSSD_LRS = DiskStorageAccountTypes("StandardSSD_LRS")
+	DiskStorageAccountTypes_StandardSSD_ZRS = DiskStorageAccountTypes("StandardSSD_ZRS")
+	DiskStorageAccountTypes_Standard_LRS    = DiskStorageAccountTypes("Standard_LRS")
+	DiskStorageAccountTypes_UltraSSD_LRS    = DiskStorageAccountTypes("UltraSSD_LRS")
 )
 
-// Mapping from string to DiskSku_Name
-var diskSku_Name_Values = map[string]DiskSku_Name{
-	"premiumv2_lrs":   DiskSku_Name_PremiumV2_LRS,
-	"premium_lrs":     DiskSku_Name_Premium_LRS,
-	"premium_zrs":     DiskSku_Name_Premium_ZRS,
-	"standardssd_lrs": DiskSku_Name_StandardSSD_LRS,
-	"standardssd_zrs": DiskSku_Name_StandardSSD_ZRS,
-	"standard_lrs":    DiskSku_Name_Standard_LRS,
-	"ultrassd_lrs":    DiskSku_Name_UltraSSD_LRS,
+// Mapping from string to DiskStorageAccountTypes
+var diskStorageAccountTypes_Values = map[string]DiskStorageAccountTypes{
+	"premiumv2_lrs":   DiskStorageAccountTypes_PremiumV2_LRS,
+	"premium_lrs":     DiskStorageAccountTypes_Premium_LRS,
+	"premium_zrs":     DiskStorageAccountTypes_Premium_ZRS,
+	"standardssd_lrs": DiskStorageAccountTypes_StandardSSD_LRS,
+	"standardssd_zrs": DiskStorageAccountTypes_StandardSSD_ZRS,
+	"standard_lrs":    DiskStorageAccountTypes_Standard_LRS,
+	"ultrassd_lrs":    DiskStorageAccountTypes_UltraSSD_LRS,
 }
 
 // Encryption at rest settings for disk or snapshot
@@ -295,6 +273,21 @@ type EncryptionSettingsCollection struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
+// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// +kubebuilder:validation:Enum={"V1","V2"}
+type HyperVGeneration string
+
+const (
+	HyperVGeneration_V1 = HyperVGeneration("V1")
+	HyperVGeneration_V2 = HyperVGeneration("V2")
+)
+
+// Mapping from string to HyperVGeneration
+var hyperVGeneration_Values = map[string]HyperVGeneration{
+	"v1": HyperVGeneration_V1,
+	"v2": HyperVGeneration_V2,
+}
+
 // Policy for accessing the disk via network.
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type NetworkAccessPolicy string
@@ -310,6 +303,21 @@ var networkAccessPolicy_Values = map[string]NetworkAccessPolicy{
 	"allowall":     NetworkAccessPolicy_AllowAll,
 	"allowprivate": NetworkAccessPolicy_AllowPrivate,
 	"denyall":      NetworkAccessPolicy_DenyAll,
+}
+
+// The Operating System type.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type OperatingSystemTypes string
+
+const (
+	OperatingSystemTypes_Linux   = OperatingSystemTypes("Linux")
+	OperatingSystemTypes_Windows = OperatingSystemTypes("Windows")
+)
+
+// Mapping from string to OperatingSystemTypes
+var operatingSystemTypes_Values = map[string]OperatingSystemTypes{
+	"linux":   OperatingSystemTypes_Linux,
+	"windows": OperatingSystemTypes_Windows,
 }
 
 // Policy for controlling export on the disk.
@@ -333,77 +341,79 @@ type SupportedCapabilities struct {
 	AcceleratedNetwork *bool `json:"acceleratedNetwork,omitempty"`
 
 	// Architecture: CPU architecture supported by an OS disk.
-	Architecture *SupportedCapabilities_Architecture `json:"architecture,omitempty"`
+	Architecture *Architecture `json:"architecture,omitempty"`
 
 	// DiskControllerTypes: The disk controllers that an OS disk supports. If set it can be SCSI or SCSI, NVME or NVME, SCSI.
 	DiskControllerTypes *string `json:"diskControllerTypes,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Attach","Copy","CopyFromSanSnapshot","CopyStart","Empty","FromImage","Import","ImportSecure","Restore","Upload","UploadPreparedSecure"}
-type CreationData_CreateOption string
+// CPU architecture supported by an OS disk.
+// +kubebuilder:validation:Enum={"Arm64","x64"}
+type Architecture string
 
 const (
-	CreationData_CreateOption_Attach               = CreationData_CreateOption("Attach")
-	CreationData_CreateOption_Copy                 = CreationData_CreateOption("Copy")
-	CreationData_CreateOption_CopyFromSanSnapshot  = CreationData_CreateOption("CopyFromSanSnapshot")
-	CreationData_CreateOption_CopyStart            = CreationData_CreateOption("CopyStart")
-	CreationData_CreateOption_Empty                = CreationData_CreateOption("Empty")
-	CreationData_CreateOption_FromImage            = CreationData_CreateOption("FromImage")
-	CreationData_CreateOption_Import               = CreationData_CreateOption("Import")
-	CreationData_CreateOption_ImportSecure         = CreationData_CreateOption("ImportSecure")
-	CreationData_CreateOption_Restore              = CreationData_CreateOption("Restore")
-	CreationData_CreateOption_Upload               = CreationData_CreateOption("Upload")
-	CreationData_CreateOption_UploadPreparedSecure = CreationData_CreateOption("UploadPreparedSecure")
+	Architecture_Arm64 = Architecture("Arm64")
+	Architecture_X64   = Architecture("x64")
 )
 
-// Mapping from string to CreationData_CreateOption
-var creationData_CreateOption_Values = map[string]CreationData_CreateOption{
-	"attach":               CreationData_CreateOption_Attach,
-	"copy":                 CreationData_CreateOption_Copy,
-	"copyfromsansnapshot":  CreationData_CreateOption_CopyFromSanSnapshot,
-	"copystart":            CreationData_CreateOption_CopyStart,
-	"empty":                CreationData_CreateOption_Empty,
-	"fromimage":            CreationData_CreateOption_FromImage,
-	"import":               CreationData_CreateOption_Import,
-	"importsecure":         CreationData_CreateOption_ImportSecure,
-	"restore":              CreationData_CreateOption_Restore,
-	"upload":               CreationData_CreateOption_Upload,
-	"uploadpreparedsecure": CreationData_CreateOption_UploadPreparedSecure,
+// Mapping from string to Architecture
+var architecture_Values = map[string]Architecture{
+	"arm64": Architecture_Arm64,
+	"x64":   Architecture_X64,
 }
 
-// +kubebuilder:validation:Enum={"Enhanced","None"}
-type CreationData_ProvisionedBandwidthCopySpeed string
+// This enumerates the possible sources of a disk's creation.
+// +kubebuilder:validation:Enum={"Attach","Copy","CopyFromSanSnapshot","CopyStart","Empty","FromImage","Import","ImportSecure","Restore","Upload","UploadPreparedSecure"}
+type DiskCreateOption string
 
 const (
-	CreationData_ProvisionedBandwidthCopySpeed_Enhanced = CreationData_ProvisionedBandwidthCopySpeed("Enhanced")
-	CreationData_ProvisionedBandwidthCopySpeed_None     = CreationData_ProvisionedBandwidthCopySpeed("None")
+	DiskCreateOption_Attach               = DiskCreateOption("Attach")
+	DiskCreateOption_Copy                 = DiskCreateOption("Copy")
+	DiskCreateOption_CopyFromSanSnapshot  = DiskCreateOption("CopyFromSanSnapshot")
+	DiskCreateOption_CopyStart            = DiskCreateOption("CopyStart")
+	DiskCreateOption_Empty                = DiskCreateOption("Empty")
+	DiskCreateOption_FromImage            = DiskCreateOption("FromImage")
+	DiskCreateOption_Import               = DiskCreateOption("Import")
+	DiskCreateOption_ImportSecure         = DiskCreateOption("ImportSecure")
+	DiskCreateOption_Restore              = DiskCreateOption("Restore")
+	DiskCreateOption_Upload               = DiskCreateOption("Upload")
+	DiskCreateOption_UploadPreparedSecure = DiskCreateOption("UploadPreparedSecure")
 )
 
-// Mapping from string to CreationData_ProvisionedBandwidthCopySpeed
-var creationData_ProvisionedBandwidthCopySpeed_Values = map[string]CreationData_ProvisionedBandwidthCopySpeed{
-	"enhanced": CreationData_ProvisionedBandwidthCopySpeed_Enhanced,
-	"none":     CreationData_ProvisionedBandwidthCopySpeed_None,
+// Mapping from string to DiskCreateOption
+var diskCreateOption_Values = map[string]DiskCreateOption{
+	"attach":               DiskCreateOption_Attach,
+	"copy":                 DiskCreateOption_Copy,
+	"copyfromsansnapshot":  DiskCreateOption_CopyFromSanSnapshot,
+	"copystart":            DiskCreateOption_CopyStart,
+	"empty":                DiskCreateOption_Empty,
+	"fromimage":            DiskCreateOption_FromImage,
+	"import":               DiskCreateOption_Import,
+	"importsecure":         DiskCreateOption_ImportSecure,
+	"restore":              DiskCreateOption_Restore,
+	"upload":               DiskCreateOption_Upload,
+	"uploadpreparedsecure": DiskCreateOption_UploadPreparedSecure,
 }
 
 // Specifies the SecurityType of the VM. Applicable for OS disks only.
 // +kubebuilder:validation:Enum={"ConfidentialVM_DiskEncryptedWithCustomerKey","ConfidentialVM_DiskEncryptedWithPlatformKey","ConfidentialVM_NonPersistedTPM","ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey","TrustedLaunch"}
-type DiskSecurityType string
+type DiskSecurityTypes string
 
 const (
-	DiskSecurityType_ConfidentialVM_DiskEncryptedWithCustomerKey             = DiskSecurityType("ConfidentialVM_DiskEncryptedWithCustomerKey")
-	DiskSecurityType_ConfidentialVM_DiskEncryptedWithPlatformKey             = DiskSecurityType("ConfidentialVM_DiskEncryptedWithPlatformKey")
-	DiskSecurityType_ConfidentialVM_NonPersistedTPM                          = DiskSecurityType("ConfidentialVM_NonPersistedTPM")
-	DiskSecurityType_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey = DiskSecurityType("ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey")
-	DiskSecurityType_TrustedLaunch                                           = DiskSecurityType("TrustedLaunch")
+	DiskSecurityTypes_ConfidentialVM_DiskEncryptedWithCustomerKey             = DiskSecurityTypes("ConfidentialVM_DiskEncryptedWithCustomerKey")
+	DiskSecurityTypes_ConfidentialVM_DiskEncryptedWithPlatformKey             = DiskSecurityTypes("ConfidentialVM_DiskEncryptedWithPlatformKey")
+	DiskSecurityTypes_ConfidentialVM_NonPersistedTPM                          = DiskSecurityTypes("ConfidentialVM_NonPersistedTPM")
+	DiskSecurityTypes_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey = DiskSecurityTypes("ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey")
+	DiskSecurityTypes_TrustedLaunch                                           = DiskSecurityTypes("TrustedLaunch")
 )
 
-// Mapping from string to DiskSecurityType
-var diskSecurityType_Values = map[string]DiskSecurityType{
-	"confidentialvm_diskencryptedwithcustomerkey":             DiskSecurityType_ConfidentialVM_DiskEncryptedWithCustomerKey,
-	"confidentialvm_diskencryptedwithplatformkey":             DiskSecurityType_ConfidentialVM_DiskEncryptedWithPlatformKey,
-	"confidentialvm_nonpersistedtpm":                          DiskSecurityType_ConfidentialVM_NonPersistedTPM,
-	"confidentialvm_vmgueststateonlyencryptedwithplatformkey": DiskSecurityType_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey,
-	"trustedlaunch": DiskSecurityType_TrustedLaunch,
+// Mapping from string to DiskSecurityTypes
+var diskSecurityTypes_Values = map[string]DiskSecurityTypes{
+	"confidentialvm_diskencryptedwithcustomerkey":             DiskSecurityTypes_ConfidentialVM_DiskEncryptedWithCustomerKey,
+	"confidentialvm_diskencryptedwithplatformkey":             DiskSecurityTypes_ConfidentialVM_DiskEncryptedWithPlatformKey,
+	"confidentialvm_nonpersistedtpm":                          DiskSecurityTypes_ConfidentialVM_NonPersistedTPM,
+	"confidentialvm_vmgueststateonlyencryptedwithplatformkey": DiskSecurityTypes_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey,
+	"trustedlaunch": DiskSecurityTypes_TrustedLaunch,
 }
 
 // Encryption settings for one disk volume.
@@ -449,18 +459,19 @@ type ImageDiskReference struct {
 	SharedGalleryImageId *string `json:"sharedGalleryImageId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Arm64","x64"}
-type SupportedCapabilities_Architecture string
+// If this field is set on a snapshot and createOption is CopyStart, the snapshot will be copied at a quicker speed.
+// +kubebuilder:validation:Enum={"Enhanced","None"}
+type ProvisionedBandwidthCopyOption string
 
 const (
-	SupportedCapabilities_Architecture_Arm64 = SupportedCapabilities_Architecture("Arm64")
-	SupportedCapabilities_Architecture_X64   = SupportedCapabilities_Architecture("x64")
+	ProvisionedBandwidthCopyOption_Enhanced = ProvisionedBandwidthCopyOption("Enhanced")
+	ProvisionedBandwidthCopyOption_None     = ProvisionedBandwidthCopyOption("None")
 )
 
-// Mapping from string to SupportedCapabilities_Architecture
-var supportedCapabilities_Architecture_Values = map[string]SupportedCapabilities_Architecture{
-	"arm64": SupportedCapabilities_Architecture_Arm64,
-	"x64":   SupportedCapabilities_Architecture_X64,
+// Mapping from string to ProvisionedBandwidthCopyOption
+var provisionedBandwidthCopyOption_Values = map[string]ProvisionedBandwidthCopyOption{
+	"enhanced": ProvisionedBandwidthCopyOption_Enhanced,
+	"none":     ProvisionedBandwidthCopyOption_None,
 }
 
 // Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey

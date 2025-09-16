@@ -118,7 +118,7 @@ func CopyCompletionErrorGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCopyCompletionError is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCopyCompletionError(gens map[string]gopter.Gen) {
-	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_CopySourceNotFound))
+	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionErrorReason_CopySourceNotFound))
 	gens["ErrorMessage"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -222,7 +222,7 @@ func CopyCompletionError_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCopyCompletionError_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCopyCompletionError_STATUS(gens map[string]gopter.Gen) {
-	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_STATUS_CopySourceNotFound))
+	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionErrorReason_STATUS_CopySourceNotFound))
 	gens["ErrorMessage"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -568,7 +568,7 @@ func SnapshotSkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_Premium_LRS, SnapshotSku_Name_Standard_LRS, SnapshotSku_Name_Standard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotStorageAccountTypes_Premium_LRS, SnapshotStorageAccountTypes_Standard_LRS, SnapshotStorageAccountTypes_Standard_ZRS))
 }
 
 func Test_SnapshotSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -670,7 +670,7 @@ func SnapshotSku_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_STATUS_Premium_LRS, SnapshotSku_Name_STATUS_Standard_LRS, SnapshotSku_Name_STATUS_Standard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotStorageAccountTypes_STATUS_Premium_LRS, SnapshotStorageAccountTypes_STATUS_Standard_LRS, SnapshotStorageAccountTypes_STATUS_Standard_ZRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -796,7 +796,7 @@ func AddIndependentPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.G
 		DiskState_STATUS_ReadyToUpload,
 		DiskState_STATUS_Reserved,
 		DiskState_STATUS_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_STATUS_V1, SnapshotProperties_HyperVGeneration_STATUS_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGeneration_STATUS_V1, HyperVGeneration_STATUS_V2))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["IncrementalSnapshotFamilyId"] = gen.PtrOf(gen.AlphaString())
@@ -804,7 +804,7 @@ func AddIndependentPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.G
 	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_AllowAll, NetworkAccessPolicy_STATUS_AllowPrivate, NetworkAccessPolicy_STATUS_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_STATUS_Linux, SnapshotProperties_OsType_STATUS_Windows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OperatingSystemTypes_STATUS_Linux, OperatingSystemTypes_STATUS_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
@@ -823,7 +823,7 @@ func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) 
 	gens["Encryption"] = gen.PtrOf(Encryption_STATUSGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollection_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_STATUSGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(DiskPurchasePlan_STATUSGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfile_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSku_STATUSGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilities_STATUSGenerator())
@@ -942,20 +942,11 @@ func AddIndependentPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen
 	gens["CompletionPercent"] = gen.PtrOf(gen.Float64())
 	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_AzureActiveDirectory, DataAccessAuthMode_None))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_ActiveSAS,
-		DiskState_ActiveSASFrozen,
-		DiskState_ActiveUpload,
-		DiskState_Attached,
-		DiskState_Frozen,
-		DiskState_ReadyToUpload,
-		DiskState_Reserved,
-		DiskState_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGeneration_V1, HyperVGeneration_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_Linux, SnapshotProperties_OsType_Windows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OperatingSystemTypes_Linux, OperatingSystemTypes_Windows))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(
@@ -971,7 +962,7 @@ func AddRelatedPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(SnapshotOperatorSpecGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(DiskPurchasePlanGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfileGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSkuGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilitiesGenerator())

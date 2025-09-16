@@ -352,7 +352,7 @@ func (in *InstanceViewStatus_STATUS) DeepCopyInto(out *InstanceViewStatus_STATUS
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-		*out = new(InstanceViewStatus_Level_STATUS)
+		*out = new(StatusLevelTypes_STATUS)
 		**out = **in
 	}
 	if in.Message != nil {

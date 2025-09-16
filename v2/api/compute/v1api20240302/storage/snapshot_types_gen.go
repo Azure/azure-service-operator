@@ -179,7 +179,6 @@ type Snapshot_Spec struct {
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
-	DiskState                    *string                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
@@ -198,7 +197,7 @@ type Snapshot_Spec struct {
 	Owner                 *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess   *string                            `json:"publicNetworkAccess,omitempty"`
-	PurchasePlan          *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	PurchasePlan          *DiskPurchasePlan                  `json:"purchasePlan,omitempty"`
 	SecurityProfile       *DiskSecurityProfile               `json:"securityProfile,omitempty"`
 	Sku                   *SnapshotSku                       `json:"sku,omitempty"`
 	SupportedCapabilities *SupportedCapabilities             `json:"supportedCapabilities,omitempty"`
@@ -253,11 +252,12 @@ type Snapshot_STATUS struct {
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
 	PublicNetworkAccess          *string                              `json:"publicNetworkAccess,omitempty"`
-	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	PurchasePlan                 *DiskPurchasePlan_STATUS             `json:"purchasePlan,omitempty"`
 	SecurityProfile              *DiskSecurityProfile_STATUS          `json:"securityProfile,omitempty"`
 	Sku                          *SnapshotSku_STATUS                  `json:"sku,omitempty"`
 	SupportedCapabilities        *SupportedCapabilities_STATUS        `json:"supportedCapabilities,omitempty"`
 	SupportsHibernation          *bool                                `json:"supportsHibernation,omitempty"`
+	SystemData                   *SystemData_STATUS                   `json:"systemData,omitempty"`
 	Tags                         map[string]string                    `json:"tags,omitempty"`
 	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
 	Type                         *string                              `json:"type,omitempty"`

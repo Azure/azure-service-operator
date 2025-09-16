@@ -285,11 +285,11 @@ type EncryptionSetIdentity struct {
 // The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
 // to encrypt disks.
 type EncryptionSetIdentity_STATUS struct {
-	PrincipalId            *string                                                        `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                         `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                        `json:"tenantId,omitempty"`
-	Type                   *string                                                        `json:"type,omitempty"`
-	UserAssignedIdentities map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                       `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	TenantId               *string                                       `json:"tenantId,omitempty"`
+	Type                   *string                                       `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20240302.KeyForDiskEncryptionSet
@@ -318,13 +318,6 @@ type ApiErrorBase_STATUS struct {
 	Target      *string                `json:"target,omitempty"`
 }
 
-// Storage version of v1api20240302.EncryptionSetIdentity_UserAssignedIdentities_STATUS
-type EncryptionSetIdentity_UserAssignedIdentities_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1api20240302.InnerError_STATUS
 // Inner error details.
 type InnerError_STATUS struct {
@@ -348,6 +341,13 @@ type SourceVault struct {
 // /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20240302.UserAssignedIdentitiesValue_STATUS
+type UserAssignedIdentitiesValue_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 

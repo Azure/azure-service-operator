@@ -555,7 +555,7 @@ Snapshot_Spec: Object (6 properties)
 │       └── "EdgeZone"
 ├── Location: *string
 ├── Name: string
-├── Properties: *Object (18 properties)
+├── Properties: *Object (17 properties)
 │   ├── CompletionPercent: *float64
 │   ├── CopyCompletionError: *Object (2 properties)
 │   │   ├── ErrorCode: *Enum (1 value)
@@ -600,15 +600,6 @@ Snapshot_Spec: Object (6 properties)
 │   │   └── "None"
 │   ├── DiskAccessId: *string
 │   ├── DiskSizeGB: *int
-│   ├── DiskState: *Enum (8 values)
-│   │   ├── "ActiveSAS"
-│   │   ├── "ActiveSASFrozen"
-│   │   ├── "ActiveUpload"
-│   │   ├── "Attached"
-│   │   ├── "Frozen"
-│   │   ├── "ReadyToUpload"
-│   │   ├── "Reserved"
-│   │   └── "Unattached"
 │   ├── Encryption: *Object (2 properties)
 │   │   ├── DiskEncryptionSetId: *string
 │   │   └── Type: *Enum (3 values)

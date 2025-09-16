@@ -376,7 +376,7 @@ func InstanceViewStatus_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForInstanceViewStatus_STATUS(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Level"] = gen.PtrOf(gen.OneConstOf(InstanceViewStatus_Level_STATUS_Error, InstanceViewStatus_Level_STATUS_Info, InstanceViewStatus_Level_STATUS_Warning))
+	gens["Level"] = gen.PtrOf(gen.OneConstOf(StatusLevelTypes_STATUS_Error, StatusLevelTypes_STATUS_Info, StatusLevelTypes_STATUS_Warning))
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Time"] = gen.PtrOf(gen.AlphaString())
 }

@@ -1598,7 +1598,7 @@ type EncryptionSetIdentity struct {
 	// Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
 	// Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
 	// Directory tenant; it will cause the encrypted resources to lose access to the keys.
-	Type *EncryptionSetIdentity_Type `json:"type,omitempty"`
+	Type *DiskEncryptionSetIdentityType `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -1619,7 +1619,7 @@ func (identity *EncryptionSetIdentity) ConvertToARM(resolved genruntime.ConvertT
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := arm.EncryptionSetIdentity_Type(temp)
+		typeVar := arm.DiskEncryptionSetIdentityType(temp)
 		result.Type = &typeVar
 	}
 
@@ -1652,7 +1652,7 @@ func (identity *EncryptionSetIdentity) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := EncryptionSetIdentity_Type(temp)
+		typeVar := DiskEncryptionSetIdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1668,7 +1668,7 @@ func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdenti
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, encryptionSetIdentity_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, diskEncryptionSetIdentityType_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -1743,7 +1743,7 @@ func (identity *EncryptionSetIdentity) Initialize_From_EncryptionSetIdentity_STA
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), encryptionSetIdentity_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), diskEncryptionSetIdentityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -1779,12 +1779,12 @@ type EncryptionSetIdentity_STATUS struct {
 	// Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
 	// Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
 	// Directory tenant; it will cause the encrypted resources to lose access to the keys.
-	Type *EncryptionSetIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *DiskEncryptionSetIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
 	// dictionary key references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionSetIdentity_STATUS{}
@@ -1817,15 +1817,15 @@ func (identity *EncryptionSetIdentity_STATUS) PopulateFromARM(owner genruntime.A
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := EncryptionSetIdentity_Type_STATUS(temp)
+		typeVar := DiskEncryptionSetIdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
+		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentitiesValue_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 EncryptionSetIdentity_UserAssignedIdentities_STATUS
+			var value1 UserAssignedIdentitiesValue_STATUS
 			err := value1.PopulateFromARM(owner, value)
 			if err != nil {
 				return err
@@ -1850,7 +1850,7 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSe
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, encryptionSetIdentity_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, diskEncryptionSetIdentityType_STATUS_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -1858,14 +1858,14 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSe
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]UserAssignedIdentitiesValue_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity EncryptionSetIdentity_UserAssignedIdentities_STATUS
-			err := userAssignedIdentity.AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
+			var userAssignedIdentity UserAssignedIdentitiesValue_STATUS
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentitiesValue_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentitiesValue_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1899,14 +1899,14 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetI
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentitiesValue_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS
-			err := userAssignedIdentityValue.AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
+			var userAssignedIdentity storage.UserAssignedIdentitiesValue_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentitiesValue_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentitiesValue_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2290,112 +2290,45 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 	return nil
 }
 
+// The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk
+// Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory
+// tenant; it will cause the encrypted resources to lose access to the keys.
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type EncryptionSetIdentity_Type string
+type DiskEncryptionSetIdentityType string
 
 const (
-	EncryptionSetIdentity_Type_None                       = EncryptionSetIdentity_Type("None")
-	EncryptionSetIdentity_Type_SystemAssigned             = EncryptionSetIdentity_Type("SystemAssigned")
-	EncryptionSetIdentity_Type_SystemAssignedUserAssigned = EncryptionSetIdentity_Type("SystemAssigned, UserAssigned")
-	EncryptionSetIdentity_Type_UserAssigned               = EncryptionSetIdentity_Type("UserAssigned")
+	DiskEncryptionSetIdentityType_None                       = DiskEncryptionSetIdentityType("None")
+	DiskEncryptionSetIdentityType_SystemAssigned             = DiskEncryptionSetIdentityType("SystemAssigned")
+	DiskEncryptionSetIdentityType_SystemAssignedUserAssigned = DiskEncryptionSetIdentityType("SystemAssigned, UserAssigned")
+	DiskEncryptionSetIdentityType_UserAssigned               = DiskEncryptionSetIdentityType("UserAssigned")
 )
 
-// Mapping from string to EncryptionSetIdentity_Type
-var encryptionSetIdentity_Type_Values = map[string]EncryptionSetIdentity_Type{
-	"none":                         EncryptionSetIdentity_Type_None,
-	"systemassigned":               EncryptionSetIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": EncryptionSetIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 EncryptionSetIdentity_Type_UserAssigned,
+// Mapping from string to DiskEncryptionSetIdentityType
+var diskEncryptionSetIdentityType_Values = map[string]DiskEncryptionSetIdentityType{
+	"none":                         DiskEncryptionSetIdentityType_None,
+	"systemassigned":               DiskEncryptionSetIdentityType_SystemAssigned,
+	"systemassigned, userassigned": DiskEncryptionSetIdentityType_SystemAssignedUserAssigned,
+	"userassigned":                 DiskEncryptionSetIdentityType_UserAssigned,
 }
 
-type EncryptionSetIdentity_Type_STATUS string
+// The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk
+// Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory
+// tenant; it will cause the encrypted resources to lose access to the keys.
+type DiskEncryptionSetIdentityType_STATUS string
 
 const (
-	EncryptionSetIdentity_Type_STATUS_None                       = EncryptionSetIdentity_Type_STATUS("None")
-	EncryptionSetIdentity_Type_STATUS_SystemAssigned             = EncryptionSetIdentity_Type_STATUS("SystemAssigned")
-	EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned = EncryptionSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	EncryptionSetIdentity_Type_STATUS_UserAssigned               = EncryptionSetIdentity_Type_STATUS("UserAssigned")
+	DiskEncryptionSetIdentityType_STATUS_None                       = DiskEncryptionSetIdentityType_STATUS("None")
+	DiskEncryptionSetIdentityType_STATUS_SystemAssigned             = DiskEncryptionSetIdentityType_STATUS("SystemAssigned")
+	DiskEncryptionSetIdentityType_STATUS_SystemAssignedUserAssigned = DiskEncryptionSetIdentityType_STATUS("SystemAssigned, UserAssigned")
+	DiskEncryptionSetIdentityType_STATUS_UserAssigned               = DiskEncryptionSetIdentityType_STATUS("UserAssigned")
 )
 
-// Mapping from string to EncryptionSetIdentity_Type_STATUS
-var encryptionSetIdentity_Type_STATUS_Values = map[string]EncryptionSetIdentity_Type_STATUS{
-	"none":                         EncryptionSetIdentity_Type_STATUS_None,
-	"systemassigned":               EncryptionSetIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 EncryptionSetIdentity_Type_STATUS_UserAssigned,
-}
-
-type EncryptionSetIdentity_UserAssignedIdentities_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &EncryptionSetIdentity_UserAssignedIdentities_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.EncryptionSetIdentity_UserAssignedIdentities_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.EncryptionSetIdentity_UserAssignedIdentities_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EncryptionSetIdentity_UserAssignedIdentities_STATUS, got %T", armInput)
-	}
-
-	// Set property "ClientId":
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identities.ClientId = &clientId
-	}
-
-	// Set property "PrincipalId":
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identities.PrincipalId = &principalId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS populates our EncryptionSetIdentity_UserAssignedIdentities_STATUS from the provided source EncryptionSetIdentity_UserAssignedIdentities_STATUS
-func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(source *storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS) error {
-
-	// ClientId
-	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS populates the provided destination EncryptionSetIdentity_UserAssignedIdentities_STATUS from our EncryptionSetIdentity_UserAssignedIdentities_STATUS
-func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(destination *storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
+// Mapping from string to DiskEncryptionSetIdentityType_STATUS
+var diskEncryptionSetIdentityType_STATUS_Values = map[string]DiskEncryptionSetIdentityType_STATUS{
+	"none":                         DiskEncryptionSetIdentityType_STATUS_None,
+	"systemassigned":               DiskEncryptionSetIdentityType_STATUS_SystemAssigned,
+	"systemassigned, userassigned": DiskEncryptionSetIdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 DiskEncryptionSetIdentityType_STATUS_UserAssigned,
 }
 
 // Inner error details.
@@ -2620,6 +2553,79 @@ func (vault *SourceVault_STATUS) AssignProperties_To_SourceVault_STATUS(destinat
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(vault.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type UserAssignedIdentitiesValue_STATUS struct {
+	// ClientId: The client id of user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// PrincipalId: The principal id of user assigned identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &UserAssignedIdentitiesValue_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (value *UserAssignedIdentitiesValue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.UserAssignedIdentitiesValue_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (value *UserAssignedIdentitiesValue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.UserAssignedIdentitiesValue_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserAssignedIdentitiesValue_STATUS, got %T", armInput)
+	}
+
+	// Set property "ClientId":
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		value.ClientId = &clientId
+	}
+
+	// Set property "PrincipalId":
+	if typedInput.PrincipalId != nil {
+		principalId := *typedInput.PrincipalId
+		value.PrincipalId = &principalId
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentitiesValue_STATUS populates our UserAssignedIdentitiesValue_STATUS from the provided source UserAssignedIdentitiesValue_STATUS
+func (value *UserAssignedIdentitiesValue_STATUS) AssignProperties_From_UserAssignedIdentitiesValue_STATUS(source *storage.UserAssignedIdentitiesValue_STATUS) error {
+
+	// ClientId
+	value.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// PrincipalId
+	value.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentitiesValue_STATUS populates the provided destination UserAssignedIdentitiesValue_STATUS from our UserAssignedIdentitiesValue_STATUS
+func (value *UserAssignedIdentitiesValue_STATUS) AssignProperties_To_UserAssignedIdentitiesValue_STATUS(destination *storage.UserAssignedIdentitiesValue_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(value.ClientId)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(value.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
