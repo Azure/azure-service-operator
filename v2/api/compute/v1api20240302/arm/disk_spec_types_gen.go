@@ -205,15 +205,24 @@ const (
 	DiskProperties_HyperVGeneration_V1 = DiskProperties_HyperVGeneration("V1")
 	DiskProperties_HyperVGeneration_V2 = DiskProperties_HyperVGeneration("V2")
 )
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlan struct {
+	// Name: The plan ID.
+	Name *string `json:"name,omitempty"`
 
 // Mapping from string to DiskProperties_HyperVGeneration
 var diskProperties_HyperVGeneration_Values = map[string]DiskProperties_HyperVGeneration{
 	"v1": DiskProperties_HyperVGeneration_V1,
 	"v2": DiskProperties_HyperVGeneration_V2,
 }
+	// Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
+	// imageReference element.
+	Product *string `json:"product,omitempty"`
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskProperties_OsType string
+	// PromotionCode: The Offer Promotion Code.
+	PromotionCode *string `json:"promotionCode,omitempty"`
 
 const (
 	DiskProperties_OsType_Linux   = DiskProperties_OsType("Linux")
@@ -224,6 +233,8 @@ const (
 var diskProperties_OsType_Values = map[string]DiskProperties_OsType{
 	"linux":   DiskProperties_OsType_Linux,
 	"windows": DiskProperties_OsType_Windows,
+	// Publisher: The publisher ID.
+	Publisher *string `json:"publisher,omitempty"`
 }
 
 // Contains the security related information for the resource.

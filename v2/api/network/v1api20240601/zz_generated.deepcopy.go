@@ -349,7 +349,7 @@ func (in *PrivateDnsZone_STATUS) DeepCopyInto(out *PrivateDnsZone_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateZoneProperties_ProvisioningState_STATUS)
+		*out = new(ProvisioningState_STATUS)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -2728,7 +2728,7 @@ func (in *PrivateDnsZonesVirtualNetworkLink_STATUS) DeepCopyInto(out *PrivateDns
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VirtualNetworkLinkProperties_ProvisioningState_STATUS)
+		*out = new(ProvisioningState_STATUS)
 		**out = **in
 	}
 	if in.RegistrationEnabled != nil {
@@ -2738,7 +2738,7 @@ func (in *PrivateDnsZonesVirtualNetworkLink_STATUS) DeepCopyInto(out *PrivateDns
 	}
 	if in.ResolutionPolicy != nil {
 		in, out := &in.ResolutionPolicy, &out.ResolutionPolicy
-		*out = new(VirtualNetworkLinkProperties_ResolutionPolicy_STATUS)
+		*out = new(ResolutionPolicy_STATUS)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -2765,7 +2765,7 @@ func (in *PrivateDnsZonesVirtualNetworkLink_STATUS) DeepCopyInto(out *PrivateDns
 	}
 	if in.VirtualNetworkLinkState != nil {
 		in, out := &in.VirtualNetworkLinkState, &out.VirtualNetworkLinkState
-		*out = new(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS)
+		*out = new(VirtualNetworkLinkState_STATUS)
 		**out = **in
 	}
 }
@@ -2810,7 +2810,7 @@ func (in *PrivateDnsZonesVirtualNetworkLink_Spec) DeepCopyInto(out *PrivateDnsZo
 	}
 	if in.ResolutionPolicy != nil {
 		in, out := &in.ResolutionPolicy, &out.ResolutionPolicy
-		*out = new(VirtualNetworkLinkProperties_ResolutionPolicy)
+		*out = new(ResolutionPolicy)
 		**out = **in
 	}
 	if in.Tags != nil {
