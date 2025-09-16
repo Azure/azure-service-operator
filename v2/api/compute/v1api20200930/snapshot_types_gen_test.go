@@ -722,13 +722,6 @@ func Snapshot_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_ActiveSAS,
-		DiskState_ActiveUpload,
-		DiskState_Attached,
-		DiskState_ReadyToUpload,
-		DiskState_Reserved,
-		DiskState_Unattached))
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

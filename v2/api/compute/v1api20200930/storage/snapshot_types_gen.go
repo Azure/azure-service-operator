@@ -272,7 +272,6 @@ type Snapshot_Spec struct {
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
-	DiskState                    *string                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
@@ -396,9 +395,6 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2024
 
 	// DiskSizeGB
 	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// DiskState
-	snapshot.DiskState = genruntime.ClonePointerToString(source.DiskState)
 
 	// Encryption
 	if source.Encryption != nil {
@@ -638,9 +634,6 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v2
 
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshot.DiskSizeGB)
-
-	// DiskState
-	destination.DiskState = genruntime.ClonePointerToString(snapshot.DiskState)
 
 	// Encryption
 	if snapshot.Encryption != nil {

@@ -379,7 +379,7 @@ DiskEncryptionSet: Resource
 
 Snapshot: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (25 properties)
+├── Spec: Object (24 properties)
 │   ├── AzureName: string
 │   ├── CompletionPercent: *float64
 │   ├── CopyCompletionError: *Object (2 properties)
@@ -425,15 +425,6 @@ Snapshot: Resource
 │   │   └── "None"
 │   ├── DiskAccessReference: *genruntime.ResourceReference
 │   ├── DiskSizeGB: *int
-│   ├── DiskState: *Enum (8 values)
-│   │   ├── "ActiveSAS"
-│   │   ├── "ActiveSASFrozen"
-│   │   ├── "ActiveUpload"
-│   │   ├── "Attached"
-│   │   ├── "Frozen"
-│   │   ├── "ReadyToUpload"
-│   │   ├── "Reserved"
-│   │   └── "Unattached"
 │   ├── Encryption: *Object (2 properties)
 │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
 │   │   └── Type: *Enum (3 values)

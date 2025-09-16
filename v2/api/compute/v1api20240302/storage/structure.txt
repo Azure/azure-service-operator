@@ -365,7 +365,6 @@ Snapshot: Resource
 │   ├── DataAccessAuthMode: *string
 │   ├── DiskAccessReference: *genruntime.ResourceReference
 │   ├── DiskSizeGB: *int
-│   ├── DiskState: *string
 │   ├── Encryption: *Object (3 properties)
 │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
