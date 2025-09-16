@@ -44,12 +44,12 @@ type EncryptionSetIdentity_STATUS struct {
 	// Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
 	// Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
 	// Directory tenant; it will cause the encrypted resources to lose access to the keys.
-	Type *EncryptionSetIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *DiskEncryptionSetIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
 	// dictionary key references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 type EncryptionSetProperties_STATUS struct {
@@ -100,6 +100,26 @@ type ApiError_STATUS struct {
 	Target *string `json:"target,omitempty"`
 }
 
+// The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk
+// Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory
+// tenant; it will cause the encrypted resources to lose access to the keys.
+type DiskEncryptionSetIdentityType_STATUS string
+
+const (
+	DiskEncryptionSetIdentityType_STATUS_None                       = DiskEncryptionSetIdentityType_STATUS("None")
+	DiskEncryptionSetIdentityType_STATUS_SystemAssigned             = DiskEncryptionSetIdentityType_STATUS("SystemAssigned")
+	DiskEncryptionSetIdentityType_STATUS_SystemAssignedUserAssigned = DiskEncryptionSetIdentityType_STATUS("SystemAssigned, UserAssigned")
+	DiskEncryptionSetIdentityType_STATUS_UserAssigned               = DiskEncryptionSetIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to DiskEncryptionSetIdentityType_STATUS
+var diskEncryptionSetIdentityType_STATUS_Values = map[string]DiskEncryptionSetIdentityType_STATUS{
+	"none":                         DiskEncryptionSetIdentityType_STATUS_None,
+	"systemassigned":               DiskEncryptionSetIdentityType_STATUS_SystemAssigned,
+	"systemassigned, userassigned": DiskEncryptionSetIdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 DiskEncryptionSetIdentityType_STATUS_UserAssigned,
+}
+
 // The type of key used to encrypt the data of the disk.
 type DiskEncryptionSetType_STATUS string
 
@@ -116,31 +136,6 @@ var diskEncryptionSetType_STATUS_Values = map[string]DiskEncryptionSetType_STATU
 	"encryptionatrestwithplatformandcustomerkeys": DiskEncryptionSetType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys,
 }
 
-type EncryptionSetIdentity_Type_STATUS string
-
-const (
-	EncryptionSetIdentity_Type_STATUS_None                       = EncryptionSetIdentity_Type_STATUS("None")
-	EncryptionSetIdentity_Type_STATUS_SystemAssigned             = EncryptionSetIdentity_Type_STATUS("SystemAssigned")
-	EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned = EncryptionSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	EncryptionSetIdentity_Type_STATUS_UserAssigned               = EncryptionSetIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to EncryptionSetIdentity_Type_STATUS
-var encryptionSetIdentity_Type_STATUS_Values = map[string]EncryptionSetIdentity_Type_STATUS{
-	"none":                         EncryptionSetIdentity_Type_STATUS_None,
-	"systemassigned":               EncryptionSetIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 EncryptionSetIdentity_Type_STATUS_UserAssigned,
-}
-
-type EncryptionSetIdentity_UserAssignedIdentities_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
 // Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots
 type KeyForDiskEncryptionSet_STATUS struct {
 	// KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
@@ -150,6 +145,14 @@ type KeyForDiskEncryptionSet_STATUS struct {
 	// SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
 	// the KeyVault subscription is not the same as the Disk Encryption Set subscription.
 	SourceVault *SourceVault_STATUS `json:"sourceVault,omitempty"`
+}
+
+type UserAssignedIdentitiesValue_STATUS struct {
+	// ClientId: The client id of user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// PrincipalId: The principal id of user assigned identity.
+	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Api error base.
