@@ -4806,7 +4806,6 @@ objectModelConfiguration:
         SqlAdministratorLoginPassword:
           $isSecret: true
       Workspaces_BigDataPool:
-        $exportAs: Workspaces_BigDataPool
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
 
