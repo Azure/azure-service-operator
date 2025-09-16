@@ -316,22 +316,6 @@ var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
 	"enabled":  PublicNetworkAccess_Enabled,
 }
 
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlan struct {
-	// Name: The plan ID.
-	Name *string `json:"name,omitempty"`
-
-	// Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-	// imageReference element.
-	Product *string `json:"product,omitempty"`
-
-	// PromotionCode: The Offer Promotion Code.
-	PromotionCode *string `json:"promotionCode,omitempty"`
-
-	// Publisher: The publisher ID.
-	Publisher *string `json:"publisher,omitempty"`
-}
-
 // List of supported capabilities persisted on the disk resource for VM use.
 type SupportedCapabilities struct {
 	// AcceleratedNetwork: True if the image from which the OS disk is created supports accelerated networking.

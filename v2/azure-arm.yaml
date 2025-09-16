@@ -1703,6 +1703,10 @@ objectModelConfiguration:
       ImageDiskReference:
         Id:
           $referenceType: arm
+      PurchasePlan:
+        $nameInNextVersion: DiskPurchasePlan
+      PurchasePlan_STATUS:
+        $nameInNextVersion: DiskPurchasePlan_STATUS
       Snapshot:
         $exportAs: Snapshot
         $supportedFrom: v2.0.0-alpha.4

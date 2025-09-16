@@ -525,7 +525,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		if err != nil {
 			return nil, err
 		}
-		purchasePlan := *purchasePlan_ARM.(*arm.PurchasePlan)
+		purchasePlan := *purchasePlan_ARM.(*arm.DiskPurchasePlan)
 		result.Properties.PurchasePlan = &purchasePlan
 	}
 	if disk.SecurityProfile != nil {
@@ -802,7 +802,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PurchasePlan != nil {
-			var purchasePlan1 PurchasePlan
+			var purchasePlan1 DiskPurchasePlan
 			err := purchasePlan1.PopulateFromARM(owner, *typedInput.Properties.PurchasePlan)
 			if err != nil {
 				return err
@@ -1110,10 +1110,10 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 
 	// PurchasePlan
 	if source.PurchasePlan != nil {
-		var purchasePlan PurchasePlan
-		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
+		var purchasePlan DiskPurchasePlan
+		err := purchasePlan.AssignProperties_From_DiskPurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskPurchasePlan() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -1351,10 +1351,10 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 
 	// PurchasePlan
 	if disk.PurchasePlan != nil {
-		var purchasePlan storage.PurchasePlan
-		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
+		var purchasePlan storage.DiskPurchasePlan
+		err := disk.PurchasePlan.AssignProperties_To_DiskPurchasePlan(&purchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskPurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1571,10 +1571,10 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 
 	// PurchasePlan
 	if source.PurchasePlan != nil {
-		var purchasePlan PurchasePlan
-		err := purchasePlan.Initialize_From_PurchasePlan_STATUS(source.PurchasePlan)
+		var purchasePlan DiskPurchasePlan
+		err := purchasePlan.Initialize_From_DiskPurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling Initialize_From_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {

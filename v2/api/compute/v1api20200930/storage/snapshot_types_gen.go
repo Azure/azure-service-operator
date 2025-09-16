@@ -504,9 +504,9 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2024
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan
-		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
+		err := purchasePlan.AssignProperties_From_DiskPurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskPurchasePlan() to populate field PurchasePlan")
 		}
 		snapshot.PurchasePlan = &purchasePlan
 	} else {
@@ -751,10 +751,10 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v2
 
 	// PurchasePlan
 	if snapshot.PurchasePlan != nil {
-		var purchasePlan v20240302s.PurchasePlan
-		err := snapshot.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
+		var purchasePlan v20240302s.DiskPurchasePlan
+		err := snapshot.PurchasePlan.AssignProperties_To_DiskPurchasePlan(&purchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskPurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1068,9 +1068,9 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan_STATUS
-		err := purchasePlan.AssignProperties_From_PurchasePlan_STATUS(source.PurchasePlan)
+		err := purchasePlan.AssignProperties_From_DiskPurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		snapshot.PurchasePlan = &purchasePlan
 	} else {
@@ -1324,10 +1324,10 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 
 	// PurchasePlan
 	if snapshot.PurchasePlan != nil {
-		var purchasePlan v20240302s.PurchasePlan_STATUS
-		err := snapshot.PurchasePlan.AssignProperties_To_PurchasePlan_STATUS(&purchasePlan)
+		var purchasePlan v20240302s.DiskPurchasePlan_STATUS
+		err := snapshot.PurchasePlan.AssignProperties_To_DiskPurchasePlan_STATUS(&purchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
