@@ -228,6 +228,7 @@ type DiskEncryptionSet_STATUS struct {
 	PropertyBag                       genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	ProvisioningState                 *string                          `json:"provisioningState,omitempty"`
 	RotationToLatestKeyVersionEnabled *bool                            `json:"rotationToLatestKeyVersionEnabled,omitempty"`
+	SystemData                        *SystemData_STATUS               `json:"systemData,omitempty"`
 	Tags                              map[string]string                `json:"tags,omitempty"`
 	Type                              *string                          `json:"type,omitempty"`
 }

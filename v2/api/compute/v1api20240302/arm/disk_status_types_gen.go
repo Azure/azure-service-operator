@@ -32,6 +32,9 @@ type Disk_STATUS struct {
 	// or PremiumV2_LRS.
 	Sku *DiskSku_STATUS `json:"sku,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 

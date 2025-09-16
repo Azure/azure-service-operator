@@ -237,6 +237,7 @@ func AddIndependentPropertyGeneratorsForDiskEncryptionSet_STATUS(gens map[string
 func AddRelatedPropertyGeneratorsForDiskEncryptionSet_STATUS(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(EncryptionSetIdentity_STATUSGenerator())
 	gens["Properties"] = gen.PtrOf(EncryptionSetProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_EncryptionSetIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

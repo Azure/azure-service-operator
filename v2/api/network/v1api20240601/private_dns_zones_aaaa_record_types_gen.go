@@ -1162,6 +1162,9 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// SrvRecords: The list of SRV records in the record set.
 	SrvRecords []SrvRecord_STATUS `json:"srvRecords,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Ttl: The TTL (time-to-live) of the records in the record set.
 	Ttl *int `json:"ttl,omitempty"`
 
@@ -1378,6 +1381,17 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		record.SystemData = &systemData
+	}
+
 	// Set property "Ttl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1553,6 +1567,18 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 		record.SrvRecords = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		record.SystemData = &systemDatum
+	} else {
+		record.SystemData = nil
+	}
+
 	// Ttl
 	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
 
@@ -1724,6 +1750,18 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 		destination.SrvRecords = srvRecordList
 	} else {
 		destination.SrvRecords = nil
+	}
+
+	// SystemData
+	if record.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := record.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Ttl

@@ -219,6 +219,7 @@ type PrivateDnsZonesVirtualNetworkLink_STATUS struct {
 	ProvisioningState       *string                `json:"provisioningState,omitempty"`
 	RegistrationEnabled     *bool                  `json:"registrationEnabled,omitempty"`
 	ResolutionPolicy        *string                `json:"resolutionPolicy,omitempty"`
+	SystemData              *SystemData_STATUS     `json:"systemData,omitempty"`
 	Tags                    map[string]string      `json:"tags,omitempty"`
 	Type                    *string                `json:"type,omitempty"`
 	VirtualNetwork          *SubResource_STATUS    `json:"virtualNetwork,omitempty"`

@@ -393,6 +393,7 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 	gens["VirtualNetwork"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 

@@ -648,6 +648,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_From_Priv
 		propertyBag.Remove("ResolutionPolicy")
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Tags
 	link.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -751,6 +758,19 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_To_Privat
 		destination.ResolutionPolicy = &resolutionPolicy
 	} else {
 		destination.ResolutionPolicy = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum v20240601s.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags

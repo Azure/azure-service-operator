@@ -578,6 +578,9 @@ type DiskAccess_STATUS struct {
 	// ProvisioningState: The disk access resource provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
@@ -705,6 +708,17 @@ func (access *DiskAccess_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		access.SystemData = &systemData
+	}
+
 	// Set property "Tags":
 	if typedInput.Tags != nil {
 		access.Tags = make(map[string]string, len(typedInput.Tags))
@@ -780,6 +794,18 @@ func (access *DiskAccess_STATUS) AssignProperties_From_DiskAccess_STATUS(source 
 	// ProvisioningState
 	access.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		access.SystemData = &systemDatum
+	} else {
+		access.SystemData = nil
+	}
+
 	// Tags
 	access.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -842,6 +868,18 @@ func (access *DiskAccess_STATUS) AssignProperties_To_DiskAccess_STATUS(destinati
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(access.ProvisioningState)
+
+	// SystemData
+	if access.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := access.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(access.Tags)

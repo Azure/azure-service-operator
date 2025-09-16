@@ -20,6 +20,9 @@ type DiskEncryptionSet_STATUS struct {
 	Name       *string                         `json:"name,omitempty"`
 	Properties *EncryptionSetProperties_STATUS `json:"properties,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 

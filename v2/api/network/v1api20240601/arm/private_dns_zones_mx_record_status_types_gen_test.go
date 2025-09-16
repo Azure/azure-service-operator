@@ -93,4 +93,5 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesMXRecord_STATUS(gens map[
 // AddRelatedPropertyGeneratorsForPrivateDnsZonesMXRecord_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZonesMXRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RecordSetProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

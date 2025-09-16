@@ -17,6 +17,9 @@ type PrivateDnsZonesTXTRecord_STATUS struct {
 	// Properties: The properties of the record set.
 	Properties *RecordSetProperties_STATUS `json:"properties,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }

@@ -815,6 +815,9 @@ type DiskEncryptionSet_STATUS struct {
 	// latest key version.
 	RotationToLatestKeyVersionEnabled *bool `json:"rotationToLatestKeyVersionEnabled,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
@@ -1005,6 +1008,17 @@ func (encryptionSet *DiskEncryptionSet_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		encryptionSet.SystemData = &systemData
+	}
+
 	// Set property "Tags":
 	if typedInput.Tags != nil {
 		encryptionSet.Tags = make(map[string]string, len(typedInput.Tags))
@@ -1118,6 +1132,18 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 		encryptionSet.RotationToLatestKeyVersionEnabled = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		encryptionSet.SystemData = &systemDatum
+	} else {
+		encryptionSet.SystemData = nil
+	}
+
 	// Tags
 	encryptionSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -1222,6 +1248,18 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 		destination.RotationToLatestKeyVersionEnabled = &rotationToLatestKeyVersionEnabled
 	} else {
 		destination.RotationToLatestKeyVersionEnabled = nil
+	}
+
+	// SystemData
+	if encryptionSet.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := encryptionSet.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags

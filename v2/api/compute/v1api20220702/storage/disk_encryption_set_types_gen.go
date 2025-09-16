@@ -708,6 +708,13 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 		encryptionSet.RotationToLatestKeyVersionEnabled = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Tags
 	encryptionSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -823,6 +830,19 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 		destination.RotationToLatestKeyVersionEnabled = &rotationToLatestKeyVersionEnabled
 	} else {
 		destination.RotationToLatestKeyVersionEnabled = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags

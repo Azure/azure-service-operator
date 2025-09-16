@@ -514,6 +514,11 @@ func (in *DiskAccess_STATUS) DeepCopyInto(out *DiskAccess_STATUS) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -773,6 +778,11 @@ func (in *DiskEncryptionSet_STATUS) DeepCopyInto(out *DiskEncryptionSet_STATUS) 
 		in, out := &in.RotationToLatestKeyVersionEnabled, &out.RotationToLatestKeyVersionEnabled
 		*out = new(bool)
 		**out = **in
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -1269,6 +1279,11 @@ func (in *Disk_STATUS) DeepCopyInto(out *Disk_STATUS) {
 		in, out := &in.SupportsHibernation, &out.SupportsHibernation
 		*out = new(bool)
 		**out = **in
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -2659,6 +2674,11 @@ func (in *Snapshot_STATUS) DeepCopyInto(out *Snapshot_STATUS) {
 		in, out := &in.SupportsHibernation, &out.SupportsHibernation
 		*out = new(bool)
 		**out = **in
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags

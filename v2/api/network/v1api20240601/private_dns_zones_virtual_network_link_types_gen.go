@@ -839,6 +839,17 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		link.SystemData = &systemData
+	}
+
 	// Set property "Tags":
 	if typedInput.Tags != nil {
 		link.Tags = make(map[string]string, len(typedInput.Tags))
@@ -926,6 +937,18 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_From_Priv
 		link.ResolutionPolicy = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		link.SystemData = &systemDatum
+	} else {
+		link.SystemData = nil
+	}
+
 	// Tags
 	link.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -999,6 +1022,18 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_To_Privat
 		destination.ResolutionPolicy = &resolutionPolicy
 	} else {
 		destination.ResolutionPolicy = nil
+	}
+
+	// SystemData
+	if link.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := link.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags

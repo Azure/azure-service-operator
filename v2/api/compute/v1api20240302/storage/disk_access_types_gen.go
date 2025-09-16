@@ -216,6 +216,7 @@ type DiskAccess_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
 	Tags                       map[string]string                  `json:"tags,omitempty"`
 	TimeCreated                *string                            `json:"timeCreated,omitempty"`
 	Type                       *string                            `json:"type,omitempty"`

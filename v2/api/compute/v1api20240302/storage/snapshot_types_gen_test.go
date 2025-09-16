@@ -481,6 +481,7 @@ func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) 
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfile_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSku_STATUSGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilities_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_Snapshot_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

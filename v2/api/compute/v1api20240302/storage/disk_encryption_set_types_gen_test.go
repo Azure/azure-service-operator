@@ -360,6 +360,7 @@ func AddRelatedPropertyGeneratorsForDiskEncryptionSet_STATUS(gens map[string]gop
 	gens["AutoKeyRotationError"] = gen.PtrOf(ApiError_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(EncryptionSetIdentity_STATUSGenerator())
 	gens["PreviousKeys"] = gen.SliceOf(KeyForDiskEncryptionSet_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_DiskEncryptionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

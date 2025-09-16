@@ -231,6 +231,7 @@ type PrivateDnsZonesPTRRecord_STATUS struct {
 	PtrRecords       []PtrRecord_STATUS     `json:"ptrRecords,omitempty"`
 	SoaRecord        *SoaRecord_STATUS      `json:"soaRecord,omitempty"`
 	SrvRecords       []SrvRecord_STATUS     `json:"srvRecords,omitempty"`
+	SystemData       *SystemData_STATUS     `json:"systemData,omitempty"`
 	Ttl              *int                   `json:"ttl,omitempty"`
 	TxtRecords       []TxtRecord_STATUS     `json:"txtRecords,omitempty"`
 	Type             *string                `json:"type,omitempty"`

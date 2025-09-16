@@ -64,9 +64,6 @@ type SnapshotProperties struct {
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// DiskState: The state of the snapshot.
-	DiskState *DiskState `json:"diskState,omitempty"`
-
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption `json:"encryption,omitempty"`
 

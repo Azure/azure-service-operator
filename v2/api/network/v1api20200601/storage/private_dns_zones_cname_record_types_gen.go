@@ -938,6 +938,13 @@ func (record *PrivateDnsZonesCNAMERecord_STATUS) AssignProperties_From_PrivateDn
 		record.SrvRecords = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Ttl
 	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
 
@@ -1125,6 +1132,19 @@ func (record *PrivateDnsZonesCNAMERecord_STATUS) AssignProperties_To_PrivateDnsZ
 		destination.SrvRecords = srvRecordList
 	} else {
 		destination.SrvRecords = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Ttl
