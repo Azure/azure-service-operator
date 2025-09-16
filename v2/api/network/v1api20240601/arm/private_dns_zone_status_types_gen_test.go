@@ -166,12 +166,13 @@ func AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUS(gens map[st
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZoneProperties_ProvisioningState_STATUS_Canceled,
-		PrivateZoneProperties_ProvisioningState_STATUS_Creating,
-		PrivateZoneProperties_ProvisioningState_STATUS_Deleting,
-		PrivateZoneProperties_ProvisioningState_STATUS_Failed,
-		PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
-		PrivateZoneProperties_ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
+}
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()

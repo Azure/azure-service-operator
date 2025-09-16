@@ -62,7 +62,7 @@ type PrivateZoneProperties_STATUS struct {
 
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
-	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -125,23 +125,19 @@ var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType
 	"user":            SystemData_CreatedByType_STATUS_User,
 }
 
-type PrivateZoneProperties_ProvisioningState_STATUS string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	PrivateZoneProperties_ProvisioningState_STATUS_Canceled  = PrivateZoneProperties_ProvisioningState_STATUS("Canceled")
-	PrivateZoneProperties_ProvisioningState_STATUS_Creating  = PrivateZoneProperties_ProvisioningState_STATUS("Creating")
-	PrivateZoneProperties_ProvisioningState_STATUS_Deleting  = PrivateZoneProperties_ProvisioningState_STATUS("Deleting")
-	PrivateZoneProperties_ProvisioningState_STATUS_Failed    = PrivateZoneProperties_ProvisioningState_STATUS("Failed")
-	PrivateZoneProperties_ProvisioningState_STATUS_Succeeded = PrivateZoneProperties_ProvisioningState_STATUS("Succeeded")
-	PrivateZoneProperties_ProvisioningState_STATUS_Updating  = PrivateZoneProperties_ProvisioningState_STATUS("Updating")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-// Mapping from string to PrivateZoneProperties_ProvisioningState_STATUS
-var privateZoneProperties_ProvisioningState_STATUS_Values = map[string]PrivateZoneProperties_ProvisioningState_STATUS{
-	"canceled":  PrivateZoneProperties_ProvisioningState_STATUS_Canceled,
-	"creating":  PrivateZoneProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  PrivateZoneProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    PrivateZoneProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  PrivateZoneProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
