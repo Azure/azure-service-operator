@@ -335,6 +335,12 @@ typeTransformers:
     remove: true
     because: VirtualMachines is a list of VMs created in the AvailabilitySet and should only be on status, not spec
 
+  - group: compute
+    name: SnapshotProperties
+    property: DiskState
+    remove: true
+    because: this should be marked as readonly in Swagger
+
   # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',
@@ -1836,6 +1842,8 @@ objectModelConfiguration:
       DiskEncryptionSet:
         $exportAs: DiskEncryptionSet
         $supportedFrom: v2.3.0
+      EncryptionSetIdentity_UserAssignedIdentities_STATUS:
+        $renameTo: UserAssignedIdentitiesValue_STATUS
       SourceVault:
         Id:
           $referenceType: arm
@@ -4194,6 +4202,9 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.11.0
+      SubResource:
+        Id:
+          $referenceType: arm
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:
