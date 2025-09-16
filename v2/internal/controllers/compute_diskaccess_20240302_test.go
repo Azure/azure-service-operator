@@ -65,21 +65,18 @@ func Test_Compute_DiskAccess_20240302_CRUD(t *testing.T) {
 	}
 
 	// Create a disk.
-	standardSkuName := compute.DiskSku_Name_Premium_ZRS
-	sizeInGb := 500
-	createOption := compute.CreationData_CreateOption_Empty
 	disk := &compute.Disk{
 		ObjectMeta: tc.MakeObjectMeta("disk"),
 		Spec: compute.Disk_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.DiskSku{
-				Name: &standardSkuName,
+				Name: to.Ptr(compute.DiskStorageAccountTypes_Premium_ZRS),
 			},
 			CreationData: &compute.CreationData{
-				CreateOption: &createOption,
+				CreateOption: to.Ptr(compute.DiskCreateOption_Empty),
 			},
-			DiskSizeGB:          &sizeInGb,
+			DiskSizeGB:          to.Ptr(500),
 			NetworkAccessPolicy: to.Ptr(compute.NetworkAccessPolicy_AllowPrivate),
 			DiskAccessReference: tc.MakeReferenceFromResource(diskAccess),
 		},

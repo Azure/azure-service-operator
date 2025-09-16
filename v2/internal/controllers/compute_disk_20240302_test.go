@@ -12,6 +12,7 @@ import (
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Compute_Disk_20240302_CRUD(t *testing.T) {
@@ -22,21 +23,19 @@ func Test_Compute_Disk_20240302_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a disk.
-	standardSkuName := compute.DiskSku_Name_Premium_ZRS
-	sizeInGb := 500
-	createOption := compute.CreationData_CreateOption_Empty
+	standardSkuName := compute.DiskStorageAccountTypes_Premium_ZRS
 	disk := &compute.Disk{
 		ObjectMeta: tc.MakeObjectMeta("disk"),
 		Spec: compute.Disk_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.DiskSku{
-				Name: &standardSkuName,
+				Name: to.Ptr(compute.DiskStorageAccountTypes_Premium_ZRS),
 			},
 			CreationData: &compute.CreationData{
-				CreateOption: &createOption,
+				CreateOption: to.Ptr(compute.DiskCreateOption_Empty),
 			},
-			DiskSizeGB: &sizeInGb,
+			DiskSizeGB: to.Ptr(500),
 		},
 	}
 	tc.CreateResourceAndWait(disk)
