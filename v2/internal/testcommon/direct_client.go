@@ -101,5 +101,3 @@ func (d *directClient) GroupVersionKindFor(obj runtime.Object) (schema.GroupVers
 func (d *directClient) IsObjectNamespaced(obj runtime.Object) (bool, error) {
 	return d.inner.IsObjectNamespaced(obj)
 }
-
-var _ client.Client = &directClient{}
