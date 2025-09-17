@@ -202,14 +202,14 @@ func TestFlaggedType_WithoutFlags_GivenSingleFlagType_ReturnsUnderlyingType(t *t
 func TestFlaggedType_WithoutFlags_GivenMixedMatchingAndNonMatchingFlags_ReturnsNewFlaggedTypeWithCorrectFlags(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag, WellknownFlag)
-	result := original.WithoutFlags(StorageFlag, DoNotPrune, WellknownFlag, CompatibilityFlag).(*FlaggedType)
+	original := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag, WellKnownReferenceFlag)
+	result := original.WithoutFlags(StorageFlag, DoNotPrune, WellKnownReferenceFlag, CompatibleReferenceFlag).(*FlaggedType)
 
 	g.Expect(result).ToNot(BeIdenticalTo(original))
 	g.Expect(result.HasFlag(ARMFlag)).To(BeTrue())
 	g.Expect(result.HasFlag(StorageFlag)).To(BeFalse())
 	g.Expect(result.HasFlag(OneOfFlag)).To(BeTrue())
-	g.Expect(result.HasFlag(WellknownFlag)).To(BeFalse())
+	g.Expect(result.HasFlag(WellKnownReferenceFlag)).To(BeFalse())
 	g.Expect(result.Element()).To(Equal(StringType))
 }
 

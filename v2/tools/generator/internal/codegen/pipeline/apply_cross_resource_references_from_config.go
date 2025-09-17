@@ -64,7 +64,7 @@ func ApplyCrossResourceReferencesFromConfig(
 								typeName.String(),
 								prop.PropertyName().String()),
 						)
-					case config.ReferenceTypeWellknown:
+					case config.ReferenceTypeWellKnown:
 						// We permit "arm+wellknown" in config to accommodate references that are MORE than a simple ARM ID
 						return ReferenceTypeARMWellknown
 
@@ -93,7 +93,7 @@ func ApplyCrossResourceReferencesFromConfig(
 				case config.ReferenceTypeSimple:
 					return ReferenceTypeString
 
-				case config.ReferenceTypeWellknown:
+				case config.ReferenceTypeWellKnown:
 					return ReferenceTypeARMWellknown
 
 				case config.ReferenceTypeCompatible:
@@ -258,12 +258,12 @@ func makeARMReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.P
 
 // makeWellKnownARMReferenceProperty modifies an existing property definition into a well-known ARM reference property.
 func makeWellKnownARMReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-	return makeReferenceProperty(existing, astmodel.ARMIDType, astmodel.WellknownFlag)
+	return makeReferenceProperty(existing, astmodel.ARMIDType, astmodel.WellKnownReferenceFlag)
 }
 
 // makeCompatibleARMReferenceProperty modifies an existing property definition into a ARM reference property with backward compatibility characteristics.
 func makeCompatibleARMReferenceProperty(existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-	return makeReferenceProperty(existing, astmodel.ARMIDType, astmodel.CompatibilityFlag)
+	return makeReferenceProperty(existing, astmodel.ARMIDType, astmodel.CompatibleReferenceFlag)
 }
 
 // makeStringReferenceProperty modifies an existing property definition into a string reference property.

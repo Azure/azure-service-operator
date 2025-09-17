@@ -9,7 +9,7 @@ func IsTypeResourceReference(t Type) bool {
 	// Handles optional too
 	if ex, ok := AsExternalTypeName(t); ok {
 		return TypeEquals(ex, ResourceReferenceType) ||
-			TypeEquals(ex, WellknownResourceReferenceType)
+			TypeEquals(ex, WellKnownResourceReferenceType)
 	}
 
 	if IsTypeResourceReferenceSlice(t) || IsTypeResourceReferenceMap(t) {
@@ -22,7 +22,7 @@ func IsTypeResourceReference(t Type) bool {
 func IsTypeResourceReferenceSlice(t Type) bool {
 	if sl, ok := AsArrayType(t); ok {
 		return TypeEquals(sl.Element(), ResourceReferenceType) ||
-			TypeEquals(sl.Element(), WellknownResourceReferenceType)
+			TypeEquals(sl.Element(), WellKnownResourceReferenceType)
 	}
 
 	return false
@@ -31,7 +31,7 @@ func IsTypeResourceReferenceSlice(t Type) bool {
 func IsTypeResourceReferenceMap(t Type) bool {
 	if mp, ok := AsMapType(t); ok {
 		return TypeEquals(mp.ValueType(), ResourceReferenceType) ||
-			TypeEquals(mp.ValueType(), WellknownResourceReferenceType)
+			TypeEquals(mp.ValueType(), WellKnownResourceReferenceType)
 	}
 
 	return false

@@ -844,7 +844,7 @@ func (builder *convertToARMBuilder) convertWellknownReferenceProperty(
 		return nil, nil
 	}
 
-	sourceIsReference := astmodel.TypeEquals(params.SourceType, astmodel.WellknownResourceReferenceType)
+	sourceIsReference := astmodel.TypeEquals(params.SourceType, astmodel.WellKnownResourceReferenceType)
 	if !sourceIsReference {
 		return nil, nil
 	}
@@ -858,14 +858,14 @@ func (builder *convertToARMBuilder) convertWellknownReferenceProperty(
 	// Finish by assigning the temporary variable to the destination
 	finalAssignment := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(id))
 
-	// Selector for a possible wellknown name.
-	wellknownName := astbuilder.Selector(params.Source, "WellknownName")
+	// Selector for a possible well-known name.
+	wellKnownName := astbuilder.Selector(params.Source, "WellKnownName")
 
 	// Assign well known name to temporary variable
-	assignWellknownName := astbuilder.Statements(
+	assignWellKnownName := astbuilder.Statements(
 		astbuilder.SimpleAssignment(
 			dst.NewIdent(id),
-			wellknownName))
+			wellKnownName))
 
 	// Lookup ARM ID by reference
 	armIDLookup := astbuilder.SimpleAssignmentWithErr(
@@ -885,10 +885,10 @@ func (builder *convertToARMBuilder) convertWellknownReferenceProperty(
 
 	lookupArmID := astbuilder.Statements(armIDLookup, returnIfNotNil, assignArmID)
 
-	// Choose between wellknown name and lookup as the source for the ARM ID
+	// Choose between well-known name and lookup as the source for the ARM ID
 	condition := astbuilder.SimpleIfElse(
-		astbuilder.AreNotEqual(wellknownName, astbuilder.StringLiteral("")),
-		assignWellknownName,
+		astbuilder.AreNotEqual(wellKnownName, astbuilder.StringLiteral("")),
+		assignWellKnownName,
 		lookupArmID,
 	)
 	condition.Decorations().After = dst.EmptyLine

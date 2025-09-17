@@ -82,7 +82,7 @@ func init() {
 		assignUserAssignedIdentityMapFromArray,
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
-		copyKnownType(astmodel.WellknownResourceReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.WellKnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretMapReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretDestinationType, "Copy", returnsValue),
@@ -1112,7 +1112,7 @@ var handCraftedConversions = []handCraftedConversion{
 	},
 	{
 		fromType:    astmodel.StringType,
-		toType:      astmodel.WellknownResourceReferenceType,
+		toType:      astmodel.WellKnownResourceReferenceType,
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "CreateWellknownResourceReferenceFromARMID",
 	},

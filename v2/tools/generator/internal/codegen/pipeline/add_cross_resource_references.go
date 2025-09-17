@@ -138,24 +138,24 @@ func (v *ARMIDToReferenceTypeConverter) handleTransformationFlags(
 	ctx ARMIDToReferenceTypeConverterContext,
 ) (astmodel.Type, error) {
 	// If a Wellknown Resource Reference is required, use it and remove the flag
-	if it.HasFlag(astmodel.WellknownFlag) {
-		ctx.SelectedReferenceType = astmodel.WellknownResourceReferenceType
+	if it.HasFlag(astmodel.WellKnownReferenceFlag) {
+		ctx.SelectedReferenceType = astmodel.WellKnownResourceReferenceType
 		elem, err := visitor.Visit(it.Element(), ctx)
 		if err != nil {
 			return nil, err
 		}
 
-		return it.WithElement(elem).WithoutFlag(astmodel.WellknownFlag), nil
+		return it.WithElement(elem).WithoutFlag(astmodel.WellKnownReferenceFlag), nil
 	}
 
 	// If a Compatible Resource Reference is required, use it and remove the flag
-	if it.HasFlag(astmodel.CompatibilityFlag) {
+	if it.HasFlag(astmodel.CompatibleReferenceFlag) {
 		elem, err := visitor.Visit(it.Element(), ctx)
 		if err != nil {
 			return nil, err
 		}
 
-		return it.WithElement(elem).WithoutFlag(astmodel.CompatibilityFlag), nil
+		return it.WithElement(elem).WithoutFlag(astmodel.CompatibleReferenceFlag), nil
 	}
 
 	elem, err := visitor.Visit(it.Element(), ctx)
@@ -200,7 +200,7 @@ func (v *ARMIDToReferenceTypeConverter) renamePropertiesWithARMIDReferences(
 
 		newProp := makeResourceReferenceProperty(ctx.DefinitionName, v.idFactory, prop)
 
-		if astmodel.CompatibilityFlag.IsOn(origProp.PropertyType()) {
+		if astmodel.CompatibleReferenceFlag.IsOn(origProp.PropertyType()) {
 			// If the original property is flagged for compatibility,
 			// We keep both versions to avoid breaking existing CRs
 			// but need to remove the flag first
@@ -250,7 +250,7 @@ func (v *ARMIDToReferenceTypeConverter) stripValidationForResourceReferences(
 func (v *ARMIDToReferenceTypeConverter) createCompatibilityProperty(
 	property *astmodel.PropertyDefinition,
 ) (*astmodel.PropertyDefinition, error) {
-	t, err := astmodel.CompatibilityFlag.RemoveFrom(property.PropertyType())
+	t, err := astmodel.CompatibleReferenceFlag.RemoveFrom(property.PropertyType())
 	if err != nil {
 		return nil, eris.Wrapf(err, "removing compatibility flag from property %s", property.PropertyName())
 	}

@@ -10,12 +10,12 @@ import "fmt"
 type TypeFlag string
 
 const (
-	StorageFlag       = TypeFlag("storage")
-	ARMFlag           = TypeFlag("arm")
-	OneOfFlag         = TypeFlag("oneof")
-	DoNotPrune        = TypeFlag("donotprune")
-	WellknownFlag     = TypeFlag("wellknown")  // Indicates a resource reference that should support well-known names
-	CompatibilityFlag = TypeFlag("compatible") // Indicates a resource reference that needs to maintain backwards compatibility
+	StorageFlag             = TypeFlag("storage")
+	ARMFlag                 = TypeFlag("arm")
+	OneOfFlag               = TypeFlag("oneof")
+	DoNotPrune              = TypeFlag("donotprune")
+	WellKnownReferenceFlag  = TypeFlag("well-known") // Indicates a resource reference that should support well-known names
+	CompatibleReferenceFlag = TypeFlag("compatible") // Indicates a resource reference that needs to maintain backwards compatibility
 )
 
 var _ fmt.Stringer = TypeFlag("")
