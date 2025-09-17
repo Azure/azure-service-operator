@@ -1508,7 +1508,7 @@ objectModelConfiguration:
     2024-11-01:
       Redis:
         $export: true
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
         $azureGeneratedSecrets:
           - PrimaryKey
           - SecondaryKey
@@ -1520,32 +1520,32 @@ objectModelConfiguration:
           $referenceType: arm
       Redis_AccessPolicy:
         $exportAs: RedisAccessPolicy
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
       Redis_AccessPolicyAssignment:
         $exportAs: RedisAccessPolicyAssignment
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
       RedisLinkedServerCreateProperties:
         LinkedRedisCacheId:
           $referenceType: arm
       Redis_PatchSchedule:
         $exportAs: RedisPatchSchedule
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
     2025-04-01:
       RedisEnterprise:
         $exportAs: RedisEnterprise
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
       ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity:
         UserAssignedIdentityResourceId:
           $referenceType: arm
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
-        $supportedFrom: v2.15.0
+        $supportedFrom: v2.16.0
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
