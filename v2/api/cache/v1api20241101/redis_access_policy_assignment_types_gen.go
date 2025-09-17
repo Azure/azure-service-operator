@@ -259,13 +259,17 @@ type RedisAccessPolicyAssignment_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// ObjectId: Object Id to assign access policy to
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
-	// +kubebuilder:validation:Required
 	// ObjectIdAlias: User friendly name for object id. Also represents username for token based authentication
-	ObjectIdAlias *string `json:"objectIdAlias,omitempty"`
+	ObjectIdAlias *string `json:"objectIdAlias,omitempty" optionalConfigMapPair:"ObjectIdAlias"`
+
+	// ObjectIdAliasFromConfig: User friendly name for object id. Also represents username for token based authentication
+	ObjectIdAliasFromConfig *genruntime.ConfigMapReference `json:"objectIdAliasFromConfig,omitempty" optionalConfigMapPair:"ObjectIdAlias"`
+
+	// ObjectIdFromConfig: Object Id to assign access policy to
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -293,7 +297,9 @@ func (assignment *RedisAccessPolicyAssignment_Spec) ConvertToARM(resolved genrun
 	// Set property "Properties":
 	if assignment.AccessPolicyName != nil ||
 		assignment.ObjectId != nil ||
-		assignment.ObjectIdAlias != nil {
+		assignment.ObjectIdAlias != nil ||
+		assignment.ObjectIdAliasFromConfig != nil ||
+		assignment.ObjectIdFromConfig != nil {
 		result.Properties = &arm.RedisCacheAccessPolicyAssignmentProperties{}
 	}
 	if assignment.AccessPolicyName != nil {
@@ -307,6 +313,22 @@ func (assignment *RedisAccessPolicyAssignment_Spec) ConvertToARM(resolved genrun
 	if assignment.ObjectIdAlias != nil {
 		objectIdAlias := *assignment.ObjectIdAlias
 		result.Properties.ObjectIdAlias = &objectIdAlias
+	}
+	if assignment.ObjectIdAliasFromConfig != nil {
+		objectIdAliasValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.ObjectIdAliasFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ObjectIdAlias")
+		}
+		objectIdAlias := objectIdAliasValue
+		result.Properties.ObjectIdAlias = &objectIdAlias
+	}
+	if assignment.ObjectIdFromConfig != nil {
+		objectIdValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.ObjectIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ObjectId")
+		}
+		objectId := objectIdValue
+		result.Properties.ObjectId = &objectId
 	}
 	return result, nil
 }
@@ -352,6 +374,10 @@ func (assignment *RedisAccessPolicyAssignment_Spec) PopulateFromARM(owner genrun
 			assignment.ObjectIdAlias = &objectIdAlias
 		}
 	}
+
+	// no assignment for property "ObjectIdAliasFromConfig"
+
+	// no assignment for property "ObjectIdFromConfig"
 
 	// no assignment for property "OperatorSpec"
 
@@ -430,6 +456,22 @@ func (assignment *RedisAccessPolicyAssignment_Spec) AssignProperties_From_RedisA
 	// ObjectIdAlias
 	assignment.ObjectIdAlias = genruntime.ClonePointerToString(source.ObjectIdAlias)
 
+	// ObjectIdAliasFromConfig
+	if source.ObjectIdAliasFromConfig != nil {
+		objectIdAliasFromConfig := source.ObjectIdAliasFromConfig.Copy()
+		assignment.ObjectIdAliasFromConfig = &objectIdAliasFromConfig
+	} else {
+		assignment.ObjectIdAliasFromConfig = nil
+	}
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		assignment.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		assignment.ObjectIdFromConfig = nil
+	}
+
 	// OperatorSpec
 	if source.OperatorSpec != nil {
 		var operatorSpec RedisAccessPolicyAssignmentOperatorSpec
@@ -470,6 +512,22 @@ func (assignment *RedisAccessPolicyAssignment_Spec) AssignProperties_To_RedisAcc
 
 	// ObjectIdAlias
 	destination.ObjectIdAlias = genruntime.ClonePointerToString(assignment.ObjectIdAlias)
+
+	// ObjectIdAliasFromConfig
+	if assignment.ObjectIdAliasFromConfig != nil {
+		objectIdAliasFromConfig := assignment.ObjectIdAliasFromConfig.Copy()
+		destination.ObjectIdAliasFromConfig = &objectIdAliasFromConfig
+	} else {
+		destination.ObjectIdAliasFromConfig = nil
+	}
+
+	// ObjectIdFromConfig
+	if assignment.ObjectIdFromConfig != nil {
+		objectIdFromConfig := assignment.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
 
 	// OperatorSpec
 	if assignment.OperatorSpec != nil {

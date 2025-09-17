@@ -1524,6 +1524,11 @@ objectModelConfiguration:
       Redis_AccessPolicyAssignment:
         $exportAs: RedisAccessPolicyAssignment
         $supportedFrom: v2.16.0
+      RedisCacheAccessPolicyAssignmentProperties:
+        ObjectId:
+          $importConfigMapMode: optional
+        ObjectIdAlias:
+          $importConfigMapMode: optional
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.16.0

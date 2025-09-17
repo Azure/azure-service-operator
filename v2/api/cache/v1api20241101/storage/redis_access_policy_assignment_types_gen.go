@@ -172,11 +172,13 @@ type RedisAccessPolicyAssignment_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                                   `json:"azureName,omitempty"`
-	ObjectId        *string                                  `json:"objectId,omitempty"`
-	ObjectIdAlias   *string                                  `json:"objectIdAlias,omitempty"`
-	OperatorSpec    *RedisAccessPolicyAssignmentOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string                                   `json:"originalVersion,omitempty"`
+	AzureName               string                                   `json:"azureName,omitempty"`
+	ObjectId                *string                                  `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdAlias           *string                                  `json:"objectIdAlias,omitempty" optionalConfigMapPair:"ObjectIdAlias"`
+	ObjectIdAliasFromConfig *genruntime.ConfigMapReference           `json:"objectIdAliasFromConfig,omitempty" optionalConfigMapPair:"ObjectIdAlias"`
+	ObjectIdFromConfig      *genruntime.ConfigMapReference           `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	OperatorSpec            *RedisAccessPolicyAssignmentOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion         string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also

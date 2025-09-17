@@ -35,8 +35,8 @@ type RedisCacheAccessPolicyAssignmentProperties struct {
 	AccessPolicyName *string `json:"accessPolicyName,omitempty"`
 
 	// ObjectId: Object Id to assign access policy to
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// ObjectIdAlias: User friendly name for object id. Also represents username for token based authentication
-	ObjectIdAlias *string `json:"objectIdAlias,omitempty"`
+	ObjectIdAlias *string `json:"objectIdAlias,omitempty" optionalConfigMapPair:"ObjectIdAlias"`
 }

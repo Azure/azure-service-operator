@@ -210,7 +210,7 @@ RedisAccessPolicy: Resource
 
 RedisAccessPolicyAssignment: Resource
 ├── Owner: Redis
-├── Spec: Object (6 properties)
+├── Spec: Object (8 properties)
 │   ├── AccessPolicyName: Validated<*string> (1 rule)
 │   │   └── Rule 0: Pattern: "^([a-zA-Z0-9][a-zA-Z0-9- ]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
 │   ├── AzureName: Validated<string> (3 rules)
@@ -219,6 +219,8 @@ RedisAccessPolicyAssignment: Resource
 │   │   └── Rule 2: Pattern: "^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
 │   ├── ObjectId: *string
 │   ├── ObjectIdAlias: *string
+│   ├── ObjectIdAliasFromConfig: *genruntime.ConfigMapReference
+│   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]

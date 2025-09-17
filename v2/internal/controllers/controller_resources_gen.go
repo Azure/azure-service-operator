@@ -697,7 +697,30 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicyAssignment)})
+	result = append(result, &registration.StorageType{
+		Obj: new(cache_v20241101s.RedisAccessPolicyAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.objectIdAliasFromConfig",
+				Func: indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig,
+			},
+			{
+				Key:  ".spec.objectIdFromConfig",
+				Func: indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.objectIdAliasFromConfig",
+						".spec.objectIdFromConfig",
+					},
+					&cache_v20241101s.RedisAccessPolicyAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisFirewallRule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisLinkedServer)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
@@ -6271,6 +6294,30 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig an index function for cache_v20241101s.RedisAccessPolicyAssignment .spec.objectIdAliasFromConfig
+func indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cache_v20241101s.RedisAccessPolicyAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ObjectIdAliasFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ObjectIdAliasFromConfig.Index()
+}
+
+// indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20241101s.RedisAccessPolicyAssignment .spec.objectIdFromConfig
+func indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cache_v20241101s.RedisAccessPolicyAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ObjectIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ObjectIdFromConfig.Index()
 }
 
 // indexCdnAfdOriginHostNameFromConfig an index function for cdn_v20230501s.AfdOrigin .spec.hostNameFromConfig
