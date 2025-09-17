@@ -1507,7 +1507,7 @@ objectModelConfiguration:
         $supportedFrom: v2.10.0
     2024-11-01:
       Redis:
-        $export: true
+        $exportAs: Redis
         $supportedFrom: v2.16.0
         $azureGeneratedSecrets:
           - PrimaryKey
