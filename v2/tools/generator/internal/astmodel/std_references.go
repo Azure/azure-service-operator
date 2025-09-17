@@ -71,6 +71,7 @@ var (
 	ResourceReferenceType            = MakeExternalTypeName(GenRuntimeReference, "ResourceReference")
 	ArbitraryOwnerReference          = MakeExternalTypeName(GenRuntimeReference, "ArbitraryOwnerReference")
 	KnownResourceReferenceType       = MakeExternalTypeName(GenRuntimeReference, "KnownResourceReference")
+	WellKnownResourceReferenceType   = MakeExternalTypeName(GenRuntimeReference, "WellKnownResourceReference")
 	PropertyBagType                  = MakeExternalTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType      = MakeExternalTypeName(GenRuntimeReference, "ToARMConverter")
 	ARMResourceSpecType              = MakeExternalTypeName(GenRuntimeReference, "ARMResourceSpec")
@@ -95,11 +96,12 @@ var (
 	SecretExporterType               = MakeExternalTypeName(GenRuntimeSecretsReference, "Exporter")
 
 	// Optional types - GenRuntime
-	OptionalConfigMapReferenceType     = NewOptionalType(ConfigMapReferenceType)
-	OptionalKnownResourceReferenceType = NewOptionalType(KnownResourceReferenceType)
-	OptionalResourceReferenceType      = NewOptionalType(ResourceReferenceType)
-	OptionalSecretReferenceType        = NewOptionalType(SecretReferenceType)
-	OptionalSecretMapReferenceType     = NewOptionalType(SecretMapReferenceType)
+	OptionalConfigMapReferenceType         = NewOptionalType(ConfigMapReferenceType)
+	OptionalKnownResourceReferenceType     = NewOptionalType(KnownResourceReferenceType)
+	OptionalWellknownResourceReferenceType = NewOptionalType(WellKnownResourceReferenceType)
+	OptionalResourceReferenceType          = NewOptionalType(ResourceReferenceType)
+	OptionalSecretReferenceType            = NewOptionalType(SecretReferenceType)
+	OptionalSecretMapReferenceType         = NewOptionalType(SecretMapReferenceType)
 
 	// Predeclared maps
 	MapOfStringStringType = NewMapType(StringType, StringType)
