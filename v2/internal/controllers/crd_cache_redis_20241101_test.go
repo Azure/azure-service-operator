@@ -69,10 +69,6 @@ func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
 				Redis_PatchSchedule_20241101_CRUD(tc, redis1)
 			},
 		},
-	)
-
-	// Test the new AccessPolicy and AccessPolicyAssignment resources
-	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Redis access policy CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
@@ -127,7 +123,6 @@ func Redis_AccessPolicy_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 		ObjectMeta: tc.MakeObjectMeta("testpolicy"),
 		Spec: cache.RedisAccessPolicy_Spec{
 			Owner:       testcommon.AsOwner(redis),
-			Type:        to.Ptr("custom"),
 			Permissions: to.Ptr("+get +set"),
 		},
 	}
@@ -136,8 +131,6 @@ func Redis_AccessPolicy_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 	defer tc.DeleteResourceAndWait(&accessPolicy)
 
 	tc.Expect(accessPolicy.Status.Id).ToNot(BeNil())
-	tc.Expect(accessPolicy.Status.Type).ToNot(BeNil())
-	tc.Expect(*accessPolicy.Status.Type).To(Equal("custom"))
 	tc.Expect(accessPolicy.Status.Permissions).ToNot(BeNil())
 	tc.Expect(*accessPolicy.Status.Permissions).To(Equal("+get +set"))
 
@@ -155,7 +148,6 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 		ObjectMeta: tc.MakeObjectMeta("assignmentpolicy"),
 		Spec: cache.RedisAccessPolicy_Spec{
 			Owner:       testcommon.AsOwner(redis),
-			Type:        to.Ptr("custom"),
 			Permissions: to.Ptr("+get +set"),
 		},
 	}
