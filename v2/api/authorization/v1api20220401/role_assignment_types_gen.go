@@ -290,7 +290,7 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
-	RoleDefinitionReference *genruntime.WellknownResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
+	RoleDefinitionReference *genruntime.WellKnownResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -356,8 +356,8 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	if assignment.RoleDefinitionReference != nil {
 		var roleDefinitionIdTemp string
-		if assignment.RoleDefinitionReference.WellknownName != "" {
-			roleDefinitionIdTemp = assignment.RoleDefinitionReference.WellknownName
+		if assignment.RoleDefinitionReference.WellKnownName != "" {
+			roleDefinitionIdTemp = assignment.RoleDefinitionReference.WellKnownName
 		} else {
 			armID, err := resolved.ResolvedReferences.Lookup(assignment.RoleDefinitionReference.ResourceReference)
 			if err != nil {
