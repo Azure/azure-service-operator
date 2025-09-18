@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2020-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}
 type PrivateDnsZonesVirtualNetworkLink struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -250,7 +250,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) OriginalGVK() *schema.GroupVersio
 // +kubebuilder:object:root=true
 // Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2020-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}
 type PrivateDnsZonesVirtualNetworkLinkList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -648,6 +648,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_From_Priv
 		propertyBag.Remove("ResolutionPolicy")
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Tags
 	link.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -751,6 +758,19 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_To_Privat
 		destination.ResolutionPolicy = &resolutionPolicy
 	} else {
 		destination.ResolutionPolicy = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum v20240601s.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags

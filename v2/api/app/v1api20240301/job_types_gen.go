@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2024-03-01/Jobs.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2024-03-01/Jobs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}
 type Job struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -240,7 +240,7 @@ func (job *Job) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2024-03-01/Jobs.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2024-03-01/Jobs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}
 type JobList struct {
 	metav1.TypeMeta `json:",inline"`

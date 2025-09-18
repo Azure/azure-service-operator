@@ -30,7 +30,7 @@ AvailabilitySet: Resource
 │   │   ├── Name: *string
 │   │   └── Tier: *string
 │   └── Tags: map[string]string
-└── Status: Object (14 properties)
+└── Status: Object (15 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Location: *string
@@ -60,6 +60,21 @@ AvailabilitySet: Resource
     │   │   └── "Warning"
     │   ├── Message: *string
     │   └── Time: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     ├── Type: *string
     ├── VirtualMachineScaleSetMigrationInfo: *Object (2 properties)

@@ -99,7 +99,7 @@ Account_STATUS: Object (11 properties)
 │   │       ├── Id: *string
 │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
 │   │       └── State: *string
-│   ├── NetworkInjections: *Object (3 properties)
+│   ├── NetworkInjections: Object (3 properties)[]
 │   │   ├── Scenario: *Enum (2 values)
 │   │   │   ├── "agent"
 │   │   │   └── "none"
@@ -238,7 +238,7 @@ Account_Spec: Object (7 properties)
 │   │       ├── Id: *string
 │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
 │   │       └── State: *string
-│   ├── NetworkInjections: *Object (3 properties)
+│   ├── NetworkInjections: Object (3 properties)[]
 │   │   ├── Scenario: *Enum (2 values)
 │   │   │   ├── "agent"
 │   │   │   └── "none"

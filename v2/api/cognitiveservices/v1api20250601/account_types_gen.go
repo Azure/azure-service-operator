@@ -1238,12 +1238,8 @@ type AccountProperties struct {
 	MigrationToken *genruntime.SecretReference `json:"migrationToken,omitempty"`
 
 	// NetworkAcls: A collection of rules governing the accessibility from specific network locations.
-	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
-
-	// NetworkInjections: Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents
-	// entirely within the  user's private network, eliminating public internet exposure while maintaining control over network
-	// configurations and  resources.
-	NetworkInjections *NetworkInjections `json:"networkInjections,omitempty"`
+	NetworkAcls       *NetworkRuleSet    `json:"networkAcls,omitempty"`
+	NetworkInjections []NetworkInjection `json:"networkInjections,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this account.
 	PublicNetworkAccess *AccountProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -1367,13 +1363,12 @@ func (properties *AccountProperties) ConvertToARM(resolved genruntime.ConvertToA
 	}
 
 	// Set property "NetworkInjections":
-	if properties.NetworkInjections != nil {
-		networkInjections_ARM, err := properties.NetworkInjections.ConvertToARM(resolved)
+	for _, item := range properties.NetworkInjections {
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		networkInjections := *networkInjections_ARM.(*arm.NetworkInjections)
-		result.NetworkInjections = &networkInjections
+		result.NetworkInjections = append(result.NetworkInjections, *item_ARM.(*arm.NetworkInjection))
 	}
 
 	// Set property "PublicNetworkAccess":
@@ -1527,14 +1522,13 @@ func (properties *AccountProperties) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property "NetworkInjections":
-	if typedInput.NetworkInjections != nil {
-		var networkInjections1 NetworkInjections
-		err := networkInjections1.PopulateFromARM(owner, *typedInput.NetworkInjections)
+	for _, item := range typedInput.NetworkInjections {
+		var item1 NetworkInjection
+		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		networkInjections := networkInjections1
-		properties.NetworkInjections = &networkInjections
+		properties.NetworkInjections = append(properties.NetworkInjections, item1)
 	}
 
 	// Set property "PublicNetworkAccess":
@@ -1691,12 +1685,18 @@ func (properties *AccountProperties) AssignProperties_From_AccountProperties(sou
 
 	// NetworkInjections
 	if source.NetworkInjections != nil {
-		var networkInjection NetworkInjections
-		err := networkInjection.AssignProperties_From_NetworkInjections(source.NetworkInjections)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_NetworkInjections() to populate field NetworkInjections")
+		networkInjectionList := make([]NetworkInjection, len(source.NetworkInjections))
+		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
+			// Shadow the loop variable to avoid aliasing
+			networkInjectionItem := networkInjectionItem
+			var networkInjection NetworkInjection
+			err := networkInjection.AssignProperties_From_NetworkInjection(&networkInjectionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInjection() to populate field NetworkInjections")
+			}
+			networkInjectionList[networkInjectionIndex] = networkInjection
 		}
-		properties.NetworkInjections = &networkInjection
+		properties.NetworkInjections = networkInjectionList
 	} else {
 		properties.NetworkInjections = nil
 	}
@@ -1871,12 +1871,18 @@ func (properties *AccountProperties) AssignProperties_To_AccountProperties(desti
 
 	// NetworkInjections
 	if properties.NetworkInjections != nil {
-		var networkInjection storage.NetworkInjections
-		err := properties.NetworkInjections.AssignProperties_To_NetworkInjections(&networkInjection)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_NetworkInjections() to populate field NetworkInjections")
+		networkInjectionList := make([]storage.NetworkInjection, len(properties.NetworkInjections))
+		for networkInjectionIndex, networkInjectionItem := range properties.NetworkInjections {
+			// Shadow the loop variable to avoid aliasing
+			networkInjectionItem := networkInjectionItem
+			var networkInjection storage.NetworkInjection
+			err := networkInjectionItem.AssignProperties_To_NetworkInjection(&networkInjection)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInjection() to populate field NetworkInjections")
+			}
+			networkInjectionList[networkInjectionIndex] = networkInjection
 		}
-		destination.NetworkInjections = &networkInjection
+		destination.NetworkInjections = networkInjectionList
 	} else {
 		destination.NetworkInjections = nil
 	}
@@ -2047,12 +2053,18 @@ func (properties *AccountProperties) Initialize_From_AccountProperties_STATUS(so
 
 	// NetworkInjections
 	if source.NetworkInjections != nil {
-		var networkInjection NetworkInjections
-		err := networkInjection.Initialize_From_NetworkInjections_STATUS(source.NetworkInjections)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NetworkInjections_STATUS() to populate field NetworkInjections")
+		networkInjectionList := make([]NetworkInjection, len(source.NetworkInjections))
+		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
+			// Shadow the loop variable to avoid aliasing
+			networkInjectionItem := networkInjectionItem
+			var networkInjection NetworkInjection
+			err := networkInjection.Initialize_From_NetworkInjection_STATUS(&networkInjectionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling Initialize_From_NetworkInjection_STATUS() to populate field NetworkInjections")
+			}
+			networkInjectionList[networkInjectionIndex] = networkInjection
 		}
-		properties.NetworkInjections = &networkInjection
+		properties.NetworkInjections = networkInjectionList
 	} else {
 		properties.NetworkInjections = nil
 	}
@@ -2178,12 +2190,8 @@ type AccountProperties_STATUS struct {
 	Locations *MultiRegionSettings_STATUS `json:"locations,omitempty"`
 
 	// NetworkAcls: A collection of rules governing the accessibility from specific network locations.
-	NetworkAcls *NetworkRuleSet_STATUS `json:"networkAcls,omitempty"`
-
-	// NetworkInjections: Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents
-	// entirely within the  user's private network, eliminating public internet exposure while maintaining control over network
-	// configurations and  resources.
-	NetworkInjections *NetworkInjections_STATUS `json:"networkInjections,omitempty"`
+	NetworkAcls       *NetworkRuleSet_STATUS    `json:"networkAcls,omitempty"`
+	NetworkInjections []NetworkInjection_STATUS `json:"networkInjections,omitempty"`
 
 	// PrivateEndpointConnections: The private endpoint connection associated with the Cognitive Services account.
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
@@ -2400,14 +2408,13 @@ func (properties *AccountProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property "NetworkInjections":
-	if typedInput.NetworkInjections != nil {
-		var networkInjections1 NetworkInjections_STATUS
-		err := networkInjections1.PopulateFromARM(owner, *typedInput.NetworkInjections)
+	for _, item := range typedInput.NetworkInjections {
+		var item1 NetworkInjection_STATUS
+		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		networkInjections := networkInjections1
-		properties.NetworkInjections = &networkInjections
+		properties.NetworkInjections = append(properties.NetworkInjections, item1)
 	}
 
 	// Set property "PrivateEndpointConnections":
@@ -2685,12 +2692,18 @@ func (properties *AccountProperties_STATUS) AssignProperties_From_AccountPropert
 
 	// NetworkInjections
 	if source.NetworkInjections != nil {
-		var networkInjection NetworkInjections_STATUS
-		err := networkInjection.AssignProperties_From_NetworkInjections_STATUS(source.NetworkInjections)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_NetworkInjections_STATUS() to populate field NetworkInjections")
+		networkInjectionList := make([]NetworkInjection_STATUS, len(source.NetworkInjections))
+		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
+			// Shadow the loop variable to avoid aliasing
+			networkInjectionItem := networkInjectionItem
+			var networkInjection NetworkInjection_STATUS
+			err := networkInjection.AssignProperties_From_NetworkInjection_STATUS(&networkInjectionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInjection_STATUS() to populate field NetworkInjections")
+			}
+			networkInjectionList[networkInjectionIndex] = networkInjection
 		}
-		properties.NetworkInjections = &networkInjection
+		properties.NetworkInjections = networkInjectionList
 	} else {
 		properties.NetworkInjections = nil
 	}
@@ -2994,12 +3007,18 @@ func (properties *AccountProperties_STATUS) AssignProperties_To_AccountPropertie
 
 	// NetworkInjections
 	if properties.NetworkInjections != nil {
-		var networkInjection storage.NetworkInjections_STATUS
-		err := properties.NetworkInjections.AssignProperties_To_NetworkInjections_STATUS(&networkInjection)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_NetworkInjections_STATUS() to populate field NetworkInjections")
+		networkInjectionList := make([]storage.NetworkInjection_STATUS, len(properties.NetworkInjections))
+		for networkInjectionIndex, networkInjectionItem := range properties.NetworkInjections {
+			// Shadow the loop variable to avoid aliasing
+			networkInjectionItem := networkInjectionItem
+			var networkInjection storage.NetworkInjection_STATUS
+			err := networkInjectionItem.AssignProperties_To_NetworkInjection_STATUS(&networkInjection)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInjection_STATUS() to populate field NetworkInjections")
+			}
+			networkInjectionList[networkInjectionIndex] = networkInjection
 		}
-		destination.NetworkInjections = &networkInjection
+		destination.NetworkInjections = networkInjectionList
 	} else {
 		destination.NetworkInjections = nil
 	}
@@ -5762,10 +5781,10 @@ func (settings *MultiRegionSettings_STATUS) AssignProperties_To_MultiRegionSetti
 // Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the
 // user's private network, eliminating public internet exposure while maintaining control over network configurations and
 // resources.
-type NetworkInjections struct {
+type NetworkInjection struct {
 	// Scenario: Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent
 	// scenarios. 'none' means no network injection.
-	Scenario *NetworkInjections_Scenario `json:"scenario,omitempty"`
+	Scenario *NetworkInjection_Scenario `json:"scenario,omitempty"`
 
 	// SubnetArmReference: Specify the subnet for which your Agent Client is injected into.
 	SubnetArmReference *genruntime.ResourceReference `armReference:"SubnetArmId" json:"subnetArmReference,omitempty"`
@@ -5774,26 +5793,26 @@ type NetworkInjections struct {
 	UseMicrosoftManagedNetwork *bool `json:"useMicrosoftManagedNetwork,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &NetworkInjections{}
+var _ genruntime.ARMTransformer = &NetworkInjection{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (injections *NetworkInjections) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if injections == nil {
+func (injection *NetworkInjection) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if injection == nil {
 		return nil, nil
 	}
-	result := &arm.NetworkInjections{}
+	result := &arm.NetworkInjection{}
 
 	// Set property "Scenario":
-	if injections.Scenario != nil {
+	if injection.Scenario != nil {
 		var temp string
-		temp = string(*injections.Scenario)
-		scenario := arm.NetworkInjections_Scenario(temp)
+		temp = string(*injection.Scenario)
+		scenario := arm.NetworkInjection_Scenario(temp)
 		result.Scenario = &scenario
 	}
 
 	// Set property "SubnetArmId":
-	if injections.SubnetArmReference != nil {
-		subnetArmReferenceARMID, err := resolved.ResolvedReferences.Lookup(*injections.SubnetArmReference)
+	if injection.SubnetArmReference != nil {
+		subnetArmReferenceARMID, err := resolved.ResolvedReferences.Lookup(*injection.SubnetArmReference)
 		if err != nil {
 			return nil, err
 		}
@@ -5802,31 +5821,31 @@ func (injections *NetworkInjections) ConvertToARM(resolved genruntime.ConvertToA
 	}
 
 	// Set property "UseMicrosoftManagedNetwork":
-	if injections.UseMicrosoftManagedNetwork != nil {
-		useMicrosoftManagedNetwork := *injections.UseMicrosoftManagedNetwork
+	if injection.UseMicrosoftManagedNetwork != nil {
+		useMicrosoftManagedNetwork := *injection.UseMicrosoftManagedNetwork
 		result.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (injections *NetworkInjections) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.NetworkInjections{}
+func (injection *NetworkInjection) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.NetworkInjection{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (injections *NetworkInjections) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.NetworkInjections)
+func (injection *NetworkInjection) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.NetworkInjection)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInjections, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInjection, got %T", armInput)
 	}
 
 	// Set property "Scenario":
 	if typedInput.Scenario != nil {
 		var temp string
 		temp = string(*typedInput.Scenario)
-		scenario := NetworkInjections_Scenario(temp)
-		injections.Scenario = &scenario
+		scenario := NetworkInjection_Scenario(temp)
+		injection.Scenario = &scenario
 	}
 
 	// no assignment for property "SubnetArmReference"
@@ -5834,69 +5853,69 @@ func (injections *NetworkInjections) PopulateFromARM(owner genruntime.ArbitraryO
 	// Set property "UseMicrosoftManagedNetwork":
 	if typedInput.UseMicrosoftManagedNetwork != nil {
 		useMicrosoftManagedNetwork := *typedInput.UseMicrosoftManagedNetwork
-		injections.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
+		injection.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_NetworkInjections populates our NetworkInjections from the provided source NetworkInjections
-func (injections *NetworkInjections) AssignProperties_From_NetworkInjections(source *storage.NetworkInjections) error {
+// AssignProperties_From_NetworkInjection populates our NetworkInjection from the provided source NetworkInjection
+func (injection *NetworkInjection) AssignProperties_From_NetworkInjection(source *storage.NetworkInjection) error {
 
 	// Scenario
 	if source.Scenario != nil {
 		scenario := *source.Scenario
-		scenarioTemp := genruntime.ToEnum(scenario, networkInjections_Scenario_Values)
-		injections.Scenario = &scenarioTemp
+		scenarioTemp := genruntime.ToEnum(scenario, networkInjection_Scenario_Values)
+		injection.Scenario = &scenarioTemp
 	} else {
-		injections.Scenario = nil
+		injection.Scenario = nil
 	}
 
 	// SubnetArmReference
 	if source.SubnetArmReference != nil {
 		subnetArmReference := source.SubnetArmReference.Copy()
-		injections.SubnetArmReference = &subnetArmReference
+		injection.SubnetArmReference = &subnetArmReference
 	} else {
-		injections.SubnetArmReference = nil
+		injection.SubnetArmReference = nil
 	}
 
 	// UseMicrosoftManagedNetwork
 	if source.UseMicrosoftManagedNetwork != nil {
 		useMicrosoftManagedNetwork := *source.UseMicrosoftManagedNetwork
-		injections.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
+		injection.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	} else {
-		injections.UseMicrosoftManagedNetwork = nil
+		injection.UseMicrosoftManagedNetwork = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkInjections populates the provided destination NetworkInjections from our NetworkInjections
-func (injections *NetworkInjections) AssignProperties_To_NetworkInjections(destination *storage.NetworkInjections) error {
+// AssignProperties_To_NetworkInjection populates the provided destination NetworkInjection from our NetworkInjection
+func (injection *NetworkInjection) AssignProperties_To_NetworkInjection(destination *storage.NetworkInjection) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Scenario
-	if injections.Scenario != nil {
-		scenario := string(*injections.Scenario)
+	if injection.Scenario != nil {
+		scenario := string(*injection.Scenario)
 		destination.Scenario = &scenario
 	} else {
 		destination.Scenario = nil
 	}
 
 	// SubnetArmReference
-	if injections.SubnetArmReference != nil {
-		subnetArmReference := injections.SubnetArmReference.Copy()
+	if injection.SubnetArmReference != nil {
+		subnetArmReference := injection.SubnetArmReference.Copy()
 		destination.SubnetArmReference = &subnetArmReference
 	} else {
 		destination.SubnetArmReference = nil
 	}
 
 	// UseMicrosoftManagedNetwork
-	if injections.UseMicrosoftManagedNetwork != nil {
-		useMicrosoftManagedNetwork := *injections.UseMicrosoftManagedNetwork
+	if injection.UseMicrosoftManagedNetwork != nil {
+		useMicrosoftManagedNetwork := *injection.UseMicrosoftManagedNetwork
 		destination.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	} else {
 		destination.UseMicrosoftManagedNetwork = nil
@@ -5913,31 +5932,31 @@ func (injections *NetworkInjections) AssignProperties_To_NetworkInjections(desti
 	return nil
 }
 
-// Initialize_From_NetworkInjections_STATUS populates our NetworkInjections from the provided source NetworkInjections_STATUS
-func (injections *NetworkInjections) Initialize_From_NetworkInjections_STATUS(source *NetworkInjections_STATUS) error {
+// Initialize_From_NetworkInjection_STATUS populates our NetworkInjection from the provided source NetworkInjection_STATUS
+func (injection *NetworkInjection) Initialize_From_NetworkInjection_STATUS(source *NetworkInjection_STATUS) error {
 
 	// Scenario
 	if source.Scenario != nil {
-		scenario := genruntime.ToEnum(string(*source.Scenario), networkInjections_Scenario_Values)
-		injections.Scenario = &scenario
+		scenario := genruntime.ToEnum(string(*source.Scenario), networkInjection_Scenario_Values)
+		injection.Scenario = &scenario
 	} else {
-		injections.Scenario = nil
+		injection.Scenario = nil
 	}
 
 	// SubnetArmReference
 	if source.SubnetArmId != nil {
 		subnetArmReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetArmId)
-		injections.SubnetArmReference = &subnetArmReference
+		injection.SubnetArmReference = &subnetArmReference
 	} else {
-		injections.SubnetArmReference = nil
+		injection.SubnetArmReference = nil
 	}
 
 	// UseMicrosoftManagedNetwork
 	if source.UseMicrosoftManagedNetwork != nil {
 		useMicrosoftManagedNetwork := *source.UseMicrosoftManagedNetwork
-		injections.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
+		injection.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	} else {
-		injections.UseMicrosoftManagedNetwork = nil
+		injection.UseMicrosoftManagedNetwork = nil
 	}
 
 	// No error
@@ -5947,10 +5966,10 @@ func (injections *NetworkInjections) Initialize_From_NetworkInjections_STATUS(so
 // Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the
 // user's private network, eliminating public internet exposure while maintaining control over network configurations and
 // resources.
-type NetworkInjections_STATUS struct {
+type NetworkInjection_STATUS struct {
 	// Scenario: Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent
 	// scenarios. 'none' means no network injection.
-	Scenario *NetworkInjections_Scenario_STATUS `json:"scenario,omitempty"`
+	Scenario *NetworkInjection_Scenario_STATUS `json:"scenario,omitempty"`
 
 	// SubnetArmId: Specify the subnet for which your Agent Client is injected into.
 	SubnetArmId *string `json:"subnetArmId,omitempty"`
@@ -5959,90 +5978,90 @@ type NetworkInjections_STATUS struct {
 	UseMicrosoftManagedNetwork *bool `json:"useMicrosoftManagedNetwork,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &NetworkInjections_STATUS{}
+var _ genruntime.FromARMConverter = &NetworkInjection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (injections *NetworkInjections_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.NetworkInjections_STATUS{}
+func (injection *NetworkInjection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.NetworkInjection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (injections *NetworkInjections_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.NetworkInjections_STATUS)
+func (injection *NetworkInjection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.NetworkInjection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInjections_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInjection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Scenario":
 	if typedInput.Scenario != nil {
 		var temp string
 		temp = string(*typedInput.Scenario)
-		scenario := NetworkInjections_Scenario_STATUS(temp)
-		injections.Scenario = &scenario
+		scenario := NetworkInjection_Scenario_STATUS(temp)
+		injection.Scenario = &scenario
 	}
 
 	// Set property "SubnetArmId":
 	if typedInput.SubnetArmId != nil {
 		subnetArmId := *typedInput.SubnetArmId
-		injections.SubnetArmId = &subnetArmId
+		injection.SubnetArmId = &subnetArmId
 	}
 
 	// Set property "UseMicrosoftManagedNetwork":
 	if typedInput.UseMicrosoftManagedNetwork != nil {
 		useMicrosoftManagedNetwork := *typedInput.UseMicrosoftManagedNetwork
-		injections.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
+		injection.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_NetworkInjections_STATUS populates our NetworkInjections_STATUS from the provided source NetworkInjections_STATUS
-func (injections *NetworkInjections_STATUS) AssignProperties_From_NetworkInjections_STATUS(source *storage.NetworkInjections_STATUS) error {
+// AssignProperties_From_NetworkInjection_STATUS populates our NetworkInjection_STATUS from the provided source NetworkInjection_STATUS
+func (injection *NetworkInjection_STATUS) AssignProperties_From_NetworkInjection_STATUS(source *storage.NetworkInjection_STATUS) error {
 
 	// Scenario
 	if source.Scenario != nil {
 		scenario := *source.Scenario
-		scenarioTemp := genruntime.ToEnum(scenario, networkInjections_Scenario_STATUS_Values)
-		injections.Scenario = &scenarioTemp
+		scenarioTemp := genruntime.ToEnum(scenario, networkInjection_Scenario_STATUS_Values)
+		injection.Scenario = &scenarioTemp
 	} else {
-		injections.Scenario = nil
+		injection.Scenario = nil
 	}
 
 	// SubnetArmId
-	injections.SubnetArmId = genruntime.ClonePointerToString(source.SubnetArmId)
+	injection.SubnetArmId = genruntime.ClonePointerToString(source.SubnetArmId)
 
 	// UseMicrosoftManagedNetwork
 	if source.UseMicrosoftManagedNetwork != nil {
 		useMicrosoftManagedNetwork := *source.UseMicrosoftManagedNetwork
-		injections.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
+		injection.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	} else {
-		injections.UseMicrosoftManagedNetwork = nil
+		injection.UseMicrosoftManagedNetwork = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkInjections_STATUS populates the provided destination NetworkInjections_STATUS from our NetworkInjections_STATUS
-func (injections *NetworkInjections_STATUS) AssignProperties_To_NetworkInjections_STATUS(destination *storage.NetworkInjections_STATUS) error {
+// AssignProperties_To_NetworkInjection_STATUS populates the provided destination NetworkInjection_STATUS from our NetworkInjection_STATUS
+func (injection *NetworkInjection_STATUS) AssignProperties_To_NetworkInjection_STATUS(destination *storage.NetworkInjection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Scenario
-	if injections.Scenario != nil {
-		scenario := string(*injections.Scenario)
+	if injection.Scenario != nil {
+		scenario := string(*injection.Scenario)
 		destination.Scenario = &scenario
 	} else {
 		destination.Scenario = nil
 	}
 
 	// SubnetArmId
-	destination.SubnetArmId = genruntime.ClonePointerToString(injections.SubnetArmId)
+	destination.SubnetArmId = genruntime.ClonePointerToString(injection.SubnetArmId)
 
 	// UseMicrosoftManagedNetwork
-	if injections.UseMicrosoftManagedNetwork != nil {
-		useMicrosoftManagedNetwork := *injections.UseMicrosoftManagedNetwork
+	if injection.UseMicrosoftManagedNetwork != nil {
+		useMicrosoftManagedNetwork := *injection.UseMicrosoftManagedNetwork
 		destination.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
 	} else {
 		destination.UseMicrosoftManagedNetwork = nil
@@ -8185,30 +8204,30 @@ var multiRegionSettings_RoutingMethod_STATUS_Values = map[string]MultiRegionSett
 }
 
 // +kubebuilder:validation:Enum={"agent","none"}
-type NetworkInjections_Scenario string
+type NetworkInjection_Scenario string
 
 const (
-	NetworkInjections_Scenario_Agent = NetworkInjections_Scenario("agent")
-	NetworkInjections_Scenario_None  = NetworkInjections_Scenario("none")
+	NetworkInjection_Scenario_Agent = NetworkInjection_Scenario("agent")
+	NetworkInjection_Scenario_None  = NetworkInjection_Scenario("none")
 )
 
-// Mapping from string to NetworkInjections_Scenario
-var networkInjections_Scenario_Values = map[string]NetworkInjections_Scenario{
-	"agent": NetworkInjections_Scenario_Agent,
-	"none":  NetworkInjections_Scenario_None,
+// Mapping from string to NetworkInjection_Scenario
+var networkInjection_Scenario_Values = map[string]NetworkInjection_Scenario{
+	"agent": NetworkInjection_Scenario_Agent,
+	"none":  NetworkInjection_Scenario_None,
 }
 
-type NetworkInjections_Scenario_STATUS string
+type NetworkInjection_Scenario_STATUS string
 
 const (
-	NetworkInjections_Scenario_STATUS_Agent = NetworkInjections_Scenario_STATUS("agent")
-	NetworkInjections_Scenario_STATUS_None  = NetworkInjections_Scenario_STATUS("none")
+	NetworkInjection_Scenario_STATUS_Agent = NetworkInjection_Scenario_STATUS("agent")
+	NetworkInjection_Scenario_STATUS_None  = NetworkInjection_Scenario_STATUS("none")
 )
 
-// Mapping from string to NetworkInjections_Scenario_STATUS
-var networkInjections_Scenario_STATUS_Values = map[string]NetworkInjections_Scenario_STATUS{
-	"agent": NetworkInjections_Scenario_STATUS_Agent,
-	"none":  NetworkInjections_Scenario_STATUS_None,
+// Mapping from string to NetworkInjection_Scenario_STATUS
+var networkInjection_Scenario_STATUS_Values = map[string]NetworkInjection_Scenario_STATUS{
+	"agent": NetworkInjection_Scenario_STATUS_Agent,
+	"none":  NetworkInjection_Scenario_STATUS_None,
 }
 
 // +kubebuilder:validation:Enum={"AzureServices","None"}

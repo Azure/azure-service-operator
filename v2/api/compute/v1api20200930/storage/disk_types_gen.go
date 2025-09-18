@@ -529,9 +529,9 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan
-		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
+		err := purchasePlan.AssignProperties_From_DiskPurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskPurchasePlan() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -794,10 +794,10 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 
 	// PurchasePlan
 	if disk.PurchasePlan != nil {
-		var purchasePlan v20240302s.PurchasePlan
-		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
+		var purchasePlan v20240302s.DiskPurchasePlan
+		err := disk.PurchasePlan.AssignProperties_To_DiskPurchasePlan(&purchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskPurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1158,9 +1158,9 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan_STATUS
-		err := purchasePlan.AssignProperties_From_PurchasePlan_STATUS(source.PurchasePlan)
+		err := purchasePlan.AssignProperties_From_DiskPurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -1216,6 +1216,13 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		propertyBag.Add("SupportsHibernation", *source.SupportsHibernation)
 	} else {
 		propertyBag.Remove("SupportsHibernation")
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
 	}
 
 	// Tags
@@ -1482,10 +1489,10 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 
 	// PurchasePlan
 	if disk.PurchasePlan != nil {
-		var purchasePlan v20240302s.PurchasePlan_STATUS
-		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan_STATUS(&purchasePlan)
+		var purchasePlan v20240302s.DiskPurchasePlan_STATUS
+		err := disk.PurchasePlan.AssignProperties_To_DiskPurchasePlan_STATUS(&purchasePlan)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1559,6 +1566,19 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		destination.SupportsHibernation = &supportsHibernation
 	} else {
 		destination.SupportsHibernation = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum v20240302s.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags
@@ -2882,8 +2902,8 @@ type PurchasePlan struct {
 	Publisher     *string                `json:"publisher,omitempty"`
 }
 
-// AssignProperties_From_PurchasePlan populates our PurchasePlan from the provided source PurchasePlan
-func (plan *PurchasePlan) AssignProperties_From_PurchasePlan(source *v20240302s.PurchasePlan) error {
+// AssignProperties_From_DiskPurchasePlan populates our PurchasePlan from the provided source DiskPurchasePlan
+func (plan *PurchasePlan) AssignProperties_From_DiskPurchasePlan(source *v20240302s.DiskPurchasePlan) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2919,8 +2939,8 @@ func (plan *PurchasePlan) AssignProperties_From_PurchasePlan(source *v20240302s.
 	return nil
 }
 
-// AssignProperties_To_PurchasePlan populates the provided destination PurchasePlan from our PurchasePlan
-func (plan *PurchasePlan) AssignProperties_To_PurchasePlan(destination *v20240302s.PurchasePlan) error {
+// AssignProperties_To_DiskPurchasePlan populates the provided destination DiskPurchasePlan from our PurchasePlan
+func (plan *PurchasePlan) AssignProperties_To_DiskPurchasePlan(destination *v20240302s.DiskPurchasePlan) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(plan.PropertyBag)
 
@@ -2966,8 +2986,8 @@ type PurchasePlan_STATUS struct {
 	Publisher     *string                `json:"publisher,omitempty"`
 }
 
-// AssignProperties_From_PurchasePlan_STATUS populates our PurchasePlan_STATUS from the provided source PurchasePlan_STATUS
-func (plan *PurchasePlan_STATUS) AssignProperties_From_PurchasePlan_STATUS(source *v20240302s.PurchasePlan_STATUS) error {
+// AssignProperties_From_DiskPurchasePlan_STATUS populates our PurchasePlan_STATUS from the provided source DiskPurchasePlan_STATUS
+func (plan *PurchasePlan_STATUS) AssignProperties_From_DiskPurchasePlan_STATUS(source *v20240302s.DiskPurchasePlan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3003,8 +3023,8 @@ func (plan *PurchasePlan_STATUS) AssignProperties_From_PurchasePlan_STATUS(sourc
 	return nil
 }
 
-// AssignProperties_To_PurchasePlan_STATUS populates the provided destination PurchasePlan_STATUS from our PurchasePlan_STATUS
-func (plan *PurchasePlan_STATUS) AssignProperties_To_PurchasePlan_STATUS(destination *v20240302s.PurchasePlan_STATUS) error {
+// AssignProperties_To_DiskPurchasePlan_STATUS populates the provided destination DiskPurchasePlan_STATUS from our PurchasePlan_STATUS
+func (plan *PurchasePlan_STATUS) AssignProperties_To_DiskPurchasePlan_STATUS(destination *v20240302s.DiskPurchasePlan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(plan.PropertyBag)
 
@@ -3158,13 +3178,13 @@ type augmentConversionForExtendedLocation_STATUS interface {
 }
 
 type augmentConversionForPurchasePlan interface {
-	AssignPropertiesFrom(src *v20240302s.PurchasePlan) error
-	AssignPropertiesTo(dst *v20240302s.PurchasePlan) error
+	AssignPropertiesFrom(src *v20240302s.DiskPurchasePlan) error
+	AssignPropertiesTo(dst *v20240302s.DiskPurchasePlan) error
 }
 
 type augmentConversionForPurchasePlan_STATUS interface {
-	AssignPropertiesFrom(src *v20240302s.PurchasePlan_STATUS) error
-	AssignPropertiesTo(dst *v20240302s.PurchasePlan_STATUS) error
+	AssignPropertiesFrom(src *v20240302s.DiskPurchasePlan_STATUS) error
+	AssignPropertiesTo(dst *v20240302s.DiskPurchasePlan_STATUS) error
 }
 
 type augmentConversionForShareInfoElement_STATUS interface {

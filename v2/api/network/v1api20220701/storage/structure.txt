@@ -1328,5 +1328,7 @@ augmentConversionForSubnet_STATUS_PrivateEndpoint_SubResourceEmbedded: Interface
 
 augmentConversionForSubnet_STATUS_PrivateLinkService_SubResourceEmbedded: Interface
 
+augmentConversionForSystemData_STATUS: Interface
+
 augmentConversionForUserAssignedIdentityDetails: Interface
 

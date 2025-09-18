@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230630.FlexibleServersFirewallRule
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Firewall/stable/2023-06-30/FirewallRules.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-06-30/FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 // +kubebuilder:object:root=true
 // Storage version of v1api20230630.FlexibleServersFirewallRule
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Firewall/stable/2023-06-30/FirewallRules.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-06-30/FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`

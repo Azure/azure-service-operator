@@ -93,7 +93,7 @@ Account: Resource
 │   │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
 │   │   │       ├── Reference: *genruntime.ResourceReference
 │   │   │       └── State: *string
-│   │   ├── NetworkInjections: *Object (3 properties)
+│   │   ├── NetworkInjections: Object (3 properties)[]
 │   │   │   ├── Scenario: *Enum (2 values)
 │   │   │   │   ├── "agent"
 │   │   │   │   └── "none"
@@ -221,7 +221,7 @@ Account: Resource
     │   │       ├── Id: *string
     │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
     │   │       └── State: *string
-    │   ├── NetworkInjections: *Object (3 properties)
+    │   ├── NetworkInjections: Object (3 properties)[]
     │   │   ├── Scenario: *Enum (2 values)
     │   │   │   ├── "agent"
     │   │   │   └── "none"

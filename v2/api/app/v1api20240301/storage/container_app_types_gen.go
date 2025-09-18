@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.ContainerApp
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2024-03-01/ContainerApps.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2024-03-01/ContainerApps.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}
 type ContainerApp struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -272,7 +272,7 @@ func (containerApp *ContainerApp) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.ContainerApp
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2024-03-01/ContainerApps.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2024-03-01/ContainerApps.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}
 type ContainerAppList struct {
 	metav1.TypeMeta `json:",inline"`

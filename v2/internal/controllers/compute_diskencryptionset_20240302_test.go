@@ -93,7 +93,7 @@ func Test_Compute_DiskEncryptionSet_20240302_CRUD(t *testing.T) {
 			},
 			EncryptionType: to.Ptr(compute.DiskEncryptionSetType_EncryptionAtRestWithCustomerKey),
 			Identity: &compute.EncryptionSetIdentity{
-				Type: to.Ptr(compute.EncryptionSetIdentity_Type_SystemAssigned),
+				Type: to.Ptr(compute.DiskEncryptionSetIdentityType_SystemAssigned),
 			},
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
