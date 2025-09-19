@@ -1247,13 +1247,13 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       ServiceBind:
         ServiceId:
           $referenceType: arm
       Secret:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       ContainerApp_Spec:
         ManagedBy:
           $referenceType: arm
@@ -1282,25 +1282,25 @@ objectModelConfiguration:
           $referenceType: arm
       IdentitySettings:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       HttpScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       TcpScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       CustomScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       JobScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       QueueScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       CertificateKeyVaultProperties:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
     2024-03-01:
       ContainerApp:
         $exportAs: ContainerApp
@@ -1315,13 +1315,13 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       ServiceBind:
         ServiceId:
           $referenceType: arm
       Secret:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown
       ContainerApp_Spec:
         ManagedBy:
           $referenceType: arm
