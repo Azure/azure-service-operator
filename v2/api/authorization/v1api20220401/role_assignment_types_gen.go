@@ -694,7 +694,7 @@ func (assignment *RoleAssignment_Spec) Initialize_From_RoleAssignment_STATUS(sou
 
 	// RoleDefinitionReference
 	if source.RoleDefinitionId != nil {
-		roleDefinitionReference := genruntime.CreateWellknownResourceReferenceFromARMID(*source.RoleDefinitionId)
+		roleDefinitionReference := genruntime.CreateWellKnownResourceReferenceFromARMID(*source.RoleDefinitionId)
 		assignment.RoleDefinitionReference = &roleDefinitionReference
 	} else {
 		assignment.RoleDefinitionReference = nil

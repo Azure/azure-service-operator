@@ -76,7 +76,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 			Owner: tc.AsExtensionOwner(sub),
 			// PrincipalId: mi.Status.PrincipalId,
 			PrincipalId: to.Ptr("1605884e-16c3-4fc0-bf09-4220deecef02"), // 1605884e-16c3-4fc0-bf09-4220deecef02 == my user in PPE
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", // This is owner
 				},
