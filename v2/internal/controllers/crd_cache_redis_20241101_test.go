@@ -56,6 +56,23 @@ func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
 			},
 		})
 
+	// Run these before the linked server stuff because they are quick and the linked server stuff seems to get stuck (or at least take a really long time) if you mess with
+	// it much...
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Redis access policy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_AccessPolicy_20241101_CRUD(tc, redis1)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Redis access policy assignment CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_AccessPolicyAssignment_20241101_CRUD(tc, redis1)
+			},
+		},
+	)
+
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Redis linked server CRUD",
@@ -67,18 +84,6 @@ func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
 			Name: "Redis patch schedule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Redis_PatchSchedule_20241101_CRUD(tc, redis1)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Redis access policy CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_AccessPolicy_20241101_CRUD(tc, redis1)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Redis access policy assignment CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_AccessPolicyAssignment_20241101_CRUD(tc, redis1)
 			},
 		},
 	)
@@ -132,14 +137,14 @@ func Redis_AccessPolicy_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 
 	tc.Expect(accessPolicy.Status.Id).ToNot(BeNil())
 	tc.Expect(accessPolicy.Status.Permissions).ToNot(BeNil())
-	tc.Expect(*accessPolicy.Status.Permissions).To(Equal("+get +set"))
+	tc.Expect(*accessPolicy.Status.Permissions).To(Equal("+get +set allkeys")) // It looks like they add this "allkeys"
 
 	// Update the policy permissions
 	old := accessPolicy.DeepCopy()
 	accessPolicy.Spec.Permissions = to.Ptr("+get +set +del")
 	tc.PatchResourceAndWait(old, &accessPolicy)
 	tc.Expect(accessPolicy.Status.Permissions).ToNot(BeNil())
-	tc.Expect(*accessPolicy.Status.Permissions).To(Equal("+get +set +del"))
+	tc.Expect(*accessPolicy.Status.Permissions).To(Equal("+get +set +del allkeys")) // It looks like they add this "allkeys"
 }
 
 func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
