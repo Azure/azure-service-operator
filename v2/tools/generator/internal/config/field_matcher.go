@@ -63,7 +63,7 @@ func (dm *FieldMatcher) IsRestrictive() bool {
 }
 
 // UnmarshalYAML populates our instance from the YAML.
-// We expect just a single string, which we use create an actual StringMatcher
+// We expect just a single string, which we use to create an actual StringMatcher
 func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.ScalarNode {
 		return eris.New("expected scalar value")

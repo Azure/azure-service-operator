@@ -780,3 +780,133 @@ func Test_TransformResult_StringRemove(t *testing.T) {
 	}
 	g.Expect(result.String()).To(Equal(test.MakeLocalPackageReference("role", "2019-01-01").PackagePath() + "/student.HairColour removed because it's irrelevant"))
 }
+
+func Test_TypeTransformer_RequiredTypesWereMatched_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	partyPkg_2024 := test.MakeLocalPackageReference("party", "v2024")
+	partyPkg_2025 := test.MakeLocalPackageReference("party", "v2025")
+	rolePkg_2025 := test.MakeLocalPackageReference("role", "v2025")
+
+	matches := astmodel.MakeInternalTypeName(partyPkg_2025, "person")
+	differentGroup := astmodel.MakeInternalTypeName(rolePkg_2025, "student")
+	differentVersion := astmodel.MakeInternalTypeName(partyPkg_2024, "person")
+	differentName := astmodel.MakeInternalTypeName(partyPkg_2025, "company")
+
+	cases := map[string]struct {
+		typeName      astmodel.InternalTypeName
+		expectedError string
+	}{
+		"Matches person v2025": {
+			typeName: matches,
+		},
+		"When no match on group": {
+			typeName:      differentGroup,
+			expectedError: "incomplete match for group",
+		},
+		"When no match on version": {
+			typeName:      differentVersion,
+			expectedError: "incomplete match for version",
+		},
+		"When no match on name": {
+			typeName:      differentName,
+			expectedError: "incomplete match for name",
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(
+			name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+
+				transformer := config.TypeTransformer{
+					TypeMatcher: config.TypeMatcher{
+						Group:   config.NewFieldMatcher(partyPkg_2025.Group()),
+						Version: config.NewFieldMatcher(partyPkg_2025.Version()),
+						Name:    config.NewFieldMatcher(matches.Name()),
+					},
+					RenameTo: "changed",
+				}
+
+				transformer.AppliesToType(c.typeName)
+				err := transformer.RequiredTypesWereMatched()
+				if c.expectedError == "" {
+					g.Expect(err).To(BeNil())
+				} else {
+					g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
+				}
+			})
+	}
+}
+
+func Test_TypeTransformer_RequirePropertiesWereMatched_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	partyPkg_2024 := test.MakeLocalPackageReference("party", "v2024")
+	partyPkg_2025 := test.MakeLocalPackageReference("party", "v2025")
+	rolePkg_2025 := test.MakeLocalPackageReference("role", "v2025")
+
+	matches := test.CreateObjectDefinition(partyPkg_2025, "person", test.FullNameProperty)
+	differentGroup := test.CreateObjectDefinition(rolePkg_2025, "student", test.FullNameProperty)
+	differentVersion := test.CreateObjectDefinition(partyPkg_2024, "person", test.FullNameProperty)
+	differentName := test.CreateObjectDefinition(partyPkg_2025, "company", test.FullNameProperty)
+	differentProperty := test.CreateObjectDefinition(partyPkg_2025, "person", test.FullAddressProperty)
+
+	cases := map[string]struct {
+		definition    astmodel.TypeDefinition
+		expectedError string
+	}{
+		"Matches person v2025": {
+			definition: matches,
+		},
+		"When no match on group": {
+			definition:    differentGroup,
+			expectedError: "incomplete match for group: no match for \"party\"",
+		},
+		"When no match on version": {
+			definition:    differentVersion,
+			expectedError: "incomplete match for version: no match for \"v2025\"",
+		},
+		"When no match on name": {
+			definition:    differentName,
+			expectedError: "incomplete match for name: no match for \"person\"",
+		},
+		"When no match on property": {
+			definition:    differentProperty,
+			expectedError: "matched types but all properties were excluded",
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(
+			name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+
+				transformer := config.TypeTransformer{
+					TypeMatcher: config.TypeMatcher{
+						Group:   config.NewFieldMatcher(partyPkg_2025.Group()),
+						Version: config.NewFieldMatcher(partyPkg_2025.Version()),
+						Name:    config.NewFieldMatcher(matches.Name().Name()),
+					},
+					Property: config.NewFieldMatcher(string(test.FullNameProperty.PropertyName())),
+					Remove:   true,
+				}
+
+				if transformer.AppliesToDefinition(c.definition) {
+					_, err := transformer.TransformDefinition(c.definition)
+					g.Expect(err).To(BeNil())
+				}
+
+				err := transformer.RequiredPropertiesWereMatched()
+				if c.expectedError == "" {
+					g.Expect(err).To(BeNil())
+				} else {
+					g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
+				}
+			})
+	}
+}
