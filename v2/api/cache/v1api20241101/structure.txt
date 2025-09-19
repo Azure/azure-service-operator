@@ -79,7 +79,7 @@ Redis: Resource
 │   │   ├── "NoZones"
 │   │   └── "UserDefined"
 │   └── Zones: string[]
-└── Status: Object (30 properties)
+└── Status: Object (31 properties)
     ├── Conditions: conditions.Condition[]
     ├── DisableAccessKeyAuthentication: *bool
     ├── EnableNonSslPort: *bool
@@ -167,6 +167,21 @@ Redis: Resource
     ├── SslPort: *int
     ├── StaticIP: *string
     ├── SubnetId: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     ├── TenantSettings: map[string]string
     ├── Type: *string
@@ -191,7 +206,7 @@ RedisAccessPolicy: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Permissions: *string
-└── Status: Object (7 properties)
+└── Status: Object (8 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Name: *string
@@ -206,6 +221,21 @@ RedisAccessPolicy: Resource
     │   ├── "Failed"
     │   ├── "Succeeded"
     │   └── "Updating"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 RedisAccessPolicyAssignment: Resource
@@ -225,7 +255,7 @@ RedisAccessPolicyAssignment: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (8 properties)
+└── Status: Object (9 properties)
     ├── AccessPolicyName: *string
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
@@ -239,6 +269,21 @@ RedisAccessPolicyAssignment: Resource
     │   ├── "Failed"
     │   ├── "Succeeded"
     │   └── "Updating"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 RedisFirewallRule: Resource
@@ -251,12 +296,27 @@ RedisFirewallRule: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── StartIP: *string
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
     ├── EndIP: *string
     ├── Id: *string
     ├── Name: *string
     ├── StartIP: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 RedisLinkedServer: Resource
@@ -272,7 +332,7 @@ RedisLinkedServer: Resource
 │   └── ServerRole: *Enum (2 values)
 │       ├── "Primary"
 │       └── "Secondary"
-└── Status: Object (10 properties)
+└── Status: Object (11 properties)
     ├── Conditions: conditions.Condition[]
     ├── GeoReplicatedPrimaryHostName: *string
     ├── Id: *string
@@ -284,6 +344,21 @@ RedisLinkedServer: Resource
     ├── ServerRole: *Enum (2 values)
     │   ├── "Primary"
     │   └── "Secondary"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 RedisPatchSchedule: Resource
@@ -306,7 +381,7 @@ RedisPatchSchedule: Resource
 │       │   └── "Weekend"
 │       ├── MaintenanceWindow: *string
 │       └── StartHourUtc: *int
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Location: *string
@@ -324,5 +399,20 @@ RedisPatchSchedule: Resource
     │   │   └── "Weekend"
     │   ├── MaintenanceWindow: *string
     │   └── StartHourUtc: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 

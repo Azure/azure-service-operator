@@ -511,7 +511,7 @@ func Test_RedisCreateProperties_RedisConfiguration_WhenPropertiesConverted_Round
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RedisCreateProperties_RedisConfiguration to RedisCreateProperties_RedisConfiguration via AssignProperties_To_RedisCreateProperties_RedisConfiguration & AssignProperties_From_RedisCreateProperties_RedisConfiguration returns original",
+		"Round trip from RedisCreateProperties_RedisConfiguration to RedisCommonPropertiesRedisConfiguration via AssignProperties_To_RedisCommonPropertiesRedisConfiguration & AssignProperties_From_RedisCommonPropertiesRedisConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRedisCreateProperties_RedisConfiguration, RedisCreateProperties_RedisConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -522,15 +522,15 @@ func RunPropertyAssignmentTestForRedisCreateProperties_RedisConfiguration(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisCreateProperties_RedisConfiguration
-	err := copied.AssignProperties_To_RedisCreateProperties_RedisConfiguration(&other)
+	var other storage.RedisCommonPropertiesRedisConfiguration
+	err := copied.AssignProperties_To_RedisCommonPropertiesRedisConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RedisCreateProperties_RedisConfiguration
-	err = actual.AssignProperties_From_RedisCreateProperties_RedisConfiguration(&other)
+	err = actual.AssignProperties_From_RedisCommonPropertiesRedisConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1039,7 +1039,7 @@ func Test_RedisProperties_RedisConfiguration_STATUS_WhenPropertiesConverted_Roun
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RedisProperties_RedisConfiguration_STATUS to RedisProperties_RedisConfiguration_STATUS via AssignProperties_To_RedisProperties_RedisConfiguration_STATUS & AssignProperties_From_RedisProperties_RedisConfiguration_STATUS returns original",
+		"Round trip from RedisProperties_RedisConfiguration_STATUS to RedisCommonPropertiesRedisConfiguration_STATUS via AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS & AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRedisProperties_RedisConfiguration_STATUS, RedisProperties_RedisConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1050,15 +1050,15 @@ func RunPropertyAssignmentTestForRedisProperties_RedisConfiguration_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisProperties_RedisConfiguration_STATUS
-	err := copied.AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(&other)
+	var other storage.RedisCommonPropertiesRedisConfiguration_STATUS
+	err := copied.AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RedisProperties_RedisConfiguration_STATUS
-	err = actual.AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(&other)
+	err = actual.AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

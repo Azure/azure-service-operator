@@ -177,6 +177,9 @@ func RunJSONSerializationTestForRedisFirewallRule_STATUS(subject RedisFirewallRu
 var redisFirewallRule_STATUSGenerator gopter.Gen
 
 // RedisFirewallRule_STATUSGenerator returns a generator of RedisFirewallRule_STATUS instances for property testing.
+// We first initialize redisFirewallRule_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RedisFirewallRule_STATUSGenerator() gopter.Gen {
 	if redisFirewallRule_STATUSGenerator != nil {
 		return redisFirewallRule_STATUSGenerator
@@ -184,6 +187,12 @@ func RedisFirewallRule_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(generators)
+	redisFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRule_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS(generators)
 	redisFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRule_STATUS{}), generators)
 
 	return redisFirewallRule_STATUSGenerator
@@ -196,6 +205,11 @@ func AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["StartIP"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_RedisFirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

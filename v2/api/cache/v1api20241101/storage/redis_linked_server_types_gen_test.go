@@ -255,6 +255,9 @@ func RunJSONSerializationTestForRedis_LinkedServer_STATUS(subject Redis_LinkedSe
 var redis_LinkedServer_STATUSGenerator gopter.Gen
 
 // Redis_LinkedServer_STATUSGenerator returns a generator of Redis_LinkedServer_STATUS instances for property testing.
+// We first initialize redis_LinkedServer_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func Redis_LinkedServer_STATUSGenerator() gopter.Gen {
 	if redis_LinkedServer_STATUSGenerator != nil {
 		return redis_LinkedServer_STATUSGenerator
@@ -262,6 +265,12 @@ func Redis_LinkedServer_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRedis_LinkedServer_STATUS(generators)
+	redis_LinkedServer_STATUSGenerator = gen.Struct(reflect.TypeOf(Redis_LinkedServer_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedis_LinkedServer_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRedis_LinkedServer_STATUS(generators)
 	redis_LinkedServer_STATUSGenerator = gen.Struct(reflect.TypeOf(Redis_LinkedServer_STATUS{}), generators)
 
 	return redis_LinkedServer_STATUSGenerator
@@ -278,4 +287,9 @@ func AddIndependentPropertyGeneratorsForRedis_LinkedServer_STATUS(gens map[strin
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ServerRole"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedis_LinkedServer_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedis_LinkedServer_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

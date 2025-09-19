@@ -177,6 +177,9 @@ func RunJSONSerializationTestForRedisAccessPolicy_STATUS(subject RedisAccessPoli
 var redisAccessPolicy_STATUSGenerator gopter.Gen
 
 // RedisAccessPolicy_STATUSGenerator returns a generator of RedisAccessPolicy_STATUS instances for property testing.
+// We first initialize redisAccessPolicy_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RedisAccessPolicy_STATUSGenerator() gopter.Gen {
 	if redisAccessPolicy_STATUSGenerator != nil {
 		return redisAccessPolicy_STATUSGenerator
@@ -184,6 +187,12 @@ func RedisAccessPolicy_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRedisAccessPolicy_STATUS(generators)
+	redisAccessPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicy_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisAccessPolicy_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS(generators)
 	redisAccessPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicy_STATUS{}), generators)
 
 	return redisAccessPolicy_STATUSGenerator
@@ -197,6 +206,11 @@ func AddIndependentPropertyGeneratorsForRedisAccessPolicy_STATUS(gens map[string
 	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_RedisAccessPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

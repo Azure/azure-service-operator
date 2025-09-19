@@ -154,4 +154,5 @@ func AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string
 // AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RedisFirewallRuleProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

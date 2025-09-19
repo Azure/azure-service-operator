@@ -4,8 +4,8 @@
 package arm
 
 type Redis_LinkedServer_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -13,6 +13,9 @@ type Redis_LinkedServer_STATUS struct {
 
 	// Properties: Properties of the linked server.
 	Properties *RedisLinkedServerProperties_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -38,18 +41,19 @@ type RedisLinkedServerProperties_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
+	ServerRole *ReplicationRole_STATUS `json:"serverRole,omitempty"`
 }
 
-type RedisLinkedServerProperties_ServerRole_STATUS string
+// Role of the linked server.
+type ReplicationRole_STATUS string
 
 const (
-	RedisLinkedServerProperties_ServerRole_STATUS_Primary   = RedisLinkedServerProperties_ServerRole_STATUS("Primary")
-	RedisLinkedServerProperties_ServerRole_STATUS_Secondary = RedisLinkedServerProperties_ServerRole_STATUS("Secondary")
+	ReplicationRole_STATUS_Primary   = ReplicationRole_STATUS("Primary")
+	ReplicationRole_STATUS_Secondary = ReplicationRole_STATUS("Secondary")
 )
 
-// Mapping from string to RedisLinkedServerProperties_ServerRole_STATUS
-var redisLinkedServerProperties_ServerRole_STATUS_Values = map[string]RedisLinkedServerProperties_ServerRole_STATUS{
-	"primary":   RedisLinkedServerProperties_ServerRole_STATUS_Primary,
-	"secondary": RedisLinkedServerProperties_ServerRole_STATUS_Secondary,
+// Mapping from string to ReplicationRole_STATUS
+var replicationRole_STATUS_Values = map[string]ReplicationRole_STATUS{
+	"primary":   ReplicationRole_STATUS_Primary,
+	"secondary": ReplicationRole_STATUS_Secondary,
 }

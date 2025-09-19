@@ -4,8 +4,8 @@
 package arm
 
 type RedisAccessPolicy_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -13,6 +13,9 @@ type RedisAccessPolicy_STATUS struct {
 
 	// Properties: Properties of an access policy.
 	Properties *RedisCacheAccessPolicyProperties_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -25,42 +28,44 @@ type RedisCacheAccessPolicyProperties_STATUS struct {
 	Permissions *string `json:"permissions,omitempty"`
 
 	// ProvisioningState: Provisioning state of access policy
-	ProvisioningState *RedisCacheAccessPolicyProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *AccessPolicyProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Type: Built-In or Custom access policy
-	Type *RedisCacheAccessPolicyProperties_Type_STATUS `json:"type,omitempty"`
+	Type *AccessPolicyType_STATUS `json:"type,omitempty"`
 }
 
-type RedisCacheAccessPolicyProperties_ProvisioningState_STATUS string
+// Provisioning state of access policy
+type AccessPolicyProvisioningState_STATUS string
 
 const (
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Canceled  = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Canceled")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleted   = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Deleted")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleting  = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Deleting")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Failed    = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Failed")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Succeeded = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Succeeded")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Updating  = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Updating")
+	AccessPolicyProvisioningState_STATUS_Canceled  = AccessPolicyProvisioningState_STATUS("Canceled")
+	AccessPolicyProvisioningState_STATUS_Deleted   = AccessPolicyProvisioningState_STATUS("Deleted")
+	AccessPolicyProvisioningState_STATUS_Deleting  = AccessPolicyProvisioningState_STATUS("Deleting")
+	AccessPolicyProvisioningState_STATUS_Failed    = AccessPolicyProvisioningState_STATUS("Failed")
+	AccessPolicyProvisioningState_STATUS_Succeeded = AccessPolicyProvisioningState_STATUS("Succeeded")
+	AccessPolicyProvisioningState_STATUS_Updating  = AccessPolicyProvisioningState_STATUS("Updating")
 )
 
-// Mapping from string to RedisCacheAccessPolicyProperties_ProvisioningState_STATUS
-var redisCacheAccessPolicyProperties_ProvisioningState_STATUS_Values = map[string]RedisCacheAccessPolicyProperties_ProvisioningState_STATUS{
-	"canceled":  RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Canceled,
-	"deleted":   RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleted,
-	"deleting":  RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to AccessPolicyProvisioningState_STATUS
+var accessPolicyProvisioningState_STATUS_Values = map[string]AccessPolicyProvisioningState_STATUS{
+	"canceled":  AccessPolicyProvisioningState_STATUS_Canceled,
+	"deleted":   AccessPolicyProvisioningState_STATUS_Deleted,
+	"deleting":  AccessPolicyProvisioningState_STATUS_Deleting,
+	"failed":    AccessPolicyProvisioningState_STATUS_Failed,
+	"succeeded": AccessPolicyProvisioningState_STATUS_Succeeded,
+	"updating":  AccessPolicyProvisioningState_STATUS_Updating,
 }
 
-type RedisCacheAccessPolicyProperties_Type_STATUS string
+// Built-In or Custom access policy
+type AccessPolicyType_STATUS string
 
 const (
-	RedisCacheAccessPolicyProperties_Type_STATUS_BuiltIn = RedisCacheAccessPolicyProperties_Type_STATUS("BuiltIn")
-	RedisCacheAccessPolicyProperties_Type_STATUS_Custom  = RedisCacheAccessPolicyProperties_Type_STATUS("Custom")
+	AccessPolicyType_STATUS_BuiltIn = AccessPolicyType_STATUS("BuiltIn")
+	AccessPolicyType_STATUS_Custom  = AccessPolicyType_STATUS("Custom")
 )
 
-// Mapping from string to RedisCacheAccessPolicyProperties_Type_STATUS
-var redisCacheAccessPolicyProperties_Type_STATUS_Values = map[string]RedisCacheAccessPolicyProperties_Type_STATUS{
-	"builtin": RedisCacheAccessPolicyProperties_Type_STATUS_BuiltIn,
-	"custom":  RedisCacheAccessPolicyProperties_Type_STATUS_Custom,
+// Mapping from string to AccessPolicyType_STATUS
+var accessPolicyType_STATUS_Values = map[string]AccessPolicyType_STATUS{
+	"builtin": AccessPolicyType_STATUS_BuiltIn,
+	"custom":  AccessPolicyType_STATUS_Custom,
 }

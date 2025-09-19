@@ -511,8 +511,8 @@ type RedisPatchSchedule_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Location: The geo-location where the resource lives
@@ -523,6 +523,9 @@ type RedisPatchSchedule_STATUS struct {
 
 	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_STATUS `json:"scheduleEntries,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -625,6 +628,17 @@ func (schedule *RedisPatchSchedule_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		schedule.SystemData = &systemData
+	}
+
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -668,6 +682,18 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_From_RedisPatchSched
 		schedule.ScheduleEntries = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		schedule.SystemData = &systemDatum
+	} else {
+		schedule.SystemData = nil
+	}
+
 	// Type
 	schedule.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -708,6 +734,18 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_To_RedisPatchSchedul
 		destination.ScheduleEntries = scheduleEntryList
 	} else {
 		destination.ScheduleEntries = nil
+	}
+
+	// SystemData
+	if schedule.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := schedule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Type
@@ -832,7 +870,7 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchSc
 type ScheduleEntry struct {
 	// +kubebuilder:validation:Required
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`
+	DayOfWeek *DayOfWeek `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
@@ -855,7 +893,7 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if entry.DayOfWeek != nil {
 		var temp string
 		temp = string(*entry.DayOfWeek)
-		dayOfWeek := arm.ScheduleEntry_DayOfWeek(temp)
+		dayOfWeek := arm.DayOfWeek(temp)
 		result.DayOfWeek = &dayOfWeek
 	}
 
@@ -889,7 +927,7 @@ func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.DayOfWeek != nil {
 		var temp string
 		temp = string(*typedInput.DayOfWeek)
-		dayOfWeek := ScheduleEntry_DayOfWeek(temp)
+		dayOfWeek := DayOfWeek(temp)
 		entry.DayOfWeek = &dayOfWeek
 	}
 
@@ -915,7 +953,7 @@ func (entry *ScheduleEntry) AssignProperties_From_ScheduleEntry(source *storage.
 	// DayOfWeek
 	if source.DayOfWeek != nil {
 		dayOfWeek := *source.DayOfWeek
-		dayOfWeekTemp := genruntime.ToEnum(dayOfWeek, scheduleEntry_DayOfWeek_Values)
+		dayOfWeekTemp := genruntime.ToEnum(dayOfWeek, dayOfWeek_Values)
 		entry.DayOfWeek = &dayOfWeekTemp
 	} else {
 		entry.DayOfWeek = nil
@@ -966,7 +1004,7 @@ func (entry *ScheduleEntry) Initialize_From_ScheduleEntry_STATUS(source *Schedul
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		dayOfWeek := genruntime.ToEnum(string(*source.DayOfWeek), scheduleEntry_DayOfWeek_Values)
+		dayOfWeek := genruntime.ToEnum(string(*source.DayOfWeek), dayOfWeek_Values)
 		entry.DayOfWeek = &dayOfWeek
 	} else {
 		entry.DayOfWeek = nil
@@ -985,7 +1023,7 @@ func (entry *ScheduleEntry) Initialize_From_ScheduleEntry_STATUS(source *Schedul
 // Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_STATUS struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
+	DayOfWeek *DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
@@ -1012,7 +1050,7 @@ func (entry *ScheduleEntry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.DayOfWeek != nil {
 		var temp string
 		temp = string(*typedInput.DayOfWeek)
-		dayOfWeek := ScheduleEntry_DayOfWeek_STATUS(temp)
+		dayOfWeek := DayOfWeek_STATUS(temp)
 		entry.DayOfWeek = &dayOfWeek
 	}
 
@@ -1038,7 +1076,7 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_From_ScheduleEntry_STATUS(so
 	// DayOfWeek
 	if source.DayOfWeek != nil {
 		dayOfWeek := *source.DayOfWeek
-		dayOfWeekTemp := genruntime.ToEnum(dayOfWeek, scheduleEntry_DayOfWeek_STATUS_Values)
+		dayOfWeekTemp := genruntime.ToEnum(dayOfWeek, dayOfWeek_STATUS_Values)
 		entry.DayOfWeek = &dayOfWeekTemp
 	} else {
 		entry.DayOfWeek = nil
@@ -1084,59 +1122,61 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_To_ScheduleEntry_STATUS(dest
 	return nil
 }
 
+// Day of the week when a cache can be patched.
 // +kubebuilder:validation:Enum={"Everyday","Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday","Weekend"}
-type ScheduleEntry_DayOfWeek string
+type DayOfWeek string
 
 const (
-	ScheduleEntry_DayOfWeek_Everyday  = ScheduleEntry_DayOfWeek("Everyday")
-	ScheduleEntry_DayOfWeek_Friday    = ScheduleEntry_DayOfWeek("Friday")
-	ScheduleEntry_DayOfWeek_Monday    = ScheduleEntry_DayOfWeek("Monday")
-	ScheduleEntry_DayOfWeek_Saturday  = ScheduleEntry_DayOfWeek("Saturday")
-	ScheduleEntry_DayOfWeek_Sunday    = ScheduleEntry_DayOfWeek("Sunday")
-	ScheduleEntry_DayOfWeek_Thursday  = ScheduleEntry_DayOfWeek("Thursday")
-	ScheduleEntry_DayOfWeek_Tuesday   = ScheduleEntry_DayOfWeek("Tuesday")
-	ScheduleEntry_DayOfWeek_Wednesday = ScheduleEntry_DayOfWeek("Wednesday")
-	ScheduleEntry_DayOfWeek_Weekend   = ScheduleEntry_DayOfWeek("Weekend")
+	DayOfWeek_Everyday  = DayOfWeek("Everyday")
+	DayOfWeek_Friday    = DayOfWeek("Friday")
+	DayOfWeek_Monday    = DayOfWeek("Monday")
+	DayOfWeek_Saturday  = DayOfWeek("Saturday")
+	DayOfWeek_Sunday    = DayOfWeek("Sunday")
+	DayOfWeek_Thursday  = DayOfWeek("Thursday")
+	DayOfWeek_Tuesday   = DayOfWeek("Tuesday")
+	DayOfWeek_Wednesday = DayOfWeek("Wednesday")
+	DayOfWeek_Weekend   = DayOfWeek("Weekend")
 )
 
-// Mapping from string to ScheduleEntry_DayOfWeek
-var scheduleEntry_DayOfWeek_Values = map[string]ScheduleEntry_DayOfWeek{
-	"everyday":  ScheduleEntry_DayOfWeek_Everyday,
-	"friday":    ScheduleEntry_DayOfWeek_Friday,
-	"monday":    ScheduleEntry_DayOfWeek_Monday,
-	"saturday":  ScheduleEntry_DayOfWeek_Saturday,
-	"sunday":    ScheduleEntry_DayOfWeek_Sunday,
-	"thursday":  ScheduleEntry_DayOfWeek_Thursday,
-	"tuesday":   ScheduleEntry_DayOfWeek_Tuesday,
-	"wednesday": ScheduleEntry_DayOfWeek_Wednesday,
-	"weekend":   ScheduleEntry_DayOfWeek_Weekend,
+// Mapping from string to DayOfWeek
+var dayOfWeek_Values = map[string]DayOfWeek{
+	"everyday":  DayOfWeek_Everyday,
+	"friday":    DayOfWeek_Friday,
+	"monday":    DayOfWeek_Monday,
+	"saturday":  DayOfWeek_Saturday,
+	"sunday":    DayOfWeek_Sunday,
+	"thursday":  DayOfWeek_Thursday,
+	"tuesday":   DayOfWeek_Tuesday,
+	"wednesday": DayOfWeek_Wednesday,
+	"weekend":   DayOfWeek_Weekend,
 }
 
-type ScheduleEntry_DayOfWeek_STATUS string
+// Day of the week when a cache can be patched.
+type DayOfWeek_STATUS string
 
 const (
-	ScheduleEntry_DayOfWeek_STATUS_Everyday  = ScheduleEntry_DayOfWeek_STATUS("Everyday")
-	ScheduleEntry_DayOfWeek_STATUS_Friday    = ScheduleEntry_DayOfWeek_STATUS("Friday")
-	ScheduleEntry_DayOfWeek_STATUS_Monday    = ScheduleEntry_DayOfWeek_STATUS("Monday")
-	ScheduleEntry_DayOfWeek_STATUS_Saturday  = ScheduleEntry_DayOfWeek_STATUS("Saturday")
-	ScheduleEntry_DayOfWeek_STATUS_Sunday    = ScheduleEntry_DayOfWeek_STATUS("Sunday")
-	ScheduleEntry_DayOfWeek_STATUS_Thursday  = ScheduleEntry_DayOfWeek_STATUS("Thursday")
-	ScheduleEntry_DayOfWeek_STATUS_Tuesday   = ScheduleEntry_DayOfWeek_STATUS("Tuesday")
-	ScheduleEntry_DayOfWeek_STATUS_Wednesday = ScheduleEntry_DayOfWeek_STATUS("Wednesday")
-	ScheduleEntry_DayOfWeek_STATUS_Weekend   = ScheduleEntry_DayOfWeek_STATUS("Weekend")
+	DayOfWeek_STATUS_Everyday  = DayOfWeek_STATUS("Everyday")
+	DayOfWeek_STATUS_Friday    = DayOfWeek_STATUS("Friday")
+	DayOfWeek_STATUS_Monday    = DayOfWeek_STATUS("Monday")
+	DayOfWeek_STATUS_Saturday  = DayOfWeek_STATUS("Saturday")
+	DayOfWeek_STATUS_Sunday    = DayOfWeek_STATUS("Sunday")
+	DayOfWeek_STATUS_Thursday  = DayOfWeek_STATUS("Thursday")
+	DayOfWeek_STATUS_Tuesday   = DayOfWeek_STATUS("Tuesday")
+	DayOfWeek_STATUS_Wednesday = DayOfWeek_STATUS("Wednesday")
+	DayOfWeek_STATUS_Weekend   = DayOfWeek_STATUS("Weekend")
 )
 
-// Mapping from string to ScheduleEntry_DayOfWeek_STATUS
-var scheduleEntry_DayOfWeek_STATUS_Values = map[string]ScheduleEntry_DayOfWeek_STATUS{
-	"everyday":  ScheduleEntry_DayOfWeek_STATUS_Everyday,
-	"friday":    ScheduleEntry_DayOfWeek_STATUS_Friday,
-	"monday":    ScheduleEntry_DayOfWeek_STATUS_Monday,
-	"saturday":  ScheduleEntry_DayOfWeek_STATUS_Saturday,
-	"sunday":    ScheduleEntry_DayOfWeek_STATUS_Sunday,
-	"thursday":  ScheduleEntry_DayOfWeek_STATUS_Thursday,
-	"tuesday":   ScheduleEntry_DayOfWeek_STATUS_Tuesday,
-	"wednesday": ScheduleEntry_DayOfWeek_STATUS_Wednesday,
-	"weekend":   ScheduleEntry_DayOfWeek_STATUS_Weekend,
+// Mapping from string to DayOfWeek_STATUS
+var dayOfWeek_STATUS_Values = map[string]DayOfWeek_STATUS{
+	"everyday":  DayOfWeek_STATUS_Everyday,
+	"friday":    DayOfWeek_STATUS_Friday,
+	"monday":    DayOfWeek_STATUS_Monday,
+	"saturday":  DayOfWeek_STATUS_Saturday,
+	"sunday":    DayOfWeek_STATUS_Sunday,
+	"thursday":  DayOfWeek_STATUS_Thursday,
+	"tuesday":   DayOfWeek_STATUS_Tuesday,
+	"wednesday": DayOfWeek_STATUS_Wednesday,
+	"weekend":   DayOfWeek_STATUS_Weekend,
 }
 
 func init() {

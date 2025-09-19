@@ -254,8 +254,8 @@ type Redis_LinkedServer_STATUS struct {
 	// linked redis caches for seamless Geo Failover experience.
 	GeoReplicatedPrimaryHostName *string `json:"geoReplicatedPrimaryHostName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
@@ -275,7 +275,10 @@ type Redis_LinkedServer_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
+	ServerRole *ReplicationRole_STATUS `json:"serverRole,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -410,9 +413,20 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		if typedInput.Properties.ServerRole != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ServerRole)
-			serverRole := RedisLinkedServerProperties_ServerRole_STATUS(temp)
+			serverRole := ReplicationRole_STATUS(temp)
 			server.ServerRole = &serverRole
 		}
+	}
+
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		server.SystemData = &systemData
 	}
 
 	// Set property "Type":
@@ -455,10 +469,22 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 	// ServerRole
 	if source.ServerRole != nil {
 		serverRole := *source.ServerRole
-		serverRoleTemp := genruntime.ToEnum(serverRole, redisLinkedServerProperties_ServerRole_STATUS_Values)
+		serverRoleTemp := genruntime.ToEnum(serverRole, replicationRole_STATUS_Values)
 		server.ServerRole = &serverRoleTemp
 	} else {
 		server.ServerRole = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		server.SystemData = &systemDatum
+	} else {
+		server.SystemData = nil
 	}
 
 	// Type
@@ -505,6 +531,18 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 		destination.ServerRole = nil
 	}
 
+	// SystemData
+	if server.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := server.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Type
 	destination.Type = genruntime.ClonePointerToString(server.Type)
 
@@ -544,7 +582,7 @@ type RedisLinkedServer_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
+	ServerRole *ReplicationRole `json:"serverRole,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisLinkedServer_Spec{}
@@ -580,7 +618,7 @@ func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if server.ServerRole != nil {
 		var temp string
 		temp = string(*server.ServerRole)
-		serverRole := arm.RedisLinkedServerCreateProperties_ServerRole(temp)
+		serverRole := arm.ReplicationRole(temp)
 		result.Properties.ServerRole = &serverRole
 	}
 	return result, nil
@@ -626,7 +664,7 @@ func (server *RedisLinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.ServerRole != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ServerRole)
-			serverRole := RedisLinkedServerCreateProperties_ServerRole(temp)
+			serverRole := ReplicationRole(temp)
 			server.ServerRole = &serverRole
 		}
 	}
@@ -725,7 +763,7 @@ func (server *RedisLinkedServer_Spec) AssignProperties_From_RedisLinkedServer_Sp
 	// ServerRole
 	if source.ServerRole != nil {
 		serverRole := *source.ServerRole
-		serverRoleTemp := genruntime.ToEnum(serverRole, redisLinkedServerCreateProperties_ServerRole_Values)
+		serverRoleTemp := genruntime.ToEnum(serverRole, replicationRole_Values)
 		server.ServerRole = &serverRoleTemp
 	} else {
 		server.ServerRole = nil
@@ -812,7 +850,7 @@ func (server *RedisLinkedServer_Spec) Initialize_From_Redis_LinkedServer_STATUS(
 
 	// ServerRole
 	if source.ServerRole != nil {
-		serverRole := genruntime.ToEnum(string(*source.ServerRole), redisLinkedServerCreateProperties_ServerRole_Values)
+		serverRole := genruntime.ToEnum(string(*source.ServerRole), replicationRole_Values)
 		server.ServerRole = &serverRole
 	} else {
 		server.ServerRole = nil
@@ -829,20 +867,6 @@ func (server *RedisLinkedServer_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (server *RedisLinkedServer_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"Primary","Secondary"}
-type RedisLinkedServerCreateProperties_ServerRole string
-
-const (
-	RedisLinkedServerCreateProperties_ServerRole_Primary   = RedisLinkedServerCreateProperties_ServerRole("Primary")
-	RedisLinkedServerCreateProperties_ServerRole_Secondary = RedisLinkedServerCreateProperties_ServerRole("Secondary")
-)
-
-// Mapping from string to RedisLinkedServerCreateProperties_ServerRole
-var redisLinkedServerCreateProperties_ServerRole_Values = map[string]RedisLinkedServerCreateProperties_ServerRole{
-	"primary":   RedisLinkedServerCreateProperties_ServerRole_Primary,
-	"secondary": RedisLinkedServerCreateProperties_ServerRole_Secondary,
-}
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisLinkedServerOperatorSpec struct {
@@ -948,17 +972,33 @@ func (operator *RedisLinkedServerOperatorSpec) AssignProperties_To_RedisLinkedSe
 	return nil
 }
 
-type RedisLinkedServerProperties_ServerRole_STATUS string
+// Role of the linked server.
+// +kubebuilder:validation:Enum={"Primary","Secondary"}
+type ReplicationRole string
 
 const (
-	RedisLinkedServerProperties_ServerRole_STATUS_Primary   = RedisLinkedServerProperties_ServerRole_STATUS("Primary")
-	RedisLinkedServerProperties_ServerRole_STATUS_Secondary = RedisLinkedServerProperties_ServerRole_STATUS("Secondary")
+	ReplicationRole_Primary   = ReplicationRole("Primary")
+	ReplicationRole_Secondary = ReplicationRole("Secondary")
 )
 
-// Mapping from string to RedisLinkedServerProperties_ServerRole_STATUS
-var redisLinkedServerProperties_ServerRole_STATUS_Values = map[string]RedisLinkedServerProperties_ServerRole_STATUS{
-	"primary":   RedisLinkedServerProperties_ServerRole_STATUS_Primary,
-	"secondary": RedisLinkedServerProperties_ServerRole_STATUS_Secondary,
+// Mapping from string to ReplicationRole
+var replicationRole_Values = map[string]ReplicationRole{
+	"primary":   ReplicationRole_Primary,
+	"secondary": ReplicationRole_Secondary,
+}
+
+// Role of the linked server.
+type ReplicationRole_STATUS string
+
+const (
+	ReplicationRole_STATUS_Primary   = ReplicationRole_STATUS("Primary")
+	ReplicationRole_STATUS_Secondary = ReplicationRole_STATUS("Secondary")
+)
+
+// Mapping from string to ReplicationRole_STATUS
+var replicationRole_STATUS_Values = map[string]ReplicationRole_STATUS{
+	"primary":   ReplicationRole_STATUS_Primary,
+	"secondary": ReplicationRole_STATUS_Secondary,
 }
 
 func init() {

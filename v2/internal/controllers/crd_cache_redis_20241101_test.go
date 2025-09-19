@@ -38,7 +38,7 @@ func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
 
 	// Perform a simple patch
 	old := redis1.DeepCopy()
-	enabled := cache.RedisCreateProperties_PublicNetworkAccess_Enabled
+	enabled := cache.PublicNetworkAccess_Enabled
 	redis1.Spec.PublicNetworkAccess = &enabled
 	tc.PatchResourceAndWait(old, redis1)
 	tc.Expect(redis1.Status.PublicNetworkAccess).ToNot(BeNil())
@@ -98,9 +98,9 @@ func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
 }
 
 func newRedis20241101(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, prefix string) *cache.Redis {
-	tls12 := cache.RedisCreateProperties_MinimumTlsVersion_12
-	family := cache.Sku_Family_P
-	sku := cache.Sku_Name_Premium
+	tls12 := cache.TlsVersion_12
+	family := cache.SkuFamily_P
+	sku := cache.SkuName_Premium
 	return &cache.Redis{
 		ObjectMeta: tc.MakeObjectMeta(prefix),
 		Spec: cache.Redis_Spec{
@@ -113,7 +113,7 @@ func newRedis20241101(tc *testcommon.KubePerTestContext, rg *resources.ResourceG
 			},
 			EnableNonSslPort:  to.Ptr(false),
 			MinimumTlsVersion: &tls12,
-			RedisConfiguration: &cache.RedisCreateProperties_RedisConfiguration{
+			RedisConfiguration: &cache.RedisCommonPropertiesRedisConfiguration{
 				MaxmemoryDelta:  to.Ptr("10"),
 				MaxmemoryPolicy: to.Ptr("allkeys-lru"),
 			},
@@ -193,7 +193,7 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 func Redis_LinkedServer_20241101_CRUD(tc *testcommon.KubePerTestContext, _ *resources.ResourceGroup, redis1, redis2 *cache.Redis) {
 	// Interesting - the link needs to have the same name as the
 	// secondary server.
-	serverRole := cache.RedisLinkedServerCreateProperties_ServerRole_Secondary
+	serverRole := cache.ReplicationRole_Secondary
 	linkedServer := cache.RedisLinkedServer{
 		ObjectMeta: tc.MakeObjectMetaWithName(redis2.Name),
 		Spec: cache.RedisLinkedServer_Spec{
@@ -212,7 +212,7 @@ func Redis_LinkedServer_20241101_CRUD(tc *testcommon.KubePerTestContext, _ *reso
 }
 
 func Redis_PatchSchedule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
-	monday := cache.ScheduleEntry_DayOfWeek_Monday
+	monday := cache.DayOfWeek_Monday
 	schedule := cache.RedisPatchSchedule{
 		ObjectMeta: tc.MakeObjectMeta("patchsched"),
 		Spec: cache.RedisPatchSchedule_Spec{
@@ -227,7 +227,7 @@ func Redis_PatchSchedule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis 
 	tc.CreateResourceAndWait(&schedule)
 	tc.Expect(schedule.Status.Id).ToNot(BeNil())
 
-	wednesday := cache.ScheduleEntry_DayOfWeek_Wednesday
+	wednesday := cache.DayOfWeek_Wednesday
 	old := schedule.DeepCopy()
 	schedule.Spec.ScheduleEntries = append(schedule.Spec.ScheduleEntries, cache.ScheduleEntry{
 		DayOfWeek:         &wednesday,
@@ -235,8 +235,8 @@ func Redis_PatchSchedule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis 
 		StartHourUtc:      to.Ptr(7),
 	})
 	tc.PatchResourceAndWait(old, &schedule)
-	statusMonday := cache.ScheduleEntry_DayOfWeek_STATUS_Monday
-	statusWednesday := cache.ScheduleEntry_DayOfWeek_STATUS_Wednesday
+	statusMonday := cache.DayOfWeek_STATUS_Monday
+	statusWednesday := cache.DayOfWeek_STATUS_Wednesday
 	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_STATUS{{
 		DayOfWeek:         &statusMonday,
 		MaintenanceWindow: to.Ptr("PT6H"),

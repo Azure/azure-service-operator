@@ -58,18 +58,17 @@ type RedisCreateProperties struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *TlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method.
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,
 	// maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0,
 	// aof-storage-connection-string-1 etc.
-	RedisConfiguration *RedisCreateProperties_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCommonPropertiesRedisConfiguration `json:"redisConfiguration,omitempty"`
 
 	// RedisVersion: Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest'
 	// which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value
@@ -102,14 +101,14 @@ type RedisCreateProperties struct {
 	// UpdateChannel: Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive.
 	// Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches.
 	// Default value is 'Stable'.
-	UpdateChannel *RedisCreateProperties_UpdateChannel `json:"updateChannel,omitempty"`
+	UpdateChannel *UpdateChannel `json:"updateChannel,omitempty"`
 
 	// ZonalAllocationPolicy: Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables
 	// zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined'
 	// will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache.
 	// If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will
 	// be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported.
-	ZonalAllocationPolicy *RedisCreateProperties_ZonalAllocationPolicy `json:"zonalAllocationPolicy,omitempty"`
+	ZonalAllocationPolicy *ZonalAllocationPolicy `json:"zonalAllocationPolicy,omitempty"`
 }
 
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
@@ -131,37 +130,27 @@ var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
 	"userassigned":                 ManagedServiceIdentityType_UserAssigned,
 }
 
-// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisCreateProperties_MinimumTlsVersion string
-
-const (
-	RedisCreateProperties_MinimumTlsVersion_10 = RedisCreateProperties_MinimumTlsVersion("1.0")
-	RedisCreateProperties_MinimumTlsVersion_11 = RedisCreateProperties_MinimumTlsVersion("1.1")
-	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
-)
-
-// Mapping from string to RedisCreateProperties_MinimumTlsVersion
-var redisCreateProperties_MinimumTlsVersion_Values = map[string]RedisCreateProperties_MinimumTlsVersion{
-	"1.0": RedisCreateProperties_MinimumTlsVersion_10,
-	"1.1": RedisCreateProperties_MinimumTlsVersion_11,
-	"1.2": RedisCreateProperties_MinimumTlsVersion_12,
-}
-
+// Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisCreateProperties_PublicNetworkAccess string
+type PublicNetworkAccess string
 
 const (
-	RedisCreateProperties_PublicNetworkAccess_Disabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
-	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
+	PublicNetworkAccess_Disabled = PublicNetworkAccess("Disabled")
+	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
-// Mapping from string to RedisCreateProperties_PublicNetworkAccess
-var redisCreateProperties_PublicNetworkAccess_Values = map[string]RedisCreateProperties_PublicNetworkAccess{
-	"disabled": RedisCreateProperties_PublicNetworkAccess_Disabled,
-	"enabled":  RedisCreateProperties_PublicNetworkAccess_Enabled,
+// Mapping from string to PublicNetworkAccess
+var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
+	"disabled": PublicNetworkAccess_Disabled,
+	"enabled":  PublicNetworkAccess_Enabled,
 }
 
-type RedisCreateProperties_RedisConfiguration struct {
+// All Redis Settings. Few possible keys:
+// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,
+// maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0,
+// aof-storage-connection-string-1 etc.
+type RedisCommonPropertiesRedisConfiguration struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
 	AadEnabled *string `json:"aad-enabled,omitempty"`
 
@@ -175,7 +164,7 @@ type RedisCreateProperties_RedisConfiguration struct {
 	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
 
 	// Authnotrequired: Specifies whether the authentication is disabled. Setting this property is highly discouraged from
-	// security point of view.
+	// security point of view; you should never disable authentication using this property!
 	Authnotrequired *string `json:"authnotrequired,omitempty"`
 
 	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
@@ -197,7 +186,7 @@ type RedisCreateProperties_RedisConfiguration struct {
 	// specify SAS or ManagedIdentity, default value is SAS
 	PreferredDataPersistenceAuthMethod *string `json:"preferred-data-persistence-auth-method,omitempty"`
 
-	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
+	// RdbBackupEnabled: Specifies whether the RDB backup is enabled
 	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
 
 	// RdbBackupFrequency: Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720,
@@ -214,36 +203,6 @@ type RedisCreateProperties_RedisConfiguration struct {
 	StorageSubscriptionId *string `json:"storage-subscription-id,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Preview","Stable"}
-type RedisCreateProperties_UpdateChannel string
-
-const (
-	RedisCreateProperties_UpdateChannel_Preview = RedisCreateProperties_UpdateChannel("Preview")
-	RedisCreateProperties_UpdateChannel_Stable  = RedisCreateProperties_UpdateChannel("Stable")
-)
-
-// Mapping from string to RedisCreateProperties_UpdateChannel
-var redisCreateProperties_UpdateChannel_Values = map[string]RedisCreateProperties_UpdateChannel{
-	"preview": RedisCreateProperties_UpdateChannel_Preview,
-	"stable":  RedisCreateProperties_UpdateChannel_Stable,
-}
-
-// +kubebuilder:validation:Enum={"Automatic","NoZones","UserDefined"}
-type RedisCreateProperties_ZonalAllocationPolicy string
-
-const (
-	RedisCreateProperties_ZonalAllocationPolicy_Automatic   = RedisCreateProperties_ZonalAllocationPolicy("Automatic")
-	RedisCreateProperties_ZonalAllocationPolicy_NoZones     = RedisCreateProperties_ZonalAllocationPolicy("NoZones")
-	RedisCreateProperties_ZonalAllocationPolicy_UserDefined = RedisCreateProperties_ZonalAllocationPolicy("UserDefined")
-)
-
-// Mapping from string to RedisCreateProperties_ZonalAllocationPolicy
-var redisCreateProperties_ZonalAllocationPolicy_Values = map[string]RedisCreateProperties_ZonalAllocationPolicy{
-	"automatic":   RedisCreateProperties_ZonalAllocationPolicy_Automatic,
-	"nozones":     RedisCreateProperties_ZonalAllocationPolicy_NoZones,
-	"userdefined": RedisCreateProperties_ZonalAllocationPolicy_UserDefined,
-}
-
 // SKU parameters supplied to the create Redis operation.
 type Sku struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
@@ -251,42 +210,99 @@ type Sku struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *Sku_Family `json:"family,omitempty"`
+	Family *SkuFamily `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *SkuName `json:"name,omitempty"`
+}
+
+// Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type TlsVersion string
+
+const (
+	TlsVersion_10 = TlsVersion("1.0")
+	TlsVersion_11 = TlsVersion("1.1")
+	TlsVersion_12 = TlsVersion("1.2")
+)
+
+// Mapping from string to TlsVersion
+var tlsVersion_Values = map[string]TlsVersion{
+	"1.0": TlsVersion_10,
+	"1.1": TlsVersion_11,
+	"1.2": TlsVersion_12,
+}
+
+// Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using
+// 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is
+// 'Stable'.
+// +kubebuilder:validation:Enum={"Preview","Stable"}
+type UpdateChannel string
+
+const (
+	UpdateChannel_Preview = UpdateChannel("Preview")
+	UpdateChannel_Stable  = UpdateChannel("Stable")
+)
+
+// Mapping from string to UpdateChannel
+var updateChannel_Values = map[string]UpdateChannel{
+	"preview": UpdateChannel_Preview,
+	"stable":  UpdateChannel_Stable,
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 }
 
-// +kubebuilder:validation:Enum={"C","P"}
-type Sku_Family string
+// Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and
+// Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select
+// availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+// 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be
+// set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported.
+// +kubebuilder:validation:Enum={"Automatic","NoZones","UserDefined"}
+type ZonalAllocationPolicy string
 
 const (
-	Sku_Family_C = Sku_Family("C")
-	Sku_Family_P = Sku_Family("P")
+	ZonalAllocationPolicy_Automatic   = ZonalAllocationPolicy("Automatic")
+	ZonalAllocationPolicy_NoZones     = ZonalAllocationPolicy("NoZones")
+	ZonalAllocationPolicy_UserDefined = ZonalAllocationPolicy("UserDefined")
 )
 
-// Mapping from string to Sku_Family
-var sku_Family_Values = map[string]Sku_Family{
-	"c": Sku_Family_C,
-	"p": Sku_Family_P,
+// Mapping from string to ZonalAllocationPolicy
+var zonalAllocationPolicy_Values = map[string]ZonalAllocationPolicy{
+	"automatic":   ZonalAllocationPolicy_Automatic,
+	"nozones":     ZonalAllocationPolicy_NoZones,
+	"userdefined": ZonalAllocationPolicy_UserDefined,
 }
 
-// +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type Sku_Name string
+// The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
+// +kubebuilder:validation:Enum={"C","P"}
+type SkuFamily string
 
 const (
-	Sku_Name_Basic    = Sku_Name("Basic")
-	Sku_Name_Premium  = Sku_Name("Premium")
-	Sku_Name_Standard = Sku_Name("Standard")
+	SkuFamily_C = SkuFamily("C")
+	SkuFamily_P = SkuFamily("P")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"basic":    Sku_Name_Basic,
-	"premium":  Sku_Name_Premium,
-	"standard": Sku_Name_Standard,
+// Mapping from string to SkuFamily
+var skuFamily_Values = map[string]SkuFamily{
+	"c": SkuFamily_C,
+	"p": SkuFamily_P,
+}
+
+// The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
+// +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
+type SkuName string
+
+const (
+	SkuName_Basic    = SkuName("Basic")
+	SkuName_Premium  = SkuName("Premium")
+	SkuName_Standard = SkuName("Standard")
+)
+
+// Mapping from string to SkuName
+var skuName_Values = map[string]SkuName{
+	"basic":    SkuName_Basic,
+	"premium":  SkuName_Premium,
+	"standard": SkuName_Standard,
 }

@@ -551,6 +551,13 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_From_RedisPatchSched
 		schedule.ScheduleEntries = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Type
 	schedule.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -607,6 +614,19 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_To_RedisPatchSchedul
 		destination.ScheduleEntries = scheduleEntryList
 	} else {
 		destination.ScheduleEntries = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Type

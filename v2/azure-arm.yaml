@@ -1505,6 +1505,12 @@ objectModelConfiguration:
       Redis_PatchSchedule:
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.10.0
+      RedisCreateProperties_RedisConfiguration:
+        $nameInNextVersion: RedisCommonPropertiesRedisConfiguration
+      RedisCreateProperties_RedisConfiguration_STATUS:
+        $nameInNextVersion: RedisCommonPropertiesRedisConfiguration_STATUS
+      RedisProperties_RedisConfiguration_STATUS:
+        $nameInNextVersion: RedisCommonPropertiesRedisConfiguration_STATUS
     2024-11-01:
       Redis:
         $exportAs: Redis

@@ -92,6 +92,7 @@ func AddIndependentPropertyGeneratorsForRedisAccessPolicy_STATUS(gens map[string
 // AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RedisCacheAccessPolicyProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_RedisCacheAccessPolicyProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -154,11 +155,11 @@ func RedisCacheAccessPolicyProperties_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["Permissions"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Canceled,
-		RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleted,
-		RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleting,
-		RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Failed,
-		RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Succeeded,
-		RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Updating))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(RedisCacheAccessPolicyProperties_Type_STATUS_BuiltIn, RedisCacheAccessPolicyProperties_Type_STATUS_Custom))
+		AccessPolicyProvisioningState_STATUS_Canceled,
+		AccessPolicyProvisioningState_STATUS_Deleted,
+		AccessPolicyProvisioningState_STATUS_Deleting,
+		AccessPolicyProvisioningState_STATUS_Failed,
+		AccessPolicyProvisioningState_STATUS_Succeeded,
+		AccessPolicyProvisioningState_STATUS_Updating))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AccessPolicyType_STATUS_BuiltIn, AccessPolicyType_STATUS_Custom))
 }

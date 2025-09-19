@@ -178,6 +178,7 @@ type Redis_LinkedServer_STATUS struct {
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                `json:"provisioningState,omitempty"`
 	ServerRole                   *string                `json:"serverRole,omitempty"`
+	SystemData                   *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type                         *string                `json:"type,omitempty"`
 }
 

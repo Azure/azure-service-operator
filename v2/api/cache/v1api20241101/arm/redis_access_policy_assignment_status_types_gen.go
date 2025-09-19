@@ -4,8 +4,8 @@
 package arm
 
 type RedisAccessPolicyAssignment_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -13,6 +13,9 @@ type RedisAccessPolicyAssignment_STATUS struct {
 
 	// Properties: Properties of an access policy assignment
 	Properties *RedisCacheAccessPolicyAssignmentProperties_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -30,26 +33,82 @@ type RedisCacheAccessPolicyAssignmentProperties_STATUS struct {
 	ObjectIdAlias *string `json:"objectIdAlias,omitempty"`
 
 	// ProvisioningState: Provisioning state of an access policy assignment set
-	ProvisioningState *RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *AccessPolicyAssignmentProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS string
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+// Provisioning state of an access policy assignment set
+type AccessPolicyAssignmentProvisioningState_STATUS string
 
 const (
-	RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Canceled  = RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS("Canceled")
-	RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Deleted   = RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS("Deleted")
-	RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Deleting  = RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS("Deleting")
-	RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Failed    = RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS("Failed")
-	RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Succeeded = RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS("Succeeded")
-	RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Updating  = RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS("Updating")
+	AccessPolicyAssignmentProvisioningState_STATUS_Canceled  = AccessPolicyAssignmentProvisioningState_STATUS("Canceled")
+	AccessPolicyAssignmentProvisioningState_STATUS_Deleted   = AccessPolicyAssignmentProvisioningState_STATUS("Deleted")
+	AccessPolicyAssignmentProvisioningState_STATUS_Deleting  = AccessPolicyAssignmentProvisioningState_STATUS("Deleting")
+	AccessPolicyAssignmentProvisioningState_STATUS_Failed    = AccessPolicyAssignmentProvisioningState_STATUS("Failed")
+	AccessPolicyAssignmentProvisioningState_STATUS_Succeeded = AccessPolicyAssignmentProvisioningState_STATUS("Succeeded")
+	AccessPolicyAssignmentProvisioningState_STATUS_Updating  = AccessPolicyAssignmentProvisioningState_STATUS("Updating")
 )
 
-// Mapping from string to RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS
-var redisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Values = map[string]RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS{
-	"canceled":  RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Canceled,
-	"deleted":   RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Deleted,
-	"deleting":  RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to AccessPolicyAssignmentProvisioningState_STATUS
+var accessPolicyAssignmentProvisioningState_STATUS_Values = map[string]AccessPolicyAssignmentProvisioningState_STATUS{
+	"canceled":  AccessPolicyAssignmentProvisioningState_STATUS_Canceled,
+	"deleted":   AccessPolicyAssignmentProvisioningState_STATUS_Deleted,
+	"deleting":  AccessPolicyAssignmentProvisioningState_STATUS_Deleting,
+	"failed":    AccessPolicyAssignmentProvisioningState_STATUS_Failed,
+	"succeeded": AccessPolicyAssignmentProvisioningState_STATUS_Succeeded,
+	"updating":  AccessPolicyAssignmentProvisioningState_STATUS_Updating,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }

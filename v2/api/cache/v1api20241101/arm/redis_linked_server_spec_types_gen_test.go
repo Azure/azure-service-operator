@@ -77,7 +77,7 @@ func RedisLinkedServerCreatePropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisLinkedServerCreateProperties(gens map[string]gopter.Gen) {
 	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreateProperties_ServerRole_Primary, RedisLinkedServerCreateProperties_ServerRole_Secondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_Primary, ReplicationRole_Secondary))
 }
 
 func Test_RedisLinkedServer_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

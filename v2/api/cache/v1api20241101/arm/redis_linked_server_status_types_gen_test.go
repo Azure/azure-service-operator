@@ -80,7 +80,7 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServerProperties_STATUS(gens 
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryHostName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerProperties_ServerRole_STATUS_Primary, RedisLinkedServerProperties_ServerRole_STATUS_Secondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_STATUS_Primary, ReplicationRole_STATUS_Secondary))
 }
 
 func Test_Redis_LinkedServer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,4 +158,5 @@ func AddIndependentPropertyGeneratorsForRedis_LinkedServer_STATUS(gens map[strin
 // AddRelatedPropertyGeneratorsForRedis_LinkedServer_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedis_LinkedServer_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RedisLinkedServerProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

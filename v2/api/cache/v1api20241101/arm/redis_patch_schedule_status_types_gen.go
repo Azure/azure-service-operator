@@ -4,8 +4,8 @@
 package arm
 
 type RedisPatchSchedule_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Location: The geo-location where the resource lives
@@ -16,6 +16,9 @@ type RedisPatchSchedule_STATUS struct {
 
 	// Properties: List of patch schedules for a Redis cache.
 	Properties *ScheduleEntries_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -30,7 +33,7 @@ type ScheduleEntries_STATUS struct {
 // Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_STATUS struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
+	DayOfWeek *DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
@@ -39,29 +42,30 @@ type ScheduleEntry_STATUS struct {
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }
 
-type ScheduleEntry_DayOfWeek_STATUS string
+// Day of the week when a cache can be patched.
+type DayOfWeek_STATUS string
 
 const (
-	ScheduleEntry_DayOfWeek_STATUS_Everyday  = ScheduleEntry_DayOfWeek_STATUS("Everyday")
-	ScheduleEntry_DayOfWeek_STATUS_Friday    = ScheduleEntry_DayOfWeek_STATUS("Friday")
-	ScheduleEntry_DayOfWeek_STATUS_Monday    = ScheduleEntry_DayOfWeek_STATUS("Monday")
-	ScheduleEntry_DayOfWeek_STATUS_Saturday  = ScheduleEntry_DayOfWeek_STATUS("Saturday")
-	ScheduleEntry_DayOfWeek_STATUS_Sunday    = ScheduleEntry_DayOfWeek_STATUS("Sunday")
-	ScheduleEntry_DayOfWeek_STATUS_Thursday  = ScheduleEntry_DayOfWeek_STATUS("Thursday")
-	ScheduleEntry_DayOfWeek_STATUS_Tuesday   = ScheduleEntry_DayOfWeek_STATUS("Tuesday")
-	ScheduleEntry_DayOfWeek_STATUS_Wednesday = ScheduleEntry_DayOfWeek_STATUS("Wednesday")
-	ScheduleEntry_DayOfWeek_STATUS_Weekend   = ScheduleEntry_DayOfWeek_STATUS("Weekend")
+	DayOfWeek_STATUS_Everyday  = DayOfWeek_STATUS("Everyday")
+	DayOfWeek_STATUS_Friday    = DayOfWeek_STATUS("Friday")
+	DayOfWeek_STATUS_Monday    = DayOfWeek_STATUS("Monday")
+	DayOfWeek_STATUS_Saturday  = DayOfWeek_STATUS("Saturday")
+	DayOfWeek_STATUS_Sunday    = DayOfWeek_STATUS("Sunday")
+	DayOfWeek_STATUS_Thursday  = DayOfWeek_STATUS("Thursday")
+	DayOfWeek_STATUS_Tuesday   = DayOfWeek_STATUS("Tuesday")
+	DayOfWeek_STATUS_Wednesday = DayOfWeek_STATUS("Wednesday")
+	DayOfWeek_STATUS_Weekend   = DayOfWeek_STATUS("Weekend")
 )
 
-// Mapping from string to ScheduleEntry_DayOfWeek_STATUS
-var scheduleEntry_DayOfWeek_STATUS_Values = map[string]ScheduleEntry_DayOfWeek_STATUS{
-	"everyday":  ScheduleEntry_DayOfWeek_STATUS_Everyday,
-	"friday":    ScheduleEntry_DayOfWeek_STATUS_Friday,
-	"monday":    ScheduleEntry_DayOfWeek_STATUS_Monday,
-	"saturday":  ScheduleEntry_DayOfWeek_STATUS_Saturday,
-	"sunday":    ScheduleEntry_DayOfWeek_STATUS_Sunday,
-	"thursday":  ScheduleEntry_DayOfWeek_STATUS_Thursday,
-	"tuesday":   ScheduleEntry_DayOfWeek_STATUS_Tuesday,
-	"wednesday": ScheduleEntry_DayOfWeek_STATUS_Wednesday,
-	"weekend":   ScheduleEntry_DayOfWeek_STATUS_Weekend,
+// Mapping from string to DayOfWeek_STATUS
+var dayOfWeek_STATUS_Values = map[string]DayOfWeek_STATUS{
+	"everyday":  DayOfWeek_STATUS_Everyday,
+	"friday":    DayOfWeek_STATUS_Friday,
+	"monday":    DayOfWeek_STATUS_Monday,
+	"saturday":  DayOfWeek_STATUS_Saturday,
+	"sunday":    DayOfWeek_STATUS_Sunday,
+	"thursday":  DayOfWeek_STATUS_Thursday,
+	"tuesday":   DayOfWeek_STATUS_Tuesday,
+	"wednesday": DayOfWeek_STATUS_Wednesday,
+	"weekend":   DayOfWeek_STATUS_Weekend,
 }

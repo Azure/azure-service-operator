@@ -212,6 +212,7 @@ type RedisAccessPolicy_STATUS struct {
 	PropertiesType    *string                `json:"properties_type,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	SystemData        *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type              *string                `json:"type,omitempty"`
 }
 

@@ -479,8 +479,8 @@ type RedisAccessPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -491,10 +491,13 @@ type RedisAccessPolicy_STATUS struct {
 	Permissions *string `json:"permissions,omitempty"`
 
 	// PropertiesType: Built-In or Custom access policy
-	PropertiesType *RedisCacheAccessPolicyProperties_Type_STATUS `json:"properties_type,omitempty"`
+	PropertiesType *AccessPolicyType_STATUS `json:"properties_type,omitempty"`
 
 	// ProvisioningState: Provisioning state of access policy
-	ProvisioningState *RedisCacheAccessPolicyProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *AccessPolicyProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -593,7 +596,7 @@ func (policy *RedisAccessPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		if typedInput.Properties.Type != nil {
 			var temp string
 			temp = string(*typedInput.Properties.Type)
-			propertiesType := RedisCacheAccessPolicyProperties_Type_STATUS(temp)
+			propertiesType := AccessPolicyType_STATUS(temp)
 			policy.PropertiesType = &propertiesType
 		}
 	}
@@ -604,9 +607,20 @@ func (policy *RedisAccessPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		if typedInput.Properties.ProvisioningState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
-			provisioningState := RedisCacheAccessPolicyProperties_ProvisioningState_STATUS(temp)
+			provisioningState := AccessPolicyProvisioningState_STATUS(temp)
 			policy.ProvisioningState = &provisioningState
 		}
+	}
+
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		policy.SystemData = &systemData
 	}
 
 	// Set property "Type":
@@ -637,7 +651,7 @@ func (policy *RedisAccessPolicy_STATUS) AssignProperties_From_RedisAccessPolicy_
 	// PropertiesType
 	if source.PropertiesType != nil {
 		propertiesType := *source.PropertiesType
-		propertiesTypeTemp := genruntime.ToEnum(propertiesType, redisCacheAccessPolicyProperties_Type_STATUS_Values)
+		propertiesTypeTemp := genruntime.ToEnum(propertiesType, accessPolicyType_STATUS_Values)
 		policy.PropertiesType = &propertiesTypeTemp
 	} else {
 		policy.PropertiesType = nil
@@ -646,10 +660,22 @@ func (policy *RedisAccessPolicy_STATUS) AssignProperties_From_RedisAccessPolicy_
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, redisCacheAccessPolicyProperties_ProvisioningState_STATUS_Values)
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, accessPolicyProvisioningState_STATUS_Values)
 		policy.ProvisioningState = &provisioningStateTemp
 	} else {
 		policy.ProvisioningState = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		policy.SystemData = &systemDatum
+	} else {
+		policy.SystemData = nil
 	}
 
 	// Type
@@ -692,6 +718,18 @@ func (policy *RedisAccessPolicy_STATUS) AssignProperties_To_RedisAccessPolicy_ST
 		destination.ProvisioningState = nil
 	}
 
+	// SystemData
+	if policy.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Type
 	destination.Type = genruntime.ClonePointerToString(policy.Type)
 
@@ -704,6 +742,42 @@ func (policy *RedisAccessPolicy_STATUS) AssignProperties_To_RedisAccessPolicy_ST
 
 	// No error
 	return nil
+}
+
+// Provisioning state of access policy
+type AccessPolicyProvisioningState_STATUS string
+
+const (
+	AccessPolicyProvisioningState_STATUS_Canceled  = AccessPolicyProvisioningState_STATUS("Canceled")
+	AccessPolicyProvisioningState_STATUS_Deleted   = AccessPolicyProvisioningState_STATUS("Deleted")
+	AccessPolicyProvisioningState_STATUS_Deleting  = AccessPolicyProvisioningState_STATUS("Deleting")
+	AccessPolicyProvisioningState_STATUS_Failed    = AccessPolicyProvisioningState_STATUS("Failed")
+	AccessPolicyProvisioningState_STATUS_Succeeded = AccessPolicyProvisioningState_STATUS("Succeeded")
+	AccessPolicyProvisioningState_STATUS_Updating  = AccessPolicyProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to AccessPolicyProvisioningState_STATUS
+var accessPolicyProvisioningState_STATUS_Values = map[string]AccessPolicyProvisioningState_STATUS{
+	"canceled":  AccessPolicyProvisioningState_STATUS_Canceled,
+	"deleted":   AccessPolicyProvisioningState_STATUS_Deleted,
+	"deleting":  AccessPolicyProvisioningState_STATUS_Deleting,
+	"failed":    AccessPolicyProvisioningState_STATUS_Failed,
+	"succeeded": AccessPolicyProvisioningState_STATUS_Succeeded,
+	"updating":  AccessPolicyProvisioningState_STATUS_Updating,
+}
+
+// Built-In or Custom access policy
+type AccessPolicyType_STATUS string
+
+const (
+	AccessPolicyType_STATUS_BuiltIn = AccessPolicyType_STATUS("BuiltIn")
+	AccessPolicyType_STATUS_Custom  = AccessPolicyType_STATUS("Custom")
+)
+
+// Mapping from string to AccessPolicyType_STATUS
+var accessPolicyType_STATUS_Values = map[string]AccessPolicyType_STATUS{
+	"builtin": AccessPolicyType_STATUS_BuiltIn,
+	"custom":  AccessPolicyType_STATUS_Custom,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -808,40 +882,6 @@ func (operator *RedisAccessPolicyOperatorSpec) AssignProperties_To_RedisAccessPo
 
 	// No error
 	return nil
-}
-
-type RedisCacheAccessPolicyProperties_ProvisioningState_STATUS string
-
-const (
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Canceled  = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Canceled")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleted   = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Deleted")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleting  = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Deleting")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Failed    = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Failed")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Succeeded = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Succeeded")
-	RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Updating  = RedisCacheAccessPolicyProperties_ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to RedisCacheAccessPolicyProperties_ProvisioningState_STATUS
-var redisCacheAccessPolicyProperties_ProvisioningState_STATUS_Values = map[string]RedisCacheAccessPolicyProperties_ProvisioningState_STATUS{
-	"canceled":  RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Canceled,
-	"deleted":   RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleted,
-	"deleting":  RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  RedisCacheAccessPolicyProperties_ProvisioningState_STATUS_Updating,
-}
-
-type RedisCacheAccessPolicyProperties_Type_STATUS string
-
-const (
-	RedisCacheAccessPolicyProperties_Type_STATUS_BuiltIn = RedisCacheAccessPolicyProperties_Type_STATUS("BuiltIn")
-	RedisCacheAccessPolicyProperties_Type_STATUS_Custom  = RedisCacheAccessPolicyProperties_Type_STATUS("Custom")
-)
-
-// Mapping from string to RedisCacheAccessPolicyProperties_Type_STATUS
-var redisCacheAccessPolicyProperties_Type_STATUS_Values = map[string]RedisCacheAccessPolicyProperties_Type_STATUS{
-	"builtin": RedisCacheAccessPolicyProperties_Type_STATUS_BuiltIn,
-	"custom":  RedisCacheAccessPolicyProperties_Type_STATUS_Custom,
 }
 
 func init() {

@@ -67,7 +67,7 @@ Redis: Resource
 │   ├── UpdateChannel: *string
 │   ├── ZonalAllocationPolicy: *string
 │   └── Zones: string[]
-└── Status: Object (31 properties)
+└── Status: Object (32 properties)
     ├── Conditions: conditions.Condition[]
     ├── DisableAccessKeyAuthentication: *bool
     ├── EnableNonSslPort: *bool
@@ -136,6 +136,14 @@ Redis: Resource
     ├── SslPort: *int
     ├── StaticIP: *string
     ├── SubnetId: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     ├── TenantSettings: map[string]string
     ├── Type: *string
@@ -155,7 +163,7 @@ RedisAccessPolicy: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Permissions: *string
 │   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (8 properties)
+└── Status: Object (9 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Name: *string
@@ -163,6 +171,14 @@ RedisAccessPolicy: Resource
     ├── PropertiesType: *string
     ├── PropertyBag: genruntime.PropertyBag
     ├── ProvisioningState: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 RedisAccessPolicyAssignment: Resource
@@ -181,7 +197,7 @@ RedisAccessPolicyAssignment: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (9 properties)
+└── Status: Object (10 properties)
     ├── AccessPolicyName: *string
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
@@ -190,6 +206,14 @@ RedisAccessPolicyAssignment: Resource
     ├── ObjectIdAlias: *string
     ├── PropertyBag: genruntime.PropertyBag
     ├── ProvisioningState: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 RedisFirewallRule: Resource
@@ -205,13 +229,21 @@ RedisFirewallRule: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
 │   └── StartIP: *string
-└── Status: Object (7 properties)
+└── Status: Object (8 properties)
     ├── Conditions: conditions.Condition[]
     ├── EndIP: *string
     ├── Id: *string
     ├── Name: *string
     ├── PropertyBag: genruntime.PropertyBag
     ├── StartIP: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 RedisLinkedServer: Resource
@@ -228,7 +260,7 @@ RedisLinkedServer: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
 │   └── ServerRole: *string
-└── Status: Object (11 properties)
+└── Status: Object (12 properties)
     ├── Conditions: conditions.Condition[]
     ├── GeoReplicatedPrimaryHostName: *string
     ├── Id: *string
@@ -239,6 +271,14 @@ RedisLinkedServer: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── ProvisioningState: *string
     ├── ServerRole: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 RedisPatchSchedule: Resource
@@ -256,7 +296,7 @@ RedisPatchSchedule: Resource
 │       ├── MaintenanceWindow: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── StartHourUtc: *int
-└── Status: Object (7 properties)
+└── Status: Object (8 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Location: *string
@@ -267,6 +307,14 @@ RedisPatchSchedule: Resource
     │   ├── MaintenanceWindow: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── StartHourUtc: *int
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 augmentConversionForManagedServiceIdentity: Interface
@@ -278,6 +326,8 @@ augmentConversionForPrivateEndpointConnection_STATUS: Interface
 augmentConversionForSku: Interface
 
 augmentConversionForSku_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
 
 augmentConversionForUserAssignedIdentityDetails: Interface
 

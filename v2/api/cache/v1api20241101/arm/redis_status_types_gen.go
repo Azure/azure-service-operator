@@ -4,11 +4,11 @@
 package arm
 
 type Redis_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
-	// Identity: The identity of the resource.
+	// Identity: The managed service identities assigned to this resource.
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
@@ -20,13 +20,16 @@ type Redis_STATUS struct {
 	// Properties: Redis cache properties.
 	Properties *RedisProperties_STATUS `json:"properties,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	// Zones: A list of availability zones denoting where the resource needs to come from.
+	// Zones: The availability zones.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -65,7 +68,7 @@ type RedisProperties_STATUS struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *TlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// Port: Redis non-SSL port.
 	Port *int `json:"port,omitempty"`
@@ -74,18 +77,17 @@ type RedisProperties_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'
-	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method.
+	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,
 	// maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0,
 	// aof-storage-connection-string-1 etc.
-	RedisConfiguration *RedisProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCommonPropertiesRedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
 
 	// RedisVersion: Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest'
 	// which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value
@@ -121,14 +123,14 @@ type RedisProperties_STATUS struct {
 	// UpdateChannel: Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive.
 	// Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches.
 	// Default value is 'Stable'.
-	UpdateChannel *RedisProperties_UpdateChannel_STATUS `json:"updateChannel,omitempty"`
+	UpdateChannel *UpdateChannel_STATUS `json:"updateChannel,omitempty"`
 
 	// ZonalAllocationPolicy: Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables
 	// zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined'
 	// will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache.
 	// If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will
 	// be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported.
-	ZonalAllocationPolicy *RedisProperties_ZonalAllocationPolicy_STATUS `json:"zonalAllocationPolicy,omitempty"`
+	ZonalAllocationPolicy *ZonalAllocationPolicy_STATUS `json:"zonalAllocationPolicy,omitempty"`
 }
 
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
@@ -149,11 +151,129 @@ var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentity
 	"userassigned":                 ManagedServiceIdentityType_STATUS_UserAssigned,
 }
 
-// The Private Endpoint Connection resource.
+// The private endpoint connection resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
+}
+
+// Redis instance provisioning status.
+type ProvisioningState_STATUS string
+
+const (
+	ProvisioningState_STATUS_ConfiguringAAD         = ProvisioningState_STATUS("ConfiguringAAD")
+	ProvisioningState_STATUS_Creating               = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting               = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Disabled               = ProvisioningState_STATUS("Disabled")
+	ProvisioningState_STATUS_Failed                 = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Linking                = ProvisioningState_STATUS("Linking")
+	ProvisioningState_STATUS_Provisioning           = ProvisioningState_STATUS("Provisioning")
+	ProvisioningState_STATUS_RecoveringScaleFailure = ProvisioningState_STATUS("RecoveringScaleFailure")
+	ProvisioningState_STATUS_Scaling                = ProvisioningState_STATUS("Scaling")
+	ProvisioningState_STATUS_Succeeded              = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_STATUS_Unlinking              = ProvisioningState_STATUS("Unlinking")
+	ProvisioningState_STATUS_Unprovisioning         = ProvisioningState_STATUS("Unprovisioning")
+	ProvisioningState_STATUS_Updating               = ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"configuringaad":         ProvisioningState_STATUS_ConfiguringAAD,
+	"creating":               ProvisioningState_STATUS_Creating,
+	"deleting":               ProvisioningState_STATUS_Deleting,
+	"disabled":               ProvisioningState_STATUS_Disabled,
+	"failed":                 ProvisioningState_STATUS_Failed,
+	"linking":                ProvisioningState_STATUS_Linking,
+	"provisioning":           ProvisioningState_STATUS_Provisioning,
+	"recoveringscalefailure": ProvisioningState_STATUS_RecoveringScaleFailure,
+	"scaling":                ProvisioningState_STATUS_Scaling,
+	"succeeded":              ProvisioningState_STATUS_Succeeded,
+	"unlinking":              ProvisioningState_STATUS_Unlinking,
+	"unprovisioning":         ProvisioningState_STATUS_Unprovisioning,
+	"updating":               ProvisioningState_STATUS_Updating,
+}
+
+// Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'
+type PublicNetworkAccess_STATUS string
+
+const (
+	PublicNetworkAccess_STATUS_Disabled = PublicNetworkAccess_STATUS("Disabled")
+	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccess_STATUS
+var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
+	"disabled": PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  PublicNetworkAccess_STATUS_Enabled,
+}
+
+// All Redis Settings. Few possible keys:
+// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,
+// maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0,
+// aof-storage-connection-string-1 etc.
+type RedisCommonPropertiesRedisConfiguration_STATUS struct {
+	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
+	AadEnabled *string `json:"aad-enabled,omitempty"`
+
+	// AofBackupEnabled: Specifies whether the aof backup is enabled
+	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
+
+	// AofStorageConnectionString0: First storage account connection string
+	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
+
+	// AofStorageConnectionString1: Second storage account connection string
+	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
+
+	// Authnotrequired: Specifies whether the authentication is disabled. Setting this property is highly discouraged from
+	// security point of view; you should never disable authentication using this property!
+	Authnotrequired *string `json:"authnotrequired,omitempty"`
+
+	// Maxclients: The max clients config
+	Maxclients *string `json:"maxclients,omitempty"`
+
+	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
+	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
+
+	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
+	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
+
+	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
+	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
+
+	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
+	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
+
+	// NotifyKeyspaceEvents: The keyspace events which should be monitored.
+	NotifyKeyspaceEvents *string `json:"notify-keyspace-events,omitempty"`
+
+	// PreferredDataArchiveAuthMethod: Preferred auth method to communicate to storage account used for data archive, specify
+	// SAS or ManagedIdentity, default value is SAS
+	PreferredDataArchiveAuthMethod *string `json:"preferred-data-archive-auth-method,omitempty"`
+
+	// PreferredDataPersistenceAuthMethod: Preferred auth method to communicate to storage account used for data persistence,
+	// specify SAS or ManagedIdentity, default value is SAS
+	PreferredDataPersistenceAuthMethod *string `json:"preferred-data-persistence-auth-method,omitempty"`
+
+	// RdbBackupEnabled: Specifies whether the RDB backup is enabled
+	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
+
+	// RdbBackupFrequency: Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720,
+	// 1440)
+	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
+
+	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
+	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
+
+	// RdbStorageConnectionString: The storage account connection string for storing rdb file
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
+
+	// StorageSubscriptionId: SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity.
+	StorageSubscriptionId *string `json:"storage-subscription-id,omitempty"`
+
+	// ZonalConfiguration: Zonal Configuration
+	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
 }
 
 // Details of single instance of redis.
@@ -183,160 +303,6 @@ type RedisLinkedServer_STATUS struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type RedisProperties_MinimumTlsVersion_STATUS string
-
-const (
-	RedisProperties_MinimumTlsVersion_STATUS_10 = RedisProperties_MinimumTlsVersion_STATUS("1.0")
-	RedisProperties_MinimumTlsVersion_STATUS_11 = RedisProperties_MinimumTlsVersion_STATUS("1.1")
-	RedisProperties_MinimumTlsVersion_STATUS_12 = RedisProperties_MinimumTlsVersion_STATUS("1.2")
-)
-
-// Mapping from string to RedisProperties_MinimumTlsVersion_STATUS
-var redisProperties_MinimumTlsVersion_STATUS_Values = map[string]RedisProperties_MinimumTlsVersion_STATUS{
-	"1.0": RedisProperties_MinimumTlsVersion_STATUS_10,
-	"1.1": RedisProperties_MinimumTlsVersion_STATUS_11,
-	"1.2": RedisProperties_MinimumTlsVersion_STATUS_12,
-}
-
-type RedisProperties_ProvisioningState_STATUS string
-
-const (
-	RedisProperties_ProvisioningState_STATUS_ConfiguringAAD         = RedisProperties_ProvisioningState_STATUS("ConfiguringAAD")
-	RedisProperties_ProvisioningState_STATUS_Creating               = RedisProperties_ProvisioningState_STATUS("Creating")
-	RedisProperties_ProvisioningState_STATUS_Deleting               = RedisProperties_ProvisioningState_STATUS("Deleting")
-	RedisProperties_ProvisioningState_STATUS_Disabled               = RedisProperties_ProvisioningState_STATUS("Disabled")
-	RedisProperties_ProvisioningState_STATUS_Failed                 = RedisProperties_ProvisioningState_STATUS("Failed")
-	RedisProperties_ProvisioningState_STATUS_Linking                = RedisProperties_ProvisioningState_STATUS("Linking")
-	RedisProperties_ProvisioningState_STATUS_Provisioning           = RedisProperties_ProvisioningState_STATUS("Provisioning")
-	RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure = RedisProperties_ProvisioningState_STATUS("RecoveringScaleFailure")
-	RedisProperties_ProvisioningState_STATUS_Scaling                = RedisProperties_ProvisioningState_STATUS("Scaling")
-	RedisProperties_ProvisioningState_STATUS_Succeeded              = RedisProperties_ProvisioningState_STATUS("Succeeded")
-	RedisProperties_ProvisioningState_STATUS_Unlinking              = RedisProperties_ProvisioningState_STATUS("Unlinking")
-	RedisProperties_ProvisioningState_STATUS_Unprovisioning         = RedisProperties_ProvisioningState_STATUS("Unprovisioning")
-	RedisProperties_ProvisioningState_STATUS_Updating               = RedisProperties_ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to RedisProperties_ProvisioningState_STATUS
-var redisProperties_ProvisioningState_STATUS_Values = map[string]RedisProperties_ProvisioningState_STATUS{
-	"configuringaad":         RedisProperties_ProvisioningState_STATUS_ConfiguringAAD,
-	"creating":               RedisProperties_ProvisioningState_STATUS_Creating,
-	"deleting":               RedisProperties_ProvisioningState_STATUS_Deleting,
-	"disabled":               RedisProperties_ProvisioningState_STATUS_Disabled,
-	"failed":                 RedisProperties_ProvisioningState_STATUS_Failed,
-	"linking":                RedisProperties_ProvisioningState_STATUS_Linking,
-	"provisioning":           RedisProperties_ProvisioningState_STATUS_Provisioning,
-	"recoveringscalefailure": RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure,
-	"scaling":                RedisProperties_ProvisioningState_STATUS_Scaling,
-	"succeeded":              RedisProperties_ProvisioningState_STATUS_Succeeded,
-	"unlinking":              RedisProperties_ProvisioningState_STATUS_Unlinking,
-	"unprovisioning":         RedisProperties_ProvisioningState_STATUS_Unprovisioning,
-	"updating":               RedisProperties_ProvisioningState_STATUS_Updating,
-}
-
-type RedisProperties_PublicNetworkAccess_STATUS string
-
-const (
-	RedisProperties_PublicNetworkAccess_STATUS_Disabled = RedisProperties_PublicNetworkAccess_STATUS("Disabled")
-	RedisProperties_PublicNetworkAccess_STATUS_Enabled  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
-)
-
-// Mapping from string to RedisProperties_PublicNetworkAccess_STATUS
-var redisProperties_PublicNetworkAccess_STATUS_Values = map[string]RedisProperties_PublicNetworkAccess_STATUS{
-	"disabled": RedisProperties_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":  RedisProperties_PublicNetworkAccess_STATUS_Enabled,
-}
-
-type RedisProperties_RedisConfiguration_STATUS struct {
-	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
-
-	// AofBackupEnabled: Specifies whether the aof backup is enabled
-	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
-
-	// AofStorageConnectionString0: First storage account connection string
-	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
-
-	// AofStorageConnectionString1: Second storage account connection string
-	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
-
-	// Authnotrequired: Specifies whether the authentication is disabled. Setting this property is highly discouraged from
-	// security point of view.
-	Authnotrequired *string `json:"authnotrequired,omitempty"`
-
-	// Maxclients: The max clients config
-	Maxclients *string `json:"maxclients,omitempty"`
-
-	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
-	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
-
-	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
-
-	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
-	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
-
-	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
-
-	// NotifyKeyspaceEvents: The keyspace events which should be monitored.
-	NotifyKeyspaceEvents *string `json:"notify-keyspace-events,omitempty"`
-
-	// PreferredDataArchiveAuthMethod: Preferred auth method to communicate to storage account used for data archive, specify
-	// SAS or ManagedIdentity, default value is SAS
-	PreferredDataArchiveAuthMethod *string `json:"preferred-data-archive-auth-method,omitempty"`
-
-	// PreferredDataPersistenceAuthMethod: Preferred auth method to communicate to storage account used for data persistence,
-	// specify SAS or ManagedIdentity, default value is SAS
-	PreferredDataPersistenceAuthMethod *string `json:"preferred-data-persistence-auth-method,omitempty"`
-
-	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
-	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
-
-	// RdbBackupFrequency: Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720,
-	// 1440)
-	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
-
-	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
-	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
-
-	// RdbStorageConnectionString: The storage account connection string for storing rdb file
-	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
-
-	// StorageSubscriptionId: SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity.
-	StorageSubscriptionId *string `json:"storage-subscription-id,omitempty"`
-
-	// ZonalConfiguration: Zonal Configuration
-	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
-}
-
-type RedisProperties_UpdateChannel_STATUS string
-
-const (
-	RedisProperties_UpdateChannel_STATUS_Preview = RedisProperties_UpdateChannel_STATUS("Preview")
-	RedisProperties_UpdateChannel_STATUS_Stable  = RedisProperties_UpdateChannel_STATUS("Stable")
-)
-
-// Mapping from string to RedisProperties_UpdateChannel_STATUS
-var redisProperties_UpdateChannel_STATUS_Values = map[string]RedisProperties_UpdateChannel_STATUS{
-	"preview": RedisProperties_UpdateChannel_STATUS_Preview,
-	"stable":  RedisProperties_UpdateChannel_STATUS_Stable,
-}
-
-type RedisProperties_ZonalAllocationPolicy_STATUS string
-
-const (
-	RedisProperties_ZonalAllocationPolicy_STATUS_Automatic   = RedisProperties_ZonalAllocationPolicy_STATUS("Automatic")
-	RedisProperties_ZonalAllocationPolicy_STATUS_NoZones     = RedisProperties_ZonalAllocationPolicy_STATUS("NoZones")
-	RedisProperties_ZonalAllocationPolicy_STATUS_UserDefined = RedisProperties_ZonalAllocationPolicy_STATUS("UserDefined")
-)
-
-// Mapping from string to RedisProperties_ZonalAllocationPolicy_STATUS
-var redisProperties_ZonalAllocationPolicy_STATUS_Values = map[string]RedisProperties_ZonalAllocationPolicy_STATUS{
-	"automatic":   RedisProperties_ZonalAllocationPolicy_STATUS_Automatic,
-	"nozones":     RedisProperties_ZonalAllocationPolicy_STATUS_NoZones,
-	"userdefined": RedisProperties_ZonalAllocationPolicy_STATUS_UserDefined,
-}
-
 // SKU parameters supplied to the create Redis operation.
 type Sku_STATUS struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
@@ -344,10 +310,42 @@ type Sku_STATUS struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *Sku_Family_STATUS `json:"family,omitempty"`
+	Family *SkuFamily_STATUS `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *SkuName_STATUS `json:"name,omitempty"`
+}
+
+// Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')
+type TlsVersion_STATUS string
+
+const (
+	TlsVersion_STATUS_10 = TlsVersion_STATUS("1.0")
+	TlsVersion_STATUS_11 = TlsVersion_STATUS("1.1")
+	TlsVersion_STATUS_12 = TlsVersion_STATUS("1.2")
+)
+
+// Mapping from string to TlsVersion_STATUS
+var tlsVersion_STATUS_Values = map[string]TlsVersion_STATUS{
+	"1.0": TlsVersion_STATUS_10,
+	"1.1": TlsVersion_STATUS_11,
+	"1.2": TlsVersion_STATUS_12,
+}
+
+// Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using
+// 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is
+// 'Stable'.
+type UpdateChannel_STATUS string
+
+const (
+	UpdateChannel_STATUS_Preview = UpdateChannel_STATUS("Preview")
+	UpdateChannel_STATUS_Stable  = UpdateChannel_STATUS("Stable")
+)
+
+// Mapping from string to UpdateChannel_STATUS
+var updateChannel_STATUS_Values = map[string]UpdateChannel_STATUS{
+	"preview": UpdateChannel_STATUS_Preview,
+	"stable":  UpdateChannel_STATUS_Stable,
 }
 
 // User assigned identity properties
@@ -359,30 +357,52 @@ type UserAssignedIdentity_STATUS struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type Sku_Family_STATUS string
+// Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and
+// Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select
+// availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+// 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be
+// set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported.
+type ZonalAllocationPolicy_STATUS string
 
 const (
-	Sku_Family_STATUS_C = Sku_Family_STATUS("C")
-	Sku_Family_STATUS_P = Sku_Family_STATUS("P")
+	ZonalAllocationPolicy_STATUS_Automatic   = ZonalAllocationPolicy_STATUS("Automatic")
+	ZonalAllocationPolicy_STATUS_NoZones     = ZonalAllocationPolicy_STATUS("NoZones")
+	ZonalAllocationPolicy_STATUS_UserDefined = ZonalAllocationPolicy_STATUS("UserDefined")
 )
 
-// Mapping from string to Sku_Family_STATUS
-var sku_Family_STATUS_Values = map[string]Sku_Family_STATUS{
-	"c": Sku_Family_STATUS_C,
-	"p": Sku_Family_STATUS_P,
+// Mapping from string to ZonalAllocationPolicy_STATUS
+var zonalAllocationPolicy_STATUS_Values = map[string]ZonalAllocationPolicy_STATUS{
+	"automatic":   ZonalAllocationPolicy_STATUS_Automatic,
+	"nozones":     ZonalAllocationPolicy_STATUS_NoZones,
+	"userdefined": ZonalAllocationPolicy_STATUS_UserDefined,
 }
 
-type Sku_Name_STATUS string
+// The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
+type SkuFamily_STATUS string
 
 const (
-	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
-	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
-	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
+	SkuFamily_STATUS_C = SkuFamily_STATUS("C")
+	SkuFamily_STATUS_P = SkuFamily_STATUS("P")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"basic":    Sku_Name_STATUS_Basic,
-	"premium":  Sku_Name_STATUS_Premium,
-	"standard": Sku_Name_STATUS_Standard,
+// Mapping from string to SkuFamily_STATUS
+var skuFamily_STATUS_Values = map[string]SkuFamily_STATUS{
+	"c": SkuFamily_STATUS_C,
+	"p": SkuFamily_STATUS_P,
+}
+
+// The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
+type SkuName_STATUS string
+
+const (
+	SkuName_STATUS_Basic    = SkuName_STATUS("Basic")
+	SkuName_STATUS_Premium  = SkuName_STATUS("Premium")
+	SkuName_STATUS_Standard = SkuName_STATUS("Standard")
+)
+
+// Mapping from string to SkuName_STATUS
+var skuName_STATUS_Values = map[string]SkuName_STATUS{
+	"basic":    SkuName_STATUS_Basic,
+	"premium":  SkuName_STATUS_Premium,
+	"standard": SkuName_STATUS_Standard,
 }

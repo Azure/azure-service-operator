@@ -504,8 +504,8 @@ type RedisFirewallRule_STATUS struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -513,6 +513,9 @@ type RedisFirewallRule_STATUS struct {
 
 	// StartIP: lowest IP address included in the range
 	StartIP *string `json:"startIP,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -614,6 +617,17 @@ func (rule *RedisFirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		rule.SystemData = &systemData
+	}
+
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -642,6 +656,18 @@ func (rule *RedisFirewallRule_STATUS) AssignProperties_From_RedisFirewallRule_ST
 	// StartIP
 	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		rule.SystemData = &systemDatum
+	} else {
+		rule.SystemData = nil
+	}
+
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -668,6 +694,18 @@ func (rule *RedisFirewallRule_STATUS) AssignProperties_To_RedisFirewallRule_STAT
 
 	// StartIP
 	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
+
+	// SystemData
+	if rule.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)

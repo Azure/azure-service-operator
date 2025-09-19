@@ -348,6 +348,9 @@ func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(subject Redis
 var redisAccessPolicyAssignment_STATUSGenerator gopter.Gen
 
 // RedisAccessPolicyAssignment_STATUSGenerator returns a generator of RedisAccessPolicyAssignment_STATUS instances for property testing.
+// We first initialize redisAccessPolicyAssignment_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RedisAccessPolicyAssignment_STATUSGenerator() gopter.Gen {
 	if redisAccessPolicyAssignment_STATUSGenerator != nil {
 		return redisAccessPolicyAssignment_STATUSGenerator
@@ -355,6 +358,12 @@ func RedisAccessPolicyAssignment_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
+	redisAccessPolicyAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
 	redisAccessPolicyAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_STATUS{}), generators)
 
 	return redisAccessPolicyAssignment_STATUSGenerator
@@ -368,13 +377,18 @@ func AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens 
 	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
 	gens["ObjectIdAlias"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Canceled,
-		RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Deleted,
-		RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Deleting,
-		RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Failed,
-		RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Succeeded,
-		RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS_Updating))
+		AccessPolicyAssignmentProvisioningState_STATUS_Canceled,
+		AccessPolicyAssignmentProvisioningState_STATUS_Deleted,
+		AccessPolicyAssignmentProvisioningState_STATUS_Deleting,
+		AccessPolicyAssignmentProvisioningState_STATUS_Failed,
+		AccessPolicyAssignmentProvisioningState_STATUS_Succeeded,
+		AccessPolicyAssignmentProvisioningState_STATUS_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_RedisAccessPolicyAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

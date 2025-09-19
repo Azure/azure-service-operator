@@ -93,6 +93,7 @@ func AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUS(gens map[strin
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ScheduleEntries_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_ScheduleEntries_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -215,15 +216,15 @@ func ScheduleEntry_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScheduleEntry_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleEntry_STATUS(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.PtrOf(gen.OneConstOf(
-		ScheduleEntry_DayOfWeek_STATUS_Everyday,
-		ScheduleEntry_DayOfWeek_STATUS_Friday,
-		ScheduleEntry_DayOfWeek_STATUS_Monday,
-		ScheduleEntry_DayOfWeek_STATUS_Saturday,
-		ScheduleEntry_DayOfWeek_STATUS_Sunday,
-		ScheduleEntry_DayOfWeek_STATUS_Thursday,
-		ScheduleEntry_DayOfWeek_STATUS_Tuesday,
-		ScheduleEntry_DayOfWeek_STATUS_Wednesday,
-		ScheduleEntry_DayOfWeek_STATUS_Weekend))
+		DayOfWeek_STATUS_Everyday,
+		DayOfWeek_STATUS_Friday,
+		DayOfWeek_STATUS_Monday,
+		DayOfWeek_STATUS_Saturday,
+		DayOfWeek_STATUS_Sunday,
+		DayOfWeek_STATUS_Thursday,
+		DayOfWeek_STATUS_Tuesday,
+		DayOfWeek_STATUS_Wednesday,
+		DayOfWeek_STATUS_Weekend))
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
 }

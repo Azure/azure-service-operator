@@ -209,6 +209,7 @@ func AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUS(gens map[strin
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS(gens map[string]gopter.Gen) {
 	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntry_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_RedisPatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

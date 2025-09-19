@@ -208,6 +208,7 @@ type RedisPatchSchedule_STATUS struct {
 	Name            *string                `json:"name,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry_STATUS `json:"scheduleEntries,omitempty"`
+	SystemData      *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type            *string                `json:"type,omitempty"`
 }
 

@@ -212,6 +212,7 @@ type RedisFirewallRule_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StartIP     *string                `json:"startIP,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 

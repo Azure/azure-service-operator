@@ -356,6 +356,13 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 	// ServerRole
 	server.ServerRole = genruntime.ClonePointerToString(source.ServerRole)
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Type
 	server.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -410,6 +417,19 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 
 	// ServerRole
 	destination.ServerRole = genruntime.ClonePointerToString(server.ServerRole)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(server.Type)
