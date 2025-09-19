@@ -79,7 +79,7 @@ func (extension *RoleAssignmentExtension) ModifyARMResource(
 	var _ conversion.Hub = ra
 
 	// If the specified role definition uses a well known name, look it up
-	roleDefinitionName := ra.Spec.RoleDefinitionReference.WellknownName
+	roleDefinitionName := ra.Spec.RoleDefinitionReference.WellKnownName
 	if roleDefinitionName != "" {
 		err := ensureBuiltInRoleDefinitionsLoaded(ctx, armClient)
 		if err != nil {

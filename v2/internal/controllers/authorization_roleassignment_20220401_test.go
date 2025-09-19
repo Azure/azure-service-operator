@@ -62,7 +62,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},
@@ -126,8 +126,8 @@ func Test_Authorization_RoleAssignmentOfBuiltInRole_OnResourceGroup_CRUD(t *test
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
-				WellknownName: "Contributor",
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
+				WellKnownName: "Contributor",
 			},
 		},
 	}
@@ -210,7 +210,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},

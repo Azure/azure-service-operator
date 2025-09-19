@@ -61,7 +61,7 @@ func Test_MissingConfigMap_ReturnsError(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},
@@ -122,7 +122,7 @@ func Test_ConfigMapUpdated_TriggersReconcile(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},
@@ -171,7 +171,7 @@ func Test_MissingConfigMapKey_ReturnsError(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},
@@ -221,7 +221,7 @@ func Test_ConfigMapInDifferentNamespace_ConfigMapNotFound(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},
@@ -328,7 +328,7 @@ func Test_UserConfigMapInDifferentNamespace_ShouldNotTriggerReconcile(t *testing
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},
@@ -359,7 +359,7 @@ func Test_UserConfigMapInDifferentNamespace_ShouldNotTriggerReconcile(t *testing
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 				},

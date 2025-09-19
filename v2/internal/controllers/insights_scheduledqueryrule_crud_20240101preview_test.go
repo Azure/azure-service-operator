@@ -63,7 +63,7 @@ func Test_Insights_ScheduledQueryRule_20240101preview_CRUD(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", // This is owner
 				},

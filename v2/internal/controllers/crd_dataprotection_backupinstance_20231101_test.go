@@ -227,7 +227,7 @@ func newRoleAssignment(tc *testcommon.KubePerTestContext, owner client.Object, n
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(owner),
-			RoleDefinitionReference: &genruntime.WellknownResourceReference{
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				ResourceReference: genruntime.ResourceReference{
 					ARMID: role,
 				},

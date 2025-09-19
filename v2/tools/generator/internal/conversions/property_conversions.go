@@ -1114,7 +1114,7 @@ var handCraftedConversions = []handCraftedConversion{
 		fromType:    astmodel.StringType,
 		toType:      astmodel.WellKnownResourceReferenceType,
 		implPackage: astmodel.GenRuntimeReference,
-		implFunc:    "CreateWellknownResourceReferenceFromARMID",
+		implFunc:    "CreateWellKnownResourceReferenceFromARMID",
 	},
 	{
 		fromType:    astmodel.FloatType,
