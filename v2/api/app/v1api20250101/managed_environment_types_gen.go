@@ -3740,7 +3740,7 @@ func (profile *WorkloadProfile_STATUS) AssignProperties_To_WorkloadProfile_STATU
 type CertificateKeyVaultProperties struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[a-zA-Z][a-zA-Z0-9+-.]*:[^\\s]*$"
 	// KeyVaultUrl: URL pointing to the Azure Key Vault secret that holds the certificate.
@@ -3759,8 +3759,8 @@ func (properties *CertificateKeyVaultProperties) ConvertToARM(resolved genruntim
 	// Set property "Identity":
 	if properties.IdentityReference != nil {
 		var identityReferenceTemp string
-		if properties.IdentityReference.WellknownName != "" {
-			identityReferenceTemp = properties.IdentityReference.WellknownName
+		if properties.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = properties.IdentityReference.WellKnownName
 		} else {
 			armID, err := resolved.ResolvedReferences.Lookup(properties.IdentityReference.ResourceReference)
 			if err != nil {

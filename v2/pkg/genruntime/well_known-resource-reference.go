@@ -10,7 +10,7 @@ package genruntime
 type WellKnownResourceReference struct {
 	ResourceReference `json:",inline"`
 
-	WellknownName string `json:"wellknownName,omitempty"`
+	WellKnownName string `json:"wellKnownName,omitempty"`
 }
 
 // Copy makes an independent copy of the WellknownResourceReference

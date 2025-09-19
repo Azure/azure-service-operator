@@ -359,7 +359,7 @@ ContainerApp: Resource
 │   │   │   ├── LogLevel: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── IdentitySettings: Object (3 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── Lifecycle: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Ingress: *Object (13 properties)
@@ -406,7 +406,7 @@ ContainerApp: Resource
 │   │   ├── MaxInactiveRevisions: *int
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Registries: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── PasswordSecretRef: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Server: *string
@@ -417,7 +417,7 @@ ContainerApp: Resource
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Secrets: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -530,7 +530,7 @@ ContainerApp: Resource
 │   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   ├── SecretRef: *string
 │   │   │       │   │   └── TriggerParameter: *string
-│   │   │       │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │       │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   ├── QueueLength: *int
 │   │   │       │   └── QueueName: *string
@@ -539,7 +539,7 @@ ContainerApp: Resource
 │   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   ├── SecretRef: *string
 │   │   │       │   │   └── TriggerParameter: *string
-│   │   │       │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │       │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │       │   ├── Metadata: map[string]string
 │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   └── Type: *string
@@ -548,7 +548,7 @@ ContainerApp: Resource
 │   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   ├── SecretRef: *string
 │   │   │       │   │   └── TriggerParameter: *string
-│   │   │       │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │       │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │       │   ├── Metadata: map[string]string
 │   │   │       │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── Name: *string
@@ -558,7 +558,7 @@ ContainerApp: Resource
 │   │   │           │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │           │   ├── SecretRef: *string
 │   │   │           │   └── TriggerParameter: *string
-│   │   │           ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │           ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │           ├── Metadata: map[string]string
 │   │   │           └── PropertyBag: genruntime.PropertyBag
 │   │   ├── ServiceBinds: Object (3 properties)[]
@@ -844,13 +844,13 @@ Job: Resource
 │   │   │           │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │           │   ├── SecretRef: *string
 │   │   │           │   └── TriggerParameter: *string
-│   │   │           ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │           ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │           ├── Metadata: map[string]v1.JSON
 │   │   │           ├── Name: *string
 │   │   │           ├── PropertyBag: genruntime.PropertyBag
 │   │   │           └── Type: *string
 │   │   ├── IdentitySettings: Object (3 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── Lifecycle: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── ManualTriggerConfig: *Object (3 properties)
@@ -859,7 +859,7 @@ Job: Resource
 │   │   │   └── ReplicaCompletionCount: *int
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Registries: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── PasswordSecretRef: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Server: *string
@@ -872,7 +872,7 @@ Job: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ReplicaCompletionCount: *int
 │   │   ├── Secrets: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -1139,7 +1139,7 @@ ManagedEnvironment: Resource
 │   ├── AzureName: string
 │   ├── CustomDomainConfiguration: *Object (5 properties)
 │   │   ├── CertificateKeyVaultProperties: *Object (3 properties)
-│   │   │   ├── IdentityReference: *genruntime.WellknownResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── CertificatePassword: *genruntime.SecretReference

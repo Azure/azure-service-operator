@@ -495,7 +495,7 @@ type IdentitySettings struct {
 	// +kubebuilder:validation:Required
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	Lifecycle         *string                                `json:"lifecycle,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
@@ -550,7 +550,7 @@ type Ingress_STATUS struct {
 type RegistryCredentials struct {
 	// IdentityReference: A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned
 	// identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system'
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	PasswordSecretRef *string                                `json:"passwordSecretRef,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	Server            *string                                `json:"server,omitempty"`
@@ -608,7 +608,7 @@ type Scale_STATUS struct {
 type Secret struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	KeyVaultUrl       *string                                `json:"keyVaultUrl,omitempty"`
 	Name              *string                                `json:"name,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -983,7 +983,7 @@ type CustomScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	Metadata          map[string]string                      `json:"metadata,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	Type              *string                                `json:"type,omitempty"`
@@ -1006,7 +1006,7 @@ type HttpScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	Metadata          map[string]string                      `json:"metadata,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
@@ -1028,7 +1028,7 @@ type QueueScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	QueueLength       *int                                   `json:"queueLength,omitempty"`
 	QueueName         *string                                `json:"queueName,omitempty"`
@@ -1052,7 +1052,7 @@ type TcpScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.WellknownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 	Metadata          map[string]string                      `json:"metadata,omitempty"`
 	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
