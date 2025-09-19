@@ -804,10 +804,10 @@ type ServiceMeshProfile struct {
 // Details about a user assigned identity.
 type UserAssignedIdentity struct {
 	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
+	ClientId *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
 
 	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// ResourceId: The resource ID of the user assigned identity.
 	ResourceId *string `json:"resourceId,omitempty"`

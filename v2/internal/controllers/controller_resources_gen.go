@@ -1008,6 +1008,22 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexContainerserviceManagedClusterAdminPassword,
 			},
 			{
+				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentityObjectIdFromConfig,
+			},
+			{
+				Key:  ".spec.identityProfile.clientIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.identityProfile.objectIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig,
+			},
+			{
 				Key:  ".spec.servicePrincipalProfile.secret",
 				Func: indexContainerserviceManagedClusterSecret,
 			},
@@ -1019,6 +1035,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.servicePrincipalProfile.secret",
 						".spec.windowsProfile.adminPassword",
+					},
+					&containerservice_v20240901s.ManagedClusterList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.identityProfile.clientIdFromConfig",
+						".spec.identityProfile.objectIdFromConfig",
+						".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
+						".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
 					},
 					&containerservice_v20240901s.ManagedClusterList{}),
 			},
@@ -6692,6 +6719,82 @@ func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []st
 		return nil
 	}
 	return obj.Spec.WindowsProfile.AdminPassword.Index()
+}
+
+// indexContainerserviceManagedClusterIdentityClientIdFromConfig an index function for containerservice_v20240901s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
+func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.PodIdentityProfile == nil {
+		return nil
+	}
+	for _, userAssignedIdentityItem := range obj.Spec.PodIdentityProfile.UserAssignedIdentities {
+		if userAssignedIdentityItem.Identity == nil {
+			continue
+		}
+		if userAssignedIdentityItem.Identity.ClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, userAssignedIdentityItem.Identity.ClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityObjectIdFromConfig an index function for containerservice_v20240901s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
+func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.PodIdentityProfile == nil {
+		return nil
+	}
+	for _, userAssignedIdentityItem := range obj.Spec.PodIdentityProfile.UserAssignedIdentities {
+		if userAssignedIdentityItem.Identity == nil {
+			continue
+		}
+		if userAssignedIdentityItem.Identity.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, userAssignedIdentityItem.Identity.ObjectIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20240901s.ManagedCluster .spec.identityProfile.clientIdFromConfig
+func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, value := range obj.Spec.IdentityProfile {
+		if value.ClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, value.ClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20240901s.ManagedCluster .spec.identityProfile.objectIdFromConfig
+func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, value := range obj.Spec.IdentityProfile {
+		if value.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, value.ObjectIdFromConfig.Index()...)
+	}
+	return result
 }
 
 // indexContainerserviceManagedClusterSecret an index function for containerservice_v20240901s.ManagedCluster .spec.servicePrincipalProfile.secret
