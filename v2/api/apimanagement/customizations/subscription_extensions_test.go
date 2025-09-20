@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	apimanagement "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	apimanagement "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )

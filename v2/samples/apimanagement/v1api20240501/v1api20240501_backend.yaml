@@ -1,0 +1,12 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: Backend
+metadata:
+  name: samplebackend
+  namespace: default
+spec:
+  azureName: "test_backend"
+  description: "A sample backend configuration"
+  protocol: "http"
+  url: "https://www.bing.com"
+  owner:
+    name: sampleapimservice
