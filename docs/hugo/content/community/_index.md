@@ -18,7 +18,7 @@ ASO has an active community with contributors from all over the OSS spectrum and
 
 [GitHub Repo](https://azure.github.io/azure-service-operator/guide/crd-management/) - You can find ASO on GitHub. Here you can find the source code, upcoming releases, open issues, and more.
 
-- [GitHub Issues](https://github.com/Azure/azure-service-operator/issues) - If you have issues with ASO and need help or have a feature request for a future ASO iteration, you can file a New issue here.
+- [GitHub Issues](https://github.com/Azure/azure-service-operator/issues) - If you have issues with ASO and need help, or have a feature request for a future ASO iteration, [create a new issue](https://github.com/Azure/azure-service-operator/issues/new/choose) here.
 
    - We aim to triage issues weekly, and review issues every 6 months.
 

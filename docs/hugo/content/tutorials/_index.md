@@ -42,7 +42,7 @@ The CosmosDB is hosted in Azure but created easily via `kubectl` and Azure Servi
 {{% /cardpane %}}
 
 {{% cardpane %}}
-{{% card header="Create ASO Resources and Visuals"%}}
+{{% card header="Create ASO resources and visuals"%}}
 
 [Create ASO resources and view them](https://azure-samples.github.io/aks-labs/docs/platform-engineering/aks-capz-aso/#sample-1-create-a-new-aks-cluster-as-an-argo-cd-application) through the Argo CD UI.
 

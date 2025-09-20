@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Create ASO Resources and View Them in ArgoCD"
+title: "Tutorial: Create ASO resources and view them in ArgoCD"
 ---
 
 Follow the [guided example](https://azure-samples.github.io/aks-labs/docs/platform-engineering/aks-capz-aso/#sample-1-create-a-new-aks-cluster-as-an-argo-cd-application)
