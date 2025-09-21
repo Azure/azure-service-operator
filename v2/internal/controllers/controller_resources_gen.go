@@ -29,6 +29,9 @@ import (
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
 	appconfiguration_v20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/webhook"
+	appconfiguration_v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
+	appconfiguration_v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/storage"
+	appconfiguration_v20240601w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/webhook"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
@@ -670,7 +673,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.ConfigurationStore)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.KeyValue)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.Replica)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.Snapshot)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20220401s.RoleAssignment),
 		Indexes: []registration.Index{
@@ -2795,6 +2801,34 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &appconfiguration_v20220501w.ConfigurationStore{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.ConfigurationStore),
+			Defaulter: &appconfiguration_v20240601w.ConfigurationStore{},
+			Validator: &appconfiguration_v20240601w.ConfigurationStore{},
+		},
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.KeyValue),
+			Defaulter: &appconfiguration_v20240601w.KeyValue{},
+			Validator: &appconfiguration_v20240601w.KeyValue{},
+		},
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.Replica),
+			Defaulter: &appconfiguration_v20240601w.Replica{},
+			Validator: &appconfiguration_v20240601w.Replica{},
+		},
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.Snapshot),
+			Defaulter: &appconfiguration_v20240601w.Snapshot{},
+			Validator: &appconfiguration_v20240601w.Snapshot{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.ConfigurationStore)},
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.KeyValue)},
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Replica)},
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Snapshot)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(authorization_v20200801p.RoleAssignment),
 		Defaulter: &authorization_v20200801pw.RoleAssignment{},
@@ -5352,6 +5386,8 @@ func createScheme() *runtime.Scheme {
 	_ = app_v20250101s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
+	_ = appconfiguration_v20240601.AddToScheme(scheme)
+	_ = appconfiguration_v20240601s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
@@ -5585,6 +5621,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &app_customizations.JobExtension{})
 	result = append(result, &app_customizations.ManagedEnvironmentExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
+	result = append(result, &appconfiguration_customizations.KeyValueExtension{})
+	result = append(result, &appconfiguration_customizations.ReplicaExtension{})
+	result = append(result, &appconfiguration_customizations.SnapshotExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
