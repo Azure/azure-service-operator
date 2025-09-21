@@ -388,8 +388,6 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.JsonObject != nil {
 		jsonObjectMap := make(map[string]v1.JSON, len(source.JsonObject))
 		for jsonObjectKey, jsonObjectValue := range source.JsonObject {
-			// Shadow the loop variable to avoid aliasing
-			jsonObjectValue := jsonObjectValue
 			jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
 		}
 		resource.JsonObject = jsonObjectMap
@@ -461,8 +459,6 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.JsonObject != nil {
 		jsonObjectMap := make(map[string]v1.JSON, len(resource.JsonObject))
 		for jsonObjectKey, jsonObjectValue := range resource.JsonObject {
-			// Shadow the loop variable to avoid aliasing
-			jsonObjectValue := jsonObjectValue
 			jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
 		}
 		destination.JsonObject = jsonObjectMap
@@ -568,8 +564,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -586,8 +580,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -613,8 +605,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -631,8 +621,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

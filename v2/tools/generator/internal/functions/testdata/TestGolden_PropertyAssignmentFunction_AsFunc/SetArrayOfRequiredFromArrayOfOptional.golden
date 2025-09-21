@@ -19,8 +19,6 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 	if source.Scores != nil {
 		scoreList := make([]int, len(source.Scores))
 		for scoreIndex, scoreItem := range source.Scores {
-			// Shadow the loop variable to avoid aliasing
-			scoreItem := scoreItem
 			scoreList[scoreIndex] = genruntime.GetOptionalIntValue(scoreItem)
 		}
 		person.Scores = scoreList
@@ -39,8 +37,6 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 	if person.Scores != nil {
 		scoreList := make([]*int, len(person.Scores))
 		for scoreIndex, scoreItem := range person.Scores {
-			// Shadow the loop variable to avoid aliasing
-			scoreItem := scoreItem
 			scoreList[scoreIndex] = &scoreItem
 		}
 		destination.Scores = scoreList
