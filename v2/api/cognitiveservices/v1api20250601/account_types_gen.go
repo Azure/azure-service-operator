@@ -1089,8 +1089,6 @@ func (operator *AccountOperatorSpec) AssignProperties_From_AccountOperatorSpec(s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1107,8 +1105,6 @@ func (operator *AccountOperatorSpec) AssignProperties_From_AccountOperatorSpec(s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1146,8 +1142,6 @@ func (operator *AccountOperatorSpec) AssignProperties_To_AccountOperatorSpec(des
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1164,8 +1158,6 @@ func (operator *AccountOperatorSpec) AssignProperties_To_AccountOperatorSpec(des
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1687,8 +1679,6 @@ func (properties *AccountProperties) AssignProperties_From_AccountProperties(sou
 	if source.NetworkInjections != nil {
 		networkInjectionList := make([]NetworkInjection, len(source.NetworkInjections))
 		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
-			// Shadow the loop variable to avoid aliasing
-			networkInjectionItem := networkInjectionItem
 			var networkInjection NetworkInjection
 			err := networkInjection.AssignProperties_From_NetworkInjection(&networkInjectionItem)
 			if err != nil {
@@ -1742,8 +1732,6 @@ func (properties *AccountProperties) AssignProperties_From_AccountProperties(sou
 	if source.UserOwnedStorage != nil {
 		userOwnedStorageList := make([]UserOwnedStorage, len(source.UserOwnedStorage))
 		for userOwnedStorageIndex, userOwnedStorageItem := range source.UserOwnedStorage {
-			// Shadow the loop variable to avoid aliasing
-			userOwnedStorageItem := userOwnedStorageItem
 			var userOwnedStorage UserOwnedStorage
 			err := userOwnedStorage.AssignProperties_From_UserOwnedStorage(&userOwnedStorageItem)
 			if err != nil {
@@ -1873,8 +1861,6 @@ func (properties *AccountProperties) AssignProperties_To_AccountProperties(desti
 	if properties.NetworkInjections != nil {
 		networkInjectionList := make([]storage.NetworkInjection, len(properties.NetworkInjections))
 		for networkInjectionIndex, networkInjectionItem := range properties.NetworkInjections {
-			// Shadow the loop variable to avoid aliasing
-			networkInjectionItem := networkInjectionItem
 			var networkInjection storage.NetworkInjection
 			err := networkInjectionItem.AssignProperties_To_NetworkInjection(&networkInjection)
 			if err != nil {
@@ -1927,8 +1913,6 @@ func (properties *AccountProperties) AssignProperties_To_AccountProperties(desti
 	if properties.UserOwnedStorage != nil {
 		userOwnedStorageList := make([]storage.UserOwnedStorage, len(properties.UserOwnedStorage))
 		for userOwnedStorageIndex, userOwnedStorageItem := range properties.UserOwnedStorage {
-			// Shadow the loop variable to avoid aliasing
-			userOwnedStorageItem := userOwnedStorageItem
 			var userOwnedStorage storage.UserOwnedStorage
 			err := userOwnedStorageItem.AssignProperties_To_UserOwnedStorage(&userOwnedStorage)
 			if err != nil {
@@ -2055,8 +2039,6 @@ func (properties *AccountProperties) Initialize_From_AccountProperties_STATUS(so
 	if source.NetworkInjections != nil {
 		networkInjectionList := make([]NetworkInjection, len(source.NetworkInjections))
 		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
-			// Shadow the loop variable to avoid aliasing
-			networkInjectionItem := networkInjectionItem
 			var networkInjection NetworkInjection
 			err := networkInjection.Initialize_From_NetworkInjection_STATUS(&networkInjectionItem)
 			if err != nil {
@@ -2109,8 +2091,6 @@ func (properties *AccountProperties) Initialize_From_AccountProperties_STATUS(so
 	if source.UserOwnedStorage != nil {
 		userOwnedStorageList := make([]UserOwnedStorage, len(source.UserOwnedStorage))
 		for userOwnedStorageIndex, userOwnedStorageItem := range source.UserOwnedStorage {
-			// Shadow the loop variable to avoid aliasing
-			userOwnedStorageItem := userOwnedStorageItem
 			var userOwnedStorage UserOwnedStorage
 			err := userOwnedStorage.Initialize_From_UserOwnedStorage_STATUS(&userOwnedStorageItem)
 			if err != nil {
@@ -2577,8 +2557,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_From_AccountPropert
 	if source.Capabilities != nil {
 		capabilityList := make([]SkuCapability_STATUS, len(source.Capabilities))
 		for capabilityIndex, capabilityItem := range source.Capabilities {
-			// Shadow the loop variable to avoid aliasing
-			capabilityItem := capabilityItem
 			var capability SkuCapability_STATUS
 			err := capability.AssignProperties_From_SkuCapability_STATUS(&capabilityItem)
 			if err != nil {
@@ -2595,8 +2573,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_From_AccountPropert
 	if source.CommitmentPlanAssociations != nil {
 		commitmentPlanAssociationList := make([]CommitmentPlanAssociation_STATUS, len(source.CommitmentPlanAssociations))
 		for commitmentPlanAssociationIndex, commitmentPlanAssociationItem := range source.CommitmentPlanAssociations {
-			// Shadow the loop variable to avoid aliasing
-			commitmentPlanAssociationItem := commitmentPlanAssociationItem
 			var commitmentPlanAssociation CommitmentPlanAssociation_STATUS
 			err := commitmentPlanAssociation.AssignProperties_From_CommitmentPlanAssociation_STATUS(&commitmentPlanAssociationItem)
 			if err != nil {
@@ -2694,8 +2670,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_From_AccountPropert
 	if source.NetworkInjections != nil {
 		networkInjectionList := make([]NetworkInjection_STATUS, len(source.NetworkInjections))
 		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
-			// Shadow the loop variable to avoid aliasing
-			networkInjectionItem := networkInjectionItem
 			var networkInjection NetworkInjection_STATUS
 			err := networkInjection.AssignProperties_From_NetworkInjection_STATUS(&networkInjectionItem)
 			if err != nil {
@@ -2712,8 +2686,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_From_AccountPropert
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -2803,8 +2775,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_From_AccountPropert
 	if source.UserOwnedStorage != nil {
 		userOwnedStorageList := make([]UserOwnedStorage_STATUS, len(source.UserOwnedStorage))
 		for userOwnedStorageIndex, userOwnedStorageItem := range source.UserOwnedStorage {
-			// Shadow the loop variable to avoid aliasing
-			userOwnedStorageItem := userOwnedStorageItem
 			var userOwnedStorage UserOwnedStorage_STATUS
 			err := userOwnedStorage.AssignProperties_From_UserOwnedStorage_STATUS(&userOwnedStorageItem)
 			if err != nil {
@@ -2892,8 +2862,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_To_AccountPropertie
 	if properties.Capabilities != nil {
 		capabilityList := make([]storage.SkuCapability_STATUS, len(properties.Capabilities))
 		for capabilityIndex, capabilityItem := range properties.Capabilities {
-			// Shadow the loop variable to avoid aliasing
-			capabilityItem := capabilityItem
 			var capability storage.SkuCapability_STATUS
 			err := capabilityItem.AssignProperties_To_SkuCapability_STATUS(&capability)
 			if err != nil {
@@ -2910,8 +2878,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_To_AccountPropertie
 	if properties.CommitmentPlanAssociations != nil {
 		commitmentPlanAssociationList := make([]storage.CommitmentPlanAssociation_STATUS, len(properties.CommitmentPlanAssociations))
 		for commitmentPlanAssociationIndex, commitmentPlanAssociationItem := range properties.CommitmentPlanAssociations {
-			// Shadow the loop variable to avoid aliasing
-			commitmentPlanAssociationItem := commitmentPlanAssociationItem
 			var commitmentPlanAssociation storage.CommitmentPlanAssociation_STATUS
 			err := commitmentPlanAssociationItem.AssignProperties_To_CommitmentPlanAssociation_STATUS(&commitmentPlanAssociation)
 			if err != nil {
@@ -3009,8 +2975,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_To_AccountPropertie
 	if properties.NetworkInjections != nil {
 		networkInjectionList := make([]storage.NetworkInjection_STATUS, len(properties.NetworkInjections))
 		for networkInjectionIndex, networkInjectionItem := range properties.NetworkInjections {
-			// Shadow the loop variable to avoid aliasing
-			networkInjectionItem := networkInjectionItem
 			var networkInjection storage.NetworkInjection_STATUS
 			err := networkInjectionItem.AssignProperties_To_NetworkInjection_STATUS(&networkInjection)
 			if err != nil {
@@ -3027,8 +2991,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_To_AccountPropertie
 	if properties.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(properties.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range properties.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -3116,8 +3078,6 @@ func (properties *AccountProperties_STATUS) AssignProperties_To_AccountPropertie
 	if properties.UserOwnedStorage != nil {
 		userOwnedStorageList := make([]storage.UserOwnedStorage_STATUS, len(properties.UserOwnedStorage))
 		for userOwnedStorageIndex, userOwnedStorageItem := range properties.UserOwnedStorage {
-			// Shadow the loop variable to avoid aliasing
-			userOwnedStorageItem := userOwnedStorageItem
 			var userOwnedStorage storage.UserOwnedStorage_STATUS
 			err := userOwnedStorageItem.AssignProperties_To_UserOwnedStorage_STATUS(&userOwnedStorage)
 			if err != nil {
@@ -3224,8 +3184,6 @@ func (identity *Identity) AssignProperties_From_Identity(source *storage.Identit
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -3259,8 +3217,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -3401,8 +3357,6 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -3442,8 +3396,6 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -4499,8 +4451,6 @@ func (properties *ApiProperties) AssignProperties_From_ApiProperties(source *sto
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		properties.AdditionalProperties = additionalPropertyMap
@@ -4619,8 +4569,6 @@ func (properties *ApiProperties) AssignProperties_To_ApiProperties(destination *
 	if properties.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(properties.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range properties.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -4728,8 +4676,6 @@ func (properties *ApiProperties) Initialize_From_ApiProperties_STATUS(source *Ap
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		properties.AdditionalProperties = additionalPropertyMap
@@ -4867,8 +4813,6 @@ func (properties *ApiProperties_STATUS) AssignProperties_From_ApiProperties_STAT
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		properties.AdditionalProperties = additionalPropertyMap
@@ -4915,8 +4859,6 @@ func (properties *ApiProperties_STATUS) AssignProperties_To_ApiProperties_STATUS
 	if properties.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(properties.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range properties.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -5028,8 +4970,6 @@ func (limit *CallRateLimit_STATUS) AssignProperties_From_CallRateLimit_STATUS(so
 	if source.Rules != nil {
 		ruleList := make([]ThrottlingRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ThrottlingRule_STATUS
 			err := rule.AssignProperties_From_ThrottlingRule_STATUS(&ruleItem)
 			if err != nil {
@@ -5071,8 +5011,6 @@ func (limit *CallRateLimit_STATUS) AssignProperties_To_CallRateLimit_STATUS(dest
 	if limit.Rules != nil {
 		ruleList := make([]storage.ThrottlingRule_STATUS, len(limit.Rules))
 		for ruleIndex, ruleItem := range limit.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ThrottlingRule_STATUS
 			err := ruleItem.AssignProperties_To_ThrottlingRule_STATUS(&rule)
 			if err != nil {
@@ -5556,8 +5494,6 @@ func (settings *MultiRegionSettings) AssignProperties_From_MultiRegionSettings(s
 	if source.Regions != nil {
 		regionList := make([]RegionSetting, len(source.Regions))
 		for regionIndex, regionItem := range source.Regions {
-			// Shadow the loop variable to avoid aliasing
-			regionItem := regionItem
 			var region RegionSetting
 			err := region.AssignProperties_From_RegionSetting(&regionItem)
 			if err != nil {
@@ -5592,8 +5528,6 @@ func (settings *MultiRegionSettings) AssignProperties_To_MultiRegionSettings(des
 	if settings.Regions != nil {
 		regionList := make([]storage.RegionSetting, len(settings.Regions))
 		for regionIndex, regionItem := range settings.Regions {
-			// Shadow the loop variable to avoid aliasing
-			regionItem := regionItem
 			var region storage.RegionSetting
 			err := regionItem.AssignProperties_To_RegionSetting(&region)
 			if err != nil {
@@ -5632,8 +5566,6 @@ func (settings *MultiRegionSettings) Initialize_From_MultiRegionSettings_STATUS(
 	if source.Regions != nil {
 		regionList := make([]RegionSetting, len(source.Regions))
 		for regionIndex, regionItem := range source.Regions {
-			// Shadow the loop variable to avoid aliasing
-			regionItem := regionItem
 			var region RegionSetting
 			err := region.Initialize_From_RegionSetting_STATUS(&regionItem)
 			if err != nil {
@@ -5709,8 +5641,6 @@ func (settings *MultiRegionSettings_STATUS) AssignProperties_From_MultiRegionSet
 	if source.Regions != nil {
 		regionList := make([]RegionSetting_STATUS, len(source.Regions))
 		for regionIndex, regionItem := range source.Regions {
-			// Shadow the loop variable to avoid aliasing
-			regionItem := regionItem
 			var region RegionSetting_STATUS
 			err := region.AssignProperties_From_RegionSetting_STATUS(&regionItem)
 			if err != nil {
@@ -5745,8 +5675,6 @@ func (settings *MultiRegionSettings_STATUS) AssignProperties_To_MultiRegionSetti
 	if settings.Regions != nil {
 		regionList := make([]storage.RegionSetting_STATUS, len(settings.Regions))
 		for regionIndex, regionItem := range settings.Regions {
-			// Shadow the loop variable to avoid aliasing
-			regionItem := regionItem
 			var region storage.RegionSetting_STATUS
 			err := regionItem.AssignProperties_To_RegionSetting_STATUS(&region)
 			if err != nil {
@@ -6216,8 +6144,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 	if source.IpRules != nil {
 		ipRuleList := make([]IpRule, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IpRule
 			err := ipRule.AssignProperties_From_IpRule(&ipRuleItem)
 			if err != nil {
@@ -6234,8 +6160,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 	if source.VirtualNetworkRules != nil {
 		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule VirtualNetworkRule
 			err := virtualNetworkRule.AssignProperties_From_VirtualNetworkRule(&virtualNetworkRuleItem)
 			if err != nil {
@@ -6277,8 +6201,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 	if ruleSet.IpRules != nil {
 		ipRuleList := make([]storage.IpRule, len(ruleSet.IpRules))
 		for ipRuleIndex, ipRuleItem := range ruleSet.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule storage.IpRule
 			err := ipRuleItem.AssignProperties_To_IpRule(&ipRule)
 			if err != nil {
@@ -6295,8 +6217,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 	if ruleSet.VirtualNetworkRules != nil {
 		virtualNetworkRuleList := make([]storage.VirtualNetworkRule, len(ruleSet.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range ruleSet.VirtualNetworkRules {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule storage.VirtualNetworkRule
 			err := virtualNetworkRuleItem.AssignProperties_To_VirtualNetworkRule(&virtualNetworkRule)
 			if err != nil {
@@ -6343,8 +6263,6 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 	if source.IpRules != nil {
 		ipRuleList := make([]IpRule, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IpRule
 			err := ipRule.Initialize_From_IpRule_STATUS(&ipRuleItem)
 			if err != nil {
@@ -6361,8 +6279,6 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 	if source.VirtualNetworkRules != nil {
 		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule VirtualNetworkRule
 			err := virtualNetworkRule.Initialize_From_VirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
 			if err != nil {
@@ -6474,8 +6390,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 	if source.IpRules != nil {
 		ipRuleList := make([]IpRule_STATUS, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IpRule_STATUS
 			err := ipRule.AssignProperties_From_IpRule_STATUS(&ipRuleItem)
 			if err != nil {
@@ -6492,8 +6406,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 	if source.VirtualNetworkRules != nil {
 		virtualNetworkRuleList := make([]VirtualNetworkRule_STATUS, len(source.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule VirtualNetworkRule_STATUS
 			err := virtualNetworkRule.AssignProperties_From_VirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
 			if err != nil {
@@ -6535,8 +6447,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	if ruleSet.IpRules != nil {
 		ipRuleList := make([]storage.IpRule_STATUS, len(ruleSet.IpRules))
 		for ipRuleIndex, ipRuleItem := range ruleSet.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule storage.IpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IpRule_STATUS(&ipRule)
 			if err != nil {
@@ -6553,8 +6463,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	if ruleSet.VirtualNetworkRules != nil {
 		virtualNetworkRuleList := make([]storage.VirtualNetworkRule_STATUS, len(ruleSet.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range ruleSet.VirtualNetworkRules {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule storage.VirtualNetworkRule_STATUS
 			err := virtualNetworkRuleItem.AssignProperties_To_VirtualNetworkRule_STATUS(&virtualNetworkRule)
 			if err != nil {
@@ -6707,8 +6615,6 @@ func (limit *QuotaLimit_STATUS) AssignProperties_From_QuotaLimit_STATUS(source *
 	if source.Rules != nil {
 		ruleList := make([]ThrottlingRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ThrottlingRule_STATUS
 			err := rule.AssignProperties_From_ThrottlingRule_STATUS(&ruleItem)
 			if err != nil {
@@ -6750,8 +6656,6 @@ func (limit *QuotaLimit_STATUS) AssignProperties_To_QuotaLimit_STATUS(destinatio
 	if limit.Rules != nil {
 		ruleList := make([]storage.ThrottlingRule_STATUS, len(limit.Rules))
 		for ruleIndex, ruleItem := range limit.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ThrottlingRule_STATUS
 			err := ruleItem.AssignProperties_To_ThrottlingRule_STATUS(&rule)
 			if err != nil {

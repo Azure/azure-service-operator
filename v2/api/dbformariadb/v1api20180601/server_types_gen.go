@@ -957,8 +957,6 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *storage
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]ServerPrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection ServerPrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_ServerPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1088,8 +1086,6 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *stor
 	if server.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.ServerPrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range server.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.ServerPrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_ServerPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -1233,8 +1229,6 @@ func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(sou
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1251,8 +1245,6 @@ func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(sou
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1290,8 +1282,6 @@ func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(desti
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1308,8 +1298,6 @@ func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(desti
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

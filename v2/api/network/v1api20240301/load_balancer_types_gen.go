@@ -624,8 +624,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]BackendAddressPool_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool BackendAddressPool_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPool.AssignProperties_From_BackendAddressPool_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
 			if err != nil {
@@ -654,8 +652,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfiguration.AssignProperties_From_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
 			if err != nil {
@@ -672,8 +668,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.InboundNatPools != nil {
 		inboundNatPoolList := make([]InboundNatPool, len(source.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool InboundNatPool
 			err := inboundNatPool.AssignProperties_From_InboundNatPool(&inboundNatPoolItem)
 			if err != nil {
@@ -690,8 +684,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.InboundNatRules != nil {
 		inboundNatRuleList := make([]InboundNatRule_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule InboundNatRule_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRule.AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
 			if err != nil {
@@ -708,8 +700,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]LoadBalancingRule, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule LoadBalancingRule
 			err := loadBalancingRule.AssignProperties_From_LoadBalancingRule(&loadBalancingRuleItem)
 			if err != nil {
@@ -741,8 +731,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.OutboundRules != nil {
 		outboundRuleList := make([]OutboundRule, len(source.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule OutboundRule
 			err := outboundRule.AssignProperties_From_OutboundRule(&outboundRuleItem)
 			if err != nil {
@@ -767,8 +755,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 	if source.Probes != nil {
 		probeList := make([]Probe, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe Probe
 			err := probe.AssignProperties_From_Probe(&probeItem)
 			if err != nil {
@@ -812,8 +798,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.BackendAddressPools != nil {
 		backendAddressPoolList := make([]storage.BackendAddressPool_LoadBalancer_SubResourceEmbedded, len(balancer.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range balancer.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.BackendAddressPool_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPoolItem.AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded(&backendAddressPool)
 			if err != nil {
@@ -842,8 +826,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]storage.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, len(balancer.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range balancer.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfigurationItem.AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(&frontendIPConfiguration)
 			if err != nil {
@@ -860,8 +842,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.InboundNatPools != nil {
 		inboundNatPoolList := make([]storage.InboundNatPool, len(balancer.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range balancer.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool storage.InboundNatPool
 			err := inboundNatPoolItem.AssignProperties_To_InboundNatPool(&inboundNatPool)
 			if err != nil {
@@ -878,8 +858,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.InboundNatRules != nil {
 		inboundNatRuleList := make([]storage.InboundNatRule_LoadBalancer_SubResourceEmbedded, len(balancer.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range balancer.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule storage.InboundNatRule_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRuleItem.AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(&inboundNatRule)
 			if err != nil {
@@ -896,8 +874,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]storage.LoadBalancingRule, len(balancer.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range balancer.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule storage.LoadBalancingRule
 			err := loadBalancingRuleItem.AssignProperties_To_LoadBalancingRule(&loadBalancingRule)
 			if err != nil {
@@ -932,8 +908,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.OutboundRules != nil {
 		outboundRuleList := make([]storage.OutboundRule, len(balancer.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range balancer.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule storage.OutboundRule
 			err := outboundRuleItem.AssignProperties_To_OutboundRule(&outboundRule)
 			if err != nil {
@@ -958,8 +932,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	if balancer.Probes != nil {
 		probeList := make([]storage.Probe, len(balancer.Probes))
 		for probeIndex, probeItem := range balancer.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe storage.Probe
 			err := probeItem.AssignProperties_To_Probe(&probe)
 			if err != nil {
@@ -1005,8 +977,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]BackendAddressPool_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool BackendAddressPool_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPool.Initialize_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
 			if err != nil {
@@ -1035,8 +1005,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfiguration.Initialize_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
 			if err != nil {
@@ -1053,8 +1021,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.InboundNatPools != nil {
 		inboundNatPoolList := make([]InboundNatPool, len(source.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool InboundNatPool
 			err := inboundNatPool.Initialize_From_InboundNatPool_STATUS(&inboundNatPoolItem)
 			if err != nil {
@@ -1071,8 +1037,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.InboundNatRules != nil {
 		inboundNatRuleList := make([]InboundNatRule_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule InboundNatRule_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRule.Initialize_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
 			if err != nil {
@@ -1089,8 +1053,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]LoadBalancingRule, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule LoadBalancingRule
 			err := loadBalancingRule.Initialize_From_LoadBalancingRule_STATUS(&loadBalancingRuleItem)
 			if err != nil {
@@ -1110,8 +1072,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.OutboundRules != nil {
 		outboundRuleList := make([]OutboundRule, len(source.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule OutboundRule
 			err := outboundRule.Initialize_From_OutboundRule_STATUS(&outboundRuleItem)
 			if err != nil {
@@ -1128,8 +1088,6 @@ func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *L
 	if source.Probes != nil {
 		probeList := make([]Probe, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe Probe
 			err := probe.Initialize_From_Probe_STATUS(&probeItem)
 			if err != nil {
@@ -1481,8 +1439,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPool.AssignProperties_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
 			if err != nil {
@@ -1517,8 +1473,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfiguration.AssignProperties_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
 			if err != nil {
@@ -1538,8 +1492,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.InboundNatPools != nil {
 		inboundNatPoolList := make([]InboundNatPool_STATUS, len(source.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool InboundNatPool_STATUS
 			err := inboundNatPool.AssignProperties_From_InboundNatPool_STATUS(&inboundNatPoolItem)
 			if err != nil {
@@ -1556,8 +1508,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.InboundNatRules != nil {
 		inboundNatRuleList := make([]InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRule.AssignProperties_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
 			if err != nil {
@@ -1574,8 +1524,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]LoadBalancingRule_STATUS, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule LoadBalancingRule_STATUS
 			err := loadBalancingRule.AssignProperties_From_LoadBalancingRule_STATUS(&loadBalancingRuleItem)
 			if err != nil {
@@ -1598,8 +1546,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.OutboundRules != nil {
 		outboundRuleList := make([]OutboundRule_STATUS, len(source.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule OutboundRule_STATUS
 			err := outboundRule.AssignProperties_From_OutboundRule_STATUS(&outboundRuleItem)
 			if err != nil {
@@ -1616,8 +1562,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 	if source.Probes != nil {
 		probeList := make([]Probe_STATUS, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe Probe_STATUS
 			err := probe.AssignProperties_From_Probe_STATUS(&probeItem)
 			if err != nil {
@@ -1673,8 +1617,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.BackendAddressPools != nil {
 		backendAddressPoolList := make([]storage.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range balancer.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPoolItem.AssignProperties_To_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPool)
 			if err != nil {
@@ -1709,8 +1651,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]storage.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range balancer.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfigurationItem.AssignProperties_To_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfiguration)
 			if err != nil {
@@ -1730,8 +1670,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.InboundNatPools != nil {
 		inboundNatPoolList := make([]storage.InboundNatPool_STATUS, len(balancer.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range balancer.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool storage.InboundNatPool_STATUS
 			err := inboundNatPoolItem.AssignProperties_To_InboundNatPool_STATUS(&inboundNatPool)
 			if err != nil {
@@ -1748,8 +1686,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.InboundNatRules != nil {
 		inboundNatRuleList := make([]storage.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range balancer.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule storage.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRuleItem.AssignProperties_To_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRule)
 			if err != nil {
@@ -1766,8 +1702,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]storage.LoadBalancingRule_STATUS, len(balancer.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range balancer.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule storage.LoadBalancingRule_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_LoadBalancingRule_STATUS(&loadBalancingRule)
 			if err != nil {
@@ -1790,8 +1724,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.OutboundRules != nil {
 		outboundRuleList := make([]storage.OutboundRule_STATUS, len(balancer.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range balancer.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule storage.OutboundRule_STATUS
 			err := outboundRuleItem.AssignProperties_To_OutboundRule_STATUS(&outboundRule)
 			if err != nil {
@@ -1808,8 +1740,6 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	if balancer.Probes != nil {
 		probeList := make([]storage.Probe_STATUS, len(balancer.Probes))
 		for probeIndex, probeItem := range balancer.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe storage.Probe_STATUS
 			err := probeItem.AssignProperties_To_Probe_STATUS(&probe)
 			if err != nil {
@@ -2051,8 +1981,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	if source.LoadBalancerBackendAddresses != nil {
 		loadBalancerBackendAddressList := make([]LoadBalancerBackendAddress, len(source.LoadBalancerBackendAddresses))
 		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
 			var loadBalancerBackendAddress LoadBalancerBackendAddress
 			err := loadBalancerBackendAddress.AssignProperties_From_LoadBalancerBackendAddress(&loadBalancerBackendAddressItem)
 			if err != nil {
@@ -2084,8 +2012,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	if source.TunnelInterfaces != nil {
 		tunnelInterfaceList := make([]GatewayLoadBalancerTunnelInterface, len(source.TunnelInterfaces))
 		for tunnelInterfaceIndex, tunnelInterfaceItem := range source.TunnelInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			tunnelInterfaceItem := tunnelInterfaceItem
 			var tunnelInterface GatewayLoadBalancerTunnelInterface
 			err := tunnelInterface.AssignProperties_From_GatewayLoadBalancerTunnelInterface(&tunnelInterfaceItem)
 			if err != nil {
@@ -2126,8 +2052,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	if embedded.LoadBalancerBackendAddresses != nil {
 		loadBalancerBackendAddressList := make([]storage.LoadBalancerBackendAddress, len(embedded.LoadBalancerBackendAddresses))
 		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range embedded.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
 			var loadBalancerBackendAddress storage.LoadBalancerBackendAddress
 			err := loadBalancerBackendAddressItem.AssignProperties_To_LoadBalancerBackendAddress(&loadBalancerBackendAddress)
 			if err != nil {
@@ -2158,8 +2082,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	if embedded.TunnelInterfaces != nil {
 		tunnelInterfaceList := make([]storage.GatewayLoadBalancerTunnelInterface, len(embedded.TunnelInterfaces))
 		for tunnelInterfaceIndex, tunnelInterfaceItem := range embedded.TunnelInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			tunnelInterfaceItem := tunnelInterfaceItem
 			var tunnelInterface storage.GatewayLoadBalancerTunnelInterface
 			err := tunnelInterfaceItem.AssignProperties_To_GatewayLoadBalancerTunnelInterface(&tunnelInterface)
 			if err != nil {
@@ -2205,8 +2127,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) Initialize_
 	if source.LoadBalancerBackendAddresses != nil {
 		loadBalancerBackendAddressList := make([]LoadBalancerBackendAddress, len(source.LoadBalancerBackendAddresses))
 		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
 			var loadBalancerBackendAddress LoadBalancerBackendAddress
 			err := loadBalancerBackendAddress.Initialize_From_LoadBalancerBackendAddress_STATUS(&loadBalancerBackendAddressItem)
 			if err != nil {
@@ -2237,8 +2157,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) Initialize_
 	if source.TunnelInterfaces != nil {
 		tunnelInterfaceList := make([]GatewayLoadBalancerTunnelInterface, len(source.TunnelInterfaces))
 		for tunnelInterfaceIndex, tunnelInterfaceItem := range source.TunnelInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			tunnelInterfaceItem := tunnelInterfaceItem
 			var tunnelInterface GatewayLoadBalancerTunnelInterface
 			err := tunnelInterface.Initialize_From_GatewayLoadBalancerTunnelInterface_STATUS(&tunnelInterfaceItem)
 			if err != nil {
@@ -2514,8 +2432,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if source.BackendIPConfigurations != nil {
 		backendIPConfigurationList := make([]NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(source.BackendIPConfigurations))
 		for backendIPConfigurationIndex, backendIPConfigurationItem := range source.BackendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			backendIPConfigurationItem := backendIPConfigurationItem
 			var backendIPConfiguration NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 			err := backendIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&backendIPConfigurationItem)
 			if err != nil {
@@ -2541,8 +2457,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if source.InboundNatRules != nil {
 		inboundNatRuleList := make([]SubResource_STATUS, len(source.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule SubResource_STATUS
 			err := inboundNatRule.AssignProperties_From_SubResource_STATUS(&inboundNatRuleItem)
 			if err != nil {
@@ -2559,8 +2473,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if source.LoadBalancerBackendAddresses != nil {
 		loadBalancerBackendAddressList := make([]LoadBalancerBackendAddress_STATUS, len(source.LoadBalancerBackendAddresses))
 		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
 			var loadBalancerBackendAddress LoadBalancerBackendAddress_STATUS
 			err := loadBalancerBackendAddress.AssignProperties_From_LoadBalancerBackendAddress_STATUS(&loadBalancerBackendAddressItem)
 			if err != nil {
@@ -2577,8 +2489,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if source.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]SubResource_STATUS, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule SubResource_STATUS
 			err := loadBalancingRule.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
@@ -2613,8 +2523,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if source.OutboundRules != nil {
 		outboundRuleList := make([]SubResource_STATUS, len(source.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule SubResource_STATUS
 			err := outboundRule.AssignProperties_From_SubResource_STATUS(&outboundRuleItem)
 			if err != nil {
@@ -2649,8 +2557,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if source.TunnelInterfaces != nil {
 		tunnelInterfaceList := make([]GatewayLoadBalancerTunnelInterface_STATUS, len(source.TunnelInterfaces))
 		for tunnelInterfaceIndex, tunnelInterfaceItem := range source.TunnelInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			tunnelInterfaceItem := tunnelInterfaceItem
 			var tunnelInterface GatewayLoadBalancerTunnelInterface_STATUS
 			err := tunnelInterface.AssignProperties_From_GatewayLoadBalancerTunnelInterface_STATUS(&tunnelInterfaceItem)
 			if err != nil {
@@ -2691,8 +2597,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if embedded.BackendIPConfigurations != nil {
 		backendIPConfigurationList := make([]storage.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(embedded.BackendIPConfigurations))
 		for backendIPConfigurationIndex, backendIPConfigurationItem := range embedded.BackendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			backendIPConfigurationItem := backendIPConfigurationItem
 			var backendIPConfiguration storage.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 			err := backendIPConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&backendIPConfiguration)
 			if err != nil {
@@ -2718,8 +2622,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if embedded.InboundNatRules != nil {
 		inboundNatRuleList := make([]storage.SubResource_STATUS, len(embedded.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range embedded.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule storage.SubResource_STATUS
 			err := inboundNatRuleItem.AssignProperties_To_SubResource_STATUS(&inboundNatRule)
 			if err != nil {
@@ -2736,8 +2638,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if embedded.LoadBalancerBackendAddresses != nil {
 		loadBalancerBackendAddressList := make([]storage.LoadBalancerBackendAddress_STATUS, len(embedded.LoadBalancerBackendAddresses))
 		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range embedded.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
 			var loadBalancerBackendAddress storage.LoadBalancerBackendAddress_STATUS
 			err := loadBalancerBackendAddressItem.AssignProperties_To_LoadBalancerBackendAddress_STATUS(&loadBalancerBackendAddress)
 			if err != nil {
@@ -2754,8 +2654,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if embedded.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]storage.SubResource_STATUS, len(embedded.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range embedded.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule storage.SubResource_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&loadBalancingRule)
 			if err != nil {
@@ -2790,8 +2688,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if embedded.OutboundRules != nil {
 		outboundRuleList := make([]storage.SubResource_STATUS, len(embedded.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range embedded.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule storage.SubResource_STATUS
 			err := outboundRuleItem.AssignProperties_To_SubResource_STATUS(&outboundRule)
 			if err != nil {
@@ -2824,8 +2720,6 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	if embedded.TunnelInterfaces != nil {
 		tunnelInterfaceList := make([]storage.GatewayLoadBalancerTunnelInterface_STATUS, len(embedded.TunnelInterfaces))
 		for tunnelInterfaceIndex, tunnelInterfaceItem := range embedded.TunnelInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			tunnelInterfaceItem := tunnelInterfaceItem
 			var tunnelInterface storage.GatewayLoadBalancerTunnelInterface_STATUS
 			err := tunnelInterfaceItem.AssignProperties_To_GatewayLoadBalancerTunnelInterface_STATUS(&tunnelInterface)
 			if err != nil {
@@ -3833,8 +3727,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if source.InboundNatPools != nil {
 		inboundNatPoolList := make([]SubResource_STATUS, len(source.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool SubResource_STATUS
 			err := inboundNatPool.AssignProperties_From_SubResource_STATUS(&inboundNatPoolItem)
 			if err != nil {
@@ -3851,8 +3743,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if source.InboundNatRules != nil {
 		inboundNatRuleList := make([]SubResource_STATUS, len(source.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule SubResource_STATUS
 			err := inboundNatRule.AssignProperties_From_SubResource_STATUS(&inboundNatRuleItem)
 			if err != nil {
@@ -3869,8 +3759,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if source.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]SubResource_STATUS, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule SubResource_STATUS
 			err := loadBalancingRule.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
@@ -3890,8 +3778,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if source.OutboundRules != nil {
 		outboundRuleList := make([]SubResource_STATUS, len(source.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule SubResource_STATUS
 			err := outboundRule.AssignProperties_From_SubResource_STATUS(&outboundRuleItem)
 			if err != nil {
@@ -4007,8 +3893,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if embedded.InboundNatPools != nil {
 		inboundNatPoolList := make([]storage.SubResource_STATUS, len(embedded.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range embedded.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool storage.SubResource_STATUS
 			err := inboundNatPoolItem.AssignProperties_To_SubResource_STATUS(&inboundNatPool)
 			if err != nil {
@@ -4025,8 +3909,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if embedded.InboundNatRules != nil {
 		inboundNatRuleList := make([]storage.SubResource_STATUS, len(embedded.InboundNatRules))
 		for inboundNatRuleIndex, inboundNatRuleItem := range embedded.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule storage.SubResource_STATUS
 			err := inboundNatRuleItem.AssignProperties_To_SubResource_STATUS(&inboundNatRule)
 			if err != nil {
@@ -4043,8 +3925,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if embedded.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]storage.SubResource_STATUS, len(embedded.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range embedded.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule storage.SubResource_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&loadBalancingRule)
 			if err != nil {
@@ -4064,8 +3944,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if embedded.OutboundRules != nil {
 		outboundRuleList := make([]storage.SubResource_STATUS, len(embedded.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range embedded.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
 			var outboundRule storage.SubResource_STATUS
 			err := outboundRuleItem.AssignProperties_To_SubResource_STATUS(&outboundRule)
 			if err != nil {
@@ -5835,8 +5713,6 @@ func (operator *LoadBalancerOperatorSpec) AssignProperties_From_LoadBalancerOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -5853,8 +5729,6 @@ func (operator *LoadBalancerOperatorSpec) AssignProperties_From_LoadBalancerOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -5880,8 +5754,6 @@ func (operator *LoadBalancerOperatorSpec) AssignProperties_To_LoadBalancerOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -5898,8 +5770,6 @@ func (operator *LoadBalancerOperatorSpec) AssignProperties_To_LoadBalancerOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -6496,8 +6366,6 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *s
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]SubResource, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool SubResource
 			err := backendAddressPool.AssignProperties_From_SubResource(&backendAddressPoolItem)
 			if err != nil {
@@ -6613,8 +6481,6 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 	if rule.BackendAddressPools != nil {
 		backendAddressPoolList := make([]storage.SubResource, len(rule.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range rule.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.SubResource
 			err := backendAddressPoolItem.AssignProperties_To_SubResource(&backendAddressPool)
 			if err != nil {
@@ -6733,8 +6599,6 @@ func (rule *LoadBalancingRule) Initialize_From_LoadBalancingRule_STATUS(source *
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]SubResource, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool SubResource
 			err := backendAddressPool.Initialize_From_SubResource_STATUS(&backendAddressPoolItem)
 			if err != nil {
@@ -7093,8 +6957,6 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]SubResource_STATUS, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool SubResource_STATUS
 			err := backendAddressPool.AssignProperties_From_SubResource_STATUS(&backendAddressPoolItem)
 			if err != nil {
@@ -7228,8 +7090,6 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 	if rule.BackendAddressPools != nil {
 		backendAddressPoolList := make([]storage.SubResource_STATUS, len(rule.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range rule.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.SubResource_STATUS
 			err := backendAddressPoolItem.AssignProperties_To_SubResource_STATUS(&backendAddressPool)
 			if err != nil {
@@ -7553,8 +7413,6 @@ func (rule *OutboundRule) AssignProperties_From_OutboundRule(source *storage.Out
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration SubResource
 			err := frontendIPConfiguration.AssignProperties_From_SubResource(&frontendIPConfigurationItem)
 			if err != nil {
@@ -7618,8 +7476,6 @@ func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *storage.
 	if rule.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]storage.SubResource, len(rule.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rule.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.SubResource
 			err := frontendIPConfigurationItem.AssignProperties_To_SubResource(&frontendIPConfiguration)
 			if err != nil {
@@ -7687,8 +7543,6 @@ func (rule *OutboundRule) Initialize_From_OutboundRule_STATUS(source *OutboundRu
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration SubResource
 			err := frontendIPConfiguration.Initialize_From_SubResource_STATUS(&frontendIPConfigurationItem)
 			if err != nil {
@@ -7909,8 +7763,6 @@ func (rule *OutboundRule_STATUS) AssignProperties_From_OutboundRule_STATUS(sourc
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]SubResource_STATUS, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration SubResource_STATUS
 			err := frontendIPConfiguration.AssignProperties_From_SubResource_STATUS(&frontendIPConfigurationItem)
 			if err != nil {
@@ -7992,8 +7844,6 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 	if rule.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]storage.SubResource_STATUS, len(rule.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rule.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.SubResource_STATUS
 			err := frontendIPConfigurationItem.AssignProperties_To_SubResource_STATUS(&frontendIPConfiguration)
 			if err != nil {
@@ -8570,8 +8420,6 @@ func (probe *Probe_STATUS) AssignProperties_From_Probe_STATUS(source *storage.Pr
 	if source.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]SubResource_STATUS, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule SubResource_STATUS
 			err := loadBalancingRule.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
@@ -8651,8 +8499,6 @@ func (probe *Probe_STATUS) AssignProperties_To_Probe_STATUS(destination *storage
 	if probe.LoadBalancingRules != nil {
 		loadBalancingRuleList := make([]storage.SubResource_STATUS, len(probe.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range probe.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule storage.SubResource_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&loadBalancingRule)
 			if err != nil {
@@ -9596,8 +9442,6 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBala
 	if source.InboundNatRulesPortMapping != nil {
 		inboundNatRulesPortMappingList := make([]NatRulePortMapping_STATUS, len(source.InboundNatRulesPortMapping))
 		for inboundNatRulesPortMappingIndex, inboundNatRulesPortMappingItem := range source.InboundNatRulesPortMapping {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRulesPortMappingItem := inboundNatRulesPortMappingItem
 			var inboundNatRulesPortMapping NatRulePortMapping_STATUS
 			err := inboundNatRulesPortMapping.AssignProperties_From_NatRulePortMapping_STATUS(&inboundNatRulesPortMappingItem)
 			if err != nil {
@@ -9685,8 +9529,6 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 	if address.InboundNatRulesPortMapping != nil {
 		inboundNatRulesPortMappingList := make([]storage.NatRulePortMapping_STATUS, len(address.InboundNatRulesPortMapping))
 		for inboundNatRulesPortMappingIndex, inboundNatRulesPortMappingItem := range address.InboundNatRulesPortMapping {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRulesPortMappingItem := inboundNatRulesPortMappingItem
 			var inboundNatRulesPortMapping storage.NatRulePortMapping_STATUS
 			err := inboundNatRulesPortMappingItem.AssignProperties_To_NatRulePortMapping_STATUS(&inboundNatRulesPortMapping)
 			if err != nil {

@@ -487,8 +487,6 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) AssignProperties_From_DnsF
 	if source.TargetDnsServers != nil {
 		targetDnsServerList := make([]TargetDnsServer, len(source.TargetDnsServers))
 		for targetDnsServerIndex, targetDnsServerItem := range source.TargetDnsServers {
-			// Shadow the loop variable to avoid aliasing
-			targetDnsServerItem := targetDnsServerItem
 			var targetDnsServer TargetDnsServer
 			err := targetDnsServer.AssignProperties_From_TargetDnsServer(&targetDnsServerItem)
 			if err != nil {
@@ -554,8 +552,6 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) AssignProperties_To_DnsFor
 	if rule.TargetDnsServers != nil {
 		targetDnsServerList := make([]storage.TargetDnsServer, len(rule.TargetDnsServers))
 		for targetDnsServerIndex, targetDnsServerItem := range rule.TargetDnsServers {
-			// Shadow the loop variable to avoid aliasing
-			targetDnsServerItem := targetDnsServerItem
 			var targetDnsServer storage.TargetDnsServer
 			err := targetDnsServerItem.AssignProperties_To_TargetDnsServer(&targetDnsServer)
 			if err != nil {
@@ -600,8 +596,6 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) Initialize_From_DnsForward
 	if source.TargetDnsServers != nil {
 		targetDnsServerList := make([]TargetDnsServer, len(source.TargetDnsServers))
 		for targetDnsServerIndex, targetDnsServerItem := range source.TargetDnsServers {
-			// Shadow the loop variable to avoid aliasing
-			targetDnsServerItem := targetDnsServerItem
 			var targetDnsServer TargetDnsServer
 			err := targetDnsServer.Initialize_From_TargetDnsServer_STATUS(&targetDnsServerItem)
 			if err != nil {
@@ -880,8 +874,6 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) AssignProperties_From_Dn
 	if source.TargetDnsServers != nil {
 		targetDnsServerList := make([]TargetDnsServer_STATUS, len(source.TargetDnsServers))
 		for targetDnsServerIndex, targetDnsServerItem := range source.TargetDnsServers {
-			// Shadow the loop variable to avoid aliasing
-			targetDnsServerItem := targetDnsServerItem
 			var targetDnsServer TargetDnsServer_STATUS
 			err := targetDnsServer.AssignProperties_From_TargetDnsServer_STATUS(&targetDnsServerItem)
 			if err != nil {
@@ -956,8 +948,6 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) AssignProperties_To_DnsF
 	if rule.TargetDnsServers != nil {
 		targetDnsServerList := make([]storage.TargetDnsServer_STATUS, len(rule.TargetDnsServers))
 		for targetDnsServerIndex, targetDnsServerItem := range rule.TargetDnsServers {
-			// Shadow the loop variable to avoid aliasing
-			targetDnsServerItem := targetDnsServerItem
 			var targetDnsServer storage.TargetDnsServer_STATUS
 			err := targetDnsServerItem.AssignProperties_To_TargetDnsServer_STATUS(&targetDnsServer)
 			if err != nil {
@@ -1000,8 +990,6 @@ func (operator *DnsForwardingRuleSetsForwardingRuleOperatorSpec) AssignPropertie
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1018,8 +1006,6 @@ func (operator *DnsForwardingRuleSetsForwardingRuleOperatorSpec) AssignPropertie
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1045,8 +1031,6 @@ func (operator *DnsForwardingRuleSetsForwardingRuleOperatorSpec) AssignPropertie
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1063,8 +1047,6 @@ func (operator *DnsForwardingRuleSetsForwardingRuleOperatorSpec) AssignPropertie
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

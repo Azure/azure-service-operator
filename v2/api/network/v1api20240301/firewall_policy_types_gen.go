@@ -1645,8 +1645,6 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 	if source.ChildPolicies != nil {
 		childPolicyList := make([]SubResource_STATUS, len(source.ChildPolicies))
 		for childPolicyIndex, childPolicyItem := range source.ChildPolicies {
-			// Shadow the loop variable to avoid aliasing
-			childPolicyItem := childPolicyItem
 			var childPolicy SubResource_STATUS
 			err := childPolicy.AssignProperties_From_SubResource_STATUS(&childPolicyItem)
 			if err != nil {
@@ -1693,8 +1691,6 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 	if source.Firewalls != nil {
 		firewallList := make([]SubResource_STATUS, len(source.Firewalls))
 		for firewallIndex, firewallItem := range source.Firewalls {
-			// Shadow the loop variable to avoid aliasing
-			firewallItem := firewallItem
 			var firewall SubResource_STATUS
 			err := firewall.AssignProperties_From_SubResource_STATUS(&firewallItem)
 			if err != nil {
@@ -1765,8 +1761,6 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 	if source.RuleCollectionGroups != nil {
 		ruleCollectionGroupList := make([]SubResource_STATUS, len(source.RuleCollectionGroups))
 		for ruleCollectionGroupIndex, ruleCollectionGroupItem := range source.RuleCollectionGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionGroupItem := ruleCollectionGroupItem
 			var ruleCollectionGroup SubResource_STATUS
 			err := ruleCollectionGroup.AssignProperties_From_SubResource_STATUS(&ruleCollectionGroupItem)
 			if err != nil {
@@ -1882,8 +1876,6 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 	if policy.ChildPolicies != nil {
 		childPolicyList := make([]storage.SubResource_STATUS, len(policy.ChildPolicies))
 		for childPolicyIndex, childPolicyItem := range policy.ChildPolicies {
-			// Shadow the loop variable to avoid aliasing
-			childPolicyItem := childPolicyItem
 			var childPolicy storage.SubResource_STATUS
 			err := childPolicyItem.AssignProperties_To_SubResource_STATUS(&childPolicy)
 			if err != nil {
@@ -1930,8 +1922,6 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 	if policy.Firewalls != nil {
 		firewallList := make([]storage.SubResource_STATUS, len(policy.Firewalls))
 		for firewallIndex, firewallItem := range policy.Firewalls {
-			// Shadow the loop variable to avoid aliasing
-			firewallItem := firewallItem
 			var firewall storage.SubResource_STATUS
 			err := firewallItem.AssignProperties_To_SubResource_STATUS(&firewall)
 			if err != nil {
@@ -2001,8 +1991,6 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 	if policy.RuleCollectionGroups != nil {
 		ruleCollectionGroupList := make([]storage.SubResource_STATUS, len(policy.RuleCollectionGroups))
 		for ruleCollectionGroupIndex, ruleCollectionGroupItem := range policy.RuleCollectionGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionGroupItem := ruleCollectionGroupItem
 			var ruleCollectionGroup storage.SubResource_STATUS
 			err := ruleCollectionGroupItem.AssignProperties_To_SubResource_STATUS(&ruleCollectionGroup)
 			if err != nil {
@@ -3436,8 +3424,6 @@ func (operator *FirewallPolicyOperatorSpec) AssignProperties_From_FirewallPolicy
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3454,8 +3440,6 @@ func (operator *FirewallPolicyOperatorSpec) AssignProperties_From_FirewallPolicy
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3481,8 +3465,6 @@ func (operator *FirewallPolicyOperatorSpec) AssignProperties_To_FirewallPolicyOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3499,8 +3481,6 @@ func (operator *FirewallPolicyOperatorSpec) AssignProperties_To_FirewallPolicyOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4545,8 +4525,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -4580,8 +4558,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -4726,8 +4702,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity ManagedServiceIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_ManagedServiceIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -4767,8 +4741,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.ManagedServiceIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ManagedServiceIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -5070,8 +5042,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) AssignProper
 	if source.BypassTrafficSettings != nil {
 		bypassTrafficSettingList := make([]FirewallPolicyIntrusionDetectionBypassTrafficSpecifications, len(source.BypassTrafficSettings))
 		for bypassTrafficSettingIndex, bypassTrafficSettingItem := range source.BypassTrafficSettings {
-			// Shadow the loop variable to avoid aliasing
-			bypassTrafficSettingItem := bypassTrafficSettingItem
 			var bypassTrafficSetting FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
 			err := bypassTrafficSetting.AssignProperties_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications(&bypassTrafficSettingItem)
 			if err != nil {
@@ -5091,8 +5061,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) AssignProper
 	if source.SignatureOverrides != nil {
 		signatureOverrideList := make([]FirewallPolicyIntrusionDetectionSignatureSpecification, len(source.SignatureOverrides))
 		for signatureOverrideIndex, signatureOverrideItem := range source.SignatureOverrides {
-			// Shadow the loop variable to avoid aliasing
-			signatureOverrideItem := signatureOverrideItem
 			var signatureOverride FirewallPolicyIntrusionDetectionSignatureSpecification
 			err := signatureOverride.AssignProperties_From_FirewallPolicyIntrusionDetectionSignatureSpecification(&signatureOverrideItem)
 			if err != nil {
@@ -5118,8 +5086,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) AssignProper
 	if configuration.BypassTrafficSettings != nil {
 		bypassTrafficSettingList := make([]storage.FirewallPolicyIntrusionDetectionBypassTrafficSpecifications, len(configuration.BypassTrafficSettings))
 		for bypassTrafficSettingIndex, bypassTrafficSettingItem := range configuration.BypassTrafficSettings {
-			// Shadow the loop variable to avoid aliasing
-			bypassTrafficSettingItem := bypassTrafficSettingItem
 			var bypassTrafficSetting storage.FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
 			err := bypassTrafficSettingItem.AssignProperties_To_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications(&bypassTrafficSetting)
 			if err != nil {
@@ -5139,8 +5105,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) AssignProper
 	if configuration.SignatureOverrides != nil {
 		signatureOverrideList := make([]storage.FirewallPolicyIntrusionDetectionSignatureSpecification, len(configuration.SignatureOverrides))
 		for signatureOverrideIndex, signatureOverrideItem := range configuration.SignatureOverrides {
-			// Shadow the loop variable to avoid aliasing
-			signatureOverrideItem := signatureOverrideItem
 			var signatureOverride storage.FirewallPolicyIntrusionDetectionSignatureSpecification
 			err := signatureOverrideItem.AssignProperties_To_FirewallPolicyIntrusionDetectionSignatureSpecification(&signatureOverride)
 			if err != nil {
@@ -5171,8 +5135,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) Initialize_F
 	if source.BypassTrafficSettings != nil {
 		bypassTrafficSettingList := make([]FirewallPolicyIntrusionDetectionBypassTrafficSpecifications, len(source.BypassTrafficSettings))
 		for bypassTrafficSettingIndex, bypassTrafficSettingItem := range source.BypassTrafficSettings {
-			// Shadow the loop variable to avoid aliasing
-			bypassTrafficSettingItem := bypassTrafficSettingItem
 			var bypassTrafficSetting FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
 			err := bypassTrafficSetting.Initialize_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS(&bypassTrafficSettingItem)
 			if err != nil {
@@ -5192,8 +5154,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) Initialize_F
 	if source.SignatureOverrides != nil {
 		signatureOverrideList := make([]FirewallPolicyIntrusionDetectionSignatureSpecification, len(source.SignatureOverrides))
 		for signatureOverrideIndex, signatureOverrideItem := range source.SignatureOverrides {
-			// Shadow the loop variable to avoid aliasing
-			signatureOverrideItem := signatureOverrideItem
 			var signatureOverride FirewallPolicyIntrusionDetectionSignatureSpecification
 			err := signatureOverride.Initialize_From_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS(&signatureOverrideItem)
 			if err != nil {
@@ -5274,8 +5234,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration_STATUS) Assig
 	if source.BypassTrafficSettings != nil {
 		bypassTrafficSettingList := make([]FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS, len(source.BypassTrafficSettings))
 		for bypassTrafficSettingIndex, bypassTrafficSettingItem := range source.BypassTrafficSettings {
-			// Shadow the loop variable to avoid aliasing
-			bypassTrafficSettingItem := bypassTrafficSettingItem
 			var bypassTrafficSetting FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS
 			err := bypassTrafficSetting.AssignProperties_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS(&bypassTrafficSettingItem)
 			if err != nil {
@@ -5295,8 +5253,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration_STATUS) Assig
 	if source.SignatureOverrides != nil {
 		signatureOverrideList := make([]FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS, len(source.SignatureOverrides))
 		for signatureOverrideIndex, signatureOverrideItem := range source.SignatureOverrides {
-			// Shadow the loop variable to avoid aliasing
-			signatureOverrideItem := signatureOverrideItem
 			var signatureOverride FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS
 			err := signatureOverride.AssignProperties_From_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS(&signatureOverrideItem)
 			if err != nil {
@@ -5322,8 +5278,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration_STATUS) Assig
 	if configuration.BypassTrafficSettings != nil {
 		bypassTrafficSettingList := make([]storage.FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS, len(configuration.BypassTrafficSettings))
 		for bypassTrafficSettingIndex, bypassTrafficSettingItem := range configuration.BypassTrafficSettings {
-			// Shadow the loop variable to avoid aliasing
-			bypassTrafficSettingItem := bypassTrafficSettingItem
 			var bypassTrafficSetting storage.FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS
 			err := bypassTrafficSettingItem.AssignProperties_To_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS(&bypassTrafficSetting)
 			if err != nil {
@@ -5343,8 +5297,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration_STATUS) Assig
 	if configuration.SignatureOverrides != nil {
 		signatureOverrideList := make([]storage.FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS, len(configuration.SignatureOverrides))
 		for signatureOverrideIndex, signatureOverrideItem := range configuration.SignatureOverrides {
-			// Shadow the loop variable to avoid aliasing
-			signatureOverrideItem := signatureOverrideItem
 			var signatureOverride storage.FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS
 			err := signatureOverrideItem.AssignProperties_To_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS(&signatureOverride)
 			if err != nil {
@@ -5533,8 +5485,6 @@ func (resources *FirewallPolicyLogAnalyticsResources) AssignProperties_From_Fire
 	if source.Workspaces != nil {
 		workspaceList := make([]FirewallPolicyLogAnalyticsWorkspace, len(source.Workspaces))
 		for workspaceIndex, workspaceItem := range source.Workspaces {
-			// Shadow the loop variable to avoid aliasing
-			workspaceItem := workspaceItem
 			var workspace FirewallPolicyLogAnalyticsWorkspace
 			err := workspace.AssignProperties_From_FirewallPolicyLogAnalyticsWorkspace(&workspaceItem)
 			if err != nil {
@@ -5572,8 +5522,6 @@ func (resources *FirewallPolicyLogAnalyticsResources) AssignProperties_To_Firewa
 	if resources.Workspaces != nil {
 		workspaceList := make([]storage.FirewallPolicyLogAnalyticsWorkspace, len(resources.Workspaces))
 		for workspaceIndex, workspaceItem := range resources.Workspaces {
-			// Shadow the loop variable to avoid aliasing
-			workspaceItem := workspaceItem
 			var workspace storage.FirewallPolicyLogAnalyticsWorkspace
 			err := workspaceItem.AssignProperties_To_FirewallPolicyLogAnalyticsWorkspace(&workspace)
 			if err != nil {
@@ -5616,8 +5564,6 @@ func (resources *FirewallPolicyLogAnalyticsResources) Initialize_From_FirewallPo
 	if source.Workspaces != nil {
 		workspaceList := make([]FirewallPolicyLogAnalyticsWorkspace, len(source.Workspaces))
 		for workspaceIndex, workspaceItem := range source.Workspaces {
-			// Shadow the loop variable to avoid aliasing
-			workspaceItem := workspaceItem
 			var workspace FirewallPolicyLogAnalyticsWorkspace
 			err := workspace.Initialize_From_FirewallPolicyLogAnalyticsWorkspace_STATUS(&workspaceItem)
 			if err != nil {
@@ -5701,8 +5647,6 @@ func (resources *FirewallPolicyLogAnalyticsResources_STATUS) AssignProperties_Fr
 	if source.Workspaces != nil {
 		workspaceList := make([]FirewallPolicyLogAnalyticsWorkspace_STATUS, len(source.Workspaces))
 		for workspaceIndex, workspaceItem := range source.Workspaces {
-			// Shadow the loop variable to avoid aliasing
-			workspaceItem := workspaceItem
 			var workspace FirewallPolicyLogAnalyticsWorkspace_STATUS
 			err := workspace.AssignProperties_From_FirewallPolicyLogAnalyticsWorkspace_STATUS(&workspaceItem)
 			if err != nil {
@@ -5740,8 +5684,6 @@ func (resources *FirewallPolicyLogAnalyticsResources_STATUS) AssignProperties_To
 	if resources.Workspaces != nil {
 		workspaceList := make([]storage.FirewallPolicyLogAnalyticsWorkspace_STATUS, len(resources.Workspaces))
 		for workspaceIndex, workspaceItem := range resources.Workspaces {
-			// Shadow the loop variable to avoid aliasing
-			workspaceItem := workspaceItem
 			var workspace storage.FirewallPolicyLogAnalyticsWorkspace_STATUS
 			err := workspaceItem.AssignProperties_To_FirewallPolicyLogAnalyticsWorkspace_STATUS(&workspace)
 			if err != nil {

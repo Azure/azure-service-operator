@@ -2365,8 +2365,6 @@ func (filter *EventSubscriptionFilter) AssignProperties_From_EventSubscriptionFi
 	if source.AdvancedFilters != nil {
 		advancedFilterList := make([]AdvancedFilter, len(source.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
-			// Shadow the loop variable to avoid aliasing
-			advancedFilterItem := advancedFilterItem
 			var advancedFilter AdvancedFilter
 			err := advancedFilter.AssignProperties_From_AdvancedFilter(&advancedFilterItem)
 			if err != nil {
@@ -2409,8 +2407,6 @@ func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilt
 	if filter.AdvancedFilters != nil {
 		advancedFilterList := make([]storage.AdvancedFilter, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
-			// Shadow the loop variable to avoid aliasing
-			advancedFilterItem := advancedFilterItem
 			var advancedFilter storage.AdvancedFilter
 			err := advancedFilterItem.AssignProperties_To_AdvancedFilter(&advancedFilter)
 			if err != nil {
@@ -2458,8 +2454,6 @@ func (filter *EventSubscriptionFilter) Initialize_From_EventSubscriptionFilter_S
 	if source.AdvancedFilters != nil {
 		advancedFilterList := make([]AdvancedFilter, len(source.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
-			// Shadow the loop variable to avoid aliasing
-			advancedFilterItem := advancedFilterItem
 			var advancedFilter AdvancedFilter
 			err := advancedFilter.Initialize_From_AdvancedFilter_STATUS(&advancedFilterItem)
 			if err != nil {
@@ -2574,8 +2568,6 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_From_EventSubscri
 	if source.AdvancedFilters != nil {
 		advancedFilterList := make([]AdvancedFilter_STATUS, len(source.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
-			// Shadow the loop variable to avoid aliasing
-			advancedFilterItem := advancedFilterItem
 			var advancedFilter AdvancedFilter_STATUS
 			err := advancedFilter.AssignProperties_From_AdvancedFilter_STATUS(&advancedFilterItem)
 			if err != nil {
@@ -2618,8 +2610,6 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscript
 	if filter.AdvancedFilters != nil {
 		advancedFilterList := make([]storage.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
-			// Shadow the loop variable to avoid aliasing
-			advancedFilterItem := advancedFilterItem
 			var advancedFilter storage.AdvancedFilter_STATUS
 			err := advancedFilterItem.AssignProperties_To_AdvancedFilter_STATUS(&advancedFilter)
 			if err != nil {
@@ -2676,8 +2666,6 @@ func (operator *EventSubscriptionOperatorSpec) AssignProperties_From_EventSubscr
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2694,8 +2682,6 @@ func (operator *EventSubscriptionOperatorSpec) AssignProperties_From_EventSubscr
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2721,8 +2707,6 @@ func (operator *EventSubscriptionOperatorSpec) AssignProperties_To_EventSubscrip
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2739,8 +2723,6 @@ func (operator *EventSubscriptionOperatorSpec) AssignProperties_To_EventSubscrip
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -7488,8 +7470,6 @@ func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilt
 	if source.Values != nil {
 		valueList := make([]float64, len(source.Values))
 		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		filter.Values = valueList
@@ -7521,8 +7501,6 @@ func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter
 	if filter.Values != nil {
 		valueList := make([]float64, len(filter.Values))
 		for valueIndex, valueItem := range filter.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		destination.Values = valueList
@@ -7559,8 +7537,6 @@ func (filter *NumberInAdvancedFilter) Initialize_From_NumberInAdvancedFilter_STA
 	if source.Values != nil {
 		valueList := make([]float64, len(source.Values))
 		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		filter.Values = valueList
@@ -7638,8 +7614,6 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvan
 	if source.Values != nil {
 		valueList := make([]float64, len(source.Values))
 		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		filter.Values = valueList
@@ -7671,8 +7645,6 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvance
 	if filter.Values != nil {
 		valueList := make([]float64, len(filter.Values))
 		for valueIndex, valueItem := range filter.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		destination.Values = valueList
@@ -8341,8 +8313,6 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvanc
 	if source.Values != nil {
 		valueList := make([]float64, len(source.Values))
 		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		filter.Values = valueList
@@ -8374,8 +8344,6 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvanced
 	if filter.Values != nil {
 		valueList := make([]float64, len(filter.Values))
 		for valueIndex, valueItem := range filter.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		destination.Values = valueList
@@ -8412,8 +8380,6 @@ func (filter *NumberNotInAdvancedFilter) Initialize_From_NumberNotInAdvancedFilt
 	if source.Values != nil {
 		valueList := make([]float64, len(source.Values))
 		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		filter.Values = valueList
@@ -8491,8 +8457,6 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotI
 	if source.Values != nil {
 		valueList := make([]float64, len(source.Values))
 		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		filter.Values = valueList
@@ -8524,8 +8488,6 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInA
 	if filter.Values != nil {
 		valueList := make([]float64, len(filter.Values))
 		for valueIndex, valueItem := range filter.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			valueList[valueIndex] = valueItem
 		}
 		destination.Values = valueList

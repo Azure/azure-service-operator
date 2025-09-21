@@ -725,8 +725,6 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
@@ -881,8 +879,6 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 	if networkInterface.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(networkInterface.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range networkInterface.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
@@ -1041,8 +1037,6 @@ func (networkInterface *NetworkInterface_Spec) Initialize_From_NetworkInterface_
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 			err := ipConfiguration.Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
@@ -1665,8 +1659,6 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkIn
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
@@ -1769,8 +1761,6 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkIn
 	if source.TapConfigurations != nil {
 		tapConfigurationList := make([]NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(source.TapConfigurations))
 		for tapConfigurationIndex, tapConfigurationItem := range source.TapConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			tapConfigurationItem := tapConfigurationItem
 			var tapConfiguration NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := tapConfiguration.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfigurationItem)
 			if err != nil {
@@ -1910,8 +1900,6 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	if networkInterface.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(networkInterface.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range networkInterface.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
@@ -2011,8 +1999,6 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	if networkInterface.TapConfigurations != nil {
 		tapConfigurationList := make([]storage.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(networkInterface.TapConfigurations))
 		for tapConfigurationIndex, tapConfigurationItem := range networkInterface.TapConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			tapConfigurationItem := tapConfigurationItem
 			var tapConfiguration storage.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := tapConfigurationItem.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfiguration)
 			if err != nil {
@@ -2643,8 +2629,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.ApplicationGatewayBackendAddressPools != nil {
 		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
@@ -2661,8 +2645,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
@@ -2691,8 +2673,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.LoadBalancerBackendAddressPools != nil {
 		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool BackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
@@ -2709,8 +2689,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.LoadBalancerInboundNatRules != nil {
 		loadBalancerInboundNatRuleList := make([]InboundNatRule_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule InboundNatRule_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
@@ -2786,8 +2764,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.VirtualNetworkTaps != nil {
 		virtualNetworkTapList := make([]VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
@@ -2813,8 +2789,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if embedded.ApplicationGatewayBackendAddressPools != nil {
 		applicationGatewayBackendAddressPoolList := make([]storage.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range embedded.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool storage.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
@@ -2831,8 +2805,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if embedded.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]storage.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup storage.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
@@ -2861,8 +2833,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if embedded.LoadBalancerBackendAddressPools != nil {
 		loadBalancerBackendAddressPoolList := make([]storage.BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range embedded.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool storage.BackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
@@ -2879,8 +2849,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if embedded.LoadBalancerInboundNatRules != nil {
 		loadBalancerInboundNatRuleList := make([]storage.InboundNatRule_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range embedded.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule storage.InboundNatRule_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
@@ -2954,8 +2922,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if embedded.VirtualNetworkTaps != nil {
 		virtualNetworkTapList := make([]storage.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(embedded.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range embedded.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap storage.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
@@ -2986,8 +2952,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.ApplicationGatewayBackendAddressPools != nil {
 		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPool.Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
@@ -3004,8 +2968,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
@@ -3034,8 +2996,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.LoadBalancerBackendAddressPools != nil {
 		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool BackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPool.Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
@@ -3052,8 +3012,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.LoadBalancerInboundNatRules != nil {
 		loadBalancerInboundNatRuleList := make([]InboundNatRule_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule InboundNatRule_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRule.Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
@@ -3127,8 +3085,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	if source.VirtualNetworkTaps != nil {
 		virtualNetworkTapList := make([]VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTap.Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
@@ -3437,8 +3393,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if source.ApplicationGatewayBackendAddressPools != nil {
 		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
@@ -3455,8 +3409,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if source.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
@@ -3491,8 +3443,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if source.LoadBalancerBackendAddressPools != nil {
 		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
@@ -3509,8 +3459,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if source.LoadBalancerInboundNatRules != nil {
 		loadBalancerInboundNatRuleList := make([]InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
@@ -3610,8 +3558,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if source.VirtualNetworkTaps != nil {
 		virtualNetworkTapList := make([]VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
@@ -3637,8 +3583,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if embedded.ApplicationGatewayBackendAddressPools != nil {
 		applicationGatewayBackendAddressPoolList := make([]storage.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range embedded.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool storage.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
@@ -3655,8 +3599,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if embedded.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]storage.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
@@ -3691,8 +3633,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if embedded.LoadBalancerBackendAddressPools != nil {
 		loadBalancerBackendAddressPoolList := make([]storage.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range embedded.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool storage.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
@@ -3709,8 +3649,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if embedded.LoadBalancerInboundNatRules != nil {
 		loadBalancerInboundNatRuleList := make([]storage.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range embedded.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule storage.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
@@ -3807,8 +3745,6 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	if embedded.VirtualNetworkTaps != nil {
 		virtualNetworkTapList := make([]storage.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range embedded.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap storage.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
@@ -3848,8 +3784,6 @@ func (operator *NetworkInterfaceOperatorSpec) AssignProperties_From_NetworkInter
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3866,8 +3800,6 @@ func (operator *NetworkInterfaceOperatorSpec) AssignProperties_From_NetworkInter
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3893,8 +3825,6 @@ func (operator *NetworkInterfaceOperatorSpec) AssignProperties_To_NetworkInterfa
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3911,8 +3841,6 @@ func (operator *NetworkInterfaceOperatorSpec) AssignProperties_To_NetworkInterfa
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
