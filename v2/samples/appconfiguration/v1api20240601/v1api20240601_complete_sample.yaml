@@ -1,0 +1,115 @@
+# Complete AppConfiguration v1api20240601 sample showing ConfigurationStore with child resources
+---
+# Resource Group (parent resource)
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: default
+spec:
+  location: westus2
+---
+# Configuration Store
+apiVersion: appconfiguration.azure.com/v1api20240601
+kind: ConfigurationStore
+metadata:
+  name: aso-sample-confstore-v2
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  publicNetworkAccess: Enabled
+  sku:
+    name: standard
+  createMode: Default
+  disableLocalAuth: false
+  enablePurgeProtection: false
+  operatorSpec:
+    secrets:
+      primaryConnectionString:
+        name: confstore-secrets
+        key: primaryConnectionString
+---
+# ConfigMap with application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-settings
+  namespace: default
+data:
+  database-timeout: "45"
+  max-connections: "100"
+  api-endpoint: "https://api.myapp.com/v2"
+  feature-flags: "feature1:true,feature2:false"
+---
+# KeyValue resources - basic configuration values
+apiVersion: appconfiguration.azure.com/v1api20240601
+kind: KeyValue
+metadata:
+  name: app-name-keyvalue
+  namespace: default
+spec:
+  azureName: "MyApp:Settings:AppName"
+  owner:
+    name: aso-sample-confstore-v2
+  contentType: "text/plain"
+  value: "My Sample Application"
+  tags:
+    Environment: "Production"
+    Team: "Platform"
+---
+# KeyValue with configmap-sourced value 
+apiVersion: appconfiguration.azure.com/v1api20240601
+kind: KeyValue
+metadata:
+  name: database-timeout-keyvalue
+  namespace: default
+spec:
+  azureName: "MyApp:Settings:DatabaseTimeout"
+  owner:
+    name: aso-sample-confstore-v2
+  contentType: "application/json"
+  operatorSpec:
+    configMapExpressions:
+    - name: app-database-config
+      key: timeout
+      value: configmap("app-settings", "database-timeout")
+  tags:
+    Environment: "Production"
+    Team: "Backend"
+    Source: "ConfigMap"
+---
+# Replica in different region
+apiVersion: appconfiguration.azure.com/v1api20240601
+kind: Replica
+metadata:
+  name: eastus-replica
+  namespace: default
+spec:
+  azureName: "eastus2-replica"
+  owner:
+    name: aso-sample-confstore-v2
+  location: eastus2
+---
+# Snapshot for backup/versioning
+apiVersion: appconfiguration.azure.com/v1api20240601
+kind: Snapshot
+metadata:
+  name: production-backup
+  namespace: default
+spec:
+  azureName: "prod-backup-2024-09"
+  owner:
+    name: aso-sample-confstore-v2
+  compositionType: Key_Label
+  filters:
+  - key: "MyApp:Settings:*"
+    label: "production"
+  - key: "MyApp:Features:*"
+    label: "production"
+  retentionPeriod: "P90D"
+  tags:
+    Environment: "Production"
+    Backup: "Monthly"
+    Version: "2024-09"
