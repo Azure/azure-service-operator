@@ -1,0 +1,26 @@
+apiVersion: network.azure.com/v1api20240701
+kind: NetworkWatchersFlowLog
+metadata:
+  name: sample-flowlog
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-networkwatcher
+  targetResourceId:
+    armId: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/networkSecurityGroups/{nsg-name}
+  storageId:
+    armId: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Storage/storageAccounts/{storage-account-name}
+  enabled: true
+  format:
+    type: JSON
+    version: 2
+  retentionPolicy:
+    enabled: true
+    days: 30
+  flowAnalyticsConfiguration:
+    networkWatcherFlowAnalyticsConfiguration:
+      enabled: true
+      trafficAnalyticsInterval: 10
+      workspaceResourceId:
+        armId: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.OperationalInsights/workspaces/{workspace-name}

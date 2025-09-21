@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1api20240701
+kind: NetworkWatcher
+metadata:
+  name: sample-networkwatcher
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
