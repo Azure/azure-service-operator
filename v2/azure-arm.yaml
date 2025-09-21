@@ -1370,6 +1370,32 @@ objectModelConfiguration:
         # This is a subresource but it's not labelled as one in their Swagger, instead there's a duplicate entity
         # shaped the same called PrivateEndpointConnection which is labelled as a resource. We want to prune this.
         $isResource: true
+    2024-06-01:
+      ConfigurationStore:
+        $exportAs: ConfigurationStore
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - PrimaryKeyID
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKeyID
+          - SecondaryKey
+          - SecondaryConnectionString
+          - PrimaryReadOnlyKeyID
+          - PrimaryReadOnlyKey
+          - PrimaryReadOnlyConnectionString
+          - SecondaryReadOnlyKeyID
+          - SecondaryReadOnlyKey
+          - SecondaryReadOnlyConnectionString
+      ConfigurationStores_KeyValue:
+        $exportAs: KeyValue
+        $supportedFrom: v2.16.0
+      ConfigurationStores_Replica:
+        $exportAs: Replica
+        $supportedFrom: v2.16.0
+      ConfigurationStores_Snapshot:
+        $exportAs: Snapshot
+        $supportedFrom: v2.16.0
   authorization:
     2020-08-01-preview:
       RoleAssignment:
