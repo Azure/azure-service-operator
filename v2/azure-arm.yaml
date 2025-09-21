@@ -4206,8 +4206,19 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.11.0
-      SubResource:
-        Id:
+    2024-07-01:
+      # Network Watcher and FlowLogs support - see https://github.com/Azure/azure-service-operator/issues/4614
+      NetworkWatcher:
+        $exportAs: NetworkWatcher
+        $supportedFrom: v2.16.0
+      NetworkWatchers_FlowLog:
+        $exportAs: NetworkWatchersFlowLog
+        $supportedFrom: v2.16.0
+      FlowLogPropertiesFormat:
+        TargetResourceId:
+          $referenceType: arm
+      TrafficAnalyticsConfigurationProperties:
+        WorkspaceResourceId:
           $referenceType: arm
   network.frontdoor:
     2022-05-01:
