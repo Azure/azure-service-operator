@@ -47,10 +47,10 @@
 | MultiRegionSettings_RoutingMethod                | v1api20250601 |
 | MultiRegionSettings_RoutingMethod_STATUS         | v1api20250601 |
 | MultiRegionSettings_STATUS                       | v1api20250601 |
-| NetworkInjections                                | v1api20250601 |
-| NetworkInjections_STATUS                         | v1api20250601 |
-| NetworkInjections_Scenario                       | v1api20250601 |
-| NetworkInjections_Scenario_STATUS                | v1api20250601 |
+| NetworkInjection                                 | v1api20250601 |
+| NetworkInjection_STATUS                          | v1api20250601 |
+| NetworkInjection_Scenario                        | v1api20250601 |
+| NetworkInjection_Scenario_STATUS                 | v1api20250601 |
 | NetworkRuleSet                                   | v1api20250601 |
 | NetworkRuleSet_Bypass                            | v1api20250601 |
 | NetworkRuleSet_Bypass_STATUS                     | v1api20250601 |

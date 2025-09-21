@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20250101.ManagedEnvironment
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/ManagedEnvironments.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/ManagedEnvironments.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}
 type ManagedEnvironment struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (environment *ManagedEnvironment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20250101.ManagedEnvironment
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/ManagedEnvironments.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/ManagedEnvironments.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}
 type ManagedEnvironmentList struct {
 	metav1.TypeMeta `json:",inline"`

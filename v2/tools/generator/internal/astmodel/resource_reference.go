@@ -5,24 +5,34 @@
 
 package astmodel
 
-var (
-	arrayResourceReferenceType = NewArrayType(ResourceReferenceType)
-	mapResourceReferenceType   = NewMapType(StringType, ResourceReferenceType)
-)
-
 func IsTypeResourceReference(t Type) bool {
-	isResourceReference := TypeEquals(t, ResourceReferenceType)
-	isOptionalResourceReference := TypeEquals(t, OptionalResourceReferenceType)
-	isSliceResourceReference := IsTypeResourceReferenceSlice(t)
-	isMapResourceReference := IsTypeResourceReferenceMap(t)
+	// Handles optional too
+	if ex, ok := AsExternalTypeName(t); ok {
+		return TypeEquals(ex, ResourceReferenceType) ||
+			TypeEquals(ex, WellKnownResourceReferenceType)
+	}
 
-	return isResourceReference || isOptionalResourceReference || isSliceResourceReference || isMapResourceReference
+	if IsTypeResourceReferenceSlice(t) || IsTypeResourceReferenceMap(t) {
+		return true
+	}
+
+	return false
 }
 
 func IsTypeResourceReferenceSlice(t Type) bool {
-	return TypeEquals(t, arrayResourceReferenceType)
+	if sl, ok := AsArrayType(t); ok {
+		return TypeEquals(sl.Element(), ResourceReferenceType) ||
+			TypeEquals(sl.Element(), WellKnownResourceReferenceType)
+	}
+
+	return false
 }
 
 func IsTypeResourceReferenceMap(t Type) bool {
-	return TypeEquals(t, mapResourceReferenceType)
+	if mp, ok := AsMapType(t); ok {
+		return TypeEquals(mp.ValueType(), ResourceReferenceType) ||
+			TypeEquals(mp.ValueType(), WellKnownResourceReferenceType)
+	}
+
+	return false
 }

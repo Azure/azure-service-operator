@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}
 type BackupVaultsBackupPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (policy *BackupVaultsBackupPolicy) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}
 type BackupVaultsBackupPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -5624,7 +5624,8 @@ var azureBackupParams_ObjectType_STATUS_Values = map[string]AzureBackupParams_Ob
 // Schedule for backup
 type BackupSchedule struct {
 	// +kubebuilder:validation:Required
-	// RepeatingTimeIntervals: ISO 8601 repeating time interval format
+	// RepeatingTimeIntervals: Repeating time interval which only support the following ISO 8601 format
+	// [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M
 	RepeatingTimeIntervals []string `json:"repeatingTimeIntervals,omitempty"`
 
 	// TimeZone: Time zone for a schedule. Example: Pacific Standard Time
@@ -5730,7 +5731,8 @@ func (schedule *BackupSchedule) Initialize_From_BackupSchedule_STATUS(source *Ba
 
 // Schedule for backup
 type BackupSchedule_STATUS struct {
-	// RepeatingTimeIntervals: ISO 8601 repeating time interval format
+	// RepeatingTimeIntervals: Repeating time interval which only support the following ISO 8601 format
+	// [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M
 	RepeatingTimeIntervals []string `json:"repeatingTimeIntervals,omitempty"`
 
 	// TimeZone: Time zone for a schedule. Example: Pacific Standard Time

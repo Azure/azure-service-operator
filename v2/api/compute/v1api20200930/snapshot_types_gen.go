@@ -266,9 +266,6 @@ type Snapshot_Spec struct {
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// DiskState: The state of the snapshot.
-	DiskState *DiskState `json:"diskState,omitempty"`
-
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption `json:"encryption,omitempty"`
 
@@ -349,7 +346,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if snapshot.CreationData != nil ||
 		snapshot.DiskAccessReference != nil ||
 		snapshot.DiskSizeGB != nil ||
-		snapshot.DiskState != nil ||
 		snapshot.Encryption != nil ||
 		snapshot.EncryptionSettingsCollection != nil ||
 		snapshot.HyperVGeneration != nil ||
@@ -378,12 +374,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if snapshot.DiskSizeGB != nil {
 		diskSizeGB := *snapshot.DiskSizeGB
 		result.Properties.DiskSizeGB = &diskSizeGB
-	}
-	if snapshot.DiskState != nil {
-		var temp string
-		temp = string(*snapshot.DiskState)
-		diskState := arm.DiskState(temp)
-		result.Properties.DiskState = &diskState
 	}
 	if snapshot.Encryption != nil {
 		encryption_ARM, err := snapshot.Encryption.ConvertToARM(resolved)
@@ -489,17 +479,6 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		if typedInput.Properties.DiskSizeGB != nil {
 			diskSizeGB := *typedInput.Properties.DiskSizeGB
 			snapshot.DiskSizeGB = &diskSizeGB
-		}
-	}
-
-	// Set property "DiskState":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DiskState != nil {
-			var temp string
-			temp = string(*typedInput.Properties.DiskState)
-			diskState := DiskState(temp)
-			snapshot.DiskState = &diskState
 		}
 	}
 
@@ -714,15 +693,6 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 	// DiskSizeGB
 	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
-	// DiskState
-	if source.DiskState != nil {
-		diskState := *source.DiskState
-		diskStateTemp := genruntime.ToEnum(diskState, diskState_Values)
-		snapshot.DiskState = &diskStateTemp
-	} else {
-		snapshot.DiskState = nil
-	}
-
 	// Encryption
 	if source.Encryption != nil {
 		var encryption Encryption
@@ -878,14 +848,6 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshot.DiskSizeGB)
-
-	// DiskState
-	if snapshot.DiskState != nil {
-		diskState := string(*snapshot.DiskState)
-		destination.DiskState = &diskState
-	} else {
-		destination.DiskState = nil
-	}
 
 	// Encryption
 	if snapshot.Encryption != nil {
@@ -1727,29 +1689,6 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 
 	// No error
 	return nil
-}
-
-// This enumerates the possible state of the disk.
-// +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
-type DiskState string
-
-const (
-	DiskState_ActiveSAS     = DiskState("ActiveSAS")
-	DiskState_ActiveUpload  = DiskState("ActiveUpload")
-	DiskState_Attached      = DiskState("Attached")
-	DiskState_ReadyToUpload = DiskState("ReadyToUpload")
-	DiskState_Reserved      = DiskState("Reserved")
-	DiskState_Unattached    = DiskState("Unattached")
-)
-
-// Mapping from string to DiskState
-var diskState_Values = map[string]DiskState{
-	"activesas":     DiskState_ActiveSAS,
-	"activeupload":  DiskState_ActiveUpload,
-	"attached":      DiskState_Attached,
-	"readytoupload": DiskState_ReadyToUpload,
-	"reserved":      DiskState_Reserved,
-	"unattached":    DiskState_Unattached,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20241101.AvailabilitySet
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (availabilitySet *AvailabilitySet) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20241101.AvailabilitySet
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySetList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -235,6 +235,7 @@ type AvailabilitySet_STATUS struct {
 	ScheduledEventsPolicy               *ScheduledEventsPolicy_STATUS               `json:"scheduledEventsPolicy,omitempty"`
 	Sku                                 *Sku_STATUS                                 `json:"sku,omitempty"`
 	Statuses                            []InstanceViewStatus_STATUS                 `json:"statuses,omitempty"`
+	SystemData                          *SystemData_STATUS                          `json:"systemData,omitempty"`
 	Tags                                map[string]string                           `json:"tags,omitempty"`
 	Type                                *string                                     `json:"type,omitempty"`
 	VirtualMachineScaleSetMigrationInfo *VirtualMachineScaleSetMigrationInfo_STATUS `json:"virtualMachineScaleSetMigrationInfo,omitempty"`
@@ -330,6 +331,18 @@ type SubResource struct {
 type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20241101.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20241101.VirtualMachineScaleSetMigrationInfo_STATUS

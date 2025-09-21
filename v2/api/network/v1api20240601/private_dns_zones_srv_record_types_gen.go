@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/SRV/{relativeRecordSetName}
 type PrivateDnsZonesSRVRecord struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (record *PrivateDnsZonesSRVRecord) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/SRV/{relativeRecordSetName}
 type PrivateDnsZonesSRVRecordList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1137,8 +1137,8 @@ type PrivateDnsZonesSRVRecord_STATUS struct {
 	// Fqdn: Fully qualified domain name of the record set.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// Id: Fully qualified resource Id for the resource. Example -
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// IsAutoRegistered: Is the record set auto-registered in the Private DNS zone through a virtual network link?
@@ -1150,7 +1150,7 @@ type PrivateDnsZonesSRVRecord_STATUS struct {
 	// MxRecords: The list of MX records in the record set.
 	MxRecords []MxRecord_STATUS `json:"mxRecords,omitempty"`
 
-	// Name: The name of the record set.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PtrRecords: The list of PTR records in the record set.
@@ -1162,13 +1162,16 @@ type PrivateDnsZonesSRVRecord_STATUS struct {
 	// SrvRecords: The list of SRV records in the record set.
 	SrvRecords []SrvRecord_STATUS `json:"srvRecords,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Ttl: The TTL (time-to-live) of the records in the record set.
 	Ttl *int `json:"ttl,omitempty"`
 
 	// TxtRecords: The list of TXT records in the record set.
 	TxtRecords []TxtRecord_STATUS `json:"txtRecords,omitempty"`
 
-	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -1378,6 +1381,17 @@ func (record *PrivateDnsZonesSRVRecord_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		record.SystemData = &systemData
+	}
+
 	// Set property "Ttl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1553,6 +1567,18 @@ func (record *PrivateDnsZonesSRVRecord_STATUS) AssignProperties_From_PrivateDnsZ
 		record.SrvRecords = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		record.SystemData = &systemDatum
+	} else {
+		record.SystemData = nil
+	}
+
 	// Ttl
 	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
 
@@ -1724,6 +1750,18 @@ func (record *PrivateDnsZonesSRVRecord_STATUS) AssignProperties_To_PrivateDnsZon
 		destination.SrvRecords = srvRecordList
 	} else {
 		destination.SrvRecords = nil
+	}
+
+	// SystemData
+	if record.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := record.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Ttl

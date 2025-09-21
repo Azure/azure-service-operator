@@ -392,6 +392,7 @@ func AddRelatedPropertyGeneratorsForPrivateDnsZonesMXRecord_STATUS(gens map[stri
 	gens["PtrRecords"] = gen.SliceOf(PtrRecord_STATUSGenerator())
 	gens["SoaRecord"] = gen.PtrOf(SoaRecord_STATUSGenerator())
 	gens["SrvRecords"] = gen.SliceOf(SrvRecord_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 	gens["TxtRecords"] = gen.SliceOf(TxtRecord_STATUSGenerator())
 }
 

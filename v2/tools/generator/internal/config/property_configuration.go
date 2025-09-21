@@ -43,9 +43,14 @@ const (
 type ReferenceType string
 
 const (
-	ReferenceTypeARM    = ReferenceType("arm")    // An ARM reference
-	ReferenceTypeSimple = ReferenceType("simple") // A simple reference requiring no special handling
+	ReferenceTypeARM        = ReferenceType("arm")           // An ARM reference
+	ReferenceTypeSimple     = ReferenceType("simple")        // A simple reference requiring no special handling
+	ReferenceTypeWellKnown  = ReferenceType("arm+wellknown") // An ARM reference that also permits identifying a resource by a well known name
+	ReferenceTypeCompatible = ReferenceType("arm+compat")    // An ARM reference but we retain the original property for backward compatibility
 )
+
+// arm+compat allows us to fix up an ARM reference if we miss it before releasing a version of the resource.
+// See https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references/ for the gory details.
 
 // Tags used in yaml files to specify configurable properties. Alphabetical please.
 const (
@@ -126,6 +131,10 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				pc.ReferenceType.Set(ReferenceTypeARM)
 			case string(ReferenceTypeSimple):
 				pc.ReferenceType.Set(ReferenceTypeSimple)
+			case string(ReferenceTypeWellKnown):
+				pc.ReferenceType.Set(ReferenceTypeWellKnown)
+			case string(ReferenceTypeCompatible):
+				pc.ReferenceType.Set(ReferenceTypeCompatible)
 			default:
 				return eris.Errorf("unknown %s value: %s.", referenceTypeTag, c.Value)
 			}

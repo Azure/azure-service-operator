@@ -6,7 +6,7 @@ package arm
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type AvailabilitySet_Spec struct {
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
@@ -18,7 +18,7 @@ type AvailabilitySet_Spec struct {
 	// Default value is 'Classic'.
 	Sku *Sku `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

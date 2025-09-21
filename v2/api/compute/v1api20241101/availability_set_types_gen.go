@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (availabilitySet *AvailabilitySet) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySetList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -257,7 +257,7 @@ type AvailabilitySet_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -289,7 +289,7 @@ type AvailabilitySet_Spec struct {
 	// Default value is 'Classic'.
 	Sku *Sku `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -755,13 +755,14 @@ type AvailabilitySet_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: Resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PlatformFaultDomainCount: Fault Domain count.
@@ -786,10 +787,13 @@ type AvailabilitySet_STATUS struct {
 	// Statuses: The resource status information.
 	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
 
-	// Tags: Resource tags
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	// VirtualMachineScaleSetMigrationInfo: Describes the migration properties on the Availability Set.
@@ -953,6 +957,17 @@ func (availabilitySet *AvailabilitySet_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		availabilitySet.SystemData = &systemData
+	}
+
 	// Set property "Tags":
 	if typedInput.Tags != nil {
 		availabilitySet.Tags = make(map[string]string, len(typedInput.Tags))
@@ -1073,6 +1088,18 @@ func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_From_Availabilit
 		availabilitySet.Statuses = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		availabilitySet.SystemData = &systemDatum
+	} else {
+		availabilitySet.SystemData = nil
+	}
+
 	// Tags
 	availabilitySet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -1188,6 +1215,18 @@ func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_To_AvailabilityS
 		destination.Statuses = statusList
 	} else {
 		destination.Statuses = nil
+	}
+
+	// SystemData
+	if availabilitySet.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := availabilitySet.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags
@@ -1350,7 +1389,7 @@ type InstanceViewStatus_STATUS struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
+	Level *StatusLevelTypes_STATUS `json:"level,omitempty"`
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -1389,7 +1428,7 @@ func (status *InstanceViewStatus_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Level != nil {
 		var temp string
 		temp = string(*typedInput.Level)
-		level := InstanceViewStatus_Level_STATUS(temp)
+		level := StatusLevelTypes_STATUS(temp)
 		status.Level = &level
 	}
 
@@ -1421,7 +1460,7 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_From_InstanceViewStatu
 	// Level
 	if source.Level != nil {
 		level := *source.Level
-		levelTemp := genruntime.ToEnum(level, instanceViewStatus_Level_STATUS_Values)
+		levelTemp := genruntime.ToEnum(level, statusLevelTypes_STATUS_Values)
 		status.Level = &levelTemp
 	} else {
 		status.Level = nil
@@ -2262,6 +2301,166 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SystemData_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SystemData_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
+	}
+
+	// Set property "CreatedAt":
+	if typedInput.CreatedAt != nil {
+		createdAt := *typedInput.CreatedAt
+		data.CreatedAt = &createdAt
+	}
+
+	// Set property "CreatedBy":
+	if typedInput.CreatedBy != nil {
+		createdBy := *typedInput.CreatedBy
+		data.CreatedBy = &createdBy
+	}
+
+	// Set property "CreatedByType":
+	if typedInput.CreatedByType != nil {
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
+		data.CreatedByType = &createdByType
+	}
+
+	// Set property "LastModifiedAt":
+	if typedInput.LastModifiedAt != nil {
+		lastModifiedAt := *typedInput.LastModifiedAt
+		data.LastModifiedAt = &lastModifiedAt
+	}
+
+	// Set property "LastModifiedBy":
+	if typedInput.LastModifiedBy != nil {
+		lastModifiedBy := *typedInput.LastModifiedBy
+		data.LastModifiedBy = &lastModifiedBy
+	}
+
+	// Set property "LastModifiedByType":
+	if typedInput.LastModifiedByType != nil {
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
+		data.LastModifiedByType = &lastModifiedByType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	if source.CreatedByType != nil {
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
+	} else {
+		data.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	if source.LastModifiedByType != nil {
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
+	} else {
+		data.LastModifiedByType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	if data.CreatedByType != nil {
+		createdByType := string(*data.CreatedByType)
+		destination.CreatedByType = &createdByType
+	} else {
+		destination.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	if data.LastModifiedByType != nil {
+		lastModifiedByType := string(*data.LastModifiedByType)
+		destination.LastModifiedByType = &lastModifiedByType
+	} else {
+		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Describes the Availability Set properties related to migration to Flexible Virtual Machine Scale Set.
 type VirtualMachineScaleSetMigrationInfo_STATUS struct {
 	// DefaultVirtualMachineScaleSetInfo: Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless
@@ -2386,11 +2585,11 @@ func (info *VirtualMachineScaleSetMigrationInfo_STATUS) AssignProperties_To_Virt
 // Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the
 // VMs via the ConvertToVirtualMachineScaleSet API.
 type DefaultVirtualMachineScaleSetInfo_STATUS struct {
-	// ConstrainedMaximumCapacity:  Indicates if the the maximum capacity of the default migrated Virtual Machine Scale Set
+	// ConstrainedMaximumCapacity: Indicates if the the maximum capacity of the default migrated Virtual Machine Scale Set
 	// after its migration will be constrained to a limited number of VMs.
 	ConstrainedMaximumCapacity *bool `json:"constrainedMaximumCapacity,omitempty"`
 
-	// DefaultVirtualMachineScaleSet:  The default Virtual Machine ScaleSet Uri that the Availability Set will be moved to upon
+	// DefaultVirtualMachineScaleSet: The default Virtual Machine ScaleSet Uri that the Availability Set will be moved to upon
 	// triggering a seamless migration via the ConvertToVirtualMachineScaleSet API.
 	DefaultVirtualMachineScaleSet *SubResource_STATUS `json:"defaultVirtualMachineScaleSet,omitempty"`
 }
@@ -2491,21 +2690,6 @@ func (info *DefaultVirtualMachineScaleSetInfo_STATUS) AssignProperties_To_Defaul
 
 	// No error
 	return nil
-}
-
-type InstanceViewStatus_Level_STATUS string
-
-const (
-	InstanceViewStatus_Level_STATUS_Error   = InstanceViewStatus_Level_STATUS("Error")
-	InstanceViewStatus_Level_STATUS_Info    = InstanceViewStatus_Level_STATUS("Info")
-	InstanceViewStatus_Level_STATUS_Warning = InstanceViewStatus_Level_STATUS("Warning")
-)
-
-// Mapping from string to InstanceViewStatus_Level_STATUS
-var instanceViewStatus_Level_STATUS_Values = map[string]InstanceViewStatus_Level_STATUS{
-	"error":   InstanceViewStatus_Level_STATUS_Error,
-	"info":    InstanceViewStatus_Level_STATUS_Info,
-	"warning": InstanceViewStatus_Level_STATUS_Warning,
 }
 
 type ScheduledEventsAdditionalPublishingTargets struct {
@@ -2708,6 +2892,56 @@ func (targets *ScheduledEventsAdditionalPublishingTargets_STATUS) AssignProperti
 
 	// No error
 	return nil
+}
+
+// The level code.
+type StatusLevelTypes_STATUS string
+
+const (
+	StatusLevelTypes_STATUS_Error   = StatusLevelTypes_STATUS("Error")
+	StatusLevelTypes_STATUS_Info    = StatusLevelTypes_STATUS("Info")
+	StatusLevelTypes_STATUS_Warning = StatusLevelTypes_STATUS("Warning")
+)
+
+// Mapping from string to StatusLevelTypes_STATUS
+var statusLevelTypes_STATUS_Values = map[string]StatusLevelTypes_STATUS{
+	"error":   StatusLevelTypes_STATUS_Error,
+	"info":    StatusLevelTypes_STATUS_Info,
+	"warning": StatusLevelTypes_STATUS_Warning,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Specifies Reboot related Scheduled Event related configurations.

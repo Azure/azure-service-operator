@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20200601.PrivateDnsZonesPTRRecord
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2020-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/PTR/{relativeRecordSetName}
 type PrivateDnsZonesPTRRecord struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (record *PrivateDnsZonesPTRRecord) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20200601.PrivateDnsZonesPTRRecord
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2020-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/PTR/{relativeRecordSetName}
 type PrivateDnsZonesPTRRecordList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -938,6 +938,13 @@ func (record *PrivateDnsZonesPTRRecord_STATUS) AssignProperties_From_PrivateDnsZ
 		record.SrvRecords = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Ttl
 	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
 
@@ -1125,6 +1132,19 @@ func (record *PrivateDnsZonesPTRRecord_STATUS) AssignProperties_To_PrivateDnsZon
 		destination.SrvRecords = srvRecordList
 	} else {
 		destination.SrvRecords = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Ttl
