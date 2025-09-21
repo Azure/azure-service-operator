@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>network.azure.com/v1api20240601 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
+<meta name="description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
 Used by: PrivateDnsZoneList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource Id for the resource. Example - ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}’. stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. PrivateZoneProperties_ProvisioningState_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. Example - ‘Microsoft.Network/privateDnsZones’. stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. ProvisioningState_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network/v1api20240601/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="network.azure.com/v1api20240601">
-  <meta property="og:description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
+  <meta property="og:description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
 Used by: PrivateDnsZoneList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource Id for the resource. Example - ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}’. stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. PrivateZoneProperties_ProvisioningState_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. Example - ‘Microsoft.Network/privateDnsZones’. stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. ProvisioningState_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="network.azure.com/v1api20240601">
-  <meta itemprop="description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
+  <meta itemprop="description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
 Used by: PrivateDnsZoneList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource Id for the resource. Example - ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}’. stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. PrivateZoneProperties_ProvisioningState_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. Example - ‘Microsoft.Network/privateDnsZones’. stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
-  <meta itemprop="wordCount" content="8755">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. ProvisioningState_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
+  <meta itemprop="wordCount" content="9188">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v1api20240601">
-  <meta name="twitter:description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
+  <meta name="twitter:description" content="APIVersion Value Description “2024-06-01” PrivateDnsZone Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}
 Used by: PrivateDnsZoneList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource Id for the resource. Example - ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}’. stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. PrivateZoneProperties_ProvisioningState_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. Example - ‘Microsoft.Network/privateDnsZones’. stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_SpecOptional status PrivateDnsZone_STATUSOptional PrivateDnsZone_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The ETag of the zone. stringOptional location The Azure Region where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure PrivateDnsZoneOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired tags Resource tags. map[string]stringOptional PrivateDnsZone_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag The ETag of the zone. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional internalId Private zone internal Id stringOptional location The Azure Region where the resource lives stringOptional maxNumberOfRecordSets The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinks The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional maxNumberOfVirtualNetworkLinksWithRegistration The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional name The name of the resource stringOptional numberOfRecordSets The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinks The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. intOptional numberOfVirtualNetworkLinksWithRegistration The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. intOptional provisioningState The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. ProvisioningState_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional PrivateDnsZoneList Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -941,21 +941,23 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
     <li><a href="#PrivateDnsZonesSRVRecordOperatorSpec">PrivateDnsZonesSRVRecordOperatorSpec</a></li>
     <li><a href="#PrivateDnsZonesTXTRecordOperatorSpec">PrivateDnsZonesTXTRecordOperatorSpec</a></li>
     <li><a href="#PrivateDnsZonesVirtualNetworkLinkOperatorSpec">PrivateDnsZonesVirtualNetworkLinkOperatorSpec</a></li>
-    <li><a href="#PrivateZoneProperties_ProvisioningState_STATUS">PrivateZoneProperties_ProvisioningState_STATUS</a></li>
+    <li><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a></li>
     <li><a href="#PtrRecord">PtrRecord</a></li>
     <li><a href="#PtrRecord_STATUS">PtrRecord_STATUS</a></li>
+    <li><a href="#ResolutionPolicy">ResolutionPolicy</a></li>
+    <li><a href="#ResolutionPolicy_STATUS">ResolutionPolicy_STATUS</a></li>
     <li><a href="#SoaRecord">SoaRecord</a></li>
     <li><a href="#SoaRecord_STATUS">SoaRecord_STATUS</a></li>
     <li><a href="#SrvRecord">SrvRecord</a></li>
     <li><a href="#SrvRecord_STATUS">SrvRecord_STATUS</a></li>
     <li><a href="#SubResource">SubResource</a></li>
     <li><a href="#SubResource_STATUS">SubResource_STATUS</a></li>
+    <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
     <li><a href="#TxtRecord">TxtRecord</a></li>
     <li><a href="#TxtRecord_STATUS">TxtRecord_STATUS</a></li>
-    <li><a href="#VirtualNetworkLinkProperties_ProvisioningState_STATUS">VirtualNetworkLinkProperties_ProvisioningState_STATUS</a></li>
-    <li><a href="#VirtualNetworkLinkProperties_ResolutionPolicy">VirtualNetworkLinkProperties_ResolutionPolicy</a></li>
-    <li><a href="#VirtualNetworkLinkProperties_ResolutionPolicy_STATUS">VirtualNetworkLinkProperties_ResolutionPolicy_STATUS</a></li>
-    <li><a href="#VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS">VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS</a></li>
+    <li><a href="#VirtualNetworkLinkState_STATUS">VirtualNetworkLinkState_STATUS</a></li>
+    <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1000,7 +1002,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZone">PrivateDnsZone</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}</p>
 <p>Used by: <a href="#PrivateDnsZoneList">PrivateDnsZoneList</a>.</p>
 <table>
   <thead>
@@ -1097,7 +1099,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1148,7 +1150,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>provisioningState</td>
           <td>The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.</td>
-          <td><a href="#PrivateZoneProperties_ProvisioningState_STATUS">PrivateZoneProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -1157,13 +1164,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZoneList">PrivateDnsZoneList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}</p>
 <table>
   <thead>
       <tr>
@@ -1191,7 +1198,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesAAAARecord">PrivateDnsZonesAAAARecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​AAAA/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​AAAA/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesAAAARecordList">PrivateDnsZonesAAAARecordList</a>.</p>
 <table>
   <thead>
@@ -1348,7 +1355,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1368,7 +1375,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1387,6 +1394,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -1398,13 +1410,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesAAAARecordList">PrivateDnsZonesAAAARecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​AAAA/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​AAAA/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -1432,7 +1444,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesARecord">PrivateDnsZonesARecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​A/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​A/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesARecordList">PrivateDnsZonesARecordList</a>.</p>
 <table>
   <thead>
@@ -1589,7 +1601,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1609,7 +1621,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1628,6 +1640,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -1639,13 +1656,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesARecordList">PrivateDnsZonesARecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​A/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​A/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -1673,7 +1690,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesCNAMERecord">PrivateDnsZonesCNAMERecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​CNAME/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​CNAME/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesCNAMERecordList">PrivateDnsZonesCNAMERecordList</a>.</p>
 <table>
   <thead>
@@ -1830,7 +1847,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1850,7 +1867,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1869,6 +1886,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -1880,13 +1902,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesCNAMERecordList">PrivateDnsZonesCNAMERecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​CNAME/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​CNAME/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -1914,7 +1936,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesMXRecord">PrivateDnsZonesMXRecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​MX/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​MX/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesMXRecordList">PrivateDnsZonesMXRecordList</a>.</p>
 <table>
   <thead>
@@ -2071,7 +2093,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2091,7 +2113,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2110,6 +2132,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -2121,13 +2148,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesMXRecordList">PrivateDnsZonesMXRecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​MX/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​MX/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -2155,7 +2182,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesPTRRecord">PrivateDnsZonesPTRRecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​PTR/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​PTR/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesPTRRecordList">PrivateDnsZonesPTRRecordList</a>.</p>
 <table>
   <thead>
@@ -2312,7 +2339,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2332,7 +2359,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2351,6 +2378,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -2362,13 +2394,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesPTRRecordList">PrivateDnsZonesPTRRecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​PTR/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​PTR/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -2396,7 +2428,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesSRVRecord">PrivateDnsZonesSRVRecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​SRV/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​SRV/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesSRVRecordList">PrivateDnsZonesSRVRecordList</a>.</p>
 <table>
   <thead>
@@ -2553,7 +2585,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2573,7 +2605,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2592,6 +2624,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -2603,13 +2640,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesSRVRecordList">PrivateDnsZonesSRVRecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​SRV/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​SRV/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -2637,7 +2674,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesTXTRecord">PrivateDnsZonesTXTRecord</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​TXT/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​TXT/​{relativeRecordSetName}</p>
 <p>Used by: <a href="#PrivateDnsZonesTXTRecordList">PrivateDnsZonesTXTRecordList</a>.</p>
 <table>
   <thead>
@@ -2794,7 +2831,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2814,7 +2851,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2833,6 +2870,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -2844,13 +2886,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesTXTRecordList">PrivateDnsZonesTXTRecordList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​TXT/​{relativeRecordSetName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​TXT/​{relativeRecordSetName}</p>
 <table>
   <thead>
       <tr>
@@ -2878,7 +2920,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesVirtualNetworkLink">PrivateDnsZonesVirtualNetworkLink</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​virtualNetworkLinks/​{virtualNetworkLinkName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​virtualNetworkLinks/​{virtualNetworkLinkName}</p>
 <p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLinkList">PrivateDnsZonesVirtualNetworkLinkList</a>.</p>
 <table>
   <thead>
@@ -2954,7 +2996,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>resolutionPolicy</td>
           <td>The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to <code>NxDomainRedirect</code>, Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.</td>
-          <td><a href="#VirtualNetworkLinkProperties_ResolutionPolicy">VirtualNetworkLinkProperties_ResolutionPolicy</a><br/><small>Optional</small></td>
+          <td><a href="#ResolutionPolicy">ResolutionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -2990,7 +3032,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3006,7 +3048,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>provisioningState</td>
           <td>The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.</td>
-          <td><a href="#VirtualNetworkLinkProperties_ProvisioningState_STATUS">VirtualNetworkLinkProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>registrationEnabled</td>
@@ -3016,7 +3058,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>resolutionPolicy</td>
           <td>The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to <code>NxDomainRedirect</code>, Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.</td>
-          <td><a href="#VirtualNetworkLinkProperties_ResolutionPolicy_STATUS">VirtualNetworkLinkProperties_ResolutionPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ResolutionPolicy_STATUS">ResolutionPolicy_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -3025,7 +3072,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3036,12 +3083,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>virtualNetworkLinkState</td>
           <td>The status of the virtual network link to the Private DNS zone. Possible values are <code>InProgress</code> and <code>Done</code>. This is a read-only property and any attempt to set this value will be ignored.</td>
-          <td><a href="#VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS">VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#VirtualNetworkLinkState_STATUS">VirtualNetworkLinkState_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="PrivateDnsZonesVirtualNetworkLinkList">PrivateDnsZonesVirtualNetworkLinkList</h2>
-<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​virtualNetworkLinks/​{virtualNetworkLinkName}</p>
+<p>Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateZoneName}/​virtualNetworkLinks/​{virtualNetworkLinkName}</p>
 <table>
   <thead>
       <tr>
@@ -3134,7 +3181,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3185,7 +3232,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>provisioningState</td>
           <td>The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.</td>
-          <td><a href="#PrivateZoneProperties_ProvisioningState_STATUS">PrivateZoneProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -3194,7 +3246,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3325,7 +3377,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3345,7 +3397,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3364,6 +3416,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -3375,7 +3432,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3506,7 +3563,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3526,7 +3583,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3545,6 +3602,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -3556,7 +3618,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3687,7 +3749,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3707,7 +3769,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3726,6 +3788,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -3737,7 +3804,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3868,7 +3935,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3888,7 +3955,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3907,6 +3974,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -3918,7 +3990,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4049,7 +4121,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4069,7 +4141,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4088,6 +4160,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -4099,7 +4176,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4230,7 +4307,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4250,7 +4327,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4269,6 +4346,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -4280,7 +4362,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4411,7 +4493,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4431,7 +4513,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the record set.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4450,6 +4532,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td><a href="#SrvRecord_STATUS">SrvRecord_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>ttl</td>
           <td>The TTL (time-to-live) of the records in the record set.</td>
           <td>int<br/><small>Optional</small></td>
@@ -4461,7 +4548,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4510,7 +4597,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>resolutionPolicy</td>
           <td>The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to <code>NxDomainRedirect</code>, Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.</td>
-          <td><a href="#VirtualNetworkLinkProperties_ResolutionPolicy">VirtualNetworkLinkProperties_ResolutionPolicy</a><br/><small>Optional</small></td>
+          <td><a href="#ResolutionPolicy">ResolutionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -4547,7 +4634,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Example - &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateDnsZones/​{privateDnsZoneName}&rsquo;.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4563,7 +4650,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>provisioningState</td>
           <td>The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.</td>
-          <td><a href="#VirtualNetworkLinkProperties_ProvisioningState_STATUS">VirtualNetworkLinkProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>registrationEnabled</td>
@@ -4573,7 +4660,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>resolutionPolicy</td>
           <td>The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to <code>NxDomainRedirect</code>, Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.</td>
-          <td><a href="#VirtualNetworkLinkProperties_ResolutionPolicy_STATUS">VirtualNetworkLinkProperties_ResolutionPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ResolutionPolicy_STATUS">ResolutionPolicy_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -4582,7 +4674,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4593,7 +4685,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       <tr>
           <td>virtualNetworkLinkState</td>
           <td>The status of the virtual network link to the Private DNS zone. Possible values are <code>InProgress</code> and <code>Done</code>. This is a read-only property and any attempt to set this value will be ignored.</td>
-          <td><a href="#VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS">VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#VirtualNetworkLinkState_STATUS">VirtualNetworkLinkState_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4975,8 +5067,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
   </tbody>
 </table>
-<h2 id="PrivateZoneProperties_ProvisioningState_STATUS">PrivateZoneProperties_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#PrivateDnsZone_STATUS">PrivateDnsZone_STATUS</a>.</p>
+<h2 id="ProvisioningState_STATUS">ProvisioningState_STATUS</h2>
+<p>The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.</p>
+<p>Used by: <a href="#PrivateDnsZone_STATUS">PrivateDnsZone_STATUS</a>, and <a href="#PrivateDnsZonesVirtualNetworkLink_STATUS">PrivateDnsZonesVirtualNetworkLink_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -5046,6 +5139,48 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
           <td>ptrdname</td>
           <td>The PTR target domain name for this PTR record.</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ResolutionPolicy">ResolutionPolicy</h2>
+<p>The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to <code>NxDomainRedirect</code>, Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.</p>
+<p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLink_Spec">PrivateDnsZonesVirtualNetworkLink_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Default&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;NxDomainRedirect&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ResolutionPolicy_STATUS">ResolutionPolicy_STATUS</h2>
+<p>The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to <code>NxDomainRedirect</code>, Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.</p>
+<p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLink_STATUS">PrivateDnsZonesVirtualNetworkLink_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Default&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;NxDomainRedirect&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -5253,6 +5388,50 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
   </tbody>
 </table>
+<h2 id="SystemData_STATUS">SystemData_STATUS</h2>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+<p>Used by: <a href="#PrivateDnsZone_STATUS">PrivateDnsZone_STATUS</a>, <a href="#PrivateDnsZonesAAAARecord_STATUS">PrivateDnsZonesAAAARecord_STATUS</a>, <a href="#PrivateDnsZonesARecord_STATUS">PrivateDnsZonesARecord_STATUS</a>, <a href="#PrivateDnsZonesCNAMERecord_STATUS">PrivateDnsZonesCNAMERecord_STATUS</a>, <a href="#PrivateDnsZonesMXRecord_STATUS">PrivateDnsZonesMXRecord_STATUS</a>, <a href="#PrivateDnsZonesPTRRecord_STATUS">PrivateDnsZonesPTRRecord_STATUS</a>, <a href="#PrivateDnsZonesSRVRecord_STATUS">PrivateDnsZonesSRVRecord_STATUS</a>, <a href="#PrivateDnsZonesTXTRecord_STATUS">PrivateDnsZonesTXTRecord_STATUS</a>, and <a href="#PrivateDnsZonesVirtualNetworkLink_STATUS">PrivateDnsZonesVirtualNetworkLink_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="TxtRecord">TxtRecord</h2>
 <p>A TXT record.</p>
 <p>Used by: <a href="#PrivateDnsZonesAAAARecord_Spec">PrivateDnsZonesAAAARecord_Spec</a>, <a href="#PrivateDnsZonesARecord_Spec">PrivateDnsZonesARecord_Spec</a>, <a href="#PrivateDnsZonesCNAMERecord_Spec">PrivateDnsZonesCNAMERecord_Spec</a>, <a href="#PrivateDnsZonesMXRecord_Spec">PrivateDnsZonesMXRecord_Spec</a>, <a href="#PrivateDnsZonesPTRRecord_Spec">PrivateDnsZonesPTRRecord_Spec</a>, <a href="#PrivateDnsZonesSRVRecord_Spec">PrivateDnsZonesSRVRecord_Spec</a>, and <a href="#PrivateDnsZonesTXTRecord_Spec">PrivateDnsZonesTXTRecord_Spec</a>.</p>
@@ -5291,83 +5470,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
   </tbody>
 </table>
-<h2 id="VirtualNetworkLinkProperties_ProvisioningState_STATUS">VirtualNetworkLinkProperties_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLink_STATUS">PrivateDnsZonesVirtualNetworkLink_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Canceled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Creating&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="VirtualNetworkLinkProperties_ResolutionPolicy">VirtualNetworkLinkProperties_ResolutionPolicy</h2>
-<p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLink_Spec">PrivateDnsZonesVirtualNetworkLink_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;NxDomainRedirect&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="VirtualNetworkLinkProperties_ResolutionPolicy_STATUS">VirtualNetworkLinkProperties_ResolutionPolicy_STATUS</h2>
-<p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLink_STATUS">PrivateDnsZonesVirtualNetworkLink_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;NxDomainRedirect&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS">VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS</h2>
+<h2 id="VirtualNetworkLinkState_STATUS">VirtualNetworkLinkState_STATUS</h2>
+<p>The status of the virtual network link to the Private DNS zone. Possible values are <code>InProgress</code> and <code>Done</code>. This is a read-only property and any attempt to set this value will be ignored.</p>
 <p>Used by: <a href="#PrivateDnsZonesVirtualNetworkLink_STATUS">PrivateDnsZonesVirtualNetworkLink_STATUS</a>.</p>
 <table>
   <thead>
@@ -5383,6 +5487,62 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec PrivateDnsZone_
       </tr>
       <tr>
           <td>&ldquo;InProgress&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
           <td></td>
       </tr>
   </tbody>

@@ -863,10 +863,10 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
     <li><a href="#ApiErrorBase_STATUS">ApiErrorBase_STATUS</a></li>
     <li><a href="#EncryptionSetIdentity_Type">EncryptionSetIdentity_Type</a></li>
     <li><a href="#EncryptionSetIdentity_Type_STATUS">EncryptionSetIdentity_Type_STATUS</a></li>
-    <li><a href="#EncryptionSetIdentity_UserAssignedIdentities_STATUS">EncryptionSetIdentity_UserAssignedIdentities_STATUS</a></li>
     <li><a href="#InnerError_STATUS">InnerError_STATUS</a></li>
     <li><a href="#SourceVault">SourceVault</a></li>
     <li><a href="#SourceVault_STATUS">SourceVault_STATUS</a></li>
+    <li><a href="#UserAssignedIdentitiesValue_STATUS">UserAssignedIdentitiesValue_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
   </ul>
 </nav>
@@ -1451,7 +1451,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
       <tr>
           <td>userAssignedIdentities</td>
           <td>The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}&rsquo;.</td>
-          <td><a href="#EncryptionSetIdentity_UserAssignedIdentities_STATUS">map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#UserAssignedIdentitiesValue_STATUS">map[string]UserAssignedIdentitiesValue_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1593,29 +1593,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
       </tr>
   </tbody>
 </table>
-<h2 id="EncryptionSetIdentity_UserAssignedIdentities_STATUS">EncryptionSetIdentity_UserAssignedIdentities_STATUS</h2>
-<p>Used by: <a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>clientId</td>
-          <td>The client id of user assigned identity.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>principalId</td>
-          <td>The principal id of user assigned identity.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="InnerError_STATUS">InnerError_STATUS</h2>
 <p>Inner error details.</p>
 <p>Used by: <a href="#ApiError_STATUS">ApiError_STATUS</a>.</p>
@@ -1674,6 +1651,29 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
       <tr>
           <td>id</td>
           <td>Resource Id</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UserAssignedIdentitiesValue_STATUS">UserAssignedIdentitiesValue_STATUS</h2>
+<p>Used by: <a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clientId</td>
+          <td>The client id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>principalId</td>
+          <td>The principal id of user assigned identity.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>

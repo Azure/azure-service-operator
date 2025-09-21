@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Disk_SpecOption
   <meta itemprop="description" content="APIVersion Value Description “2020-09-30” Disk Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​disks/​{diskName}
 Used by: DiskList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Disk_SpecOptional status Disk_STATUSOptional Disk_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional burstingEnabled Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. boolOptional creationData Disk source information. CreationData information cannot be changed after the disk has been created. CreationDataRequired diskAccessReference ARM id of the DiskAccess resource for using private endpoints on disks. genruntime.ResourceReferenceOptional diskIOPSReadOnly The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. intOptional diskIOPSReadWrite The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. intOptional diskMBpsReadOnly The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. intOptional diskMBpsReadWrite The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. intOptional diskSizeGB If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk’s size. intOptional encryption Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. EncryptionOptional encryptionSettingsCollection Encryption settings collection used for Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. EncryptionSettingsCollectionOptional extendedLocation The extended location where the disk will be created. Extended location cannot be changed. ExtendedLocationOptional hyperVGeneration The hypervisor generation of the Virtual Machine. Applicable to OS disks only. DiskProperties_HyperVGenerationOptional location Resource location stringRequired maxShares The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. intOptional networkAccessPolicy Policy for accessing the disk via network. NetworkAccessPolicyOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskOperatorSpecOptional osType The Operating System type. DiskProperties_OsTypeOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired purchasePlan Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer} PurchasePlanOptional sku The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS. DiskSkuOptional tags Resource tags map[string]stringOptional tier Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. stringOptional zones The Logical zone list for Disk. string[]Optional Disk_STATUS Property Description Type burstingEnabled Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. boolOptional conditions The observed state of the resource conditions.Condition[]Optional creationData Disk source information. CreationData information cannot be changed after the disk has been created. CreationData_STATUSOptional diskAccessId ARM id of the DiskAccess resource for using private endpoints on disks. stringOptional diskIOPSReadOnly The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. intOptional diskIOPSReadWrite The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. intOptional diskMBpsReadOnly The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. intOptional diskMBpsReadWrite The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. intOptional diskSizeBytes The size of the disk in bytes. This field is read only. intOptional diskSizeGB If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk’s size. intOptional diskState The state of the disk. DiskState_STATUSOptional encryption Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. Encryption_STATUSOptional encryptionSettingsCollection Encryption settings collection used for Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. EncryptionSettingsCollection_STATUSOptional extendedLocation The extended location where the disk will be created. Extended location cannot be changed. ExtendedLocation_STATUSOptional hyperVGeneration The hypervisor generation of the Virtual Machine. Applicable to OS disks only. DiskProperties_HyperVGeneration_STATUSOptional id Resource Id stringOptional location Resource location stringOptional managedBy A relative URI containing the ID of the VM that has the disk attached. stringOptional managedByExtended List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs. string[]Optional maxShares The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. intOptional name Resource name stringOptional networkAccessPolicy Policy for accessing the disk via network. NetworkAccessPolicy_STATUSOptional osType The Operating System type. DiskProperties_OsType_STATUSOptional provisioningState The disk provisioning state. stringOptional purchasePlan Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer} PurchasePlan_STATUSOptional shareInfo Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs. ShareInfoElement_STATUS[]Optional sku The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS. DiskSku_STATUSOptional tags Resource tags map[string]stringOptional tier Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. stringOptional timeCreated The time when the disk was created. stringOptional type Resource type stringOptional uniqueId Unique Guid identifying the resource. stringOptional zones The Logical zone list for Disk. string[]Optional DiskList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​disks/​{diskName}">
-  <meta itemprop="wordCount" content="5629">
+  <meta itemprop="wordCount" content="5595">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20200930">
   <meta name="twitter:description" content="APIVersion Value Description “2020-09-30” Disk Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​disks/​{diskName}
@@ -870,7 +870,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Disk_SpecOption
     <li><a href="#DiskProperties_OsType_STATUS">DiskProperties_OsType_STATUS</a></li>
     <li><a href="#DiskSku">DiskSku</a></li>
     <li><a href="#DiskSku_STATUS">DiskSku_STATUS</a></li>
-    <li><a href="#DiskState">DiskState</a></li>
     <li><a href="#DiskState_STATUS">DiskState_STATUS</a></li>
     <li><a href="#Encryption">Encryption</a></li>
     <li><a href="#Encryption_STATUS">Encryption_STATUS</a></li>
@@ -1387,11 +1386,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Disk_SpecOption
           <td>diskSizeGB</td>
           <td>If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</td>
           <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskState</td>
-          <td>The state of the snapshot.</td>
-          <td><a href="#DiskState">DiskState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>encryption</td>
@@ -1964,11 +1958,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Disk_SpecOption
           <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>diskState</td>
-          <td>The state of the snapshot.</td>
-          <td><a href="#DiskState">DiskState</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>encryption</td>
           <td>Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</td>
           <td><a href="#Encryption">Encryption</a><br/><small>Optional</small></td>
@@ -2426,43 +2415,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Disk_SpecOption
           <td>tier</td>
           <td>The sku tier.</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DiskState">DiskState</h2>
-<p>This enumerates the possible state of the disk.</p>
-<p>Used by: <a href="#Snapshot_Spec">Snapshot_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;ActiveSAS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ActiveUpload&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Attached&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReadyToUpload&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Reserved&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unattached&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>

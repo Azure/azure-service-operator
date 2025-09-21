@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>compute.azure.com/v1api20241101 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
+<meta name="description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
 Used by: AvailabilitySetList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional tags Resource tags map[string]stringOptional type Resource type stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags. map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/v1api20241101/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="compute.azure.com/v1api20241101">
-  <meta property="og:description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
+  <meta property="og:description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
 Used by: AvailabilitySetList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional tags Resource tags map[string]stringOptional type Resource type stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags. map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="compute.azure.com/v1api20241101">
-  <meta itemprop="description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
+  <meta itemprop="description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
 Used by: AvailabilitySetList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional tags Resource tags map[string]stringOptional type Resource type stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
-  <meta itemprop="wordCount" content="1544">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags. map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
+  <meta itemprop="wordCount" content="1713">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20241101">
-  <meta name="twitter:description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
+  <meta name="twitter:description" content="APIVersion Value Description “2024-11-01” AvailabilitySet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}
 Used by: AvailabilitySetList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional tags Resource tags map[string]stringOptional type Resource type stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet_SpecOptional status AvailabilitySet_STATUSOptional AvailabilitySet_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AvailabilitySetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResourceOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicyOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. SkuOptional tags Resource tags. map[string]stringOptional AvailabilitySet_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional platformFaultDomainCount Fault Domain count. intOptional platformUpdateDomainCount Update Domain count. intOptional proximityPlacementGroup Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01. SubResource_STATUSOptional scheduledEventsPolicy Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. ScheduledEventsPolicy_STATUSOptional sku Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use Aligned for virtual machines with managed disks and Classic for virtual machines with unmanaged disks. Default value is Classic. Sku_STATUSOptional statuses The resource status information. InstanceViewStatus_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional virtualMachines A list of references to all virtual machines in the availability set. SubResource_STATUS[]Optional virtualMachineScaleSetMigrationInfo Describes the migration properties on the Availability Set. VirtualMachineScaleSetMigrationInfo_STATUSOptional AvailabilitySetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -860,11 +860,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
     <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
     <li><a href="#SubResource">SubResource</a></li>
     <li><a href="#SubResource_STATUS">SubResource_STATUS</a></li>
+    <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
     <li><a href="#VirtualMachineScaleSetMigrationInfo_STATUS">VirtualMachineScaleSetMigrationInfo_STATUS</a></li>
     <li><a href="#DefaultVirtualMachineScaleSetInfo_STATUS">DefaultVirtualMachineScaleSetInfo_STATUS</a></li>
-    <li><a href="#InstanceViewStatus_Level_STATUS">InstanceViewStatus_Level_STATUS</a></li>
     <li><a href="#ScheduledEventsAdditionalPublishingTargets">ScheduledEventsAdditionalPublishingTargets</a></li>
     <li><a href="#ScheduledEventsAdditionalPublishingTargets_STATUS">ScheduledEventsAdditionalPublishingTargets_STATUS</a></li>
+    <li><a href="#StatusLevelTypes_STATUS">StatusLevelTypes_STATUS</a></li>
+    <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
     <li><a href="#UserInitiatedReboot">UserInitiatedReboot</a></li>
     <li><a href="#UserInitiatedReboot_STATUS">UserInitiatedReboot_STATUS</a></li>
     <li><a href="#UserInitiatedRedeploy">UserInitiatedRedeploy</a></li>
@@ -915,7 +918,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
   </tbody>
 </table>
 <h2 id="AvailabilitySet">AvailabilitySet</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}</p>
+<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}</p>
 <p>Used by: <a href="#AvailabilitySetList">AvailabilitySetList</a>.</p>
 <table>
   <thead>
@@ -965,7 +968,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -1005,7 +1008,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
       <tr>
           <td>tags</td>
-          <td>Resource tags</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -1027,17 +1030,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
       <tr>
           <td>id</td>
-          <td>Resource Id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
-          <td>Resource name</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1071,13 +1074,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
           <td><a href="#InstanceViewStatus_STATUS">InstanceViewStatus_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>tags</td>
-          <td>Resource tags</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>Resource type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1093,7 +1101,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
   </tbody>
 </table>
 <h2 id="AvailabilitySetList">AvailabilitySetList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/availabilitySet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}</p>
+<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​availabilitySets/​{availabilitySetName}</p>
 <table>
   <thead>
       <tr>
@@ -1138,7 +1146,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -1178,7 +1186,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
       <tr>
           <td>tags</td>
-          <td>Resource tags</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -1202,17 +1210,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
       <tr>
           <td>id</td>
-          <td>Resource Id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
-          <td>Resource name</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1246,13 +1254,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
           <td><a href="#InstanceViewStatus_STATUS">InstanceViewStatus_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>tags</td>
-          <td>Resource tags</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>Resource type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1316,7 +1329,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       <tr>
           <td>level</td>
           <td>The level code.</td>
-          <td><a href="#InstanceViewStatus_Level_STATUS">InstanceViewStatus_Level_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#StatusLevelTypes_STATUS">StatusLevelTypes_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>message</td>
@@ -1482,6 +1495,50 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
   </tbody>
 </table>
+<h2 id="SystemData_STATUS">SystemData_STATUS</h2>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+<p>Used by: <a href="#AvailabilitySet_STATUS">AvailabilitySet_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="VirtualMachineScaleSetMigrationInfo_STATUS">VirtualMachineScaleSetMigrationInfo_STATUS</h2>
 <p>Describes the Availability Set properties related to migration to Flexible Virtual Machine Scale Set.</p>
 <p>Used by: <a href="#AvailabilitySet_STATUS">AvailabilitySet_STATUS</a>.</p>
@@ -1530,30 +1587,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
       </tr>
   </tbody>
 </table>
-<h2 id="InstanceViewStatus_Level_STATUS">InstanceViewStatus_Level_STATUS</h2>
-<p>Used by: <a href="#InstanceViewStatus_STATUS">InstanceViewStatus_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Error&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Info&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Warning&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="ScheduledEventsAdditionalPublishingTargets">ScheduledEventsAdditionalPublishingTargets</h2>
 <p>Used by: <a href="#ScheduledEventsPolicy">ScheduledEventsPolicy</a>.</p>
 <table>
@@ -1587,6 +1620,87 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AvailabilitySet
           <td>eventGridAndResourceGraph</td>
           <td>The configuration parameters used while creating eventGridAndResourceGraph Scheduled Event setting.</td>
           <td><a href="#EventGridAndResourceGraph_STATUS">EventGridAndResourceGraph_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="StatusLevelTypes_STATUS">StatusLevelTypes_STATUS</h2>
+<p>The level code.</p>
+<p>Used by: <a href="#InstanceViewStatus_STATUS">InstanceViewStatus_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Info&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>

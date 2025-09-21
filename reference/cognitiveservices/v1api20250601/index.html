@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
   <meta itemprop="description" content="Account Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}
 Used by: AccountList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOptional status Account_STATUSOptional Account_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. IdentityOptional kind The Kind of the resource. stringOptional location The geo-location where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties Properties of Cognitive Services account. AccountPropertiesOptional sku The resource model definition representing SKU SkuOptional tags Resource tags. map[string]stringOptional Account_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag Resource Etag. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity for the resource. Identity_STATUSOptional kind The Kind of the resource. stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties Properties of Cognitive Services account. AccountProperties_STATUSOptional sku The resource model definition representing SKU Sku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional AccountList Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}">
-  <meta itemprop="wordCount" content="4460">
+  <meta itemprop="wordCount" content="4396">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="cognitiveservices.azure.com/v1api20250601">
   <meta name="twitter:description" content="Account Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}
@@ -896,8 +896,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
     <li><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a></li>
     <li><a href="#MultiRegionSettings">MultiRegionSettings</a></li>
     <li><a href="#MultiRegionSettings_STATUS">MultiRegionSettings_STATUS</a></li>
-    <li><a href="#NetworkInjections">NetworkInjections</a></li>
-    <li><a href="#NetworkInjections_STATUS">NetworkInjections_STATUS</a></li>
+    <li><a href="#NetworkInjection">NetworkInjection</a></li>
+    <li><a href="#NetworkInjection_STATUS">NetworkInjection_STATUS</a></li>
     <li><a href="#NetworkRuleSet">NetworkRuleSet</a></li>
     <li><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a></li>
     <li><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</a></li>
@@ -928,8 +928,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
     <li><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a></li>
     <li><a href="#MultiRegionSettings_RoutingMethod">MultiRegionSettings_RoutingMethod</a></li>
     <li><a href="#MultiRegionSettings_RoutingMethod_STATUS">MultiRegionSettings_RoutingMethod_STATUS</a></li>
-    <li><a href="#NetworkInjections_Scenario">NetworkInjections_Scenario</a></li>
-    <li><a href="#NetworkInjections_Scenario_STATUS">NetworkInjections_Scenario_STATUS</a></li>
+    <li><a href="#NetworkInjection_Scenario">NetworkInjection_Scenario</a></li>
+    <li><a href="#NetworkInjection_Scenario_STATUS">NetworkInjection_Scenario_STATUS</a></li>
     <li><a href="#NetworkRuleSet_Bypass">NetworkRuleSet_Bypass</a></li>
     <li><a href="#NetworkRuleSet_Bypass_STATUS">NetworkRuleSet_Bypass_STATUS</a></li>
     <li><a href="#NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction</a></li>
@@ -1675,8 +1675,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       </tr>
       <tr>
           <td>networkInjections</td>
-          <td>Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user&rsquo;s private network, eliminating public internet exposure while maintaining control over network configurations and resources.</td>
-          <td><a href="#NetworkInjections">NetworkInjections</a><br/><small>Optional</small></td>
+          <td></td>
+          <td><a href="#NetworkInjection">NetworkInjection[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
@@ -1829,8 +1829,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       </tr>
       <tr>
           <td>networkInjections</td>
-          <td>Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user&rsquo;s private network, eliminating public internet exposure while maintaining control over network configurations and resources.</td>
-          <td><a href="#NetworkInjections_STATUS">NetworkInjections_STATUS</a><br/><small>Optional</small></td>
+          <td></td>
+          <td><a href="#NetworkInjection_STATUS">NetworkInjection_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>privateEndpointConnections</td>
@@ -3012,7 +3012,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       </tr>
   </tbody>
 </table>
-<h2 id="NetworkInjections">NetworkInjections</h2>
+<h2 id="NetworkInjection">NetworkInjection</h2>
 <p>Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user&rsquo;s private network, eliminating public internet exposure while maintaining control over network configurations and resources.</p>
 <p>Used by: <a href="#AccountProperties">AccountProperties</a>.</p>
 <table>
@@ -3027,7 +3027,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       <tr>
           <td>scenario</td>
           <td>Specifies what features in AI Foundry network injection applies to. Currently only supports <code>agent</code> for agent scenarios. <code>none</code> means no network injection.</td>
-          <td><a href="#NetworkInjections_Scenario">NetworkInjections_Scenario</a><br/><small>Optional</small></td>
+          <td><a href="#NetworkInjection_Scenario">NetworkInjection_Scenario</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>subnetArmReference</td>
@@ -3041,7 +3041,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       </tr>
   </tbody>
 </table>
-<h2 id="NetworkInjections_STATUS">NetworkInjections_STATUS</h2>
+<h2 id="NetworkInjection_STATUS">NetworkInjection_STATUS</h2>
 <p>Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user&rsquo;s private network, eliminating public internet exposure while maintaining control over network configurations and resources.</p>
 <p>Used by: <a href="#AccountProperties_STATUS">AccountProperties_STATUS</a>.</p>
 <table>
@@ -3056,7 +3056,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       <tr>
           <td>scenario</td>
           <td>Specifies what features in AI Foundry network injection applies to. Currently only supports <code>agent</code> for agent scenarios. <code>none</code> means no network injection.</td>
-          <td><a href="#NetworkInjections_Scenario_STATUS">NetworkInjections_Scenario_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#NetworkInjection_Scenario_STATUS">NetworkInjection_Scenario_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>subnetArmId</td>
@@ -3842,8 +3842,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       </tr>
   </tbody>
 </table>
-<h2 id="NetworkInjections_Scenario">NetworkInjections_Scenario</h2>
-<p>Used by: <a href="#NetworkInjections">NetworkInjections</a>.</p>
+<h2 id="NetworkInjection_Scenario">NetworkInjection_Scenario</h2>
+<p>Used by: <a href="#NetworkInjection">NetworkInjection</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3862,8 +3862,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Account_SpecOpt
       </tr>
   </tbody>
 </table>
-<h2 id="NetworkInjections_Scenario_STATUS">NetworkInjections_Scenario_STATUS</h2>
-<p>Used by: <a href="#NetworkInjections_STATUS">NetworkInjections_STATUS</a>.</p>
+<h2 id="NetworkInjection_Scenario_STATUS">NetworkInjection_Scenario_STATUS</h2>
+<p>Used by: <a href="#NetworkInjection_STATUS">NetworkInjection_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
