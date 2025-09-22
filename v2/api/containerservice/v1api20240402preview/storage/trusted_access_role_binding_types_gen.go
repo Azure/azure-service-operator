@@ -5,7 +5,7 @@ package storage
 
 import (
 	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
-	v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
+	v20240401s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -556,15 +556,15 @@ func (binding *TrustedAccessRoleBinding_STATUS) AssignProperties_From_TrustedAcc
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDataSTATUSStash v20231102ps.SystemData_STATUS
-		err := systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		var systemDataSTATUSPivot v20240401s.SystemData_STATUS
+		err := source.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
 		}
 		var systemDatum SystemData_STATUS
-		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		binding.SystemData = &systemDatum
 	} else {
@@ -619,15 +619,15 @@ func (binding *TrustedAccessRoleBinding_STATUS) AssignProperties_To_TrustedAcces
 
 	// SystemData
 	if binding.SystemData != nil {
-		var systemDataSTATUSStash v20231102ps.SystemData_STATUS
-		err := binding.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStash)
+		var systemDataSTATUSPivot v20240401s.SystemData_STATUS
+		err := binding.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
 		}
 		var systemDatum v20231001s.SystemData_STATUS
-		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		destination.SystemData = &systemDatum
 	} else {

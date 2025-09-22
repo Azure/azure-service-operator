@@ -5,8 +5,10 @@ package storage
 
 import (
 	"context"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	v20231001sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
 	v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
+	v20240401s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -1845,10 +1847,20 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile UserAssignedIdentity_STATUS
-			err := identityProfile.AssignProperties_From_UserAssignedIdentity_STATUS(&identityProfileValue)
+			var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from IdentityProfile")
+			}
+			var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+			err = userAssignedIdentitySTATUSStash.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from UserAssignedIdentity_STATUSStash")
+			}
+			var identityProfile UserAssignedIdentity_STATUS
+			err = identityProfile.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field IdentityProfile from UserAssignedIdentity_STATUSPivot")
 			}
 			identityProfileMap[identityProfileKey] = identityProfile
 		}
@@ -2100,10 +2112,20 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		var systemDataSTATUSStash v20231001s.SystemData_STATUS
+		err := source.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDataSTATUSPivot v20240401s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData_STATUSStash")
+		}
+		var systemDatum SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		cluster.SystemData = &systemDatum
 	} else {
@@ -2409,10 +2431,20 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile v20231102ps.UserAssignedIdentity_STATUS
-			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity_STATUS(&identityProfile)
+			var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from IdentityProfile")
+			}
+			var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+			err = userAssignedIdentitySTATUSStash.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from UserAssignedIdentity_STATUSPivot")
+			}
+			var identityProfile v20231102ps.UserAssignedIdentity_STATUS
+			err = identityProfile.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field IdentityProfile from UserAssignedIdentity_STATUSStash")
 			}
 			identityProfileMap[identityProfileKey] = identityProfile
 		}
@@ -2658,10 +2690,20 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// SystemData
 	if cluster.SystemData != nil {
-		var systemDatum v20231102ps.SystemData_STATUS
-		err := cluster.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		var systemDataSTATUSPivot v20240401s.SystemData_STATUS
+		err := cluster.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
+		}
+		var systemDataSTATUSStash v20231001s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData_STATUSPivot")
+		}
+		var systemDatum v20231102ps.SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -4323,10 +4365,20 @@ func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedC
 
 	// Identity
 	if source.Identity != nil {
-		var identity UserAssignedIdentity_STATUS
-		err := identity.AssignProperties_From_UserAssignedIdentity_STATUS(source.Identity)
+		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		err := source.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from Identity")
+		}
+		var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from UserAssignedIdentity_STATUSStash")
+		}
+		var identity UserAssignedIdentity_STATUS
+		err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSPivot")
 		}
 		profile.Identity = &identity
 	} else {
@@ -4371,10 +4423,20 @@ func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClu
 
 	// Identity
 	if profile.Identity != nil {
-		var identity v20231102ps.UserAssignedIdentity_STATUS
-		err := profile.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
+		var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+		err := profile.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from Identity")
+		}
+		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from UserAssignedIdentity_STATUSPivot")
+		}
+		var identity v20231102ps.UserAssignedIdentity_STATUS
+		err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSStash")
 		}
 		destination.Identity = &identity
 	} else {
@@ -7115,10 +7177,20 @@ func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIden
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity UserAssignedIdentityDetails
-			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
+			var userAssignedIdentityDetailsStash v20231001s.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentityDetailsStash)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentityDetailsStash from UserAssignedIdentities")
+			}
+			var userAssignedIdentityDetailsPivot v20240401s.UserAssignedIdentityDetails
+			err = userAssignedIdentityDetailsStash.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentityDetailsPivot)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentityDetailsPivot from UserAssignedIdentityDetailsStash")
+			}
+			var userAssignedIdentity UserAssignedIdentityDetails
+			err = userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityDetailsPivot)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities from UserAssignedIdentityDetailsPivot")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -7179,10 +7251,20 @@ func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdenti
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20231102ps.UserAssignedIdentityDetails
-			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
+			var userAssignedIdentityDetailsPivot v20240401s.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentityDetailsPivot)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentityDetailsPivot from UserAssignedIdentities")
+			}
+			var userAssignedIdentityDetailsStash v20231001s.UserAssignedIdentityDetails
+			err = userAssignedIdentityDetailsStash.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityDetailsPivot)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentityDetailsStash from UserAssignedIdentityDetailsPivot")
+			}
+			var userAssignedIdentity v20231102ps.UserAssignedIdentityDetails
+			err = userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityDetailsStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities from UserAssignedIdentityDetailsStash")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -11137,7 +11219,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20231102ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20240401s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11180,7 +11262,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20231102ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20240401s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -11321,7 +11403,7 @@ type UserAssignedIdentity_STATUS struct {
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20231102ps.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20240401s.UserAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11329,10 +11411,37 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// ObjectId
-	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+	if propertyBag.Contains("ObjectId") {
+		var objectId string
+		err := propertyBag.Pull("ObjectId", &objectId)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ObjectId' from propertyBag")
+		}
+
+		identity.ObjectId = &objectId
+	} else {
+		identity.ObjectId = nil
+	}
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		propertyBag.Add("PrincipalId", *source.PrincipalId)
+	} else {
+		propertyBag.Remove("PrincipalId")
+	}
 
 	// ResourceId
-	identity.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+	if propertyBag.Contains("ResourceId") {
+		var resourceId string
+		err := propertyBag.Pull("ResourceId", &resourceId)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ResourceId' from propertyBag")
+		}
+
+		identity.ResourceId = &resourceId
+	} else {
+		identity.ResourceId = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11355,7 +11464,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20231102ps.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20240401s.UserAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -11363,10 +11472,31 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
 
 	// ObjectId
-	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+	if identity.ObjectId != nil {
+		propertyBag.Add("ObjectId", *identity.ObjectId)
+	} else {
+		propertyBag.Remove("ObjectId")
+	}
+
+	// PrincipalId
+	if propertyBag.Contains("PrincipalId") {
+		var principalId string
+		err := propertyBag.Pull("PrincipalId", &principalId)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'PrincipalId' from propertyBag")
+		}
+
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
+	}
 
 	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(identity.ResourceId)
+	if identity.ResourceId != nil {
+		propertyBag.Add("ResourceId", *identity.ResourceId)
+	} else {
+		propertyBag.Remove("ResourceId")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11863,8 +11993,8 @@ type augmentConversionForServiceMeshProfile_STATUS interface {
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *v20231102ps.SystemData_STATUS) error
-	AssignPropertiesTo(dst *v20231102ps.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20240401s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20240401s.SystemData_STATUS) error
 }
 
 type augmentConversionForUserAssignedIdentity interface {
@@ -11873,8 +12003,8 @@ type augmentConversionForUserAssignedIdentity interface {
 }
 
 type augmentConversionForUserAssignedIdentity_STATUS interface {
-	AssignPropertiesFrom(src *v20231102ps.UserAssignedIdentity_STATUS) error
-	AssignPropertiesTo(dst *v20231102ps.UserAssignedIdentity_STATUS) error
+	AssignPropertiesFrom(src *v20240401s.UserAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20240401s.UserAssignedIdentity_STATUS) error
 }
 
 // Storage version of v1api20240402preview.AzureKeyVaultKms
@@ -14079,10 +14209,20 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignPropertie
 
 	// Identity
 	if source.Identity != nil {
-		var identity UserAssignedIdentity_STATUS
-		err := identity.AssignProperties_From_UserAssignedIdentity_STATUS(source.Identity)
+		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		err := source.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from Identity")
+		}
+		var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from UserAssignedIdentity_STATUSStash")
+		}
+		var identity UserAssignedIdentity_STATUS
+		err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSPivot")
 		}
 		routing.Identity = &identity
 	} else {
@@ -14127,10 +14267,20 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignPropertie
 
 	// Identity
 	if routing.Identity != nil {
-		var identity v20231102ps.UserAssignedIdentity_STATUS
-		err := routing.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
+		var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+		err := routing.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from Identity")
+		}
+		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from UserAssignedIdentity_STATUSPivot")
+		}
+		var identity v20231102ps.UserAssignedIdentity_STATUS
+		err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSStash")
 		}
 		destination.Identity = &identity
 	} else {
@@ -15146,10 +15296,20 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedC
 
 	// Identity
 	if source.Identity != nil {
-		var identityLocal UserAssignedIdentity_STATUS
-		err := identityLocal.AssignProperties_From_UserAssignedIdentity_STATUS(source.Identity)
+		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		err := source.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from Identity")
+		}
+		var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from UserAssignedIdentity_STATUSStash")
+		}
+		var identityLocal UserAssignedIdentity_STATUS
+		err = identityLocal.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSPivot")
 		}
 		identity.Identity = &identityLocal
 	} else {
@@ -15207,10 +15367,20 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClu
 
 	// Identity
 	if identity.Identity != nil {
-		var identityLocal v20231102ps.UserAssignedIdentity_STATUS
-		err := identity.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identityLocal)
+		var userAssignedIdentitySTATUSPivot v20240401s.UserAssignedIdentity_STATUS
+		err := identity.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSPivot from Identity")
+		}
+		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from UserAssignedIdentity_STATUSPivot")
+		}
+		var identityLocal v20231102ps.UserAssignedIdentity_STATUS
+		err = identityLocal.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSStash")
 		}
 		destination.Identity = &identityLocal
 	} else {
@@ -17287,7 +17457,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20231102ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20240401s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17315,7 +17485,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20231102ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20240401s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -17948,8 +18118,8 @@ type augmentConversionForUpgradeOverrideSettings_STATUS interface {
 }
 
 type augmentConversionForUserAssignedIdentityDetails interface {
-	AssignPropertiesFrom(src *v20231102ps.UserAssignedIdentityDetails) error
-	AssignPropertiesTo(dst *v20231102ps.UserAssignedIdentityDetails) error
+	AssignPropertiesFrom(src *v20240401s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20240401s.UserAssignedIdentityDetails) error
 }
 
 type augmentConversionForWindowsGmsaProfile interface {
