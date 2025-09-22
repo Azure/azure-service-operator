@@ -13,3 +13,8 @@ spec:
   createMode: Default
   disableLocalAuth: false
   enablePurgeProtection: false
+  operatorSpec:
+    secrets:
+      primaryConnectionString:
+        name: confstore-secrets
+        key: primaryConnectionString

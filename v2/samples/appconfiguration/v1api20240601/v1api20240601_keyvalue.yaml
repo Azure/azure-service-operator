@@ -12,33 +12,3 @@ spec:
   tags:
     Environment: "Production"
     Team: "Backend"
----
-# Example of KeyValue with configmap-sourced value using OperatorSpec
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-config
-  namespace: default
-data:
-  database-timeout: "60"
-  api-url: "https://api.example.com"
----
-apiVersion: appconfiguration.azure.com/v1api20240601
-kind: KeyValue
-metadata:
-  name: aso-sample-keyvalue-from-configmap
-  namespace: default
-spec:
-  azureName: "MyApp:Settings:DatabaseTimeoutFromConfig"
-  owner:
-    name: aso-sample-confstore-v2
-  contentType: "text/plain"
-  operatorSpec:
-    configMapExpressions:
-    - name: app-config
-      key: database-timeout-from-configmap
-      value: configmap("app-config", "database-timeout")
-  tags:
-    Environment: "Production"
-    Team: "Backend"
-    Source: "ConfigMap"

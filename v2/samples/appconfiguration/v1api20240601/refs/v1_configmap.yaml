@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-settings
+  namespace: default
+data:
+  database-timeout: "45"
+  max-connections: "100"
+  api-endpoint: "https://api.myapp.com/v2"
+  feature-flags: "feature1:true,feature2:false"
