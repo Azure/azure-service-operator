@@ -86,10 +86,6 @@ type DatabaseAccountCreateUpdateProperties struct {
 	// CreateMode: Enum to indicate the mode of account creation.
 	CreateMode *CreateMode `json:"createMode,omitempty"`
 
-	// CustomerManagedKeyStatus: Indicates the status of the Customer Managed Key feature on the account. In case there are
-	// errors, the property provides troubleshooting guidance.
-	CustomerManagedKeyStatus *string `json:"customerManagedKeyStatus,omitempty"`
-
 	// DatabaseAccountOfferType: The offer type for the database
 	DatabaseAccountOfferType *DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
 

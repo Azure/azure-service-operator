@@ -182,6 +182,7 @@ func (r PropertyTransformResult) String() string {
 			r.Because,
 		)
 	}
+
 	return fmt.Sprintf("%s.%s -> %s because %s",
 		r.TypeName,
 		r.Property,
@@ -210,18 +211,14 @@ func (r PropertyTransformResult) LogTo(log logr.Logger) {
 }
 
 func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
-	// If this transformer applies to entire types (instead of just properties on types), we just defer to
-	// transformer.MatchedRequiredTypes
-	if !transformer.Property.IsRestrictive() {
-		return transformer.RequiredTypesWereMatched()
-	}
-
-	if !transformer.MustMatch() {
-		return nil
-	}
-
 	if err := transformer.RequiredTypesWereMatched(); err != nil {
 		return err
+	}
+
+	// If this transformer applies to entire types (instead of just properties on types),
+	// no further checks are needed
+	if !transformer.Property.IsRestrictive() {
+		return nil
 	}
 
 	if err := transformer.Property.WasMatched(); err != nil {

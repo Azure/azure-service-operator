@@ -126,7 +126,7 @@ func (config *Configuration) GetTransformersError() error {
 		}
 
 		if filter.Property.IsRestrictive() {
-			if err := filter.RequiredTypesWereMatched(); err != nil {
+			if err := filter.RequiredPropertiesWereMatched(); err != nil {
 				return eris.Wrap(err, "type transformer property")
 			}
 		}
