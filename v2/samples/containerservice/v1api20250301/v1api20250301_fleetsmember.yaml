@@ -1,0 +1,9 @@
+apiVersion: containerservice.azure.com/v1api20250301
+kind: FleetsMember
+metadata:
+  name: samplefleetsmember20250301
+  namespace: default
+spec:
+  owner:
+    name: samplefleet20250301
+  clusterResourceId: "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.ContainerService/managedClusters/{cluster-name}"

@@ -1,8 +1,10 @@
-bases:
-    - generated
 
 configurations:
-    - kustomizeconfig.yaml
+- kustomizeconfig.yaml
 
 transformers:
-    - labels.yaml
+- labels.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- generated

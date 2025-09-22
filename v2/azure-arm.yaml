@@ -2086,6 +2086,24 @@ objectModelConfiguration:
       Fleets_UpdateRun:
         $exportAs: FleetsUpdateRun
         $supportedFrom: v2.4.0
+    2025-03-01:
+      Fleet:
+        $exportAs: Fleet
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - UserCredentials
+      Fleets_Member:
+        $exportAs: FleetsMember
+        $supportedFrom: v2.16.0
+      Fleets_UpdateRun:
+        $exportAs: FleetsUpdateRun
+        $supportedFrom: v2.16.0
+      Fleets_UpdateStrategy:
+        $exportAs: FleetsUpdateStrategy
+        $supportedFrom: v2.16.0
+      Fleets_AutoUpgradeProfile:
+        $exportAs: FleetsAutoUpgradeProfile
+        $supportedFrom: v2.16.0
     2023-10-01:
       ContainerServiceNetworkProfile_NetworkPlugin:
         $renameTo: NetworkPlugin
