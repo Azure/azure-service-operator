@@ -16,6 +16,8 @@ var deprecatedVersionRegexp = regexp.MustCompile(`((v1alpha1api|v1beta)\d{8}(pre
 // deprecatedVersionsMap is a map of crd name to a collection of deprecated versions
 var deprecatedVersionsMap = map[string][]string{
 	"trustedaccessrolebindings.containerservice.azure.com": {"v1api20230202previewstorage"},
+	"managedclusters.containerservice.azure.com":           {"v1api20210501storage", "v1api20231102previewstorage"},
+	"managedclustersagentpools.containerservice.azure.com": {"v1api20210501storage", "v1api20231102previewstorage"},
 }
 
 // IsVersionDeprecated checks if a given version of a CRD is deprecated.

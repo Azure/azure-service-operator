@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	v20250701 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250701"
+	v20250701s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type MaintenanceConfigurationExtension struct {
 func (extension *MaintenanceConfigurationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20240901.MaintenanceConfiguration{},
-		&storage.MaintenanceConfiguration{}}
+		&v20240901s.MaintenanceConfiguration{},
+		&v20250701.MaintenanceConfiguration{},
+		&v20250701s.MaintenanceConfiguration{}}
 }
