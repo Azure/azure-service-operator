@@ -7,6 +7,8 @@ FleetsMemberExtension: Object (0 properties)
 
 FleetsUpdateRunExtension: Object (0 properties)
 
+FleetsUpdateStrategyExtension: Object (0 properties)
+
 MaintenanceConfigurationExtension: Object (0 properties)
 
 ManagedClusterExtension: Object (0 properties)

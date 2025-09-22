@@ -6,6 +6,7 @@ package storage
 import (
 	"context"
 	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	v20240401s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240401/storage"
 	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -12167,13 +12168,18 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignPropertie
 
 	// Identity
 	if source.Identity != nil {
-		var userAssignedIdentitySTATUSStash v20231001s.UserAssignedIdentity_STATUS
+		var userAssignedIdentitySTATUSStash v20240401s.UserAssignedIdentity_STATUS
 		err := userAssignedIdentitySTATUSStash.AssignProperties_From_UserAssignedIdentity_STATUS(source.Identity)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from Identity")
 		}
+		var userAssignedIdentitySTATUSStashLocal v20231001s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStashLocal.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash")
+		}
 		var identity UserAssignedIdentity_STATUS
-		err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStash)
+		err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSStash")
 		}
@@ -12225,8 +12231,13 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignPropertie
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash from Identity")
 		}
+		var userAssignedIdentitySTATUSStashLocal v20240401s.UserAssignedIdentity_STATUS
+		err = userAssignedIdentitySTATUSStash.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentitySTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentity_STATUSStash")
+		}
 		var identity v20240901s.UserAssignedIdentity_STATUS
-		err = userAssignedIdentitySTATUSStash.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
+		err = userAssignedIdentitySTATUSStashLocal.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity from UserAssignedIdentity_STATUSStash")
 		}

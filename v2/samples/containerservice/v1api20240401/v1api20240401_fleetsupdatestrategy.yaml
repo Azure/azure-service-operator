@@ -1,0 +1,13 @@
+apiVersion: containerservice.azure.com/v1api20240401
+kind: FleetsUpdateStrategy
+metadata:
+  name: samplefleetsupdatestrategy20240401
+  namespace: default
+spec:
+  owner:
+    name: samplefleet20240401
+  strategy:
+    stages:
+      - name: "stage1"
+        groups:
+          - name: "group1"
