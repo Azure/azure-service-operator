@@ -11,20 +11,18 @@ namespace: azureserviceoperator-system
 #commonLabels:
 #  someName: someValue
 
-resources: []
-
-bases:
+resources:
 - ../crd
 - ../rbac
 - ../manager
-# [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix including the one in crd/kustomization.yaml
 - ../webhook
-# [CERTMANAGER] To enable cert-manager, uncomment all sections with 'CERTMANAGER'. 'WEBHOOK' components are required.
 - ../certmanager
+
+# [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix including the one in crd/kustomization.yaml
+# [CERTMANAGER] To enable cert-manager, uncomment all sections with 'CERTMANAGER'. 'WEBHOOK' components are required.
 # [PROMETHEUS] To enable prometheus monitor, uncomment all sections with 'PROMETHEUS'. 
 #- ../prometheus
 
-patchesStrategicMerge:
   # If you want your controller-manager to expose the /metrics
   # endpoint w/o any authn/z, uncomment the following line and
   # comment manager_auth_proxy_patch.yaml.
@@ -33,11 +31,12 @@ patchesStrategicMerge:
 #- manager_prometheus_metrics_patch.yaml
 
 # [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix including the one in crd/kustomization.yaml
-- manager_webhook_patch.yaml
 
 # [CERTMANAGER] To enable cert-manager, uncomment all sections with 'CERTMANAGER'.
 # Uncomment 'CERTMANAGER' sections in crd/kustomization.yaml to enable the CA injection in the admission webhooks.
 # 'CERTMANAGER' needs to be enabled to use ca injection
+patchesStrategicMerge:
+- manager_webhook_patch.yaml
 - webhookcainjection_patch.yaml
 
 # - manager_credentials_patch.yaml
@@ -54,31 +53,73 @@ patches:
     kind: Deployment
 
 # the following config is for teaching kustomize how to do var substitution
-vars:
 ## [CERTMANAGER] To enable cert-manager, uncomment all sections with 'CERTMANAGER' prefix.
-- name: CERTIFICATE_NAMESPACE # namespace of the certificate CR
-  objref:
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+replacements:
+- source:
+    fieldPath: metadata.namespace
     kind: Certificate
-    group: cert-manager.io
-    version: v1
-    name: serving-cert # this name should match the one in certificate.yaml
-  fieldref:
-    fieldpath: metadata.namespace
-- name: CERTIFICATE_NAME
-  objref:
+    name: serving-cert
+- source:
     kind: Certificate
-    group: cert-manager.io
-    version: v1
-    name: serving-cert # this name should match the one in certificate.yaml
-- name: SERVICE_NAMESPACE # namespace of the service
-  objref:
+    name: serving-cert
+- source:
+    fieldPath: metadata.namespace
     kind: Service
-    version: v1
     name: webhook-service
-  fieldref:
-    fieldpath: metadata.namespace
-- name: SERVICE_NAME
-  objref:
+  targets:
+  - fieldPaths:
+    - |-
+      spec.# $(SERVICE_NAME) and $(SERVICE_NAMESPACE) will be substituted by kustomize
+      dnsNames.0
+    options:
+      delimiter: .
+      index: 1
+    select:
+      group: cert-manager.io
+      kind: Certificate
+      name: serving-cert
+      namespace: system
+      version: v1
+  - fieldPaths:
+    - |-
+      spec.# $(SERVICE_NAME) and $(SERVICE_NAMESPACE) will be substituted by kustomize
+      dnsNames.1
+    options:
+      delimiter: .
+      index: 1
+    select:
+      group: cert-manager.io
+      kind: Certificate
+      name: serving-cert
+      namespace: system
+      version: v1
+- source:
     kind: Service
-    version: v1
     name: webhook-service
+  targets:
+  - fieldPaths:
+    - |-
+      spec.# $(SERVICE_NAME) and SERVICE_NAMESPACE_PLACEHOLDER will be substituted by kustomize
+      dnsNames.0
+    options:
+      delimiter: .
+    select:
+      group: cert-manager.io
+      kind: Certificate
+      name: serving-cert
+      namespace: system
+      version: v1
+  - fieldPaths:
+    - |-
+      spec.# $(SERVICE_NAME) and SERVICE_NAMESPACE_PLACEHOLDER will be substituted by kustomize
+      dnsNames.1
+    options:
+      delimiter: .
+    select:
+      group: cert-manager.io
+      kind: Certificate
+      name: serving-cert
+      namespace: system
+      version: v1
