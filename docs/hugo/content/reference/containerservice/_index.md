@@ -9,12 +9,12 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource             | ARM Version | CRD Version   | Supported From | Sample |
-|----------------------|-------------|---------------|----------------|--------|
-| Fleet                | 2024-04-01  | v1api20240401 | v2.16.0        | -      |
-| FleetsMember         | 2024-04-01  | v1api20240401 | v2.16.0        | -      |
-| FleetsUpdateRun      | 2024-04-01  | v1api20240401 | v2.16.0        | -      |
-| FleetsUpdateStrategy | 2024-04-01  | v1api20240401 | v2.16.0        | -      |
+| Resource             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                              |
+|----------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Fleet                | 2024-04-01  | v1api20240401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240401/v1api20240401_fleet.yaml)                |
+| FleetsMember         | 2024-04-01  | v1api20240401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240401/v1api20240401_fleetsmember.yaml)         |
+| FleetsUpdateRun      | 2024-04-01  | v1api20240401 | v2.16.0        | -                                                                                                                                                   |
+| FleetsUpdateStrategy | 2024-04-01  | v1api20240401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240401/v1api20240401_fleetsupdatestrategy.yaml) |
 
 ### Latest Released Versions
 
