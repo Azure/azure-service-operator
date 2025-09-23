@@ -1550,13 +1550,13 @@ objectModelConfiguration:
     2025-04-01:
       RedisEnterprise:
         $exportAs: RedisEnterprise
-        $supportedFrom: v2.16.0
+        $supportedFrom: v2.15.0
       ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity:
         UserAssignedIdentityResourceId:
           $referenceType: arm
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
-        $supportedFrom: v2.16.0
+        $supportedFrom: v2.15.0
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
