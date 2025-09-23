@@ -1745,8 +1745,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 	if source.VirtualMachineNodesStatus != nil {
 		virtualMachineNodesStatusList := make([]VirtualMachineNodes, len(source.VirtualMachineNodesStatus))
 		for virtualMachineNodesStatusIndex, virtualMachineNodesStatusItem := range source.VirtualMachineNodesStatus {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineNodesStatusItem := virtualMachineNodesStatusItem
 			var virtualMachineNodesStatus VirtualMachineNodes
 			err := virtualMachineNodesStatus.AssignProperties_From_VirtualMachineNodes(&virtualMachineNodesStatusItem)
 			if err != nil {
@@ -2167,8 +2165,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 	if pool.VirtualMachineNodesStatus != nil {
 		virtualMachineNodesStatusList := make([]storage.VirtualMachineNodes, len(pool.VirtualMachineNodesStatus))
 		for virtualMachineNodesStatusIndex, virtualMachineNodesStatusItem := range pool.VirtualMachineNodesStatus {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineNodesStatusItem := virtualMachineNodesStatusItem
 			var virtualMachineNodesStatus storage.VirtualMachineNodes
 			err := virtualMachineNodesStatusItem.AssignProperties_To_VirtualMachineNodes(&virtualMachineNodesStatus)
 			if err != nil {
@@ -3426,8 +3422,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 	if source.VirtualMachineNodesStatus != nil {
 		virtualMachineNodesStatusList := make([]VirtualMachineNodes_STATUS, len(source.VirtualMachineNodesStatus))
 		for virtualMachineNodesStatusIndex, virtualMachineNodesStatusItem := range source.VirtualMachineNodesStatus {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineNodesStatusItem := virtualMachineNodesStatusItem
 			var virtualMachineNodesStatus VirtualMachineNodes_STATUS
 			err := virtualMachineNodesStatus.AssignProperties_From_VirtualMachineNodes_STATUS(&virtualMachineNodesStatusItem)
 			if err != nil {
@@ -3808,8 +3802,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 	if pool.VirtualMachineNodesStatus != nil {
 		virtualMachineNodesStatusList := make([]storage.VirtualMachineNodes_STATUS, len(pool.VirtualMachineNodesStatus))
 		for virtualMachineNodesStatusIndex, virtualMachineNodesStatusItem := range pool.VirtualMachineNodesStatus {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineNodesStatusItem := virtualMachineNodesStatusItem
 			var virtualMachineNodesStatus storage.VirtualMachineNodes_STATUS
 			err := virtualMachineNodesStatusItem.AssignProperties_To_VirtualMachineNodes_STATUS(&virtualMachineNodesStatus)
 			if err != nil {
@@ -4285,8 +4277,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 	if source.AllowedHostPorts != nil {
 		allowedHostPortList := make([]PortRange, len(source.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range source.AllowedHostPorts {
-			// Shadow the loop variable to avoid aliasing
-			allowedHostPortItem := allowedHostPortItem
 			var allowedHostPort PortRange
 			err := allowedHostPort.AssignProperties_From_PortRange(&allowedHostPortItem)
 			if err != nil {
@@ -4303,8 +4293,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 	if source.ApplicationSecurityGroupsReferences != nil {
 		applicationSecurityGroupsReferenceList := make([]genruntime.ResourceReference, len(source.ApplicationSecurityGroupsReferences))
 		for applicationSecurityGroupsReferenceIndex, applicationSecurityGroupsReferenceItem := range source.ApplicationSecurityGroupsReferences {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupsReferenceItem := applicationSecurityGroupsReferenceItem
 			applicationSecurityGroupsReferenceList[applicationSecurityGroupsReferenceIndex] = applicationSecurityGroupsReferenceItem.Copy()
 		}
 		profile.ApplicationSecurityGroupsReferences = applicationSecurityGroupsReferenceList
@@ -4316,8 +4304,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 	if source.NodePublicIPTags != nil {
 		nodePublicIPTagList := make([]IPTag, len(source.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range source.NodePublicIPTags {
-			// Shadow the loop variable to avoid aliasing
-			nodePublicIPTagItem := nodePublicIPTagItem
 			var nodePublicIPTag IPTag
 			err := nodePublicIPTag.AssignProperties_From_IPTag(&nodePublicIPTagItem)
 			if err != nil {
@@ -4343,8 +4329,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 	if profile.AllowedHostPorts != nil {
 		allowedHostPortList := make([]storage.PortRange, len(profile.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
-			// Shadow the loop variable to avoid aliasing
-			allowedHostPortItem := allowedHostPortItem
 			var allowedHostPort storage.PortRange
 			err := allowedHostPortItem.AssignProperties_To_PortRange(&allowedHostPort)
 			if err != nil {
@@ -4361,8 +4345,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 	if profile.ApplicationSecurityGroupsReferences != nil {
 		applicationSecurityGroupsReferenceList := make([]genruntime.ResourceReference, len(profile.ApplicationSecurityGroupsReferences))
 		for applicationSecurityGroupsReferenceIndex, applicationSecurityGroupsReferenceItem := range profile.ApplicationSecurityGroupsReferences {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupsReferenceItem := applicationSecurityGroupsReferenceItem
 			applicationSecurityGroupsReferenceList[applicationSecurityGroupsReferenceIndex] = applicationSecurityGroupsReferenceItem.Copy()
 		}
 		destination.ApplicationSecurityGroupsReferences = applicationSecurityGroupsReferenceList
@@ -4374,8 +4356,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 	if profile.NodePublicIPTags != nil {
 		nodePublicIPTagList := make([]storage.IPTag, len(profile.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
-			// Shadow the loop variable to avoid aliasing
-			nodePublicIPTagItem := nodePublicIPTagItem
 			var nodePublicIPTag storage.IPTag
 			err := nodePublicIPTagItem.AssignProperties_To_IPTag(&nodePublicIPTag)
 			if err != nil {
@@ -4455,8 +4435,6 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 	if source.AllowedHostPorts != nil {
 		allowedHostPortList := make([]PortRange_STATUS, len(source.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range source.AllowedHostPorts {
-			// Shadow the loop variable to avoid aliasing
-			allowedHostPortItem := allowedHostPortItem
 			var allowedHostPort PortRange_STATUS
 			err := allowedHostPort.AssignProperties_From_PortRange_STATUS(&allowedHostPortItem)
 			if err != nil {
@@ -4476,8 +4454,6 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 	if source.NodePublicIPTags != nil {
 		nodePublicIPTagList := make([]IPTag_STATUS, len(source.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range source.NodePublicIPTags {
-			// Shadow the loop variable to avoid aliasing
-			nodePublicIPTagItem := nodePublicIPTagItem
 			var nodePublicIPTag IPTag_STATUS
 			err := nodePublicIPTag.AssignProperties_From_IPTag_STATUS(&nodePublicIPTagItem)
 			if err != nil {
@@ -4503,8 +4479,6 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetw
 	if profile.AllowedHostPorts != nil {
 		allowedHostPortList := make([]storage.PortRange_STATUS, len(profile.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
-			// Shadow the loop variable to avoid aliasing
-			allowedHostPortItem := allowedHostPortItem
 			var allowedHostPort storage.PortRange_STATUS
 			err := allowedHostPortItem.AssignProperties_To_PortRange_STATUS(&allowedHostPort)
 			if err != nil {
@@ -4524,8 +4498,6 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetw
 	if profile.NodePublicIPTags != nil {
 		nodePublicIPTagList := make([]storage.IPTag_STATUS, len(profile.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
-			// Shadow the loop variable to avoid aliasing
-			nodePublicIPTagItem := nodePublicIPTagItem
 			var nodePublicIPTag storage.IPTag_STATUS
 			err := nodePublicIPTagItem.AssignProperties_To_IPTag_STATUS(&nodePublicIPTag)
 			if err != nil {
@@ -6037,8 +6009,6 @@ func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_From_Mana
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -6055,8 +6025,6 @@ func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_From_Mana
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -6082,8 +6050,6 @@ func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_To_Manage
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -6100,8 +6066,6 @@ func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_To_Manage
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -7250,8 +7214,6 @@ func (profile *ScaleProfile) AssignProperties_From_ScaleProfile(source *storage.
 	if source.Manual != nil {
 		manualList := make([]ManualScaleProfile, len(source.Manual))
 		for manualIndex, manualItem := range source.Manual {
-			// Shadow the loop variable to avoid aliasing
-			manualItem := manualItem
 			var manual ManualScaleProfile
 			err := manual.AssignProperties_From_ManualScaleProfile(&manualItem)
 			if err != nil {
@@ -7277,8 +7239,6 @@ func (profile *ScaleProfile) AssignProperties_To_ScaleProfile(destination *stora
 	if profile.Manual != nil {
 		manualList := make([]storage.ManualScaleProfile, len(profile.Manual))
 		for manualIndex, manualItem := range profile.Manual {
-			// Shadow the loop variable to avoid aliasing
-			manualItem := manualItem
 			var manual storage.ManualScaleProfile
 			err := manualItem.AssignProperties_To_ManualScaleProfile(&manual)
 			if err != nil {
@@ -7341,8 +7301,6 @@ func (profile *ScaleProfile_STATUS) AssignProperties_From_ScaleProfile_STATUS(so
 	if source.Manual != nil {
 		manualList := make([]ManualScaleProfile_STATUS, len(source.Manual))
 		for manualIndex, manualItem := range source.Manual {
-			// Shadow the loop variable to avoid aliasing
-			manualItem := manualItem
 			var manual ManualScaleProfile_STATUS
 			err := manual.AssignProperties_From_ManualScaleProfile_STATUS(&manualItem)
 			if err != nil {
@@ -7368,8 +7326,6 @@ func (profile *ScaleProfile_STATUS) AssignProperties_To_ScaleProfile_STATUS(dest
 	if profile.Manual != nil {
 		manualList := make([]storage.ManualScaleProfile_STATUS, len(profile.Manual))
 		for manualIndex, manualItem := range profile.Manual {
-			// Shadow the loop variable to avoid aliasing
-			manualItem := manualItem
 			var manual storage.ManualScaleProfile_STATUS
 			err := manualItem.AssignProperties_To_ManualScaleProfile_STATUS(&manual)
 			if err != nil {

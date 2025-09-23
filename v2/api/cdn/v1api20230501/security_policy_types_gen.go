@@ -828,8 +828,6 @@ func (operator *SecurityPolicyOperatorSpec) AssignProperties_From_SecurityPolicy
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -846,8 +844,6 @@ func (operator *SecurityPolicyOperatorSpec) AssignProperties_From_SecurityPolicy
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -873,8 +869,6 @@ func (operator *SecurityPolicyOperatorSpec) AssignProperties_To_SecurityPolicyOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -891,8 +885,6 @@ func (operator *SecurityPolicyOperatorSpec) AssignProperties_To_SecurityPolicyOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1254,8 +1246,6 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 	if source.Associations != nil {
 		associationList := make([]SecurityPolicyWebApplicationFirewallAssociation, len(source.Associations))
 		for associationIndex, associationItem := range source.Associations {
-			// Shadow the loop variable to avoid aliasing
-			associationItem := associationItem
 			var association SecurityPolicyWebApplicationFirewallAssociation
 			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(&associationItem)
 			if err != nil {
@@ -1302,8 +1292,6 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 	if parameters.Associations != nil {
 		associationList := make([]storage.SecurityPolicyWebApplicationFirewallAssociation, len(parameters.Associations))
 		for associationIndex, associationItem := range parameters.Associations {
-			// Shadow the loop variable to avoid aliasing
-			associationItem := associationItem
 			var association storage.SecurityPolicyWebApplicationFirewallAssociation
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&association)
 			if err != nil {
@@ -1354,8 +1342,6 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_Fro
 	if source.Associations != nil {
 		associationList := make([]SecurityPolicyWebApplicationFirewallAssociation, len(source.Associations))
 		for associationIndex, associationItem := range source.Associations {
-			// Shadow the loop variable to avoid aliasing
-			associationItem := associationItem
 			var association SecurityPolicyWebApplicationFirewallAssociation
 			err := association.Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
 			if err != nil {
@@ -1456,8 +1442,6 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 	if source.Associations != nil {
 		associationList := make([]SecurityPolicyWebApplicationFirewallAssociation_STATUS, len(source.Associations))
 		for associationIndex, associationItem := range source.Associations {
-			// Shadow the loop variable to avoid aliasing
-			associationItem := associationItem
 			var association SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
 			if err != nil {
@@ -1504,8 +1488,6 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 	if parameters.Associations != nil {
 		associationList := make([]storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS, len(parameters.Associations))
 		for associationIndex, associationItem := range parameters.Associations {
-			// Shadow the loop variable to avoid aliasing
-			associationItem := associationItem
 			var association storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&association)
 			if err != nil {
@@ -1621,8 +1603,6 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 	if source.Domains != nil {
 		domainList := make([]ActivatedResourceReference, len(source.Domains))
 		for domainIndex, domainItem := range source.Domains {
-			// Shadow the loop variable to avoid aliasing
-			domainItem := domainItem
 			var domain ActivatedResourceReference
 			err := domain.AssignProperties_From_ActivatedResourceReference(&domainItem)
 			if err != nil {
@@ -1651,8 +1631,6 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 	if association.Domains != nil {
 		domainList := make([]storage.ActivatedResourceReference, len(association.Domains))
 		for domainIndex, domainItem := range association.Domains {
-			// Shadow the loop variable to avoid aliasing
-			domainItem := domainItem
 			var domain storage.ActivatedResourceReference
 			err := domainItem.AssignProperties_To_ActivatedResourceReference(&domain)
 			if err != nil {
@@ -1686,8 +1664,6 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) Initialize_F
 	if source.Domains != nil {
 		domainList := make([]ActivatedResourceReference, len(source.Domains))
 		for domainIndex, domainItem := range source.Domains {
-			// Shadow the loop variable to avoid aliasing
-			domainItem := domainItem
 			var domain ActivatedResourceReference
 			err := domain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
 			if err != nil {
@@ -1756,8 +1732,6 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 	if source.Domains != nil {
 		domainList := make([]ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, len(source.Domains))
 		for domainIndex, domainItem := range source.Domains {
-			// Shadow the loop variable to avoid aliasing
-			domainItem := domainItem
 			var domain ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
 			if err != nil {
@@ -1786,8 +1760,6 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 	if association.Domains != nil {
 		domainList := make([]storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, len(association.Domains))
 		for domainIndex, domainItem := range association.Domains {
-			// Shadow the loop variable to avoid aliasing
-			domainItem := domainItem
 			var domain storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domain)
 			if err != nil {

@@ -900,8 +900,6 @@ func (operator *DeploymentOperatorSpec) AssignProperties_From_DeploymentOperator
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -918,8 +916,6 @@ func (operator *DeploymentOperatorSpec) AssignProperties_From_DeploymentOperator
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -945,8 +941,6 @@ func (operator *DeploymentOperatorSpec) AssignProperties_To_DeploymentOperatorSp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -963,8 +957,6 @@ func (operator *DeploymentOperatorSpec) AssignProperties_To_DeploymentOperatorSp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1586,8 +1578,6 @@ func (properties *DeploymentProperties_STATUS) AssignProperties_From_DeploymentP
 	if source.RateLimits != nil {
 		rateLimitList := make([]ThrottlingRule_STATUS, len(source.RateLimits))
 		for rateLimitIndex, rateLimitItem := range source.RateLimits {
-			// Shadow the loop variable to avoid aliasing
-			rateLimitItem := rateLimitItem
 			var rateLimit ThrottlingRule_STATUS
 			err := rateLimit.AssignProperties_From_ThrottlingRule_STATUS(&rateLimitItem)
 			if err != nil {
@@ -1701,8 +1691,6 @@ func (properties *DeploymentProperties_STATUS) AssignProperties_To_DeploymentPro
 	if properties.RateLimits != nil {
 		rateLimitList := make([]storage.ThrottlingRule_STATUS, len(properties.RateLimits))
 		for rateLimitIndex, rateLimitItem := range properties.RateLimits {
-			// Shadow the loop variable to avoid aliasing
-			rateLimitItem := rateLimitItem
 			var rateLimit storage.ThrottlingRule_STATUS
 			err := rateLimitItem.AssignProperties_To_ThrottlingRule_STATUS(&rateLimit)
 			if err != nil {
@@ -2825,8 +2813,6 @@ func (rule *ThrottlingRule_STATUS) AssignProperties_From_ThrottlingRule_STATUS(s
 	if source.MatchPatterns != nil {
 		matchPatternList := make([]RequestMatchPattern_STATUS, len(source.MatchPatterns))
 		for matchPatternIndex, matchPatternItem := range source.MatchPatterns {
-			// Shadow the loop variable to avoid aliasing
-			matchPatternItem := matchPatternItem
 			var matchPattern RequestMatchPattern_STATUS
 			err := matchPattern.AssignProperties_From_RequestMatchPattern_STATUS(&matchPatternItem)
 			if err != nil {
@@ -2887,8 +2873,6 @@ func (rule *ThrottlingRule_STATUS) AssignProperties_To_ThrottlingRule_STATUS(des
 	if rule.MatchPatterns != nil {
 		matchPatternList := make([]storage.RequestMatchPattern_STATUS, len(rule.MatchPatterns))
 		for matchPatternIndex, matchPatternItem := range rule.MatchPatterns {
-			// Shadow the loop variable to avoid aliasing
-			matchPatternItem := matchPatternItem
 			var matchPattern storage.RequestMatchPattern_STATUS
 			err := matchPatternItem.AssignProperties_To_RequestMatchPattern_STATUS(&matchPattern)
 			if err != nil {

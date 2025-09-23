@@ -479,8 +479,6 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplic
 	if source.CustomRules != nil {
 		customRuleList := make([]WebApplicationFirewallCustomRule, len(source.CustomRules))
 		for customRuleIndex, customRuleItem := range source.CustomRules {
-			// Shadow the loop variable to avoid aliasing
-			customRuleItem := customRuleItem
 			var customRule WebApplicationFirewallCustomRule
 			err := customRule.AssignProperties_From_WebApplicationFirewallCustomRule(&customRuleItem)
 			if err != nil {
@@ -559,8 +557,6 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicat
 	if policy.CustomRules != nil {
 		customRuleList := make([]storage.WebApplicationFirewallCustomRule, len(policy.CustomRules))
 		for customRuleIndex, customRuleItem := range policy.CustomRules {
-			// Shadow the loop variable to avoid aliasing
-			customRuleItem := customRuleItem
 			var customRule storage.WebApplicationFirewallCustomRule
 			err := customRuleItem.AssignProperties_To_WebApplicationFirewallCustomRule(&customRule)
 			if err != nil {
@@ -644,8 +640,6 @@ func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationF
 	if source.CustomRules != nil {
 		customRuleList := make([]WebApplicationFirewallCustomRule, len(source.CustomRules))
 		for customRuleIndex, customRuleItem := range source.CustomRules {
-			// Shadow the loop variable to avoid aliasing
-			customRuleItem := customRuleItem
 			var customRule WebApplicationFirewallCustomRule
 			err := customRule.Initialize_From_WebApplicationFirewallCustomRule_STATUS(&customRuleItem)
 			if err != nil {
@@ -966,8 +960,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 	if source.ApplicationGateways != nil {
 		applicationGatewayList := make([]ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded, len(source.ApplicationGateways))
 		for applicationGatewayIndex, applicationGatewayItem := range source.ApplicationGateways {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayItem := applicationGatewayItem
 			var applicationGateway ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded
 			err := applicationGateway.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded(&applicationGatewayItem)
 			if err != nil {
@@ -987,8 +979,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 	if source.CustomRules != nil {
 		customRuleList := make([]WebApplicationFirewallCustomRule_STATUS, len(source.CustomRules))
 		for customRuleIndex, customRuleItem := range source.CustomRules {
-			// Shadow the loop variable to avoid aliasing
-			customRuleItem := customRuleItem
 			var customRule WebApplicationFirewallCustomRule_STATUS
 			err := customRule.AssignProperties_From_WebApplicationFirewallCustomRule_STATUS(&customRuleItem)
 			if err != nil {
@@ -1008,8 +998,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 	if source.HttpListeners != nil {
 		httpListenerList := make([]SubResource_STATUS, len(source.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range source.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener SubResource_STATUS
 			err := httpListener.AssignProperties_From_SubResource_STATUS(&httpListenerItem)
 			if err != nil {
@@ -1047,8 +1035,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 	if source.PathBasedRules != nil {
 		pathBasedRuleList := make([]SubResource_STATUS, len(source.PathBasedRules))
 		for pathBasedRuleIndex, pathBasedRuleItem := range source.PathBasedRules {
-			// Shadow the loop variable to avoid aliasing
-			pathBasedRuleItem := pathBasedRuleItem
 			var pathBasedRule SubResource_STATUS
 			err := pathBasedRule.AssignProperties_From_SubResource_STATUS(&pathBasedRuleItem)
 			if err != nil {
@@ -1110,8 +1096,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 	if policy.ApplicationGateways != nil {
 		applicationGatewayList := make([]storage.ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded, len(policy.ApplicationGateways))
 		for applicationGatewayIndex, applicationGatewayItem := range policy.ApplicationGateways {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayItem := applicationGatewayItem
 			var applicationGateway storage.ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded
 			err := applicationGatewayItem.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded(&applicationGateway)
 			if err != nil {
@@ -1131,8 +1115,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 	if policy.CustomRules != nil {
 		customRuleList := make([]storage.WebApplicationFirewallCustomRule_STATUS, len(policy.CustomRules))
 		for customRuleIndex, customRuleItem := range policy.CustomRules {
-			// Shadow the loop variable to avoid aliasing
-			customRuleItem := customRuleItem
 			var customRule storage.WebApplicationFirewallCustomRule_STATUS
 			err := customRuleItem.AssignProperties_To_WebApplicationFirewallCustomRule_STATUS(&customRule)
 			if err != nil {
@@ -1152,8 +1134,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 	if policy.HttpListeners != nil {
 		httpListenerList := make([]storage.SubResource_STATUS, len(policy.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range policy.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener storage.SubResource_STATUS
 			err := httpListenerItem.AssignProperties_To_SubResource_STATUS(&httpListener)
 			if err != nil {
@@ -1191,8 +1171,6 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 	if policy.PathBasedRules != nil {
 		pathBasedRuleList := make([]storage.SubResource_STATUS, len(policy.PathBasedRules))
 		for pathBasedRuleIndex, pathBasedRuleItem := range policy.PathBasedRules {
-			// Shadow the loop variable to avoid aliasing
-			pathBasedRuleItem := pathBasedRuleItem
 			var pathBasedRule storage.SubResource_STATUS
 			err := pathBasedRuleItem.AssignProperties_To_SubResource_STATUS(&pathBasedRule)
 			if err != nil {
@@ -1391,8 +1369,6 @@ func (definition *ManagedRulesDefinition) AssignProperties_From_ManagedRulesDefi
 	if source.Exclusions != nil {
 		exclusionList := make([]OwaspCrsExclusionEntry, len(source.Exclusions))
 		for exclusionIndex, exclusionItem := range source.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion OwaspCrsExclusionEntry
 			err := exclusion.AssignProperties_From_OwaspCrsExclusionEntry(&exclusionItem)
 			if err != nil {
@@ -1409,8 +1385,6 @@ func (definition *ManagedRulesDefinition) AssignProperties_From_ManagedRulesDefi
 	if source.ManagedRuleSets != nil {
 		managedRuleSetList := make([]ManagedRuleSet, len(source.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range source.ManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			managedRuleSetItem := managedRuleSetItem
 			var managedRuleSet ManagedRuleSet
 			err := managedRuleSet.AssignProperties_From_ManagedRuleSet(&managedRuleSetItem)
 			if err != nil {
@@ -1436,8 +1410,6 @@ func (definition *ManagedRulesDefinition) AssignProperties_To_ManagedRulesDefini
 	if definition.Exclusions != nil {
 		exclusionList := make([]storage.OwaspCrsExclusionEntry, len(definition.Exclusions))
 		for exclusionIndex, exclusionItem := range definition.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion storage.OwaspCrsExclusionEntry
 			err := exclusionItem.AssignProperties_To_OwaspCrsExclusionEntry(&exclusion)
 			if err != nil {
@@ -1454,8 +1426,6 @@ func (definition *ManagedRulesDefinition) AssignProperties_To_ManagedRulesDefini
 	if definition.ManagedRuleSets != nil {
 		managedRuleSetList := make([]storage.ManagedRuleSet, len(definition.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range definition.ManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			managedRuleSetItem := managedRuleSetItem
 			var managedRuleSet storage.ManagedRuleSet
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet(&managedRuleSet)
 			if err != nil {
@@ -1486,8 +1456,6 @@ func (definition *ManagedRulesDefinition) Initialize_From_ManagedRulesDefinition
 	if source.Exclusions != nil {
 		exclusionList := make([]OwaspCrsExclusionEntry, len(source.Exclusions))
 		for exclusionIndex, exclusionItem := range source.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion OwaspCrsExclusionEntry
 			err := exclusion.Initialize_From_OwaspCrsExclusionEntry_STATUS(&exclusionItem)
 			if err != nil {
@@ -1504,8 +1472,6 @@ func (definition *ManagedRulesDefinition) Initialize_From_ManagedRulesDefinition
 	if source.ManagedRuleSets != nil {
 		managedRuleSetList := make([]ManagedRuleSet, len(source.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range source.ManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			managedRuleSetItem := managedRuleSetItem
 			var managedRuleSet ManagedRuleSet
 			err := managedRuleSet.Initialize_From_ManagedRuleSet_STATUS(&managedRuleSetItem)
 			if err != nil {
@@ -1576,8 +1542,6 @@ func (definition *ManagedRulesDefinition_STATUS) AssignProperties_From_ManagedRu
 	if source.Exclusions != nil {
 		exclusionList := make([]OwaspCrsExclusionEntry_STATUS, len(source.Exclusions))
 		for exclusionIndex, exclusionItem := range source.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion OwaspCrsExclusionEntry_STATUS
 			err := exclusion.AssignProperties_From_OwaspCrsExclusionEntry_STATUS(&exclusionItem)
 			if err != nil {
@@ -1594,8 +1558,6 @@ func (definition *ManagedRulesDefinition_STATUS) AssignProperties_From_ManagedRu
 	if source.ManagedRuleSets != nil {
 		managedRuleSetList := make([]ManagedRuleSet_STATUS, len(source.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range source.ManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			managedRuleSetItem := managedRuleSetItem
 			var managedRuleSet ManagedRuleSet_STATUS
 			err := managedRuleSet.AssignProperties_From_ManagedRuleSet_STATUS(&managedRuleSetItem)
 			if err != nil {
@@ -1621,8 +1583,6 @@ func (definition *ManagedRulesDefinition_STATUS) AssignProperties_To_ManagedRule
 	if definition.Exclusions != nil {
 		exclusionList := make([]storage.OwaspCrsExclusionEntry_STATUS, len(definition.Exclusions))
 		for exclusionIndex, exclusionItem := range definition.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion storage.OwaspCrsExclusionEntry_STATUS
 			err := exclusionItem.AssignProperties_To_OwaspCrsExclusionEntry_STATUS(&exclusion)
 			if err != nil {
@@ -1639,8 +1599,6 @@ func (definition *ManagedRulesDefinition_STATUS) AssignProperties_To_ManagedRule
 	if definition.ManagedRuleSets != nil {
 		managedRuleSetList := make([]storage.ManagedRuleSet_STATUS, len(definition.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range definition.ManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			managedRuleSetItem := managedRuleSetItem
 			var managedRuleSet storage.ManagedRuleSet_STATUS
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet_STATUS(&managedRuleSet)
 			if err != nil {
@@ -2720,8 +2678,6 @@ func (rule *WebApplicationFirewallCustomRule) AssignProperties_From_WebApplicati
 	if source.GroupByUserSession != nil {
 		groupByUserSessionList := make([]GroupByUserSession, len(source.GroupByUserSession))
 		for groupByUserSessionIndex, groupByUserSessionItem := range source.GroupByUserSession {
-			// Shadow the loop variable to avoid aliasing
-			groupByUserSessionItem := groupByUserSessionItem
 			var groupByUserSession GroupByUserSession
 			err := groupByUserSession.AssignProperties_From_GroupByUserSession(&groupByUserSessionItem)
 			if err != nil {
@@ -2738,8 +2694,6 @@ func (rule *WebApplicationFirewallCustomRule) AssignProperties_From_WebApplicati
 	if source.MatchConditions != nil {
 		matchConditionList := make([]MatchCondition, len(source.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range source.MatchConditions {
-			// Shadow the loop variable to avoid aliasing
-			matchConditionItem := matchConditionItem
 			var matchCondition MatchCondition
 			err := matchCondition.AssignProperties_From_MatchCondition(&matchConditionItem)
 			if err != nil {
@@ -2809,8 +2763,6 @@ func (rule *WebApplicationFirewallCustomRule) AssignProperties_To_WebApplication
 	if rule.GroupByUserSession != nil {
 		groupByUserSessionList := make([]storage.GroupByUserSession, len(rule.GroupByUserSession))
 		for groupByUserSessionIndex, groupByUserSessionItem := range rule.GroupByUserSession {
-			// Shadow the loop variable to avoid aliasing
-			groupByUserSessionItem := groupByUserSessionItem
 			var groupByUserSession storage.GroupByUserSession
 			err := groupByUserSessionItem.AssignProperties_To_GroupByUserSession(&groupByUserSession)
 			if err != nil {
@@ -2827,8 +2779,6 @@ func (rule *WebApplicationFirewallCustomRule) AssignProperties_To_WebApplication
 	if rule.MatchConditions != nil {
 		matchConditionList := make([]storage.MatchCondition, len(rule.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range rule.MatchConditions {
-			// Shadow the loop variable to avoid aliasing
-			matchConditionItem := matchConditionItem
 			var matchCondition storage.MatchCondition
 			err := matchConditionItem.AssignProperties_To_MatchCondition(&matchCondition)
 			if err != nil {
@@ -2900,8 +2850,6 @@ func (rule *WebApplicationFirewallCustomRule) Initialize_From_WebApplicationFire
 	if source.GroupByUserSession != nil {
 		groupByUserSessionList := make([]GroupByUserSession, len(source.GroupByUserSession))
 		for groupByUserSessionIndex, groupByUserSessionItem := range source.GroupByUserSession {
-			// Shadow the loop variable to avoid aliasing
-			groupByUserSessionItem := groupByUserSessionItem
 			var groupByUserSession GroupByUserSession
 			err := groupByUserSession.Initialize_From_GroupByUserSession_STATUS(&groupByUserSessionItem)
 			if err != nil {
@@ -2918,8 +2866,6 @@ func (rule *WebApplicationFirewallCustomRule) Initialize_From_WebApplicationFire
 	if source.MatchConditions != nil {
 		matchConditionList := make([]MatchCondition, len(source.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range source.MatchConditions {
-			// Shadow the loop variable to avoid aliasing
-			matchConditionItem := matchConditionItem
 			var matchCondition MatchCondition
 			err := matchCondition.Initialize_From_MatchCondition_STATUS(&matchConditionItem)
 			if err != nil {
@@ -3115,8 +3061,6 @@ func (rule *WebApplicationFirewallCustomRule_STATUS) AssignProperties_From_WebAp
 	if source.GroupByUserSession != nil {
 		groupByUserSessionList := make([]GroupByUserSession_STATUS, len(source.GroupByUserSession))
 		for groupByUserSessionIndex, groupByUserSessionItem := range source.GroupByUserSession {
-			// Shadow the loop variable to avoid aliasing
-			groupByUserSessionItem := groupByUserSessionItem
 			var groupByUserSession GroupByUserSession_STATUS
 			err := groupByUserSession.AssignProperties_From_GroupByUserSession_STATUS(&groupByUserSessionItem)
 			if err != nil {
@@ -3133,8 +3077,6 @@ func (rule *WebApplicationFirewallCustomRule_STATUS) AssignProperties_From_WebAp
 	if source.MatchConditions != nil {
 		matchConditionList := make([]MatchCondition_STATUS, len(source.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range source.MatchConditions {
-			// Shadow the loop variable to avoid aliasing
-			matchConditionItem := matchConditionItem
 			var matchCondition MatchCondition_STATUS
 			err := matchCondition.AssignProperties_From_MatchCondition_STATUS(&matchConditionItem)
 			if err != nil {
@@ -3207,8 +3149,6 @@ func (rule *WebApplicationFirewallCustomRule_STATUS) AssignProperties_To_WebAppl
 	if rule.GroupByUserSession != nil {
 		groupByUserSessionList := make([]storage.GroupByUserSession_STATUS, len(rule.GroupByUserSession))
 		for groupByUserSessionIndex, groupByUserSessionItem := range rule.GroupByUserSession {
-			// Shadow the loop variable to avoid aliasing
-			groupByUserSessionItem := groupByUserSessionItem
 			var groupByUserSession storage.GroupByUserSession_STATUS
 			err := groupByUserSessionItem.AssignProperties_To_GroupByUserSession_STATUS(&groupByUserSession)
 			if err != nil {
@@ -3225,8 +3165,6 @@ func (rule *WebApplicationFirewallCustomRule_STATUS) AssignProperties_To_WebAppl
 	if rule.MatchConditions != nil {
 		matchConditionList := make([]storage.MatchCondition_STATUS, len(rule.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range rule.MatchConditions {
-			// Shadow the loop variable to avoid aliasing
-			matchConditionItem := matchConditionItem
 			var matchCondition storage.MatchCondition_STATUS
 			err := matchConditionItem.AssignProperties_To_MatchCondition_STATUS(&matchCondition)
 			if err != nil {
@@ -3299,8 +3237,6 @@ func (operator *WebApplicationFirewallPolicyOperatorSpec) AssignProperties_From_
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3317,8 +3253,6 @@ func (operator *WebApplicationFirewallPolicyOperatorSpec) AssignProperties_From_
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3344,8 +3278,6 @@ func (operator *WebApplicationFirewallPolicyOperatorSpec) AssignProperties_To_We
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3362,8 +3294,6 @@ func (operator *WebApplicationFirewallPolicyOperatorSpec) AssignProperties_To_We
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3468,8 +3398,6 @@ func (session *GroupByUserSession) AssignProperties_From_GroupByUserSession(sour
 	if source.GroupByVariables != nil {
 		groupByVariableList := make([]GroupByVariable, len(source.GroupByVariables))
 		for groupByVariableIndex, groupByVariableItem := range source.GroupByVariables {
-			// Shadow the loop variable to avoid aliasing
-			groupByVariableItem := groupByVariableItem
 			var groupByVariable GroupByVariable
 			err := groupByVariable.AssignProperties_From_GroupByVariable(&groupByVariableItem)
 			if err != nil {
@@ -3495,8 +3423,6 @@ func (session *GroupByUserSession) AssignProperties_To_GroupByUserSession(destin
 	if session.GroupByVariables != nil {
 		groupByVariableList := make([]storage.GroupByVariable, len(session.GroupByVariables))
 		for groupByVariableIndex, groupByVariableItem := range session.GroupByVariables {
-			// Shadow the loop variable to avoid aliasing
-			groupByVariableItem := groupByVariableItem
 			var groupByVariable storage.GroupByVariable
 			err := groupByVariableItem.AssignProperties_To_GroupByVariable(&groupByVariable)
 			if err != nil {
@@ -3527,8 +3453,6 @@ func (session *GroupByUserSession) Initialize_From_GroupByUserSession_STATUS(sou
 	if source.GroupByVariables != nil {
 		groupByVariableList := make([]GroupByVariable, len(source.GroupByVariables))
 		for groupByVariableIndex, groupByVariableItem := range source.GroupByVariables {
-			// Shadow the loop variable to avoid aliasing
-			groupByVariableItem := groupByVariableItem
 			var groupByVariable GroupByVariable
 			err := groupByVariable.Initialize_From_GroupByVariable_STATUS(&groupByVariableItem)
 			if err != nil {
@@ -3586,8 +3510,6 @@ func (session *GroupByUserSession_STATUS) AssignProperties_From_GroupByUserSessi
 	if source.GroupByVariables != nil {
 		groupByVariableList := make([]GroupByVariable_STATUS, len(source.GroupByVariables))
 		for groupByVariableIndex, groupByVariableItem := range source.GroupByVariables {
-			// Shadow the loop variable to avoid aliasing
-			groupByVariableItem := groupByVariableItem
 			var groupByVariable GroupByVariable_STATUS
 			err := groupByVariable.AssignProperties_From_GroupByVariable_STATUS(&groupByVariableItem)
 			if err != nil {
@@ -3613,8 +3535,6 @@ func (session *GroupByUserSession_STATUS) AssignProperties_To_GroupByUserSession
 	if session.GroupByVariables != nil {
 		groupByVariableList := make([]storage.GroupByVariable_STATUS, len(session.GroupByVariables))
 		for groupByVariableIndex, groupByVariableItem := range session.GroupByVariables {
-			// Shadow the loop variable to avoid aliasing
-			groupByVariableItem := groupByVariableItem
 			var groupByVariable storage.GroupByVariable_STATUS
 			err := groupByVariableItem.AssignProperties_To_GroupByVariable_STATUS(&groupByVariable)
 			if err != nil {
@@ -3729,8 +3649,6 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *stor
 	if source.RuleGroupOverrides != nil {
 		ruleGroupOverrideList := make([]ManagedRuleGroupOverride, len(source.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range source.RuleGroupOverrides {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupOverrideItem := ruleGroupOverrideItem
 			var ruleGroupOverride ManagedRuleGroupOverride
 			err := ruleGroupOverride.AssignProperties_From_ManagedRuleGroupOverride(&ruleGroupOverrideItem)
 			if err != nil {
@@ -3762,8 +3680,6 @@ func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *s
 	if ruleSet.RuleGroupOverrides != nil {
 		ruleGroupOverrideList := make([]storage.ManagedRuleGroupOverride, len(ruleSet.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range ruleSet.RuleGroupOverrides {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupOverrideItem := ruleGroupOverrideItem
 			var ruleGroupOverride storage.ManagedRuleGroupOverride
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride(&ruleGroupOverride)
 			if err != nil {
@@ -3800,8 +3716,6 @@ func (ruleSet *ManagedRuleSet) Initialize_From_ManagedRuleSet_STATUS(source *Man
 	if source.RuleGroupOverrides != nil {
 		ruleGroupOverrideList := make([]ManagedRuleGroupOverride, len(source.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range source.RuleGroupOverrides {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupOverrideItem := ruleGroupOverrideItem
 			var ruleGroupOverride ManagedRuleGroupOverride
 			err := ruleGroupOverride.Initialize_From_ManagedRuleGroupOverride_STATUS(&ruleGroupOverrideItem)
 			if err != nil {
@@ -3883,8 +3797,6 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 	if source.RuleGroupOverrides != nil {
 		ruleGroupOverrideList := make([]ManagedRuleGroupOverride_STATUS, len(source.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range source.RuleGroupOverrides {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupOverrideItem := ruleGroupOverrideItem
 			var ruleGroupOverride ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverride.AssignProperties_From_ManagedRuleGroupOverride_STATUS(&ruleGroupOverrideItem)
 			if err != nil {
@@ -3916,8 +3828,6 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 	if ruleSet.RuleGroupOverrides != nil {
 		ruleGroupOverrideList := make([]storage.ManagedRuleGroupOverride_STATUS, len(ruleSet.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range ruleSet.RuleGroupOverrides {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupOverrideItem := ruleGroupOverrideItem
 			var ruleGroupOverride storage.ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&ruleGroupOverride)
 			if err != nil {
@@ -4076,8 +3986,6 @@ func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *st
 	if source.MatchVariables != nil {
 		matchVariableList := make([]MatchVariable, len(source.MatchVariables))
 		for matchVariableIndex, matchVariableItem := range source.MatchVariables {
-			// Shadow the loop variable to avoid aliasing
-			matchVariableItem := matchVariableItem
 			var matchVariable MatchVariable
 			err := matchVariable.AssignProperties_From_MatchVariable(&matchVariableItem)
 			if err != nil {
@@ -4111,8 +4019,6 @@ func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *st
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		condition.Transforms = transformList
@@ -4136,8 +4042,6 @@ func (condition *MatchCondition) AssignProperties_To_MatchCondition(destination 
 	if condition.MatchVariables != nil {
 		matchVariableList := make([]storage.MatchVariable, len(condition.MatchVariables))
 		for matchVariableIndex, matchVariableItem := range condition.MatchVariables {
-			// Shadow the loop variable to avoid aliasing
-			matchVariableItem := matchVariableItem
 			var matchVariable storage.MatchVariable
 			err := matchVariableItem.AssignProperties_To_MatchVariable(&matchVariable)
 			if err != nil {
@@ -4170,8 +4074,6 @@ func (condition *MatchCondition) AssignProperties_To_MatchCondition(destination 
 	if condition.Transforms != nil {
 		transformList := make([]string, len(condition.Transforms))
 		for transformIndex, transformItem := range condition.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -4200,8 +4102,6 @@ func (condition *MatchCondition) Initialize_From_MatchCondition_STATUS(source *M
 	if source.MatchVariables != nil {
 		matchVariableList := make([]MatchVariable, len(source.MatchVariables))
 		for matchVariableIndex, matchVariableItem := range source.MatchVariables {
-			// Shadow the loop variable to avoid aliasing
-			matchVariableItem := matchVariableItem
 			var matchVariable MatchVariable
 			err := matchVariable.Initialize_From_MatchVariable_STATUS(&matchVariableItem)
 			if err != nil {
@@ -4234,8 +4134,6 @@ func (condition *MatchCondition) Initialize_From_MatchCondition_STATUS(source *M
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -4330,8 +4228,6 @@ func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STA
 	if source.MatchVariables != nil {
 		matchVariableList := make([]MatchVariable_STATUS, len(source.MatchVariables))
 		for matchVariableIndex, matchVariableItem := range source.MatchVariables {
-			// Shadow the loop variable to avoid aliasing
-			matchVariableItem := matchVariableItem
 			var matchVariable MatchVariable_STATUS
 			err := matchVariable.AssignProperties_From_MatchVariable_STATUS(&matchVariableItem)
 			if err != nil {
@@ -4365,8 +4261,6 @@ func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STA
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		condition.Transforms = transformList
@@ -4390,8 +4284,6 @@ func (condition *MatchCondition_STATUS) AssignProperties_To_MatchCondition_STATU
 	if condition.MatchVariables != nil {
 		matchVariableList := make([]storage.MatchVariable_STATUS, len(condition.MatchVariables))
 		for matchVariableIndex, matchVariableItem := range condition.MatchVariables {
-			// Shadow the loop variable to avoid aliasing
-			matchVariableItem := matchVariableItem
 			var matchVariable storage.MatchVariable_STATUS
 			err := matchVariableItem.AssignProperties_To_MatchVariable_STATUS(&matchVariable)
 			if err != nil {
@@ -4424,8 +4316,6 @@ func (condition *MatchCondition_STATUS) AssignProperties_To_MatchCondition_STATU
 	if condition.Transforms != nil {
 		transformList := make([]string, len(condition.Transforms))
 		for transformIndex, transformItem := range condition.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -4561,8 +4451,6 @@ func (entry *OwaspCrsExclusionEntry) AssignProperties_From_OwaspCrsExclusionEntr
 	if source.ExclusionManagedRuleSets != nil {
 		exclusionManagedRuleSetList := make([]ExclusionManagedRuleSet, len(source.ExclusionManagedRuleSets))
 		for exclusionManagedRuleSetIndex, exclusionManagedRuleSetItem := range source.ExclusionManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			exclusionManagedRuleSetItem := exclusionManagedRuleSetItem
 			var exclusionManagedRuleSet ExclusionManagedRuleSet
 			err := exclusionManagedRuleSet.AssignProperties_From_ExclusionManagedRuleSet(&exclusionManagedRuleSetItem)
 			if err != nil {
@@ -4609,8 +4497,6 @@ func (entry *OwaspCrsExclusionEntry) AssignProperties_To_OwaspCrsExclusionEntry(
 	if entry.ExclusionManagedRuleSets != nil {
 		exclusionManagedRuleSetList := make([]storage.ExclusionManagedRuleSet, len(entry.ExclusionManagedRuleSets))
 		for exclusionManagedRuleSetIndex, exclusionManagedRuleSetItem := range entry.ExclusionManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			exclusionManagedRuleSetItem := exclusionManagedRuleSetItem
 			var exclusionManagedRuleSet storage.ExclusionManagedRuleSet
 			err := exclusionManagedRuleSetItem.AssignProperties_To_ExclusionManagedRuleSet(&exclusionManagedRuleSet)
 			if err != nil {
@@ -4660,8 +4546,6 @@ func (entry *OwaspCrsExclusionEntry) Initialize_From_OwaspCrsExclusionEntry_STAT
 	if source.ExclusionManagedRuleSets != nil {
 		exclusionManagedRuleSetList := make([]ExclusionManagedRuleSet, len(source.ExclusionManagedRuleSets))
 		for exclusionManagedRuleSetIndex, exclusionManagedRuleSetItem := range source.ExclusionManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			exclusionManagedRuleSetItem := exclusionManagedRuleSetItem
 			var exclusionManagedRuleSet ExclusionManagedRuleSet
 			err := exclusionManagedRuleSet.Initialize_From_ExclusionManagedRuleSet_STATUS(&exclusionManagedRuleSetItem)
 			if err != nil {
@@ -4771,8 +4655,6 @@ func (entry *OwaspCrsExclusionEntry_STATUS) AssignProperties_From_OwaspCrsExclus
 	if source.ExclusionManagedRuleSets != nil {
 		exclusionManagedRuleSetList := make([]ExclusionManagedRuleSet_STATUS, len(source.ExclusionManagedRuleSets))
 		for exclusionManagedRuleSetIndex, exclusionManagedRuleSetItem := range source.ExclusionManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			exclusionManagedRuleSetItem := exclusionManagedRuleSetItem
 			var exclusionManagedRuleSet ExclusionManagedRuleSet_STATUS
 			err := exclusionManagedRuleSet.AssignProperties_From_ExclusionManagedRuleSet_STATUS(&exclusionManagedRuleSetItem)
 			if err != nil {
@@ -4819,8 +4701,6 @@ func (entry *OwaspCrsExclusionEntry_STATUS) AssignProperties_To_OwaspCrsExclusio
 	if entry.ExclusionManagedRuleSets != nil {
 		exclusionManagedRuleSetList := make([]storage.ExclusionManagedRuleSet_STATUS, len(entry.ExclusionManagedRuleSets))
 		for exclusionManagedRuleSetIndex, exclusionManagedRuleSetItem := range entry.ExclusionManagedRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			exclusionManagedRuleSetItem := exclusionManagedRuleSetItem
 			var exclusionManagedRuleSet storage.ExclusionManagedRuleSet_STATUS
 			err := exclusionManagedRuleSetItem.AssignProperties_To_ExclusionManagedRuleSet_STATUS(&exclusionManagedRuleSet)
 			if err != nil {
@@ -4940,8 +4820,6 @@ func (scrubbing *PolicySettings_LogScrubbing) AssignProperties_From_PolicySettin
 	if source.ScrubbingRules != nil {
 		scrubbingRuleList := make([]WebApplicationFirewallScrubbingRules, len(source.ScrubbingRules))
 		for scrubbingRuleIndex, scrubbingRuleItem := range source.ScrubbingRules {
-			// Shadow the loop variable to avoid aliasing
-			scrubbingRuleItem := scrubbingRuleItem
 			var scrubbingRule WebApplicationFirewallScrubbingRules
 			err := scrubbingRule.AssignProperties_From_WebApplicationFirewallScrubbingRules(&scrubbingRuleItem)
 			if err != nil {
@@ -4976,8 +4854,6 @@ func (scrubbing *PolicySettings_LogScrubbing) AssignProperties_To_PolicySettings
 	if scrubbing.ScrubbingRules != nil {
 		scrubbingRuleList := make([]storage.WebApplicationFirewallScrubbingRules, len(scrubbing.ScrubbingRules))
 		for scrubbingRuleIndex, scrubbingRuleItem := range scrubbing.ScrubbingRules {
-			// Shadow the loop variable to avoid aliasing
-			scrubbingRuleItem := scrubbingRuleItem
 			var scrubbingRule storage.WebApplicationFirewallScrubbingRules
 			err := scrubbingRuleItem.AssignProperties_To_WebApplicationFirewallScrubbingRules(&scrubbingRule)
 			if err != nil {
@@ -5016,8 +4892,6 @@ func (scrubbing *PolicySettings_LogScrubbing) Initialize_From_PolicySettings_Log
 	if source.ScrubbingRules != nil {
 		scrubbingRuleList := make([]WebApplicationFirewallScrubbingRules, len(source.ScrubbingRules))
 		for scrubbingRuleIndex, scrubbingRuleItem := range source.ScrubbingRules {
-			// Shadow the loop variable to avoid aliasing
-			scrubbingRuleItem := scrubbingRuleItem
 			var scrubbingRule WebApplicationFirewallScrubbingRules
 			err := scrubbingRule.Initialize_From_WebApplicationFirewallScrubbingRules_STATUS(&scrubbingRuleItem)
 			if err != nil {
@@ -5093,8 +4967,6 @@ func (scrubbing *PolicySettings_LogScrubbing_STATUS) AssignProperties_From_Polic
 	if source.ScrubbingRules != nil {
 		scrubbingRuleList := make([]WebApplicationFirewallScrubbingRules_STATUS, len(source.ScrubbingRules))
 		for scrubbingRuleIndex, scrubbingRuleItem := range source.ScrubbingRules {
-			// Shadow the loop variable to avoid aliasing
-			scrubbingRuleItem := scrubbingRuleItem
 			var scrubbingRule WebApplicationFirewallScrubbingRules_STATUS
 			err := scrubbingRule.AssignProperties_From_WebApplicationFirewallScrubbingRules_STATUS(&scrubbingRuleItem)
 			if err != nil {
@@ -5129,8 +5001,6 @@ func (scrubbing *PolicySettings_LogScrubbing_STATUS) AssignProperties_To_PolicyS
 	if scrubbing.ScrubbingRules != nil {
 		scrubbingRuleList := make([]storage.WebApplicationFirewallScrubbingRules_STATUS, len(scrubbing.ScrubbingRules))
 		for scrubbingRuleIndex, scrubbingRuleItem := range scrubbing.ScrubbingRules {
-			// Shadow the loop variable to avoid aliasing
-			scrubbingRuleItem := scrubbingRuleItem
 			var scrubbingRule storage.WebApplicationFirewallScrubbingRules_STATUS
 			err := scrubbingRuleItem.AssignProperties_To_WebApplicationFirewallScrubbingRules_STATUS(&scrubbingRule)
 			if err != nil {
@@ -5427,8 +5297,6 @@ func (ruleSet *ExclusionManagedRuleSet) AssignProperties_From_ExclusionManagedRu
 	if source.RuleGroups != nil {
 		ruleGroupList := make([]ExclusionManagedRuleGroup, len(source.RuleGroups))
 		for ruleGroupIndex, ruleGroupItem := range source.RuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupItem := ruleGroupItem
 			var ruleGroup ExclusionManagedRuleGroup
 			err := ruleGroup.AssignProperties_From_ExclusionManagedRuleGroup(&ruleGroupItem)
 			if err != nil {
@@ -5460,8 +5328,6 @@ func (ruleSet *ExclusionManagedRuleSet) AssignProperties_To_ExclusionManagedRule
 	if ruleSet.RuleGroups != nil {
 		ruleGroupList := make([]storage.ExclusionManagedRuleGroup, len(ruleSet.RuleGroups))
 		for ruleGroupIndex, ruleGroupItem := range ruleSet.RuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupItem := ruleGroupItem
 			var ruleGroup storage.ExclusionManagedRuleGroup
 			err := ruleGroupItem.AssignProperties_To_ExclusionManagedRuleGroup(&ruleGroup)
 			if err != nil {
@@ -5498,8 +5364,6 @@ func (ruleSet *ExclusionManagedRuleSet) Initialize_From_ExclusionManagedRuleSet_
 	if source.RuleGroups != nil {
 		ruleGroupList := make([]ExclusionManagedRuleGroup, len(source.RuleGroups))
 		for ruleGroupIndex, ruleGroupItem := range source.RuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupItem := ruleGroupItem
 			var ruleGroup ExclusionManagedRuleGroup
 			err := ruleGroup.Initialize_From_ExclusionManagedRuleGroup_STATUS(&ruleGroupItem)
 			if err != nil {
@@ -5581,8 +5445,6 @@ func (ruleSet *ExclusionManagedRuleSet_STATUS) AssignProperties_From_ExclusionMa
 	if source.RuleGroups != nil {
 		ruleGroupList := make([]ExclusionManagedRuleGroup_STATUS, len(source.RuleGroups))
 		for ruleGroupIndex, ruleGroupItem := range source.RuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupItem := ruleGroupItem
 			var ruleGroup ExclusionManagedRuleGroup_STATUS
 			err := ruleGroup.AssignProperties_From_ExclusionManagedRuleGroup_STATUS(&ruleGroupItem)
 			if err != nil {
@@ -5614,8 +5476,6 @@ func (ruleSet *ExclusionManagedRuleSet_STATUS) AssignProperties_To_ExclusionMana
 	if ruleSet.RuleGroups != nil {
 		ruleGroupList := make([]storage.ExclusionManagedRuleGroup_STATUS, len(ruleSet.RuleGroups))
 		for ruleGroupIndex, ruleGroupItem := range ruleSet.RuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			ruleGroupItem := ruleGroupItem
 			var ruleGroup storage.ExclusionManagedRuleGroup_STATUS
 			err := ruleGroupItem.AssignProperties_To_ExclusionManagedRuleGroup_STATUS(&ruleGroup)
 			if err != nil {
@@ -5900,8 +5760,6 @@ func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroup
 	if source.Rules != nil {
 		ruleList := make([]ManagedRuleOverride, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ManagedRuleOverride
 			err := rule.AssignProperties_From_ManagedRuleOverride(&ruleItem)
 			if err != nil {
@@ -5930,8 +5788,6 @@ func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOv
 	if override.Rules != nil {
 		ruleList := make([]storage.ManagedRuleOverride, len(override.Rules))
 		for ruleIndex, ruleItem := range override.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ManagedRuleOverride
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride(&rule)
 			if err != nil {
@@ -5965,8 +5821,6 @@ func (override *ManagedRuleGroupOverride) Initialize_From_ManagedRuleGroupOverri
 	if source.Rules != nil {
 		ruleList := make([]ManagedRuleOverride, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ManagedRuleOverride
 			err := rule.Initialize_From_ManagedRuleOverride_STATUS(&ruleItem)
 			if err != nil {
@@ -6036,8 +5890,6 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRu
 	if source.Rules != nil {
 		ruleList := make([]ManagedRuleOverride_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ManagedRuleOverride_STATUS
 			err := rule.AssignProperties_From_ManagedRuleOverride_STATUS(&ruleItem)
 			if err != nil {
@@ -6066,8 +5918,6 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 	if override.Rules != nil {
 		ruleList := make([]storage.ManagedRuleOverride_STATUS, len(override.Rules))
 		for ruleIndex, ruleItem := range override.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ManagedRuleOverride_STATUS
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride_STATUS(&rule)
 			if err != nil {
@@ -6987,8 +6837,6 @@ func (group *ExclusionManagedRuleGroup) AssignProperties_From_ExclusionManagedRu
 	if source.Rules != nil {
 		ruleList := make([]ExclusionManagedRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ExclusionManagedRule
 			err := rule.AssignProperties_From_ExclusionManagedRule(&ruleItem)
 			if err != nil {
@@ -7017,8 +6865,6 @@ func (group *ExclusionManagedRuleGroup) AssignProperties_To_ExclusionManagedRule
 	if group.Rules != nil {
 		ruleList := make([]storage.ExclusionManagedRule, len(group.Rules))
 		for ruleIndex, ruleItem := range group.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ExclusionManagedRule
 			err := ruleItem.AssignProperties_To_ExclusionManagedRule(&rule)
 			if err != nil {
@@ -7052,8 +6898,6 @@ func (group *ExclusionManagedRuleGroup) Initialize_From_ExclusionManagedRuleGrou
 	if source.Rules != nil {
 		ruleList := make([]ExclusionManagedRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ExclusionManagedRule
 			err := rule.Initialize_From_ExclusionManagedRule_STATUS(&ruleItem)
 			if err != nil {
@@ -7123,8 +6967,6 @@ func (group *ExclusionManagedRuleGroup_STATUS) AssignProperties_From_ExclusionMa
 	if source.Rules != nil {
 		ruleList := make([]ExclusionManagedRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ExclusionManagedRule_STATUS
 			err := rule.AssignProperties_From_ExclusionManagedRule_STATUS(&ruleItem)
 			if err != nil {
@@ -7153,8 +6995,6 @@ func (group *ExclusionManagedRuleGroup_STATUS) AssignProperties_To_ExclusionMana
 	if group.Rules != nil {
 		ruleList := make([]storage.ExclusionManagedRule_STATUS, len(group.Rules))
 		for ruleIndex, ruleItem := range group.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ExclusionManagedRule_STATUS
 			err := ruleItem.AssignProperties_To_ExclusionManagedRule_STATUS(&rule)
 			if err != nil {

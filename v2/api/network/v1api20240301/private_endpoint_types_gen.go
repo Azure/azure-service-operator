@@ -563,8 +563,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 	if source.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
@@ -599,8 +597,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]PrivateEndpointIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration PrivateEndpointIPConfiguration
 			err := ipConfiguration.AssignProperties_From_PrivateEndpointIPConfiguration(&ipConfigurationItem)
 			if err != nil {
@@ -620,8 +616,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 	if source.ManualPrivateLinkServiceConnections != nil {
 		manualPrivateLinkServiceConnectionList := make([]PrivateLinkServiceConnection, len(source.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range source.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
 			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection(&manualPrivateLinkServiceConnectionItem)
 			if err != nil {
@@ -658,8 +652,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 	if source.PrivateLinkServiceConnections != nil {
 		privateLinkServiceConnectionList := make([]PrivateLinkServiceConnection, len(source.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range source.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
 			var privateLinkServiceConnection PrivateLinkServiceConnection
 			err := privateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection(&privateLinkServiceConnectionItem)
 			if err != nil {
@@ -700,8 +692,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 	if endpoint.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]storage.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range endpoint.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup storage.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
@@ -736,8 +726,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 	if endpoint.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.PrivateEndpointIPConfiguration, len(endpoint.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range endpoint.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.PrivateEndpointIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration(&ipConfiguration)
 			if err != nil {
@@ -757,8 +745,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 	if endpoint.ManualPrivateLinkServiceConnections != nil {
 		manualPrivateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection, len(endpoint.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range endpoint.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
 			var manualPrivateLinkServiceConnection storage.PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&manualPrivateLinkServiceConnection)
 			if err != nil {
@@ -798,8 +784,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 	if endpoint.PrivateLinkServiceConnections != nil {
 		privateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection, len(endpoint.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range endpoint.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
 			var privateLinkServiceConnection storage.PrivateLinkServiceConnection
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&privateLinkServiceConnection)
 			if err != nil {
@@ -845,8 +829,6 @@ func (endpoint *PrivateEndpoint_Spec) Initialize_From_PrivateEndpoint_STATUS(sou
 	if source.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
@@ -878,8 +860,6 @@ func (endpoint *PrivateEndpoint_Spec) Initialize_From_PrivateEndpoint_STATUS(sou
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]PrivateEndpointIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration PrivateEndpointIPConfiguration
 			err := ipConfiguration.Initialize_From_PrivateEndpointIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -899,8 +879,6 @@ func (endpoint *PrivateEndpoint_Spec) Initialize_From_PrivateEndpoint_STATUS(sou
 	if source.ManualPrivateLinkServiceConnections != nil {
 		manualPrivateLinkServiceConnectionList := make([]PrivateLinkServiceConnection, len(source.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range source.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
 			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnection.Initialize_From_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnectionItem)
 			if err != nil {
@@ -917,8 +895,6 @@ func (endpoint *PrivateEndpoint_Spec) Initialize_From_PrivateEndpoint_STATUS(sou
 	if source.PrivateLinkServiceConnections != nil {
 		privateLinkServiceConnectionList := make([]PrivateLinkServiceConnection, len(source.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range source.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
 			var privateLinkServiceConnection PrivateLinkServiceConnection
 			err := privateLinkServiceConnection.Initialize_From_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnectionItem)
 			if err != nil {
@@ -1252,8 +1228,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if source.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
@@ -1273,8 +1247,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if source.CustomDnsConfigs != nil {
 		customDnsConfigList := make([]CustomDnsConfigPropertiesFormat_STATUS, len(source.CustomDnsConfigs))
 		for customDnsConfigIndex, customDnsConfigItem := range source.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
 			var customDnsConfig CustomDnsConfigPropertiesFormat_STATUS
 			err := customDnsConfig.AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfigItem)
 			if err != nil {
@@ -1312,8 +1284,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]PrivateEndpointIPConfiguration_STATUS, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration PrivateEndpointIPConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -1333,8 +1303,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if source.ManualPrivateLinkServiceConnections != nil {
 		manualPrivateLinkServiceConnectionList := make([]PrivateLinkServiceConnection_STATUS, len(source.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range source.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
 			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection_STATUS
 			err := manualPrivateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnectionItem)
 			if err != nil {
@@ -1354,8 +1322,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if source.NetworkInterfaces != nil {
 		networkInterfaceList := make([]NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(source.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
 			var networkInterface NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
@@ -1372,8 +1338,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if source.PrivateLinkServiceConnections != nil {
 		privateLinkServiceConnectionList := make([]PrivateLinkServiceConnection_STATUS, len(source.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range source.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
 			var privateLinkServiceConnection PrivateLinkServiceConnection_STATUS
 			err := privateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnectionItem)
 			if err != nil {
@@ -1426,8 +1390,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if endpoint.ApplicationSecurityGroups != nil {
 		applicationSecurityGroupList := make([]storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range endpoint.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
@@ -1447,8 +1409,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if endpoint.CustomDnsConfigs != nil {
 		customDnsConfigList := make([]storage.CustomDnsConfigPropertiesFormat_STATUS, len(endpoint.CustomDnsConfigs))
 		for customDnsConfigIndex, customDnsConfigItem := range endpoint.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
 			var customDnsConfig storage.CustomDnsConfigPropertiesFormat_STATUS
 			err := customDnsConfigItem.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfig)
 			if err != nil {
@@ -1486,8 +1446,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if endpoint.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.PrivateEndpointIPConfiguration_STATUS, len(endpoint.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range endpoint.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.PrivateEndpointIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
@@ -1507,8 +1465,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if endpoint.ManualPrivateLinkServiceConnections != nil {
 		manualPrivateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection_STATUS, len(endpoint.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range endpoint.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
 			var manualPrivateLinkServiceConnection storage.PrivateLinkServiceConnection_STATUS
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnection)
 			if err != nil {
@@ -1528,8 +1484,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if endpoint.NetworkInterfaces != nil {
 		networkInterfaceList := make([]storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(endpoint.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range endpoint.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
 			var networkInterface storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&networkInterface)
 			if err != nil {
@@ -1546,8 +1500,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if endpoint.PrivateLinkServiceConnections != nil {
 		privateLinkServiceConnectionList := make([]storage.PrivateLinkServiceConnection_STATUS, len(endpoint.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range endpoint.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
 			var privateLinkServiceConnection storage.PrivateLinkServiceConnection_STATUS
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnection)
 			if err != nil {
@@ -2215,8 +2167,6 @@ func (operator *PrivateEndpointOperatorSpec) AssignProperties_From_PrivateEndpoi
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2245,8 +2195,6 @@ func (operator *PrivateEndpointOperatorSpec) AssignProperties_From_PrivateEndpoi
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2272,8 +2220,6 @@ func (operator *PrivateEndpointOperatorSpec) AssignProperties_To_PrivateEndpoint
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2302,8 +2248,6 @@ func (operator *PrivateEndpointOperatorSpec) AssignProperties_To_PrivateEndpoint
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

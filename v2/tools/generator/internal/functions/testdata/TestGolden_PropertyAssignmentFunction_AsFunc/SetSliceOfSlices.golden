@@ -16,13 +16,9 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 	if source.Items != nil {
 		itemList := make([][]int, len(source.Items))
 		for itemIndex, item := range source.Items {
-			// Shadow the loop variable to avoid aliasing
-			item := item
 			if item != nil {
 				itemList1 := make([]int, len(item))
 				for itemIndex1, item1 := range item {
-					// Shadow the loop variable to avoid aliasing
-					item1 := item1
 					itemList1[itemIndex1] = item1
 				}
 				itemList[itemIndex] = itemList1
@@ -46,13 +42,9 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 	if person.Items != nil {
 		itemList := make([][]int, len(person.Items))
 		for itemIndex, item := range person.Items {
-			// Shadow the loop variable to avoid aliasing
-			item := item
 			if item != nil {
 				itemList1 := make([]int, len(item))
 				for itemIndex1, item1 := range item {
-					// Shadow the loop variable to avoid aliasing
-					item1 := item1
 					itemList1[itemIndex1] = item1
 				}
 				itemList[itemIndex] = itemList1

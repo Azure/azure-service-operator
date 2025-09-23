@@ -19,8 +19,6 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 	if source.Indexes != nil {
 		indexList := make([]*Release, len(source.Indexes))
 		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
 			if indexItem != nil {
 				var indexLocal Release
 				err := indexLocal.AssignProperties_From_Release(indexItem)
@@ -48,8 +46,6 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 	if person.Indexes != nil {
 		indexList := make([]*Release, len(person.Indexes))
 		for index, indexItem := range person.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
 			if indexItem != nil {
 				var indexLocal Release
 				err := indexItem.AssignProperties_To_Release(&indexLocal)

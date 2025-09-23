@@ -75,8 +75,6 @@ func (error *Error) AssignProperties_From_Error(source *storage.Error) error {
 	if source.Errors != nil {
 		errorList := make([]Error_Unrolled, len(source.Errors))
 		for errorIndex, errorItem := range source.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var errorLocal Error_Unrolled
 			err := errorLocal.AssignProperties_From_Error_Unrolled(&errorItem)
 			if err != nil {
@@ -105,8 +103,6 @@ func (error *Error) AssignProperties_To_Error(destination *storage.Error) error 
 	if error.Errors != nil {
 		errorList := make([]storage.Error_Unrolled, len(error.Errors))
 		for errorIndex, errorItem := range error.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var errorLocal storage.Error_Unrolled
 			err := errorItem.AssignProperties_To_Error_Unrolled(&errorLocal)
 			if err != nil {

@@ -2105,8 +2105,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_From_WorkspacesC
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2123,8 +2121,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_From_WorkspacesC
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2150,8 +2146,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_To_WorkspacesCom
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2168,8 +2162,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_To_WorkspacesCom
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2674,8 +2666,6 @@ func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *storage.AKS_STAT
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -2761,8 +2751,6 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *storage.AKS_S
 	if aks.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(aks.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range aks.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -3278,8 +3266,6 @@ func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -3365,8 +3351,6 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 	if compute.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(compute.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range compute.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -3882,8 +3866,6 @@ func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_ST
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -3969,8 +3951,6 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 	if instance.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(instance.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range instance.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -4486,8 +4466,6 @@ func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(sou
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -4573,8 +4551,6 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 	if databricks.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(databricks.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range databricks.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -5004,8 +4980,6 @@ func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(sour
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -5079,8 +5053,6 @@ func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destin
 	if factory.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(factory.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range factory.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -5592,8 +5564,6 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalyti
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -5679,8 +5649,6 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 	if analytics.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(analytics.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range analytics.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -6196,8 +6164,6 @@ func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -6283,8 +6249,6 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 	if insight.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(insight.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range insight.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -6800,8 +6764,6 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(sou
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -6887,8 +6849,6 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 	if kubernetes.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(kubernetes.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range kubernetes.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -7400,8 +7360,6 @@ func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(sour
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -7487,8 +7445,6 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 	if spark.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(spark.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range spark.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -8000,8 +7956,6 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -8087,8 +8041,6 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	if machine.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(machine.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range machine.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -8693,8 +8645,6 @@ func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_ST
 	if source.SystemServices != nil {
 		systemServiceList := make([]SystemService_STATUS, len(source.SystemServices))
 		for systemServiceIndex, systemServiceItem := range source.SystemServices {
-			// Shadow the loop variable to avoid aliasing
-			systemServiceItem := systemServiceItem
 			var systemService SystemService_STATUS
 			err := systemService.AssignProperties_From_SystemService_STATUS(&systemServiceItem)
 			if err != nil {
@@ -8772,8 +8722,6 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 	if properties.SystemServices != nil {
 		systemServiceList := make([]storage.SystemService_STATUS, len(properties.SystemServices))
 		for systemServiceIndex, systemServiceItem := range properties.SystemServices {
-			// Shadow the loop variable to avoid aliasing
-			systemServiceItem := systemServiceItem
 			var systemService storage.SystemService_STATUS
 			err := systemServiceItem.AssignProperties_To_SystemService_STATUS(&systemService)
 			if err != nil {
@@ -9147,8 +9095,6 @@ func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperti
 	if source.PropertyBag != nil {
 		propertyBagMap := make(map[string]v1.JSON, len(source.PropertyBag))
 		for propertyBagKey, propertyBagValue := range source.PropertyBag {
-			// Shadow the loop variable to avoid aliasing
-			propertyBagValue := propertyBagValue
 			propertyBagMap[propertyBagKey] = *propertyBagValue.DeepCopy()
 		}
 		properties.PropertyBag = propertyBagMap
@@ -9262,8 +9208,6 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 	if properties.PropertyBag != nil {
 		propertyBagMap := make(map[string]v1.JSON, len(properties.PropertyBag))
 		for propertyBagKey, propertyBagValue := range properties.PropertyBag {
-			// Shadow the loop variable to avoid aliasing
-			propertyBagValue := propertyBagValue
 			propertyBagMap[propertyBagKey] = *propertyBagValue.DeepCopy()
 		}
 		destination.PropertyBag = propertyBagMap
@@ -9380,8 +9324,6 @@ func (properties *AmlComputeProperties) Initialize_From_AmlComputeProperties_STA
 	if source.PropertyBag != nil {
 		propertyBagMap := make(map[string]v1.JSON, len(source.PropertyBag))
 		for propertyBagKey, propertyBagValue := range source.PropertyBag {
-			// Shadow the loop variable to avoid aliasing
-			propertyBagValue := propertyBagValue
 			propertyBagMap[propertyBagKey] = *propertyBagValue.DeepCopy()
 		}
 		properties.PropertyBag = propertyBagMap
@@ -9714,8 +9656,6 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 	if source.Errors != nil {
 		errorList := make([]ErrorResponse_STATUS, len(source.Errors))
 		for errorIndex, errorItem := range source.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error ErrorResponse_STATUS
 			err := error.AssignProperties_From_ErrorResponse_STATUS(&errorItem)
 			if err != nil {
@@ -9761,8 +9701,6 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 	if source.PropertyBag != nil {
 		propertyBagMap := make(map[string]v1.JSON, len(source.PropertyBag))
 		for propertyBagKey, propertyBagValue := range source.PropertyBag {
-			// Shadow the loop variable to avoid aliasing
-			propertyBagValue := propertyBagValue
 			propertyBagMap[propertyBagKey] = *propertyBagValue.DeepCopy()
 		}
 		properties.PropertyBag = propertyBagMap
@@ -9877,8 +9815,6 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 	if properties.Errors != nil {
 		errorList := make([]storage.ErrorResponse_STATUS, len(properties.Errors))
 		for errorIndex, errorItem := range properties.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error storage.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
@@ -9923,8 +9859,6 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 	if properties.PropertyBag != nil {
 		propertyBagMap := make(map[string]v1.JSON, len(properties.PropertyBag))
 		for propertyBagKey, propertyBagValue := range properties.PropertyBag {
-			// Shadow the loop variable to avoid aliasing
-			propertyBagValue := propertyBagValue
 			propertyBagMap[propertyBagKey] = *propertyBagValue.DeepCopy()
 		}
 		destination.PropertyBag = propertyBagMap
@@ -10324,8 +10258,6 @@ func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstan
 	if source.CustomServices != nil {
 		customServiceList := make([]CustomService, len(source.CustomServices))
 		for customServiceIndex, customServiceItem := range source.CustomServices {
-			// Shadow the loop variable to avoid aliasing
-			customServiceItem := customServiceItem
 			var customService CustomService
 			err := customService.AssignProperties_From_CustomService(&customServiceItem)
 			if err != nil {
@@ -10438,8 +10370,6 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 	if properties.CustomServices != nil {
 		customServiceList := make([]storage.CustomService, len(properties.CustomServices))
 		for customServiceIndex, customServiceItem := range properties.CustomServices {
-			// Shadow the loop variable to avoid aliasing
-			customServiceItem := customServiceItem
 			var customService storage.CustomService
 			err := customServiceItem.AssignProperties_To_CustomService(&customService)
 			if err != nil {
@@ -10557,8 +10487,6 @@ func (properties *ComputeInstanceProperties) Initialize_From_ComputeInstanceProp
 	if source.CustomServices != nil {
 		customServiceList := make([]CustomService, len(source.CustomServices))
 		for customServiceIndex, customServiceItem := range source.CustomServices {
-			// Shadow the loop variable to avoid aliasing
-			customServiceItem := customServiceItem
 			var customService CustomService
 			err := customService.Initialize_From_CustomService_STATUS(&customServiceItem)
 			if err != nil {
@@ -10956,8 +10884,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.Applications != nil {
 		applicationList := make([]ComputeInstanceApplication_STATUS, len(source.Applications))
 		for applicationIndex, applicationItem := range source.Applications {
-			// Shadow the loop variable to avoid aliasing
-			applicationItem := applicationItem
 			var application ComputeInstanceApplication_STATUS
 			err := application.AssignProperties_From_ComputeInstanceApplication_STATUS(&applicationItem)
 			if err != nil {
@@ -10995,8 +10921,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.Containers != nil {
 		containerList := make([]ComputeInstanceContainer_STATUS, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container ComputeInstanceContainer_STATUS
 			err := container.AssignProperties_From_ComputeInstanceContainer_STATUS(&containerItem)
 			if err != nil {
@@ -11025,8 +10949,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.CustomServices != nil {
 		customServiceList := make([]CustomService_STATUS, len(source.CustomServices))
 		for customServiceIndex, customServiceItem := range source.CustomServices {
-			// Shadow the loop variable to avoid aliasing
-			customServiceItem := customServiceItem
 			var customService CustomService_STATUS
 			err := customService.AssignProperties_From_CustomService_STATUS(&customServiceItem)
 			if err != nil {
@@ -11043,8 +10965,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.DataDisks != nil {
 		dataDiskList := make([]ComputeInstanceDataDisk_STATUS, len(source.DataDisks))
 		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk ComputeInstanceDataDisk_STATUS
 			err := dataDisk.AssignProperties_From_ComputeInstanceDataDisk_STATUS(&dataDiskItem)
 			if err != nil {
@@ -11061,8 +10981,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.DataMounts != nil {
 		dataMountList := make([]ComputeInstanceDataMount_STATUS, len(source.DataMounts))
 		for dataMountIndex, dataMountItem := range source.DataMounts {
-			// Shadow the loop variable to avoid aliasing
-			dataMountItem := dataMountItem
 			var dataMount ComputeInstanceDataMount_STATUS
 			err := dataMount.AssignProperties_From_ComputeInstanceDataMount_STATUS(&dataMountItem)
 			if err != nil {
@@ -11087,8 +11005,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.Errors != nil {
 		errorList := make([]ErrorResponse_STATUS, len(source.Errors))
 		for errorIndex, errorItem := range source.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error ErrorResponse_STATUS
 			err := error.AssignProperties_From_ErrorResponse_STATUS(&errorItem)
 			if err != nil {
@@ -11230,8 +11146,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.Applications != nil {
 		applicationList := make([]storage.ComputeInstanceApplication_STATUS, len(properties.Applications))
 		for applicationIndex, applicationItem := range properties.Applications {
-			// Shadow the loop variable to avoid aliasing
-			applicationItem := applicationItem
 			var application storage.ComputeInstanceApplication_STATUS
 			err := applicationItem.AssignProperties_To_ComputeInstanceApplication_STATUS(&application)
 			if err != nil {
@@ -11268,8 +11182,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.Containers != nil {
 		containerList := make([]storage.ComputeInstanceContainer_STATUS, len(properties.Containers))
 		for containerIndex, containerItem := range properties.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.ComputeInstanceContainer_STATUS
 			err := containerItem.AssignProperties_To_ComputeInstanceContainer_STATUS(&container)
 			if err != nil {
@@ -11298,8 +11210,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.CustomServices != nil {
 		customServiceList := make([]storage.CustomService_STATUS, len(properties.CustomServices))
 		for customServiceIndex, customServiceItem := range properties.CustomServices {
-			// Shadow the loop variable to avoid aliasing
-			customServiceItem := customServiceItem
 			var customService storage.CustomService_STATUS
 			err := customServiceItem.AssignProperties_To_CustomService_STATUS(&customService)
 			if err != nil {
@@ -11316,8 +11226,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.DataDisks != nil {
 		dataDiskList := make([]storage.ComputeInstanceDataDisk_STATUS, len(properties.DataDisks))
 		for dataDiskIndex, dataDiskItem := range properties.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk storage.ComputeInstanceDataDisk_STATUS
 			err := dataDiskItem.AssignProperties_To_ComputeInstanceDataDisk_STATUS(&dataDisk)
 			if err != nil {
@@ -11334,8 +11242,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.DataMounts != nil {
 		dataMountList := make([]storage.ComputeInstanceDataMount_STATUS, len(properties.DataMounts))
 		for dataMountIndex, dataMountItem := range properties.DataMounts {
-			// Shadow the loop variable to avoid aliasing
-			dataMountItem := dataMountItem
 			var dataMount storage.ComputeInstanceDataMount_STATUS
 			err := dataMountItem.AssignProperties_To_ComputeInstanceDataMount_STATUS(&dataMount)
 			if err != nil {
@@ -11360,8 +11266,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.Errors != nil {
 		errorList := make([]storage.ErrorResponse_STATUS, len(properties.Errors))
 		for errorIndex, errorItem := range properties.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error storage.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
@@ -12580,8 +12484,6 @@ func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperti
 	if source.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]InstanceTypeSchema, len(source.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType InstanceTypeSchema
 			err := instanceType.AssignProperties_From_InstanceTypeSchema(&instanceTypeValue)
 			if err != nil {
@@ -12646,8 +12548,6 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 	if properties.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]storage.InstanceTypeSchema, len(properties.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range properties.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType storage.InstanceTypeSchema
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema(&instanceType)
 			if err != nil {
@@ -12709,8 +12609,6 @@ func (properties *KubernetesProperties) Initialize_From_KubernetesProperties_STA
 	if source.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]InstanceTypeSchema, len(source.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType InstanceTypeSchema
 			err := instanceType.Initialize_From_InstanceTypeSchema_STATUS(&instanceTypeValue)
 			if err != nil {
@@ -12831,8 +12729,6 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_From_KubernetesP
 	if source.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]InstanceTypeSchema_STATUS, len(source.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType InstanceTypeSchema_STATUS
 			err := instanceType.AssignProperties_From_InstanceTypeSchema_STATUS(&instanceTypeValue)
 			if err != nil {
@@ -12873,8 +12769,6 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesPro
 	if properties.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]storage.InstanceTypeSchema_STATUS, len(properties.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range properties.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType storage.InstanceTypeSchema_STATUS
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema_STATUS(&instanceType)
 			if err != nil {
@@ -15176,13 +15070,9 @@ func (container *ComputeInstanceContainer_STATUS) AssignProperties_From_ComputeI
 	if source.Services != nil {
 		serviceList := make([]map[string]v1.JSON, len(source.Services))
 		for serviceIndex, serviceItem := range source.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			if serviceItem != nil {
 				serviceMap := make(map[string]v1.JSON, len(serviceItem))
 				for serviceKey, serviceValue := range serviceItem {
-					// Shadow the loop variable to avoid aliasing
-					serviceValue := serviceValue
 					serviceMap[serviceKey] = *serviceValue.DeepCopy()
 				}
 				serviceList[serviceIndex] = serviceMap
@@ -15242,13 +15132,9 @@ func (container *ComputeInstanceContainer_STATUS) AssignProperties_To_ComputeIns
 	if container.Services != nil {
 		serviceList := make([]map[string]v1.JSON, len(container.Services))
 		for serviceIndex, serviceItem := range container.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			if serviceItem != nil {
 				serviceMap := make(map[string]v1.JSON, len(serviceItem))
 				for serviceKey, serviceValue := range serviceItem {
-					// Shadow the loop variable to avoid aliasing
-					serviceValue := serviceValue
 					serviceMap[serviceKey] = *serviceValue.DeepCopy()
 				}
 				serviceList[serviceIndex] = serviceMap
@@ -16307,8 +16193,6 @@ func (schedules *ComputeSchedules) AssignProperties_From_ComputeSchedules(source
 	if source.ComputeStartStop != nil {
 		computeStartStopList := make([]ComputeStartStopSchedule, len(source.ComputeStartStop))
 		for computeStartStopIndex, computeStartStopItem := range source.ComputeStartStop {
-			// Shadow the loop variable to avoid aliasing
-			computeStartStopItem := computeStartStopItem
 			var computeStartStop ComputeStartStopSchedule
 			err := computeStartStop.AssignProperties_From_ComputeStartStopSchedule(&computeStartStopItem)
 			if err != nil {
@@ -16334,8 +16218,6 @@ func (schedules *ComputeSchedules) AssignProperties_To_ComputeSchedules(destinat
 	if schedules.ComputeStartStop != nil {
 		computeStartStopList := make([]storage.ComputeStartStopSchedule, len(schedules.ComputeStartStop))
 		for computeStartStopIndex, computeStartStopItem := range schedules.ComputeStartStop {
-			// Shadow the loop variable to avoid aliasing
-			computeStartStopItem := computeStartStopItem
 			var computeStartStop storage.ComputeStartStopSchedule
 			err := computeStartStopItem.AssignProperties_To_ComputeStartStopSchedule(&computeStartStop)
 			if err != nil {
@@ -16366,8 +16248,6 @@ func (schedules *ComputeSchedules) Initialize_From_ComputeSchedules_STATUS(sourc
 	if source.ComputeStartStop != nil {
 		computeStartStopList := make([]ComputeStartStopSchedule, len(source.ComputeStartStop))
 		for computeStartStopIndex, computeStartStopItem := range source.ComputeStartStop {
-			// Shadow the loop variable to avoid aliasing
-			computeStartStopItem := computeStartStopItem
 			var computeStartStop ComputeStartStopSchedule
 			err := computeStartStop.Initialize_From_ComputeStartStopSchedule_STATUS(&computeStartStopItem)
 			if err != nil {
@@ -16425,8 +16305,6 @@ func (schedules *ComputeSchedules_STATUS) AssignProperties_From_ComputeSchedules
 	if source.ComputeStartStop != nil {
 		computeStartStopList := make([]ComputeStartStopSchedule_STATUS, len(source.ComputeStartStop))
 		for computeStartStopIndex, computeStartStopItem := range source.ComputeStartStop {
-			// Shadow the loop variable to avoid aliasing
-			computeStartStopItem := computeStartStopItem
 			var computeStartStop ComputeStartStopSchedule_STATUS
 			err := computeStartStop.AssignProperties_From_ComputeStartStopSchedule_STATUS(&computeStartStopItem)
 			if err != nil {
@@ -16452,8 +16330,6 @@ func (schedules *ComputeSchedules_STATUS) AssignProperties_To_ComputeSchedules_S
 	if schedules.ComputeStartStop != nil {
 		computeStartStopList := make([]storage.ComputeStartStopSchedule_STATUS, len(schedules.ComputeStartStop))
 		for computeStartStopIndex, computeStartStopItem := range schedules.ComputeStartStop {
-			// Shadow the loop variable to avoid aliasing
-			computeStartStopItem := computeStartStopItem
 			var computeStartStop storage.ComputeStartStopSchedule_STATUS
 			err := computeStartStopItem.AssignProperties_To_ComputeStartStopSchedule_STATUS(&computeStartStop)
 			if err != nil {
@@ -16661,8 +16537,6 @@ func (service *CustomService) AssignProperties_From_CustomService(source *storag
 	if source.Endpoints != nil {
 		endpointList := make([]Endpoint, len(source.Endpoints))
 		for endpointIndex, endpointItem := range source.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint Endpoint
 			err := endpoint.AssignProperties_From_Endpoint(&endpointItem)
 			if err != nil {
@@ -16679,8 +16553,6 @@ func (service *CustomService) AssignProperties_From_CustomService(source *storag
 	if source.EnvironmentVariables != nil {
 		environmentVariableMap := make(map[string]EnvironmentVariable, len(source.EnvironmentVariables))
 		for environmentVariableKey, environmentVariableValue := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableValue := environmentVariableValue
 			var environmentVariable EnvironmentVariable
 			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableValue)
 			if err != nil {
@@ -16712,8 +16584,6 @@ func (service *CustomService) AssignProperties_From_CustomService(source *storag
 	if source.Volumes != nil {
 		volumeList := make([]VolumeDefinition, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume VolumeDefinition
 			err := volume.AssignProperties_From_VolumeDefinition(&volumeItem)
 			if err != nil {
@@ -16751,8 +16621,6 @@ func (service *CustomService) AssignProperties_To_CustomService(destination *sto
 	if service.Endpoints != nil {
 		endpointList := make([]storage.Endpoint, len(service.Endpoints))
 		for endpointIndex, endpointItem := range service.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint storage.Endpoint
 			err := endpointItem.AssignProperties_To_Endpoint(&endpoint)
 			if err != nil {
@@ -16769,8 +16637,6 @@ func (service *CustomService) AssignProperties_To_CustomService(destination *sto
 	if service.EnvironmentVariables != nil {
 		environmentVariableMap := make(map[string]storage.EnvironmentVariable, len(service.EnvironmentVariables))
 		for environmentVariableKey, environmentVariableValue := range service.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableValue := environmentVariableValue
 			var environmentVariable storage.EnvironmentVariable
 			err := environmentVariableValue.AssignProperties_To_EnvironmentVariable(&environmentVariable)
 			if err != nil {
@@ -16802,8 +16668,6 @@ func (service *CustomService) AssignProperties_To_CustomService(destination *sto
 	if service.Volumes != nil {
 		volumeList := make([]storage.VolumeDefinition, len(service.Volumes))
 		for volumeIndex, volumeItem := range service.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.VolumeDefinition
 			err := volumeItem.AssignProperties_To_VolumeDefinition(&volume)
 			if err != nil {
@@ -16846,8 +16710,6 @@ func (service *CustomService) Initialize_From_CustomService_STATUS(source *Custo
 	if source.Endpoints != nil {
 		endpointList := make([]Endpoint, len(source.Endpoints))
 		for endpointIndex, endpointItem := range source.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint Endpoint
 			err := endpoint.Initialize_From_Endpoint_STATUS(&endpointItem)
 			if err != nil {
@@ -16864,8 +16726,6 @@ func (service *CustomService) Initialize_From_CustomService_STATUS(source *Custo
 	if source.EnvironmentVariables != nil {
 		environmentVariableMap := make(map[string]EnvironmentVariable, len(source.EnvironmentVariables))
 		for environmentVariableKey, environmentVariableValue := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableValue := environmentVariableValue
 			var environmentVariable EnvironmentVariable
 			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableValue)
 			if err != nil {
@@ -16897,8 +16757,6 @@ func (service *CustomService) Initialize_From_CustomService_STATUS(source *Custo
 	if source.Volumes != nil {
 		volumeList := make([]VolumeDefinition, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume VolumeDefinition
 			err := volume.Initialize_From_VolumeDefinition_STATUS(&volumeItem)
 			if err != nil {
@@ -17034,8 +16892,6 @@ func (service *CustomService_STATUS) AssignProperties_From_CustomService_STATUS(
 	if source.Endpoints != nil {
 		endpointList := make([]Endpoint_STATUS, len(source.Endpoints))
 		for endpointIndex, endpointItem := range source.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint Endpoint_STATUS
 			err := endpoint.AssignProperties_From_Endpoint_STATUS(&endpointItem)
 			if err != nil {
@@ -17052,8 +16908,6 @@ func (service *CustomService_STATUS) AssignProperties_From_CustomService_STATUS(
 	if source.EnvironmentVariables != nil {
 		environmentVariableMap := make(map[string]EnvironmentVariable_STATUS, len(source.EnvironmentVariables))
 		for environmentVariableKey, environmentVariableValue := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableValue := environmentVariableValue
 			var environmentVariable EnvironmentVariable_STATUS
 			err := environmentVariable.AssignProperties_From_EnvironmentVariable_STATUS(&environmentVariableValue)
 			if err != nil {
@@ -17085,8 +16939,6 @@ func (service *CustomService_STATUS) AssignProperties_From_CustomService_STATUS(
 	if source.Volumes != nil {
 		volumeList := make([]VolumeDefinition_STATUS, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume VolumeDefinition_STATUS
 			err := volume.AssignProperties_From_VolumeDefinition_STATUS(&volumeItem)
 			if err != nil {
@@ -17124,8 +16976,6 @@ func (service *CustomService_STATUS) AssignProperties_To_CustomService_STATUS(de
 	if service.Endpoints != nil {
 		endpointList := make([]storage.Endpoint_STATUS, len(service.Endpoints))
 		for endpointIndex, endpointItem := range service.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint storage.Endpoint_STATUS
 			err := endpointItem.AssignProperties_To_Endpoint_STATUS(&endpoint)
 			if err != nil {
@@ -17142,8 +16992,6 @@ func (service *CustomService_STATUS) AssignProperties_To_CustomService_STATUS(de
 	if service.EnvironmentVariables != nil {
 		environmentVariableMap := make(map[string]storage.EnvironmentVariable_STATUS, len(service.EnvironmentVariables))
 		for environmentVariableKey, environmentVariableValue := range service.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableValue := environmentVariableValue
 			var environmentVariable storage.EnvironmentVariable_STATUS
 			err := environmentVariableValue.AssignProperties_To_EnvironmentVariable_STATUS(&environmentVariable)
 			if err != nil {
@@ -17175,8 +17023,6 @@ func (service *CustomService_STATUS) AssignProperties_To_CustomService_STATUS(de
 	if service.Volumes != nil {
 		volumeList := make([]storage.VolumeDefinition_STATUS, len(service.Volumes))
 		for volumeIndex, volumeItem := range service.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.VolumeDefinition_STATUS
 			err := volumeItem.AssignProperties_To_VolumeDefinition_STATUS(&volume)
 			if err != nil {
@@ -17281,8 +17127,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 	if source.AdditionalInfo != nil {
 		additionalInfoList := make([]ErrorAdditionalInfo_STATUS, len(source.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range source.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
@@ -17302,8 +17146,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 	if source.Details != nil {
 		detailList := make([]ErrorDetail_STATUS_Unrolled, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detailLocal ErrorDetail_STATUS_Unrolled
 			err := detailLocal.AssignProperties_From_ErrorDetail_STATUS_Unrolled(&detailItem)
 			if err != nil {
@@ -17335,8 +17177,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	if detail.AdditionalInfo != nil {
 		additionalInfoList := make([]storage.ErrorAdditionalInfo_STATUS, len(detail.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range detail.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
@@ -17356,8 +17196,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	if detail.Details != nil {
 		detailList := make([]storage.ErrorDetail_STATUS_Unrolled, len(detail.Details))
 		for detailIndex, detailItem := range detail.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detailLocal storage.ErrorDetail_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
@@ -21649,8 +21487,6 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInf
 	if source.Info != nil {
 		infoMap := make(map[string]v1.JSON, len(source.Info))
 		for infoKey, infoValue := range source.Info {
-			// Shadow the loop variable to avoid aliasing
-			infoValue := infoValue
 			infoMap[infoKey] = *infoValue.DeepCopy()
 		}
 		info.Info = infoMap
@@ -21674,8 +21510,6 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_
 	if info.Info != nil {
 		infoMap := make(map[string]v1.JSON, len(info.Info))
 		for infoKey, infoValue := range info.Info {
-			// Shadow the loop variable to avoid aliasing
-			infoValue := infoValue
 			infoMap[infoKey] = *infoValue.DeepCopy()
 		}
 		destination.Info = infoMap
@@ -21764,8 +21598,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_S
 	if source.AdditionalInfo != nil {
 		additionalInfoList := make([]ErrorAdditionalInfo_STATUS, len(source.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range source.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
@@ -21800,8 +21632,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 	if unrolled.AdditionalInfo != nil {
 		additionalInfoList := make([]storage.ErrorAdditionalInfo_STATUS, len(unrolled.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range unrolled.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
@@ -25311,8 +25141,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_From_ComputeRecurren
 	if source.Hours != nil {
 		hourList := make([]int, len(source.Hours))
 		for hourIndex, hourItem := range source.Hours {
-			// Shadow the loop variable to avoid aliasing
-			hourItem := hourItem
 			hourList[hourIndex] = hourItem
 		}
 		schedule.Hours = hourList
@@ -25324,8 +25152,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_From_ComputeRecurren
 	if source.Minutes != nil {
 		minuteList := make([]int, len(source.Minutes))
 		for minuteIndex, minuteItem := range source.Minutes {
-			// Shadow the loop variable to avoid aliasing
-			minuteItem := minuteItem
 			minuteList[minuteIndex] = minuteItem
 		}
 		schedule.Minutes = minuteList
@@ -25337,8 +25163,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_From_ComputeRecurren
 	if source.MonthDays != nil {
 		monthDayList := make([]int, len(source.MonthDays))
 		for monthDayIndex, monthDayItem := range source.MonthDays {
-			// Shadow the loop variable to avoid aliasing
-			monthDayItem := monthDayItem
 			monthDayList[monthDayIndex] = monthDayItem
 		}
 		schedule.MonthDays = monthDayList
@@ -25350,8 +25174,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_From_ComputeRecurren
 	if source.WeekDays != nil {
 		weekDayList := make([]ComputeWeekDay, len(source.WeekDays))
 		for weekDayIndex, weekDayItem := range source.WeekDays {
-			// Shadow the loop variable to avoid aliasing
-			weekDayItem := weekDayItem
 			weekDayList[weekDayIndex] = genruntime.ToEnum(weekDayItem, computeWeekDay_Values)
 		}
 		schedule.WeekDays = weekDayList
@@ -25372,8 +25194,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_To_ComputeRecurrence
 	if schedule.Hours != nil {
 		hourList := make([]int, len(schedule.Hours))
 		for hourIndex, hourItem := range schedule.Hours {
-			// Shadow the loop variable to avoid aliasing
-			hourItem := hourItem
 			hourList[hourIndex] = hourItem
 		}
 		destination.Hours = hourList
@@ -25385,8 +25205,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_To_ComputeRecurrence
 	if schedule.Minutes != nil {
 		minuteList := make([]int, len(schedule.Minutes))
 		for minuteIndex, minuteItem := range schedule.Minutes {
-			// Shadow the loop variable to avoid aliasing
-			minuteItem := minuteItem
 			minuteList[minuteIndex] = minuteItem
 		}
 		destination.Minutes = minuteList
@@ -25398,8 +25216,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_To_ComputeRecurrence
 	if schedule.MonthDays != nil {
 		monthDayList := make([]int, len(schedule.MonthDays))
 		for monthDayIndex, monthDayItem := range schedule.MonthDays {
-			// Shadow the loop variable to avoid aliasing
-			monthDayItem := monthDayItem
 			monthDayList[monthDayIndex] = monthDayItem
 		}
 		destination.MonthDays = monthDayList
@@ -25411,8 +25227,6 @@ func (schedule *ComputeRecurrenceSchedule) AssignProperties_To_ComputeRecurrence
 	if schedule.WeekDays != nil {
 		weekDayList := make([]string, len(schedule.WeekDays))
 		for weekDayIndex, weekDayItem := range schedule.WeekDays {
-			// Shadow the loop variable to avoid aliasing
-			weekDayItem := weekDayItem
 			weekDayList[weekDayIndex] = string(weekDayItem)
 		}
 		destination.WeekDays = weekDayList
@@ -25438,8 +25252,6 @@ func (schedule *ComputeRecurrenceSchedule) Initialize_From_ComputeRecurrenceSche
 	if source.Hours != nil {
 		hourList := make([]int, len(source.Hours))
 		for hourIndex, hourItem := range source.Hours {
-			// Shadow the loop variable to avoid aliasing
-			hourItem := hourItem
 			hourList[hourIndex] = hourItem
 		}
 		schedule.Hours = hourList
@@ -25451,8 +25263,6 @@ func (schedule *ComputeRecurrenceSchedule) Initialize_From_ComputeRecurrenceSche
 	if source.Minutes != nil {
 		minuteList := make([]int, len(source.Minutes))
 		for minuteIndex, minuteItem := range source.Minutes {
-			// Shadow the loop variable to avoid aliasing
-			minuteItem := minuteItem
 			minuteList[minuteIndex] = minuteItem
 		}
 		schedule.Minutes = minuteList
@@ -25464,8 +25274,6 @@ func (schedule *ComputeRecurrenceSchedule) Initialize_From_ComputeRecurrenceSche
 	if source.MonthDays != nil {
 		monthDayList := make([]int, len(source.MonthDays))
 		for monthDayIndex, monthDayItem := range source.MonthDays {
-			// Shadow the loop variable to avoid aliasing
-			monthDayItem := monthDayItem
 			monthDayList[monthDayIndex] = monthDayItem
 		}
 		schedule.MonthDays = monthDayList
@@ -25477,8 +25285,6 @@ func (schedule *ComputeRecurrenceSchedule) Initialize_From_ComputeRecurrenceSche
 	if source.WeekDays != nil {
 		weekDayList := make([]ComputeWeekDay, len(source.WeekDays))
 		for weekDayIndex, weekDayItem := range source.WeekDays {
-			// Shadow the loop variable to avoid aliasing
-			weekDayItem := weekDayItem
 			weekDay := genruntime.ToEnum(string(weekDayItem), computeWeekDay_Values)
 			weekDayList[weekDayIndex] = weekDay
 		}
@@ -25552,8 +25358,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_From_ComputeR
 	if source.Hours != nil {
 		hourList := make([]int, len(source.Hours))
 		for hourIndex, hourItem := range source.Hours {
-			// Shadow the loop variable to avoid aliasing
-			hourItem := hourItem
 			hourList[hourIndex] = hourItem
 		}
 		schedule.Hours = hourList
@@ -25565,8 +25369,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_From_ComputeR
 	if source.Minutes != nil {
 		minuteList := make([]int, len(source.Minutes))
 		for minuteIndex, minuteItem := range source.Minutes {
-			// Shadow the loop variable to avoid aliasing
-			minuteItem := minuteItem
 			minuteList[minuteIndex] = minuteItem
 		}
 		schedule.Minutes = minuteList
@@ -25578,8 +25380,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_From_ComputeR
 	if source.MonthDays != nil {
 		monthDayList := make([]int, len(source.MonthDays))
 		for monthDayIndex, monthDayItem := range source.MonthDays {
-			// Shadow the loop variable to avoid aliasing
-			monthDayItem := monthDayItem
 			monthDayList[monthDayIndex] = monthDayItem
 		}
 		schedule.MonthDays = monthDayList
@@ -25591,8 +25391,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_From_ComputeR
 	if source.WeekDays != nil {
 		weekDayList := make([]ComputeWeekDay_STATUS, len(source.WeekDays))
 		for weekDayIndex, weekDayItem := range source.WeekDays {
-			// Shadow the loop variable to avoid aliasing
-			weekDayItem := weekDayItem
 			weekDayList[weekDayIndex] = genruntime.ToEnum(weekDayItem, computeWeekDay_STATUS_Values)
 		}
 		schedule.WeekDays = weekDayList
@@ -25613,8 +25411,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_To_ComputeRec
 	if schedule.Hours != nil {
 		hourList := make([]int, len(schedule.Hours))
 		for hourIndex, hourItem := range schedule.Hours {
-			// Shadow the loop variable to avoid aliasing
-			hourItem := hourItem
 			hourList[hourIndex] = hourItem
 		}
 		destination.Hours = hourList
@@ -25626,8 +25422,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_To_ComputeRec
 	if schedule.Minutes != nil {
 		minuteList := make([]int, len(schedule.Minutes))
 		for minuteIndex, minuteItem := range schedule.Minutes {
-			// Shadow the loop variable to avoid aliasing
-			minuteItem := minuteItem
 			minuteList[minuteIndex] = minuteItem
 		}
 		destination.Minutes = minuteList
@@ -25639,8 +25433,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_To_ComputeRec
 	if schedule.MonthDays != nil {
 		monthDayList := make([]int, len(schedule.MonthDays))
 		for monthDayIndex, monthDayItem := range schedule.MonthDays {
-			// Shadow the loop variable to avoid aliasing
-			monthDayItem := monthDayItem
 			monthDayList[monthDayIndex] = monthDayItem
 		}
 		destination.MonthDays = monthDayList
@@ -25652,8 +25444,6 @@ func (schedule *ComputeRecurrenceSchedule_STATUS) AssignProperties_To_ComputeRec
 	if schedule.WeekDays != nil {
 		weekDayList := make([]string, len(schedule.WeekDays))
 		for weekDayIndex, weekDayItem := range schedule.WeekDays {
-			// Shadow the loop variable to avoid aliasing
-			weekDayItem := weekDayItem
 			weekDayList[weekDayIndex] = string(weekDayItem)
 		}
 		destination.WeekDays = weekDayList

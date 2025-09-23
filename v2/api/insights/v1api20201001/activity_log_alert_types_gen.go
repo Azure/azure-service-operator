@@ -564,8 +564,6 @@ func (alert *ActivityLogAlert_Spec) AssignProperties_From_ActivityLogAlert_Spec(
 	if source.ScopesReferences != nil {
 		scopesReferenceList := make([]genruntime.ResourceReference, len(source.ScopesReferences))
 		for scopesReferenceIndex, scopesReferenceItem := range source.ScopesReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopesReferenceItem := scopesReferenceItem
 			scopesReferenceList[scopesReferenceIndex] = scopesReferenceItem.Copy()
 		}
 		alert.ScopesReferences = scopesReferenceList
@@ -653,8 +651,6 @@ func (alert *ActivityLogAlert_Spec) AssignProperties_To_ActivityLogAlert_Spec(de
 	if alert.ScopesReferences != nil {
 		scopesReferenceList := make([]genruntime.ResourceReference, len(alert.ScopesReferences))
 		for scopesReferenceIndex, scopesReferenceItem := range alert.ScopesReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopesReferenceItem := scopesReferenceItem
 			scopesReferenceList[scopesReferenceIndex] = scopesReferenceItem.Copy()
 		}
 		destination.ScopesReferences = scopesReferenceList
@@ -1125,8 +1121,6 @@ func (list *ActionList) AssignProperties_From_ActionList(source *storage.ActionL
 	if source.ActionGroups != nil {
 		actionGroupList := make([]ActionGroupReference, len(source.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range source.ActionGroups {
-			// Shadow the loop variable to avoid aliasing
-			actionGroupItem := actionGroupItem
 			var actionGroup ActionGroupReference
 			err := actionGroup.AssignProperties_From_ActionGroupReference(&actionGroupItem)
 			if err != nil {
@@ -1152,8 +1146,6 @@ func (list *ActionList) AssignProperties_To_ActionList(destination *storage.Acti
 	if list.ActionGroups != nil {
 		actionGroupList := make([]storage.ActionGroupReference, len(list.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range list.ActionGroups {
-			// Shadow the loop variable to avoid aliasing
-			actionGroupItem := actionGroupItem
 			var actionGroup storage.ActionGroupReference
 			err := actionGroupItem.AssignProperties_To_ActionGroupReference(&actionGroup)
 			if err != nil {
@@ -1184,8 +1176,6 @@ func (list *ActionList) Initialize_From_ActionList_STATUS(source *ActionList_STA
 	if source.ActionGroups != nil {
 		actionGroupList := make([]ActionGroupReference, len(source.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range source.ActionGroups {
-			// Shadow the loop variable to avoid aliasing
-			actionGroupItem := actionGroupItem
 			var actionGroup ActionGroupReference
 			err := actionGroup.Initialize_From_ActionGroup_STATUS(&actionGroupItem)
 			if err != nil {
@@ -1243,8 +1233,6 @@ func (list *ActionList_STATUS) AssignProperties_From_ActionList_STATUS(source *s
 	if source.ActionGroups != nil {
 		actionGroupList := make([]ActionGroup_STATUS, len(source.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range source.ActionGroups {
-			// Shadow the loop variable to avoid aliasing
-			actionGroupItem := actionGroupItem
 			var actionGroup ActionGroup_STATUS
 			err := actionGroup.AssignProperties_From_ActionGroup_STATUS(&actionGroupItem)
 			if err != nil {
@@ -1270,8 +1258,6 @@ func (list *ActionList_STATUS) AssignProperties_To_ActionList_STATUS(destination
 	if list.ActionGroups != nil {
 		actionGroupList := make([]storage.ActionGroup_STATUS, len(list.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range list.ActionGroups {
-			// Shadow the loop variable to avoid aliasing
-			actionGroupItem := actionGroupItem
 			var actionGroup storage.ActionGroup_STATUS
 			err := actionGroupItem.AssignProperties_To_ActionGroup_STATUS(&actionGroup)
 			if err != nil {
@@ -1311,8 +1297,6 @@ func (operator *ActivityLogAlertOperatorSpec) AssignProperties_From_ActivityLogA
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1329,8 +1313,6 @@ func (operator *ActivityLogAlertOperatorSpec) AssignProperties_From_ActivityLogA
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1356,8 +1338,6 @@ func (operator *ActivityLogAlertOperatorSpec) AssignProperties_To_ActivityLogAle
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1374,8 +1354,6 @@ func (operator *ActivityLogAlertOperatorSpec) AssignProperties_To_ActivityLogAle
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1459,8 +1437,6 @@ func (condition *AlertRuleAllOfCondition) AssignProperties_From_AlertRuleAllOfCo
 	if source.AllOf != nil {
 		allOfList := make([]AlertRuleAnyOfOrLeafCondition, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf AlertRuleAnyOfOrLeafCondition
 			err := allOf.AssignProperties_From_AlertRuleAnyOfOrLeafCondition(&allOfItem)
 			if err != nil {
@@ -1486,8 +1462,6 @@ func (condition *AlertRuleAllOfCondition) AssignProperties_To_AlertRuleAllOfCond
 	if condition.AllOf != nil {
 		allOfList := make([]storage.AlertRuleAnyOfOrLeafCondition, len(condition.AllOf))
 		for allOfIndex, allOfItem := range condition.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf storage.AlertRuleAnyOfOrLeafCondition
 			err := allOfItem.AssignProperties_To_AlertRuleAnyOfOrLeafCondition(&allOf)
 			if err != nil {
@@ -1518,8 +1492,6 @@ func (condition *AlertRuleAllOfCondition) Initialize_From_AlertRuleAllOfConditio
 	if source.AllOf != nil {
 		allOfList := make([]AlertRuleAnyOfOrLeafCondition, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf AlertRuleAnyOfOrLeafCondition
 			err := allOf.Initialize_From_AlertRuleAnyOfOrLeafCondition_STATUS(&allOfItem)
 			if err != nil {
@@ -1577,8 +1549,6 @@ func (condition *AlertRuleAllOfCondition_STATUS) AssignProperties_From_AlertRule
 	if source.AllOf != nil {
 		allOfList := make([]AlertRuleAnyOfOrLeafCondition_STATUS, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf AlertRuleAnyOfOrLeafCondition_STATUS
 			err := allOf.AssignProperties_From_AlertRuleAnyOfOrLeafCondition_STATUS(&allOfItem)
 			if err != nil {
@@ -1604,8 +1574,6 @@ func (condition *AlertRuleAllOfCondition_STATUS) AssignProperties_To_AlertRuleAl
 	if condition.AllOf != nil {
 		allOfList := make([]storage.AlertRuleAnyOfOrLeafCondition_STATUS, len(condition.AllOf))
 		for allOfIndex, allOfItem := range condition.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf storage.AlertRuleAnyOfOrLeafCondition_STATUS
 			err := allOfItem.AssignProperties_To_AlertRuleAnyOfOrLeafCondition_STATUS(&allOf)
 			if err != nil {
@@ -1951,8 +1919,6 @@ func (condition *AlertRuleAnyOfOrLeafCondition) AssignProperties_From_AlertRuleA
 	if source.AnyOf != nil {
 		anyOfList := make([]AlertRuleLeafCondition, len(source.AnyOf))
 		for anyOfIndex, anyOfItem := range source.AnyOf {
-			// Shadow the loop variable to avoid aliasing
-			anyOfItem := anyOfItem
 			var anyOf AlertRuleLeafCondition
 			err := anyOf.AssignProperties_From_AlertRuleLeafCondition(&anyOfItem)
 			if err != nil {
@@ -1987,8 +1953,6 @@ func (condition *AlertRuleAnyOfOrLeafCondition) AssignProperties_To_AlertRuleAny
 	if condition.AnyOf != nil {
 		anyOfList := make([]storage.AlertRuleLeafCondition, len(condition.AnyOf))
 		for anyOfIndex, anyOfItem := range condition.AnyOf {
-			// Shadow the loop variable to avoid aliasing
-			anyOfItem := anyOfItem
 			var anyOf storage.AlertRuleLeafCondition
 			err := anyOfItem.AssignProperties_To_AlertRuleLeafCondition(&anyOf)
 			if err != nil {
@@ -2028,8 +1992,6 @@ func (condition *AlertRuleAnyOfOrLeafCondition) Initialize_From_AlertRuleAnyOfOr
 	if source.AnyOf != nil {
 		anyOfList := make([]AlertRuleLeafCondition, len(source.AnyOf))
 		for anyOfIndex, anyOfItem := range source.AnyOf {
-			// Shadow the loop variable to avoid aliasing
-			anyOfItem := anyOfItem
 			var anyOf AlertRuleLeafCondition
 			err := anyOf.Initialize_From_AlertRuleLeafCondition_STATUS(&anyOfItem)
 			if err != nil {
@@ -2136,8 +2098,6 @@ func (condition *AlertRuleAnyOfOrLeafCondition_STATUS) AssignProperties_From_Ale
 	if source.AnyOf != nil {
 		anyOfList := make([]AlertRuleLeafCondition_STATUS, len(source.AnyOf))
 		for anyOfIndex, anyOfItem := range source.AnyOf {
-			// Shadow the loop variable to avoid aliasing
-			anyOfItem := anyOfItem
 			var anyOf AlertRuleLeafCondition_STATUS
 			err := anyOf.AssignProperties_From_AlertRuleLeafCondition_STATUS(&anyOfItem)
 			if err != nil {
@@ -2172,8 +2132,6 @@ func (condition *AlertRuleAnyOfOrLeafCondition_STATUS) AssignProperties_To_Alert
 	if condition.AnyOf != nil {
 		anyOfList := make([]storage.AlertRuleLeafCondition_STATUS, len(condition.AnyOf))
 		for anyOfIndex, anyOfItem := range condition.AnyOf {
-			// Shadow the loop variable to avoid aliasing
-			anyOfItem := anyOfItem
 			var anyOf storage.AlertRuleLeafCondition_STATUS
 			err := anyOfItem.AssignProperties_To_AlertRuleLeafCondition_STATUS(&anyOf)
 			if err != nil {

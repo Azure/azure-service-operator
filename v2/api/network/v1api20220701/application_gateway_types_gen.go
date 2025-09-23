@@ -1197,8 +1197,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]ApplicationGatewayAuthenticationCertificate, len(source.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range source.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate ApplicationGatewayAuthenticationCertificate
 			err := authenticationCertificate.AssignProperties_From_ApplicationGatewayAuthenticationCertificate(&authenticationCertificateItem)
 			if err != nil {
@@ -1230,8 +1228,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]ApplicationGatewayBackendAddressPool, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool ApplicationGatewayBackendAddressPool
 			err := backendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool(&backendAddressPoolItem)
 			if err != nil {
@@ -1248,8 +1244,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.BackendHttpSettingsCollection != nil {
 		backendHttpSettingsCollectionList := make([]ApplicationGatewayBackendHttpSettings, len(source.BackendHttpSettingsCollection))
 		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range source.BackendHttpSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendHttpSettingsCollectionItem := backendHttpSettingsCollectionItem
 			var backendHttpSettingsCollection ApplicationGatewayBackendHttpSettings
 			err := backendHttpSettingsCollection.AssignProperties_From_ApplicationGatewayBackendHttpSettings(&backendHttpSettingsCollectionItem)
 			if err != nil {
@@ -1266,8 +1260,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.BackendSettingsCollection != nil {
 		backendSettingsCollectionList := make([]ApplicationGatewayBackendSettings, len(source.BackendSettingsCollection))
 		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range source.BackendSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendSettingsCollectionItem := backendSettingsCollectionItem
 			var backendSettingsCollection ApplicationGatewayBackendSettings
 			err := backendSettingsCollection.AssignProperties_From_ApplicationGatewayBackendSettings(&backendSettingsCollectionItem)
 			if err != nil {
@@ -1284,8 +1276,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]ApplicationGatewayCustomError, len(source.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range source.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration ApplicationGatewayCustomError
 			err := customErrorConfiguration.AssignProperties_From_ApplicationGatewayCustomError(&customErrorConfigurationItem)
 			if err != nil {
@@ -1338,8 +1328,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]ApplicationGatewayFrontendIPConfiguration, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration ApplicationGatewayFrontendIPConfiguration
 			err := frontendIPConfiguration.AssignProperties_From_ApplicationGatewayFrontendIPConfiguration(&frontendIPConfigurationItem)
 			if err != nil {
@@ -1356,8 +1344,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.FrontendPorts != nil {
 		frontendPortList := make([]ApplicationGatewayFrontendPort, len(source.FrontendPorts))
 		for frontendPortIndex, frontendPortItem := range source.FrontendPorts {
-			// Shadow the loop variable to avoid aliasing
-			frontendPortItem := frontendPortItem
 			var frontendPort ApplicationGatewayFrontendPort
 			err := frontendPort.AssignProperties_From_ApplicationGatewayFrontendPort(&frontendPortItem)
 			if err != nil {
@@ -1374,8 +1360,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.GatewayIPConfigurations != nil {
 		gatewayIPConfigurationList := make([]ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded, len(source.GatewayIPConfigurations))
 		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range source.GatewayIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			gatewayIPConfigurationItem := gatewayIPConfigurationItem
 			var gatewayIPConfiguration ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 			err := gatewayIPConfiguration.AssignProperties_From_ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded(&gatewayIPConfigurationItem)
 			if err != nil {
@@ -1404,8 +1388,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.HttpListeners != nil {
 		httpListenerList := make([]ApplicationGatewayHttpListener, len(source.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range source.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener ApplicationGatewayHttpListener
 			err := httpListener.AssignProperties_From_ApplicationGatewayHttpListener(&httpListenerItem)
 			if err != nil {
@@ -1434,8 +1416,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.Listeners != nil {
 		listenerList := make([]ApplicationGatewayListener, len(source.Listeners))
 		for listenerIndex, listenerItem := range source.Listeners {
-			// Shadow the loop variable to avoid aliasing
-			listenerItem := listenerItem
 			var listener ApplicationGatewayListener
 			err := listener.AssignProperties_From_ApplicationGatewayListener(&listenerItem)
 			if err != nil {
@@ -1452,8 +1432,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.LoadDistributionPolicies != nil {
 		loadDistributionPolicyList := make([]ApplicationGatewayLoadDistributionPolicy, len(source.LoadDistributionPolicies))
 		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range source.LoadDistributionPolicies {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionPolicyItem := loadDistributionPolicyItem
 			var loadDistributionPolicy ApplicationGatewayLoadDistributionPolicy
 			err := loadDistributionPolicy.AssignProperties_From_ApplicationGatewayLoadDistributionPolicy(&loadDistributionPolicyItem)
 			if err != nil {
@@ -1493,8 +1471,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.PrivateLinkConfigurations != nil {
 		privateLinkConfigurationList := make([]ApplicationGatewayPrivateLinkConfiguration, len(source.PrivateLinkConfigurations))
 		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range source.PrivateLinkConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkConfigurationItem := privateLinkConfigurationItem
 			var privateLinkConfiguration ApplicationGatewayPrivateLinkConfiguration
 			err := privateLinkConfiguration.AssignProperties_From_ApplicationGatewayPrivateLinkConfiguration(&privateLinkConfigurationItem)
 			if err != nil {
@@ -1511,8 +1487,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.Probes != nil {
 		probeList := make([]ApplicationGatewayProbe, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe ApplicationGatewayProbe
 			err := probe.AssignProperties_From_ApplicationGatewayProbe(&probeItem)
 			if err != nil {
@@ -1529,8 +1503,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.RedirectConfigurations != nil {
 		redirectConfigurationList := make([]ApplicationGatewayRedirectConfiguration, len(source.RedirectConfigurations))
 		for redirectConfigurationIndex, redirectConfigurationItem := range source.RedirectConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			redirectConfigurationItem := redirectConfigurationItem
 			var redirectConfiguration ApplicationGatewayRedirectConfiguration
 			err := redirectConfiguration.AssignProperties_From_ApplicationGatewayRedirectConfiguration(&redirectConfigurationItem)
 			if err != nil {
@@ -1547,8 +1519,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]ApplicationGatewayRequestRoutingRule, len(source.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range source.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule ApplicationGatewayRequestRoutingRule
 			err := requestRoutingRule.AssignProperties_From_ApplicationGatewayRequestRoutingRule(&requestRoutingRuleItem)
 			if err != nil {
@@ -1565,8 +1535,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.RewriteRuleSets != nil {
 		rewriteRuleSetList := make([]ApplicationGatewayRewriteRuleSet, len(source.RewriteRuleSets))
 		for rewriteRuleSetIndex, rewriteRuleSetItem := range source.RewriteRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleSetItem := rewriteRuleSetItem
 			var rewriteRuleSet ApplicationGatewayRewriteRuleSet
 			err := rewriteRuleSet.AssignProperties_From_ApplicationGatewayRewriteRuleSet(&rewriteRuleSetItem)
 			if err != nil {
@@ -1583,8 +1551,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.RoutingRules != nil {
 		routingRuleList := make([]ApplicationGatewayRoutingRule, len(source.RoutingRules))
 		for routingRuleIndex, routingRuleItem := range source.RoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			routingRuleItem := routingRuleItem
 			var routingRule ApplicationGatewayRoutingRule
 			err := routingRule.AssignProperties_From_ApplicationGatewayRoutingRule(&routingRuleItem)
 			if err != nil {
@@ -1613,8 +1579,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.SslCertificates != nil {
 		sslCertificateList := make([]ApplicationGatewaySslCertificate, len(source.SslCertificates))
 		for sslCertificateIndex, sslCertificateItem := range source.SslCertificates {
-			// Shadow the loop variable to avoid aliasing
-			sslCertificateItem := sslCertificateItem
 			var sslCertificate ApplicationGatewaySslCertificate
 			err := sslCertificate.AssignProperties_From_ApplicationGatewaySslCertificate(&sslCertificateItem)
 			if err != nil {
@@ -1643,8 +1607,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.SslProfiles != nil {
 		sslProfileList := make([]ApplicationGatewaySslProfile, len(source.SslProfiles))
 		for sslProfileIndex, sslProfileItem := range source.SslProfiles {
-			// Shadow the loop variable to avoid aliasing
-			sslProfileItem := sslProfileItem
 			var sslProfile ApplicationGatewaySslProfile
 			err := sslProfile.AssignProperties_From_ApplicationGatewaySslProfile(&sslProfileItem)
 			if err != nil {
@@ -1664,8 +1626,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]ApplicationGatewayTrustedClientCertificate, len(source.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range source.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate ApplicationGatewayTrustedClientCertificate
 			err := trustedClientCertificate.AssignProperties_From_ApplicationGatewayTrustedClientCertificate(&trustedClientCertificateItem)
 			if err != nil {
@@ -1682,8 +1642,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]ApplicationGatewayTrustedRootCertificate, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate ApplicationGatewayTrustedRootCertificate
 			err := trustedRootCertificate.AssignProperties_From_ApplicationGatewayTrustedRootCertificate(&trustedRootCertificateItem)
 			if err != nil {
@@ -1700,8 +1658,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	if source.UrlPathMaps != nil {
 		urlPathMapList := make([]ApplicationGatewayUrlPathMap, len(source.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range source.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap ApplicationGatewayUrlPathMap
 			err := urlPathMap.AssignProperties_From_ApplicationGatewayUrlPathMap(&urlPathMapItem)
 			if err != nil {
@@ -1742,8 +1698,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]storage.ApplicationGatewayAuthenticationCertificate, len(gateway.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range gateway.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate storage.ApplicationGatewayAuthenticationCertificate
 			err := authenticationCertificateItem.AssignProperties_To_ApplicationGatewayAuthenticationCertificate(&authenticationCertificate)
 			if err != nil {
@@ -1775,8 +1729,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.BackendAddressPools != nil {
 		backendAddressPoolList := make([]storage.ApplicationGatewayBackendAddressPool, len(gateway.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range gateway.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.ApplicationGatewayBackendAddressPool
 			err := backendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool(&backendAddressPool)
 			if err != nil {
@@ -1793,8 +1745,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.BackendHttpSettingsCollection != nil {
 		backendHttpSettingsCollectionList := make([]storage.ApplicationGatewayBackendHttpSettings, len(gateway.BackendHttpSettingsCollection))
 		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range gateway.BackendHttpSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendHttpSettingsCollectionItem := backendHttpSettingsCollectionItem
 			var backendHttpSettingsCollection storage.ApplicationGatewayBackendHttpSettings
 			err := backendHttpSettingsCollectionItem.AssignProperties_To_ApplicationGatewayBackendHttpSettings(&backendHttpSettingsCollection)
 			if err != nil {
@@ -1811,8 +1761,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.BackendSettingsCollection != nil {
 		backendSettingsCollectionList := make([]storage.ApplicationGatewayBackendSettings, len(gateway.BackendSettingsCollection))
 		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range gateway.BackendSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendSettingsCollectionItem := backendSettingsCollectionItem
 			var backendSettingsCollection storage.ApplicationGatewayBackendSettings
 			err := backendSettingsCollectionItem.AssignProperties_To_ApplicationGatewayBackendSettings(&backendSettingsCollection)
 			if err != nil {
@@ -1829,8 +1777,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]storage.ApplicationGatewayCustomError, len(gateway.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range gateway.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration storage.ApplicationGatewayCustomError
 			err := customErrorConfigurationItem.AssignProperties_To_ApplicationGatewayCustomError(&customErrorConfiguration)
 			if err != nil {
@@ -1883,8 +1829,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]storage.ApplicationGatewayFrontendIPConfiguration, len(gateway.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range gateway.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.ApplicationGatewayFrontendIPConfiguration
 			err := frontendIPConfigurationItem.AssignProperties_To_ApplicationGatewayFrontendIPConfiguration(&frontendIPConfiguration)
 			if err != nil {
@@ -1901,8 +1845,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.FrontendPorts != nil {
 		frontendPortList := make([]storage.ApplicationGatewayFrontendPort, len(gateway.FrontendPorts))
 		for frontendPortIndex, frontendPortItem := range gateway.FrontendPorts {
-			// Shadow the loop variable to avoid aliasing
-			frontendPortItem := frontendPortItem
 			var frontendPort storage.ApplicationGatewayFrontendPort
 			err := frontendPortItem.AssignProperties_To_ApplicationGatewayFrontendPort(&frontendPort)
 			if err != nil {
@@ -1919,8 +1861,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.GatewayIPConfigurations != nil {
 		gatewayIPConfigurationList := make([]storage.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded, len(gateway.GatewayIPConfigurations))
 		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range gateway.GatewayIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			gatewayIPConfigurationItem := gatewayIPConfigurationItem
 			var gatewayIPConfiguration storage.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 			err := gatewayIPConfigurationItem.AssignProperties_To_ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded(&gatewayIPConfiguration)
 			if err != nil {
@@ -1949,8 +1889,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.HttpListeners != nil {
 		httpListenerList := make([]storage.ApplicationGatewayHttpListener, len(gateway.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range gateway.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener storage.ApplicationGatewayHttpListener
 			err := httpListenerItem.AssignProperties_To_ApplicationGatewayHttpListener(&httpListener)
 			if err != nil {
@@ -1979,8 +1917,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.Listeners != nil {
 		listenerList := make([]storage.ApplicationGatewayListener, len(gateway.Listeners))
 		for listenerIndex, listenerItem := range gateway.Listeners {
-			// Shadow the loop variable to avoid aliasing
-			listenerItem := listenerItem
 			var listener storage.ApplicationGatewayListener
 			err := listenerItem.AssignProperties_To_ApplicationGatewayListener(&listener)
 			if err != nil {
@@ -1997,8 +1933,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.LoadDistributionPolicies != nil {
 		loadDistributionPolicyList := make([]storage.ApplicationGatewayLoadDistributionPolicy, len(gateway.LoadDistributionPolicies))
 		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range gateway.LoadDistributionPolicies {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionPolicyItem := loadDistributionPolicyItem
 			var loadDistributionPolicy storage.ApplicationGatewayLoadDistributionPolicy
 			err := loadDistributionPolicyItem.AssignProperties_To_ApplicationGatewayLoadDistributionPolicy(&loadDistributionPolicy)
 			if err != nil {
@@ -2041,8 +1975,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.PrivateLinkConfigurations != nil {
 		privateLinkConfigurationList := make([]storage.ApplicationGatewayPrivateLinkConfiguration, len(gateway.PrivateLinkConfigurations))
 		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range gateway.PrivateLinkConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkConfigurationItem := privateLinkConfigurationItem
 			var privateLinkConfiguration storage.ApplicationGatewayPrivateLinkConfiguration
 			err := privateLinkConfigurationItem.AssignProperties_To_ApplicationGatewayPrivateLinkConfiguration(&privateLinkConfiguration)
 			if err != nil {
@@ -2059,8 +1991,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.Probes != nil {
 		probeList := make([]storage.ApplicationGatewayProbe, len(gateway.Probes))
 		for probeIndex, probeItem := range gateway.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe storage.ApplicationGatewayProbe
 			err := probeItem.AssignProperties_To_ApplicationGatewayProbe(&probe)
 			if err != nil {
@@ -2077,8 +2007,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.RedirectConfigurations != nil {
 		redirectConfigurationList := make([]storage.ApplicationGatewayRedirectConfiguration, len(gateway.RedirectConfigurations))
 		for redirectConfigurationIndex, redirectConfigurationItem := range gateway.RedirectConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			redirectConfigurationItem := redirectConfigurationItem
 			var redirectConfiguration storage.ApplicationGatewayRedirectConfiguration
 			err := redirectConfigurationItem.AssignProperties_To_ApplicationGatewayRedirectConfiguration(&redirectConfiguration)
 			if err != nil {
@@ -2095,8 +2023,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]storage.ApplicationGatewayRequestRoutingRule, len(gateway.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range gateway.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule storage.ApplicationGatewayRequestRoutingRule
 			err := requestRoutingRuleItem.AssignProperties_To_ApplicationGatewayRequestRoutingRule(&requestRoutingRule)
 			if err != nil {
@@ -2113,8 +2039,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.RewriteRuleSets != nil {
 		rewriteRuleSetList := make([]storage.ApplicationGatewayRewriteRuleSet, len(gateway.RewriteRuleSets))
 		for rewriteRuleSetIndex, rewriteRuleSetItem := range gateway.RewriteRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleSetItem := rewriteRuleSetItem
 			var rewriteRuleSet storage.ApplicationGatewayRewriteRuleSet
 			err := rewriteRuleSetItem.AssignProperties_To_ApplicationGatewayRewriteRuleSet(&rewriteRuleSet)
 			if err != nil {
@@ -2131,8 +2055,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.RoutingRules != nil {
 		routingRuleList := make([]storage.ApplicationGatewayRoutingRule, len(gateway.RoutingRules))
 		for routingRuleIndex, routingRuleItem := range gateway.RoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			routingRuleItem := routingRuleItem
 			var routingRule storage.ApplicationGatewayRoutingRule
 			err := routingRuleItem.AssignProperties_To_ApplicationGatewayRoutingRule(&routingRule)
 			if err != nil {
@@ -2161,8 +2083,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.SslCertificates != nil {
 		sslCertificateList := make([]storage.ApplicationGatewaySslCertificate, len(gateway.SslCertificates))
 		for sslCertificateIndex, sslCertificateItem := range gateway.SslCertificates {
-			// Shadow the loop variable to avoid aliasing
-			sslCertificateItem := sslCertificateItem
 			var sslCertificate storage.ApplicationGatewaySslCertificate
 			err := sslCertificateItem.AssignProperties_To_ApplicationGatewaySslCertificate(&sslCertificate)
 			if err != nil {
@@ -2191,8 +2111,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.SslProfiles != nil {
 		sslProfileList := make([]storage.ApplicationGatewaySslProfile, len(gateway.SslProfiles))
 		for sslProfileIndex, sslProfileItem := range gateway.SslProfiles {
-			// Shadow the loop variable to avoid aliasing
-			sslProfileItem := sslProfileItem
 			var sslProfile storage.ApplicationGatewaySslProfile
 			err := sslProfileItem.AssignProperties_To_ApplicationGatewaySslProfile(&sslProfile)
 			if err != nil {
@@ -2212,8 +2130,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]storage.ApplicationGatewayTrustedClientCertificate, len(gateway.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range gateway.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate storage.ApplicationGatewayTrustedClientCertificate
 			err := trustedClientCertificateItem.AssignProperties_To_ApplicationGatewayTrustedClientCertificate(&trustedClientCertificate)
 			if err != nil {
@@ -2230,8 +2146,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]storage.ApplicationGatewayTrustedRootCertificate, len(gateway.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range gateway.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate storage.ApplicationGatewayTrustedRootCertificate
 			err := trustedRootCertificateItem.AssignProperties_To_ApplicationGatewayTrustedRootCertificate(&trustedRootCertificate)
 			if err != nil {
@@ -2248,8 +2162,6 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 	if gateway.UrlPathMaps != nil {
 		urlPathMapList := make([]storage.ApplicationGatewayUrlPathMap, len(gateway.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range gateway.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap storage.ApplicationGatewayUrlPathMap
 			err := urlPathMapItem.AssignProperties_To_ApplicationGatewayUrlPathMap(&urlPathMap)
 			if err != nil {
@@ -2295,8 +2207,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]ApplicationGatewayAuthenticationCertificate, len(source.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range source.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate ApplicationGatewayAuthenticationCertificate
 			err := authenticationCertificate.Initialize_From_ApplicationGatewayAuthenticationCertificate_STATUS(&authenticationCertificateItem)
 			if err != nil {
@@ -2325,8 +2235,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]ApplicationGatewayBackendAddressPool, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool ApplicationGatewayBackendAddressPool
 			err := backendAddressPool.Initialize_From_ApplicationGatewayBackendAddressPool_STATUS(&backendAddressPoolItem)
 			if err != nil {
@@ -2343,8 +2251,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.BackendHttpSettingsCollection != nil {
 		backendHttpSettingsCollectionList := make([]ApplicationGatewayBackendHttpSettings, len(source.BackendHttpSettingsCollection))
 		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range source.BackendHttpSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendHttpSettingsCollectionItem := backendHttpSettingsCollectionItem
 			var backendHttpSettingsCollection ApplicationGatewayBackendHttpSettings
 			err := backendHttpSettingsCollection.Initialize_From_ApplicationGatewayBackendHttpSettings_STATUS(&backendHttpSettingsCollectionItem)
 			if err != nil {
@@ -2361,8 +2267,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.BackendSettingsCollection != nil {
 		backendSettingsCollectionList := make([]ApplicationGatewayBackendSettings, len(source.BackendSettingsCollection))
 		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range source.BackendSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendSettingsCollectionItem := backendSettingsCollectionItem
 			var backendSettingsCollection ApplicationGatewayBackendSettings
 			err := backendSettingsCollection.Initialize_From_ApplicationGatewayBackendSettings_STATUS(&backendSettingsCollectionItem)
 			if err != nil {
@@ -2379,8 +2283,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]ApplicationGatewayCustomError, len(source.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range source.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration ApplicationGatewayCustomError
 			err := customErrorConfiguration.Initialize_From_ApplicationGatewayCustomError_STATUS(&customErrorConfigurationItem)
 			if err != nil {
@@ -2433,8 +2335,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]ApplicationGatewayFrontendIPConfiguration, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration ApplicationGatewayFrontendIPConfiguration
 			err := frontendIPConfiguration.Initialize_From_ApplicationGatewayFrontendIPConfiguration_STATUS(&frontendIPConfigurationItem)
 			if err != nil {
@@ -2451,8 +2351,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.FrontendPorts != nil {
 		frontendPortList := make([]ApplicationGatewayFrontendPort, len(source.FrontendPorts))
 		for frontendPortIndex, frontendPortItem := range source.FrontendPorts {
-			// Shadow the loop variable to avoid aliasing
-			frontendPortItem := frontendPortItem
 			var frontendPort ApplicationGatewayFrontendPort
 			err := frontendPort.Initialize_From_ApplicationGatewayFrontendPort_STATUS(&frontendPortItem)
 			if err != nil {
@@ -2469,8 +2367,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.GatewayIPConfigurations != nil {
 		gatewayIPConfigurationList := make([]ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded, len(source.GatewayIPConfigurations))
 		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range source.GatewayIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			gatewayIPConfigurationItem := gatewayIPConfigurationItem
 			var gatewayIPConfiguration ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 			err := gatewayIPConfiguration.Initialize_From_ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded(&gatewayIPConfigurationItem)
 			if err != nil {
@@ -2499,8 +2395,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.HttpListeners != nil {
 		httpListenerList := make([]ApplicationGatewayHttpListener, len(source.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range source.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener ApplicationGatewayHttpListener
 			err := httpListener.Initialize_From_ApplicationGatewayHttpListener_STATUS(&httpListenerItem)
 			if err != nil {
@@ -2529,8 +2423,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.Listeners != nil {
 		listenerList := make([]ApplicationGatewayListener, len(source.Listeners))
 		for listenerIndex, listenerItem := range source.Listeners {
-			// Shadow the loop variable to avoid aliasing
-			listenerItem := listenerItem
 			var listener ApplicationGatewayListener
 			err := listener.Initialize_From_ApplicationGatewayListener_STATUS(&listenerItem)
 			if err != nil {
@@ -2547,8 +2439,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.LoadDistributionPolicies != nil {
 		loadDistributionPolicyList := make([]ApplicationGatewayLoadDistributionPolicy, len(source.LoadDistributionPolicies))
 		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range source.LoadDistributionPolicies {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionPolicyItem := loadDistributionPolicyItem
 			var loadDistributionPolicy ApplicationGatewayLoadDistributionPolicy
 			err := loadDistributionPolicy.Initialize_From_ApplicationGatewayLoadDistributionPolicy_STATUS(&loadDistributionPolicyItem)
 			if err != nil {
@@ -2568,8 +2458,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.PrivateLinkConfigurations != nil {
 		privateLinkConfigurationList := make([]ApplicationGatewayPrivateLinkConfiguration, len(source.PrivateLinkConfigurations))
 		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range source.PrivateLinkConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkConfigurationItem := privateLinkConfigurationItem
 			var privateLinkConfiguration ApplicationGatewayPrivateLinkConfiguration
 			err := privateLinkConfiguration.Initialize_From_ApplicationGatewayPrivateLinkConfiguration_STATUS(&privateLinkConfigurationItem)
 			if err != nil {
@@ -2586,8 +2474,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.Probes != nil {
 		probeList := make([]ApplicationGatewayProbe, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe ApplicationGatewayProbe
 			err := probe.Initialize_From_ApplicationGatewayProbe_STATUS(&probeItem)
 			if err != nil {
@@ -2604,8 +2490,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.RedirectConfigurations != nil {
 		redirectConfigurationList := make([]ApplicationGatewayRedirectConfiguration, len(source.RedirectConfigurations))
 		for redirectConfigurationIndex, redirectConfigurationItem := range source.RedirectConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			redirectConfigurationItem := redirectConfigurationItem
 			var redirectConfiguration ApplicationGatewayRedirectConfiguration
 			err := redirectConfiguration.Initialize_From_ApplicationGatewayRedirectConfiguration_STATUS(&redirectConfigurationItem)
 			if err != nil {
@@ -2622,8 +2506,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]ApplicationGatewayRequestRoutingRule, len(source.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range source.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule ApplicationGatewayRequestRoutingRule
 			err := requestRoutingRule.Initialize_From_ApplicationGatewayRequestRoutingRule_STATUS(&requestRoutingRuleItem)
 			if err != nil {
@@ -2640,8 +2522,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.RewriteRuleSets != nil {
 		rewriteRuleSetList := make([]ApplicationGatewayRewriteRuleSet, len(source.RewriteRuleSets))
 		for rewriteRuleSetIndex, rewriteRuleSetItem := range source.RewriteRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleSetItem := rewriteRuleSetItem
 			var rewriteRuleSet ApplicationGatewayRewriteRuleSet
 			err := rewriteRuleSet.Initialize_From_ApplicationGatewayRewriteRuleSet_STATUS(&rewriteRuleSetItem)
 			if err != nil {
@@ -2658,8 +2538,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.RoutingRules != nil {
 		routingRuleList := make([]ApplicationGatewayRoutingRule, len(source.RoutingRules))
 		for routingRuleIndex, routingRuleItem := range source.RoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			routingRuleItem := routingRuleItem
 			var routingRule ApplicationGatewayRoutingRule
 			err := routingRule.Initialize_From_ApplicationGatewayRoutingRule_STATUS(&routingRuleItem)
 			if err != nil {
@@ -2688,8 +2566,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.SslCertificates != nil {
 		sslCertificateList := make([]ApplicationGatewaySslCertificate, len(source.SslCertificates))
 		for sslCertificateIndex, sslCertificateItem := range source.SslCertificates {
-			// Shadow the loop variable to avoid aliasing
-			sslCertificateItem := sslCertificateItem
 			var sslCertificate ApplicationGatewaySslCertificate
 			err := sslCertificate.Initialize_From_ApplicationGatewaySslCertificate_STATUS(&sslCertificateItem)
 			if err != nil {
@@ -2718,8 +2594,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.SslProfiles != nil {
 		sslProfileList := make([]ApplicationGatewaySslProfile, len(source.SslProfiles))
 		for sslProfileIndex, sslProfileItem := range source.SslProfiles {
-			// Shadow the loop variable to avoid aliasing
-			sslProfileItem := sslProfileItem
 			var sslProfile ApplicationGatewaySslProfile
 			err := sslProfile.Initialize_From_ApplicationGatewaySslProfile_STATUS(&sslProfileItem)
 			if err != nil {
@@ -2739,8 +2613,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]ApplicationGatewayTrustedClientCertificate, len(source.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range source.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate ApplicationGatewayTrustedClientCertificate
 			err := trustedClientCertificate.Initialize_From_ApplicationGatewayTrustedClientCertificate_STATUS(&trustedClientCertificateItem)
 			if err != nil {
@@ -2757,8 +2629,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]ApplicationGatewayTrustedRootCertificate, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate ApplicationGatewayTrustedRootCertificate
 			err := trustedRootCertificate.Initialize_From_ApplicationGatewayTrustedRootCertificate_STATUS(&trustedRootCertificateItem)
 			if err != nil {
@@ -2775,8 +2645,6 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 	if source.UrlPathMaps != nil {
 		urlPathMapList := make([]ApplicationGatewayUrlPathMap, len(source.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range source.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap ApplicationGatewayUrlPathMap
 			err := urlPathMap.Initialize_From_ApplicationGatewayUrlPathMap_STATUS(&urlPathMapItem)
 			if err != nil {
@@ -3545,8 +3413,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]ApplicationGatewayAuthenticationCertificate_STATUS, len(source.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range source.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate ApplicationGatewayAuthenticationCertificate_STATUS
 			err := authenticationCertificate.AssignProperties_From_ApplicationGatewayAuthenticationCertificate_STATUS(&authenticationCertificateItem)
 			if err != nil {
@@ -3575,8 +3441,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.BackendAddressPools != nil {
 		backendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_STATUS, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool ApplicationGatewayBackendAddressPool_STATUS
 			err := backendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS(&backendAddressPoolItem)
 			if err != nil {
@@ -3593,8 +3457,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.BackendHttpSettingsCollection != nil {
 		backendHttpSettingsCollectionList := make([]ApplicationGatewayBackendHttpSettings_STATUS, len(source.BackendHttpSettingsCollection))
 		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range source.BackendHttpSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendHttpSettingsCollectionItem := backendHttpSettingsCollectionItem
 			var backendHttpSettingsCollection ApplicationGatewayBackendHttpSettings_STATUS
 			err := backendHttpSettingsCollection.AssignProperties_From_ApplicationGatewayBackendHttpSettings_STATUS(&backendHttpSettingsCollectionItem)
 			if err != nil {
@@ -3611,8 +3473,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.BackendSettingsCollection != nil {
 		backendSettingsCollectionList := make([]ApplicationGatewayBackendSettings_STATUS, len(source.BackendSettingsCollection))
 		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range source.BackendSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendSettingsCollectionItem := backendSettingsCollectionItem
 			var backendSettingsCollection ApplicationGatewayBackendSettings_STATUS
 			err := backendSettingsCollection.AssignProperties_From_ApplicationGatewayBackendSettings_STATUS(&backendSettingsCollectionItem)
 			if err != nil {
@@ -3632,8 +3492,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]ApplicationGatewayCustomError_STATUS, len(source.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range source.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration ApplicationGatewayCustomError_STATUS
 			err := customErrorConfiguration.AssignProperties_From_ApplicationGatewayCustomError_STATUS(&customErrorConfigurationItem)
 			if err != nil {
@@ -3689,8 +3547,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]ApplicationGatewayFrontendIPConfiguration_STATUS, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration ApplicationGatewayFrontendIPConfiguration_STATUS
 			err := frontendIPConfiguration.AssignProperties_From_ApplicationGatewayFrontendIPConfiguration_STATUS(&frontendIPConfigurationItem)
 			if err != nil {
@@ -3707,8 +3563,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.FrontendPorts != nil {
 		frontendPortList := make([]ApplicationGatewayFrontendPort_STATUS, len(source.FrontendPorts))
 		for frontendPortIndex, frontendPortItem := range source.FrontendPorts {
-			// Shadow the loop variable to avoid aliasing
-			frontendPortItem := frontendPortItem
 			var frontendPort ApplicationGatewayFrontendPort_STATUS
 			err := frontendPort.AssignProperties_From_ApplicationGatewayFrontendPort_STATUS(&frontendPortItem)
 			if err != nil {
@@ -3725,8 +3579,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.GatewayIPConfigurations != nil {
 		gatewayIPConfigurationList := make([]ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded, len(source.GatewayIPConfigurations))
 		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range source.GatewayIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			gatewayIPConfigurationItem := gatewayIPConfigurationItem
 			var gatewayIPConfiguration ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
 			err := gatewayIPConfiguration.AssignProperties_From_ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded(&gatewayIPConfigurationItem)
 			if err != nil {
@@ -3755,8 +3607,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.HttpListeners != nil {
 		httpListenerList := make([]ApplicationGatewayHttpListener_STATUS, len(source.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range source.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener ApplicationGatewayHttpListener_STATUS
 			err := httpListener.AssignProperties_From_ApplicationGatewayHttpListener_STATUS(&httpListenerItem)
 			if err != nil {
@@ -3788,8 +3638,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.Listeners != nil {
 		listenerList := make([]ApplicationGatewayListener_STATUS, len(source.Listeners))
 		for listenerIndex, listenerItem := range source.Listeners {
-			// Shadow the loop variable to avoid aliasing
-			listenerItem := listenerItem
 			var listener ApplicationGatewayListener_STATUS
 			err := listener.AssignProperties_From_ApplicationGatewayListener_STATUS(&listenerItem)
 			if err != nil {
@@ -3806,8 +3654,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.LoadDistributionPolicies != nil {
 		loadDistributionPolicyList := make([]ApplicationGatewayLoadDistributionPolicy_STATUS, len(source.LoadDistributionPolicies))
 		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range source.LoadDistributionPolicies {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionPolicyItem := loadDistributionPolicyItem
 			var loadDistributionPolicy ApplicationGatewayLoadDistributionPolicy_STATUS
 			err := loadDistributionPolicy.AssignProperties_From_ApplicationGatewayLoadDistributionPolicy_STATUS(&loadDistributionPolicyItem)
 			if err != nil {
@@ -3839,8 +3685,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]ApplicationGatewayPrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection ApplicationGatewayPrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_ApplicationGatewayPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -3857,8 +3701,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.PrivateLinkConfigurations != nil {
 		privateLinkConfigurationList := make([]ApplicationGatewayPrivateLinkConfiguration_STATUS, len(source.PrivateLinkConfigurations))
 		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range source.PrivateLinkConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkConfigurationItem := privateLinkConfigurationItem
 			var privateLinkConfiguration ApplicationGatewayPrivateLinkConfiguration_STATUS
 			err := privateLinkConfiguration.AssignProperties_From_ApplicationGatewayPrivateLinkConfiguration_STATUS(&privateLinkConfigurationItem)
 			if err != nil {
@@ -3875,8 +3717,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.Probes != nil {
 		probeList := make([]ApplicationGatewayProbe_STATUS, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe ApplicationGatewayProbe_STATUS
 			err := probe.AssignProperties_From_ApplicationGatewayProbe_STATUS(&probeItem)
 			if err != nil {
@@ -3902,8 +3742,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.RedirectConfigurations != nil {
 		redirectConfigurationList := make([]ApplicationGatewayRedirectConfiguration_STATUS, len(source.RedirectConfigurations))
 		for redirectConfigurationIndex, redirectConfigurationItem := range source.RedirectConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			redirectConfigurationItem := redirectConfigurationItem
 			var redirectConfiguration ApplicationGatewayRedirectConfiguration_STATUS
 			err := redirectConfiguration.AssignProperties_From_ApplicationGatewayRedirectConfiguration_STATUS(&redirectConfigurationItem)
 			if err != nil {
@@ -3920,8 +3758,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]ApplicationGatewayRequestRoutingRule_STATUS, len(source.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range source.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule ApplicationGatewayRequestRoutingRule_STATUS
 			err := requestRoutingRule.AssignProperties_From_ApplicationGatewayRequestRoutingRule_STATUS(&requestRoutingRuleItem)
 			if err != nil {
@@ -3941,8 +3777,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.RewriteRuleSets != nil {
 		rewriteRuleSetList := make([]ApplicationGatewayRewriteRuleSet_STATUS, len(source.RewriteRuleSets))
 		for rewriteRuleSetIndex, rewriteRuleSetItem := range source.RewriteRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleSetItem := rewriteRuleSetItem
 			var rewriteRuleSet ApplicationGatewayRewriteRuleSet_STATUS
 			err := rewriteRuleSet.AssignProperties_From_ApplicationGatewayRewriteRuleSet_STATUS(&rewriteRuleSetItem)
 			if err != nil {
@@ -3959,8 +3793,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.RoutingRules != nil {
 		routingRuleList := make([]ApplicationGatewayRoutingRule_STATUS, len(source.RoutingRules))
 		for routingRuleIndex, routingRuleItem := range source.RoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			routingRuleItem := routingRuleItem
 			var routingRule ApplicationGatewayRoutingRule_STATUS
 			err := routingRule.AssignProperties_From_ApplicationGatewayRoutingRule_STATUS(&routingRuleItem)
 			if err != nil {
@@ -3989,8 +3821,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.SslCertificates != nil {
 		sslCertificateList := make([]ApplicationGatewaySslCertificate_STATUS, len(source.SslCertificates))
 		for sslCertificateIndex, sslCertificateItem := range source.SslCertificates {
-			// Shadow the loop variable to avoid aliasing
-			sslCertificateItem := sslCertificateItem
 			var sslCertificate ApplicationGatewaySslCertificate_STATUS
 			err := sslCertificate.AssignProperties_From_ApplicationGatewaySslCertificate_STATUS(&sslCertificateItem)
 			if err != nil {
@@ -4019,8 +3849,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.SslProfiles != nil {
 		sslProfileList := make([]ApplicationGatewaySslProfile_STATUS, len(source.SslProfiles))
 		for sslProfileIndex, sslProfileItem := range source.SslProfiles {
-			// Shadow the loop variable to avoid aliasing
-			sslProfileItem := sslProfileItem
 			var sslProfile ApplicationGatewaySslProfile_STATUS
 			err := sslProfile.AssignProperties_From_ApplicationGatewaySslProfile_STATUS(&sslProfileItem)
 			if err != nil {
@@ -4040,8 +3868,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]ApplicationGatewayTrustedClientCertificate_STATUS, len(source.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range source.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate ApplicationGatewayTrustedClientCertificate_STATUS
 			err := trustedClientCertificate.AssignProperties_From_ApplicationGatewayTrustedClientCertificate_STATUS(&trustedClientCertificateItem)
 			if err != nil {
@@ -4058,8 +3884,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]ApplicationGatewayTrustedRootCertificate_STATUS, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate ApplicationGatewayTrustedRootCertificate_STATUS
 			err := trustedRootCertificate.AssignProperties_From_ApplicationGatewayTrustedRootCertificate_STATUS(&trustedRootCertificateItem)
 			if err != nil {
@@ -4079,8 +3903,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_From_ApplicationGatew
 	if source.UrlPathMaps != nil {
 		urlPathMapList := make([]ApplicationGatewayUrlPathMap_STATUS, len(source.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range source.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap ApplicationGatewayUrlPathMap_STATUS
 			err := urlPathMap.AssignProperties_From_ApplicationGatewayUrlPathMap_STATUS(&urlPathMapItem)
 			if err != nil {
@@ -4121,8 +3943,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]storage.ApplicationGatewayAuthenticationCertificate_STATUS, len(gateway.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range gateway.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate storage.ApplicationGatewayAuthenticationCertificate_STATUS
 			err := authenticationCertificateItem.AssignProperties_To_ApplicationGatewayAuthenticationCertificate_STATUS(&authenticationCertificate)
 			if err != nil {
@@ -4151,8 +3971,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.BackendAddressPools != nil {
 		backendAddressPoolList := make([]storage.ApplicationGatewayBackendAddressPool_STATUS, len(gateway.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range gateway.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
 			var backendAddressPool storage.ApplicationGatewayBackendAddressPool_STATUS
 			err := backendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS(&backendAddressPool)
 			if err != nil {
@@ -4169,8 +3987,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.BackendHttpSettingsCollection != nil {
 		backendHttpSettingsCollectionList := make([]storage.ApplicationGatewayBackendHttpSettings_STATUS, len(gateway.BackendHttpSettingsCollection))
 		for backendHttpSettingsCollectionIndex, backendHttpSettingsCollectionItem := range gateway.BackendHttpSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendHttpSettingsCollectionItem := backendHttpSettingsCollectionItem
 			var backendHttpSettingsCollection storage.ApplicationGatewayBackendHttpSettings_STATUS
 			err := backendHttpSettingsCollectionItem.AssignProperties_To_ApplicationGatewayBackendHttpSettings_STATUS(&backendHttpSettingsCollection)
 			if err != nil {
@@ -4187,8 +4003,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.BackendSettingsCollection != nil {
 		backendSettingsCollectionList := make([]storage.ApplicationGatewayBackendSettings_STATUS, len(gateway.BackendSettingsCollection))
 		for backendSettingsCollectionIndex, backendSettingsCollectionItem := range gateway.BackendSettingsCollection {
-			// Shadow the loop variable to avoid aliasing
-			backendSettingsCollectionItem := backendSettingsCollectionItem
 			var backendSettingsCollection storage.ApplicationGatewayBackendSettings_STATUS
 			err := backendSettingsCollectionItem.AssignProperties_To_ApplicationGatewayBackendSettings_STATUS(&backendSettingsCollection)
 			if err != nil {
@@ -4208,8 +4022,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]storage.ApplicationGatewayCustomError_STATUS, len(gateway.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range gateway.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration storage.ApplicationGatewayCustomError_STATUS
 			err := customErrorConfigurationItem.AssignProperties_To_ApplicationGatewayCustomError_STATUS(&customErrorConfiguration)
 			if err != nil {
@@ -4265,8 +4077,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.FrontendIPConfigurations != nil {
 		frontendIPConfigurationList := make([]storage.ApplicationGatewayFrontendIPConfiguration_STATUS, len(gateway.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range gateway.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration storage.ApplicationGatewayFrontendIPConfiguration_STATUS
 			err := frontendIPConfigurationItem.AssignProperties_To_ApplicationGatewayFrontendIPConfiguration_STATUS(&frontendIPConfiguration)
 			if err != nil {
@@ -4283,8 +4093,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.FrontendPorts != nil {
 		frontendPortList := make([]storage.ApplicationGatewayFrontendPort_STATUS, len(gateway.FrontendPorts))
 		for frontendPortIndex, frontendPortItem := range gateway.FrontendPorts {
-			// Shadow the loop variable to avoid aliasing
-			frontendPortItem := frontendPortItem
 			var frontendPort storage.ApplicationGatewayFrontendPort_STATUS
 			err := frontendPortItem.AssignProperties_To_ApplicationGatewayFrontendPort_STATUS(&frontendPort)
 			if err != nil {
@@ -4301,8 +4109,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.GatewayIPConfigurations != nil {
 		gatewayIPConfigurationList := make([]storage.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded, len(gateway.GatewayIPConfigurations))
 		for gatewayIPConfigurationIndex, gatewayIPConfigurationItem := range gateway.GatewayIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			gatewayIPConfigurationItem := gatewayIPConfigurationItem
 			var gatewayIPConfiguration storage.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
 			err := gatewayIPConfigurationItem.AssignProperties_To_ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded(&gatewayIPConfiguration)
 			if err != nil {
@@ -4331,8 +4137,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.HttpListeners != nil {
 		httpListenerList := make([]storage.ApplicationGatewayHttpListener_STATUS, len(gateway.HttpListeners))
 		for httpListenerIndex, httpListenerItem := range gateway.HttpListeners {
-			// Shadow the loop variable to avoid aliasing
-			httpListenerItem := httpListenerItem
 			var httpListener storage.ApplicationGatewayHttpListener_STATUS
 			err := httpListenerItem.AssignProperties_To_ApplicationGatewayHttpListener_STATUS(&httpListener)
 			if err != nil {
@@ -4364,8 +4168,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.Listeners != nil {
 		listenerList := make([]storage.ApplicationGatewayListener_STATUS, len(gateway.Listeners))
 		for listenerIndex, listenerItem := range gateway.Listeners {
-			// Shadow the loop variable to avoid aliasing
-			listenerItem := listenerItem
 			var listener storage.ApplicationGatewayListener_STATUS
 			err := listenerItem.AssignProperties_To_ApplicationGatewayListener_STATUS(&listener)
 			if err != nil {
@@ -4382,8 +4184,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.LoadDistributionPolicies != nil {
 		loadDistributionPolicyList := make([]storage.ApplicationGatewayLoadDistributionPolicy_STATUS, len(gateway.LoadDistributionPolicies))
 		for loadDistributionPolicyIndex, loadDistributionPolicyItem := range gateway.LoadDistributionPolicies {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionPolicyItem := loadDistributionPolicyItem
 			var loadDistributionPolicy storage.ApplicationGatewayLoadDistributionPolicy_STATUS
 			err := loadDistributionPolicyItem.AssignProperties_To_ApplicationGatewayLoadDistributionPolicy_STATUS(&loadDistributionPolicy)
 			if err != nil {
@@ -4414,8 +4214,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.ApplicationGatewayPrivateEndpointConnection_STATUS, len(gateway.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range gateway.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.ApplicationGatewayPrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_ApplicationGatewayPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -4432,8 +4230,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.PrivateLinkConfigurations != nil {
 		privateLinkConfigurationList := make([]storage.ApplicationGatewayPrivateLinkConfiguration_STATUS, len(gateway.PrivateLinkConfigurations))
 		for privateLinkConfigurationIndex, privateLinkConfigurationItem := range gateway.PrivateLinkConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkConfigurationItem := privateLinkConfigurationItem
 			var privateLinkConfiguration storage.ApplicationGatewayPrivateLinkConfiguration_STATUS
 			err := privateLinkConfigurationItem.AssignProperties_To_ApplicationGatewayPrivateLinkConfiguration_STATUS(&privateLinkConfiguration)
 			if err != nil {
@@ -4450,8 +4246,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.Probes != nil {
 		probeList := make([]storage.ApplicationGatewayProbe_STATUS, len(gateway.Probes))
 		for probeIndex, probeItem := range gateway.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe storage.ApplicationGatewayProbe_STATUS
 			err := probeItem.AssignProperties_To_ApplicationGatewayProbe_STATUS(&probe)
 			if err != nil {
@@ -4476,8 +4270,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.RedirectConfigurations != nil {
 		redirectConfigurationList := make([]storage.ApplicationGatewayRedirectConfiguration_STATUS, len(gateway.RedirectConfigurations))
 		for redirectConfigurationIndex, redirectConfigurationItem := range gateway.RedirectConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			redirectConfigurationItem := redirectConfigurationItem
 			var redirectConfiguration storage.ApplicationGatewayRedirectConfiguration_STATUS
 			err := redirectConfigurationItem.AssignProperties_To_ApplicationGatewayRedirectConfiguration_STATUS(&redirectConfiguration)
 			if err != nil {
@@ -4494,8 +4286,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]storage.ApplicationGatewayRequestRoutingRule_STATUS, len(gateway.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range gateway.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule storage.ApplicationGatewayRequestRoutingRule_STATUS
 			err := requestRoutingRuleItem.AssignProperties_To_ApplicationGatewayRequestRoutingRule_STATUS(&requestRoutingRule)
 			if err != nil {
@@ -4515,8 +4305,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.RewriteRuleSets != nil {
 		rewriteRuleSetList := make([]storage.ApplicationGatewayRewriteRuleSet_STATUS, len(gateway.RewriteRuleSets))
 		for rewriteRuleSetIndex, rewriteRuleSetItem := range gateway.RewriteRuleSets {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleSetItem := rewriteRuleSetItem
 			var rewriteRuleSet storage.ApplicationGatewayRewriteRuleSet_STATUS
 			err := rewriteRuleSetItem.AssignProperties_To_ApplicationGatewayRewriteRuleSet_STATUS(&rewriteRuleSet)
 			if err != nil {
@@ -4533,8 +4321,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.RoutingRules != nil {
 		routingRuleList := make([]storage.ApplicationGatewayRoutingRule_STATUS, len(gateway.RoutingRules))
 		for routingRuleIndex, routingRuleItem := range gateway.RoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			routingRuleItem := routingRuleItem
 			var routingRule storage.ApplicationGatewayRoutingRule_STATUS
 			err := routingRuleItem.AssignProperties_To_ApplicationGatewayRoutingRule_STATUS(&routingRule)
 			if err != nil {
@@ -4563,8 +4349,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.SslCertificates != nil {
 		sslCertificateList := make([]storage.ApplicationGatewaySslCertificate_STATUS, len(gateway.SslCertificates))
 		for sslCertificateIndex, sslCertificateItem := range gateway.SslCertificates {
-			// Shadow the loop variable to avoid aliasing
-			sslCertificateItem := sslCertificateItem
 			var sslCertificate storage.ApplicationGatewaySslCertificate_STATUS
 			err := sslCertificateItem.AssignProperties_To_ApplicationGatewaySslCertificate_STATUS(&sslCertificate)
 			if err != nil {
@@ -4593,8 +4377,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.SslProfiles != nil {
 		sslProfileList := make([]storage.ApplicationGatewaySslProfile_STATUS, len(gateway.SslProfiles))
 		for sslProfileIndex, sslProfileItem := range gateway.SslProfiles {
-			// Shadow the loop variable to avoid aliasing
-			sslProfileItem := sslProfileItem
 			var sslProfile storage.ApplicationGatewaySslProfile_STATUS
 			err := sslProfileItem.AssignProperties_To_ApplicationGatewaySslProfile_STATUS(&sslProfile)
 			if err != nil {
@@ -4614,8 +4396,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]storage.ApplicationGatewayTrustedClientCertificate_STATUS, len(gateway.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range gateway.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate storage.ApplicationGatewayTrustedClientCertificate_STATUS
 			err := trustedClientCertificateItem.AssignProperties_To_ApplicationGatewayTrustedClientCertificate_STATUS(&trustedClientCertificate)
 			if err != nil {
@@ -4632,8 +4412,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]storage.ApplicationGatewayTrustedRootCertificate_STATUS, len(gateway.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range gateway.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate storage.ApplicationGatewayTrustedRootCertificate_STATUS
 			err := trustedRootCertificateItem.AssignProperties_To_ApplicationGatewayTrustedRootCertificate_STATUS(&trustedRootCertificate)
 			if err != nil {
@@ -4653,8 +4431,6 @@ func (gateway *ApplicationGateway_STATUS) AssignProperties_To_ApplicationGateway
 	if gateway.UrlPathMaps != nil {
 		urlPathMapList := make([]storage.ApplicationGatewayUrlPathMap_STATUS, len(gateway.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range gateway.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap storage.ApplicationGatewayUrlPathMap_STATUS
 			err := urlPathMapItem.AssignProperties_To_ApplicationGatewayUrlPathMap_STATUS(&urlPathMap)
 			if err != nil {
@@ -5132,8 +4908,6 @@ func (pool *ApplicationGatewayBackendAddressPool) AssignProperties_From_Applicat
 	if source.BackendAddresses != nil {
 		backendAddressList := make([]ApplicationGatewayBackendAddress, len(source.BackendAddresses))
 		for backendAddressIndex, backendAddressItem := range source.BackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressItem := backendAddressItem
 			var backendAddress ApplicationGatewayBackendAddress
 			err := backendAddress.AssignProperties_From_ApplicationGatewayBackendAddress(&backendAddressItem)
 			if err != nil {
@@ -5162,8 +4936,6 @@ func (pool *ApplicationGatewayBackendAddressPool) AssignProperties_To_Applicatio
 	if pool.BackendAddresses != nil {
 		backendAddressList := make([]storage.ApplicationGatewayBackendAddress, len(pool.BackendAddresses))
 		for backendAddressIndex, backendAddressItem := range pool.BackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressItem := backendAddressItem
 			var backendAddress storage.ApplicationGatewayBackendAddress
 			err := backendAddressItem.AssignProperties_To_ApplicationGatewayBackendAddress(&backendAddress)
 			if err != nil {
@@ -5579,8 +5351,6 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 	if source.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]SubResource, len(source.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range source.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate SubResource
 			err := authenticationCertificate.AssignProperties_From_SubResource(&authenticationCertificateItem)
 			if err != nil {
@@ -5670,8 +5440,6 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 	if source.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]SubResource, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate SubResource
 			err := trustedRootCertificate.AssignProperties_From_SubResource(&trustedRootCertificateItem)
 			if err != nil {
@@ -5700,8 +5468,6 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_To_Appli
 	if settings.AuthenticationCertificates != nil {
 		authenticationCertificateList := make([]storage.SubResource, len(settings.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range settings.AuthenticationCertificates {
-			// Shadow the loop variable to avoid aliasing
-			authenticationCertificateItem := authenticationCertificateItem
 			var authenticationCertificate storage.SubResource
 			err := authenticationCertificateItem.AssignProperties_To_SubResource(&authenticationCertificate)
 			if err != nil {
@@ -5789,8 +5555,6 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_To_Appli
 	if settings.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]storage.SubResource, len(settings.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range settings.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate storage.SubResource
 			err := trustedRootCertificateItem.AssignProperties_To_SubResource(&trustedRootCertificate)
 			if err != nil {
@@ -6118,8 +5882,6 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_From_Applica
 	if source.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]SubResource, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate SubResource
 			err := trustedRootCertificate.AssignProperties_From_SubResource(&trustedRootCertificateItem)
 			if err != nil {
@@ -6185,8 +5947,6 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_To_Applicati
 	if settings.TrustedRootCertificates != nil {
 		trustedRootCertificateList := make([]storage.SubResource, len(settings.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range settings.TrustedRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedRootCertificateItem := trustedRootCertificateItem
 			var trustedRootCertificate storage.SubResource
 			err := trustedRootCertificateItem.AssignProperties_To_SubResource(&trustedRootCertificate)
 			if err != nil {
@@ -7525,8 +7285,6 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 	if source.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]ApplicationGatewayCustomError, len(source.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range source.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration ApplicationGatewayCustomError
 			err := customErrorConfiguration.AssignProperties_From_ApplicationGatewayCustomError(&customErrorConfigurationItem)
 			if err != nil {
@@ -7638,8 +7396,6 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_To_ApplicationG
 	if listener.CustomErrorConfigurations != nil {
 		customErrorConfigurationList := make([]storage.ApplicationGatewayCustomError, len(listener.CustomErrorConfigurations))
 		for customErrorConfigurationIndex, customErrorConfigurationItem := range listener.CustomErrorConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			customErrorConfigurationItem := customErrorConfigurationItem
 			var customErrorConfiguration storage.ApplicationGatewayCustomError
 			err := customErrorConfigurationItem.AssignProperties_To_ApplicationGatewayCustomError(&customErrorConfiguration)
 			if err != nil {
@@ -8499,8 +8255,6 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) AssignProperties_From_Ap
 	if source.LoadDistributionTargets != nil {
 		loadDistributionTargetList := make([]ApplicationGatewayLoadDistributionTarget, len(source.LoadDistributionTargets))
 		for loadDistributionTargetIndex, loadDistributionTargetItem := range source.LoadDistributionTargets {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionTargetItem := loadDistributionTargetItem
 			var loadDistributionTarget ApplicationGatewayLoadDistributionTarget
 			err := loadDistributionTarget.AssignProperties_From_ApplicationGatewayLoadDistributionTarget(&loadDistributionTargetItem)
 			if err != nil {
@@ -8537,8 +8291,6 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) AssignProperties_To_Appl
 	if policy.LoadDistributionTargets != nil {
 		loadDistributionTargetList := make([]storage.ApplicationGatewayLoadDistributionTarget, len(policy.LoadDistributionTargets))
 		for loadDistributionTargetIndex, loadDistributionTargetItem := range policy.LoadDistributionTargets {
-			// Shadow the loop variable to avoid aliasing
-			loadDistributionTargetItem := loadDistributionTargetItem
 			var loadDistributionTarget storage.ApplicationGatewayLoadDistributionTarget
 			err := loadDistributionTargetItem.AssignProperties_To_ApplicationGatewayLoadDistributionTarget(&loadDistributionTarget)
 			if err != nil {
@@ -8647,8 +8399,6 @@ func (operator *ApplicationGatewayOperatorSpec) AssignProperties_From_Applicatio
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -8665,8 +8415,6 @@ func (operator *ApplicationGatewayOperatorSpec) AssignProperties_From_Applicatio
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -8692,8 +8440,6 @@ func (operator *ApplicationGatewayOperatorSpec) AssignProperties_To_ApplicationG
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -8710,8 +8456,6 @@ func (operator *ApplicationGatewayOperatorSpec) AssignProperties_To_ApplicationG
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -8874,8 +8618,6 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration) AssignPropertie
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]ApplicationGatewayPrivateLinkIpConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration ApplicationGatewayPrivateLinkIpConfiguration
 			err := ipConfiguration.AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration(&ipConfigurationItem)
 			if err != nil {
@@ -8904,8 +8646,6 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration) AssignPropertie
 	if configuration.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.ApplicationGatewayPrivateLinkIpConfiguration, len(configuration.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range configuration.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.ApplicationGatewayPrivateLinkIpConfiguration
 			err := ipConfigurationItem.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration(&ipConfiguration)
 			if err != nil {
@@ -9745,8 +9485,6 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 	if source.PathRules != nil {
 		pathRuleList := make([]SubResource, len(source.PathRules))
 		for pathRuleIndex, pathRuleItem := range source.PathRules {
-			// Shadow the loop variable to avoid aliasing
-			pathRuleItem := pathRuleItem
 			var pathRule SubResource
 			err := pathRule.AssignProperties_From_SubResource(&pathRuleItem)
 			if err != nil {
@@ -9772,8 +9510,6 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 	if source.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]SubResource, len(source.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range source.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule SubResource
 			err := requestRoutingRule.AssignProperties_From_SubResource(&requestRoutingRuleItem)
 			if err != nil {
@@ -9805,8 +9541,6 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 	if source.UrlPathMaps != nil {
 		urlPathMapList := make([]SubResource, len(source.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range source.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap SubResource
 			err := urlPathMap.AssignProperties_From_SubResource(&urlPathMapItem)
 			if err != nil {
@@ -9851,8 +9585,6 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 	if configuration.PathRules != nil {
 		pathRuleList := make([]storage.SubResource, len(configuration.PathRules))
 		for pathRuleIndex, pathRuleItem := range configuration.PathRules {
-			// Shadow the loop variable to avoid aliasing
-			pathRuleItem := pathRuleItem
 			var pathRule storage.SubResource
 			err := pathRuleItem.AssignProperties_To_SubResource(&pathRule)
 			if err != nil {
@@ -9877,8 +9609,6 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 	if configuration.RequestRoutingRules != nil {
 		requestRoutingRuleList := make([]storage.SubResource, len(configuration.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range configuration.RequestRoutingRules {
-			// Shadow the loop variable to avoid aliasing
-			requestRoutingRuleItem := requestRoutingRuleItem
 			var requestRoutingRule storage.SubResource
 			err := requestRoutingRuleItem.AssignProperties_To_SubResource(&requestRoutingRule)
 			if err != nil {
@@ -9910,8 +9640,6 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 	if configuration.UrlPathMaps != nil {
 		urlPathMapList := make([]storage.SubResource, len(configuration.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range configuration.UrlPathMaps {
-			// Shadow the loop variable to avoid aliasing
-			urlPathMapItem := urlPathMapItem
 			var urlPathMap storage.SubResource
 			err := urlPathMapItem.AssignProperties_To_SubResource(&urlPathMap)
 			if err != nil {
@@ -10641,8 +10369,6 @@ func (ruleSet *ApplicationGatewayRewriteRuleSet) AssignProperties_From_Applicati
 	if source.RewriteRules != nil {
 		rewriteRuleList := make([]ApplicationGatewayRewriteRule, len(source.RewriteRules))
 		for rewriteRuleIndex, rewriteRuleItem := range source.RewriteRules {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleItem := rewriteRuleItem
 			var rewriteRule ApplicationGatewayRewriteRule
 			err := rewriteRule.AssignProperties_From_ApplicationGatewayRewriteRule(&rewriteRuleItem)
 			if err != nil {
@@ -10671,8 +10397,6 @@ func (ruleSet *ApplicationGatewayRewriteRuleSet) AssignProperties_To_Application
 	if ruleSet.RewriteRules != nil {
 		rewriteRuleList := make([]storage.ApplicationGatewayRewriteRule, len(ruleSet.RewriteRules))
 		for rewriteRuleIndex, rewriteRuleItem := range ruleSet.RewriteRules {
-			// Shadow the loop variable to avoid aliasing
-			rewriteRuleItem := rewriteRuleItem
 			var rewriteRule storage.ApplicationGatewayRewriteRule
 			err := rewriteRuleItem.AssignProperties_To_ApplicationGatewayRewriteRule(&rewriteRule)
 			if err != nil {
@@ -11762,8 +11486,6 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_From_ApplicationGate
 	if source.CipherSuites != nil {
 		cipherSuiteList := make([]CipherSuitesEnum, len(source.CipherSuites))
 		for cipherSuiteIndex, cipherSuiteItem := range source.CipherSuites {
-			// Shadow the loop variable to avoid aliasing
-			cipherSuiteItem := cipherSuiteItem
 			cipherSuiteList[cipherSuiteIndex] = genruntime.ToEnum(cipherSuiteItem, cipherSuitesEnum_Values)
 		}
 		policy.CipherSuites = cipherSuiteList
@@ -11775,8 +11497,6 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_From_ApplicationGate
 	if source.DisabledSslProtocols != nil {
 		disabledSslProtocolList := make([]ProtocolsEnum, len(source.DisabledSslProtocols))
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range source.DisabledSslProtocols {
-			// Shadow the loop variable to avoid aliasing
-			disabledSslProtocolItem := disabledSslProtocolItem
 			disabledSslProtocolList[disabledSslProtocolIndex] = genruntime.ToEnum(disabledSslProtocolItem, protocolsEnum_Values)
 		}
 		policy.DisabledSslProtocols = disabledSslProtocolList
@@ -11824,8 +11544,6 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_To_ApplicationGatewa
 	if policy.CipherSuites != nil {
 		cipherSuiteList := make([]string, len(policy.CipherSuites))
 		for cipherSuiteIndex, cipherSuiteItem := range policy.CipherSuites {
-			// Shadow the loop variable to avoid aliasing
-			cipherSuiteItem := cipherSuiteItem
 			cipherSuiteList[cipherSuiteIndex] = string(cipherSuiteItem)
 		}
 		destination.CipherSuites = cipherSuiteList
@@ -11837,8 +11555,6 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_To_ApplicationGatewa
 	if policy.DisabledSslProtocols != nil {
 		disabledSslProtocolList := make([]string, len(policy.DisabledSslProtocols))
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range policy.DisabledSslProtocols {
-			// Shadow the loop variable to avoid aliasing
-			disabledSslProtocolItem := disabledSslProtocolItem
 			disabledSslProtocolList[disabledSslProtocolIndex] = string(disabledSslProtocolItem)
 		}
 		destination.DisabledSslProtocols = disabledSslProtocolList
@@ -11888,8 +11604,6 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 	if source.CipherSuites != nil {
 		cipherSuiteList := make([]CipherSuitesEnum, len(source.CipherSuites))
 		for cipherSuiteIndex, cipherSuiteItem := range source.CipherSuites {
-			// Shadow the loop variable to avoid aliasing
-			cipherSuiteItem := cipherSuiteItem
 			cipherSuite := genruntime.ToEnum(string(cipherSuiteItem), cipherSuitesEnum_Values)
 			cipherSuiteList[cipherSuiteIndex] = cipherSuite
 		}
@@ -11902,8 +11616,6 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 	if source.DisabledSslProtocols != nil {
 		disabledSslProtocolList := make([]ProtocolsEnum, len(source.DisabledSslProtocols))
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range source.DisabledSslProtocols {
-			// Shadow the loop variable to avoid aliasing
-			disabledSslProtocolItem := disabledSslProtocolItem
 			disabledSslProtocol := genruntime.ToEnum(string(disabledSslProtocolItem), protocolsEnum_Values)
 			disabledSslProtocolList[disabledSslProtocolIndex] = disabledSslProtocol
 		}
@@ -12021,8 +11733,6 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_From_Applicat
 	if source.CipherSuites != nil {
 		cipherSuiteList := make([]CipherSuitesEnum_STATUS, len(source.CipherSuites))
 		for cipherSuiteIndex, cipherSuiteItem := range source.CipherSuites {
-			// Shadow the loop variable to avoid aliasing
-			cipherSuiteItem := cipherSuiteItem
 			cipherSuiteList[cipherSuiteIndex] = genruntime.ToEnum(cipherSuiteItem, cipherSuitesEnum_STATUS_Values)
 		}
 		policy.CipherSuites = cipherSuiteList
@@ -12034,8 +11744,6 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_From_Applicat
 	if source.DisabledSslProtocols != nil {
 		disabledSslProtocolList := make([]ProtocolsEnum_STATUS, len(source.DisabledSslProtocols))
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range source.DisabledSslProtocols {
-			// Shadow the loop variable to avoid aliasing
-			disabledSslProtocolItem := disabledSslProtocolItem
 			disabledSslProtocolList[disabledSslProtocolIndex] = genruntime.ToEnum(disabledSslProtocolItem, protocolsEnum_STATUS_Values)
 		}
 		policy.DisabledSslProtocols = disabledSslProtocolList
@@ -12083,8 +11791,6 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_To_Applicatio
 	if policy.CipherSuites != nil {
 		cipherSuiteList := make([]string, len(policy.CipherSuites))
 		for cipherSuiteIndex, cipherSuiteItem := range policy.CipherSuites {
-			// Shadow the loop variable to avoid aliasing
-			cipherSuiteItem := cipherSuiteItem
 			cipherSuiteList[cipherSuiteIndex] = string(cipherSuiteItem)
 		}
 		destination.CipherSuites = cipherSuiteList
@@ -12096,8 +11802,6 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_To_Applicatio
 	if policy.DisabledSslProtocols != nil {
 		disabledSslProtocolList := make([]string, len(policy.DisabledSslProtocols))
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range policy.DisabledSslProtocols {
-			// Shadow the loop variable to avoid aliasing
-			disabledSslProtocolItem := disabledSslProtocolItem
 			disabledSslProtocolList[disabledSslProtocolIndex] = string(disabledSslProtocolItem)
 		}
 		destination.DisabledSslProtocols = disabledSslProtocolList
@@ -12299,8 +12003,6 @@ func (profile *ApplicationGatewaySslProfile) AssignProperties_From_ApplicationGa
 	if source.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]SubResource, len(source.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range source.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate SubResource
 			err := trustedClientCertificate.AssignProperties_From_SubResource(&trustedClientCertificateItem)
 			if err != nil {
@@ -12353,8 +12055,6 @@ func (profile *ApplicationGatewaySslProfile) AssignProperties_To_ApplicationGate
 	if profile.TrustedClientCertificates != nil {
 		trustedClientCertificateList := make([]storage.SubResource, len(profile.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range profile.TrustedClientCertificates {
-			// Shadow the loop variable to avoid aliasing
-			trustedClientCertificateItem := trustedClientCertificateItem
 			var trustedClientCertificate storage.SubResource
 			err := trustedClientCertificateItem.AssignProperties_To_SubResource(&trustedClientCertificate)
 			if err != nil {
@@ -13087,8 +12787,6 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_From_ApplicationGa
 	if source.PathRules != nil {
 		pathRuleList := make([]ApplicationGatewayPathRule, len(source.PathRules))
 		for pathRuleIndex, pathRuleItem := range source.PathRules {
-			// Shadow the loop variable to avoid aliasing
-			pathRuleItem := pathRuleItem
 			var pathRule ApplicationGatewayPathRule
 			err := pathRule.AssignProperties_From_ApplicationGatewayPathRule(&pathRuleItem)
 			if err != nil {
@@ -13177,8 +12875,6 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_To_ApplicationGate
 	if pathMap.PathRules != nil {
 		pathRuleList := make([]storage.ApplicationGatewayPathRule, len(pathMap.PathRules))
 		for pathRuleIndex, pathRuleItem := range pathMap.PathRules {
-			// Shadow the loop variable to avoid aliasing
-			pathRuleItem := pathRuleItem
 			var pathRule storage.ApplicationGatewayPathRule
 			err := pathRuleItem.AssignProperties_To_ApplicationGatewayPathRule(&pathRule)
 			if err != nil {
@@ -13482,8 +13178,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	if source.DisabledRuleGroups != nil {
 		disabledRuleGroupList := make([]ApplicationGatewayFirewallDisabledRuleGroup, len(source.DisabledRuleGroups))
 		for disabledRuleGroupIndex, disabledRuleGroupItem := range source.DisabledRuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			disabledRuleGroupItem := disabledRuleGroupItem
 			var disabledRuleGroup ApplicationGatewayFirewallDisabledRuleGroup
 			err := disabledRuleGroup.AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup(&disabledRuleGroupItem)
 			if err != nil {
@@ -13508,8 +13202,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	if source.Exclusions != nil {
 		exclusionList := make([]ApplicationGatewayFirewallExclusion, len(source.Exclusions))
 		for exclusionIndex, exclusionItem := range source.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion ApplicationGatewayFirewallExclusion
 			err := exclusion.AssignProperties_From_ApplicationGatewayFirewallExclusion(&exclusionItem)
 			if err != nil {
@@ -13567,8 +13259,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	if configuration.DisabledRuleGroups != nil {
 		disabledRuleGroupList := make([]storage.ApplicationGatewayFirewallDisabledRuleGroup, len(configuration.DisabledRuleGroups))
 		for disabledRuleGroupIndex, disabledRuleGroupItem := range configuration.DisabledRuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			disabledRuleGroupItem := disabledRuleGroupItem
 			var disabledRuleGroup storage.ApplicationGatewayFirewallDisabledRuleGroup
 			err := disabledRuleGroupItem.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup(&disabledRuleGroup)
 			if err != nil {
@@ -13593,8 +13283,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	if configuration.Exclusions != nil {
 		exclusionList := make([]storage.ApplicationGatewayFirewallExclusion, len(configuration.Exclusions))
 		for exclusionIndex, exclusionItem := range configuration.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion storage.ApplicationGatewayFirewallExclusion
 			err := exclusionItem.AssignProperties_To_ApplicationGatewayFirewallExclusion(&exclusion)
 			if err != nil {
@@ -13656,8 +13344,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Init
 	if source.DisabledRuleGroups != nil {
 		disabledRuleGroupList := make([]ApplicationGatewayFirewallDisabledRuleGroup, len(source.DisabledRuleGroups))
 		for disabledRuleGroupIndex, disabledRuleGroupItem := range source.DisabledRuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			disabledRuleGroupItem := disabledRuleGroupItem
 			var disabledRuleGroup ApplicationGatewayFirewallDisabledRuleGroup
 			err := disabledRuleGroup.Initialize_From_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&disabledRuleGroupItem)
 			if err != nil {
@@ -13682,8 +13368,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Init
 	if source.Exclusions != nil {
 		exclusionList := make([]ApplicationGatewayFirewallExclusion, len(source.Exclusions))
 		for exclusionIndex, exclusionItem := range source.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion ApplicationGatewayFirewallExclusion
 			err := exclusion.Initialize_From_ApplicationGatewayFirewallExclusion_STATUS(&exclusionItem)
 			if err != nil {
@@ -13859,8 +13543,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATU
 	if source.DisabledRuleGroups != nil {
 		disabledRuleGroupList := make([]ApplicationGatewayFirewallDisabledRuleGroup_STATUS, len(source.DisabledRuleGroups))
 		for disabledRuleGroupIndex, disabledRuleGroupItem := range source.DisabledRuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			disabledRuleGroupItem := disabledRuleGroupItem
 			var disabledRuleGroup ApplicationGatewayFirewallDisabledRuleGroup_STATUS
 			err := disabledRuleGroup.AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&disabledRuleGroupItem)
 			if err != nil {
@@ -13885,8 +13567,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATU
 	if source.Exclusions != nil {
 		exclusionList := make([]ApplicationGatewayFirewallExclusion_STATUS, len(source.Exclusions))
 		for exclusionIndex, exclusionItem := range source.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion ApplicationGatewayFirewallExclusion_STATUS
 			err := exclusion.AssignProperties_From_ApplicationGatewayFirewallExclusion_STATUS(&exclusionItem)
 			if err != nil {
@@ -13944,8 +13624,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATU
 	if configuration.DisabledRuleGroups != nil {
 		disabledRuleGroupList := make([]storage.ApplicationGatewayFirewallDisabledRuleGroup_STATUS, len(configuration.DisabledRuleGroups))
 		for disabledRuleGroupIndex, disabledRuleGroupItem := range configuration.DisabledRuleGroups {
-			// Shadow the loop variable to avoid aliasing
-			disabledRuleGroupItem := disabledRuleGroupItem
 			var disabledRuleGroup storage.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
 			err := disabledRuleGroupItem.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&disabledRuleGroup)
 			if err != nil {
@@ -13970,8 +13648,6 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATU
 	if configuration.Exclusions != nil {
 		exclusionList := make([]storage.ApplicationGatewayFirewallExclusion_STATUS, len(configuration.Exclusions))
 		for exclusionIndex, exclusionItem := range configuration.Exclusions {
-			// Shadow the loop variable to avoid aliasing
-			exclusionItem := exclusionItem
 			var exclusion storage.ApplicationGatewayFirewallExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS(&exclusion)
 			if err != nil {
@@ -14111,8 +13787,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -14146,8 +13820,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -14292,8 +13964,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity ManagedServiceIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_ManagedServiceIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -14333,8 +14003,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.ManagedServiceIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ManagedServiceIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -14952,8 +14620,6 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup) AssignProperties_From_
 	if source.Rules != nil {
 		ruleList := make([]int, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			ruleList[ruleIndex] = ruleItem
 		}
 		group.Rules = ruleList
@@ -14977,8 +14643,6 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup) AssignProperties_To_Ap
 	if group.Rules != nil {
 		ruleList := make([]int, len(group.Rules))
 		for ruleIndex, ruleItem := range group.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			ruleList[ruleIndex] = ruleItem
 		}
 		destination.Rules = ruleList
@@ -15007,8 +14671,6 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup) Initialize_From_Applic
 	if source.Rules != nil {
 		ruleList := make([]int, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			ruleList[ruleIndex] = ruleItem
 		}
 		group.Rules = ruleList
@@ -15068,8 +14730,6 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup_STATUS) AssignPropertie
 	if source.Rules != nil {
 		ruleList := make([]int, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			ruleList[ruleIndex] = ruleItem
 		}
 		group.Rules = ruleList
@@ -15093,8 +14753,6 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup_STATUS) AssignPropertie
 	if group.Rules != nil {
 		ruleList := make([]int, len(group.Rules))
 		for ruleIndex, ruleItem := range group.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			ruleList[ruleIndex] = ruleItem
 		}
 		destination.Rules = ruleList
@@ -16177,8 +15835,6 @@ func (rule *ApplicationGatewayRewriteRule) AssignProperties_From_ApplicationGate
 	if source.Conditions != nil {
 		conditionList := make([]ApplicationGatewayRewriteRuleCondition, len(source.Conditions))
 		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition ApplicationGatewayRewriteRuleCondition
 			err := condition.AssignProperties_From_ApplicationGatewayRewriteRuleCondition(&conditionItem)
 			if err != nil {
@@ -16222,8 +15878,6 @@ func (rule *ApplicationGatewayRewriteRule) AssignProperties_To_ApplicationGatewa
 	if rule.Conditions != nil {
 		conditionList := make([]storage.ApplicationGatewayRewriteRuleCondition, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition storage.ApplicationGatewayRewriteRuleCondition
 			err := conditionItem.AssignProperties_To_ApplicationGatewayRewriteRuleCondition(&condition)
 			if err != nil {
@@ -16913,8 +16567,6 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) AssignProperties_From_A
 	if source.RequestHeaderConfigurations != nil {
 		requestHeaderConfigurationList := make([]ApplicationGatewayHeaderConfiguration, len(source.RequestHeaderConfigurations))
 		for requestHeaderConfigurationIndex, requestHeaderConfigurationItem := range source.RequestHeaderConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			requestHeaderConfigurationItem := requestHeaderConfigurationItem
 			var requestHeaderConfiguration ApplicationGatewayHeaderConfiguration
 			err := requestHeaderConfiguration.AssignProperties_From_ApplicationGatewayHeaderConfiguration(&requestHeaderConfigurationItem)
 			if err != nil {
@@ -16931,8 +16583,6 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) AssignProperties_From_A
 	if source.ResponseHeaderConfigurations != nil {
 		responseHeaderConfigurationList := make([]ApplicationGatewayHeaderConfiguration, len(source.ResponseHeaderConfigurations))
 		for responseHeaderConfigurationIndex, responseHeaderConfigurationItem := range source.ResponseHeaderConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			responseHeaderConfigurationItem := responseHeaderConfigurationItem
 			var responseHeaderConfiguration ApplicationGatewayHeaderConfiguration
 			err := responseHeaderConfiguration.AssignProperties_From_ApplicationGatewayHeaderConfiguration(&responseHeaderConfigurationItem)
 			if err != nil {
@@ -16970,8 +16620,6 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) AssignProperties_To_App
 	if actionSet.RequestHeaderConfigurations != nil {
 		requestHeaderConfigurationList := make([]storage.ApplicationGatewayHeaderConfiguration, len(actionSet.RequestHeaderConfigurations))
 		for requestHeaderConfigurationIndex, requestHeaderConfigurationItem := range actionSet.RequestHeaderConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			requestHeaderConfigurationItem := requestHeaderConfigurationItem
 			var requestHeaderConfiguration storage.ApplicationGatewayHeaderConfiguration
 			err := requestHeaderConfigurationItem.AssignProperties_To_ApplicationGatewayHeaderConfiguration(&requestHeaderConfiguration)
 			if err != nil {
@@ -16988,8 +16636,6 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) AssignProperties_To_App
 	if actionSet.ResponseHeaderConfigurations != nil {
 		responseHeaderConfigurationList := make([]storage.ApplicationGatewayHeaderConfiguration, len(actionSet.ResponseHeaderConfigurations))
 		for responseHeaderConfigurationIndex, responseHeaderConfigurationItem := range actionSet.ResponseHeaderConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			responseHeaderConfigurationItem := responseHeaderConfigurationItem
 			var responseHeaderConfiguration storage.ApplicationGatewayHeaderConfiguration
 			err := responseHeaderConfigurationItem.AssignProperties_To_ApplicationGatewayHeaderConfiguration(&responseHeaderConfiguration)
 			if err != nil {

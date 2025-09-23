@@ -1550,8 +1550,6 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1598,8 +1596,6 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 	if source.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_STATUS, len(source.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResourceItem)
 			if err != nil {
@@ -1734,8 +1730,6 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 	if service.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(service.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range service.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -1779,8 +1773,6 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 	if service.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]storage.SharedPrivateLinkResource_STATUS, len(service.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range service.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource storage.SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResource)
 			if err != nil {
@@ -2022,8 +2014,6 @@ func (options *DataPlaneAuthOptions_STATUS) AssignProperties_From_DataPlaneAuthO
 	if source.ApiKeyOnly != nil {
 		apiKeyOnlyMap := make(map[string]v1.JSON, len(source.ApiKeyOnly))
 		for apiKeyOnlyKey, apiKeyOnlyValue := range source.ApiKeyOnly {
-			// Shadow the loop variable to avoid aliasing
-			apiKeyOnlyValue := apiKeyOnlyValue
 			apiKeyOnlyMap[apiKeyOnlyKey] = *apiKeyOnlyValue.DeepCopy()
 		}
 		options.ApiKeyOnly = apiKeyOnlyMap
@@ -2056,8 +2046,6 @@ func (options *DataPlaneAuthOptions_STATUS) AssignProperties_To_DataPlaneAuthOpt
 	if options.ApiKeyOnly != nil {
 		apiKeyOnlyMap := make(map[string]v1.JSON, len(options.ApiKeyOnly))
 		for apiKeyOnlyKey, apiKeyOnlyValue := range options.ApiKeyOnly {
-			// Shadow the loop variable to avoid aliasing
-			apiKeyOnlyValue := apiKeyOnlyValue
 			apiKeyOnlyMap[apiKeyOnlyKey] = *apiKeyOnlyValue.DeepCopy()
 		}
 		destination.ApiKeyOnly = apiKeyOnlyMap
@@ -2551,8 +2539,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 	if source.IpRules != nil {
 		ipRuleList := make([]IpRule, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IpRule
 			err := ipRule.AssignProperties_From_IpRule(&ipRuleItem)
 			if err != nil {
@@ -2578,8 +2564,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 	if ruleSet.IpRules != nil {
 		ipRuleList := make([]storage.IpRule, len(ruleSet.IpRules))
 		for ipRuleIndex, ipRuleItem := range ruleSet.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule storage.IpRule
 			err := ipRuleItem.AssignProperties_To_IpRule(&ipRule)
 			if err != nil {
@@ -2610,8 +2594,6 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 	if source.IpRules != nil {
 		ipRuleList := make([]IpRule, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IpRule
 			err := ipRule.Initialize_From_IpRule_STATUS(&ipRuleItem)
 			if err != nil {
@@ -2670,8 +2652,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 	if source.IpRules != nil {
 		ipRuleList := make([]IpRule_STATUS, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IpRule_STATUS
 			err := ipRule.AssignProperties_From_IpRule_STATUS(&ipRuleItem)
 			if err != nil {
@@ -2697,8 +2677,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	if ruleSet.IpRules != nil {
 		ipRuleList := make([]storage.IpRule_STATUS, len(ruleSet.IpRules))
 		for ipRuleIndex, ipRuleItem := range ruleSet.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule storage.IpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IpRule_STATUS(&ipRule)
 			if err != nil {
@@ -2804,8 +2782,6 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2834,8 +2810,6 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2873,8 +2847,6 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOper
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2903,8 +2875,6 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOper
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

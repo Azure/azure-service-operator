@@ -542,8 +542,6 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_From_NetworkSecurityG
 	if source.DefaultSecurityRules != nil {
 		defaultSecurityRuleList := make([]SecurityRule_STATUS, len(source.DefaultSecurityRules))
 		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range source.DefaultSecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			defaultSecurityRuleItem := defaultSecurityRuleItem
 			var defaultSecurityRule SecurityRule_STATUS
 			err := defaultSecurityRule.AssignProperties_From_SecurityRule_STATUS(&defaultSecurityRuleItem)
 			if err != nil {
@@ -592,8 +590,6 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_From_NetworkSecurityG
 	if source.NetworkInterfaces != nil {
 		networkInterfaceList := make([]NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
 			var networkInterface NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
@@ -616,8 +612,6 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_From_NetworkSecurityG
 	if source.Subnets != nil {
 		subnetList := make([]Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.Subnets))
 		for subnetIndex, subnetItem := range source.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := subnet.AssignProperties_From_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&subnetItem)
 			if err != nil {
@@ -668,8 +662,6 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_To_NetworkSecurityGro
 	if group.DefaultSecurityRules != nil {
 		defaultSecurityRuleList := make([]storage.SecurityRule_STATUS, len(group.DefaultSecurityRules))
 		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range group.DefaultSecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			defaultSecurityRuleItem := defaultSecurityRuleItem
 			var defaultSecurityRule storage.SecurityRule_STATUS
 			err := defaultSecurityRuleItem.AssignProperties_To_SecurityRule_STATUS(&defaultSecurityRule)
 			if err != nil {
@@ -718,8 +710,6 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_To_NetworkSecurityGro
 	if group.NetworkInterfaces != nil {
 		networkInterfaceList := make([]storage.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(group.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range group.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
 			var networkInterface storage.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&networkInterface)
 			if err != nil {
@@ -742,8 +732,6 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_To_NetworkSecurityGro
 	if group.Subnets != nil {
 		subnetList := make([]storage.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(group.Subnets))
 		for subnetIndex, subnetItem := range group.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet storage.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := subnetItem.AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&subnet)
 			if err != nil {
@@ -879,8 +867,6 @@ func (operator *NetworkSecurityGroupOperatorSpec) AssignProperties_From_NetworkS
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -897,8 +883,6 @@ func (operator *NetworkSecurityGroupOperatorSpec) AssignProperties_From_NetworkS
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -940,8 +924,6 @@ func (operator *NetworkSecurityGroupOperatorSpec) AssignProperties_To_NetworkSec
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -958,8 +940,6 @@ func (operator *NetworkSecurityGroupOperatorSpec) AssignProperties_To_NetworkSec
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

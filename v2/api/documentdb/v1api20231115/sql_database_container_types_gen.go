@@ -1052,8 +1052,6 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_From
 	if source.ComputedProperties != nil {
 		computedPropertyList := make([]ComputedProperty_STATUS, len(source.ComputedProperties))
 		for computedPropertyIndex, computedPropertyItem := range source.ComputedProperties {
-			// Shadow the loop variable to avoid aliasing
-			computedPropertyItem := computedPropertyItem
 			var computedProperty ComputedProperty_STATUS
 			err := computedProperty.AssignProperties_From_ComputedProperty_STATUS(&computedPropertyItem)
 			if err != nil {
@@ -1183,8 +1181,6 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_To_S
 	if resource.ComputedProperties != nil {
 		computedPropertyList := make([]storage.ComputedProperty_STATUS, len(resource.ComputedProperties))
 		for computedPropertyIndex, computedPropertyItem := range resource.ComputedProperties {
-			// Shadow the loop variable to avoid aliasing
-			computedPropertyItem := computedPropertyItem
 			var computedProperty storage.ComputedProperty_STATUS
 			err := computedPropertyItem.AssignProperties_To_ComputedProperty_STATUS(&computedProperty)
 			if err != nil {
@@ -1581,8 +1577,6 @@ func (resource *SqlContainerResource) AssignProperties_From_SqlContainerResource
 	if source.ComputedProperties != nil {
 		computedPropertyList := make([]ComputedProperty, len(source.ComputedProperties))
 		for computedPropertyIndex, computedPropertyItem := range source.ComputedProperties {
-			// Shadow the loop variable to avoid aliasing
-			computedPropertyItem := computedPropertyItem
 			var computedProperty ComputedProperty
 			err := computedProperty.AssignProperties_From_ComputedProperty(&computedPropertyItem)
 			if err != nil {
@@ -1698,8 +1692,6 @@ func (resource *SqlContainerResource) AssignProperties_To_SqlContainerResource(d
 	if resource.ComputedProperties != nil {
 		computedPropertyList := make([]storage.ComputedProperty, len(resource.ComputedProperties))
 		for computedPropertyIndex, computedPropertyItem := range resource.ComputedProperties {
-			// Shadow the loop variable to avoid aliasing
-			computedPropertyItem := computedPropertyItem
 			var computedProperty storage.ComputedProperty
 			err := computedPropertyItem.AssignProperties_To_ComputedProperty(&computedProperty)
 			if err != nil {
@@ -1813,8 +1805,6 @@ func (operator *SqlDatabaseContainerOperatorSpec) AssignProperties_From_SqlDatab
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1831,8 +1821,6 @@ func (operator *SqlDatabaseContainerOperatorSpec) AssignProperties_From_SqlDatab
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1858,8 +1846,6 @@ func (operator *SqlDatabaseContainerOperatorSpec) AssignProperties_To_SqlDatabas
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1876,8 +1862,6 @@ func (operator *SqlDatabaseContainerOperatorSpec) AssignProperties_To_SqlDatabas
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1980,8 +1964,6 @@ func (policy *ClientEncryptionPolicy) AssignProperties_From_ClientEncryptionPoli
 	if source.IncludedPaths != nil {
 		includedPathList := make([]ClientEncryptionIncludedPath, len(source.IncludedPaths))
 		for includedPathIndex, includedPathItem := range source.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath ClientEncryptionIncludedPath
 			err := includedPath.AssignProperties_From_ClientEncryptionIncludedPath(&includedPathItem)
 			if err != nil {
@@ -2010,8 +1992,6 @@ func (policy *ClientEncryptionPolicy) AssignProperties_To_ClientEncryptionPolicy
 	if policy.IncludedPaths != nil {
 		includedPathList := make([]storage.ClientEncryptionIncludedPath, len(policy.IncludedPaths))
 		for includedPathIndex, includedPathItem := range policy.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath storage.ClientEncryptionIncludedPath
 			err := includedPathItem.AssignProperties_To_ClientEncryptionIncludedPath(&includedPath)
 			if err != nil {
@@ -2089,8 +2069,6 @@ func (policy *ClientEncryptionPolicy_STATUS) AssignProperties_From_ClientEncrypt
 	if source.IncludedPaths != nil {
 		includedPathList := make([]ClientEncryptionIncludedPath_STATUS, len(source.IncludedPaths))
 		for includedPathIndex, includedPathItem := range source.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath ClientEncryptionIncludedPath_STATUS
 			err := includedPath.AssignProperties_From_ClientEncryptionIncludedPath_STATUS(&includedPathItem)
 			if err != nil {
@@ -2119,8 +2097,6 @@ func (policy *ClientEncryptionPolicy_STATUS) AssignProperties_To_ClientEncryptio
 	if policy.IncludedPaths != nil {
 		includedPathList := make([]storage.ClientEncryptionIncludedPath_STATUS, len(policy.IncludedPaths))
 		for includedPathIndex, includedPathItem := range policy.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath storage.ClientEncryptionIncludedPath_STATUS
 			err := includedPathItem.AssignProperties_To_ClientEncryptionIncludedPath_STATUS(&includedPath)
 			if err != nil {
@@ -2983,13 +2959,9 @@ func (policy *IndexingPolicy) AssignProperties_From_IndexingPolicy(source *stora
 	if source.CompositeIndexes != nil {
 		compositeIndexList := make([][]CompositePath, len(source.CompositeIndexes))
 		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
-			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem := compositeIndexItem
 			if compositeIndexItem != nil {
 				compositeIndexList1 := make([]CompositePath, len(compositeIndexItem))
 				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
-					// Shadow the loop variable to avoid aliasing
-					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal CompositePath
 					err := compositeIndexLocal.AssignProperties_From_CompositePath(&compositeIndexItem1)
 					if err != nil {
@@ -3011,8 +2983,6 @@ func (policy *IndexingPolicy) AssignProperties_From_IndexingPolicy(source *stora
 	if source.ExcludedPaths != nil {
 		excludedPathList := make([]ExcludedPath, len(source.ExcludedPaths))
 		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			excludedPathItem := excludedPathItem
 			var excludedPath ExcludedPath
 			err := excludedPath.AssignProperties_From_ExcludedPath(&excludedPathItem)
 			if err != nil {
@@ -3029,8 +2999,6 @@ func (policy *IndexingPolicy) AssignProperties_From_IndexingPolicy(source *stora
 	if source.IncludedPaths != nil {
 		includedPathList := make([]IncludedPath, len(source.IncludedPaths))
 		for includedPathIndex, includedPathItem := range source.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath IncludedPath
 			err := includedPath.AssignProperties_From_IncludedPath(&includedPathItem)
 			if err != nil {
@@ -3056,8 +3024,6 @@ func (policy *IndexingPolicy) AssignProperties_From_IndexingPolicy(source *stora
 	if source.SpatialIndexes != nil {
 		spatialIndexList := make([]SpatialSpec, len(source.SpatialIndexes))
 		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
-			// Shadow the loop variable to avoid aliasing
-			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal SpatialSpec
 			err := spatialIndexLocal.AssignProperties_From_SpatialSpec(&spatialIndexItem)
 			if err != nil {
@@ -3091,13 +3057,9 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *st
 	if policy.CompositeIndexes != nil {
 		compositeIndexList := make([][]storage.CompositePath, len(policy.CompositeIndexes))
 		for compositeIndex, compositeIndexItem := range policy.CompositeIndexes {
-			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem := compositeIndexItem
 			if compositeIndexItem != nil {
 				compositeIndexList1 := make([]storage.CompositePath, len(compositeIndexItem))
 				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
-					// Shadow the loop variable to avoid aliasing
-					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal storage.CompositePath
 					err := compositeIndexItem1.AssignProperties_To_CompositePath(&compositeIndexLocal)
 					if err != nil {
@@ -3119,8 +3081,6 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *st
 	if policy.ExcludedPaths != nil {
 		excludedPathList := make([]storage.ExcludedPath, len(policy.ExcludedPaths))
 		for excludedPathIndex, excludedPathItem := range policy.ExcludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			excludedPathItem := excludedPathItem
 			var excludedPath storage.ExcludedPath
 			err := excludedPathItem.AssignProperties_To_ExcludedPath(&excludedPath)
 			if err != nil {
@@ -3137,8 +3097,6 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *st
 	if policy.IncludedPaths != nil {
 		includedPathList := make([]storage.IncludedPath, len(policy.IncludedPaths))
 		for includedPathIndex, includedPathItem := range policy.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath storage.IncludedPath
 			err := includedPathItem.AssignProperties_To_IncludedPath(&includedPath)
 			if err != nil {
@@ -3163,8 +3121,6 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *st
 	if policy.SpatialIndexes != nil {
 		spatialIndexList := make([]storage.SpatialSpec, len(policy.SpatialIndexes))
 		for spatialIndex, spatialIndexItem := range policy.SpatialIndexes {
-			// Shadow the loop variable to avoid aliasing
-			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal storage.SpatialSpec
 			err := spatialIndexItem.AssignProperties_To_SpatialSpec(&spatialIndexLocal)
 			if err != nil {
@@ -3300,13 +3256,9 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_From_IndexingPolicy_STATUS
 	if source.CompositeIndexes != nil {
 		compositeIndexList := make([][]CompositePath_STATUS, len(source.CompositeIndexes))
 		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
-			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem := compositeIndexItem
 			if compositeIndexItem != nil {
 				compositeIndexList1 := make([]CompositePath_STATUS, len(compositeIndexItem))
 				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
-					// Shadow the loop variable to avoid aliasing
-					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal CompositePath_STATUS
 					err := compositeIndexLocal.AssignProperties_From_CompositePath_STATUS(&compositeIndexItem1)
 					if err != nil {
@@ -3328,8 +3280,6 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_From_IndexingPolicy_STATUS
 	if source.ExcludedPaths != nil {
 		excludedPathList := make([]ExcludedPath_STATUS, len(source.ExcludedPaths))
 		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			excludedPathItem := excludedPathItem
 			var excludedPath ExcludedPath_STATUS
 			err := excludedPath.AssignProperties_From_ExcludedPath_STATUS(&excludedPathItem)
 			if err != nil {
@@ -3346,8 +3296,6 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_From_IndexingPolicy_STATUS
 	if source.IncludedPaths != nil {
 		includedPathList := make([]IncludedPath_STATUS, len(source.IncludedPaths))
 		for includedPathIndex, includedPathItem := range source.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath IncludedPath_STATUS
 			err := includedPath.AssignProperties_From_IncludedPath_STATUS(&includedPathItem)
 			if err != nil {
@@ -3373,8 +3321,6 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_From_IndexingPolicy_STATUS
 	if source.SpatialIndexes != nil {
 		spatialIndexList := make([]SpatialSpec_STATUS, len(source.SpatialIndexes))
 		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
-			// Shadow the loop variable to avoid aliasing
-			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal SpatialSpec_STATUS
 			err := spatialIndexLocal.AssignProperties_From_SpatialSpec_STATUS(&spatialIndexItem)
 			if err != nil {
@@ -3408,13 +3354,9 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	if policy.CompositeIndexes != nil {
 		compositeIndexList := make([][]storage.CompositePath_STATUS, len(policy.CompositeIndexes))
 		for compositeIndex, compositeIndexItem := range policy.CompositeIndexes {
-			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem := compositeIndexItem
 			if compositeIndexItem != nil {
 				compositeIndexList1 := make([]storage.CompositePath_STATUS, len(compositeIndexItem))
 				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
-					// Shadow the loop variable to avoid aliasing
-					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal storage.CompositePath_STATUS
 					err := compositeIndexItem1.AssignProperties_To_CompositePath_STATUS(&compositeIndexLocal)
 					if err != nil {
@@ -3436,8 +3378,6 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	if policy.ExcludedPaths != nil {
 		excludedPathList := make([]storage.ExcludedPath_STATUS, len(policy.ExcludedPaths))
 		for excludedPathIndex, excludedPathItem := range policy.ExcludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			excludedPathItem := excludedPathItem
 			var excludedPath storage.ExcludedPath_STATUS
 			err := excludedPathItem.AssignProperties_To_ExcludedPath_STATUS(&excludedPath)
 			if err != nil {
@@ -3454,8 +3394,6 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	if policy.IncludedPaths != nil {
 		includedPathList := make([]storage.IncludedPath_STATUS, len(policy.IncludedPaths))
 		for includedPathIndex, includedPathItem := range policy.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
 			var includedPath storage.IncludedPath_STATUS
 			err := includedPathItem.AssignProperties_To_IncludedPath_STATUS(&includedPath)
 			if err != nil {
@@ -3480,8 +3418,6 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	if policy.SpatialIndexes != nil {
 		spatialIndexList := make([]storage.SpatialSpec_STATUS, len(policy.SpatialIndexes))
 		for spatialIndex, spatialIndexItem := range policy.SpatialIndexes {
-			// Shadow the loop variable to avoid aliasing
-			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal storage.SpatialSpec_STATUS
 			err := spatialIndexItem.AssignProperties_To_SpatialSpec_STATUS(&spatialIndexLocal)
 			if err != nil {
@@ -3566,8 +3502,6 @@ func (policy *UniqueKeyPolicy) AssignProperties_From_UniqueKeyPolicy(source *sto
 	if source.UniqueKeys != nil {
 		uniqueKeyList := make([]UniqueKey, len(source.UniqueKeys))
 		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
-			// Shadow the loop variable to avoid aliasing
-			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey UniqueKey
 			err := uniqueKey.AssignProperties_From_UniqueKey(&uniqueKeyItem)
 			if err != nil {
@@ -3593,8 +3527,6 @@ func (policy *UniqueKeyPolicy) AssignProperties_To_UniqueKeyPolicy(destination *
 	if policy.UniqueKeys != nil {
 		uniqueKeyList := make([]storage.UniqueKey, len(policy.UniqueKeys))
 		for uniqueKeyIndex, uniqueKeyItem := range policy.UniqueKeys {
-			// Shadow the loop variable to avoid aliasing
-			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey storage.UniqueKey
 			err := uniqueKeyItem.AssignProperties_To_UniqueKey(&uniqueKey)
 			if err != nil {
@@ -3661,8 +3593,6 @@ func (policy *UniqueKeyPolicy_STATUS) AssignProperties_From_UniqueKeyPolicy_STAT
 	if source.UniqueKeys != nil {
 		uniqueKeyList := make([]UniqueKey_STATUS, len(source.UniqueKeys))
 		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
-			// Shadow the loop variable to avoid aliasing
-			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey UniqueKey_STATUS
 			err := uniqueKey.AssignProperties_From_UniqueKey_STATUS(&uniqueKeyItem)
 			if err != nil {
@@ -3688,8 +3618,6 @@ func (policy *UniqueKeyPolicy_STATUS) AssignProperties_To_UniqueKeyPolicy_STATUS
 	if policy.UniqueKeys != nil {
 		uniqueKeyList := make([]storage.UniqueKey_STATUS, len(policy.UniqueKeys))
 		for uniqueKeyIndex, uniqueKeyItem := range policy.UniqueKeys {
-			// Shadow the loop variable to avoid aliasing
-			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey storage.UniqueKey_STATUS
 			err := uniqueKeyItem.AssignProperties_To_UniqueKey_STATUS(&uniqueKey)
 			if err != nil {
@@ -4421,8 +4349,6 @@ func (path *IncludedPath) AssignProperties_From_IncludedPath(source *storage.Inc
 	if source.Indexes != nil {
 		indexList := make([]Indexes, len(source.Indexes))
 		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
 			var indexLocal Indexes
 			err := indexLocal.AssignProperties_From_Indexes(&indexItem)
 			if err != nil {
@@ -4451,8 +4377,6 @@ func (path *IncludedPath) AssignProperties_To_IncludedPath(destination *storage.
 	if path.Indexes != nil {
 		indexList := make([]storage.Indexes, len(path.Indexes))
 		for index, indexItem := range path.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
 			var indexLocal storage.Indexes
 			err := indexItem.AssignProperties_To_Indexes(&indexLocal)
 			if err != nil {
@@ -4530,8 +4454,6 @@ func (path *IncludedPath_STATUS) AssignProperties_From_IncludedPath_STATUS(sourc
 	if source.Indexes != nil {
 		indexList := make([]Indexes_STATUS, len(source.Indexes))
 		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
 			var indexLocal Indexes_STATUS
 			err := indexLocal.AssignProperties_From_Indexes_STATUS(&indexItem)
 			if err != nil {
@@ -4560,8 +4482,6 @@ func (path *IncludedPath_STATUS) AssignProperties_To_IncludedPath_STATUS(destina
 	if path.Indexes != nil {
 		indexList := make([]storage.Indexes_STATUS, len(path.Indexes))
 		for index, indexItem := range path.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
 			var indexLocal storage.Indexes_STATUS
 			err := indexItem.AssignProperties_To_Indexes_STATUS(&indexLocal)
 			if err != nil {
@@ -4691,8 +4611,6 @@ func (spatial *SpatialSpec) AssignProperties_From_SpatialSpec(source *storage.Sp
 	if source.Types != nil {
 		typeList := make([]SpatialType, len(source.Types))
 		for typeIndex, typeItem := range source.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
 			typeList[typeIndex] = genruntime.ToEnum(typeItem, spatialType_Values)
 		}
 		spatial.Types = typeList
@@ -4716,8 +4634,6 @@ func (spatial *SpatialSpec) AssignProperties_To_SpatialSpec(destination *storage
 	if spatial.Types != nil {
 		typeList := make([]string, len(spatial.Types))
 		for typeIndex, typeItem := range spatial.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
 			typeList[typeIndex] = string(typeItem)
 		}
 		destination.Types = typeList
@@ -4786,8 +4702,6 @@ func (spatial *SpatialSpec_STATUS) AssignProperties_From_SpatialSpec_STATUS(sour
 	if source.Types != nil {
 		typeList := make([]SpatialType_STATUS, len(source.Types))
 		for typeIndex, typeItem := range source.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
 			typeList[typeIndex] = genruntime.ToEnum(typeItem, spatialType_STATUS_Values)
 		}
 		spatial.Types = typeList
@@ -4811,8 +4725,6 @@ func (spatial *SpatialSpec_STATUS) AssignProperties_To_SpatialSpec_STATUS(destin
 	if spatial.Types != nil {
 		typeList := make([]string, len(spatial.Types))
 		for typeIndex, typeItem := range spatial.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
 			typeList[typeIndex] = string(typeItem)
 		}
 		destination.Types = typeList

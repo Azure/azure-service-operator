@@ -1094,8 +1094,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]VirtualNetworkGatewayIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration VirtualNetworkGatewayIPConfiguration
 			err := ipConfiguration.AssignProperties_From_VirtualNetworkGatewayIPConfiguration(&ipConfigurationItem)
 			if err != nil {
@@ -1115,8 +1113,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 	if source.NatRules != nil {
 		natRuleList := make([]VirtualNetworkGatewayNatRule, len(source.NatRules))
 		for natRuleIndex, natRuleItem := range source.NatRules {
-			// Shadow the loop variable to avoid aliasing
-			natRuleItem := natRuleItem
 			var natRule VirtualNetworkGatewayNatRule
 			err := natRule.AssignProperties_From_VirtualNetworkGatewayNatRule(&natRuleItem)
 			if err != nil {
@@ -1185,8 +1181,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 	if source.VirtualNetworkGatewayPolicyGroups != nil {
 		virtualNetworkGatewayPolicyGroupList := make([]VirtualNetworkGatewayPolicyGroup, len(source.VirtualNetworkGatewayPolicyGroups))
 		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range source.VirtualNetworkGatewayPolicyGroups {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkGatewayPolicyGroupItem := virtualNetworkGatewayPolicyGroupItem
 			var virtualNetworkGatewayPolicyGroup VirtualNetworkGatewayPolicyGroup
 			err := virtualNetworkGatewayPolicyGroup.AssignProperties_From_VirtualNetworkGatewayPolicyGroup(&virtualNetworkGatewayPolicyGroupItem)
 			if err != nil {
@@ -1397,8 +1391,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 	if gateway.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.VirtualNetworkGatewayIPConfiguration, len(gateway.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range gateway.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.VirtualNetworkGatewayIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_VirtualNetworkGatewayIPConfiguration(&ipConfiguration)
 			if err != nil {
@@ -1418,8 +1410,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 	if gateway.NatRules != nil {
 		natRuleList := make([]storage.VirtualNetworkGatewayNatRule, len(gateway.NatRules))
 		for natRuleIndex, natRuleItem := range gateway.NatRules {
-			// Shadow the loop variable to avoid aliasing
-			natRuleItem := natRuleItem
 			var natRule storage.VirtualNetworkGatewayNatRule
 			err := natRuleItem.AssignProperties_To_VirtualNetworkGatewayNatRule(&natRule)
 			if err != nil {
@@ -1490,8 +1480,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 	if gateway.VirtualNetworkGatewayPolicyGroups != nil {
 		virtualNetworkGatewayPolicyGroupList := make([]storage.VirtualNetworkGatewayPolicyGroup, len(gateway.VirtualNetworkGatewayPolicyGroups))
 		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range gateway.VirtualNetworkGatewayPolicyGroups {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkGatewayPolicyGroupItem := virtualNetworkGatewayPolicyGroupItem
 			var virtualNetworkGatewayPolicyGroup storage.VirtualNetworkGatewayPolicyGroup
 			err := virtualNetworkGatewayPolicyGroupItem.AssignProperties_To_VirtualNetworkGatewayPolicyGroup(&virtualNetworkGatewayPolicyGroup)
 			if err != nil {
@@ -1702,8 +1690,6 @@ func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]VirtualNetworkGatewayIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration VirtualNetworkGatewayIPConfiguration
 			err := ipConfiguration.Initialize_From_VirtualNetworkGatewayIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -1723,8 +1709,6 @@ func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway
 	if source.NatRules != nil {
 		natRuleList := make([]VirtualNetworkGatewayNatRule, len(source.NatRules))
 		for natRuleIndex, natRuleItem := range source.NatRules {
-			// Shadow the loop variable to avoid aliasing
-			natRuleItem := natRuleItem
 			var natRule VirtualNetworkGatewayNatRule
 			err := natRule.Initialize_From_VirtualNetworkGatewayNatRule_STATUS(&natRuleItem)
 			if err != nil {
@@ -1772,8 +1756,6 @@ func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway
 	if source.VirtualNetworkGatewayPolicyGroups != nil {
 		virtualNetworkGatewayPolicyGroupList := make([]VirtualNetworkGatewayPolicyGroup, len(source.VirtualNetworkGatewayPolicyGroups))
 		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range source.VirtualNetworkGatewayPolicyGroups {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkGatewayPolicyGroupItem := virtualNetworkGatewayPolicyGroupItem
 			var virtualNetworkGatewayPolicyGroup VirtualNetworkGatewayPolicyGroup
 			err := virtualNetworkGatewayPolicyGroup.Initialize_From_VirtualNetworkGatewayPolicyGroup_STATUS(&virtualNetworkGatewayPolicyGroupItem)
 			if err != nil {
@@ -2535,8 +2517,6 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]VirtualNetworkGatewayIPConfiguration_STATUS, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration VirtualNetworkGatewayIPConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -2559,8 +2539,6 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 	if source.NatRules != nil {
 		natRuleList := make([]VirtualNetworkGatewayNatRule_STATUS, len(source.NatRules))
 		for natRuleIndex, natRuleItem := range source.NatRules {
-			// Shadow the loop variable to avoid aliasing
-			natRuleItem := natRuleItem
 			var natRule VirtualNetworkGatewayNatRule_STATUS
 			err := natRule.AssignProperties_From_VirtualNetworkGatewayNatRule_STATUS(&natRuleItem)
 			if err != nil {
@@ -2619,8 +2597,6 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 	if source.VirtualNetworkGatewayPolicyGroups != nil {
 		virtualNetworkGatewayPolicyGroupList := make([]VirtualNetworkGatewayPolicyGroup_STATUS, len(source.VirtualNetworkGatewayPolicyGroups))
 		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range source.VirtualNetworkGatewayPolicyGroups {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkGatewayPolicyGroupItem := virtualNetworkGatewayPolicyGroupItem
 			var virtualNetworkGatewayPolicyGroup VirtualNetworkGatewayPolicyGroup_STATUS
 			err := virtualNetworkGatewayPolicyGroup.AssignProperties_From_VirtualNetworkGatewayPolicyGroup_STATUS(&virtualNetworkGatewayPolicyGroupItem)
 			if err != nil {
@@ -2840,8 +2816,6 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 	if gateway.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.VirtualNetworkGatewayIPConfiguration_STATUS, len(gateway.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range gateway.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.VirtualNetworkGatewayIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
@@ -2864,8 +2838,6 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 	if gateway.NatRules != nil {
 		natRuleList := make([]storage.VirtualNetworkGatewayNatRule_STATUS, len(gateway.NatRules))
 		for natRuleIndex, natRuleItem := range gateway.NatRules {
-			// Shadow the loop variable to avoid aliasing
-			natRuleItem := natRuleItem
 			var natRule storage.VirtualNetworkGatewayNatRule_STATUS
 			err := natRuleItem.AssignProperties_To_VirtualNetworkGatewayNatRule_STATUS(&natRule)
 			if err != nil {
@@ -2922,8 +2894,6 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 	if gateway.VirtualNetworkGatewayPolicyGroups != nil {
 		virtualNetworkGatewayPolicyGroupList := make([]storage.VirtualNetworkGatewayPolicyGroup_STATUS, len(gateway.VirtualNetworkGatewayPolicyGroups))
 		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range gateway.VirtualNetworkGatewayPolicyGroups {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkGatewayPolicyGroupItem := virtualNetworkGatewayPolicyGroupItem
 			var virtualNetworkGatewayPolicyGroup storage.VirtualNetworkGatewayPolicyGroup_STATUS
 			err := virtualNetworkGatewayPolicyGroupItem.AssignProperties_To_VirtualNetworkGatewayPolicyGroup_STATUS(&virtualNetworkGatewayPolicyGroup)
 			if err != nil {
@@ -3090,8 +3060,6 @@ func (settings *BgpSettings) AssignProperties_From_BgpSettings(source *storage.B
 	if source.BgpPeeringAddresses != nil {
 		bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress, len(source.BgpPeeringAddresses))
 		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
-			// Shadow the loop variable to avoid aliasing
-			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress
 			err := bgpPeeringAddress.AssignProperties_From_IPConfigurationBgpPeeringAddress(&bgpPeeringAddressItem)
 			if err != nil {
@@ -3131,8 +3099,6 @@ func (settings *BgpSettings) AssignProperties_To_BgpSettings(destination *storag
 	if settings.BgpPeeringAddresses != nil {
 		bgpPeeringAddressList := make([]storage.IPConfigurationBgpPeeringAddress, len(settings.BgpPeeringAddresses))
 		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range settings.BgpPeeringAddresses {
-			// Shadow the loop variable to avoid aliasing
-			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress storage.IPConfigurationBgpPeeringAddress
 			err := bgpPeeringAddressItem.AssignProperties_To_IPConfigurationBgpPeeringAddress(&bgpPeeringAddress)
 			if err != nil {
@@ -3177,8 +3143,6 @@ func (settings *BgpSettings) Initialize_From_BgpSettings_STATUS(source *BgpSetti
 	if source.BgpPeeringAddresses != nil {
 		bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress, len(source.BgpPeeringAddresses))
 		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
-			// Shadow the loop variable to avoid aliasing
-			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress
 			err := bgpPeeringAddress.Initialize_From_IPConfigurationBgpPeeringAddress_STATUS(&bgpPeeringAddressItem)
 			if err != nil {
@@ -3277,8 +3241,6 @@ func (settings *BgpSettings_STATUS) AssignProperties_From_BgpSettings_STATUS(sou
 	if source.BgpPeeringAddresses != nil {
 		bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress_STATUS, len(source.BgpPeeringAddresses))
 		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
-			// Shadow the loop variable to avoid aliasing
-			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress_STATUS
 			err := bgpPeeringAddress.AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS(&bgpPeeringAddressItem)
 			if err != nil {
@@ -3318,8 +3280,6 @@ func (settings *BgpSettings_STATUS) AssignProperties_To_BgpSettings_STATUS(desti
 	if settings.BgpPeeringAddresses != nil {
 		bgpPeeringAddressList := make([]storage.IPConfigurationBgpPeeringAddress_STATUS, len(settings.BgpPeeringAddresses))
 		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range settings.BgpPeeringAddresses {
-			// Shadow the loop variable to avoid aliasing
-			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress storage.IPConfigurationBgpPeeringAddress_STATUS
 			err := bgpPeeringAddressItem.AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS(&bgpPeeringAddress)
 			if err != nil {
@@ -4220,8 +4180,6 @@ func (rule *VirtualNetworkGatewayNatRule) AssignProperties_From_VirtualNetworkGa
 	if source.ExternalMappings != nil {
 		externalMappingList := make([]VpnNatRuleMapping, len(source.ExternalMappings))
 		for externalMappingIndex, externalMappingItem := range source.ExternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			externalMappingItem := externalMappingItem
 			var externalMapping VpnNatRuleMapping
 			err := externalMapping.AssignProperties_From_VpnNatRuleMapping(&externalMappingItem)
 			if err != nil {
@@ -4238,8 +4196,6 @@ func (rule *VirtualNetworkGatewayNatRule) AssignProperties_From_VirtualNetworkGa
 	if source.InternalMappings != nil {
 		internalMappingList := make([]VpnNatRuleMapping, len(source.InternalMappings))
 		for internalMappingIndex, internalMappingItem := range source.InternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			internalMappingItem := internalMappingItem
 			var internalMapping VpnNatRuleMapping
 			err := internalMapping.AssignProperties_From_VpnNatRuleMapping(&internalMappingItem)
 			if err != nil {
@@ -4289,8 +4245,6 @@ func (rule *VirtualNetworkGatewayNatRule) AssignProperties_To_VirtualNetworkGate
 	if rule.ExternalMappings != nil {
 		externalMappingList := make([]storage.VpnNatRuleMapping, len(rule.ExternalMappings))
 		for externalMappingIndex, externalMappingItem := range rule.ExternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			externalMappingItem := externalMappingItem
 			var externalMapping storage.VpnNatRuleMapping
 			err := externalMappingItem.AssignProperties_To_VpnNatRuleMapping(&externalMapping)
 			if err != nil {
@@ -4307,8 +4261,6 @@ func (rule *VirtualNetworkGatewayNatRule) AssignProperties_To_VirtualNetworkGate
 	if rule.InternalMappings != nil {
 		internalMappingList := make([]storage.VpnNatRuleMapping, len(rule.InternalMappings))
 		for internalMappingIndex, internalMappingItem := range rule.InternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			internalMappingItem := internalMappingItem
 			var internalMapping storage.VpnNatRuleMapping
 			err := internalMappingItem.AssignProperties_To_VpnNatRuleMapping(&internalMapping)
 			if err != nil {
@@ -4361,8 +4313,6 @@ func (rule *VirtualNetworkGatewayNatRule) Initialize_From_VirtualNetworkGatewayN
 	if source.ExternalMappings != nil {
 		externalMappingList := make([]VpnNatRuleMapping, len(source.ExternalMappings))
 		for externalMappingIndex, externalMappingItem := range source.ExternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			externalMappingItem := externalMappingItem
 			var externalMapping VpnNatRuleMapping
 			err := externalMapping.Initialize_From_VpnNatRuleMapping_STATUS(&externalMappingItem)
 			if err != nil {
@@ -4379,8 +4329,6 @@ func (rule *VirtualNetworkGatewayNatRule) Initialize_From_VirtualNetworkGatewayN
 	if source.InternalMappings != nil {
 		internalMappingList := make([]VpnNatRuleMapping, len(source.InternalMappings))
 		for internalMappingIndex, internalMappingItem := range source.InternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			internalMappingItem := internalMappingItem
 			var internalMapping VpnNatRuleMapping
 			err := internalMapping.Initialize_From_VpnNatRuleMapping_STATUS(&internalMappingItem)
 			if err != nil {
@@ -4572,8 +4520,6 @@ func (rule *VirtualNetworkGatewayNatRule_STATUS) AssignProperties_From_VirtualNe
 	if source.ExternalMappings != nil {
 		externalMappingList := make([]VpnNatRuleMapping_STATUS, len(source.ExternalMappings))
 		for externalMappingIndex, externalMappingItem := range source.ExternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			externalMappingItem := externalMappingItem
 			var externalMapping VpnNatRuleMapping_STATUS
 			err := externalMapping.AssignProperties_From_VpnNatRuleMapping_STATUS(&externalMappingItem)
 			if err != nil {
@@ -4593,8 +4539,6 @@ func (rule *VirtualNetworkGatewayNatRule_STATUS) AssignProperties_From_VirtualNe
 	if source.InternalMappings != nil {
 		internalMappingList := make([]VpnNatRuleMapping_STATUS, len(source.InternalMappings))
 		for internalMappingIndex, internalMappingItem := range source.InternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			internalMappingItem := internalMappingItem
 			var internalMapping VpnNatRuleMapping_STATUS
 			err := internalMapping.AssignProperties_From_VpnNatRuleMapping_STATUS(&internalMappingItem)
 			if err != nil {
@@ -4659,8 +4603,6 @@ func (rule *VirtualNetworkGatewayNatRule_STATUS) AssignProperties_To_VirtualNetw
 	if rule.ExternalMappings != nil {
 		externalMappingList := make([]storage.VpnNatRuleMapping_STATUS, len(rule.ExternalMappings))
 		for externalMappingIndex, externalMappingItem := range rule.ExternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			externalMappingItem := externalMappingItem
 			var externalMapping storage.VpnNatRuleMapping_STATUS
 			err := externalMappingItem.AssignProperties_To_VpnNatRuleMapping_STATUS(&externalMapping)
 			if err != nil {
@@ -4680,8 +4622,6 @@ func (rule *VirtualNetworkGatewayNatRule_STATUS) AssignProperties_To_VirtualNetw
 	if rule.InternalMappings != nil {
 		internalMappingList := make([]storage.VpnNatRuleMapping_STATUS, len(rule.InternalMappings))
 		for internalMappingIndex, internalMappingItem := range rule.InternalMappings {
-			// Shadow the loop variable to avoid aliasing
-			internalMappingItem := internalMappingItem
 			var internalMapping storage.VpnNatRuleMapping_STATUS
 			err := internalMappingItem.AssignProperties_To_VpnNatRuleMapping_STATUS(&internalMapping)
 			if err != nil {
@@ -4754,8 +4694,6 @@ func (operator *VirtualNetworkGatewayOperatorSpec) AssignProperties_From_Virtual
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -4772,8 +4710,6 @@ func (operator *VirtualNetworkGatewayOperatorSpec) AssignProperties_From_Virtual
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4799,8 +4735,6 @@ func (operator *VirtualNetworkGatewayOperatorSpec) AssignProperties_To_VirtualNe
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -4817,8 +4751,6 @@ func (operator *VirtualNetworkGatewayOperatorSpec) AssignProperties_To_VirtualNe
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4970,8 +4902,6 @@ func (group *VirtualNetworkGatewayPolicyGroup) AssignProperties_From_VirtualNetw
 	if source.PolicyMembers != nil {
 		policyMemberList := make([]VirtualNetworkGatewayPolicyGroupMember, len(source.PolicyMembers))
 		for policyMemberIndex, policyMemberItem := range source.PolicyMembers {
-			// Shadow the loop variable to avoid aliasing
-			policyMemberItem := policyMemberItem
 			var policyMember VirtualNetworkGatewayPolicyGroupMember
 			err := policyMember.AssignProperties_From_VirtualNetworkGatewayPolicyGroupMember(&policyMemberItem)
 			if err != nil {
@@ -5011,8 +4941,6 @@ func (group *VirtualNetworkGatewayPolicyGroup) AssignProperties_To_VirtualNetwor
 	if group.PolicyMembers != nil {
 		policyMemberList := make([]storage.VirtualNetworkGatewayPolicyGroupMember, len(group.PolicyMembers))
 		for policyMemberIndex, policyMemberItem := range group.PolicyMembers {
-			// Shadow the loop variable to avoid aliasing
-			policyMemberItem := policyMemberItem
 			var policyMember storage.VirtualNetworkGatewayPolicyGroupMember
 			err := policyMemberItem.AssignProperties_To_VirtualNetworkGatewayPolicyGroupMember(&policyMember)
 			if err != nil {
@@ -5057,8 +4985,6 @@ func (group *VirtualNetworkGatewayPolicyGroup) Initialize_From_VirtualNetworkGat
 	if source.PolicyMembers != nil {
 		policyMemberList := make([]VirtualNetworkGatewayPolicyGroupMember, len(source.PolicyMembers))
 		for policyMemberIndex, policyMemberItem := range source.PolicyMembers {
-			// Shadow the loop variable to avoid aliasing
-			policyMemberItem := policyMemberItem
 			var policyMember VirtualNetworkGatewayPolicyGroupMember
 			err := policyMember.Initialize_From_VirtualNetworkGatewayPolicyGroupMember_STATUS(&policyMemberItem)
 			if err != nil {
@@ -5220,8 +5146,6 @@ func (group *VirtualNetworkGatewayPolicyGroup_STATUS) AssignProperties_From_Virt
 	if source.PolicyMembers != nil {
 		policyMemberList := make([]VirtualNetworkGatewayPolicyGroupMember_STATUS, len(source.PolicyMembers))
 		for policyMemberIndex, policyMemberItem := range source.PolicyMembers {
-			// Shadow the loop variable to avoid aliasing
-			policyMemberItem := policyMemberItem
 			var policyMember VirtualNetworkGatewayPolicyGroupMember_STATUS
 			err := policyMember.AssignProperties_From_VirtualNetworkGatewayPolicyGroupMember_STATUS(&policyMemberItem)
 			if err != nil {
@@ -5250,8 +5174,6 @@ func (group *VirtualNetworkGatewayPolicyGroup_STATUS) AssignProperties_From_Virt
 	if source.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]SubResource_STATUS, len(source.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range source.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration SubResource_STATUS
 			err := vngClientConnectionConfiguration.AssignProperties_From_SubResource_STATUS(&vngClientConnectionConfigurationItem)
 			if err != nil {
@@ -5294,8 +5216,6 @@ func (group *VirtualNetworkGatewayPolicyGroup_STATUS) AssignProperties_To_Virtua
 	if group.PolicyMembers != nil {
 		policyMemberList := make([]storage.VirtualNetworkGatewayPolicyGroupMember_STATUS, len(group.PolicyMembers))
 		for policyMemberIndex, policyMemberItem := range group.PolicyMembers {
-			// Shadow the loop variable to avoid aliasing
-			policyMemberItem := policyMemberItem
 			var policyMember storage.VirtualNetworkGatewayPolicyGroupMember_STATUS
 			err := policyMemberItem.AssignProperties_To_VirtualNetworkGatewayPolicyGroupMember_STATUS(&policyMember)
 			if err != nil {
@@ -5323,8 +5243,6 @@ func (group *VirtualNetworkGatewayPolicyGroup_STATUS) AssignProperties_To_Virtua
 	if group.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]storage.SubResource_STATUS, len(group.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range group.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration storage.SubResource_STATUS
 			err := vngClientConnectionConfigurationItem.AssignProperties_To_SubResource_STATUS(&vngClientConnectionConfiguration)
 			if err != nil {
@@ -6052,8 +5970,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.RadiusServers != nil {
 		radiusServerList := make([]RadiusServer, len(source.RadiusServers))
 		for radiusServerIndex, radiusServerItem := range source.RadiusServers {
-			// Shadow the loop variable to avoid aliasing
-			radiusServerItem := radiusServerItem
 			var radiusServer RadiusServer
 			err := radiusServer.AssignProperties_From_RadiusServer(&radiusServerItem)
 			if err != nil {
@@ -6070,8 +5986,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]VngClientConnectionConfiguration, len(source.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range source.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration VngClientConnectionConfiguration
 			err := vngClientConnectionConfiguration.AssignProperties_From_VngClientConnectionConfiguration(&vngClientConnectionConfigurationItem)
 			if err != nil {
@@ -6088,8 +6002,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.VpnAuthenticationTypes != nil {
 		vpnAuthenticationTypeList := make([]VpnClientConfiguration_VpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
 			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = genruntime.ToEnum(vpnAuthenticationTypeItem, vpnClientConfiguration_VpnAuthenticationTypes_Values)
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
@@ -6113,8 +6025,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.VpnClientIpsecPolicies != nil {
 		vpnClientIpsecPolicyList := make([]IpsecPolicy, len(source.VpnClientIpsecPolicies))
 		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy IpsecPolicy
 			err := vpnClientIpsecPolicy.AssignProperties_From_IpsecPolicy(&vpnClientIpsecPolicyItem)
 			if err != nil {
@@ -6131,8 +6041,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.VpnClientProtocols != nil {
 		vpnClientProtocolList := make([]VpnClientConfiguration_VpnClientProtocols, len(source.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
 			vpnClientProtocolList[vpnClientProtocolIndex] = genruntime.ToEnum(vpnClientProtocolItem, vpnClientConfiguration_VpnClientProtocols_Values)
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
@@ -6144,8 +6052,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.VpnClientRevokedCertificates != nil {
 		vpnClientRevokedCertificateList := make([]VpnClientRevokedCertificate, len(source.VpnClientRevokedCertificates))
 		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate VpnClientRevokedCertificate
 			err := vpnClientRevokedCertificate.AssignProperties_From_VpnClientRevokedCertificate(&vpnClientRevokedCertificateItem)
 			if err != nil {
@@ -6162,8 +6068,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	if source.VpnClientRootCertificates != nil {
 		vpnClientRootCertificateList := make([]VpnClientRootCertificate, len(source.VpnClientRootCertificates))
 		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate VpnClientRootCertificate
 			err := vpnClientRootCertificate.AssignProperties_From_VpnClientRootCertificate(&vpnClientRootCertificateItem)
 			if err != nil {
@@ -6204,8 +6108,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.RadiusServers != nil {
 		radiusServerList := make([]storage.RadiusServer, len(configuration.RadiusServers))
 		for radiusServerIndex, radiusServerItem := range configuration.RadiusServers {
-			// Shadow the loop variable to avoid aliasing
-			radiusServerItem := radiusServerItem
 			var radiusServer storage.RadiusServer
 			err := radiusServerItem.AssignProperties_To_RadiusServer(&radiusServer)
 			if err != nil {
@@ -6222,8 +6124,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]storage.VngClientConnectionConfiguration, len(configuration.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range configuration.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration storage.VngClientConnectionConfiguration
 			err := vngClientConnectionConfigurationItem.AssignProperties_To_VngClientConnectionConfiguration(&vngClientConnectionConfiguration)
 			if err != nil {
@@ -6240,8 +6140,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.VpnAuthenticationTypes != nil {
 		vpnAuthenticationTypeList := make([]string, len(configuration.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range configuration.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
 			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
 		}
 		destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
@@ -6265,8 +6163,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.VpnClientIpsecPolicies != nil {
 		vpnClientIpsecPolicyList := make([]storage.IpsecPolicy, len(configuration.VpnClientIpsecPolicies))
 		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range configuration.VpnClientIpsecPolicies {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy storage.IpsecPolicy
 			err := vpnClientIpsecPolicyItem.AssignProperties_To_IpsecPolicy(&vpnClientIpsecPolicy)
 			if err != nil {
@@ -6283,8 +6179,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.VpnClientProtocols != nil {
 		vpnClientProtocolList := make([]string, len(configuration.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range configuration.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
 			vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
 		}
 		destination.VpnClientProtocols = vpnClientProtocolList
@@ -6296,8 +6190,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.VpnClientRevokedCertificates != nil {
 		vpnClientRevokedCertificateList := make([]storage.VpnClientRevokedCertificate, len(configuration.VpnClientRevokedCertificates))
 		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range configuration.VpnClientRevokedCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate storage.VpnClientRevokedCertificate
 			err := vpnClientRevokedCertificateItem.AssignProperties_To_VpnClientRevokedCertificate(&vpnClientRevokedCertificate)
 			if err != nil {
@@ -6314,8 +6206,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	if configuration.VpnClientRootCertificates != nil {
 		vpnClientRootCertificateList := make([]storage.VpnClientRootCertificate, len(configuration.VpnClientRootCertificates))
 		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range configuration.VpnClientRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate storage.VpnClientRootCertificate
 			err := vpnClientRootCertificateItem.AssignProperties_To_VpnClientRootCertificate(&vpnClientRootCertificate)
 			if err != nil {
@@ -6361,8 +6251,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.RadiusServers != nil {
 		radiusServerList := make([]RadiusServer, len(source.RadiusServers))
 		for radiusServerIndex, radiusServerItem := range source.RadiusServers {
-			// Shadow the loop variable to avoid aliasing
-			radiusServerItem := radiusServerItem
 			var radiusServer RadiusServer
 			err := radiusServer.Initialize_From_RadiusServer_STATUS(&radiusServerItem)
 			if err != nil {
@@ -6379,8 +6267,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]VngClientConnectionConfiguration, len(source.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range source.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration VngClientConnectionConfiguration
 			err := vngClientConnectionConfiguration.Initialize_From_VngClientConnectionConfiguration_STATUS(&vngClientConnectionConfigurationItem)
 			if err != nil {
@@ -6397,8 +6283,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.VpnAuthenticationTypes != nil {
 		vpnAuthenticationTypeList := make([]VpnClientConfiguration_VpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
 			vpnAuthenticationType := genruntime.ToEnum(string(vpnAuthenticationTypeItem), vpnClientConfiguration_VpnAuthenticationTypes_Values)
 			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = vpnAuthenticationType
 		}
@@ -6423,8 +6307,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.VpnClientIpsecPolicies != nil {
 		vpnClientIpsecPolicyList := make([]IpsecPolicy, len(source.VpnClientIpsecPolicies))
 		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy IpsecPolicy
 			err := vpnClientIpsecPolicy.Initialize_From_IpsecPolicy_STATUS(&vpnClientIpsecPolicyItem)
 			if err != nil {
@@ -6441,8 +6323,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.VpnClientProtocols != nil {
 		vpnClientProtocolList := make([]VpnClientConfiguration_VpnClientProtocols, len(source.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
 			vpnClientProtocol := genruntime.ToEnum(string(vpnClientProtocolItem), vpnClientConfiguration_VpnClientProtocols_Values)
 			vpnClientProtocolList[vpnClientProtocolIndex] = vpnClientProtocol
 		}
@@ -6455,8 +6335,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.VpnClientRevokedCertificates != nil {
 		vpnClientRevokedCertificateList := make([]VpnClientRevokedCertificate, len(source.VpnClientRevokedCertificates))
 		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate VpnClientRevokedCertificate
 			err := vpnClientRevokedCertificate.Initialize_From_VpnClientRevokedCertificate_STATUS(&vpnClientRevokedCertificateItem)
 			if err != nil {
@@ -6473,8 +6351,6 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 	if source.VpnClientRootCertificates != nil {
 		vpnClientRootCertificateList := make([]VpnClientRootCertificate, len(source.VpnClientRootCertificates))
 		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate VpnClientRootCertificate
 			err := vpnClientRootCertificate.Initialize_From_VpnClientRootCertificate_STATUS(&vpnClientRootCertificateItem)
 			if err != nil {
@@ -6681,8 +6557,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.RadiusServers != nil {
 		radiusServerList := make([]RadiusServer_STATUS, len(source.RadiusServers))
 		for radiusServerIndex, radiusServerItem := range source.RadiusServers {
-			// Shadow the loop variable to avoid aliasing
-			radiusServerItem := radiusServerItem
 			var radiusServer RadiusServer_STATUS
 			err := radiusServer.AssignProperties_From_RadiusServer_STATUS(&radiusServerItem)
 			if err != nil {
@@ -6699,8 +6573,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]VngClientConnectionConfiguration_STATUS, len(source.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range source.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration VngClientConnectionConfiguration_STATUS
 			err := vngClientConnectionConfiguration.AssignProperties_From_VngClientConnectionConfiguration_STATUS(&vngClientConnectionConfigurationItem)
 			if err != nil {
@@ -6717,8 +6589,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.VpnAuthenticationTypes != nil {
 		vpnAuthenticationTypeList := make([]VpnClientConfiguration_VpnAuthenticationTypes_STATUS, len(source.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
 			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = genruntime.ToEnum(vpnAuthenticationTypeItem, vpnClientConfiguration_VpnAuthenticationTypes_STATUS_Values)
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
@@ -6742,8 +6612,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.VpnClientIpsecPolicies != nil {
 		vpnClientIpsecPolicyList := make([]IpsecPolicy_STATUS, len(source.VpnClientIpsecPolicies))
 		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy IpsecPolicy_STATUS
 			err := vpnClientIpsecPolicy.AssignProperties_From_IpsecPolicy_STATUS(&vpnClientIpsecPolicyItem)
 			if err != nil {
@@ -6760,8 +6628,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.VpnClientProtocols != nil {
 		vpnClientProtocolList := make([]VpnClientConfiguration_VpnClientProtocols_STATUS, len(source.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
 			vpnClientProtocolList[vpnClientProtocolIndex] = genruntime.ToEnum(vpnClientProtocolItem, vpnClientConfiguration_VpnClientProtocols_STATUS_Values)
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
@@ -6773,8 +6639,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.VpnClientRevokedCertificates != nil {
 		vpnClientRevokedCertificateList := make([]VpnClientRevokedCertificate_STATUS, len(source.VpnClientRevokedCertificates))
 		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate VpnClientRevokedCertificate_STATUS
 			err := vpnClientRevokedCertificate.AssignProperties_From_VpnClientRevokedCertificate_STATUS(&vpnClientRevokedCertificateItem)
 			if err != nil {
@@ -6791,8 +6655,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 	if source.VpnClientRootCertificates != nil {
 		vpnClientRootCertificateList := make([]VpnClientRootCertificate_STATUS, len(source.VpnClientRootCertificates))
 		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate VpnClientRootCertificate_STATUS
 			err := vpnClientRootCertificate.AssignProperties_From_VpnClientRootCertificate_STATUS(&vpnClientRootCertificateItem)
 			if err != nil {
@@ -6833,8 +6695,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.RadiusServers != nil {
 		radiusServerList := make([]storage.RadiusServer_STATUS, len(configuration.RadiusServers))
 		for radiusServerIndex, radiusServerItem := range configuration.RadiusServers {
-			// Shadow the loop variable to avoid aliasing
-			radiusServerItem := radiusServerItem
 			var radiusServer storage.RadiusServer_STATUS
 			err := radiusServerItem.AssignProperties_To_RadiusServer_STATUS(&radiusServer)
 			if err != nil {
@@ -6851,8 +6711,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.VngClientConnectionConfigurations != nil {
 		vngClientConnectionConfigurationList := make([]storage.VngClientConnectionConfiguration_STATUS, len(configuration.VngClientConnectionConfigurations))
 		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range configuration.VngClientConnectionConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			vngClientConnectionConfigurationItem := vngClientConnectionConfigurationItem
 			var vngClientConnectionConfiguration storage.VngClientConnectionConfiguration_STATUS
 			err := vngClientConnectionConfigurationItem.AssignProperties_To_VngClientConnectionConfiguration_STATUS(&vngClientConnectionConfiguration)
 			if err != nil {
@@ -6869,8 +6727,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.VpnAuthenticationTypes != nil {
 		vpnAuthenticationTypeList := make([]string, len(configuration.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range configuration.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
 			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
 		}
 		destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
@@ -6894,8 +6750,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.VpnClientIpsecPolicies != nil {
 		vpnClientIpsecPolicyList := make([]storage.IpsecPolicy_STATUS, len(configuration.VpnClientIpsecPolicies))
 		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range configuration.VpnClientIpsecPolicies {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy storage.IpsecPolicy_STATUS
 			err := vpnClientIpsecPolicyItem.AssignProperties_To_IpsecPolicy_STATUS(&vpnClientIpsecPolicy)
 			if err != nil {
@@ -6912,8 +6766,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.VpnClientProtocols != nil {
 		vpnClientProtocolList := make([]string, len(configuration.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range configuration.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
 			vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
 		}
 		destination.VpnClientProtocols = vpnClientProtocolList
@@ -6925,8 +6777,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.VpnClientRevokedCertificates != nil {
 		vpnClientRevokedCertificateList := make([]storage.VpnClientRevokedCertificate_STATUS, len(configuration.VpnClientRevokedCertificates))
 		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range configuration.VpnClientRevokedCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate storage.VpnClientRevokedCertificate_STATUS
 			err := vpnClientRevokedCertificateItem.AssignProperties_To_VpnClientRevokedCertificate_STATUS(&vpnClientRevokedCertificate)
 			if err != nil {
@@ -6943,8 +6793,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	if configuration.VpnClientRootCertificates != nil {
 		vpnClientRootCertificateList := make([]storage.VpnClientRootCertificate_STATUS, len(configuration.VpnClientRootCertificates))
 		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range configuration.VpnClientRootCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate storage.VpnClientRootCertificate_STATUS
 			err := vpnClientRootCertificateItem.AssignProperties_To_VpnClientRootCertificate_STATUS(&vpnClientRootCertificate)
 			if err != nil {

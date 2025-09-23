@@ -368,8 +368,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 	if source.ScheduleEntries != nil {
 		scheduleEntryList := make([]ScheduleEntry, len(source.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range source.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry ScheduleEntry
 			err := scheduleEntry.AssignProperties_From_ScheduleEntry(&scheduleEntryItem)
 			if err != nil {
@@ -434,8 +432,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_
 	if schedule.ScheduleEntries != nil {
 		scheduleEntryList := make([]storage.ScheduleEntry, len(schedule.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range schedule.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry storage.ScheduleEntry
 			err := scheduleEntryItem.AssignProperties_To_ScheduleEntry(&scheduleEntry)
 			if err != nil {
@@ -550,8 +546,6 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_From_RedisPatchSched
 	if source.ScheduleEntries != nil {
 		scheduleEntryList := make([]ScheduleEntry_STATUS, len(source.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range source.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry ScheduleEntry_STATUS
 			err := scheduleEntry.AssignProperties_From_ScheduleEntry_STATUS(&scheduleEntryItem)
 			if err != nil {
@@ -608,8 +602,6 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_To_RedisPatchSchedul
 	if schedule.ScheduleEntries != nil {
 		scheduleEntryList := make([]storage.ScheduleEntry_STATUS, len(schedule.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range schedule.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry storage.ScheduleEntry_STATUS
 			err := scheduleEntryItem.AssignProperties_To_ScheduleEntry_STATUS(&scheduleEntry)
 			if err != nil {
@@ -672,8 +664,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_From_RedisPatch
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -690,8 +680,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_From_RedisPatch
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -733,8 +721,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchSc
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -751,8 +737,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchSc
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
