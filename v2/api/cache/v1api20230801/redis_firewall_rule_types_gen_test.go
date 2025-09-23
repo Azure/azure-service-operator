@@ -5,7 +5,8 @@ package v1api20230801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForRedisFirewallRule(subject RedisFirewallRule) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisFirewallRule
+	var hub v20241101s.RedisFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisFirewallRule
+	var other v20230801s.RedisFirewallRule
 	err := copied.AssignProperties_To_RedisFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForRedisFirewallRuleOperatorSpec(subject RedisFire
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisFirewallRuleOperatorSpec
+	var other v20230801s.RedisFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_RedisFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule_STATUS(subject RedisFirewallR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisFirewallRule_STATUS
+	var other v20230801s.RedisFirewallRule_STATUS
 	err := copied.AssignProperties_To_RedisFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -385,7 +386,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule_Spec(subject RedisFirewallRul
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisFirewallRule_Spec
+	var other v20230801s.RedisFirewallRule_Spec
 	err := copied.AssignProperties_To_RedisFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()

@@ -1,0 +1,11 @@
+apiVersion: cache.azure.com/v1api20241101
+kind: RedisAccessPolicyAssignment
+metadata:
+  name: sampleaccesspolicyassignment
+  namespace: default
+spec:
+  owner:
+    name: sampleredis1
+  accessPolicyName: sampleaccesspolicy
+  objectId: "00000000-0000-0000-0000-000000000000"
+  objectIdAlias: "sample-user"
