@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &AuthorizationProvidersAuthorization{}
 
 // ConvertFrom populates our AuthorizationProvidersAuthorization from the provided hub AuthorizationProvidersAuthorization
 func (authorization *AuthorizationProvidersAuthorization) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AuthorizationProvidersAuthorization)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AuthorizationProvidersAuthorization
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return authorization.AssignProperties_From_AuthorizationProvidersAuthorization(source)
+	err = authorization.AssignProperties_From_AuthorizationProvidersAuthorization(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to authorization")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AuthorizationProvidersAuthorization from our AuthorizationProvidersAuthorization
 func (authorization *AuthorizationProvidersAuthorization) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AuthorizationProvidersAuthorization)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AuthorizationProvidersAuthorization
+	err := authorization.AssignProperties_To_AuthorizationProvidersAuthorization(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from authorization")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return authorization.AssignProperties_To_AuthorizationProvidersAuthorization(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AuthorizationProvidersAuthorization{}

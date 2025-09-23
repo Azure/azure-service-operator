@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Service{}
 
 // ConvertFrom populates our Service from the provided hub Service
 func (service *Service) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Service)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Service but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Service
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_Service(source)
+	err = service.AssignProperties_From_Service(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Service from our Service
 func (service *Service) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Service)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Service but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Service
+	err := service.AssignProperties_To_Service(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_Service(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Service{}
@@ -87,17 +101,6 @@ func (service *Service) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return service.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Service{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (service *Service) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Service_STATUS); ok {
-		return service.Spec.Initialize_From_Service_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Service_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Service{}
@@ -1233,186 +1236,6 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Service_STATUS populates our Service_Spec from the provided source Service_STATUS
-func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STATUS) error {
-
-	// AdditionalLocations
-	if source.AdditionalLocations != nil {
-		additionalLocationList := make([]AdditionalLocation, len(source.AdditionalLocations))
-		for additionalLocationIndex, additionalLocationItem := range source.AdditionalLocations {
-			var additionalLocation AdditionalLocation
-			err := additionalLocation.Initialize_From_AdditionalLocation_STATUS(&additionalLocationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AdditionalLocation_STATUS() to populate field AdditionalLocations")
-			}
-			additionalLocationList[additionalLocationIndex] = additionalLocation
-		}
-		service.AdditionalLocations = additionalLocationList
-	} else {
-		service.AdditionalLocations = nil
-	}
-
-	// ApiVersionConstraint
-	if source.ApiVersionConstraint != nil {
-		var apiVersionConstraint ApiVersionConstraint
-		err := apiVersionConstraint.Initialize_From_ApiVersionConstraint_STATUS(source.ApiVersionConstraint)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiVersionConstraint_STATUS() to populate field ApiVersionConstraint")
-		}
-		service.ApiVersionConstraint = &apiVersionConstraint
-	} else {
-		service.ApiVersionConstraint = nil
-	}
-
-	// Certificates
-	if source.Certificates != nil {
-		certificateList := make([]CertificateConfiguration, len(source.Certificates))
-		for certificateIndex, certificateItem := range source.Certificates {
-			var certificate CertificateConfiguration
-			err := certificate.Initialize_From_CertificateConfiguration_STATUS(&certificateItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_CertificateConfiguration_STATUS() to populate field Certificates")
-			}
-			certificateList[certificateIndex] = certificate
-		}
-		service.Certificates = certificateList
-	} else {
-		service.Certificates = nil
-	}
-
-	// CustomProperties
-	service.CustomProperties = genruntime.CloneMapOfStringToString(source.CustomProperties)
-
-	// DisableGateway
-	if source.DisableGateway != nil {
-		disableGateway := *source.DisableGateway
-		service.DisableGateway = &disableGateway
-	} else {
-		service.DisableGateway = nil
-	}
-
-	// EnableClientCertificate
-	if source.EnableClientCertificate != nil {
-		enableClientCertificate := *source.EnableClientCertificate
-		service.EnableClientCertificate = &enableClientCertificate
-	} else {
-		service.EnableClientCertificate = nil
-	}
-
-	// HostnameConfigurations
-	if source.HostnameConfigurations != nil {
-		hostnameConfigurationList := make([]HostnameConfiguration, len(source.HostnameConfigurations))
-		for hostnameConfigurationIndex, hostnameConfigurationItem := range source.HostnameConfigurations {
-			var hostnameConfiguration HostnameConfiguration
-			err := hostnameConfiguration.Initialize_From_HostnameConfiguration_STATUS(&hostnameConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_HostnameConfiguration_STATUS() to populate field HostnameConfigurations")
-			}
-			hostnameConfigurationList[hostnameConfigurationIndex] = hostnameConfiguration
-		}
-		service.HostnameConfigurations = hostnameConfigurationList
-	} else {
-		service.HostnameConfigurations = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ApiManagementServiceIdentity
-		err := identity.Initialize_From_ApiManagementServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiManagementServiceIdentity_STATUS() to populate field Identity")
-		}
-		service.Identity = &identity
-	} else {
-		service.Identity = nil
-	}
-
-	// Location
-	service.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NatGatewayState
-	if source.NatGatewayState != nil {
-		natGatewayState := genruntime.ToEnum(string(*source.NatGatewayState), apiManagementServiceProperties_NatGatewayState_Values)
-		service.NatGatewayState = &natGatewayState
-	} else {
-		service.NatGatewayState = nil
-	}
-
-	// NotificationSenderEmail
-	service.NotificationSenderEmail = genruntime.ClonePointerToString(source.NotificationSenderEmail)
-
-	// PublicIpAddressReference
-	if source.PublicIpAddressId != nil {
-		publicIpAddressReference := genruntime.CreateResourceReferenceFromARMID(*source.PublicIpAddressId)
-		service.PublicIpAddressReference = &publicIpAddressReference
-	} else {
-		service.PublicIpAddressReference = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), apiManagementServiceProperties_PublicNetworkAccess_Values)
-		service.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		service.PublicNetworkAccess = nil
-	}
-
-	// PublisherEmail
-	service.PublisherEmail = genruntime.ClonePointerToString(source.PublisherEmail)
-
-	// PublisherName
-	service.PublisherName = genruntime.ClonePointerToString(source.PublisherName)
-
-	// Restore
-	if source.Restore != nil {
-		restore := *source.Restore
-		service.Restore = &restore
-	} else {
-		service.Restore = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku ApiManagementServiceSkuProperties
-		err := sku.Initialize_From_ApiManagementServiceSkuProperties_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiManagementServiceSkuProperties_STATUS() to populate field Sku")
-		}
-		service.Sku = &sku
-	} else {
-		service.Sku = nil
-	}
-
-	// Tags
-	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualNetworkConfiguration
-	if source.VirtualNetworkConfiguration != nil {
-		var virtualNetworkConfiguration VirtualNetworkConfiguration
-		err := virtualNetworkConfiguration.Initialize_From_VirtualNetworkConfiguration_STATUS(source.VirtualNetworkConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkConfiguration_STATUS() to populate field VirtualNetworkConfiguration")
-		}
-		service.VirtualNetworkConfiguration = &virtualNetworkConfiguration
-	} else {
-		service.VirtualNetworkConfiguration = nil
-	}
-
-	// VirtualNetworkType
-	if source.VirtualNetworkType != nil {
-		virtualNetworkType := genruntime.ToEnum(string(*source.VirtualNetworkType), apiManagementServiceProperties_VirtualNetworkType_Values)
-		service.VirtualNetworkType = &virtualNetworkType
-	} else {
-		service.VirtualNetworkType = nil
-	}
-
-	// Zones
-	service.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2865,67 +2688,6 @@ func (location *AdditionalLocation) AssignProperties_To_AdditionalLocation(desti
 	return nil
 }
 
-// Initialize_From_AdditionalLocation_STATUS populates our AdditionalLocation from the provided source AdditionalLocation_STATUS
-func (location *AdditionalLocation) Initialize_From_AdditionalLocation_STATUS(source *AdditionalLocation_STATUS) error {
-
-	// DisableGateway
-	if source.DisableGateway != nil {
-		disableGateway := *source.DisableGateway
-		location.DisableGateway = &disableGateway
-	} else {
-		location.DisableGateway = nil
-	}
-
-	// Location
-	location.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NatGatewayState
-	if source.NatGatewayState != nil {
-		natGatewayState := genruntime.ToEnum(string(*source.NatGatewayState), additionalLocation_NatGatewayState_Values)
-		location.NatGatewayState = &natGatewayState
-	} else {
-		location.NatGatewayState = nil
-	}
-
-	// PublicIpAddressReference
-	if source.PublicIpAddressId != nil {
-		publicIpAddressReference := genruntime.CreateResourceReferenceFromARMID(*source.PublicIpAddressId)
-		location.PublicIpAddressReference = &publicIpAddressReference
-	} else {
-		location.PublicIpAddressReference = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku ApiManagementServiceSkuProperties
-		err := sku.Initialize_From_ApiManagementServiceSkuProperties_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiManagementServiceSkuProperties_STATUS() to populate field Sku")
-		}
-		location.Sku = &sku
-	} else {
-		location.Sku = nil
-	}
-
-	// VirtualNetworkConfiguration
-	if source.VirtualNetworkConfiguration != nil {
-		var virtualNetworkConfiguration VirtualNetworkConfiguration
-		err := virtualNetworkConfiguration.Initialize_From_VirtualNetworkConfiguration_STATUS(source.VirtualNetworkConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkConfiguration_STATUS() to populate field VirtualNetworkConfiguration")
-		}
-		location.VirtualNetworkConfiguration = &virtualNetworkConfiguration
-	} else {
-		location.VirtualNetworkConfiguration = nil
-	}
-
-	// Zones
-	location.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
 // Description of an additional API Management resource location.
 type AdditionalLocation_STATUS struct {
 	// DisableGateway: Property only valid for an Api Management service deployed in multiple locations. This can be used to
@@ -3376,33 +3138,6 @@ func (identity *ApiManagementServiceIdentity) AssignProperties_To_ApiManagementS
 	return nil
 }
 
-// Initialize_From_ApiManagementServiceIdentity_STATUS populates our ApiManagementServiceIdentity from the provided source ApiManagementServiceIdentity_STATUS
-func (identity *ApiManagementServiceIdentity) Initialize_From_ApiManagementServiceIdentity_STATUS(source *ApiManagementServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), apiManagementServiceIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Identity properties of the Api Management service resource.
 type ApiManagementServiceIdentity_STATUS struct {
 	// PrincipalId: The principal id of the identity.
@@ -3771,24 +3506,6 @@ func (properties *ApiManagementServiceSkuProperties) AssignProperties_To_ApiMana
 	return nil
 }
 
-// Initialize_From_ApiManagementServiceSkuProperties_STATUS populates our ApiManagementServiceSkuProperties from the provided source ApiManagementServiceSkuProperties_STATUS
-func (properties *ApiManagementServiceSkuProperties) Initialize_From_ApiManagementServiceSkuProperties_STATUS(source *ApiManagementServiceSkuProperties_STATUS) error {
-
-	// Capacity
-	properties.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), apiManagementServiceSkuProperties_Name_Values)
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
-
-	// No error
-	return nil
-}
-
 // API Management service resource SKU properties.
 type ApiManagementServiceSkuProperties_STATUS struct {
 	// Capacity: Capacity of the SKU (number of deployed units of the SKU). For Consumption SKU capacity must be specified as 0.
@@ -3945,16 +3662,6 @@ func (constraint *ApiVersionConstraint) AssignProperties_To_ApiVersionConstraint
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApiVersionConstraint_STATUS populates our ApiVersionConstraint from the provided source ApiVersionConstraint_STATUS
-func (constraint *ApiVersionConstraint) Initialize_From_ApiVersionConstraint_STATUS(source *ApiVersionConstraint_STATUS) error {
-
-	// MinApiVersion
-	constraint.MinApiVersion = genruntime.ClonePointerToString(source.MinApiVersion)
 
 	// No error
 	return nil
@@ -4204,36 +3911,6 @@ func (configuration *CertificateConfiguration) AssignProperties_To_CertificateCo
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CertificateConfiguration_STATUS populates our CertificateConfiguration from the provided source CertificateConfiguration_STATUS
-func (configuration *CertificateConfiguration) Initialize_From_CertificateConfiguration_STATUS(source *CertificateConfiguration_STATUS) error {
-
-	// Certificate
-	if source.Certificate != nil {
-		var certificate CertificateInformation
-		err := certificate.Initialize_From_CertificateInformation_STATUS(source.Certificate)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CertificateInformation_STATUS() to populate field Certificate")
-		}
-		configuration.Certificate = &certificate
-	} else {
-		configuration.Certificate = nil
-	}
-
-	// EncodedCertificate
-	configuration.EncodedCertificate = genruntime.ClonePointerToString(source.EncodedCertificate)
-
-	// StoreName
-	if source.StoreName != nil {
-		storeName := genruntime.ToEnum(string(*source.StoreName), certificateConfiguration_StoreName_Values)
-		configuration.StoreName = &storeName
-	} else {
-		configuration.StoreName = nil
 	}
 
 	// No error
@@ -4784,77 +4461,6 @@ func (configuration *HostnameConfiguration) AssignProperties_To_HostnameConfigur
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HostnameConfiguration_STATUS populates our HostnameConfiguration from the provided source HostnameConfiguration_STATUS
-func (configuration *HostnameConfiguration) Initialize_From_HostnameConfiguration_STATUS(source *HostnameConfiguration_STATUS) error {
-
-	// Certificate
-	if source.Certificate != nil {
-		var certificate CertificateInformation
-		err := certificate.Initialize_From_CertificateInformation_STATUS(source.Certificate)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CertificateInformation_STATUS() to populate field Certificate")
-		}
-		configuration.Certificate = &certificate
-	} else {
-		configuration.Certificate = nil
-	}
-
-	// CertificateSource
-	if source.CertificateSource != nil {
-		certificateSource := genruntime.ToEnum(string(*source.CertificateSource), hostnameConfiguration_CertificateSource_Values)
-		configuration.CertificateSource = &certificateSource
-	} else {
-		configuration.CertificateSource = nil
-	}
-
-	// CertificateStatus
-	if source.CertificateStatus != nil {
-		certificateStatus := genruntime.ToEnum(string(*source.CertificateStatus), hostnameConfiguration_CertificateStatus_Values)
-		configuration.CertificateStatus = &certificateStatus
-	} else {
-		configuration.CertificateStatus = nil
-	}
-
-	// DefaultSslBinding
-	if source.DefaultSslBinding != nil {
-		defaultSslBinding := *source.DefaultSslBinding
-		configuration.DefaultSslBinding = &defaultSslBinding
-	} else {
-		configuration.DefaultSslBinding = nil
-	}
-
-	// EncodedCertificate
-	configuration.EncodedCertificate = genruntime.ClonePointerToString(source.EncodedCertificate)
-
-	// HostName
-	configuration.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// IdentityClientId
-	configuration.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
-
-	// KeyVaultId
-	configuration.KeyVaultId = genruntime.ClonePointerToString(source.KeyVaultId)
-
-	// NegotiateClientCertificate
-	if source.NegotiateClientCertificate != nil {
-		negotiateClientCertificate := *source.NegotiateClientCertificate
-		configuration.NegotiateClientCertificate = &negotiateClientCertificate
-	} else {
-		configuration.NegotiateClientCertificate = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), hostnameConfiguration_Type_Values)
-		configuration.Type = &typeVar
-	} else {
-		configuration.Type = nil
 	}
 
 	// No error
@@ -5690,21 +5296,6 @@ func (configuration *VirtualNetworkConfiguration) AssignProperties_To_VirtualNet
 	return nil
 }
 
-// Initialize_From_VirtualNetworkConfiguration_STATUS populates our VirtualNetworkConfiguration from the provided source VirtualNetworkConfiguration_STATUS
-func (configuration *VirtualNetworkConfiguration) Initialize_From_VirtualNetworkConfiguration_STATUS(source *VirtualNetworkConfiguration_STATUS) error {
-
-	// SubnetResourceReference
-	if source.SubnetResourceId != nil {
-		subnetResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetResourceId)
-		configuration.SubnetResourceReference = &subnetResourceReference
-	} else {
-		configuration.SubnetResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Configuration of a virtual network to which API Management service is deployed.
 type VirtualNetworkConfiguration_STATUS struct {
 	// SubnetResourceId: The full resource ID of a subnet in a virtual network to deploy the API Management service in.
@@ -6201,22 +5792,6 @@ func (information *CertificateInformation) AssignProperties_To_CertificateInform
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CertificateInformation_STATUS populates our CertificateInformation from the provided source CertificateInformation_STATUS
-func (information *CertificateInformation) Initialize_From_CertificateInformation_STATUS(source *CertificateInformation_STATUS) error {
-
-	// Expiry
-	information.Expiry = genruntime.ClonePointerToString(source.Expiry)
-
-	// Subject
-	information.Subject = genruntime.ClonePointerToString(source.Subject)
-
-	// Thumbprint
-	information.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
 
 	// No error
 	return nil
