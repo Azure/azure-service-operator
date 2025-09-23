@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2023-09-01/notificationhubs.json
+// - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/NotificationHubs/stable/2023-09-01/notificationhubs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}
 type NotificationHub struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (notificationHub *NotificationHub) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2023-09-01/notificationhubs.json
+// - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/NotificationHubs/stable/2023-09-01/notificationhubs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}
 type NotificationHubList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -933,8 +933,6 @@ func (operator *NotificationHubOperatorSpec) AssignProperties_From_NotificationH
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -951,8 +949,6 @@ func (operator *NotificationHubOperatorSpec) AssignProperties_From_NotificationH
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -990,8 +986,6 @@ func (operator *NotificationHubOperatorSpec) AssignProperties_To_NotificationHub
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1008,8 +1002,6 @@ func (operator *NotificationHubOperatorSpec) AssignProperties_To_NotificationHub
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1835,8 +1827,6 @@ func (properties *NotificationHubProperties_STATUS) AssignProperties_From_Notifi
 	if source.AuthorizationRules != nil {
 		authorizationRuleList := make([]SharedAccessAuthorizationRuleProperties_STATUS, len(source.AuthorizationRules))
 		for authorizationRuleIndex, authorizationRuleItem := range source.AuthorizationRules {
-			// Shadow the loop variable to avoid aliasing
-			authorizationRuleItem := authorizationRuleItem
 			var authorizationRule SharedAccessAuthorizationRuleProperties_STATUS
 			err := authorizationRule.AssignProperties_From_SharedAccessAuthorizationRuleProperties_STATUS(&authorizationRuleItem)
 			if err != nil {
@@ -1967,8 +1957,6 @@ func (properties *NotificationHubProperties_STATUS) AssignProperties_To_Notifica
 	if properties.AuthorizationRules != nil {
 		authorizationRuleList := make([]storage.SharedAccessAuthorizationRuleProperties_STATUS, len(properties.AuthorizationRules))
 		for authorizationRuleIndex, authorizationRuleItem := range properties.AuthorizationRules {
-			// Shadow the loop variable to avoid aliasing
-			authorizationRuleItem := authorizationRuleItem
 			var authorizationRule storage.SharedAccessAuthorizationRuleProperties_STATUS
 			err := authorizationRuleItem.AssignProperties_To_SharedAccessAuthorizationRuleProperties_STATUS(&authorizationRule)
 			if err != nil {

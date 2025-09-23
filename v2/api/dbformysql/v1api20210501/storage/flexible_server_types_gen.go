@@ -31,7 +31,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210501.FlexibleServer
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2021-05-01/mysql.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -287,7 +287,7 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210501.FlexibleServer
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2021-05-01/mysql.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1684,8 +1684,6 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServer
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1714,8 +1712,6 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServer
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1769,8 +1765,6 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1799,8 +1793,6 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2012,8 +2004,6 @@ func (identity *Identity) AssignProperties_From_MySQLServerIdentity(source *v202
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -2058,8 +2048,6 @@ func (identity *Identity) AssignProperties_To_MySQLServerIdentity(destination *v
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]v20230630s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity v20230630s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2120,8 +2108,6 @@ func (identity *Identity_STATUS) AssignProperties_From_MySQLServerIdentity_STATU
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
 		}
 		identity.UserAssignedIdentities = userAssignedIdentityMap
@@ -2167,8 +2153,6 @@ func (identity *Identity_STATUS) AssignProperties_To_MySQLServerIdentity_STATUS(
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
 		}
 		destination.UserAssignedIdentities = userAssignedIdentityMap

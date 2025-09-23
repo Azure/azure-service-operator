@@ -40,7 +40,7 @@ AvailabilitySet: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Tier: *string
 │   └── Tags: map[string]string
-└── Status: Object (15 properties)
+└── Status: Object (16 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Location: *string
@@ -76,6 +76,14 @@ AvailabilitySet: Resource
     │   ├── Message: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Time: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     ├── Type: *string
     ├── VirtualMachineScaleSetMigrationInfo: *Object (3 properties)

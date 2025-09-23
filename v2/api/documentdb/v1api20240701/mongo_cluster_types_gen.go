@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /mongocluster/resource-manager/Microsoft.DocumentDB/stable/2024-07-01/mongoCluster.json
+// - Generated from: /mongocluster/resource-manager/Microsoft.DocumentDB/MongoCluster/stable/2024-07-01/mongoCluster.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}
 type MongoCluster struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (cluster *MongoCluster) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /mongocluster/resource-manager/Microsoft.DocumentDB/stable/2024-07-01/mongoCluster.json
+// - Generated from: /mongocluster/resource-manager/Microsoft.DocumentDB/MongoCluster/stable/2024-07-01/mongoCluster.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}
 type MongoClusterList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -831,8 +831,6 @@ func (operator *MongoClusterOperatorSpec) AssignProperties_From_MongoClusterOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -849,8 +847,6 @@ func (operator *MongoClusterOperatorSpec) AssignProperties_From_MongoClusterOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -876,8 +872,6 @@ func (operator *MongoClusterOperatorSpec) AssignProperties_To_MongoClusterOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -894,8 +888,6 @@ func (operator *MongoClusterOperatorSpec) AssignProperties_To_MongoClusterOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1239,8 +1231,6 @@ func (properties *MongoClusterProperties) AssignProperties_From_MongoClusterProp
 	if source.PreviewFeatures != nil {
 		previewFeatureList := make([]PreviewFeature, len(source.PreviewFeatures))
 		for previewFeatureIndex, previewFeatureItem := range source.PreviewFeatures {
-			// Shadow the loop variable to avoid aliasing
-			previewFeatureItem := previewFeatureItem
 			previewFeatureList[previewFeatureIndex] = genruntime.ToEnum(previewFeatureItem, previewFeature_Values)
 		}
 		properties.PreviewFeatures = previewFeatureList
@@ -1365,8 +1355,6 @@ func (properties *MongoClusterProperties) AssignProperties_To_MongoClusterProper
 	if properties.PreviewFeatures != nil {
 		previewFeatureList := make([]string, len(properties.PreviewFeatures))
 		for previewFeatureIndex, previewFeatureItem := range properties.PreviewFeatures {
-			// Shadow the loop variable to avoid aliasing
-			previewFeatureItem := previewFeatureItem
 			previewFeatureList[previewFeatureIndex] = string(previewFeatureItem)
 		}
 		destination.PreviewFeatures = previewFeatureList
@@ -1495,8 +1483,6 @@ func (properties *MongoClusterProperties) Initialize_From_MongoClusterProperties
 	if source.PreviewFeatures != nil {
 		previewFeatureList := make([]PreviewFeature, len(source.PreviewFeatures))
 		for previewFeatureIndex, previewFeatureItem := range source.PreviewFeatures {
-			// Shadow the loop variable to avoid aliasing
-			previewFeatureItem := previewFeatureItem
 			previewFeature := genruntime.ToEnum(string(previewFeatureItem), previewFeature_Values)
 			previewFeatureList[previewFeatureIndex] = previewFeature
 		}
@@ -1888,8 +1874,6 @@ func (properties *MongoClusterProperties_STATUS) AssignProperties_From_MongoClus
 	if source.PreviewFeatures != nil {
 		previewFeatureList := make([]PreviewFeature_STATUS, len(source.PreviewFeatures))
 		for previewFeatureIndex, previewFeatureItem := range source.PreviewFeatures {
-			// Shadow the loop variable to avoid aliasing
-			previewFeatureItem := previewFeatureItem
 			previewFeatureList[previewFeatureIndex] = genruntime.ToEnum(previewFeatureItem, previewFeature_STATUS_Values)
 		}
 		properties.PreviewFeatures = previewFeatureList
@@ -1901,8 +1885,6 @@ func (properties *MongoClusterProperties_STATUS) AssignProperties_From_MongoClus
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -2079,8 +2061,6 @@ func (properties *MongoClusterProperties_STATUS) AssignProperties_To_MongoCluste
 	if properties.PreviewFeatures != nil {
 		previewFeatureList := make([]string, len(properties.PreviewFeatures))
 		for previewFeatureIndex, previewFeatureItem := range properties.PreviewFeatures {
-			// Shadow the loop variable to avoid aliasing
-			previewFeatureItem := previewFeatureItem
 			previewFeatureList[previewFeatureIndex] = string(previewFeatureItem)
 		}
 		destination.PreviewFeatures = previewFeatureList
@@ -2092,8 +2072,6 @@ func (properties *MongoClusterProperties_STATUS) AssignProperties_To_MongoCluste
 	if properties.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(properties.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range properties.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {

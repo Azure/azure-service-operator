@@ -75,7 +75,7 @@ func CopyCompletionError_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCopyCompletionError_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCopyCompletionError_STATUS(gens map[string]gopter.Gen) {
-	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_STATUS_CopySourceNotFound))
+	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionErrorReason_STATUS_CopySourceNotFound))
 	gens["ErrorMessage"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -160,11 +160,11 @@ func AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS(gens map[strin
 		DiskState_STATUS_ReadyToUpload,
 		DiskState_STATUS_Reserved,
 		DiskState_STATUS_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_STATUS_V1, SnapshotProperties_HyperVGeneration_STATUS_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGeneration_STATUS_V1, HyperVGeneration_STATUS_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["IncrementalSnapshotFamilyId"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_AllowAll, NetworkAccessPolicy_STATUS_AllowPrivate, NetworkAccessPolicy_STATUS_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_STATUS_Linux, SnapshotProperties_OsType_STATUS_Windows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OperatingSystemTypes_STATUS_Linux, OperatingSystemTypes_STATUS_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
@@ -178,7 +178,7 @@ func AddRelatedPropertyGeneratorsForSnapshotProperties_STATUS(gens map[string]go
 	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
 	gens["Encryption"] = gen.PtrOf(Encryption_STATUSGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollection_STATUSGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_STATUSGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(DiskPurchasePlan_STATUSGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfile_STATUSGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilities_STATUSGenerator())
 }
@@ -240,7 +240,7 @@ func SnapshotSku_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_STATUS_Premium_LRS, SnapshotSku_Name_STATUS_Standard_LRS, SnapshotSku_Name_STATUS_Standard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotStorageAccountTypes_STATUS_Premium_LRS, SnapshotStorageAccountTypes_STATUS_Standard_LRS, SnapshotStorageAccountTypes_STATUS_Standard_ZRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -325,4 +325,5 @@ func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) 
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["Properties"] = gen.PtrOf(SnapshotProperties_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSku_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

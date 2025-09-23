@@ -281,8 +281,7 @@ type Backend_Spec struct {
 	// Properties: Backend Properties contract
 	Properties *BackendProperties `json:"properties,omitempty"`
 
-	// +kubebuilder:validation:Required
-	// Protocol: Backend communication protocol.
+	// Protocol: Backend communication protocol. Required when backend type is 'Single'.
 	Protocol *BackendContractProperties_Protocol `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
@@ -303,10 +302,9 @@ type Backend_Spec struct {
 	// Type: Type of the backend. A backend can be either Single or Pool.
 	Type *BackendContractProperties_Type `json:"type,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=2000
 	// +kubebuilder:validation:MinLength=1
-	// Url: Runtime Url of the Backend.
+	// Url: Runtime Url of the Backend. Required when backend type is 'Single'.
 	Url *string `json:"url,omitempty"`
 }
 
@@ -1065,7 +1063,7 @@ type Backend_STATUS struct {
 	// PropertiesType: Type of the backend. A backend can be either Single or Pool.
 	PropertiesType *BackendContractProperties_Type_STATUS `json:"properties_type,omitempty"`
 
-	// Protocol: Backend communication protocol.
+	// Protocol: Backend communication protocol. Required when backend type is 'Single'.
 	Protocol *BackendContractProperties_Protocol_STATUS `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
@@ -1084,7 +1082,7 @@ type Backend_STATUS struct {
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	// Url: Runtime Url of the Backend.
+	// Url: Runtime Url of the Backend. Required when backend type is 'Single'.
 	Url *string `json:"url,omitempty"`
 }
 
@@ -1627,8 +1625,6 @@ func (breaker *BackendCircuitBreaker) AssignProperties_From_BackendCircuitBreake
 	if source.Rules != nil {
 		ruleList := make([]CircuitBreakerRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule CircuitBreakerRule
 			err := rule.AssignProperties_From_CircuitBreakerRule(&ruleItem)
 			if err != nil {
@@ -1654,8 +1650,6 @@ func (breaker *BackendCircuitBreaker) AssignProperties_To_BackendCircuitBreaker(
 	if breaker.Rules != nil {
 		ruleList := make([]storage.CircuitBreakerRule, len(breaker.Rules))
 		for ruleIndex, ruleItem := range breaker.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.CircuitBreakerRule
 			err := ruleItem.AssignProperties_To_CircuitBreakerRule(&rule)
 			if err != nil {
@@ -1686,8 +1680,6 @@ func (breaker *BackendCircuitBreaker) Initialize_From_BackendCircuitBreaker_STAT
 	if source.Rules != nil {
 		ruleList := make([]CircuitBreakerRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule CircuitBreakerRule
 			err := rule.Initialize_From_CircuitBreakerRule_STATUS(&ruleItem)
 			if err != nil {
@@ -1745,8 +1737,6 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_From_BackendCircui
 	if source.Rules != nil {
 		ruleList := make([]CircuitBreakerRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule CircuitBreakerRule_STATUS
 			err := rule.AssignProperties_From_CircuitBreakerRule_STATUS(&ruleItem)
 			if err != nil {
@@ -1772,8 +1762,6 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_To_BackendCircuitB
 	if breaker.Rules != nil {
 		ruleList := make([]storage.CircuitBreakerRule_STATUS, len(breaker.Rules))
 		for ruleIndex, ruleItem := range breaker.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.CircuitBreakerRule_STATUS
 			err := ruleItem.AssignProperties_To_CircuitBreakerRule_STATUS(&rule)
 			if err != nil {
@@ -2012,8 +2000,6 @@ func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredent
 	if source.Header != nil {
 		headerMap := make(map[string][]string, len(source.Header))
 		for headerKey, headerValue := range source.Header {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		contract.Header = headerMap
@@ -2025,8 +2011,6 @@ func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredent
 	if source.Query != nil {
 		queryMap := make(map[string][]string, len(source.Query))
 		for queryKey, queryValue := range source.Query {
-			// Shadow the loop variable to avoid aliasing
-			queryValue := queryValue
 			queryMap[queryKey] = genruntime.CloneSliceOfString(queryValue)
 		}
 		contract.Query = queryMap
@@ -2065,8 +2049,6 @@ func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentia
 	if contract.Header != nil {
 		headerMap := make(map[string][]string, len(contract.Header))
 		for headerKey, headerValue := range contract.Header {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		destination.Header = headerMap
@@ -2078,8 +2060,6 @@ func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentia
 	if contract.Query != nil {
 		queryMap := make(map[string][]string, len(contract.Query))
 		for queryKey, queryValue := range contract.Query {
-			// Shadow the loop variable to avoid aliasing
-			queryValue := queryValue
 			queryMap[queryKey] = genruntime.CloneSliceOfString(queryValue)
 		}
 		destination.Query = queryMap
@@ -2123,8 +2103,6 @@ func (contract *BackendCredentialsContract) Initialize_From_BackendCredentialsCo
 	if source.Header != nil {
 		headerMap := make(map[string][]string, len(source.Header))
 		for headerKey, headerValue := range source.Header {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		contract.Header = headerMap
@@ -2136,8 +2114,6 @@ func (contract *BackendCredentialsContract) Initialize_From_BackendCredentialsCo
 	if source.Query != nil {
 		queryMap := make(map[string][]string, len(source.Query))
 		for queryKey, queryValue := range source.Query {
-			// Shadow the loop variable to avoid aliasing
-			queryValue := queryValue
 			queryMap[queryKey] = genruntime.CloneSliceOfString(queryValue)
 		}
 		contract.Query = queryMap
@@ -2255,8 +2231,6 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_From_Backend
 	if source.Header != nil {
 		headerMap := make(map[string][]string, len(source.Header))
 		for headerKey, headerValue := range source.Header {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		contract.Header = headerMap
@@ -2268,8 +2242,6 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_From_Backend
 	if source.Query != nil {
 		queryMap := make(map[string][]string, len(source.Query))
 		for queryKey, queryValue := range source.Query {
-			// Shadow the loop variable to avoid aliasing
-			queryValue := queryValue
 			queryMap[queryKey] = genruntime.CloneSliceOfString(queryValue)
 		}
 		contract.Query = queryMap
@@ -2308,8 +2280,6 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCr
 	if contract.Header != nil {
 		headerMap := make(map[string][]string, len(contract.Header))
 		for headerKey, headerValue := range contract.Header {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		destination.Header = headerMap
@@ -2321,8 +2291,6 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCr
 	if contract.Query != nil {
 		queryMap := make(map[string][]string, len(contract.Query))
 		for queryKey, queryValue := range contract.Query {
-			// Shadow the loop variable to avoid aliasing
-			queryValue := queryValue
 			queryMap[queryKey] = genruntime.CloneSliceOfString(queryValue)
 		}
 		destination.Query = queryMap
@@ -2357,8 +2325,6 @@ func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2375,8 +2341,6 @@ func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2402,8 +2366,6 @@ func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(des
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2420,8 +2382,6 @@ func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(des
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2505,8 +2465,6 @@ func (pool *BackendPool) AssignProperties_From_BackendPool(source *storage.Backe
 	if source.Services != nil {
 		serviceList := make([]BackendPoolItem, len(source.Services))
 		for serviceIndex, serviceItem := range source.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service BackendPoolItem
 			err := service.AssignProperties_From_BackendPoolItem(&serviceItem)
 			if err != nil {
@@ -2532,8 +2490,6 @@ func (pool *BackendPool) AssignProperties_To_BackendPool(destination *storage.Ba
 	if pool.Services != nil {
 		serviceList := make([]storage.BackendPoolItem, len(pool.Services))
 		for serviceIndex, serviceItem := range pool.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service storage.BackendPoolItem
 			err := serviceItem.AssignProperties_To_BackendPoolItem(&service)
 			if err != nil {
@@ -2564,8 +2520,6 @@ func (pool *BackendPool) Initialize_From_BackendPool_STATUS(source *BackendPool_
 	if source.Services != nil {
 		serviceList := make([]BackendPoolItem, len(source.Services))
 		for serviceIndex, serviceItem := range source.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service BackendPoolItem
 			err := service.Initialize_From_BackendPoolItem_STATUS(&serviceItem)
 			if err != nil {
@@ -2623,8 +2577,6 @@ func (pool *BackendPool_STATUS) AssignProperties_From_BackendPool_STATUS(source 
 	if source.Services != nil {
 		serviceList := make([]BackendPoolItem_STATUS, len(source.Services))
 		for serviceIndex, serviceItem := range source.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service BackendPoolItem_STATUS
 			err := service.AssignProperties_From_BackendPoolItem_STATUS(&serviceItem)
 			if err != nil {
@@ -2650,8 +2602,6 @@ func (pool *BackendPool_STATUS) AssignProperties_To_BackendPool_STATUS(destinati
 	if pool.Services != nil {
 		serviceList := make([]storage.BackendPoolItem_STATUS, len(pool.Services))
 		for serviceIndex, serviceItem := range pool.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service storage.BackendPoolItem_STATUS
 			err := serviceItem.AssignProperties_To_BackendPoolItem_STATUS(&service)
 			if err != nil {
@@ -3916,8 +3866,6 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_From_B
 	if source.ServerX509Names != nil {
 		serverX509NameList := make([]X509CertificateName, len(source.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range source.ServerX509Names {
-			// Shadow the loop variable to avoid aliasing
-			serverX509NameItem := serverX509NameItem
 			var serverX509Name X509CertificateName
 			err := serverX509Name.AssignProperties_From_X509CertificateName(&serverX509NameItem)
 			if err != nil {
@@ -3958,8 +3906,6 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_To_Bac
 	if properties.ServerX509Names != nil {
 		serverX509NameList := make([]storage.X509CertificateName, len(properties.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range properties.ServerX509Names {
-			// Shadow the loop variable to avoid aliasing
-			serverX509NameItem := serverX509NameItem
 			var serverX509Name storage.X509CertificateName
 			err := serverX509NameItem.AssignProperties_To_X509CertificateName(&serverX509Name)
 			if err != nil {
@@ -4005,8 +3951,6 @@ func (properties *BackendServiceFabricClusterProperties) Initialize_From_Backend
 	if source.ServerX509Names != nil {
 		serverX509NameList := make([]X509CertificateName, len(source.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range source.ServerX509Names {
-			// Shadow the loop variable to avoid aliasing
-			serverX509NameItem := serverX509NameItem
 			var serverX509Name X509CertificateName
 			err := serverX509Name.Initialize_From_X509CertificateName_STATUS(&serverX509NameItem)
 			if err != nil {
@@ -4123,8 +4067,6 @@ func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties
 	if source.ServerX509Names != nil {
 		serverX509NameList := make([]X509CertificateName_STATUS, len(source.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range source.ServerX509Names {
-			// Shadow the loop variable to avoid aliasing
-			serverX509NameItem := serverX509NameItem
 			var serverX509Name X509CertificateName_STATUS
 			err := serverX509Name.AssignProperties_From_X509CertificateName_STATUS(&serverX509NameItem)
 			if err != nil {
@@ -4165,8 +4107,6 @@ func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties
 	if properties.ServerX509Names != nil {
 		serverX509NameList := make([]storage.X509CertificateName_STATUS, len(properties.ServerX509Names))
 		for serverX509NameIndex, serverX509NameItem := range properties.ServerX509Names {
-			// Shadow the loop variable to avoid aliasing
-			serverX509NameItem := serverX509NameItem
 			var serverX509Name storage.X509CertificateName_STATUS
 			err := serverX509NameItem.AssignProperties_To_X509CertificateName_STATUS(&serverX509Name)
 			if err != nil {
@@ -4656,8 +4596,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_From_CircuitBr
 	if source.ErrorReasons != nil {
 		errorReasonList := make([]CircuitBreakerFailureCondition_ErrorReasons, len(source.ErrorReasons))
 		for errorReasonIndex, errorReasonItem := range source.ErrorReasons {
-			// Shadow the loop variable to avoid aliasing
-			errorReasonItem := errorReasonItem
 			errorReasonList[errorReasonIndex] = CircuitBreakerFailureCondition_ErrorReasons(errorReasonItem)
 		}
 		condition.ErrorReasons = errorReasonList
@@ -4675,8 +4613,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_From_CircuitBr
 	if source.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]FailureStatusCodeRange, len(source.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange FailureStatusCodeRange
 			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange(&statusCodeRangeItem)
 			if err != nil {
@@ -4705,8 +4641,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_To_CircuitBrea
 	if condition.ErrorReasons != nil {
 		errorReasonList := make([]string, len(condition.ErrorReasons))
 		for errorReasonIndex, errorReasonItem := range condition.ErrorReasons {
-			// Shadow the loop variable to avoid aliasing
-			errorReasonItem := errorReasonItem
 			errorReasonList[errorReasonIndex] = string(errorReasonItem)
 		}
 		destination.ErrorReasons = errorReasonList
@@ -4724,8 +4658,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_To_CircuitBrea
 	if condition.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]storage.FailureStatusCodeRange, len(condition.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range condition.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange storage.FailureStatusCodeRange
 			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange(&statusCodeRange)
 			if err != nil {
@@ -4759,8 +4691,6 @@ func (condition *CircuitBreakerFailureCondition) Initialize_From_CircuitBreakerF
 	if source.ErrorReasons != nil {
 		errorReasonList := make([]CircuitBreakerFailureCondition_ErrorReasons, len(source.ErrorReasons))
 		for errorReasonIndex, errorReasonItem := range source.ErrorReasons {
-			// Shadow the loop variable to avoid aliasing
-			errorReasonItem := errorReasonItem
 			errorReasonList[errorReasonIndex] = CircuitBreakerFailureCondition_ErrorReasons(errorReasonItem)
 		}
 		condition.ErrorReasons = errorReasonList
@@ -4778,8 +4708,6 @@ func (condition *CircuitBreakerFailureCondition) Initialize_From_CircuitBreakerF
 	if source.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]FailureStatusCodeRange, len(source.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange FailureStatusCodeRange
 			err := statusCodeRange.Initialize_From_FailureStatusCodeRange_STATUS(&statusCodeRangeItem)
 			if err != nil {
@@ -4877,8 +4805,6 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_From_Ci
 	if source.ErrorReasons != nil {
 		errorReasonList := make([]CircuitBreakerFailureCondition_ErrorReasons_STATUS, len(source.ErrorReasons))
 		for errorReasonIndex, errorReasonItem := range source.ErrorReasons {
-			// Shadow the loop variable to avoid aliasing
-			errorReasonItem := errorReasonItem
 			errorReasonList[errorReasonIndex] = CircuitBreakerFailureCondition_ErrorReasons_STATUS(errorReasonItem)
 		}
 		condition.ErrorReasons = errorReasonList
@@ -4896,8 +4822,6 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_From_Ci
 	if source.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]FailureStatusCodeRange_STATUS, len(source.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange FailureStatusCodeRange_STATUS
 			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange_STATUS(&statusCodeRangeItem)
 			if err != nil {
@@ -4926,8 +4850,6 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_To_Circ
 	if condition.ErrorReasons != nil {
 		errorReasonList := make([]string, len(condition.ErrorReasons))
 		for errorReasonIndex, errorReasonItem := range condition.ErrorReasons {
-			// Shadow the loop variable to avoid aliasing
-			errorReasonItem := errorReasonItem
 			errorReasonList[errorReasonIndex] = string(errorReasonItem)
 		}
 		destination.ErrorReasons = errorReasonList
@@ -4945,8 +4867,6 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_To_Circ
 	if condition.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]storage.FailureStatusCodeRange_STATUS, len(condition.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range condition.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange storage.FailureStatusCodeRange_STATUS
 			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange_STATUS(&statusCodeRange)
 			if err != nil {

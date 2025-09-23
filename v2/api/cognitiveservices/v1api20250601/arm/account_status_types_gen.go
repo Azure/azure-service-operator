@@ -105,12 +105,8 @@ type AccountProperties_STATUS struct {
 	Locations *MultiRegionSettings_STATUS `json:"locations,omitempty"`
 
 	// NetworkAcls: A collection of rules governing the accessibility from specific network locations.
-	NetworkAcls *NetworkRuleSet_STATUS `json:"networkAcls,omitempty"`
-
-	// NetworkInjections: Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents
-	// entirely within the  user's private network, eliminating public internet exposure while maintaining control over network
-	// configurations and  resources.
-	NetworkInjections *NetworkInjections_STATUS `json:"networkInjections,omitempty"`
+	NetworkAcls       *NetworkRuleSet_STATUS    `json:"networkAcls,omitempty"`
+	NetworkInjections []NetworkInjection_STATUS `json:"networkInjections,omitempty"`
 
 	// PrivateEndpointConnections: The private endpoint connection associated with the Cognitive Services account.
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
@@ -325,10 +321,10 @@ type MultiRegionSettings_STATUS struct {
 // Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the
 // user's private network, eliminating public internet exposure while maintaining control over network configurations and
 // resources.
-type NetworkInjections_STATUS struct {
+type NetworkInjection_STATUS struct {
 	// Scenario: Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent
 	// scenarios. 'none' means no network injection.
-	Scenario *NetworkInjections_Scenario_STATUS `json:"scenario,omitempty"`
+	Scenario *NetworkInjection_Scenario_STATUS `json:"scenario,omitempty"`
 
 	// SubnetArmId: Specify the subnet for which your Agent Client is injected into.
 	SubnetArmId *string `json:"subnetArmId,omitempty"`
@@ -537,17 +533,17 @@ var multiRegionSettings_RoutingMethod_STATUS_Values = map[string]MultiRegionSett
 	"weighted":    MultiRegionSettings_RoutingMethod_STATUS_Weighted,
 }
 
-type NetworkInjections_Scenario_STATUS string
+type NetworkInjection_Scenario_STATUS string
 
 const (
-	NetworkInjections_Scenario_STATUS_Agent = NetworkInjections_Scenario_STATUS("agent")
-	NetworkInjections_Scenario_STATUS_None  = NetworkInjections_Scenario_STATUS("none")
+	NetworkInjection_Scenario_STATUS_Agent = NetworkInjection_Scenario_STATUS("agent")
+	NetworkInjection_Scenario_STATUS_None  = NetworkInjection_Scenario_STATUS("none")
 )
 
-// Mapping from string to NetworkInjections_Scenario_STATUS
-var networkInjections_Scenario_STATUS_Values = map[string]NetworkInjections_Scenario_STATUS{
-	"agent": NetworkInjections_Scenario_STATUS_Agent,
-	"none":  NetworkInjections_Scenario_STATUS_None,
+// Mapping from string to NetworkInjection_Scenario_STATUS
+var networkInjection_Scenario_STATUS_Values = map[string]NetworkInjection_Scenario_STATUS{
+	"agent": NetworkInjection_Scenario_STATUS_Agent,
+	"none":  NetworkInjection_Scenario_STATUS_None,
 }
 
 type NetworkRuleSet_Bypass_STATUS string

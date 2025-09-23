@@ -958,8 +958,6 @@ func (operator *FleetsUpdateRunOperatorSpec) AssignProperties_From_FleetsUpdateR
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -976,8 +974,6 @@ func (operator *FleetsUpdateRunOperatorSpec) AssignProperties_From_FleetsUpdateR
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1003,8 +999,6 @@ func (operator *FleetsUpdateRunOperatorSpec) AssignProperties_To_FleetsUpdateRun
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1021,8 +1015,6 @@ func (operator *FleetsUpdateRunOperatorSpec) AssignProperties_To_FleetsUpdateRun
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1320,8 +1312,6 @@ func (status *UpdateRunStatus_STATUS) AssignProperties_From_UpdateRunStatus_STAT
 	if source.Stages != nil {
 		stageList := make([]UpdateStageStatus_STATUS, len(source.Stages))
 		for stageIndex, stageItem := range source.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage UpdateStageStatus_STATUS
 			err := stage.AssignProperties_From_UpdateStageStatus_STATUS(&stageItem)
 			if err != nil {
@@ -1359,8 +1349,6 @@ func (status *UpdateRunStatus_STATUS) AssignProperties_To_UpdateRunStatus_STATUS
 	if status.Stages != nil {
 		stageList := make([]storage.UpdateStageStatus_STATUS, len(status.Stages))
 		for stageIndex, stageItem := range status.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage storage.UpdateStageStatus_STATUS
 			err := stageItem.AssignProperties_To_UpdateStageStatus_STATUS(&stage)
 			if err != nil {
@@ -1462,8 +1450,6 @@ func (strategy *UpdateRunStrategy) AssignProperties_From_UpdateRunStrategy(sourc
 	if source.Stages != nil {
 		stageList := make([]UpdateStage, len(source.Stages))
 		for stageIndex, stageItem := range source.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage UpdateStage
 			err := stage.AssignProperties_From_UpdateStage(&stageItem)
 			if err != nil {
@@ -1489,8 +1475,6 @@ func (strategy *UpdateRunStrategy) AssignProperties_To_UpdateRunStrategy(destina
 	if strategy.Stages != nil {
 		stageList := make([]storage.UpdateStage, len(strategy.Stages))
 		for stageIndex, stageItem := range strategy.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage storage.UpdateStage
 			err := stageItem.AssignProperties_To_UpdateStage(&stage)
 			if err != nil {
@@ -1521,8 +1505,6 @@ func (strategy *UpdateRunStrategy) Initialize_From_UpdateRunStrategy_STATUS(sour
 	if source.Stages != nil {
 		stageList := make([]UpdateStage, len(source.Stages))
 		for stageIndex, stageItem := range source.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage UpdateStage
 			err := stage.Initialize_From_UpdateStage_STATUS(&stageItem)
 			if err != nil {
@@ -1586,8 +1568,6 @@ func (strategy *UpdateRunStrategy_STATUS) AssignProperties_From_UpdateRunStrateg
 	if source.Stages != nil {
 		stageList := make([]UpdateStage_STATUS, len(source.Stages))
 		for stageIndex, stageItem := range source.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage UpdateStage_STATUS
 			err := stage.AssignProperties_From_UpdateStage_STATUS(&stageItem)
 			if err != nil {
@@ -1613,8 +1593,6 @@ func (strategy *UpdateRunStrategy_STATUS) AssignProperties_To_UpdateRunStrategy_
 	if strategy.Stages != nil {
 		stageList := make([]storage.UpdateStage_STATUS, len(strategy.Stages))
 		for stageIndex, stageItem := range strategy.Stages {
-			// Shadow the loop variable to avoid aliasing
-			stageItem := stageItem
 			var stage storage.UpdateStage_STATUS
 			err := stageItem.AssignProperties_To_UpdateStage_STATUS(&stage)
 			if err != nil {
@@ -1952,8 +1930,6 @@ func (stage *UpdateStage) AssignProperties_From_UpdateStage(source *storage.Upda
 	if source.Groups != nil {
 		groupList := make([]UpdateGroup, len(source.Groups))
 		for groupIndex, groupItem := range source.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group UpdateGroup
 			err := group.AssignProperties_From_UpdateGroup(&groupItem)
 			if err != nil {
@@ -1985,8 +1961,6 @@ func (stage *UpdateStage) AssignProperties_To_UpdateStage(destination *storage.U
 	if stage.Groups != nil {
 		groupList := make([]storage.UpdateGroup, len(stage.Groups))
 		for groupIndex, groupItem := range stage.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group storage.UpdateGroup
 			err := groupItem.AssignProperties_To_UpdateGroup(&group)
 			if err != nil {
@@ -2023,8 +1997,6 @@ func (stage *UpdateStage) Initialize_From_UpdateStage_STATUS(source *UpdateStage
 	if source.Groups != nil {
 		groupList := make([]UpdateGroup, len(source.Groups))
 		for groupIndex, groupItem := range source.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group UpdateGroup
 			err := group.Initialize_From_UpdateGroup_STATUS(&groupItem)
 			if err != nil {
@@ -2108,8 +2080,6 @@ func (stage *UpdateStage_STATUS) AssignProperties_From_UpdateStage_STATUS(source
 	if source.Groups != nil {
 		groupList := make([]UpdateGroup_STATUS, len(source.Groups))
 		for groupIndex, groupItem := range source.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group UpdateGroup_STATUS
 			err := group.AssignProperties_From_UpdateGroup_STATUS(&groupItem)
 			if err != nil {
@@ -2141,8 +2111,6 @@ func (stage *UpdateStage_STATUS) AssignProperties_To_UpdateStage_STATUS(destinat
 	if stage.Groups != nil {
 		groupList := make([]storage.UpdateGroup_STATUS, len(stage.Groups))
 		for groupIndex, groupItem := range stage.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group storage.UpdateGroup_STATUS
 			err := groupItem.AssignProperties_To_UpdateGroup_STATUS(&group)
 			if err != nil {
@@ -2259,8 +2227,6 @@ func (status *UpdateStageStatus_STATUS) AssignProperties_From_UpdateStageStatus_
 	if source.Groups != nil {
 		groupList := make([]UpdateGroupStatus_STATUS, len(source.Groups))
 		for groupIndex, groupItem := range source.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group UpdateGroupStatus_STATUS
 			err := group.AssignProperties_From_UpdateGroupStatus_STATUS(&groupItem)
 			if err != nil {
@@ -2313,8 +2279,6 @@ func (status *UpdateStageStatus_STATUS) AssignProperties_To_UpdateStageStatus_ST
 	if status.Groups != nil {
 		groupList := make([]storage.UpdateGroupStatus_STATUS, len(status.Groups))
 		for groupIndex, groupItem := range status.Groups {
-			// Shadow the loop variable to avoid aliasing
-			groupItem := groupItem
 			var group storage.UpdateGroupStatus_STATUS
 			err := groupItem.AssignProperties_To_UpdateGroupStatus_STATUS(&group)
 			if err != nil {
@@ -2574,8 +2538,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 	if source.AdditionalInfo != nil {
 		additionalInfoList := make([]ErrorAdditionalInfo_STATUS, len(source.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range source.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
@@ -2595,8 +2557,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 	if source.Details != nil {
 		detailList := make([]ErrorDetail_STATUS_Unrolled, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detailLocal ErrorDetail_STATUS_Unrolled
 			err := detailLocal.AssignProperties_From_ErrorDetail_STATUS_Unrolled(&detailItem)
 			if err != nil {
@@ -2628,8 +2588,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	if detail.AdditionalInfo != nil {
 		additionalInfoList := make([]storage.ErrorAdditionalInfo_STATUS, len(detail.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range detail.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
@@ -2649,8 +2607,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	if detail.Details != nil {
 		detailList := make([]storage.ErrorDetail_STATUS_Unrolled, len(detail.Details))
 		for detailIndex, detailItem := range detail.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detailLocal storage.ErrorDetail_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
@@ -2922,8 +2878,6 @@ func (status *UpdateGroupStatus_STATUS) AssignProperties_From_UpdateGroupStatus_
 	if source.Members != nil {
 		memberList := make([]MemberUpdateStatus_STATUS, len(source.Members))
 		for memberIndex, memberItem := range source.Members {
-			// Shadow the loop variable to avoid aliasing
-			memberItem := memberItem
 			var member MemberUpdateStatus_STATUS
 			err := member.AssignProperties_From_MemberUpdateStatus_STATUS(&memberItem)
 			if err != nil {
@@ -2964,8 +2918,6 @@ func (status *UpdateGroupStatus_STATUS) AssignProperties_To_UpdateGroupStatus_ST
 	if status.Members != nil {
 		memberList := make([]storage.MemberUpdateStatus_STATUS, len(status.Members))
 		for memberIndex, memberItem := range status.Members {
-			// Shadow the loop variable to avoid aliasing
-			memberItem := memberItem
 			var member storage.MemberUpdateStatus_STATUS
 			err := memberItem.AssignProperties_To_MemberUpdateStatus_STATUS(&member)
 			if err != nil {
@@ -3011,6 +2963,7 @@ const (
 	UpdateState_STATUS_Completed  = UpdateState_STATUS("Completed")
 	UpdateState_STATUS_Failed     = UpdateState_STATUS("Failed")
 	UpdateState_STATUS_NotStarted = UpdateState_STATUS("NotStarted")
+	UpdateState_STATUS_Pending    = UpdateState_STATUS("Pending")
 	UpdateState_STATUS_Running    = UpdateState_STATUS("Running")
 	UpdateState_STATUS_Stopped    = UpdateState_STATUS("Stopped")
 	UpdateState_STATUS_Stopping   = UpdateState_STATUS("Stopping")
@@ -3021,6 +2974,7 @@ var updateState_STATUS_Values = map[string]UpdateState_STATUS{
 	"completed":  UpdateState_STATUS_Completed,
 	"failed":     UpdateState_STATUS_Failed,
 	"notstarted": UpdateState_STATUS_NotStarted,
+	"pending":    UpdateState_STATUS_Pending,
 	"running":    UpdateState_STATUS_Running,
 	"stopped":    UpdateState_STATUS_Stopped,
 	"stopping":   UpdateState_STATUS_Stopping,
@@ -3171,8 +3125,6 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInf
 	if source.Info != nil {
 		infoMap := make(map[string]v1.JSON, len(source.Info))
 		for infoKey, infoValue := range source.Info {
-			// Shadow the loop variable to avoid aliasing
-			infoValue := infoValue
 			infoMap[infoKey] = *infoValue.DeepCopy()
 		}
 		info.Info = infoMap
@@ -3196,8 +3148,6 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_
 	if info.Info != nil {
 		infoMap := make(map[string]v1.JSON, len(info.Info))
 		for infoKey, infoValue := range info.Info {
-			// Shadow the loop variable to avoid aliasing
-			infoValue := infoValue
 			infoMap[infoKey] = *infoValue.DeepCopy()
 		}
 		destination.Info = infoMap
@@ -3286,8 +3236,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_S
 	if source.AdditionalInfo != nil {
 		additionalInfoList := make([]ErrorAdditionalInfo_STATUS, len(source.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range source.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
@@ -3322,8 +3270,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 	if unrolled.AdditionalInfo != nil {
 		additionalInfoList := make([]storage.ErrorAdditionalInfo_STATUS, len(unrolled.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range unrolled.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {

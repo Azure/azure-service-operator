@@ -43,8 +43,6 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	if source.Apple != nil {
 		appleList := make([]float64, len(source.Apple))
 		for appleIndex, appleItem := range source.Apple {
-			// Shadow the loop variable to avoid aliasing
-			appleItem := appleItem
 			appleList[appleIndex] = appleItem
 		}
 		test.Apple = appleList
@@ -79,8 +77,6 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	if test.Apple != nil {
 		appleList := make([]float64, len(test.Apple))
 		for appleIndex, appleItem := range test.Apple {
-			// Shadow the loop variable to avoid aliasing
-			appleItem := appleItem
 			appleList[appleIndex] = appleItem
 		}
 		destination.Apple = appleList

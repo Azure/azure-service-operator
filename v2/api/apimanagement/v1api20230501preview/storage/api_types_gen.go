@@ -1574,8 +1574,6 @@ func (operator *ApiOperatorSpec) AssignProperties_From_ApiOperatorSpec(source *s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1592,8 +1590,6 @@ func (operator *ApiOperatorSpec) AssignProperties_From_ApiOperatorSpec(source *s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1635,8 +1631,6 @@ func (operator *ApiOperatorSpec) AssignProperties_To_ApiOperatorSpec(destination
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1653,8 +1647,6 @@ func (operator *ApiOperatorSpec) AssignProperties_To_ApiOperatorSpec(destination
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1936,8 +1928,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 	if source.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]OAuth2AuthenticationSettingsContract, len(source.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range source.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSetting.AssignProperties_From_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSettingItem)
 			if err != nil {
@@ -1966,8 +1956,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 	if source.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]OpenIdAuthenticationSettingsContract, len(source.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range source.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSetting.AssignProperties_From_OpenIdAuthenticationSettingsContract(&openidAuthenticationSettingItem)
 			if err != nil {
@@ -2021,8 +2009,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 	if contract.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]storage.OAuth2AuthenticationSettingsContract, len(contract.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range contract.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSetting)
 			if err != nil {
@@ -2051,8 +2037,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 	if contract.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]storage.OpenIdAuthenticationSettingsContract, len(contract.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range contract.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract(&openidAuthenticationSetting)
 			if err != nil {
@@ -2116,8 +2100,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 	if source.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]OAuth2AuthenticationSettingsContract_STATUS, len(source.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range source.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSetting.AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSettingItem)
 			if err != nil {
@@ -2146,8 +2128,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 	if source.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]OpenIdAuthenticationSettingsContract_STATUS, len(source.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range source.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSetting.AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSettingItem)
 			if err != nil {
@@ -2201,8 +2181,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 	if contract.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]storage.OAuth2AuthenticationSettingsContract_STATUS, len(contract.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range contract.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSetting)
 			if err != nil {
@@ -2231,8 +2209,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 	if contract.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]storage.OpenIdAuthenticationSettingsContract_STATUS, len(contract.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range contract.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSetting)
 			if err != nil {

@@ -23,12 +23,11 @@ func Test_Compute_Snapshot_20240302_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSectionf("Create Snapshot")
-	createOption := compute.CreationData_CreateOption_Empty
 	snapshot := &compute.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute.Snapshot_Spec{
 			CreationData: &compute.CreationData{
-				CreateOption: &createOption,
+				CreateOption: to.Ptr(compute.DiskCreateOption_Empty),
 			},
 			DiskSizeGB: to.Ptr(32),
 			Location:   tc.AzureRegion,

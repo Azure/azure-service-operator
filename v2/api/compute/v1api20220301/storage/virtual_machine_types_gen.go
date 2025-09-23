@@ -1425,8 +1425,6 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *v202
 	if source.Details != nil {
 		detailList := make([]ApiErrorBase_STATUS, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detail ApiErrorBase_STATUS
 			err := detail.AssignProperties_From_ApiErrorBase_STATUS(&detailItem)
 			if err != nil {
@@ -1489,8 +1487,6 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v
 	if error.Details != nil {
 		detailList := make([]v20220702s.ApiErrorBase_STATUS, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detail v20220702s.ApiErrorBase_STATUS
 			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {

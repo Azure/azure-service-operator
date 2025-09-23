@@ -593,8 +593,6 @@ func (profile *TrafficManagerProfile_Spec) AssignProperties_From_TrafficManagerP
 	if source.AllowedEndpointRecordTypes != nil {
 		allowedEndpointRecordTypeList := make([]AllowedEndpointRecordType, len(source.AllowedEndpointRecordTypes))
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range source.AllowedEndpointRecordTypes {
-			// Shadow the loop variable to avoid aliasing
-			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = genruntime.ToEnum(allowedEndpointRecordTypeItem, allowedEndpointRecordType_Values)
 		}
 		profile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
@@ -701,8 +699,6 @@ func (profile *TrafficManagerProfile_Spec) AssignProperties_To_TrafficManagerPro
 	if profile.AllowedEndpointRecordTypes != nil {
 		allowedEndpointRecordTypeList := make([]string, len(profile.AllowedEndpointRecordTypes))
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range profile.AllowedEndpointRecordTypes {
-			// Shadow the loop variable to avoid aliasing
-			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = string(allowedEndpointRecordTypeItem)
 		}
 		destination.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
@@ -814,8 +810,6 @@ func (profile *TrafficManagerProfile_Spec) Initialize_From_TrafficManagerProfile
 	if source.AllowedEndpointRecordTypes != nil {
 		allowedEndpointRecordTypeList := make([]AllowedEndpointRecordType, len(source.AllowedEndpointRecordTypes))
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range source.AllowedEndpointRecordTypes {
-			// Shadow the loop variable to avoid aliasing
-			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordType := genruntime.ToEnum(string(allowedEndpointRecordTypeItem), allowedEndpointRecordType_Values)
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = allowedEndpointRecordType
 		}
@@ -1146,8 +1140,6 @@ func (profile *TrafficManagerProfile_STATUS) AssignProperties_From_TrafficManage
 	if source.AllowedEndpointRecordTypes != nil {
 		allowedEndpointRecordTypeList := make([]AllowedEndpointRecordType_STATUS, len(source.AllowedEndpointRecordTypes))
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range source.AllowedEndpointRecordTypes {
-			// Shadow the loop variable to avoid aliasing
-			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = genruntime.ToEnum(allowedEndpointRecordTypeItem, allowedEndpointRecordType_STATUS_Values)
 		}
 		profile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
@@ -1174,8 +1166,6 @@ func (profile *TrafficManagerProfile_STATUS) AssignProperties_From_TrafficManage
 	if source.Endpoints != nil {
 		endpointList := make([]Endpoint_STATUS, len(source.Endpoints))
 		for endpointIndex, endpointItem := range source.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint Endpoint_STATUS
 			err := endpoint.AssignProperties_From_Endpoint_STATUS(&endpointItem)
 			if err != nil {
@@ -1258,8 +1248,6 @@ func (profile *TrafficManagerProfile_STATUS) AssignProperties_To_TrafficManagerP
 	if profile.AllowedEndpointRecordTypes != nil {
 		allowedEndpointRecordTypeList := make([]string, len(profile.AllowedEndpointRecordTypes))
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range profile.AllowedEndpointRecordTypes {
-			// Shadow the loop variable to avoid aliasing
-			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = string(allowedEndpointRecordTypeItem)
 		}
 		destination.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
@@ -1286,8 +1274,6 @@ func (profile *TrafficManagerProfile_STATUS) AssignProperties_To_TrafficManagerP
 	if profile.Endpoints != nil {
 		endpointList := make([]storage.Endpoint_STATUS, len(profile.Endpoints))
 		for endpointIndex, endpointItem := range profile.Endpoints {
-			// Shadow the loop variable to avoid aliasing
-			endpointItem := endpointItem
 			var endpoint storage.Endpoint_STATUS
 			err := endpointItem.AssignProperties_To_Endpoint_STATUS(&endpoint)
 			if err != nil {
@@ -1861,8 +1847,6 @@ func (config *MonitorConfig) AssignProperties_From_MonitorConfig(source *storage
 	if source.CustomHeaders != nil {
 		customHeaderList := make([]MonitorConfig_CustomHeaders, len(source.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range source.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader MonitorConfig_CustomHeaders
 			err := customHeader.AssignProperties_From_MonitorConfig_CustomHeaders(&customHeaderItem)
 			if err != nil {
@@ -1879,8 +1863,6 @@ func (config *MonitorConfig) AssignProperties_From_MonitorConfig(source *storage
 	if source.ExpectedStatusCodeRanges != nil {
 		expectedStatusCodeRangeList := make([]MonitorConfig_ExpectedStatusCodeRanges, len(source.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range source.ExpectedStatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
 			var expectedStatusCodeRange MonitorConfig_ExpectedStatusCodeRanges
 			err := expectedStatusCodeRange.AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges(&expectedStatusCodeRangeItem)
 			if err != nil {
@@ -1939,8 +1921,6 @@ func (config *MonitorConfig) AssignProperties_To_MonitorConfig(destination *stor
 	if config.CustomHeaders != nil {
 		customHeaderList := make([]storage.MonitorConfig_CustomHeaders, len(config.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range config.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader storage.MonitorConfig_CustomHeaders
 			err := customHeaderItem.AssignProperties_To_MonitorConfig_CustomHeaders(&customHeader)
 			if err != nil {
@@ -1957,8 +1937,6 @@ func (config *MonitorConfig) AssignProperties_To_MonitorConfig(destination *stor
 	if config.ExpectedStatusCodeRanges != nil {
 		expectedStatusCodeRangeList := make([]storage.MonitorConfig_ExpectedStatusCodeRanges, len(config.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range config.ExpectedStatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
 			var expectedStatusCodeRange storage.MonitorConfig_ExpectedStatusCodeRanges
 			err := expectedStatusCodeRangeItem.AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges(&expectedStatusCodeRange)
 			if err != nil {
@@ -2020,8 +1998,6 @@ func (config *MonitorConfig) Initialize_From_MonitorConfig_STATUS(source *Monito
 	if source.CustomHeaders != nil {
 		customHeaderList := make([]MonitorConfig_CustomHeaders, len(source.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range source.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader MonitorConfig_CustomHeaders
 			err := customHeader.Initialize_From_MonitorConfig_CustomHeaders_STATUS(&customHeaderItem)
 			if err != nil {
@@ -2038,8 +2014,6 @@ func (config *MonitorConfig) Initialize_From_MonitorConfig_STATUS(source *Monito
 	if source.ExpectedStatusCodeRanges != nil {
 		expectedStatusCodeRangeList := make([]MonitorConfig_ExpectedStatusCodeRanges, len(source.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range source.ExpectedStatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
 			var expectedStatusCodeRange MonitorConfig_ExpectedStatusCodeRanges
 			err := expectedStatusCodeRange.Initialize_From_MonitorConfig_ExpectedStatusCodeRanges_STATUS(&expectedStatusCodeRangeItem)
 			if err != nil {
@@ -2211,8 +2185,6 @@ func (config *MonitorConfig_STATUS) AssignProperties_From_MonitorConfig_STATUS(s
 	if source.CustomHeaders != nil {
 		customHeaderList := make([]MonitorConfig_CustomHeaders_STATUS, len(source.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range source.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader MonitorConfig_CustomHeaders_STATUS
 			err := customHeader.AssignProperties_From_MonitorConfig_CustomHeaders_STATUS(&customHeaderItem)
 			if err != nil {
@@ -2229,8 +2201,6 @@ func (config *MonitorConfig_STATUS) AssignProperties_From_MonitorConfig_STATUS(s
 	if source.ExpectedStatusCodeRanges != nil {
 		expectedStatusCodeRangeList := make([]MonitorConfig_ExpectedStatusCodeRanges_STATUS, len(source.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range source.ExpectedStatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
 			var expectedStatusCodeRange MonitorConfig_ExpectedStatusCodeRanges_STATUS
 			err := expectedStatusCodeRange.AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges_STATUS(&expectedStatusCodeRangeItem)
 			if err != nil {
@@ -2289,8 +2259,6 @@ func (config *MonitorConfig_STATUS) AssignProperties_To_MonitorConfig_STATUS(des
 	if config.CustomHeaders != nil {
 		customHeaderList := make([]storage.MonitorConfig_CustomHeaders_STATUS, len(config.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range config.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader storage.MonitorConfig_CustomHeaders_STATUS
 			err := customHeaderItem.AssignProperties_To_MonitorConfig_CustomHeaders_STATUS(&customHeader)
 			if err != nil {
@@ -2307,8 +2275,6 @@ func (config *MonitorConfig_STATUS) AssignProperties_To_MonitorConfig_STATUS(des
 	if config.ExpectedStatusCodeRanges != nil {
 		expectedStatusCodeRangeList := make([]storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS, len(config.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range config.ExpectedStatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
 			var expectedStatusCodeRange storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS
 			err := expectedStatusCodeRangeItem.AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS(&expectedStatusCodeRange)
 			if err != nil {
@@ -2479,8 +2445,6 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_Traffic
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2509,8 +2473,6 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_Traffic
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2536,8 +2498,6 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_To_TrafficMa
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2566,8 +2526,6 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_To_TrafficMa
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

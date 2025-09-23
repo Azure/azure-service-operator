@@ -364,8 +364,6 @@ func (cluster *Cluster_Spec) AssignProperties_From_Cluster_Spec(source *storage.
 	if source.AcceptedAudiences != nil {
 		acceptedAudienceList := make([]AcceptedAudiences, len(source.AcceptedAudiences))
 		for acceptedAudienceIndex, acceptedAudienceItem := range source.AcceptedAudiences {
-			// Shadow the loop variable to avoid aliasing
-			acceptedAudienceItem := acceptedAudienceItem
 			var acceptedAudience AcceptedAudiences
 			err := acceptedAudience.AssignProperties_From_AcceptedAudiences(&acceptedAudienceItem)
 			if err != nil {
@@ -539,8 +537,6 @@ func (cluster *Cluster_Spec) AssignProperties_From_Cluster_Spec(source *storage.
 	if source.TrustedExternalTenants != nil {
 		trustedExternalTenantList := make([]TrustedExternalTenant, len(source.TrustedExternalTenants))
 		for trustedExternalTenantIndex, trustedExternalTenantItem := range source.TrustedExternalTenants {
-			// Shadow the loop variable to avoid aliasing
-			trustedExternalTenantItem := trustedExternalTenantItem
 			var trustedExternalTenant TrustedExternalTenant
 			err := trustedExternalTenant.AssignProperties_From_TrustedExternalTenant(&trustedExternalTenantItem)
 			if err != nil {
@@ -605,8 +601,6 @@ func (cluster *Cluster_Spec) AssignProperties_To_Cluster_Spec(destination *stora
 	if cluster.AcceptedAudiences != nil {
 		acceptedAudienceList := make([]storage.AcceptedAudiences, len(cluster.AcceptedAudiences))
 		for acceptedAudienceIndex, acceptedAudienceItem := range cluster.AcceptedAudiences {
-			// Shadow the loop variable to avoid aliasing
-			acceptedAudienceItem := acceptedAudienceItem
 			var acceptedAudience storage.AcceptedAudiences
 			err := acceptedAudienceItem.AssignProperties_To_AcceptedAudiences(&acceptedAudience)
 			if err != nil {
@@ -786,8 +780,6 @@ func (cluster *Cluster_Spec) AssignProperties_To_Cluster_Spec(destination *stora
 	if cluster.TrustedExternalTenants != nil {
 		trustedExternalTenantList := make([]storage.TrustedExternalTenant, len(cluster.TrustedExternalTenants))
 		for trustedExternalTenantIndex, trustedExternalTenantItem := range cluster.TrustedExternalTenants {
-			// Shadow the loop variable to avoid aliasing
-			trustedExternalTenantItem := trustedExternalTenantItem
 			var trustedExternalTenant storage.TrustedExternalTenant
 			err := trustedExternalTenantItem.AssignProperties_To_TrustedExternalTenant(&trustedExternalTenant)
 			if err != nil {
@@ -943,8 +935,6 @@ func (cluster *Cluster_STATUS) AssignProperties_From_Cluster_STATUS(source *stor
 	if source.AcceptedAudiences != nil {
 		acceptedAudienceList := make([]AcceptedAudiences_STATUS, len(source.AcceptedAudiences))
 		for acceptedAudienceIndex, acceptedAudienceItem := range source.AcceptedAudiences {
-			// Shadow the loop variable to avoid aliasing
-			acceptedAudienceItem := acceptedAudienceItem
 			var acceptedAudience AcceptedAudiences_STATUS
 			err := acceptedAudience.AssignProperties_From_AcceptedAudiences_STATUS(&acceptedAudienceItem)
 			if err != nil {
@@ -1095,8 +1085,6 @@ func (cluster *Cluster_STATUS) AssignProperties_From_Cluster_STATUS(source *stor
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1158,8 +1146,6 @@ func (cluster *Cluster_STATUS) AssignProperties_From_Cluster_STATUS(source *stor
 	if source.TrustedExternalTenants != nil {
 		trustedExternalTenantList := make([]TrustedExternalTenant_STATUS, len(source.TrustedExternalTenants))
 		for trustedExternalTenantIndex, trustedExternalTenantItem := range source.TrustedExternalTenants {
-			// Shadow the loop variable to avoid aliasing
-			trustedExternalTenantItem := trustedExternalTenantItem
 			var trustedExternalTenant TrustedExternalTenant_STATUS
 			err := trustedExternalTenant.AssignProperties_From_TrustedExternalTenant_STATUS(&trustedExternalTenantItem)
 			if err != nil {
@@ -1229,8 +1215,6 @@ func (cluster *Cluster_STATUS) AssignProperties_To_Cluster_STATUS(destination *s
 	if cluster.AcceptedAudiences != nil {
 		acceptedAudienceList := make([]storage.AcceptedAudiences_STATUS, len(cluster.AcceptedAudiences))
 		for acceptedAudienceIndex, acceptedAudienceItem := range cluster.AcceptedAudiences {
-			// Shadow the loop variable to avoid aliasing
-			acceptedAudienceItem := acceptedAudienceItem
 			var acceptedAudience storage.AcceptedAudiences_STATUS
 			err := acceptedAudienceItem.AssignProperties_To_AcceptedAudiences_STATUS(&acceptedAudience)
 			if err != nil {
@@ -1387,8 +1371,6 @@ func (cluster *Cluster_STATUS) AssignProperties_To_Cluster_STATUS(destination *s
 	if cluster.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(cluster.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range cluster.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -1450,8 +1432,6 @@ func (cluster *Cluster_STATUS) AssignProperties_To_Cluster_STATUS(destination *s
 	if cluster.TrustedExternalTenants != nil {
 		trustedExternalTenantList := make([]storage.TrustedExternalTenant_STATUS, len(cluster.TrustedExternalTenants))
 		for trustedExternalTenantIndex, trustedExternalTenantItem := range cluster.TrustedExternalTenants {
-			// Shadow the loop variable to avoid aliasing
-			trustedExternalTenantItem := trustedExternalTenantItem
 			var trustedExternalTenant storage.TrustedExternalTenant_STATUS
 			err := trustedExternalTenantItem.AssignProperties_To_TrustedExternalTenant_STATUS(&trustedExternalTenant)
 			if err != nil {
@@ -1825,8 +1805,6 @@ func (operator *ClusterOperatorSpec) AssignProperties_From_ClusterOperatorSpec(s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1850,8 +1828,6 @@ func (operator *ClusterOperatorSpec) AssignProperties_From_ClusterOperatorSpec(s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1893,8 +1869,6 @@ func (operator *ClusterOperatorSpec) AssignProperties_To_ClusterOperatorSpec(des
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1924,8 +1898,6 @@ func (operator *ClusterOperatorSpec) AssignProperties_To_ClusterOperatorSpec(des
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1978,8 +1950,6 @@ func (identity *Identity) AssignProperties_From_Identity(source *storage.Identit
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -2024,8 +1994,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2086,8 +2054,6 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]Identity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity Identity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_Identity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -2138,8 +2104,6 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.Identity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.Identity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_Identity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -2368,8 +2332,6 @@ func (list *LanguageExtensionsList) AssignProperties_From_LanguageExtensionsList
 	if source.Value != nil {
 		valueList := make([]LanguageExtension, len(source.Value))
 		for valueIndex, valueItem := range source.Value {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			var value LanguageExtension
 			err := value.AssignProperties_From_LanguageExtension(&valueItem)
 			if err != nil {
@@ -2411,8 +2373,6 @@ func (list *LanguageExtensionsList) AssignProperties_To_LanguageExtensionsList(d
 	if list.Value != nil {
 		valueList := make([]storage.LanguageExtension, len(list.Value))
 		for valueIndex, valueItem := range list.Value {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			var value storage.LanguageExtension
 			err := valueItem.AssignProperties_To_LanguageExtension(&value)
 			if err != nil {
@@ -2461,8 +2421,6 @@ func (list *LanguageExtensionsList_STATUS) AssignProperties_From_LanguageExtensi
 	if source.Value != nil {
 		valueList := make([]LanguageExtension_STATUS, len(source.Value))
 		for valueIndex, valueItem := range source.Value {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			var value LanguageExtension_STATUS
 			err := value.AssignProperties_From_LanguageExtension_STATUS(&valueItem)
 			if err != nil {
@@ -2504,8 +2462,6 @@ func (list *LanguageExtensionsList_STATUS) AssignProperties_To_LanguageExtension
 	if list.Value != nil {
 		valueList := make([]storage.LanguageExtension_STATUS, len(list.Value))
 		for valueIndex, valueItem := range list.Value {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
 			var value storage.LanguageExtension_STATUS
 			err := valueItem.AssignProperties_To_LanguageExtension_STATUS(&value)
 			if err != nil {

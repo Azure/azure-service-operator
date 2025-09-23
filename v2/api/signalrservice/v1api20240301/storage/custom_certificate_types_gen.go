@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.CustomCertificate
 // Generator information:
-// - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2024-03-01/signalr.json
+// - Generated from: /signalr/resource-manager/Microsoft.SignalRService/SignalRService/stable/2024-03-01/signalr.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}
 type CustomCertificate struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (certificate *CustomCertificate) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.CustomCertificate
 // Generator information:
-// - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2024-03-01/signalr.json
+// - Generated from: /signalr/resource-manager/Microsoft.SignalRService/SignalRService/stable/2024-03-01/signalr.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}
 type CustomCertificateList struct {
 	metav1.TypeMeta `json:",inline"`

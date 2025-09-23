@@ -542,8 +542,6 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_From_DiagnosticSetting_S
 	if source.Logs != nil {
 		logList := make([]LogSettings, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log LogSettings
 			err := log.AssignProperties_From_LogSettings(&logItem)
 			if err != nil {
@@ -568,8 +566,6 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_From_DiagnosticSetting_S
 	if source.Metrics != nil {
 		metricList := make([]MetricSettings, len(source.Metrics))
 		for metricIndex, metricItem := range source.Metrics {
-			// Shadow the loop variable to avoid aliasing
-			metricItem := metricItem
 			var metric MetricSettings
 			err := metric.AssignProperties_From_MetricSettings(&metricItem)
 			if err != nil {
@@ -651,8 +647,6 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_To_DiagnosticSetting_Spe
 	if setting.Logs != nil {
 		logList := make([]storage.LogSettings, len(setting.Logs))
 		for logIndex, logItem := range setting.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log storage.LogSettings
 			err := logItem.AssignProperties_To_LogSettings(&log)
 			if err != nil {
@@ -677,8 +671,6 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_To_DiagnosticSetting_Spe
 	if setting.Metrics != nil {
 		metricList := make([]storage.MetricSettings, len(setting.Metrics))
 		for metricIndex, metricItem := range setting.Metrics {
-			// Shadow the loop variable to avoid aliasing
-			metricItem := metricItem
 			var metric storage.MetricSettings
 			err := metricItem.AssignProperties_To_MetricSettings(&metric)
 			if err != nil {
@@ -765,8 +757,6 @@ func (setting *DiagnosticSetting_Spec) Initialize_From_DiagnosticSetting_STATUS(
 	if source.Logs != nil {
 		logList := make([]LogSettings, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log LogSettings
 			err := log.Initialize_From_LogSettings_STATUS(&logItem)
 			if err != nil {
@@ -791,8 +781,6 @@ func (setting *DiagnosticSetting_Spec) Initialize_From_DiagnosticSetting_STATUS(
 	if source.Metrics != nil {
 		metricList := make([]MetricSettings, len(source.Metrics))
 		for metricIndex, metricItem := range source.Metrics {
-			// Shadow the loop variable to avoid aliasing
-			metricItem := metricItem
 			var metric MetricSettings
 			err := metric.Initialize_From_MetricSettings_STATUS(&metricItem)
 			if err != nil {
@@ -1096,8 +1084,6 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_From_DiagnosticSetting
 	if source.Logs != nil {
 		logList := make([]LogSettings_STATUS, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log LogSettings_STATUS
 			err := log.AssignProperties_From_LogSettings_STATUS(&logItem)
 			if err != nil {
@@ -1117,8 +1103,6 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_From_DiagnosticSetting
 	if source.Metrics != nil {
 		metricList := make([]MetricSettings_STATUS, len(source.Metrics))
 		for metricIndex, metricItem := range source.Metrics {
-			// Shadow the loop variable to avoid aliasing
-			metricItem := metricItem
 			var metric MetricSettings_STATUS
 			err := metric.AssignProperties_From_MetricSettings_STATUS(&metricItem)
 			if err != nil {
@@ -1186,8 +1170,6 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_To_DiagnosticSetting_S
 	if setting.Logs != nil {
 		logList := make([]storage.LogSettings_STATUS, len(setting.Logs))
 		for logIndex, logItem := range setting.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log storage.LogSettings_STATUS
 			err := logItem.AssignProperties_To_LogSettings_STATUS(&log)
 			if err != nil {
@@ -1207,8 +1189,6 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_To_DiagnosticSetting_S
 	if setting.Metrics != nil {
 		metricList := make([]storage.MetricSettings_STATUS, len(setting.Metrics))
 		for metricIndex, metricItem := range setting.Metrics {
-			// Shadow the loop variable to avoid aliasing
-			metricItem := metricItem
 			var metric storage.MetricSettings_STATUS
 			err := metricItem.AssignProperties_To_MetricSettings_STATUS(&metric)
 			if err != nil {
@@ -1275,8 +1255,6 @@ func (operator *DiagnosticSettingOperatorSpec) AssignProperties_From_DiagnosticS
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1293,8 +1271,6 @@ func (operator *DiagnosticSettingOperatorSpec) AssignProperties_From_DiagnosticS
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1320,8 +1296,6 @@ func (operator *DiagnosticSettingOperatorSpec) AssignProperties_To_DiagnosticSet
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1338,8 +1312,6 @@ func (operator *DiagnosticSettingOperatorSpec) AssignProperties_To_DiagnosticSet
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

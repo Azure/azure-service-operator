@@ -21,8 +21,6 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	if source.Ducks != nil {
 		duckList := make([]Test_Ducks, len(source.Ducks))
 		for duckIndex, duckItem := range source.Ducks {
-			// Shadow the loop variable to avoid aliasing
-			duckItem := duckItem
 			duckList[duckIndex] = Test_Ducks(duckItem)
 		}
 		test.Ducks = duckList
@@ -43,8 +41,6 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	if test.Ducks != nil {
 		duckList := make([]string, len(test.Ducks))
 		for duckIndex, duckItem := range test.Ducks {
-			// Shadow the loop variable to avoid aliasing
-			duckItem := duckItem
 			duckList[duckIndex] = string(duckItem)
 		}
 		destination.Ducks = duckList

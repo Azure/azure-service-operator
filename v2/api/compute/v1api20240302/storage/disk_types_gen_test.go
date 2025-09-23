@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -298,6 +299,133 @@ func DiskOperatorSpecGenerator() gopter.Gen {
 	diskOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiskOperatorSpec{}), generators)
 
 	return diskOperatorSpecGenerator
+}
+
+func Test_DiskPurchasePlan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskPurchasePlan via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskPurchasePlan, DiskPurchasePlanGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskPurchasePlan runs a test to see if a specific instance of DiskPurchasePlan round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskPurchasePlan(subject DiskPurchasePlan) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskPurchasePlan
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskPurchasePlan instances for property testing - lazily instantiated by DiskPurchasePlanGenerator()
+var diskPurchasePlanGenerator gopter.Gen
+
+// DiskPurchasePlanGenerator returns a generator of DiskPurchasePlan instances for property testing.
+func DiskPurchasePlanGenerator() gopter.Gen {
+	if diskPurchasePlanGenerator != nil {
+		return diskPurchasePlanGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDiskPurchasePlan(generators)
+	diskPurchasePlanGenerator = gen.Struct(reflect.TypeOf(DiskPurchasePlan{}), generators)
+
+	return diskPurchasePlanGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDiskPurchasePlan is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiskPurchasePlan(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Product"] = gen.PtrOf(gen.AlphaString())
+	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_DiskPurchasePlan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskPurchasePlan_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskPurchasePlan_STATUS, DiskPurchasePlan_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskPurchasePlan_STATUS runs a test to see if a specific instance of DiskPurchasePlan_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskPurchasePlan_STATUS(subject DiskPurchasePlan_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskPurchasePlan_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskPurchasePlan_STATUS instances for property testing - lazily instantiated by
+// DiskPurchasePlan_STATUSGenerator()
+var diskPurchasePlan_STATUSGenerator gopter.Gen
+
+// DiskPurchasePlan_STATUSGenerator returns a generator of DiskPurchasePlan_STATUS instances for property testing.
+func DiskPurchasePlan_STATUSGenerator() gopter.Gen {
+	if diskPurchasePlan_STATUSGenerator != nil {
+		return diskPurchasePlan_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDiskPurchasePlan_STATUS(generators)
+	diskPurchasePlan_STATUSGenerator = gen.Struct(reflect.TypeOf(DiskPurchasePlan_STATUS{}), generators)
+
+	return diskPurchasePlan_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDiskPurchasePlan_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiskPurchasePlan_STATUS(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Product"] = gen.PtrOf(gen.AlphaString())
+	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DiskSecurityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -653,11 +781,12 @@ func AddRelatedPropertyGeneratorsForDisk_STATUS(gens map[string]gopter.Gen) {
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollection_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["PropertyUpdatesInProgress"] = gen.PtrOf(PropertyUpdatesInProgress_STATUSGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_STATUSGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(DiskPurchasePlan_STATUSGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfile_STATUSGenerator())
 	gens["ShareInfo"] = gen.SliceOf(ShareInfoElement_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(DiskSku_STATUSGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilities_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_Disk_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -758,7 +887,7 @@ func AddRelatedPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(DiskOperatorSpecGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(DiskPurchasePlanGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfileGenerator())
 	gens["Sku"] = gen.PtrOf(DiskSkuGenerator())
 	gens["SupportedCapabilities"] = gen.PtrOf(SupportedCapabilitiesGenerator())
@@ -1771,133 +1900,6 @@ func AddIndependentPropertyGeneratorsForPropertyUpdatesInProgress_STATUS(gens ma
 	gens["TargetTier"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_PurchasePlan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PurchasePlan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPurchasePlan, PurchasePlanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPurchasePlan runs a test to see if a specific instance of PurchasePlan round trips to JSON and back losslessly
-func RunJSONSerializationTestForPurchasePlan(subject PurchasePlan) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PurchasePlan
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PurchasePlan instances for property testing - lazily instantiated by PurchasePlanGenerator()
-var purchasePlanGenerator gopter.Gen
-
-// PurchasePlanGenerator returns a generator of PurchasePlan instances for property testing.
-func PurchasePlanGenerator() gopter.Gen {
-	if purchasePlanGenerator != nil {
-		return purchasePlanGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPurchasePlan(generators)
-	purchasePlanGenerator = gen.Struct(reflect.TypeOf(PurchasePlan{}), generators)
-
-	return purchasePlanGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPurchasePlan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPurchasePlan(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Product"] = gen.PtrOf(gen.AlphaString())
-	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PurchasePlan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PurchasePlan_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPurchasePlan_STATUS, PurchasePlan_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPurchasePlan_STATUS runs a test to see if a specific instance of PurchasePlan_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPurchasePlan_STATUS(subject PurchasePlan_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PurchasePlan_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PurchasePlan_STATUS instances for property testing - lazily instantiated by
-// PurchasePlan_STATUSGenerator()
-var purchasePlan_STATUSGenerator gopter.Gen
-
-// PurchasePlan_STATUSGenerator returns a generator of PurchasePlan_STATUS instances for property testing.
-func PurchasePlan_STATUSGenerator() gopter.Gen {
-	if purchasePlan_STATUSGenerator != nil {
-		return purchasePlan_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPurchasePlan_STATUS(generators)
-	purchasePlan_STATUSGenerator = gen.Struct(reflect.TypeOf(PurchasePlan_STATUS{}), generators)
-
-	return purchasePlan_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPurchasePlan_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPurchasePlan_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Product"] = gen.PtrOf(gen.AlphaString())
-	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_ShareInfoElement_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2083,4 +2085,111 @@ func AddIndependentPropertyGeneratorsForSupportedCapabilities_STATUS(gens map[st
 	gens["AcceleratedNetwork"] = gen.PtrOf(gen.Bool())
 	gens["Architecture"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskControllerTypes"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SystemData_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SystemData_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
+var systemData_STATUSGenerator gopter.Gen
+
+// SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
+func SystemData_STATUSGenerator() gopter.Gen {
+	if systemData_STATUSGenerator != nil {
+		return systemData_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
+	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+
+	return systemData_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
 }

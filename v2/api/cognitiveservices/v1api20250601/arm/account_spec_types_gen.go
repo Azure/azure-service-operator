@@ -83,12 +83,8 @@ type AccountProperties struct {
 	MigrationToken *string `json:"migrationToken,omitempty"`
 
 	// NetworkAcls: A collection of rules governing the accessibility from specific network locations.
-	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
-
-	// NetworkInjections: Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents
-	// entirely within the  user's private network, eliminating public internet exposure while maintaining control over network
-	// configurations and  resources.
-	NetworkInjections *NetworkInjections `json:"networkInjections,omitempty"`
+	NetworkAcls       *NetworkRuleSet    `json:"networkAcls,omitempty"`
+	NetworkInjections []NetworkInjection `json:"networkInjections,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this account.
 	PublicNetworkAccess *AccountProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -216,10 +212,10 @@ type MultiRegionSettings struct {
 // Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the
 // user's private network, eliminating public internet exposure while maintaining control over network configurations and
 // resources.
-type NetworkInjections struct {
+type NetworkInjection struct {
 	// Scenario: Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent
 	// scenarios. 'none' means no network injection.
-	Scenario *NetworkInjections_Scenario `json:"scenario,omitempty"`
+	Scenario *NetworkInjection_Scenario `json:"scenario,omitempty"`
 
 	// SubnetArmId: Specify the subnet for which your Agent Client is injected into.
 	SubnetArmId *string `json:"subnetArmId,omitempty"`
@@ -346,17 +342,17 @@ var multiRegionSettings_RoutingMethod_Values = map[string]MultiRegionSettings_Ro
 }
 
 // +kubebuilder:validation:Enum={"agent","none"}
-type NetworkInjections_Scenario string
+type NetworkInjection_Scenario string
 
 const (
-	NetworkInjections_Scenario_Agent = NetworkInjections_Scenario("agent")
-	NetworkInjections_Scenario_None  = NetworkInjections_Scenario("none")
+	NetworkInjection_Scenario_Agent = NetworkInjection_Scenario("agent")
+	NetworkInjection_Scenario_None  = NetworkInjection_Scenario("none")
 )
 
-// Mapping from string to NetworkInjections_Scenario
-var networkInjections_Scenario_Values = map[string]NetworkInjections_Scenario{
-	"agent": NetworkInjections_Scenario_Agent,
-	"none":  NetworkInjections_Scenario_None,
+// Mapping from string to NetworkInjection_Scenario
+var networkInjection_Scenario_Values = map[string]NetworkInjection_Scenario{
+	"agent": NetworkInjection_Scenario_Agent,
+	"none":  NetworkInjection_Scenario_None,
 }
 
 // +kubebuilder:validation:Enum={"AzureServices","None"}

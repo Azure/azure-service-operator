@@ -21,8 +21,6 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	if source.Tags != nil {
 		tagMap := make(map[string]v1.JSON, len(source.Tags))
 		for tagKey, tagValue := range source.Tags {
-			// Shadow the loop variable to avoid aliasing
-			tagValue := tagValue
 			tagMap[tagKey] = *tagValue.DeepCopy()
 		}
 		test.Tags = tagMap
@@ -43,8 +41,6 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	if test.Tags != nil {
 		tagMap := make(map[string]v1.JSON, len(test.Tags))
 		for tagKey, tagValue := range test.Tags {
-			// Shadow the loop variable to avoid aliasing
-			tagValue := tagValue
 			tagMap[tagKey] = *tagValue.DeepCopy()
 		}
 		destination.Tags = tagMap

@@ -648,8 +648,6 @@ func (schema *ManagementPolicySchema) AssignProperties_From_ManagementPolicySche
 	if source.Rules != nil {
 		ruleList := make([]ManagementPolicyRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ManagementPolicyRule
 			err := rule.AssignProperties_From_ManagementPolicyRule(&ruleItem)
 			if err != nil {
@@ -691,8 +689,6 @@ func (schema *ManagementPolicySchema) AssignProperties_To_ManagementPolicySchema
 	if schema.Rules != nil {
 		ruleList := make([]storage.ManagementPolicyRule, len(schema.Rules))
 		for ruleIndex, ruleItem := range schema.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ManagementPolicyRule
 			err := ruleItem.AssignProperties_To_ManagementPolicyRule(&rule)
 			if err != nil {
@@ -742,8 +738,6 @@ func (schema *ManagementPolicySchema_STATUS) AssignProperties_From_ManagementPol
 	if source.Rules != nil {
 		ruleList := make([]ManagementPolicyRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ManagementPolicyRule_STATUS
 			err := rule.AssignProperties_From_ManagementPolicyRule_STATUS(&ruleItem)
 			if err != nil {
@@ -785,8 +779,6 @@ func (schema *ManagementPolicySchema_STATUS) AssignProperties_To_ManagementPolic
 	if schema.Rules != nil {
 		ruleList := make([]storage.ManagementPolicyRule_STATUS, len(schema.Rules))
 		for ruleIndex, ruleItem := range schema.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ManagementPolicyRule_STATUS
 			err := ruleItem.AssignProperties_To_ManagementPolicyRule_STATUS(&rule)
 			if err != nil {
@@ -836,8 +828,6 @@ func (operator *StorageAccountsManagementPolicyOperatorSpec) AssignProperties_Fr
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -854,8 +844,6 @@ func (operator *StorageAccountsManagementPolicyOperatorSpec) AssignProperties_Fr
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -897,8 +885,6 @@ func (operator *StorageAccountsManagementPolicyOperatorSpec) AssignProperties_To
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -915,8 +901,6 @@ func (operator *StorageAccountsManagementPolicyOperatorSpec) AssignProperties_To
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1701,8 +1685,6 @@ func (filter *ManagementPolicyFilter) AssignProperties_From_ManagementPolicyFilt
 	if source.BlobIndexMatch != nil {
 		blobIndexMatchList := make([]TagFilter, len(source.BlobIndexMatch))
 		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
-			// Shadow the loop variable to avoid aliasing
-			blobIndexMatchItem := blobIndexMatchItem
 			var blobIndexMatch TagFilter
 			err := blobIndexMatch.AssignProperties_From_TagFilter(&blobIndexMatchItem)
 			if err != nil {
@@ -1750,8 +1732,6 @@ func (filter *ManagementPolicyFilter) AssignProperties_To_ManagementPolicyFilter
 	if filter.BlobIndexMatch != nil {
 		blobIndexMatchList := make([]storage.TagFilter, len(filter.BlobIndexMatch))
 		for blobIndexMatchIndex, blobIndexMatchItem := range filter.BlobIndexMatch {
-			// Shadow the loop variable to avoid aliasing
-			blobIndexMatchItem := blobIndexMatchItem
 			var blobIndexMatch storage.TagFilter
 			err := blobIndexMatchItem.AssignProperties_To_TagFilter(&blobIndexMatch)
 			if err != nil {
@@ -1809,8 +1789,6 @@ func (filter *ManagementPolicyFilter_STATUS) AssignProperties_From_ManagementPol
 	if source.BlobIndexMatch != nil {
 		blobIndexMatchList := make([]TagFilter_STATUS, len(source.BlobIndexMatch))
 		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
-			// Shadow the loop variable to avoid aliasing
-			blobIndexMatchItem := blobIndexMatchItem
 			var blobIndexMatch TagFilter_STATUS
 			err := blobIndexMatch.AssignProperties_From_TagFilter_STATUS(&blobIndexMatchItem)
 			if err != nil {
@@ -1858,8 +1836,6 @@ func (filter *ManagementPolicyFilter_STATUS) AssignProperties_To_ManagementPolic
 	if filter.BlobIndexMatch != nil {
 		blobIndexMatchList := make([]storage.TagFilter_STATUS, len(filter.BlobIndexMatch))
 		for blobIndexMatchIndex, blobIndexMatchItem := range filter.BlobIndexMatch {
-			// Shadow the loop variable to avoid aliasing
-			blobIndexMatchItem := blobIndexMatchItem
 			var blobIndexMatch storage.TagFilter_STATUS
 			err := blobIndexMatchItem.AssignProperties_To_TagFilter_STATUS(&blobIndexMatch)
 			if err != nil {

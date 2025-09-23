@@ -702,8 +702,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.ArmRoleReceivers != nil {
 		armRoleReceiverList := make([]ArmRoleReceiver, len(source.ArmRoleReceivers))
 		for armRoleReceiverIndex, armRoleReceiverItem := range source.ArmRoleReceivers {
-			// Shadow the loop variable to avoid aliasing
-			armRoleReceiverItem := armRoleReceiverItem
 			var armRoleReceiver ArmRoleReceiver
 			err := armRoleReceiver.AssignProperties_From_ArmRoleReceiver(&armRoleReceiverItem)
 			if err != nil {
@@ -720,8 +718,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.AutomationRunbookReceivers != nil {
 		automationRunbookReceiverList := make([]AutomationRunbookReceiver, len(source.AutomationRunbookReceivers))
 		for automationRunbookReceiverIndex, automationRunbookReceiverItem := range source.AutomationRunbookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			automationRunbookReceiverItem := automationRunbookReceiverItem
 			var automationRunbookReceiver AutomationRunbookReceiver
 			err := automationRunbookReceiver.AssignProperties_From_AutomationRunbookReceiver(&automationRunbookReceiverItem)
 			if err != nil {
@@ -738,8 +734,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.AzureAppPushReceivers != nil {
 		azureAppPushReceiverList := make([]AzureAppPushReceiver, len(source.AzureAppPushReceivers))
 		for azureAppPushReceiverIndex, azureAppPushReceiverItem := range source.AzureAppPushReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureAppPushReceiverItem := azureAppPushReceiverItem
 			var azureAppPushReceiver AzureAppPushReceiver
 			err := azureAppPushReceiver.AssignProperties_From_AzureAppPushReceiver(&azureAppPushReceiverItem)
 			if err != nil {
@@ -756,8 +750,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.AzureFunctionReceivers != nil {
 		azureFunctionReceiverList := make([]AzureFunctionReceiver, len(source.AzureFunctionReceivers))
 		for azureFunctionReceiverIndex, azureFunctionReceiverItem := range source.AzureFunctionReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureFunctionReceiverItem := azureFunctionReceiverItem
 			var azureFunctionReceiver AzureFunctionReceiver
 			err := azureFunctionReceiver.AssignProperties_From_AzureFunctionReceiver(&azureFunctionReceiverItem)
 			if err != nil {
@@ -777,8 +769,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.EmailReceivers != nil {
 		emailReceiverList := make([]EmailReceiver, len(source.EmailReceivers))
 		for emailReceiverIndex, emailReceiverItem := range source.EmailReceivers {
-			// Shadow the loop variable to avoid aliasing
-			emailReceiverItem := emailReceiverItem
 			var emailReceiver EmailReceiver
 			err := emailReceiver.AssignProperties_From_EmailReceiver(&emailReceiverItem)
 			if err != nil {
@@ -803,8 +793,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.EventHubReceivers != nil {
 		eventHubReceiverList := make([]EventHubReceiver, len(source.EventHubReceivers))
 		for eventHubReceiverIndex, eventHubReceiverItem := range source.EventHubReceivers {
-			// Shadow the loop variable to avoid aliasing
-			eventHubReceiverItem := eventHubReceiverItem
 			var eventHubReceiver EventHubReceiver
 			err := eventHubReceiver.AssignProperties_From_EventHubReceiver(&eventHubReceiverItem)
 			if err != nil {
@@ -824,8 +812,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.ItsmReceivers != nil {
 		itsmReceiverList := make([]ItsmReceiver, len(source.ItsmReceivers))
 		for itsmReceiverIndex, itsmReceiverItem := range source.ItsmReceivers {
-			// Shadow the loop variable to avoid aliasing
-			itsmReceiverItem := itsmReceiverItem
 			var itsmReceiver ItsmReceiver
 			err := itsmReceiver.AssignProperties_From_ItsmReceiver(&itsmReceiverItem)
 			if err != nil {
@@ -845,8 +831,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.LogicAppReceivers != nil {
 		logicAppReceiverList := make([]LogicAppReceiver, len(source.LogicAppReceivers))
 		for logicAppReceiverIndex, logicAppReceiverItem := range source.LogicAppReceivers {
-			// Shadow the loop variable to avoid aliasing
-			logicAppReceiverItem := logicAppReceiverItem
 			var logicAppReceiver LogicAppReceiver
 			err := logicAppReceiver.AssignProperties_From_LogicAppReceiver(&logicAppReceiverItem)
 			if err != nil {
@@ -883,8 +867,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.SmsReceivers != nil {
 		smsReceiverList := make([]SmsReceiver, len(source.SmsReceivers))
 		for smsReceiverIndex, smsReceiverItem := range source.SmsReceivers {
-			// Shadow the loop variable to avoid aliasing
-			smsReceiverItem := smsReceiverItem
 			var smsReceiver SmsReceiver
 			err := smsReceiver.AssignProperties_From_SmsReceiver(&smsReceiverItem)
 			if err != nil {
@@ -904,8 +886,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.VoiceReceivers != nil {
 		voiceReceiverList := make([]VoiceReceiver, len(source.VoiceReceivers))
 		for voiceReceiverIndex, voiceReceiverItem := range source.VoiceReceivers {
-			// Shadow the loop variable to avoid aliasing
-			voiceReceiverItem := voiceReceiverItem
 			var voiceReceiver VoiceReceiver
 			err := voiceReceiver.AssignProperties_From_VoiceReceiver(&voiceReceiverItem)
 			if err != nil {
@@ -922,8 +902,6 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	if source.WebhookReceivers != nil {
 		webhookReceiverList := make([]WebhookReceiver, len(source.WebhookReceivers))
 		for webhookReceiverIndex, webhookReceiverItem := range source.WebhookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			webhookReceiverItem := webhookReceiverItem
 			var webhookReceiver WebhookReceiver
 			err := webhookReceiver.AssignProperties_From_WebhookReceiver(&webhookReceiverItem)
 			if err != nil {
@@ -949,8 +927,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.ArmRoleReceivers != nil {
 		armRoleReceiverList := make([]storage.ArmRoleReceiver, len(group.ArmRoleReceivers))
 		for armRoleReceiverIndex, armRoleReceiverItem := range group.ArmRoleReceivers {
-			// Shadow the loop variable to avoid aliasing
-			armRoleReceiverItem := armRoleReceiverItem
 			var armRoleReceiver storage.ArmRoleReceiver
 			err := armRoleReceiverItem.AssignProperties_To_ArmRoleReceiver(&armRoleReceiver)
 			if err != nil {
@@ -967,8 +943,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.AutomationRunbookReceivers != nil {
 		automationRunbookReceiverList := make([]storage.AutomationRunbookReceiver, len(group.AutomationRunbookReceivers))
 		for automationRunbookReceiverIndex, automationRunbookReceiverItem := range group.AutomationRunbookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			automationRunbookReceiverItem := automationRunbookReceiverItem
 			var automationRunbookReceiver storage.AutomationRunbookReceiver
 			err := automationRunbookReceiverItem.AssignProperties_To_AutomationRunbookReceiver(&automationRunbookReceiver)
 			if err != nil {
@@ -985,8 +959,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.AzureAppPushReceivers != nil {
 		azureAppPushReceiverList := make([]storage.AzureAppPushReceiver, len(group.AzureAppPushReceivers))
 		for azureAppPushReceiverIndex, azureAppPushReceiverItem := range group.AzureAppPushReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureAppPushReceiverItem := azureAppPushReceiverItem
 			var azureAppPushReceiver storage.AzureAppPushReceiver
 			err := azureAppPushReceiverItem.AssignProperties_To_AzureAppPushReceiver(&azureAppPushReceiver)
 			if err != nil {
@@ -1003,8 +975,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.AzureFunctionReceivers != nil {
 		azureFunctionReceiverList := make([]storage.AzureFunctionReceiver, len(group.AzureFunctionReceivers))
 		for azureFunctionReceiverIndex, azureFunctionReceiverItem := range group.AzureFunctionReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureFunctionReceiverItem := azureFunctionReceiverItem
 			var azureFunctionReceiver storage.AzureFunctionReceiver
 			err := azureFunctionReceiverItem.AssignProperties_To_AzureFunctionReceiver(&azureFunctionReceiver)
 			if err != nil {
@@ -1024,8 +994,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.EmailReceivers != nil {
 		emailReceiverList := make([]storage.EmailReceiver, len(group.EmailReceivers))
 		for emailReceiverIndex, emailReceiverItem := range group.EmailReceivers {
-			// Shadow the loop variable to avoid aliasing
-			emailReceiverItem := emailReceiverItem
 			var emailReceiver storage.EmailReceiver
 			err := emailReceiverItem.AssignProperties_To_EmailReceiver(&emailReceiver)
 			if err != nil {
@@ -1050,8 +1018,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.EventHubReceivers != nil {
 		eventHubReceiverList := make([]storage.EventHubReceiver, len(group.EventHubReceivers))
 		for eventHubReceiverIndex, eventHubReceiverItem := range group.EventHubReceivers {
-			// Shadow the loop variable to avoid aliasing
-			eventHubReceiverItem := eventHubReceiverItem
 			var eventHubReceiver storage.EventHubReceiver
 			err := eventHubReceiverItem.AssignProperties_To_EventHubReceiver(&eventHubReceiver)
 			if err != nil {
@@ -1071,8 +1037,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.ItsmReceivers != nil {
 		itsmReceiverList := make([]storage.ItsmReceiver, len(group.ItsmReceivers))
 		for itsmReceiverIndex, itsmReceiverItem := range group.ItsmReceivers {
-			// Shadow the loop variable to avoid aliasing
-			itsmReceiverItem := itsmReceiverItem
 			var itsmReceiver storage.ItsmReceiver
 			err := itsmReceiverItem.AssignProperties_To_ItsmReceiver(&itsmReceiver)
 			if err != nil {
@@ -1092,8 +1056,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.LogicAppReceivers != nil {
 		logicAppReceiverList := make([]storage.LogicAppReceiver, len(group.LogicAppReceivers))
 		for logicAppReceiverIndex, logicAppReceiverItem := range group.LogicAppReceivers {
-			// Shadow the loop variable to avoid aliasing
-			logicAppReceiverItem := logicAppReceiverItem
 			var logicAppReceiver storage.LogicAppReceiver
 			err := logicAppReceiverItem.AssignProperties_To_LogicAppReceiver(&logicAppReceiver)
 			if err != nil {
@@ -1133,8 +1095,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.SmsReceivers != nil {
 		smsReceiverList := make([]storage.SmsReceiver, len(group.SmsReceivers))
 		for smsReceiverIndex, smsReceiverItem := range group.SmsReceivers {
-			// Shadow the loop variable to avoid aliasing
-			smsReceiverItem := smsReceiverItem
 			var smsReceiver storage.SmsReceiver
 			err := smsReceiverItem.AssignProperties_To_SmsReceiver(&smsReceiver)
 			if err != nil {
@@ -1154,8 +1114,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.VoiceReceivers != nil {
 		voiceReceiverList := make([]storage.VoiceReceiver, len(group.VoiceReceivers))
 		for voiceReceiverIndex, voiceReceiverItem := range group.VoiceReceivers {
-			// Shadow the loop variable to avoid aliasing
-			voiceReceiverItem := voiceReceiverItem
 			var voiceReceiver storage.VoiceReceiver
 			err := voiceReceiverItem.AssignProperties_To_VoiceReceiver(&voiceReceiver)
 			if err != nil {
@@ -1172,8 +1130,6 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	if group.WebhookReceivers != nil {
 		webhookReceiverList := make([]storage.WebhookReceiver, len(group.WebhookReceivers))
 		for webhookReceiverIndex, webhookReceiverItem := range group.WebhookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			webhookReceiverItem := webhookReceiverItem
 			var webhookReceiver storage.WebhookReceiver
 			err := webhookReceiverItem.AssignProperties_To_WebhookReceiver(&webhookReceiver)
 			if err != nil {
@@ -1204,8 +1160,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.ArmRoleReceivers != nil {
 		armRoleReceiverList := make([]ArmRoleReceiver, len(source.ArmRoleReceivers))
 		for armRoleReceiverIndex, armRoleReceiverItem := range source.ArmRoleReceivers {
-			// Shadow the loop variable to avoid aliasing
-			armRoleReceiverItem := armRoleReceiverItem
 			var armRoleReceiver ArmRoleReceiver
 			err := armRoleReceiver.Initialize_From_ArmRoleReceiver_STATUS(&armRoleReceiverItem)
 			if err != nil {
@@ -1222,8 +1176,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.AutomationRunbookReceivers != nil {
 		automationRunbookReceiverList := make([]AutomationRunbookReceiver, len(source.AutomationRunbookReceivers))
 		for automationRunbookReceiverIndex, automationRunbookReceiverItem := range source.AutomationRunbookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			automationRunbookReceiverItem := automationRunbookReceiverItem
 			var automationRunbookReceiver AutomationRunbookReceiver
 			err := automationRunbookReceiver.Initialize_From_AutomationRunbookReceiver_STATUS(&automationRunbookReceiverItem)
 			if err != nil {
@@ -1240,8 +1192,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.AzureAppPushReceivers != nil {
 		azureAppPushReceiverList := make([]AzureAppPushReceiver, len(source.AzureAppPushReceivers))
 		for azureAppPushReceiverIndex, azureAppPushReceiverItem := range source.AzureAppPushReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureAppPushReceiverItem := azureAppPushReceiverItem
 			var azureAppPushReceiver AzureAppPushReceiver
 			err := azureAppPushReceiver.Initialize_From_AzureAppPushReceiver_STATUS(&azureAppPushReceiverItem)
 			if err != nil {
@@ -1258,8 +1208,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.AzureFunctionReceivers != nil {
 		azureFunctionReceiverList := make([]AzureFunctionReceiver, len(source.AzureFunctionReceivers))
 		for azureFunctionReceiverIndex, azureFunctionReceiverItem := range source.AzureFunctionReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureFunctionReceiverItem := azureFunctionReceiverItem
 			var azureFunctionReceiver AzureFunctionReceiver
 			err := azureFunctionReceiver.Initialize_From_AzureFunctionReceiver_STATUS(&azureFunctionReceiverItem)
 			if err != nil {
@@ -1276,8 +1224,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.EmailReceivers != nil {
 		emailReceiverList := make([]EmailReceiver, len(source.EmailReceivers))
 		for emailReceiverIndex, emailReceiverItem := range source.EmailReceivers {
-			// Shadow the loop variable to avoid aliasing
-			emailReceiverItem := emailReceiverItem
 			var emailReceiver EmailReceiver
 			err := emailReceiver.Initialize_From_EmailReceiver_STATUS(&emailReceiverItem)
 			if err != nil {
@@ -1302,8 +1248,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.EventHubReceivers != nil {
 		eventHubReceiverList := make([]EventHubReceiver, len(source.EventHubReceivers))
 		for eventHubReceiverIndex, eventHubReceiverItem := range source.EventHubReceivers {
-			// Shadow the loop variable to avoid aliasing
-			eventHubReceiverItem := eventHubReceiverItem
 			var eventHubReceiver EventHubReceiver
 			err := eventHubReceiver.Initialize_From_EventHubReceiver_STATUS(&eventHubReceiverItem)
 			if err != nil {
@@ -1323,8 +1267,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.ItsmReceivers != nil {
 		itsmReceiverList := make([]ItsmReceiver, len(source.ItsmReceivers))
 		for itsmReceiverIndex, itsmReceiverItem := range source.ItsmReceivers {
-			// Shadow the loop variable to avoid aliasing
-			itsmReceiverItem := itsmReceiverItem
 			var itsmReceiver ItsmReceiver
 			err := itsmReceiver.Initialize_From_ItsmReceiver_STATUS(&itsmReceiverItem)
 			if err != nil {
@@ -1344,8 +1286,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.LogicAppReceivers != nil {
 		logicAppReceiverList := make([]LogicAppReceiver, len(source.LogicAppReceivers))
 		for logicAppReceiverIndex, logicAppReceiverItem := range source.LogicAppReceivers {
-			// Shadow the loop variable to avoid aliasing
-			logicAppReceiverItem := logicAppReceiverItem
 			var logicAppReceiver LogicAppReceiver
 			err := logicAppReceiver.Initialize_From_LogicAppReceiver_STATUS(&logicAppReceiverItem)
 			if err != nil {
@@ -1362,8 +1302,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.SmsReceivers != nil {
 		smsReceiverList := make([]SmsReceiver, len(source.SmsReceivers))
 		for smsReceiverIndex, smsReceiverItem := range source.SmsReceivers {
-			// Shadow the loop variable to avoid aliasing
-			smsReceiverItem := smsReceiverItem
 			var smsReceiver SmsReceiver
 			err := smsReceiver.Initialize_From_SmsReceiver_STATUS(&smsReceiverItem)
 			if err != nil {
@@ -1383,8 +1321,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.VoiceReceivers != nil {
 		voiceReceiverList := make([]VoiceReceiver, len(source.VoiceReceivers))
 		for voiceReceiverIndex, voiceReceiverItem := range source.VoiceReceivers {
-			// Shadow the loop variable to avoid aliasing
-			voiceReceiverItem := voiceReceiverItem
 			var voiceReceiver VoiceReceiver
 			err := voiceReceiver.Initialize_From_VoiceReceiver_STATUS(&voiceReceiverItem)
 			if err != nil {
@@ -1401,8 +1337,6 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	if source.WebhookReceivers != nil {
 		webhookReceiverList := make([]WebhookReceiver, len(source.WebhookReceivers))
 		for webhookReceiverIndex, webhookReceiverItem := range source.WebhookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			webhookReceiverItem := webhookReceiverItem
 			var webhookReceiver WebhookReceiver
 			err := webhookReceiver.Initialize_From_WebhookReceiver_STATUS(&webhookReceiverItem)
 			if err != nil {
@@ -1759,8 +1693,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.ArmRoleReceivers != nil {
 		armRoleReceiverList := make([]ArmRoleReceiver_STATUS, len(source.ArmRoleReceivers))
 		for armRoleReceiverIndex, armRoleReceiverItem := range source.ArmRoleReceivers {
-			// Shadow the loop variable to avoid aliasing
-			armRoleReceiverItem := armRoleReceiverItem
 			var armRoleReceiver ArmRoleReceiver_STATUS
 			err := armRoleReceiver.AssignProperties_From_ArmRoleReceiver_STATUS(&armRoleReceiverItem)
 			if err != nil {
@@ -1777,8 +1709,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.AutomationRunbookReceivers != nil {
 		automationRunbookReceiverList := make([]AutomationRunbookReceiver_STATUS, len(source.AutomationRunbookReceivers))
 		for automationRunbookReceiverIndex, automationRunbookReceiverItem := range source.AutomationRunbookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			automationRunbookReceiverItem := automationRunbookReceiverItem
 			var automationRunbookReceiver AutomationRunbookReceiver_STATUS
 			err := automationRunbookReceiver.AssignProperties_From_AutomationRunbookReceiver_STATUS(&automationRunbookReceiverItem)
 			if err != nil {
@@ -1795,8 +1725,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.AzureAppPushReceivers != nil {
 		azureAppPushReceiverList := make([]AzureAppPushReceiver_STATUS, len(source.AzureAppPushReceivers))
 		for azureAppPushReceiverIndex, azureAppPushReceiverItem := range source.AzureAppPushReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureAppPushReceiverItem := azureAppPushReceiverItem
 			var azureAppPushReceiver AzureAppPushReceiver_STATUS
 			err := azureAppPushReceiver.AssignProperties_From_AzureAppPushReceiver_STATUS(&azureAppPushReceiverItem)
 			if err != nil {
@@ -1813,8 +1741,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.AzureFunctionReceivers != nil {
 		azureFunctionReceiverList := make([]AzureFunctionReceiver_STATUS, len(source.AzureFunctionReceivers))
 		for azureFunctionReceiverIndex, azureFunctionReceiverItem := range source.AzureFunctionReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureFunctionReceiverItem := azureFunctionReceiverItem
 			var azureFunctionReceiver AzureFunctionReceiver_STATUS
 			err := azureFunctionReceiver.AssignProperties_From_AzureFunctionReceiver_STATUS(&azureFunctionReceiverItem)
 			if err != nil {
@@ -1834,8 +1760,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.EmailReceivers != nil {
 		emailReceiverList := make([]EmailReceiver_STATUS, len(source.EmailReceivers))
 		for emailReceiverIndex, emailReceiverItem := range source.EmailReceivers {
-			// Shadow the loop variable to avoid aliasing
-			emailReceiverItem := emailReceiverItem
 			var emailReceiver EmailReceiver_STATUS
 			err := emailReceiver.AssignProperties_From_EmailReceiver_STATUS(&emailReceiverItem)
 			if err != nil {
@@ -1860,8 +1784,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.EventHubReceivers != nil {
 		eventHubReceiverList := make([]EventHubReceiver_STATUS, len(source.EventHubReceivers))
 		for eventHubReceiverIndex, eventHubReceiverItem := range source.EventHubReceivers {
-			// Shadow the loop variable to avoid aliasing
-			eventHubReceiverItem := eventHubReceiverItem
 			var eventHubReceiver EventHubReceiver_STATUS
 			err := eventHubReceiver.AssignProperties_From_EventHubReceiver_STATUS(&eventHubReceiverItem)
 			if err != nil {
@@ -1884,8 +1806,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.ItsmReceivers != nil {
 		itsmReceiverList := make([]ItsmReceiver_STATUS, len(source.ItsmReceivers))
 		for itsmReceiverIndex, itsmReceiverItem := range source.ItsmReceivers {
-			// Shadow the loop variable to avoid aliasing
-			itsmReceiverItem := itsmReceiverItem
 			var itsmReceiver ItsmReceiver_STATUS
 			err := itsmReceiver.AssignProperties_From_ItsmReceiver_STATUS(&itsmReceiverItem)
 			if err != nil {
@@ -1905,8 +1825,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.LogicAppReceivers != nil {
 		logicAppReceiverList := make([]LogicAppReceiver_STATUS, len(source.LogicAppReceivers))
 		for logicAppReceiverIndex, logicAppReceiverItem := range source.LogicAppReceivers {
-			// Shadow the loop variable to avoid aliasing
-			logicAppReceiverItem := logicAppReceiverItem
 			var logicAppReceiver LogicAppReceiver_STATUS
 			err := logicAppReceiver.AssignProperties_From_LogicAppReceiver_STATUS(&logicAppReceiverItem)
 			if err != nil {
@@ -1926,8 +1844,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.SmsReceivers != nil {
 		smsReceiverList := make([]SmsReceiver_STATUS, len(source.SmsReceivers))
 		for smsReceiverIndex, smsReceiverItem := range source.SmsReceivers {
-			// Shadow the loop variable to avoid aliasing
-			smsReceiverItem := smsReceiverItem
 			var smsReceiver SmsReceiver_STATUS
 			err := smsReceiver.AssignProperties_From_SmsReceiver_STATUS(&smsReceiverItem)
 			if err != nil {
@@ -1950,8 +1866,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.VoiceReceivers != nil {
 		voiceReceiverList := make([]VoiceReceiver_STATUS, len(source.VoiceReceivers))
 		for voiceReceiverIndex, voiceReceiverItem := range source.VoiceReceivers {
-			// Shadow the loop variable to avoid aliasing
-			voiceReceiverItem := voiceReceiverItem
 			var voiceReceiver VoiceReceiver_STATUS
 			err := voiceReceiver.AssignProperties_From_VoiceReceiver_STATUS(&voiceReceiverItem)
 			if err != nil {
@@ -1968,8 +1882,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 	if source.WebhookReceivers != nil {
 		webhookReceiverList := make([]WebhookReceiver_STATUS, len(source.WebhookReceivers))
 		for webhookReceiverIndex, webhookReceiverItem := range source.WebhookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			webhookReceiverItem := webhookReceiverItem
 			var webhookReceiver WebhookReceiver_STATUS
 			err := webhookReceiver.AssignProperties_From_WebhookReceiver_STATUS(&webhookReceiverItem)
 			if err != nil {
@@ -1995,8 +1907,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.ArmRoleReceivers != nil {
 		armRoleReceiverList := make([]storage.ArmRoleReceiver_STATUS, len(resource.ArmRoleReceivers))
 		for armRoleReceiverIndex, armRoleReceiverItem := range resource.ArmRoleReceivers {
-			// Shadow the loop variable to avoid aliasing
-			armRoleReceiverItem := armRoleReceiverItem
 			var armRoleReceiver storage.ArmRoleReceiver_STATUS
 			err := armRoleReceiverItem.AssignProperties_To_ArmRoleReceiver_STATUS(&armRoleReceiver)
 			if err != nil {
@@ -2013,8 +1923,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.AutomationRunbookReceivers != nil {
 		automationRunbookReceiverList := make([]storage.AutomationRunbookReceiver_STATUS, len(resource.AutomationRunbookReceivers))
 		for automationRunbookReceiverIndex, automationRunbookReceiverItem := range resource.AutomationRunbookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			automationRunbookReceiverItem := automationRunbookReceiverItem
 			var automationRunbookReceiver storage.AutomationRunbookReceiver_STATUS
 			err := automationRunbookReceiverItem.AssignProperties_To_AutomationRunbookReceiver_STATUS(&automationRunbookReceiver)
 			if err != nil {
@@ -2031,8 +1939,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.AzureAppPushReceivers != nil {
 		azureAppPushReceiverList := make([]storage.AzureAppPushReceiver_STATUS, len(resource.AzureAppPushReceivers))
 		for azureAppPushReceiverIndex, azureAppPushReceiverItem := range resource.AzureAppPushReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureAppPushReceiverItem := azureAppPushReceiverItem
 			var azureAppPushReceiver storage.AzureAppPushReceiver_STATUS
 			err := azureAppPushReceiverItem.AssignProperties_To_AzureAppPushReceiver_STATUS(&azureAppPushReceiver)
 			if err != nil {
@@ -2049,8 +1955,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.AzureFunctionReceivers != nil {
 		azureFunctionReceiverList := make([]storage.AzureFunctionReceiver_STATUS, len(resource.AzureFunctionReceivers))
 		for azureFunctionReceiverIndex, azureFunctionReceiverItem := range resource.AzureFunctionReceivers {
-			// Shadow the loop variable to avoid aliasing
-			azureFunctionReceiverItem := azureFunctionReceiverItem
 			var azureFunctionReceiver storage.AzureFunctionReceiver_STATUS
 			err := azureFunctionReceiverItem.AssignProperties_To_AzureFunctionReceiver_STATUS(&azureFunctionReceiver)
 			if err != nil {
@@ -2070,8 +1974,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.EmailReceivers != nil {
 		emailReceiverList := make([]storage.EmailReceiver_STATUS, len(resource.EmailReceivers))
 		for emailReceiverIndex, emailReceiverItem := range resource.EmailReceivers {
-			// Shadow the loop variable to avoid aliasing
-			emailReceiverItem := emailReceiverItem
 			var emailReceiver storage.EmailReceiver_STATUS
 			err := emailReceiverItem.AssignProperties_To_EmailReceiver_STATUS(&emailReceiver)
 			if err != nil {
@@ -2096,8 +1998,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.EventHubReceivers != nil {
 		eventHubReceiverList := make([]storage.EventHubReceiver_STATUS, len(resource.EventHubReceivers))
 		for eventHubReceiverIndex, eventHubReceiverItem := range resource.EventHubReceivers {
-			// Shadow the loop variable to avoid aliasing
-			eventHubReceiverItem := eventHubReceiverItem
 			var eventHubReceiver storage.EventHubReceiver_STATUS
 			err := eventHubReceiverItem.AssignProperties_To_EventHubReceiver_STATUS(&eventHubReceiver)
 			if err != nil {
@@ -2120,8 +2020,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.ItsmReceivers != nil {
 		itsmReceiverList := make([]storage.ItsmReceiver_STATUS, len(resource.ItsmReceivers))
 		for itsmReceiverIndex, itsmReceiverItem := range resource.ItsmReceivers {
-			// Shadow the loop variable to avoid aliasing
-			itsmReceiverItem := itsmReceiverItem
 			var itsmReceiver storage.ItsmReceiver_STATUS
 			err := itsmReceiverItem.AssignProperties_To_ItsmReceiver_STATUS(&itsmReceiver)
 			if err != nil {
@@ -2141,8 +2039,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.LogicAppReceivers != nil {
 		logicAppReceiverList := make([]storage.LogicAppReceiver_STATUS, len(resource.LogicAppReceivers))
 		for logicAppReceiverIndex, logicAppReceiverItem := range resource.LogicAppReceivers {
-			// Shadow the loop variable to avoid aliasing
-			logicAppReceiverItem := logicAppReceiverItem
 			var logicAppReceiver storage.LogicAppReceiver_STATUS
 			err := logicAppReceiverItem.AssignProperties_To_LogicAppReceiver_STATUS(&logicAppReceiver)
 			if err != nil {
@@ -2162,8 +2058,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.SmsReceivers != nil {
 		smsReceiverList := make([]storage.SmsReceiver_STATUS, len(resource.SmsReceivers))
 		for smsReceiverIndex, smsReceiverItem := range resource.SmsReceivers {
-			// Shadow the loop variable to avoid aliasing
-			smsReceiverItem := smsReceiverItem
 			var smsReceiver storage.SmsReceiver_STATUS
 			err := smsReceiverItem.AssignProperties_To_SmsReceiver_STATUS(&smsReceiver)
 			if err != nil {
@@ -2186,8 +2080,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.VoiceReceivers != nil {
 		voiceReceiverList := make([]storage.VoiceReceiver_STATUS, len(resource.VoiceReceivers))
 		for voiceReceiverIndex, voiceReceiverItem := range resource.VoiceReceivers {
-			// Shadow the loop variable to avoid aliasing
-			voiceReceiverItem := voiceReceiverItem
 			var voiceReceiver storage.VoiceReceiver_STATUS
 			err := voiceReceiverItem.AssignProperties_To_VoiceReceiver_STATUS(&voiceReceiver)
 			if err != nil {
@@ -2204,8 +2096,6 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 	if resource.WebhookReceivers != nil {
 		webhookReceiverList := make([]storage.WebhookReceiver_STATUS, len(resource.WebhookReceivers))
 		for webhookReceiverIndex, webhookReceiverItem := range resource.WebhookReceivers {
-			// Shadow the loop variable to avoid aliasing
-			webhookReceiverItem := webhookReceiverItem
 			var webhookReceiver storage.WebhookReceiver_STATUS
 			err := webhookReceiverItem.AssignProperties_To_WebhookReceiver_STATUS(&webhookReceiver)
 			if err != nil {
@@ -2250,8 +2140,6 @@ func (operator *ActionGroupOperatorSpec) AssignProperties_From_ActionGroupOperat
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2268,8 +2156,6 @@ func (operator *ActionGroupOperatorSpec) AssignProperties_From_ActionGroupOperat
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2295,8 +2181,6 @@ func (operator *ActionGroupOperatorSpec) AssignProperties_To_ActionGroupOperator
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2313,8 +2197,6 @@ func (operator *ActionGroupOperatorSpec) AssignProperties_To_ActionGroupOperator
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

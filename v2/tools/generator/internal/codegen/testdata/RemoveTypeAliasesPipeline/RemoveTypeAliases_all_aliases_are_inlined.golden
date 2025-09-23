@@ -23,18 +23,12 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	if source.P1 != nil {
 		p1List := make([][][]float64, len(source.P1))
 		for p1Index, p1Item := range source.P1 {
-			// Shadow the loop variable to avoid aliasing
-			p1Item := p1Item
 			if p1Item != nil {
 				p1List1 := make([][]float64, len(p1Item))
 				for p1Index1, p1Item1 := range p1Item {
-					// Shadow the loop variable to avoid aliasing
-					p1Item1 := p1Item1
 					if p1Item1 != nil {
 						p1List2 := make([]float64, len(p1Item1))
 						for p1Index2, p1Item2 := range p1Item1 {
-							// Shadow the loop variable to avoid aliasing
-							p1Item2 := p1Item2
 							p1List2[p1Index2] = p1Item2
 						}
 						p1List1[p1Index1] = p1List2
@@ -56,13 +50,9 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	if source.P2 != nil {
 		p2List := make([][]float64, len(source.P2))
 		for p2Index, p2Item := range source.P2 {
-			// Shadow the loop variable to avoid aliasing
-			p2Item := p2Item
 			if p2Item != nil {
 				p2List1 := make([]float64, len(p2Item))
 				for p2Index1, p2Item1 := range p2Item {
-					// Shadow the loop variable to avoid aliasing
-					p2Item1 := p2Item1
 					p2List1[p2Index1] = p2Item1
 				}
 				p2List[p2Index] = p2List1
@@ -79,8 +69,6 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	if source.P3 != nil {
 		p3List := make([]float64, len(source.P3))
 		for p3Index, p3Item := range source.P3 {
-			// Shadow the loop variable to avoid aliasing
-			p3Item := p3Item
 			p3List[p3Index] = p3Item
 		}
 		test.P3 = p3List
@@ -109,18 +97,12 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	if test.P1 != nil {
 		p1List := make([][][]float64, len(test.P1))
 		for p1Index, p1Item := range test.P1 {
-			// Shadow the loop variable to avoid aliasing
-			p1Item := p1Item
 			if p1Item != nil {
 				p1List1 := make([][]float64, len(p1Item))
 				for p1Index1, p1Item1 := range p1Item {
-					// Shadow the loop variable to avoid aliasing
-					p1Item1 := p1Item1
 					if p1Item1 != nil {
 						p1List2 := make([]float64, len(p1Item1))
 						for p1Index2, p1Item2 := range p1Item1 {
-							// Shadow the loop variable to avoid aliasing
-							p1Item2 := p1Item2
 							p1List2[p1Index2] = p1Item2
 						}
 						p1List1[p1Index1] = p1List2
@@ -142,13 +124,9 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	if test.P2 != nil {
 		p2List := make([][]float64, len(test.P2))
 		for p2Index, p2Item := range test.P2 {
-			// Shadow the loop variable to avoid aliasing
-			p2Item := p2Item
 			if p2Item != nil {
 				p2List1 := make([]float64, len(p2Item))
 				for p2Index1, p2Item1 := range p2Item {
-					// Shadow the loop variable to avoid aliasing
-					p2Item1 := p2Item1
 					p2List1[p2Index1] = p2Item1
 				}
 				p2List[p2Index] = p2List1
@@ -165,8 +143,6 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	if test.P3 != nil {
 		p3List := make([]float64, len(test.P3))
 		for p3Index, p3Item := range test.P3 {
-			// Shadow the loop variable to avoid aliasing
-			p3Item := p3Item
 			p3List[p3Index] = p3Item
 		}
 		destination.P3 = p3List

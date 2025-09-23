@@ -657,8 +657,6 @@ func (rule *DataCollectionRule_Spec) AssignProperties_From_DataCollectionRule_Sp
 	if source.DataFlows != nil {
 		dataFlowList := make([]DataFlow, len(source.DataFlows))
 		for dataFlowIndex, dataFlowItem := range source.DataFlows {
-			// Shadow the loop variable to avoid aliasing
-			dataFlowItem := dataFlowItem
 			var dataFlow DataFlow
 			err := dataFlow.AssignProperties_From_DataFlow(&dataFlowItem)
 			if err != nil {
@@ -758,8 +756,6 @@ func (rule *DataCollectionRule_Spec) AssignProperties_From_DataCollectionRule_Sp
 	if source.StreamDeclarations != nil {
 		streamDeclarationMap := make(map[string]StreamDeclaration, len(source.StreamDeclarations))
 		for streamDeclarationKey, streamDeclarationValue := range source.StreamDeclarations {
-			// Shadow the loop variable to avoid aliasing
-			streamDeclarationValue := streamDeclarationValue
 			var streamDeclaration StreamDeclaration
 			err := streamDeclaration.AssignProperties_From_StreamDeclaration(&streamDeclarationValue)
 			if err != nil {
@@ -811,8 +807,6 @@ func (rule *DataCollectionRule_Spec) AssignProperties_To_DataCollectionRule_Spec
 	if rule.DataFlows != nil {
 		dataFlowList := make([]storage.DataFlow, len(rule.DataFlows))
 		for dataFlowIndex, dataFlowItem := range rule.DataFlows {
-			// Shadow the loop variable to avoid aliasing
-			dataFlowItem := dataFlowItem
 			var dataFlow storage.DataFlow
 			err := dataFlowItem.AssignProperties_To_DataFlow(&dataFlow)
 			if err != nil {
@@ -914,8 +908,6 @@ func (rule *DataCollectionRule_Spec) AssignProperties_To_DataCollectionRule_Spec
 	if rule.StreamDeclarations != nil {
 		streamDeclarationMap := make(map[string]storage.StreamDeclaration, len(rule.StreamDeclarations))
 		for streamDeclarationKey, streamDeclarationValue := range rule.StreamDeclarations {
-			// Shadow the loop variable to avoid aliasing
-			streamDeclarationValue := streamDeclarationValue
 			var streamDeclaration storage.StreamDeclaration
 			err := streamDeclarationValue.AssignProperties_To_StreamDeclaration(&streamDeclaration)
 			if err != nil {
@@ -969,8 +961,6 @@ func (rule *DataCollectionRule_Spec) Initialize_From_DataCollectionRuleResource_
 	if source.DataFlows != nil {
 		dataFlowList := make([]DataFlow, len(source.DataFlows))
 		for dataFlowIndex, dataFlowItem := range source.DataFlows {
-			// Shadow the loop variable to avoid aliasing
-			dataFlowItem := dataFlowItem
 			var dataFlow DataFlow
 			err := dataFlow.Initialize_From_DataFlow_STATUS(&dataFlowItem)
 			if err != nil {
@@ -1049,8 +1039,6 @@ func (rule *DataCollectionRule_Spec) Initialize_From_DataCollectionRuleResource_
 	if source.StreamDeclarations != nil {
 		streamDeclarationMap := make(map[string]StreamDeclaration, len(source.StreamDeclarations))
 		for streamDeclarationKey, streamDeclarationValue := range source.StreamDeclarations {
-			// Shadow the loop variable to avoid aliasing
-			streamDeclarationValue := streamDeclarationValue
 			var streamDeclaration StreamDeclaration
 			err := streamDeclaration.Initialize_From_StreamDeclaration_STATUS(&streamDeclarationValue)
 			if err != nil {
@@ -1463,8 +1451,6 @@ func (resource *DataCollectionRuleResource_STATUS) AssignProperties_From_DataCol
 	if source.DataFlows != nil {
 		dataFlowList := make([]DataFlow_STATUS, len(source.DataFlows))
 		for dataFlowIndex, dataFlowItem := range source.DataFlows {
-			// Shadow the loop variable to avoid aliasing
-			dataFlowItem := dataFlowItem
 			var dataFlow DataFlow_STATUS
 			err := dataFlow.AssignProperties_From_DataFlow_STATUS(&dataFlowItem)
 			if err != nil {
@@ -1589,8 +1575,6 @@ func (resource *DataCollectionRuleResource_STATUS) AssignProperties_From_DataCol
 	if source.StreamDeclarations != nil {
 		streamDeclarationMap := make(map[string]StreamDeclaration_STATUS, len(source.StreamDeclarations))
 		for streamDeclarationKey, streamDeclarationValue := range source.StreamDeclarations {
-			// Shadow the loop variable to avoid aliasing
-			streamDeclarationValue := streamDeclarationValue
 			var streamDeclaration StreamDeclaration_STATUS
 			err := streamDeclaration.AssignProperties_From_StreamDeclaration_STATUS(&streamDeclarationValue)
 			if err != nil {
@@ -1652,8 +1636,6 @@ func (resource *DataCollectionRuleResource_STATUS) AssignProperties_To_DataColle
 	if resource.DataFlows != nil {
 		dataFlowList := make([]storage.DataFlow_STATUS, len(resource.DataFlows))
 		for dataFlowIndex, dataFlowItem := range resource.DataFlows {
-			// Shadow the loop variable to avoid aliasing
-			dataFlowItem := dataFlowItem
 			var dataFlow storage.DataFlow_STATUS
 			err := dataFlowItem.AssignProperties_To_DataFlow_STATUS(&dataFlow)
 			if err != nil {
@@ -1776,8 +1758,6 @@ func (resource *DataCollectionRuleResource_STATUS) AssignProperties_To_DataColle
 	if resource.StreamDeclarations != nil {
 		streamDeclarationMap := make(map[string]storage.StreamDeclaration_STATUS, len(resource.StreamDeclarations))
 		for streamDeclarationKey, streamDeclarationValue := range resource.StreamDeclarations {
-			// Shadow the loop variable to avoid aliasing
-			streamDeclarationValue := streamDeclarationValue
 			var streamDeclaration storage.StreamDeclaration_STATUS
 			err := streamDeclarationValue.AssignProperties_To_StreamDeclaration_STATUS(&streamDeclaration)
 			if err != nil {
@@ -1878,8 +1858,6 @@ func (settings *AgentSettingsSpec) AssignProperties_From_AgentSettingsSpec(sourc
 	if source.Logs != nil {
 		logList := make([]AgentSetting, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log AgentSetting
 			err := log.AssignProperties_From_AgentSetting(&logItem)
 			if err != nil {
@@ -1905,8 +1883,6 @@ func (settings *AgentSettingsSpec) AssignProperties_To_AgentSettingsSpec(destina
 	if settings.Logs != nil {
 		logList := make([]storage.AgentSetting, len(settings.Logs))
 		for logIndex, logItem := range settings.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log storage.AgentSetting
 			err := logItem.AssignProperties_To_AgentSetting(&log)
 			if err != nil {
@@ -1937,8 +1913,6 @@ func (settings *AgentSettingsSpec) Initialize_From_AgentSettingsSpec_STATUS(sour
 	if source.Logs != nil {
 		logList := make([]AgentSetting, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log AgentSetting
 			err := log.Initialize_From_AgentSetting_STATUS(&logItem)
 			if err != nil {
@@ -1996,8 +1970,6 @@ func (settings *AgentSettingsSpec_STATUS) AssignProperties_From_AgentSettingsSpe
 	if source.Logs != nil {
 		logList := make([]AgentSetting_STATUS, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log AgentSetting_STATUS
 			err := log.AssignProperties_From_AgentSetting_STATUS(&logItem)
 			if err != nil {
@@ -2023,8 +1995,6 @@ func (settings *AgentSettingsSpec_STATUS) AssignProperties_To_AgentSettingsSpec_
 	if settings.Logs != nil {
 		logList := make([]storage.AgentSetting_STATUS, len(settings.Logs))
 		for logIndex, logItem := range settings.Logs {
-			// Shadow the loop variable to avoid aliasing
-			logItem := logItem
 			var log storage.AgentSetting_STATUS
 			err := logItem.AssignProperties_To_AgentSetting_STATUS(&log)
 			if err != nil {
@@ -2099,8 +2069,6 @@ func (operator *DataCollectionRuleOperatorSpec) AssignProperties_From_DataCollec
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2117,8 +2085,6 @@ func (operator *DataCollectionRuleOperatorSpec) AssignProperties_From_DataCollec
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2144,8 +2110,6 @@ func (operator *DataCollectionRuleOperatorSpec) AssignProperties_To_DataCollecti
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2162,8 +2126,6 @@ func (operator *DataCollectionRuleOperatorSpec) AssignProperties_To_DataCollecti
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2344,8 +2306,6 @@ func (flow *DataFlow) AssignProperties_From_DataFlow(source *storage.DataFlow) e
 	if source.Streams != nil {
 		streamList := make([]DataFlow_Streams, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, dataFlow_Streams_Values)
 		}
 		flow.Streams = streamList
@@ -2386,8 +2346,6 @@ func (flow *DataFlow) AssignProperties_To_DataFlow(destination *storage.DataFlow
 	if flow.Streams != nil {
 		streamList := make([]string, len(flow.Streams))
 		for streamIndex, streamItem := range flow.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -2433,8 +2391,6 @@ func (flow *DataFlow) Initialize_From_DataFlow_STATUS(source *DataFlow_STATUS) e
 	if source.Streams != nil {
 		streamList := make([]DataFlow_Streams, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			stream := genruntime.ToEnum(string(streamItem), dataFlow_Streams_Values)
 			streamList[streamIndex] = stream
 		}
@@ -2549,8 +2505,6 @@ func (flow *DataFlow_STATUS) AssignProperties_From_DataFlow_STATUS(source *stora
 	if source.Streams != nil {
 		streamList := make([]DataFlow_Streams_STATUS, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, dataFlow_Streams_STATUS_Values)
 		}
 		flow.Streams = streamList
@@ -2591,8 +2545,6 @@ func (flow *DataFlow_STATUS) AssignProperties_To_DataFlow_STATUS(destination *st
 	if flow.Streams != nil {
 		streamList := make([]string, len(flow.Streams))
 		for streamIndex, streamItem := range flow.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -2885,8 +2837,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.Extensions != nil {
 		extensionList := make([]ExtensionDataSource, len(source.Extensions))
 		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
 			var extension ExtensionDataSource
 			err := extension.AssignProperties_From_ExtensionDataSource(&extensionItem)
 			if err != nil {
@@ -2903,8 +2853,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.IisLogs != nil {
 		iisLogList := make([]IisLogsDataSource, len(source.IisLogs))
 		for iisLogIndex, iisLogItem := range source.IisLogs {
-			// Shadow the loop variable to avoid aliasing
-			iisLogItem := iisLogItem
 			var iisLog IisLogsDataSource
 			err := iisLog.AssignProperties_From_IisLogsDataSource(&iisLogItem)
 			if err != nil {
@@ -2921,8 +2869,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.LogFiles != nil {
 		logFileList := make([]LogFilesDataSource, len(source.LogFiles))
 		for logFileIndex, logFileItem := range source.LogFiles {
-			// Shadow the loop variable to avoid aliasing
-			logFileItem := logFileItem
 			var logFile LogFilesDataSource
 			err := logFile.AssignProperties_From_LogFilesDataSource(&logFileItem)
 			if err != nil {
@@ -2939,8 +2885,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.PerformanceCounters != nil {
 		performanceCounterList := make([]PerfCounterDataSource, len(source.PerformanceCounters))
 		for performanceCounterIndex, performanceCounterItem := range source.PerformanceCounters {
-			// Shadow the loop variable to avoid aliasing
-			performanceCounterItem := performanceCounterItem
 			var performanceCounter PerfCounterDataSource
 			err := performanceCounter.AssignProperties_From_PerfCounterDataSource(&performanceCounterItem)
 			if err != nil {
@@ -2957,8 +2901,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.PlatformTelemetry != nil {
 		platformTelemetryList := make([]PlatformTelemetryDataSource, len(source.PlatformTelemetry))
 		for platformTelemetryIndex, platformTelemetryItem := range source.PlatformTelemetry {
-			// Shadow the loop variable to avoid aliasing
-			platformTelemetryItem := platformTelemetryItem
 			var platformTelemetry PlatformTelemetryDataSource
 			err := platformTelemetry.AssignProperties_From_PlatformTelemetryDataSource(&platformTelemetryItem)
 			if err != nil {
@@ -2975,8 +2917,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.PrometheusForwarder != nil {
 		prometheusForwarderList := make([]PrometheusForwarderDataSource, len(source.PrometheusForwarder))
 		for prometheusForwarderIndex, prometheusForwarderItem := range source.PrometheusForwarder {
-			// Shadow the loop variable to avoid aliasing
-			prometheusForwarderItem := prometheusForwarderItem
 			var prometheusForwarder PrometheusForwarderDataSource
 			err := prometheusForwarder.AssignProperties_From_PrometheusForwarderDataSource(&prometheusForwarderItem)
 			if err != nil {
@@ -2993,8 +2933,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.Syslog != nil {
 		syslogList := make([]SyslogDataSource, len(source.Syslog))
 		for syslogIndex, syslogItem := range source.Syslog {
-			// Shadow the loop variable to avoid aliasing
-			syslogItem := syslogItem
 			var syslog SyslogDataSource
 			err := syslog.AssignProperties_From_SyslogDataSource(&syslogItem)
 			if err != nil {
@@ -3011,8 +2949,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.WindowsEventLogs != nil {
 		windowsEventLogList := make([]WindowsEventLogDataSource, len(source.WindowsEventLogs))
 		for windowsEventLogIndex, windowsEventLogItem := range source.WindowsEventLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsEventLogItem := windowsEventLogItem
 			var windowsEventLog WindowsEventLogDataSource
 			err := windowsEventLog.AssignProperties_From_WindowsEventLogDataSource(&windowsEventLogItem)
 			if err != nil {
@@ -3029,8 +2965,6 @@ func (sources *DataSourcesSpec) AssignProperties_From_DataSourcesSpec(source *st
 	if source.WindowsFirewallLogs != nil {
 		windowsFirewallLogList := make([]WindowsFirewallLogsDataSource, len(source.WindowsFirewallLogs))
 		for windowsFirewallLogIndex, windowsFirewallLogItem := range source.WindowsFirewallLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsFirewallLogItem := windowsFirewallLogItem
 			var windowsFirewallLog WindowsFirewallLogsDataSource
 			err := windowsFirewallLog.AssignProperties_From_WindowsFirewallLogsDataSource(&windowsFirewallLogItem)
 			if err != nil {
@@ -3068,8 +3002,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.Extensions != nil {
 		extensionList := make([]storage.ExtensionDataSource, len(sources.Extensions))
 		for extensionIndex, extensionItem := range sources.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
 			var extension storage.ExtensionDataSource
 			err := extensionItem.AssignProperties_To_ExtensionDataSource(&extension)
 			if err != nil {
@@ -3086,8 +3018,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.IisLogs != nil {
 		iisLogList := make([]storage.IisLogsDataSource, len(sources.IisLogs))
 		for iisLogIndex, iisLogItem := range sources.IisLogs {
-			// Shadow the loop variable to avoid aliasing
-			iisLogItem := iisLogItem
 			var iisLog storage.IisLogsDataSource
 			err := iisLogItem.AssignProperties_To_IisLogsDataSource(&iisLog)
 			if err != nil {
@@ -3104,8 +3034,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.LogFiles != nil {
 		logFileList := make([]storage.LogFilesDataSource, len(sources.LogFiles))
 		for logFileIndex, logFileItem := range sources.LogFiles {
-			// Shadow the loop variable to avoid aliasing
-			logFileItem := logFileItem
 			var logFile storage.LogFilesDataSource
 			err := logFileItem.AssignProperties_To_LogFilesDataSource(&logFile)
 			if err != nil {
@@ -3122,8 +3050,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.PerformanceCounters != nil {
 		performanceCounterList := make([]storage.PerfCounterDataSource, len(sources.PerformanceCounters))
 		for performanceCounterIndex, performanceCounterItem := range sources.PerformanceCounters {
-			// Shadow the loop variable to avoid aliasing
-			performanceCounterItem := performanceCounterItem
 			var performanceCounter storage.PerfCounterDataSource
 			err := performanceCounterItem.AssignProperties_To_PerfCounterDataSource(&performanceCounter)
 			if err != nil {
@@ -3140,8 +3066,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.PlatformTelemetry != nil {
 		platformTelemetryList := make([]storage.PlatformTelemetryDataSource, len(sources.PlatformTelemetry))
 		for platformTelemetryIndex, platformTelemetryItem := range sources.PlatformTelemetry {
-			// Shadow the loop variable to avoid aliasing
-			platformTelemetryItem := platformTelemetryItem
 			var platformTelemetry storage.PlatformTelemetryDataSource
 			err := platformTelemetryItem.AssignProperties_To_PlatformTelemetryDataSource(&platformTelemetry)
 			if err != nil {
@@ -3158,8 +3082,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.PrometheusForwarder != nil {
 		prometheusForwarderList := make([]storage.PrometheusForwarderDataSource, len(sources.PrometheusForwarder))
 		for prometheusForwarderIndex, prometheusForwarderItem := range sources.PrometheusForwarder {
-			// Shadow the loop variable to avoid aliasing
-			prometheusForwarderItem := prometheusForwarderItem
 			var prometheusForwarder storage.PrometheusForwarderDataSource
 			err := prometheusForwarderItem.AssignProperties_To_PrometheusForwarderDataSource(&prometheusForwarder)
 			if err != nil {
@@ -3176,8 +3098,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.Syslog != nil {
 		syslogList := make([]storage.SyslogDataSource, len(sources.Syslog))
 		for syslogIndex, syslogItem := range sources.Syslog {
-			// Shadow the loop variable to avoid aliasing
-			syslogItem := syslogItem
 			var syslog storage.SyslogDataSource
 			err := syslogItem.AssignProperties_To_SyslogDataSource(&syslog)
 			if err != nil {
@@ -3194,8 +3114,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.WindowsEventLogs != nil {
 		windowsEventLogList := make([]storage.WindowsEventLogDataSource, len(sources.WindowsEventLogs))
 		for windowsEventLogIndex, windowsEventLogItem := range sources.WindowsEventLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsEventLogItem := windowsEventLogItem
 			var windowsEventLog storage.WindowsEventLogDataSource
 			err := windowsEventLogItem.AssignProperties_To_WindowsEventLogDataSource(&windowsEventLog)
 			if err != nil {
@@ -3212,8 +3130,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 	if sources.WindowsFirewallLogs != nil {
 		windowsFirewallLogList := make([]storage.WindowsFirewallLogsDataSource, len(sources.WindowsFirewallLogs))
 		for windowsFirewallLogIndex, windowsFirewallLogItem := range sources.WindowsFirewallLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsFirewallLogItem := windowsFirewallLogItem
 			var windowsFirewallLog storage.WindowsFirewallLogsDataSource
 			err := windowsFirewallLogItem.AssignProperties_To_WindowsFirewallLogsDataSource(&windowsFirewallLog)
 			if err != nil {
@@ -3256,8 +3172,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.Extensions != nil {
 		extensionList := make([]ExtensionDataSource, len(source.Extensions))
 		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
 			var extension ExtensionDataSource
 			err := extension.Initialize_From_ExtensionDataSource_STATUS(&extensionItem)
 			if err != nil {
@@ -3274,8 +3188,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.IisLogs != nil {
 		iisLogList := make([]IisLogsDataSource, len(source.IisLogs))
 		for iisLogIndex, iisLogItem := range source.IisLogs {
-			// Shadow the loop variable to avoid aliasing
-			iisLogItem := iisLogItem
 			var iisLog IisLogsDataSource
 			err := iisLog.Initialize_From_IisLogsDataSource_STATUS(&iisLogItem)
 			if err != nil {
@@ -3292,8 +3204,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.LogFiles != nil {
 		logFileList := make([]LogFilesDataSource, len(source.LogFiles))
 		for logFileIndex, logFileItem := range source.LogFiles {
-			// Shadow the loop variable to avoid aliasing
-			logFileItem := logFileItem
 			var logFile LogFilesDataSource
 			err := logFile.Initialize_From_LogFilesDataSource_STATUS(&logFileItem)
 			if err != nil {
@@ -3310,8 +3220,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.PerformanceCounters != nil {
 		performanceCounterList := make([]PerfCounterDataSource, len(source.PerformanceCounters))
 		for performanceCounterIndex, performanceCounterItem := range source.PerformanceCounters {
-			// Shadow the loop variable to avoid aliasing
-			performanceCounterItem := performanceCounterItem
 			var performanceCounter PerfCounterDataSource
 			err := performanceCounter.Initialize_From_PerfCounterDataSource_STATUS(&performanceCounterItem)
 			if err != nil {
@@ -3328,8 +3236,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.PlatformTelemetry != nil {
 		platformTelemetryList := make([]PlatformTelemetryDataSource, len(source.PlatformTelemetry))
 		for platformTelemetryIndex, platformTelemetryItem := range source.PlatformTelemetry {
-			// Shadow the loop variable to avoid aliasing
-			platformTelemetryItem := platformTelemetryItem
 			var platformTelemetry PlatformTelemetryDataSource
 			err := platformTelemetry.Initialize_From_PlatformTelemetryDataSource_STATUS(&platformTelemetryItem)
 			if err != nil {
@@ -3346,8 +3252,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.PrometheusForwarder != nil {
 		prometheusForwarderList := make([]PrometheusForwarderDataSource, len(source.PrometheusForwarder))
 		for prometheusForwarderIndex, prometheusForwarderItem := range source.PrometheusForwarder {
-			// Shadow the loop variable to avoid aliasing
-			prometheusForwarderItem := prometheusForwarderItem
 			var prometheusForwarder PrometheusForwarderDataSource
 			err := prometheusForwarder.Initialize_From_PrometheusForwarderDataSource_STATUS(&prometheusForwarderItem)
 			if err != nil {
@@ -3364,8 +3268,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.Syslog != nil {
 		syslogList := make([]SyslogDataSource, len(source.Syslog))
 		for syslogIndex, syslogItem := range source.Syslog {
-			// Shadow the loop variable to avoid aliasing
-			syslogItem := syslogItem
 			var syslog SyslogDataSource
 			err := syslog.Initialize_From_SyslogDataSource_STATUS(&syslogItem)
 			if err != nil {
@@ -3382,8 +3284,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.WindowsEventLogs != nil {
 		windowsEventLogList := make([]WindowsEventLogDataSource, len(source.WindowsEventLogs))
 		for windowsEventLogIndex, windowsEventLogItem := range source.WindowsEventLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsEventLogItem := windowsEventLogItem
 			var windowsEventLog WindowsEventLogDataSource
 			err := windowsEventLog.Initialize_From_WindowsEventLogDataSource_STATUS(&windowsEventLogItem)
 			if err != nil {
@@ -3400,8 +3300,6 @@ func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *D
 	if source.WindowsFirewallLogs != nil {
 		windowsFirewallLogList := make([]WindowsFirewallLogsDataSource, len(source.WindowsFirewallLogs))
 		for windowsFirewallLogIndex, windowsFirewallLogItem := range source.WindowsFirewallLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsFirewallLogItem := windowsFirewallLogItem
 			var windowsFirewallLog WindowsFirewallLogsDataSource
 			err := windowsFirewallLog.Initialize_From_WindowsFirewallLogsDataSource_STATUS(&windowsFirewallLogItem)
 			if err != nil {
@@ -3589,8 +3487,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.Extensions != nil {
 		extensionList := make([]ExtensionDataSource_STATUS, len(source.Extensions))
 		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
 			var extension ExtensionDataSource_STATUS
 			err := extension.AssignProperties_From_ExtensionDataSource_STATUS(&extensionItem)
 			if err != nil {
@@ -3607,8 +3503,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.IisLogs != nil {
 		iisLogList := make([]IisLogsDataSource_STATUS, len(source.IisLogs))
 		for iisLogIndex, iisLogItem := range source.IisLogs {
-			// Shadow the loop variable to avoid aliasing
-			iisLogItem := iisLogItem
 			var iisLog IisLogsDataSource_STATUS
 			err := iisLog.AssignProperties_From_IisLogsDataSource_STATUS(&iisLogItem)
 			if err != nil {
@@ -3625,8 +3519,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.LogFiles != nil {
 		logFileList := make([]LogFilesDataSource_STATUS, len(source.LogFiles))
 		for logFileIndex, logFileItem := range source.LogFiles {
-			// Shadow the loop variable to avoid aliasing
-			logFileItem := logFileItem
 			var logFile LogFilesDataSource_STATUS
 			err := logFile.AssignProperties_From_LogFilesDataSource_STATUS(&logFileItem)
 			if err != nil {
@@ -3643,8 +3535,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.PerformanceCounters != nil {
 		performanceCounterList := make([]PerfCounterDataSource_STATUS, len(source.PerformanceCounters))
 		for performanceCounterIndex, performanceCounterItem := range source.PerformanceCounters {
-			// Shadow the loop variable to avoid aliasing
-			performanceCounterItem := performanceCounterItem
 			var performanceCounter PerfCounterDataSource_STATUS
 			err := performanceCounter.AssignProperties_From_PerfCounterDataSource_STATUS(&performanceCounterItem)
 			if err != nil {
@@ -3661,8 +3551,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.PlatformTelemetry != nil {
 		platformTelemetryList := make([]PlatformTelemetryDataSource_STATUS, len(source.PlatformTelemetry))
 		for platformTelemetryIndex, platformTelemetryItem := range source.PlatformTelemetry {
-			// Shadow the loop variable to avoid aliasing
-			platformTelemetryItem := platformTelemetryItem
 			var platformTelemetry PlatformTelemetryDataSource_STATUS
 			err := platformTelemetry.AssignProperties_From_PlatformTelemetryDataSource_STATUS(&platformTelemetryItem)
 			if err != nil {
@@ -3679,8 +3567,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.PrometheusForwarder != nil {
 		prometheusForwarderList := make([]PrometheusForwarderDataSource_STATUS, len(source.PrometheusForwarder))
 		for prometheusForwarderIndex, prometheusForwarderItem := range source.PrometheusForwarder {
-			// Shadow the loop variable to avoid aliasing
-			prometheusForwarderItem := prometheusForwarderItem
 			var prometheusForwarder PrometheusForwarderDataSource_STATUS
 			err := prometheusForwarder.AssignProperties_From_PrometheusForwarderDataSource_STATUS(&prometheusForwarderItem)
 			if err != nil {
@@ -3697,8 +3583,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.Syslog != nil {
 		syslogList := make([]SyslogDataSource_STATUS, len(source.Syslog))
 		for syslogIndex, syslogItem := range source.Syslog {
-			// Shadow the loop variable to avoid aliasing
-			syslogItem := syslogItem
 			var syslog SyslogDataSource_STATUS
 			err := syslog.AssignProperties_From_SyslogDataSource_STATUS(&syslogItem)
 			if err != nil {
@@ -3715,8 +3599,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.WindowsEventLogs != nil {
 		windowsEventLogList := make([]WindowsEventLogDataSource_STATUS, len(source.WindowsEventLogs))
 		for windowsEventLogIndex, windowsEventLogItem := range source.WindowsEventLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsEventLogItem := windowsEventLogItem
 			var windowsEventLog WindowsEventLogDataSource_STATUS
 			err := windowsEventLog.AssignProperties_From_WindowsEventLogDataSource_STATUS(&windowsEventLogItem)
 			if err != nil {
@@ -3733,8 +3615,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_From_DataSourcesSpec_STA
 	if source.WindowsFirewallLogs != nil {
 		windowsFirewallLogList := make([]WindowsFirewallLogsDataSource_STATUS, len(source.WindowsFirewallLogs))
 		for windowsFirewallLogIndex, windowsFirewallLogItem := range source.WindowsFirewallLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsFirewallLogItem := windowsFirewallLogItem
 			var windowsFirewallLog WindowsFirewallLogsDataSource_STATUS
 			err := windowsFirewallLog.AssignProperties_From_WindowsFirewallLogsDataSource_STATUS(&windowsFirewallLogItem)
 			if err != nil {
@@ -3772,8 +3652,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.Extensions != nil {
 		extensionList := make([]storage.ExtensionDataSource_STATUS, len(sources.Extensions))
 		for extensionIndex, extensionItem := range sources.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
 			var extension storage.ExtensionDataSource_STATUS
 			err := extensionItem.AssignProperties_To_ExtensionDataSource_STATUS(&extension)
 			if err != nil {
@@ -3790,8 +3668,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.IisLogs != nil {
 		iisLogList := make([]storage.IisLogsDataSource_STATUS, len(sources.IisLogs))
 		for iisLogIndex, iisLogItem := range sources.IisLogs {
-			// Shadow the loop variable to avoid aliasing
-			iisLogItem := iisLogItem
 			var iisLog storage.IisLogsDataSource_STATUS
 			err := iisLogItem.AssignProperties_To_IisLogsDataSource_STATUS(&iisLog)
 			if err != nil {
@@ -3808,8 +3684,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.LogFiles != nil {
 		logFileList := make([]storage.LogFilesDataSource_STATUS, len(sources.LogFiles))
 		for logFileIndex, logFileItem := range sources.LogFiles {
-			// Shadow the loop variable to avoid aliasing
-			logFileItem := logFileItem
 			var logFile storage.LogFilesDataSource_STATUS
 			err := logFileItem.AssignProperties_To_LogFilesDataSource_STATUS(&logFile)
 			if err != nil {
@@ -3826,8 +3700,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.PerformanceCounters != nil {
 		performanceCounterList := make([]storage.PerfCounterDataSource_STATUS, len(sources.PerformanceCounters))
 		for performanceCounterIndex, performanceCounterItem := range sources.PerformanceCounters {
-			// Shadow the loop variable to avoid aliasing
-			performanceCounterItem := performanceCounterItem
 			var performanceCounter storage.PerfCounterDataSource_STATUS
 			err := performanceCounterItem.AssignProperties_To_PerfCounterDataSource_STATUS(&performanceCounter)
 			if err != nil {
@@ -3844,8 +3716,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.PlatformTelemetry != nil {
 		platformTelemetryList := make([]storage.PlatformTelemetryDataSource_STATUS, len(sources.PlatformTelemetry))
 		for platformTelemetryIndex, platformTelemetryItem := range sources.PlatformTelemetry {
-			// Shadow the loop variable to avoid aliasing
-			platformTelemetryItem := platformTelemetryItem
 			var platformTelemetry storage.PlatformTelemetryDataSource_STATUS
 			err := platformTelemetryItem.AssignProperties_To_PlatformTelemetryDataSource_STATUS(&platformTelemetry)
 			if err != nil {
@@ -3862,8 +3732,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.PrometheusForwarder != nil {
 		prometheusForwarderList := make([]storage.PrometheusForwarderDataSource_STATUS, len(sources.PrometheusForwarder))
 		for prometheusForwarderIndex, prometheusForwarderItem := range sources.PrometheusForwarder {
-			// Shadow the loop variable to avoid aliasing
-			prometheusForwarderItem := prometheusForwarderItem
 			var prometheusForwarder storage.PrometheusForwarderDataSource_STATUS
 			err := prometheusForwarderItem.AssignProperties_To_PrometheusForwarderDataSource_STATUS(&prometheusForwarder)
 			if err != nil {
@@ -3880,8 +3748,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.Syslog != nil {
 		syslogList := make([]storage.SyslogDataSource_STATUS, len(sources.Syslog))
 		for syslogIndex, syslogItem := range sources.Syslog {
-			// Shadow the loop variable to avoid aliasing
-			syslogItem := syslogItem
 			var syslog storage.SyslogDataSource_STATUS
 			err := syslogItem.AssignProperties_To_SyslogDataSource_STATUS(&syslog)
 			if err != nil {
@@ -3898,8 +3764,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.WindowsEventLogs != nil {
 		windowsEventLogList := make([]storage.WindowsEventLogDataSource_STATUS, len(sources.WindowsEventLogs))
 		for windowsEventLogIndex, windowsEventLogItem := range sources.WindowsEventLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsEventLogItem := windowsEventLogItem
 			var windowsEventLog storage.WindowsEventLogDataSource_STATUS
 			err := windowsEventLogItem.AssignProperties_To_WindowsEventLogDataSource_STATUS(&windowsEventLog)
 			if err != nil {
@@ -3916,8 +3780,6 @@ func (sources *DataSourcesSpec_STATUS) AssignProperties_To_DataSourcesSpec_STATU
 	if sources.WindowsFirewallLogs != nil {
 		windowsFirewallLogList := make([]storage.WindowsFirewallLogsDataSource_STATUS, len(sources.WindowsFirewallLogs))
 		for windowsFirewallLogIndex, windowsFirewallLogItem := range sources.WindowsFirewallLogs {
-			// Shadow the loop variable to avoid aliasing
-			windowsFirewallLogItem := windowsFirewallLogItem
 			var windowsFirewallLog storage.WindowsFirewallLogsDataSource_STATUS
 			err := windowsFirewallLogItem.AssignProperties_To_WindowsFirewallLogsDataSource_STATUS(&windowsFirewallLog)
 			if err != nil {
@@ -4201,8 +4063,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.AzureDataExplorer != nil {
 		azureDataExplorerList := make([]AdxDestination, len(source.AzureDataExplorer))
 		for azureDataExplorerIndex, azureDataExplorerItem := range source.AzureDataExplorer {
-			// Shadow the loop variable to avoid aliasing
-			azureDataExplorerItem := azureDataExplorerItem
 			var azureDataExplorer AdxDestination
 			err := azureDataExplorer.AssignProperties_From_AdxDestination(&azureDataExplorerItem)
 			if err != nil {
@@ -4231,8 +4091,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.EventHubs != nil {
 		eventHubList := make([]EventHubDestination, len(source.EventHubs))
 		for eventHubIndex, eventHubItem := range source.EventHubs {
-			// Shadow the loop variable to avoid aliasing
-			eventHubItem := eventHubItem
 			var eventHub EventHubDestination
 			err := eventHub.AssignProperties_From_EventHubDestination(&eventHubItem)
 			if err != nil {
@@ -4249,8 +4107,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.EventHubsDirect != nil {
 		eventHubsDirectList := make([]EventHubDirectDestination, len(source.EventHubsDirect))
 		for eventHubsDirectIndex, eventHubsDirectItem := range source.EventHubsDirect {
-			// Shadow the loop variable to avoid aliasing
-			eventHubsDirectItem := eventHubsDirectItem
 			var eventHubsDirect EventHubDirectDestination
 			err := eventHubsDirect.AssignProperties_From_EventHubDirectDestination(&eventHubsDirectItem)
 			if err != nil {
@@ -4267,8 +4123,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.LogAnalytics != nil {
 		logAnalyticList := make([]LogAnalyticsDestination, len(source.LogAnalytics))
 		for logAnalyticIndex, logAnalyticItem := range source.LogAnalytics {
-			// Shadow the loop variable to avoid aliasing
-			logAnalyticItem := logAnalyticItem
 			var logAnalytic LogAnalyticsDestination
 			err := logAnalytic.AssignProperties_From_LogAnalyticsDestination(&logAnalyticItem)
 			if err != nil {
@@ -4285,8 +4139,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.MicrosoftFabric != nil {
 		microsoftFabricList := make([]MicrosoftFabricDestination, len(source.MicrosoftFabric))
 		for microsoftFabricIndex, microsoftFabricItem := range source.MicrosoftFabric {
-			// Shadow the loop variable to avoid aliasing
-			microsoftFabricItem := microsoftFabricItem
 			var microsoftFabric MicrosoftFabricDestination
 			err := microsoftFabric.AssignProperties_From_MicrosoftFabricDestination(&microsoftFabricItem)
 			if err != nil {
@@ -4303,8 +4155,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.MonitoringAccounts != nil {
 		monitoringAccountList := make([]MonitoringAccountDestination, len(source.MonitoringAccounts))
 		for monitoringAccountIndex, monitoringAccountItem := range source.MonitoringAccounts {
-			// Shadow the loop variable to avoid aliasing
-			monitoringAccountItem := monitoringAccountItem
 			var monitoringAccount MonitoringAccountDestination
 			err := monitoringAccount.AssignProperties_From_MonitoringAccountDestination(&monitoringAccountItem)
 			if err != nil {
@@ -4321,8 +4171,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.StorageAccounts != nil {
 		storageAccountList := make([]StorageBlobDestination, len(source.StorageAccounts))
 		for storageAccountIndex, storageAccountItem := range source.StorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			storageAccountItem := storageAccountItem
 			var storageAccount StorageBlobDestination
 			err := storageAccount.AssignProperties_From_StorageBlobDestination(&storageAccountItem)
 			if err != nil {
@@ -4339,8 +4187,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.StorageBlobsDirect != nil {
 		storageBlobsDirectList := make([]StorageBlobDestination, len(source.StorageBlobsDirect))
 		for storageBlobsDirectIndex, storageBlobsDirectItem := range source.StorageBlobsDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobsDirectItem := storageBlobsDirectItem
 			var storageBlobsDirect StorageBlobDestination
 			err := storageBlobsDirect.AssignProperties_From_StorageBlobDestination(&storageBlobsDirectItem)
 			if err != nil {
@@ -4357,8 +4203,6 @@ func (destinations *DestinationsSpec) AssignProperties_From_DestinationsSpec(sou
 	if source.StorageTablesDirect != nil {
 		storageTablesDirectList := make([]StorageTableDestination, len(source.StorageTablesDirect))
 		for storageTablesDirectIndex, storageTablesDirectItem := range source.StorageTablesDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageTablesDirectItem := storageTablesDirectItem
 			var storageTablesDirect StorageTableDestination
 			err := storageTablesDirect.AssignProperties_From_StorageTableDestination(&storageTablesDirectItem)
 			if err != nil {
@@ -4384,8 +4228,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.AzureDataExplorer != nil {
 		azureDataExplorerList := make([]storage.AdxDestination, len(destinations.AzureDataExplorer))
 		for azureDataExplorerIndex, azureDataExplorerItem := range destinations.AzureDataExplorer {
-			// Shadow the loop variable to avoid aliasing
-			azureDataExplorerItem := azureDataExplorerItem
 			var azureDataExplorer storage.AdxDestination
 			err := azureDataExplorerItem.AssignProperties_To_AdxDestination(&azureDataExplorer)
 			if err != nil {
@@ -4414,8 +4256,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.EventHubs != nil {
 		eventHubList := make([]storage.EventHubDestination, len(destinations.EventHubs))
 		for eventHubIndex, eventHubItem := range destinations.EventHubs {
-			// Shadow the loop variable to avoid aliasing
-			eventHubItem := eventHubItem
 			var eventHub storage.EventHubDestination
 			err := eventHubItem.AssignProperties_To_EventHubDestination(&eventHub)
 			if err != nil {
@@ -4432,8 +4272,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.EventHubsDirect != nil {
 		eventHubsDirectList := make([]storage.EventHubDirectDestination, len(destinations.EventHubsDirect))
 		for eventHubsDirectIndex, eventHubsDirectItem := range destinations.EventHubsDirect {
-			// Shadow the loop variable to avoid aliasing
-			eventHubsDirectItem := eventHubsDirectItem
 			var eventHubsDirect storage.EventHubDirectDestination
 			err := eventHubsDirectItem.AssignProperties_To_EventHubDirectDestination(&eventHubsDirect)
 			if err != nil {
@@ -4450,8 +4288,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.LogAnalytics != nil {
 		logAnalyticList := make([]storage.LogAnalyticsDestination, len(destinations.LogAnalytics))
 		for logAnalyticIndex, logAnalyticItem := range destinations.LogAnalytics {
-			// Shadow the loop variable to avoid aliasing
-			logAnalyticItem := logAnalyticItem
 			var logAnalytic storage.LogAnalyticsDestination
 			err := logAnalyticItem.AssignProperties_To_LogAnalyticsDestination(&logAnalytic)
 			if err != nil {
@@ -4468,8 +4304,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.MicrosoftFabric != nil {
 		microsoftFabricList := make([]storage.MicrosoftFabricDestination, len(destinations.MicrosoftFabric))
 		for microsoftFabricIndex, microsoftFabricItem := range destinations.MicrosoftFabric {
-			// Shadow the loop variable to avoid aliasing
-			microsoftFabricItem := microsoftFabricItem
 			var microsoftFabric storage.MicrosoftFabricDestination
 			err := microsoftFabricItem.AssignProperties_To_MicrosoftFabricDestination(&microsoftFabric)
 			if err != nil {
@@ -4486,8 +4320,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.MonitoringAccounts != nil {
 		monitoringAccountList := make([]storage.MonitoringAccountDestination, len(destinations.MonitoringAccounts))
 		for monitoringAccountIndex, monitoringAccountItem := range destinations.MonitoringAccounts {
-			// Shadow the loop variable to avoid aliasing
-			monitoringAccountItem := monitoringAccountItem
 			var monitoringAccount storage.MonitoringAccountDestination
 			err := monitoringAccountItem.AssignProperties_To_MonitoringAccountDestination(&monitoringAccount)
 			if err != nil {
@@ -4504,8 +4336,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.StorageAccounts != nil {
 		storageAccountList := make([]storage.StorageBlobDestination, len(destinations.StorageAccounts))
 		for storageAccountIndex, storageAccountItem := range destinations.StorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			storageAccountItem := storageAccountItem
 			var storageAccount storage.StorageBlobDestination
 			err := storageAccountItem.AssignProperties_To_StorageBlobDestination(&storageAccount)
 			if err != nil {
@@ -4522,8 +4352,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.StorageBlobsDirect != nil {
 		storageBlobsDirectList := make([]storage.StorageBlobDestination, len(destinations.StorageBlobsDirect))
 		for storageBlobsDirectIndex, storageBlobsDirectItem := range destinations.StorageBlobsDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobsDirectItem := storageBlobsDirectItem
 			var storageBlobsDirect storage.StorageBlobDestination
 			err := storageBlobsDirectItem.AssignProperties_To_StorageBlobDestination(&storageBlobsDirect)
 			if err != nil {
@@ -4540,8 +4368,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	if destinations.StorageTablesDirect != nil {
 		storageTablesDirectList := make([]storage.StorageTableDestination, len(destinations.StorageTablesDirect))
 		for storageTablesDirectIndex, storageTablesDirectItem := range destinations.StorageTablesDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageTablesDirectItem := storageTablesDirectItem
 			var storageTablesDirect storage.StorageTableDestination
 			err := storageTablesDirectItem.AssignProperties_To_StorageTableDestination(&storageTablesDirect)
 			if err != nil {
@@ -4572,8 +4398,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.AzureDataExplorer != nil {
 		azureDataExplorerList := make([]AdxDestination, len(source.AzureDataExplorer))
 		for azureDataExplorerIndex, azureDataExplorerItem := range source.AzureDataExplorer {
-			// Shadow the loop variable to avoid aliasing
-			azureDataExplorerItem := azureDataExplorerItem
 			var azureDataExplorer AdxDestination
 			err := azureDataExplorer.Initialize_From_AdxDestination_STATUS(&azureDataExplorerItem)
 			if err != nil {
@@ -4602,8 +4426,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.EventHubs != nil {
 		eventHubList := make([]EventHubDestination, len(source.EventHubs))
 		for eventHubIndex, eventHubItem := range source.EventHubs {
-			// Shadow the loop variable to avoid aliasing
-			eventHubItem := eventHubItem
 			var eventHub EventHubDestination
 			err := eventHub.Initialize_From_EventHubDestination_STATUS(&eventHubItem)
 			if err != nil {
@@ -4620,8 +4442,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.EventHubsDirect != nil {
 		eventHubsDirectList := make([]EventHubDirectDestination, len(source.EventHubsDirect))
 		for eventHubsDirectIndex, eventHubsDirectItem := range source.EventHubsDirect {
-			// Shadow the loop variable to avoid aliasing
-			eventHubsDirectItem := eventHubsDirectItem
 			var eventHubsDirect EventHubDirectDestination
 			err := eventHubsDirect.Initialize_From_EventHubDirectDestination_STATUS(&eventHubsDirectItem)
 			if err != nil {
@@ -4638,8 +4458,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.LogAnalytics != nil {
 		logAnalyticList := make([]LogAnalyticsDestination, len(source.LogAnalytics))
 		for logAnalyticIndex, logAnalyticItem := range source.LogAnalytics {
-			// Shadow the loop variable to avoid aliasing
-			logAnalyticItem := logAnalyticItem
 			var logAnalytic LogAnalyticsDestination
 			err := logAnalytic.Initialize_From_LogAnalyticsDestination_STATUS(&logAnalyticItem)
 			if err != nil {
@@ -4656,8 +4474,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.MicrosoftFabric != nil {
 		microsoftFabricList := make([]MicrosoftFabricDestination, len(source.MicrosoftFabric))
 		for microsoftFabricIndex, microsoftFabricItem := range source.MicrosoftFabric {
-			// Shadow the loop variable to avoid aliasing
-			microsoftFabricItem := microsoftFabricItem
 			var microsoftFabric MicrosoftFabricDestination
 			err := microsoftFabric.Initialize_From_MicrosoftFabricDestination_STATUS(&microsoftFabricItem)
 			if err != nil {
@@ -4674,8 +4490,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.MonitoringAccounts != nil {
 		monitoringAccountList := make([]MonitoringAccountDestination, len(source.MonitoringAccounts))
 		for monitoringAccountIndex, monitoringAccountItem := range source.MonitoringAccounts {
-			// Shadow the loop variable to avoid aliasing
-			monitoringAccountItem := monitoringAccountItem
 			var monitoringAccount MonitoringAccountDestination
 			err := monitoringAccount.Initialize_From_MonitoringAccountDestination_STATUS(&monitoringAccountItem)
 			if err != nil {
@@ -4692,8 +4506,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.StorageAccounts != nil {
 		storageAccountList := make([]StorageBlobDestination, len(source.StorageAccounts))
 		for storageAccountIndex, storageAccountItem := range source.StorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			storageAccountItem := storageAccountItem
 			var storageAccount StorageBlobDestination
 			err := storageAccount.Initialize_From_StorageBlobDestination_STATUS(&storageAccountItem)
 			if err != nil {
@@ -4710,8 +4522,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.StorageBlobsDirect != nil {
 		storageBlobsDirectList := make([]StorageBlobDestination, len(source.StorageBlobsDirect))
 		for storageBlobsDirectIndex, storageBlobsDirectItem := range source.StorageBlobsDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobsDirectItem := storageBlobsDirectItem
 			var storageBlobsDirect StorageBlobDestination
 			err := storageBlobsDirect.Initialize_From_StorageBlobDestination_STATUS(&storageBlobsDirectItem)
 			if err != nil {
@@ -4728,8 +4538,6 @@ func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(so
 	if source.StorageTablesDirect != nil {
 		storageTablesDirectList := make([]StorageTableDestination, len(source.StorageTablesDirect))
 		for storageTablesDirectIndex, storageTablesDirectItem := range source.StorageTablesDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageTablesDirectItem := storageTablesDirectItem
 			var storageTablesDirect StorageTableDestination
 			err := storageTablesDirect.Initialize_From_StorageTableDestination_STATUS(&storageTablesDirectItem)
 			if err != nil {
@@ -4906,8 +4714,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.AzureDataExplorer != nil {
 		azureDataExplorerList := make([]AdxDestination_STATUS, len(source.AzureDataExplorer))
 		for azureDataExplorerIndex, azureDataExplorerItem := range source.AzureDataExplorer {
-			// Shadow the loop variable to avoid aliasing
-			azureDataExplorerItem := azureDataExplorerItem
 			var azureDataExplorer AdxDestination_STATUS
 			err := azureDataExplorer.AssignProperties_From_AdxDestination_STATUS(&azureDataExplorerItem)
 			if err != nil {
@@ -4936,8 +4742,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.EventHubs != nil {
 		eventHubList := make([]EventHubDestination_STATUS, len(source.EventHubs))
 		for eventHubIndex, eventHubItem := range source.EventHubs {
-			// Shadow the loop variable to avoid aliasing
-			eventHubItem := eventHubItem
 			var eventHub EventHubDestination_STATUS
 			err := eventHub.AssignProperties_From_EventHubDestination_STATUS(&eventHubItem)
 			if err != nil {
@@ -4954,8 +4758,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.EventHubsDirect != nil {
 		eventHubsDirectList := make([]EventHubDirectDestination_STATUS, len(source.EventHubsDirect))
 		for eventHubsDirectIndex, eventHubsDirectItem := range source.EventHubsDirect {
-			// Shadow the loop variable to avoid aliasing
-			eventHubsDirectItem := eventHubsDirectItem
 			var eventHubsDirect EventHubDirectDestination_STATUS
 			err := eventHubsDirect.AssignProperties_From_EventHubDirectDestination_STATUS(&eventHubsDirectItem)
 			if err != nil {
@@ -4972,8 +4774,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.LogAnalytics != nil {
 		logAnalyticList := make([]LogAnalyticsDestination_STATUS, len(source.LogAnalytics))
 		for logAnalyticIndex, logAnalyticItem := range source.LogAnalytics {
-			// Shadow the loop variable to avoid aliasing
-			logAnalyticItem := logAnalyticItem
 			var logAnalytic LogAnalyticsDestination_STATUS
 			err := logAnalytic.AssignProperties_From_LogAnalyticsDestination_STATUS(&logAnalyticItem)
 			if err != nil {
@@ -4990,8 +4790,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.MicrosoftFabric != nil {
 		microsoftFabricList := make([]MicrosoftFabricDestination_STATUS, len(source.MicrosoftFabric))
 		for microsoftFabricIndex, microsoftFabricItem := range source.MicrosoftFabric {
-			// Shadow the loop variable to avoid aliasing
-			microsoftFabricItem := microsoftFabricItem
 			var microsoftFabric MicrosoftFabricDestination_STATUS
 			err := microsoftFabric.AssignProperties_From_MicrosoftFabricDestination_STATUS(&microsoftFabricItem)
 			if err != nil {
@@ -5008,8 +4806,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.MonitoringAccounts != nil {
 		monitoringAccountList := make([]MonitoringAccountDestination_STATUS, len(source.MonitoringAccounts))
 		for monitoringAccountIndex, monitoringAccountItem := range source.MonitoringAccounts {
-			// Shadow the loop variable to avoid aliasing
-			monitoringAccountItem := monitoringAccountItem
 			var monitoringAccount MonitoringAccountDestination_STATUS
 			err := monitoringAccount.AssignProperties_From_MonitoringAccountDestination_STATUS(&monitoringAccountItem)
 			if err != nil {
@@ -5026,8 +4822,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.StorageAccounts != nil {
 		storageAccountList := make([]StorageBlobDestination_STATUS, len(source.StorageAccounts))
 		for storageAccountIndex, storageAccountItem := range source.StorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			storageAccountItem := storageAccountItem
 			var storageAccount StorageBlobDestination_STATUS
 			err := storageAccount.AssignProperties_From_StorageBlobDestination_STATUS(&storageAccountItem)
 			if err != nil {
@@ -5044,8 +4838,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.StorageBlobsDirect != nil {
 		storageBlobsDirectList := make([]StorageBlobDestination_STATUS, len(source.StorageBlobsDirect))
 		for storageBlobsDirectIndex, storageBlobsDirectItem := range source.StorageBlobsDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobsDirectItem := storageBlobsDirectItem
 			var storageBlobsDirect StorageBlobDestination_STATUS
 			err := storageBlobsDirect.AssignProperties_From_StorageBlobDestination_STATUS(&storageBlobsDirectItem)
 			if err != nil {
@@ -5062,8 +4854,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_From_DestinationsS
 	if source.StorageTablesDirect != nil {
 		storageTablesDirectList := make([]StorageTableDestination_STATUS, len(source.StorageTablesDirect))
 		for storageTablesDirectIndex, storageTablesDirectItem := range source.StorageTablesDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageTablesDirectItem := storageTablesDirectItem
 			var storageTablesDirect StorageTableDestination_STATUS
 			err := storageTablesDirect.AssignProperties_From_StorageTableDestination_STATUS(&storageTablesDirectItem)
 			if err != nil {
@@ -5089,8 +4879,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.AzureDataExplorer != nil {
 		azureDataExplorerList := make([]storage.AdxDestination_STATUS, len(destinations.AzureDataExplorer))
 		for azureDataExplorerIndex, azureDataExplorerItem := range destinations.AzureDataExplorer {
-			// Shadow the loop variable to avoid aliasing
-			azureDataExplorerItem := azureDataExplorerItem
 			var azureDataExplorer storage.AdxDestination_STATUS
 			err := azureDataExplorerItem.AssignProperties_To_AdxDestination_STATUS(&azureDataExplorer)
 			if err != nil {
@@ -5119,8 +4907,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.EventHubs != nil {
 		eventHubList := make([]storage.EventHubDestination_STATUS, len(destinations.EventHubs))
 		for eventHubIndex, eventHubItem := range destinations.EventHubs {
-			// Shadow the loop variable to avoid aliasing
-			eventHubItem := eventHubItem
 			var eventHub storage.EventHubDestination_STATUS
 			err := eventHubItem.AssignProperties_To_EventHubDestination_STATUS(&eventHub)
 			if err != nil {
@@ -5137,8 +4923,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.EventHubsDirect != nil {
 		eventHubsDirectList := make([]storage.EventHubDirectDestination_STATUS, len(destinations.EventHubsDirect))
 		for eventHubsDirectIndex, eventHubsDirectItem := range destinations.EventHubsDirect {
-			// Shadow the loop variable to avoid aliasing
-			eventHubsDirectItem := eventHubsDirectItem
 			var eventHubsDirect storage.EventHubDirectDestination_STATUS
 			err := eventHubsDirectItem.AssignProperties_To_EventHubDirectDestination_STATUS(&eventHubsDirect)
 			if err != nil {
@@ -5155,8 +4939,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.LogAnalytics != nil {
 		logAnalyticList := make([]storage.LogAnalyticsDestination_STATUS, len(destinations.LogAnalytics))
 		for logAnalyticIndex, logAnalyticItem := range destinations.LogAnalytics {
-			// Shadow the loop variable to avoid aliasing
-			logAnalyticItem := logAnalyticItem
 			var logAnalytic storage.LogAnalyticsDestination_STATUS
 			err := logAnalyticItem.AssignProperties_To_LogAnalyticsDestination_STATUS(&logAnalytic)
 			if err != nil {
@@ -5173,8 +4955,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.MicrosoftFabric != nil {
 		microsoftFabricList := make([]storage.MicrosoftFabricDestination_STATUS, len(destinations.MicrosoftFabric))
 		for microsoftFabricIndex, microsoftFabricItem := range destinations.MicrosoftFabric {
-			// Shadow the loop variable to avoid aliasing
-			microsoftFabricItem := microsoftFabricItem
 			var microsoftFabric storage.MicrosoftFabricDestination_STATUS
 			err := microsoftFabricItem.AssignProperties_To_MicrosoftFabricDestination_STATUS(&microsoftFabric)
 			if err != nil {
@@ -5191,8 +4971,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.MonitoringAccounts != nil {
 		monitoringAccountList := make([]storage.MonitoringAccountDestination_STATUS, len(destinations.MonitoringAccounts))
 		for monitoringAccountIndex, monitoringAccountItem := range destinations.MonitoringAccounts {
-			// Shadow the loop variable to avoid aliasing
-			monitoringAccountItem := monitoringAccountItem
 			var monitoringAccount storage.MonitoringAccountDestination_STATUS
 			err := monitoringAccountItem.AssignProperties_To_MonitoringAccountDestination_STATUS(&monitoringAccount)
 			if err != nil {
@@ -5209,8 +4987,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.StorageAccounts != nil {
 		storageAccountList := make([]storage.StorageBlobDestination_STATUS, len(destinations.StorageAccounts))
 		for storageAccountIndex, storageAccountItem := range destinations.StorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			storageAccountItem := storageAccountItem
 			var storageAccount storage.StorageBlobDestination_STATUS
 			err := storageAccountItem.AssignProperties_To_StorageBlobDestination_STATUS(&storageAccount)
 			if err != nil {
@@ -5227,8 +5003,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.StorageBlobsDirect != nil {
 		storageBlobsDirectList := make([]storage.StorageBlobDestination_STATUS, len(destinations.StorageBlobsDirect))
 		for storageBlobsDirectIndex, storageBlobsDirectItem := range destinations.StorageBlobsDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobsDirectItem := storageBlobsDirectItem
 			var storageBlobsDirect storage.StorageBlobDestination_STATUS
 			err := storageBlobsDirectItem.AssignProperties_To_StorageBlobDestination_STATUS(&storageBlobsDirect)
 			if err != nil {
@@ -5245,8 +5019,6 @@ func (destinations *DestinationsSpec_STATUS) AssignProperties_To_DestinationsSpe
 	if destinations.StorageTablesDirect != nil {
 		storageTablesDirectList := make([]storage.StorageTableDestination_STATUS, len(destinations.StorageTablesDirect))
 		for storageTablesDirectIndex, storageTablesDirectItem := range destinations.StorageTablesDirect {
-			// Shadow the loop variable to avoid aliasing
-			storageTablesDirectItem := storageTablesDirectItem
 			var storageTablesDirect storage.StorageTableDestination_STATUS
 			err := storageTablesDirectItem.AssignProperties_To_StorageTableDestination_STATUS(&storageTablesDirect)
 			if err != nil {
@@ -5605,8 +5377,6 @@ func (declaration *StreamDeclaration) AssignProperties_From_StreamDeclaration(so
 	if source.Columns != nil {
 		columnList := make([]ColumnDefinition, len(source.Columns))
 		for columnIndex, columnItem := range source.Columns {
-			// Shadow the loop variable to avoid aliasing
-			columnItem := columnItem
 			var column ColumnDefinition
 			err := column.AssignProperties_From_ColumnDefinition(&columnItem)
 			if err != nil {
@@ -5632,8 +5402,6 @@ func (declaration *StreamDeclaration) AssignProperties_To_StreamDeclaration(dest
 	if declaration.Columns != nil {
 		columnList := make([]storage.ColumnDefinition, len(declaration.Columns))
 		for columnIndex, columnItem := range declaration.Columns {
-			// Shadow the loop variable to avoid aliasing
-			columnItem := columnItem
 			var column storage.ColumnDefinition
 			err := columnItem.AssignProperties_To_ColumnDefinition(&column)
 			if err != nil {
@@ -5664,8 +5432,6 @@ func (declaration *StreamDeclaration) Initialize_From_StreamDeclaration_STATUS(s
 	if source.Columns != nil {
 		columnList := make([]ColumnDefinition, len(source.Columns))
 		for columnIndex, columnItem := range source.Columns {
-			// Shadow the loop variable to avoid aliasing
-			columnItem := columnItem
 			var column ColumnDefinition
 			err := column.Initialize_From_ColumnDefinition_STATUS(&columnItem)
 			if err != nil {
@@ -5723,8 +5489,6 @@ func (declaration *StreamDeclaration_STATUS) AssignProperties_From_StreamDeclara
 	if source.Columns != nil {
 		columnList := make([]ColumnDefinition_STATUS, len(source.Columns))
 		for columnIndex, columnItem := range source.Columns {
-			// Shadow the loop variable to avoid aliasing
-			columnItem := columnItem
 			var column ColumnDefinition_STATUS
 			err := column.AssignProperties_From_ColumnDefinition_STATUS(&columnItem)
 			if err != nil {
@@ -5750,8 +5514,6 @@ func (declaration *StreamDeclaration_STATUS) AssignProperties_To_StreamDeclarati
 	if declaration.Columns != nil {
 		columnList := make([]storage.ColumnDefinition_STATUS, len(declaration.Columns))
 		for columnIndex, columnItem := range declaration.Columns {
-			// Shadow the loop variable to avoid aliasing
-			columnItem := columnItem
 			var column storage.ColumnDefinition_STATUS
 			err := columnItem.AssignProperties_To_ColumnDefinition_STATUS(&column)
 			if err != nil {
@@ -6903,8 +6665,6 @@ func (data *EnrichmentData) AssignProperties_From_EnrichmentData(source *storage
 	if source.StorageBlobs != nil {
 		storageBlobList := make([]StorageBlob, len(source.StorageBlobs))
 		for storageBlobIndex, storageBlobItem := range source.StorageBlobs {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobItem := storageBlobItem
 			var storageBlob StorageBlob
 			err := storageBlob.AssignProperties_From_StorageBlob(&storageBlobItem)
 			if err != nil {
@@ -6930,8 +6690,6 @@ func (data *EnrichmentData) AssignProperties_To_EnrichmentData(destination *stor
 	if data.StorageBlobs != nil {
 		storageBlobList := make([]storage.StorageBlob, len(data.StorageBlobs))
 		for storageBlobIndex, storageBlobItem := range data.StorageBlobs {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobItem := storageBlobItem
 			var storageBlob storage.StorageBlob
 			err := storageBlobItem.AssignProperties_To_StorageBlob(&storageBlob)
 			if err != nil {
@@ -6962,8 +6720,6 @@ func (data *EnrichmentData) Initialize_From_EnrichmentData_STATUS(source *Enrich
 	if source.StorageBlobs != nil {
 		storageBlobList := make([]StorageBlob, len(source.StorageBlobs))
 		for storageBlobIndex, storageBlobItem := range source.StorageBlobs {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobItem := storageBlobItem
 			var storageBlob StorageBlob
 			err := storageBlob.Initialize_From_StorageBlob_STATUS(&storageBlobItem)
 			if err != nil {
@@ -7021,8 +6777,6 @@ func (data *EnrichmentData_STATUS) AssignProperties_From_EnrichmentData_STATUS(s
 	if source.StorageBlobs != nil {
 		storageBlobList := make([]StorageBlob_STATUS, len(source.StorageBlobs))
 		for storageBlobIndex, storageBlobItem := range source.StorageBlobs {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobItem := storageBlobItem
 			var storageBlob StorageBlob_STATUS
 			err := storageBlob.AssignProperties_From_StorageBlob_STATUS(&storageBlobItem)
 			if err != nil {
@@ -7048,8 +6802,6 @@ func (data *EnrichmentData_STATUS) AssignProperties_To_EnrichmentData_STATUS(des
 	if data.StorageBlobs != nil {
 		storageBlobList := make([]storage.StorageBlob_STATUS, len(data.StorageBlobs))
 		for storageBlobIndex, storageBlobItem := range data.StorageBlobs {
-			// Shadow the loop variable to avoid aliasing
-			storageBlobItem := storageBlobItem
 			var storageBlob storage.StorageBlob_STATUS
 			err := storageBlobItem.AssignProperties_To_StorageBlob_STATUS(&storageBlob)
 			if err != nil {
@@ -7592,8 +7344,6 @@ func (source *ExtensionDataSource) AssignProperties_From_ExtensionDataSource(ori
 	if origin.ExtensionSettings != nil {
 		extensionSettingMap := make(map[string]v1.JSON, len(origin.ExtensionSettings))
 		for extensionSettingKey, extensionSettingValue := range origin.ExtensionSettings {
-			// Shadow the loop variable to avoid aliasing
-			extensionSettingValue := extensionSettingValue
 			extensionSettingMap[extensionSettingKey] = *extensionSettingValue.DeepCopy()
 		}
 		source.ExtensionSettings = extensionSettingMap
@@ -7611,8 +7361,6 @@ func (source *ExtensionDataSource) AssignProperties_From_ExtensionDataSource(ori
 	if origin.Streams != nil {
 		streamList := make([]ExtensionDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, extensionDataSource_Streams_Values)
 		}
 		source.Streams = streamList
@@ -7636,8 +7384,6 @@ func (source *ExtensionDataSource) AssignProperties_To_ExtensionDataSource(desti
 	if source.ExtensionSettings != nil {
 		extensionSettingMap := make(map[string]v1.JSON, len(source.ExtensionSettings))
 		for extensionSettingKey, extensionSettingValue := range source.ExtensionSettings {
-			// Shadow the loop variable to avoid aliasing
-			extensionSettingValue := extensionSettingValue
 			extensionSettingMap[extensionSettingKey] = *extensionSettingValue.DeepCopy()
 		}
 		destination.ExtensionSettings = extensionSettingMap
@@ -7655,8 +7401,6 @@ func (source *ExtensionDataSource) AssignProperties_To_ExtensionDataSource(desti
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -7685,8 +7429,6 @@ func (source *ExtensionDataSource) Initialize_From_ExtensionDataSource_STATUS(or
 	if origin.ExtensionSettings != nil {
 		extensionSettingMap := make(map[string]v1.JSON, len(origin.ExtensionSettings))
 		for extensionSettingKey, extensionSettingValue := range origin.ExtensionSettings {
-			// Shadow the loop variable to avoid aliasing
-			extensionSettingValue := extensionSettingValue
 			extensionSettingMap[extensionSettingKey] = *extensionSettingValue.DeepCopy()
 		}
 		source.ExtensionSettings = extensionSettingMap
@@ -7704,8 +7446,6 @@ func (source *ExtensionDataSource) Initialize_From_ExtensionDataSource_STATUS(or
 	if origin.Streams != nil {
 		streamList := make([]ExtensionDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			stream := genruntime.ToEnum(string(streamItem), extensionDataSource_Streams_Values)
 			streamList[streamIndex] = stream
 		}
@@ -7801,8 +7541,6 @@ func (source *ExtensionDataSource_STATUS) AssignProperties_From_ExtensionDataSou
 	if origin.ExtensionSettings != nil {
 		extensionSettingMap := make(map[string]v1.JSON, len(origin.ExtensionSettings))
 		for extensionSettingKey, extensionSettingValue := range origin.ExtensionSettings {
-			// Shadow the loop variable to avoid aliasing
-			extensionSettingValue := extensionSettingValue
 			extensionSettingMap[extensionSettingKey] = *extensionSettingValue.DeepCopy()
 		}
 		source.ExtensionSettings = extensionSettingMap
@@ -7820,8 +7558,6 @@ func (source *ExtensionDataSource_STATUS) AssignProperties_From_ExtensionDataSou
 	if origin.Streams != nil {
 		streamList := make([]ExtensionDataSource_Streams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, extensionDataSource_Streams_STATUS_Values)
 		}
 		source.Streams = streamList
@@ -7845,8 +7581,6 @@ func (source *ExtensionDataSource_STATUS) AssignProperties_To_ExtensionDataSourc
 	if source.ExtensionSettings != nil {
 		extensionSettingMap := make(map[string]v1.JSON, len(source.ExtensionSettings))
 		for extensionSettingKey, extensionSettingValue := range source.ExtensionSettings {
-			// Shadow the loop variable to avoid aliasing
-			extensionSettingValue := extensionSettingValue
 			extensionSettingMap[extensionSettingKey] = *extensionSettingValue.DeepCopy()
 		}
 		destination.ExtensionSettings = extensionSettingMap
@@ -7864,8 +7598,6 @@ func (source *ExtensionDataSource_STATUS) AssignProperties_To_ExtensionDataSourc
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -9429,8 +9161,6 @@ func (source *PerfCounterDataSource) AssignProperties_From_PerfCounterDataSource
 	if origin.Streams != nil {
 		streamList := make([]PerfCounterDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, perfCounterDataSource_Streams_Values)
 		}
 		source.Streams = streamList
@@ -9463,8 +9193,6 @@ func (source *PerfCounterDataSource) AssignProperties_To_PerfCounterDataSource(d
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -9502,8 +9230,6 @@ func (source *PerfCounterDataSource) Initialize_From_PerfCounterDataSource_STATU
 	if origin.Streams != nil {
 		streamList := make([]PerfCounterDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			stream := genruntime.ToEnum(string(streamItem), perfCounterDataSource_Streams_Values)
 			streamList[streamIndex] = stream
 		}
@@ -9608,8 +9334,6 @@ func (source *PerfCounterDataSource_STATUS) AssignProperties_From_PerfCounterDat
 	if origin.Streams != nil {
 		streamList := make([]PerfCounterDataSource_Streams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, perfCounterDataSource_Streams_STATUS_Values)
 		}
 		source.Streams = streamList
@@ -9642,8 +9366,6 @@ func (source *PerfCounterDataSource_STATUS) AssignProperties_To_PerfCounterDataS
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -9944,8 +9666,6 @@ func (source *PrometheusForwarderDataSource) AssignProperties_From_PrometheusFor
 	if origin.Streams != nil {
 		streamList := make([]PrometheusForwarderDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, prometheusForwarderDataSource_Streams_Values)
 		}
 		source.Streams = streamList
@@ -9972,8 +9692,6 @@ func (source *PrometheusForwarderDataSource) AssignProperties_To_PrometheusForwa
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -10005,8 +9723,6 @@ func (source *PrometheusForwarderDataSource) Initialize_From_PrometheusForwarder
 	if origin.Streams != nil {
 		streamList := make([]PrometheusForwarderDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			stream := genruntime.ToEnum(string(streamItem), prometheusForwarderDataSource_Streams_Values)
 			streamList[streamIndex] = stream
 		}
@@ -10086,8 +9802,6 @@ func (source *PrometheusForwarderDataSource_STATUS) AssignProperties_From_Promet
 	if origin.Streams != nil {
 		streamList := make([]PrometheusForwarderDataSource_Streams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, prometheusForwarderDataSource_Streams_STATUS_Values)
 		}
 		source.Streams = streamList
@@ -10114,8 +9828,6 @@ func (source *PrometheusForwarderDataSource_STATUS) AssignProperties_To_Promethe
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -10728,8 +10440,6 @@ func (source *SyslogDataSource) AssignProperties_From_SyslogDataSource(origin *s
 	if origin.FacilityNames != nil {
 		facilityNameList := make([]SyslogDataSource_FacilityNames, len(origin.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			// Shadow the loop variable to avoid aliasing
-			facilityNameItem := facilityNameItem
 			facilityNameList[facilityNameIndex] = genruntime.ToEnum(facilityNameItem, syslogDataSource_FacilityNames_Values)
 		}
 		source.FacilityNames = facilityNameList
@@ -10741,8 +10451,6 @@ func (source *SyslogDataSource) AssignProperties_From_SyslogDataSource(origin *s
 	if origin.LogLevels != nil {
 		logLevelList := make([]SyslogDataSource_LogLevels, len(origin.LogLevels))
 		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			// Shadow the loop variable to avoid aliasing
-			logLevelItem := logLevelItem
 			logLevelList[logLevelIndex] = genruntime.ToEnum(logLevelItem, syslogDataSource_LogLevels_Values)
 		}
 		source.LogLevels = logLevelList
@@ -10757,8 +10465,6 @@ func (source *SyslogDataSource) AssignProperties_From_SyslogDataSource(origin *s
 	if origin.Streams != nil {
 		streamList := make([]SyslogDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, syslogDataSource_Streams_Values)
 		}
 		source.Streams = streamList
@@ -10782,8 +10488,6 @@ func (source *SyslogDataSource) AssignProperties_To_SyslogDataSource(destination
 	if source.FacilityNames != nil {
 		facilityNameList := make([]string, len(source.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range source.FacilityNames {
-			// Shadow the loop variable to avoid aliasing
-			facilityNameItem := facilityNameItem
 			facilityNameList[facilityNameIndex] = string(facilityNameItem)
 		}
 		destination.FacilityNames = facilityNameList
@@ -10795,8 +10499,6 @@ func (source *SyslogDataSource) AssignProperties_To_SyslogDataSource(destination
 	if source.LogLevels != nil {
 		logLevelList := make([]string, len(source.LogLevels))
 		for logLevelIndex, logLevelItem := range source.LogLevels {
-			// Shadow the loop variable to avoid aliasing
-			logLevelItem := logLevelItem
 			logLevelList[logLevelIndex] = string(logLevelItem)
 		}
 		destination.LogLevels = logLevelList
@@ -10811,8 +10513,6 @@ func (source *SyslogDataSource) AssignProperties_To_SyslogDataSource(destination
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -10841,8 +10541,6 @@ func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *
 	if origin.FacilityNames != nil {
 		facilityNameList := make([]SyslogDataSource_FacilityNames, len(origin.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			// Shadow the loop variable to avoid aliasing
-			facilityNameItem := facilityNameItem
 			facilityName := genruntime.ToEnum(string(facilityNameItem), syslogDataSource_FacilityNames_Values)
 			facilityNameList[facilityNameIndex] = facilityName
 		}
@@ -10855,8 +10553,6 @@ func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *
 	if origin.LogLevels != nil {
 		logLevelList := make([]SyslogDataSource_LogLevels, len(origin.LogLevels))
 		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			// Shadow the loop variable to avoid aliasing
-			logLevelItem := logLevelItem
 			logLevel := genruntime.ToEnum(string(logLevelItem), syslogDataSource_LogLevels_Values)
 			logLevelList[logLevelIndex] = logLevel
 		}
@@ -10872,8 +10568,6 @@ func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *
 	if origin.Streams != nil {
 		streamList := make([]SyslogDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			stream := genruntime.ToEnum(string(streamItem), syslogDataSource_Streams_Values)
 			streamList[streamIndex] = stream
 		}
@@ -10969,8 +10663,6 @@ func (source *SyslogDataSource_STATUS) AssignProperties_From_SyslogDataSource_ST
 	if origin.FacilityNames != nil {
 		facilityNameList := make([]SyslogDataSource_FacilityNames_STATUS, len(origin.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			// Shadow the loop variable to avoid aliasing
-			facilityNameItem := facilityNameItem
 			facilityNameList[facilityNameIndex] = genruntime.ToEnum(facilityNameItem, syslogDataSource_FacilityNames_STATUS_Values)
 		}
 		source.FacilityNames = facilityNameList
@@ -10982,8 +10674,6 @@ func (source *SyslogDataSource_STATUS) AssignProperties_From_SyslogDataSource_ST
 	if origin.LogLevels != nil {
 		logLevelList := make([]SyslogDataSource_LogLevels_STATUS, len(origin.LogLevels))
 		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			// Shadow the loop variable to avoid aliasing
-			logLevelItem := logLevelItem
 			logLevelList[logLevelIndex] = genruntime.ToEnum(logLevelItem, syslogDataSource_LogLevels_STATUS_Values)
 		}
 		source.LogLevels = logLevelList
@@ -10998,8 +10688,6 @@ func (source *SyslogDataSource_STATUS) AssignProperties_From_SyslogDataSource_ST
 	if origin.Streams != nil {
 		streamList := make([]SyslogDataSource_Streams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, syslogDataSource_Streams_STATUS_Values)
 		}
 		source.Streams = streamList
@@ -11023,8 +10711,6 @@ func (source *SyslogDataSource_STATUS) AssignProperties_To_SyslogDataSource_STAT
 	if source.FacilityNames != nil {
 		facilityNameList := make([]string, len(source.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range source.FacilityNames {
-			// Shadow the loop variable to avoid aliasing
-			facilityNameItem := facilityNameItem
 			facilityNameList[facilityNameIndex] = string(facilityNameItem)
 		}
 		destination.FacilityNames = facilityNameList
@@ -11036,8 +10722,6 @@ func (source *SyslogDataSource_STATUS) AssignProperties_To_SyslogDataSource_STAT
 	if source.LogLevels != nil {
 		logLevelList := make([]string, len(source.LogLevels))
 		for logLevelIndex, logLevelItem := range source.LogLevels {
-			// Shadow the loop variable to avoid aliasing
-			logLevelItem := logLevelItem
 			logLevelList[logLevelIndex] = string(logLevelItem)
 		}
 		destination.LogLevels = logLevelList
@@ -11052,8 +10736,6 @@ func (source *SyslogDataSource_STATUS) AssignProperties_To_SyslogDataSource_STAT
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -11180,8 +10862,6 @@ func (source *WindowsEventLogDataSource) AssignProperties_From_WindowsEventLogDa
 	if origin.Streams != nil {
 		streamList := make([]WindowsEventLogDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, windowsEventLogDataSource_Streams_Values)
 		}
 		source.Streams = streamList
@@ -11211,8 +10891,6 @@ func (source *WindowsEventLogDataSource) AssignProperties_To_WindowsEventLogData
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -11247,8 +10925,6 @@ func (source *WindowsEventLogDataSource) Initialize_From_WindowsEventLogDataSour
 	if origin.Streams != nil {
 		streamList := make([]WindowsEventLogDataSource_Streams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			stream := genruntime.ToEnum(string(streamItem), windowsEventLogDataSource_Streams_Values)
 			streamList[streamIndex] = stream
 		}
@@ -11339,8 +11015,6 @@ func (source *WindowsEventLogDataSource_STATUS) AssignProperties_From_WindowsEve
 	if origin.Streams != nil {
 		streamList := make([]WindowsEventLogDataSource_Streams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = genruntime.ToEnum(streamItem, windowsEventLogDataSource_Streams_STATUS_Values)
 		}
 		source.Streams = streamList
@@ -11370,8 +11044,6 @@ func (source *WindowsEventLogDataSource_STATUS) AssignProperties_To_WindowsEvent
 	if source.Streams != nil {
 		streamList := make([]string, len(source.Streams))
 		for streamIndex, streamItem := range source.Streams {
-			// Shadow the loop variable to avoid aliasing
-			streamItem := streamItem
 			streamList[streamIndex] = string(streamItem)
 		}
 		destination.Streams = streamList
@@ -11483,8 +11155,6 @@ func (source *WindowsFirewallLogsDataSource) AssignProperties_From_WindowsFirewa
 	if origin.ProfileFilter != nil {
 		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter, len(origin.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			// Shadow the loop variable to avoid aliasing
-			profileFilterItem := profileFilterItem
 			profileFilterList[profileFilterIndex] = genruntime.ToEnum(profileFilterItem, windowsFirewallLogsDataSource_ProfileFilter_Values)
 		}
 		source.ProfileFilter = profileFilterList
@@ -11511,8 +11181,6 @@ func (source *WindowsFirewallLogsDataSource) AssignProperties_To_WindowsFirewall
 	if source.ProfileFilter != nil {
 		profileFilterList := make([]string, len(source.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range source.ProfileFilter {
-			// Shadow the loop variable to avoid aliasing
-			profileFilterItem := profileFilterItem
 			profileFilterList[profileFilterIndex] = string(profileFilterItem)
 		}
 		destination.ProfileFilter = profileFilterList
@@ -11544,8 +11212,6 @@ func (source *WindowsFirewallLogsDataSource) Initialize_From_WindowsFirewallLogs
 	if origin.ProfileFilter != nil {
 		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter, len(origin.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			// Shadow the loop variable to avoid aliasing
-			profileFilterItem := profileFilterItem
 			profileFilter := genruntime.ToEnum(string(profileFilterItem), windowsFirewallLogsDataSource_ProfileFilter_Values)
 			profileFilterList[profileFilterIndex] = profileFilter
 		}
@@ -11620,8 +11286,6 @@ func (source *WindowsFirewallLogsDataSource_STATUS) AssignProperties_From_Window
 	if origin.ProfileFilter != nil {
 		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter_STATUS, len(origin.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			// Shadow the loop variable to avoid aliasing
-			profileFilterItem := profileFilterItem
 			profileFilterList[profileFilterIndex] = genruntime.ToEnum(profileFilterItem, windowsFirewallLogsDataSource_ProfileFilter_STATUS_Values)
 		}
 		source.ProfileFilter = profileFilterList
@@ -11648,8 +11312,6 @@ func (source *WindowsFirewallLogsDataSource_STATUS) AssignProperties_To_WindowsF
 	if source.ProfileFilter != nil {
 		profileFilterList := make([]string, len(source.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range source.ProfileFilter {
-			// Shadow the loop variable to avoid aliasing
-			profileFilterItem := profileFilterItem
 			profileFilterList[profileFilterIndex] = string(profileFilterItem)
 		}
 		destination.ProfileFilter = profileFilterList

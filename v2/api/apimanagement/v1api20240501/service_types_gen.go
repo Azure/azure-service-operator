@@ -892,8 +892,6 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 	if source.AdditionalLocations != nil {
 		additionalLocationList := make([]AdditionalLocation, len(source.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range source.AdditionalLocations {
-			// Shadow the loop variable to avoid aliasing
-			additionalLocationItem := additionalLocationItem
 			var additionalLocation AdditionalLocation
 			err := additionalLocation.AssignProperties_From_AdditionalLocation(&additionalLocationItem)
 			if err != nil {
@@ -925,8 +923,6 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 	if source.Certificates != nil {
 		certificateList := make([]CertificateConfiguration, len(source.Certificates))
 		for certificateIndex, certificateItem := range source.Certificates {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
 			var certificate CertificateConfiguration
 			err := certificate.AssignProperties_From_CertificateConfiguration(&certificateItem)
 			if err != nil {
@@ -983,8 +979,6 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 	if source.HostnameConfigurations != nil {
 		hostnameConfigurationList := make([]HostnameConfiguration, len(source.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range source.HostnameConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			hostnameConfigurationItem := hostnameConfigurationItem
 			var hostnameConfiguration HostnameConfiguration
 			err := hostnameConfiguration.AssignProperties_From_HostnameConfiguration(&hostnameConfigurationItem)
 			if err != nil {
@@ -1136,8 +1130,6 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 	if service.AdditionalLocations != nil {
 		additionalLocationList := make([]storage.AdditionalLocation, len(service.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range service.AdditionalLocations {
-			// Shadow the loop variable to avoid aliasing
-			additionalLocationItem := additionalLocationItem
 			var additionalLocation storage.AdditionalLocation
 			err := additionalLocationItem.AssignProperties_To_AdditionalLocation(&additionalLocation)
 			if err != nil {
@@ -1169,8 +1161,6 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 	if service.Certificates != nil {
 		certificateList := make([]storage.CertificateConfiguration, len(service.Certificates))
 		for certificateIndex, certificateItem := range service.Certificates {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
 			var certificate storage.CertificateConfiguration
 			err := certificateItem.AssignProperties_To_CertificateConfiguration(&certificate)
 			if err != nil {
@@ -1226,8 +1216,6 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 	if service.HostnameConfigurations != nil {
 		hostnameConfigurationList := make([]storage.HostnameConfiguration, len(service.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range service.HostnameConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			hostnameConfigurationItem := hostnameConfigurationItem
 			var hostnameConfiguration storage.HostnameConfiguration
 			err := hostnameConfigurationItem.AssignProperties_To_HostnameConfiguration(&hostnameConfiguration)
 			if err != nil {
@@ -1383,8 +1371,6 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 	if source.AdditionalLocations != nil {
 		additionalLocationList := make([]AdditionalLocation, len(source.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range source.AdditionalLocations {
-			// Shadow the loop variable to avoid aliasing
-			additionalLocationItem := additionalLocationItem
 			var additionalLocation AdditionalLocation
 			err := additionalLocation.Initialize_From_AdditionalLocation_STATUS(&additionalLocationItem)
 			if err != nil {
@@ -1413,8 +1399,6 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 	if source.Certificates != nil {
 		certificateList := make([]CertificateConfiguration, len(source.Certificates))
 		for certificateIndex, certificateItem := range source.Certificates {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
 			var certificate CertificateConfiguration
 			err := certificate.Initialize_From_CertificateConfiguration_STATUS(&certificateItem)
 			if err != nil {
@@ -1470,8 +1454,6 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 	if source.HostnameConfigurations != nil {
 		hostnameConfigurationList := make([]HostnameConfiguration, len(source.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range source.HostnameConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			hostnameConfigurationItem := hostnameConfigurationItem
 			var hostnameConfiguration HostnameConfiguration
 			err := hostnameConfiguration.Initialize_From_HostnameConfiguration_STATUS(&hostnameConfigurationItem)
 			if err != nil {
@@ -2261,8 +2243,6 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *stor
 	if source.AdditionalLocations != nil {
 		additionalLocationList := make([]AdditionalLocation_STATUS, len(source.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range source.AdditionalLocations {
-			// Shadow the loop variable to avoid aliasing
-			additionalLocationItem := additionalLocationItem
 			var additionalLocation AdditionalLocation_STATUS
 			err := additionalLocation.AssignProperties_From_AdditionalLocation_STATUS(&additionalLocationItem)
 			if err != nil {
@@ -2291,8 +2271,6 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *stor
 	if source.Certificates != nil {
 		certificateList := make([]CertificateConfiguration_STATUS, len(source.Certificates))
 		for certificateIndex, certificateItem := range source.Certificates {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
 			var certificate CertificateConfiguration_STATUS
 			err := certificate.AssignProperties_From_CertificateConfiguration_STATUS(&certificateItem)
 			if err != nil {
@@ -2367,8 +2345,6 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *stor
 	if source.HostnameConfigurations != nil {
 		hostnameConfigurationList := make([]HostnameConfiguration_STATUS, len(source.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range source.HostnameConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			hostnameConfigurationItem := hostnameConfigurationItem
 			var hostnameConfiguration HostnameConfiguration_STATUS
 			err := hostnameConfiguration.AssignProperties_From_HostnameConfiguration_STATUS(&hostnameConfigurationItem)
 			if err != nil {
@@ -2445,8 +2421,6 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *stor
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]RemotePrivateEndpointConnectionWrapper_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection RemotePrivateEndpointConnectionWrapper_STATUS
 			err := privateEndpointConnection.AssignProperties_From_RemotePrivateEndpointConnectionWrapper_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -2567,8 +2541,6 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *s
 	if service.AdditionalLocations != nil {
 		additionalLocationList := make([]storage.AdditionalLocation_STATUS, len(service.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range service.AdditionalLocations {
-			// Shadow the loop variable to avoid aliasing
-			additionalLocationItem := additionalLocationItem
 			var additionalLocation storage.AdditionalLocation_STATUS
 			err := additionalLocationItem.AssignProperties_To_AdditionalLocation_STATUS(&additionalLocation)
 			if err != nil {
@@ -2597,8 +2569,6 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *s
 	if service.Certificates != nil {
 		certificateList := make([]storage.CertificateConfiguration_STATUS, len(service.Certificates))
 		for certificateIndex, certificateItem := range service.Certificates {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
 			var certificate storage.CertificateConfiguration_STATUS
 			err := certificateItem.AssignProperties_To_CertificateConfiguration_STATUS(&certificate)
 			if err != nil {
@@ -2672,8 +2642,6 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *s
 	if service.HostnameConfigurations != nil {
 		hostnameConfigurationList := make([]storage.HostnameConfiguration_STATUS, len(service.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range service.HostnameConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			hostnameConfigurationItem := hostnameConfigurationItem
 			var hostnameConfiguration storage.HostnameConfiguration_STATUS
 			err := hostnameConfigurationItem.AssignProperties_To_HostnameConfiguration_STATUS(&hostnameConfiguration)
 			if err != nil {
@@ -2747,8 +2715,6 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *s
 	if service.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.RemotePrivateEndpointConnectionWrapper_STATUS, len(service.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range service.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.RemotePrivateEndpointConnectionWrapper_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -3611,8 +3577,6 @@ func (identity *ApiManagementServiceIdentity) AssignProperties_From_ApiManagemen
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -3646,8 +3610,6 @@ func (identity *ApiManagementServiceIdentity) AssignProperties_To_ApiManagementS
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -3790,8 +3752,6 @@ func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_From_ApiMa
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserIdentityProperties_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserIdentityProperties_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserIdentityProperties_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -3831,8 +3791,6 @@ func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_To_ApiMana
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserIdentityProperties_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserIdentityProperties_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -5901,8 +5859,6 @@ func (operator *ServiceOperatorSpec) AssignProperties_From_ServiceOperatorSpec(s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -5919,8 +5875,6 @@ func (operator *ServiceOperatorSpec) AssignProperties_From_ServiceOperatorSpec(s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -5946,8 +5900,6 @@ func (operator *ServiceOperatorSpec) AssignProperties_To_ServiceOperatorSpec(des
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -5964,8 +5916,6 @@ func (operator *ServiceOperatorSpec) AssignProperties_To_ServiceOperatorSpec(des
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

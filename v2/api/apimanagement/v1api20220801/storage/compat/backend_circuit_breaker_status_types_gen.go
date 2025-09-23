@@ -25,8 +25,6 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_From_BackendCircui
 	if source.Rules != nil {
 		ruleList := make([]CircuitBreakerRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule CircuitBreakerRule_STATUS
 			err := rule.AssignProperties_From_CircuitBreakerRule_STATUS(&ruleItem)
 			if err != nil {
@@ -68,8 +66,6 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_To_BackendCircuitB
 	if breaker.Rules != nil {
 		ruleList := make([]storage.CircuitBreakerRule_STATUS, len(breaker.Rules))
 		for ruleIndex, ruleItem := range breaker.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.CircuitBreakerRule_STATUS
 			err := ruleItem.AssignProperties_To_CircuitBreakerRule_STATUS(&rule)
 			if err != nil {
@@ -259,8 +255,6 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_From_Ci
 	if source.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]FailureStatusCodeRange_STATUS, len(source.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange FailureStatusCodeRange_STATUS
 			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange_STATUS(&statusCodeRangeItem)
 			if err != nil {
@@ -314,8 +308,6 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_To_Circ
 	if condition.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]storage.FailureStatusCodeRange_STATUS, len(condition.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range condition.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange storage.FailureStatusCodeRange_STATUS
 			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange_STATUS(&statusCodeRange)
 			if err != nil {

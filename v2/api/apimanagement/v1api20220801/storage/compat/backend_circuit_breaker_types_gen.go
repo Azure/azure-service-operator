@@ -25,8 +25,6 @@ func (breaker *BackendCircuitBreaker) AssignProperties_From_BackendCircuitBreake
 	if source.Rules != nil {
 		ruleList := make([]CircuitBreakerRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule CircuitBreakerRule
 			err := rule.AssignProperties_From_CircuitBreakerRule(&ruleItem)
 			if err != nil {
@@ -68,8 +66,6 @@ func (breaker *BackendCircuitBreaker) AssignProperties_To_BackendCircuitBreaker(
 	if breaker.Rules != nil {
 		ruleList := make([]storage.CircuitBreakerRule, len(breaker.Rules))
 		for ruleIndex, ruleItem := range breaker.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.CircuitBreakerRule
 			err := ruleItem.AssignProperties_To_CircuitBreakerRule(&rule)
 			if err != nil {
@@ -259,8 +255,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_From_CircuitBr
 	if source.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]FailureStatusCodeRange, len(source.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange FailureStatusCodeRange
 			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange(&statusCodeRangeItem)
 			if err != nil {
@@ -314,8 +308,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_To_CircuitBrea
 	if condition.StatusCodeRanges != nil {
 		statusCodeRangeList := make([]storage.FailureStatusCodeRange, len(condition.StatusCodeRanges))
 		for statusCodeRangeIndex, statusCodeRangeItem := range condition.StatusCodeRanges {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeRangeItem := statusCodeRangeItem
 			var statusCodeRange storage.FailureStatusCodeRange
 			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange(&statusCodeRange)
 			if err != nil {

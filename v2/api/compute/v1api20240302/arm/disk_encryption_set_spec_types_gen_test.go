@@ -165,10 +165,10 @@ func EncryptionSetIdentityGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryptionSetIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionSetIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		EncryptionSetIdentity_Type_None,
-		EncryptionSetIdentity_Type_SystemAssigned,
-		EncryptionSetIdentity_Type_SystemAssignedUserAssigned,
-		EncryptionSetIdentity_Type_UserAssigned))
+		DiskEncryptionSetIdentityType_None,
+		DiskEncryptionSetIdentityType_SystemAssigned,
+		DiskEncryptionSetIdentityType_SystemAssignedUserAssigned,
+		DiskEncryptionSetIdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionSetIdentity is a factory method for creating gopter generators

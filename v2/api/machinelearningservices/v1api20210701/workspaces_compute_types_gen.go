@@ -1980,8 +1980,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_From_WorkspacesC
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1998,8 +1996,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_From_WorkspacesC
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2025,8 +2021,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_To_WorkspacesCom
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2043,8 +2037,6 @@ func (operator *WorkspacesComputeOperatorSpec) AssignProperties_To_WorkspacesCom
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2500,8 +2492,6 @@ func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *storage.AKS_STAT
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -2587,8 +2577,6 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *storage.AKS_S
 	if aks.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(aks.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range aks.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -3055,8 +3043,6 @@ func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -3142,8 +3128,6 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 	if compute.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(compute.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range compute.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -3610,8 +3594,6 @@ func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_ST
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -3697,8 +3679,6 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 	if instance.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(instance.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range instance.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -4165,8 +4145,6 @@ func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(sou
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -4252,8 +4230,6 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 	if databricks.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(databricks.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range databricks.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -4646,8 +4622,6 @@ func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(sour
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -4721,8 +4695,6 @@ func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destin
 	if factory.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(factory.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range factory.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -5185,8 +5157,6 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalyti
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -5272,8 +5242,6 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 	if analytics.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(analytics.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range analytics.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -5740,8 +5708,6 @@ func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -5827,8 +5793,6 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 	if insight.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(insight.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range insight.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -6295,8 +6259,6 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(sou
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -6382,8 +6344,6 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 	if kubernetes.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(kubernetes.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range kubernetes.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -6846,8 +6806,6 @@ func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(sour
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -6933,8 +6891,6 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 	if spark.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(spark.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range spark.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -7397,8 +7353,6 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 	if source.ProvisioningErrors != nil {
 		provisioningErrorList := make([]ErrorResponse_STATUS, len(source.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range source.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
@@ -7484,8 +7438,6 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	if machine.ProvisioningErrors != nil {
 		provisioningErrorList := make([]storage.ErrorResponse_STATUS, len(machine.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range machine.ProvisioningErrors {
-			// Shadow the loop variable to avoid aliasing
-			provisioningErrorItem := provisioningErrorItem
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
@@ -8024,8 +7976,6 @@ func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_ST
 	if source.SystemServices != nil {
 		systemServiceList := make([]SystemService_STATUS, len(source.SystemServices))
 		for systemServiceIndex, systemServiceItem := range source.SystemServices {
-			// Shadow the loop variable to avoid aliasing
-			systemServiceItem := systemServiceItem
 			var systemService SystemService_STATUS
 			err := systemService.AssignProperties_From_SystemService_STATUS(&systemServiceItem)
 			if err != nil {
@@ -8103,8 +8053,6 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 	if properties.SystemServices != nil {
 		systemServiceList := make([]storage.SystemService_STATUS, len(properties.SystemServices))
 		for systemServiceIndex, systemServiceItem := range properties.SystemServices {
-			// Shadow the loop variable to avoid aliasing
-			systemServiceItem := systemServiceItem
 			var systemService storage.SystemService_STATUS
 			err := systemServiceItem.AssignProperties_To_SystemService_STATUS(&systemService)
 			if err != nil {
@@ -8878,8 +8826,6 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 	if source.Errors != nil {
 		errorList := make([]ErrorResponse_STATUS, len(source.Errors))
 		for errorIndex, errorItem := range source.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error ErrorResponse_STATUS
 			err := error.AssignProperties_From_ErrorResponse_STATUS(&errorItem)
 			if err != nil {
@@ -9028,8 +8974,6 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 	if properties.Errors != nil {
 		errorList := make([]storage.ErrorResponse_STATUS, len(properties.Errors))
 		for errorIndex, errorItem := range properties.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error storage.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
@@ -9738,8 +9682,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.Applications != nil {
 		applicationList := make([]ComputeInstanceApplication_STATUS, len(source.Applications))
 		for applicationIndex, applicationItem := range source.Applications {
-			// Shadow the loop variable to avoid aliasing
-			applicationItem := applicationItem
 			var application ComputeInstanceApplication_STATUS
 			err := application.AssignProperties_From_ComputeInstanceApplication_STATUS(&applicationItem)
 			if err != nil {
@@ -9789,8 +9731,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 	if source.Errors != nil {
 		errorList := make([]ErrorResponse_STATUS, len(source.Errors))
 		for errorIndex, errorItem := range source.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error ErrorResponse_STATUS
 			err := error.AssignProperties_From_ErrorResponse_STATUS(&errorItem)
 			if err != nil {
@@ -9896,8 +9836,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.Applications != nil {
 		applicationList := make([]storage.ComputeInstanceApplication_STATUS, len(properties.Applications))
 		for applicationIndex, applicationItem := range properties.Applications {
-			// Shadow the loop variable to avoid aliasing
-			applicationItem := applicationItem
 			var application storage.ComputeInstanceApplication_STATUS
 			err := applicationItem.AssignProperties_To_ComputeInstanceApplication_STATUS(&application)
 			if err != nil {
@@ -9946,8 +9884,6 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	if properties.Errors != nil {
 		errorList := make([]storage.ErrorResponse_STATUS, len(properties.Errors))
 		for errorIndex, errorItem := range properties.Errors {
-			// Shadow the loop variable to avoid aliasing
-			errorItem := errorItem
 			var error storage.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
@@ -11064,8 +11000,6 @@ func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperti
 	if source.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]InstanceTypeSchema, len(source.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType InstanceTypeSchema
 			err := instanceType.AssignProperties_From_InstanceTypeSchema(&instanceTypeValue)
 			if err != nil {
@@ -11122,8 +11056,6 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 	if properties.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]storage.InstanceTypeSchema, len(properties.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range properties.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType storage.InstanceTypeSchema
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema(&instanceType)
 			if err != nil {
@@ -11267,8 +11199,6 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_From_KubernetesP
 	if source.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]InstanceTypeSchema_STATUS, len(source.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType InstanceTypeSchema_STATUS
 			err := instanceType.AssignProperties_From_InstanceTypeSchema_STATUS(&instanceTypeValue)
 			if err != nil {
@@ -11309,8 +11239,6 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesPro
 	if properties.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]storage.InstanceTypeSchema_STATUS, len(properties.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range properties.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
 			var instanceType storage.InstanceTypeSchema_STATUS
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema_STATUS(&instanceType)
 			if err != nil {
@@ -13891,8 +13819,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 	if source.AdditionalInfo != nil {
 		additionalInfoList := make([]ErrorAdditionalInfo_STATUS, len(source.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range source.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
@@ -13912,8 +13838,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 	if source.Details != nil {
 		detailList := make([]ErrorDetail_STATUS_Unrolled, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detailLocal ErrorDetail_STATUS_Unrolled
 			err := detailLocal.AssignProperties_From_ErrorDetail_STATUS_Unrolled(&detailItem)
 			if err != nil {
@@ -13945,8 +13869,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	if detail.AdditionalInfo != nil {
 		additionalInfoList := make([]storage.ErrorAdditionalInfo_STATUS, len(detail.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range detail.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
@@ -13966,8 +13888,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	if detail.Details != nil {
 		detailList := make([]storage.ErrorDetail_STATUS_Unrolled, len(detail.Details))
 		for detailIndex, detailItem := range detail.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detailLocal storage.ErrorDetail_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
@@ -16370,8 +16290,6 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInf
 	if source.Info != nil {
 		infoMap := make(map[string]v1.JSON, len(source.Info))
 		for infoKey, infoValue := range source.Info {
-			// Shadow the loop variable to avoid aliasing
-			infoValue := infoValue
 			infoMap[infoKey] = *infoValue.DeepCopy()
 		}
 		info.Info = infoMap
@@ -16395,8 +16313,6 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_
 	if info.Info != nil {
 		infoMap := make(map[string]v1.JSON, len(info.Info))
 		for infoKey, infoValue := range info.Info {
-			// Shadow the loop variable to avoid aliasing
-			infoValue := infoValue
 			infoMap[infoKey] = *infoValue.DeepCopy()
 		}
 		destination.Info = infoMap
@@ -16485,8 +16401,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_S
 	if source.AdditionalInfo != nil {
 		additionalInfoList := make([]ErrorAdditionalInfo_STATUS, len(source.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range source.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
@@ -16521,8 +16435,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 	if unrolled.AdditionalInfo != nil {
 		additionalInfoList := make([]storage.ErrorAdditionalInfo_STATUS, len(unrolled.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range unrolled.AdditionalInfo {
-			// Shadow the loop variable to avoid aliasing
-			additionalInfoItem := additionalInfoItem
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {

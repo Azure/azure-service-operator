@@ -1072,6 +1072,7 @@ func AddIndependentPropertyGeneratorsForUpdateStatus_STATUS(gens map[string]gopt
 		UpdateState_STATUS_Completed,
 		UpdateState_STATUS_Failed,
 		UpdateState_STATUS_NotStarted,
+		UpdateState_STATUS_Pending,
 		UpdateState_STATUS_Running,
 		UpdateState_STATUS_Stopped,
 		UpdateState_STATUS_Stopping))

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}
 type BackupVaultsBackupPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (policy *BackupVaultsBackupPolicy) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}
 type BackupVaultsBackupPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -743,8 +743,6 @@ func (operator *BackupVaultsBackupPolicyOperatorSpec) AssignProperties_From_Back
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -761,8 +759,6 @@ func (operator *BackupVaultsBackupPolicyOperatorSpec) AssignProperties_From_Back
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -788,8 +784,6 @@ func (operator *BackupVaultsBackupPolicyOperatorSpec) AssignProperties_To_Backup
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -806,8 +800,6 @@ func (operator *BackupVaultsBackupPolicyOperatorSpec) AssignProperties_To_Backup
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1135,8 +1127,6 @@ func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *storage.B
 	if source.PolicyRules != nil {
 		policyRuleList := make([]BasePolicyRule, len(source.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range source.PolicyRules {
-			// Shadow the loop variable to avoid aliasing
-			policyRuleItem := policyRuleItem
 			var policyRule BasePolicyRule
 			err := policyRule.AssignProperties_From_BasePolicyRule(&policyRuleItem)
 			if err != nil {
@@ -1173,8 +1163,6 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *storag
 	if policy.PolicyRules != nil {
 		policyRuleList := make([]storage.BasePolicyRule, len(policy.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range policy.PolicyRules {
-			// Shadow the loop variable to avoid aliasing
-			policyRuleItem := policyRuleItem
 			var policyRule storage.BasePolicyRule
 			err := policyRuleItem.AssignProperties_To_BasePolicyRule(&policyRule)
 			if err != nil {
@@ -1216,8 +1204,6 @@ func (policy *BackupPolicy) Initialize_From_BackupPolicy_STATUS(source *BackupPo
 	if source.PolicyRules != nil {
 		policyRuleList := make([]BasePolicyRule, len(source.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range source.PolicyRules {
-			// Shadow the loop variable to avoid aliasing
-			policyRuleItem := policyRuleItem
 			var policyRule BasePolicyRule
 			err := policyRule.Initialize_From_BasePolicyRule_STATUS(&policyRuleItem)
 			if err != nil {
@@ -1302,8 +1288,6 @@ func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(sou
 	if source.PolicyRules != nil {
 		policyRuleList := make([]BasePolicyRule_STATUS, len(source.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range source.PolicyRules {
-			// Shadow the loop variable to avoid aliasing
-			policyRuleItem := policyRuleItem
 			var policyRule BasePolicyRule_STATUS
 			err := policyRule.AssignProperties_From_BasePolicyRule_STATUS(&policyRuleItem)
 			if err != nil {
@@ -1340,8 +1324,6 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 	if policy.PolicyRules != nil {
 		policyRuleList := make([]storage.BasePolicyRule_STATUS, len(policy.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range policy.PolicyRules {
-			// Shadow the loop variable to avoid aliasing
-			policyRuleItem := policyRuleItem
 			var policyRule storage.BasePolicyRule_STATUS
 			err := policyRuleItem.AssignProperties_To_BasePolicyRule_STATUS(&policyRule)
 			if err != nil {
@@ -2295,8 +2277,6 @@ func (rule *AzureRetentionRule) AssignProperties_From_AzureRetentionRule(source 
 	if source.Lifecycles != nil {
 		lifecycleList := make([]SourceLifeCycle, len(source.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range source.Lifecycles {
-			// Shadow the loop variable to avoid aliasing
-			lifecycleItem := lifecycleItem
 			var lifecycle SourceLifeCycle
 			err := lifecycle.AssignProperties_From_SourceLifeCycle(&lifecycleItem)
 			if err != nil {
@@ -2342,8 +2322,6 @@ func (rule *AzureRetentionRule) AssignProperties_To_AzureRetentionRule(destinati
 	if rule.Lifecycles != nil {
 		lifecycleList := make([]storage.SourceLifeCycle, len(rule.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range rule.Lifecycles {
-			// Shadow the loop variable to avoid aliasing
-			lifecycleItem := lifecycleItem
 			var lifecycle storage.SourceLifeCycle
 			err := lifecycleItem.AssignProperties_To_SourceLifeCycle(&lifecycle)
 			if err != nil {
@@ -2393,8 +2371,6 @@ func (rule *AzureRetentionRule) Initialize_From_AzureRetentionRule_STATUS(source
 	if source.Lifecycles != nil {
 		lifecycleList := make([]SourceLifeCycle, len(source.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range source.Lifecycles {
-			// Shadow the loop variable to avoid aliasing
-			lifecycleItem := lifecycleItem
 			var lifecycle SourceLifeCycle
 			err := lifecycle.Initialize_From_SourceLifeCycle_STATUS(&lifecycleItem)
 			if err != nil {
@@ -2491,8 +2467,6 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_From_AzureRetentionRule_
 	if source.Lifecycles != nil {
 		lifecycleList := make([]SourceLifeCycle_STATUS, len(source.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range source.Lifecycles {
-			// Shadow the loop variable to avoid aliasing
-			lifecycleItem := lifecycleItem
 			var lifecycle SourceLifeCycle_STATUS
 			err := lifecycle.AssignProperties_From_SourceLifeCycle_STATUS(&lifecycleItem)
 			if err != nil {
@@ -2538,8 +2512,6 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_ST
 	if rule.Lifecycles != nil {
 		lifecycleList := make([]storage.SourceLifeCycle_STATUS, len(rule.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range rule.Lifecycles {
-			// Shadow the loop variable to avoid aliasing
-			lifecycleItem := lifecycleItem
 			var lifecycle storage.SourceLifeCycle_STATUS
 			err := lifecycleItem.AssignProperties_To_SourceLifeCycle_STATUS(&lifecycle)
 			if err != nil {
@@ -3159,8 +3131,6 @@ func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *stor
 	if source.TargetDataStoreCopySettings != nil {
 		targetDataStoreCopySettingList := make([]TargetCopySetting, len(source.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range source.TargetDataStoreCopySettings {
-			// Shadow the loop variable to avoid aliasing
-			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
 			var targetDataStoreCopySetting TargetCopySetting
 			err := targetDataStoreCopySetting.AssignProperties_From_TargetCopySetting(&targetDataStoreCopySettingItem)
 			if err != nil {
@@ -3210,8 +3180,6 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *s
 	if cycle.TargetDataStoreCopySettings != nil {
 		targetDataStoreCopySettingList := make([]storage.TargetCopySetting, len(cycle.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range cycle.TargetDataStoreCopySettings {
-			// Shadow the loop variable to avoid aliasing
-			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
 			var targetDataStoreCopySetting storage.TargetCopySetting
 			err := targetDataStoreCopySettingItem.AssignProperties_To_TargetCopySetting(&targetDataStoreCopySetting)
 			if err != nil {
@@ -3266,8 +3234,6 @@ func (cycle *SourceLifeCycle) Initialize_From_SourceLifeCycle_STATUS(source *Sou
 	if source.TargetDataStoreCopySettings != nil {
 		targetDataStoreCopySettingList := make([]TargetCopySetting, len(source.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range source.TargetDataStoreCopySettings {
-			// Shadow the loop variable to avoid aliasing
-			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
 			var targetDataStoreCopySetting TargetCopySetting
 			err := targetDataStoreCopySetting.Initialize_From_TargetCopySetting_STATUS(&targetDataStoreCopySettingItem)
 			if err != nil {
@@ -3374,8 +3340,6 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATU
 	if source.TargetDataStoreCopySettings != nil {
 		targetDataStoreCopySettingList := make([]TargetCopySetting_STATUS, len(source.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range source.TargetDataStoreCopySettings {
-			// Shadow the loop variable to avoid aliasing
-			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
 			var targetDataStoreCopySetting TargetCopySetting_STATUS
 			err := targetDataStoreCopySetting.AssignProperties_From_TargetCopySetting_STATUS(&targetDataStoreCopySettingItem)
 			if err != nil {
@@ -3425,8 +3389,6 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(
 	if cycle.TargetDataStoreCopySettings != nil {
 		targetDataStoreCopySettingList := make([]storage.TargetCopySetting_STATUS, len(cycle.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range cycle.TargetDataStoreCopySettings {
-			// Shadow the loop variable to avoid aliasing
-			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
 			var targetDataStoreCopySetting storage.TargetCopySetting_STATUS
 			err := targetDataStoreCopySettingItem.AssignProperties_To_TargetCopySetting_STATUS(&targetDataStoreCopySetting)
 			if err != nil {
@@ -4591,8 +4553,6 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedT
 	if source.TaggingCriteria != nil {
 		taggingCriterionList := make([]TaggingCriteria, len(source.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range source.TaggingCriteria {
-			// Shadow the loop variable to avoid aliasing
-			taggingCriterionItem := taggingCriterionItem
 			var taggingCriterion TaggingCriteria
 			err := taggingCriterion.AssignProperties_From_TaggingCriteria(&taggingCriterionItem)
 			if err != nil {
@@ -4638,8 +4598,6 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTri
 	if context.TaggingCriteria != nil {
 		taggingCriterionList := make([]storage.TaggingCriteria, len(context.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range context.TaggingCriteria {
-			// Shadow the loop variable to avoid aliasing
-			taggingCriterionItem := taggingCriterionItem
 			var taggingCriterion storage.TaggingCriteria
 			err := taggingCriterionItem.AssignProperties_To_TaggingCriteria(&taggingCriterion)
 			if err != nil {
@@ -4690,8 +4648,6 @@ func (context *ScheduleBasedTriggerContext) Initialize_From_ScheduleBasedTrigger
 	if source.TaggingCriteria != nil {
 		taggingCriterionList := make([]TaggingCriteria, len(source.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range source.TaggingCriteria {
-			// Shadow the loop variable to avoid aliasing
-			taggingCriterionItem := taggingCriterionItem
 			var taggingCriterion TaggingCriteria
 			err := taggingCriterion.Initialize_From_TaggingCriteria_STATUS(&taggingCriterionItem)
 			if err != nil {
@@ -4793,8 +4749,6 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_Schedul
 	if source.TaggingCriteria != nil {
 		taggingCriterionList := make([]TaggingCriteria_STATUS, len(source.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range source.TaggingCriteria {
-			// Shadow the loop variable to avoid aliasing
-			taggingCriterionItem := taggingCriterionItem
 			var taggingCriterion TaggingCriteria_STATUS
 			err := taggingCriterion.AssignProperties_From_TaggingCriteria_STATUS(&taggingCriterionItem)
 			if err != nil {
@@ -4840,8 +4794,6 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleB
 	if context.TaggingCriteria != nil {
 		taggingCriterionList := make([]storage.TaggingCriteria_STATUS, len(context.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range context.TaggingCriteria {
-			// Shadow the loop variable to avoid aliasing
-			taggingCriterionItem := taggingCriterionItem
 			var taggingCriterion storage.TaggingCriteria_STATUS
 			err := taggingCriterionItem.AssignProperties_To_TaggingCriteria_STATUS(&taggingCriterion)
 			if err != nil {
@@ -5624,7 +5576,8 @@ var azureBackupParams_ObjectType_STATUS_Values = map[string]AzureBackupParams_Ob
 // Schedule for backup
 type BackupSchedule struct {
 	// +kubebuilder:validation:Required
-	// RepeatingTimeIntervals: ISO 8601 repeating time interval format
+	// RepeatingTimeIntervals: Repeating time interval which only support the following ISO 8601 format
+	// [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M
 	RepeatingTimeIntervals []string `json:"repeatingTimeIntervals,omitempty"`
 
 	// TimeZone: Time zone for a schedule. Example: Pacific Standard Time
@@ -5730,7 +5683,8 @@ func (schedule *BackupSchedule) Initialize_From_BackupSchedule_STATUS(source *Ba
 
 // Schedule for backup
 type BackupSchedule_STATUS struct {
-	// RepeatingTimeIntervals: ISO 8601 repeating time interval format
+	// RepeatingTimeIntervals: Repeating time interval which only support the following ISO 8601 format
+	// [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M
 	RepeatingTimeIntervals []string `json:"repeatingTimeIntervals,omitempty"`
 
 	// TimeZone: Time zone for a schedule. Example: Pacific Standard Time
@@ -6332,8 +6286,6 @@ func (criteria *TaggingCriteria) AssignProperties_From_TaggingCriteria(source *s
 	if source.Criteria != nil {
 		criterionList := make([]BackupCriteria, len(source.Criteria))
 		for criterionIndex, criterionItem := range source.Criteria {
-			// Shadow the loop variable to avoid aliasing
-			criterionItem := criterionItem
 			var criterion BackupCriteria
 			err := criterion.AssignProperties_From_BackupCriteria(&criterionItem)
 			if err != nil {
@@ -6382,8 +6334,6 @@ func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination
 	if criteria.Criteria != nil {
 		criterionList := make([]storage.BackupCriteria, len(criteria.Criteria))
 		for criterionIndex, criterionItem := range criteria.Criteria {
-			// Shadow the loop variable to avoid aliasing
-			criterionItem := criterionItem
 			var criterion storage.BackupCriteria
 			err := criterionItem.AssignProperties_To_BackupCriteria(&criterion)
 			if err != nil {
@@ -6437,8 +6387,6 @@ func (criteria *TaggingCriteria) Initialize_From_TaggingCriteria_STATUS(source *
 	if source.Criteria != nil {
 		criterionList := make([]BackupCriteria, len(source.Criteria))
 		for criterionIndex, criterionItem := range source.Criteria {
-			// Shadow the loop variable to avoid aliasing
-			criterionItem := criterionItem
 			var criterion BackupCriteria
 			err := criterion.Initialize_From_BackupCriteria_STATUS(&criterionItem)
 			if err != nil {
@@ -6551,8 +6499,6 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_From_TaggingCriteria_ST
 	if source.Criteria != nil {
 		criterionList := make([]BackupCriteria_STATUS, len(source.Criteria))
 		for criterionIndex, criterionItem := range source.Criteria {
-			// Shadow the loop variable to avoid aliasing
-			criterionItem := criterionItem
 			var criterion BackupCriteria_STATUS
 			err := criterion.AssignProperties_From_BackupCriteria_STATUS(&criterionItem)
 			if err != nil {
@@ -6601,8 +6547,6 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STAT
 	if criteria.Criteria != nil {
 		criterionList := make([]storage.BackupCriteria_STATUS, len(criteria.Criteria))
 		for criterionIndex, criterionItem := range criteria.Criteria {
-			// Shadow the loop variable to avoid aliasing
-			criterionItem := criterionItem
 			var criterion storage.BackupCriteria_STATUS
 			err := criterionItem.AssignProperties_To_BackupCriteria_STATUS(&criterion)
 			if err != nil {
@@ -7820,8 +7764,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 	if source.AbsoluteCriteria != nil {
 		absoluteCriterionList := make([]ScheduleBasedBackupCriteria_AbsoluteCriteria, len(source.AbsoluteCriteria))
 		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
-			// Shadow the loop variable to avoid aliasing
-			absoluteCriterionItem := absoluteCriterionItem
 			absoluteCriterionList[absoluteCriterionIndex] = genruntime.ToEnum(absoluteCriterionItem, scheduleBasedBackupCriteria_AbsoluteCriteria_Values)
 		}
 		criteria.AbsoluteCriteria = absoluteCriterionList
@@ -7833,8 +7775,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 	if source.DaysOfMonth != nil {
 		daysOfMonthList := make([]Day, len(source.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range source.DaysOfMonth {
-			// Shadow the loop variable to avoid aliasing
-			daysOfMonthItem := daysOfMonthItem
 			var daysOfMonth Day
 			err := daysOfMonth.AssignProperties_From_Day(&daysOfMonthItem)
 			if err != nil {
@@ -7851,8 +7791,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 	if source.DaysOfTheWeek != nil {
 		daysOfTheWeekList := make([]ScheduleBasedBackupCriteria_DaysOfTheWeek, len(source.DaysOfTheWeek))
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
-			// Shadow the loop variable to avoid aliasing
-			daysOfTheWeekItem := daysOfTheWeekItem
 			daysOfTheWeekList[daysOfTheWeekIndex] = genruntime.ToEnum(daysOfTheWeekItem, scheduleBasedBackupCriteria_DaysOfTheWeek_Values)
 		}
 		criteria.DaysOfTheWeek = daysOfTheWeekList
@@ -7864,8 +7802,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 	if source.MonthsOfYear != nil {
 		monthsOfYearList := make([]ScheduleBasedBackupCriteria_MonthsOfYear, len(source.MonthsOfYear))
 		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
-			// Shadow the loop variable to avoid aliasing
-			monthsOfYearItem := monthsOfYearItem
 			monthsOfYearList[monthsOfYearIndex] = genruntime.ToEnum(monthsOfYearItem, scheduleBasedBackupCriteria_MonthsOfYear_Values)
 		}
 		criteria.MonthsOfYear = monthsOfYearList
@@ -7889,8 +7825,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 	if source.WeeksOfTheMonth != nil {
 		weeksOfTheMonthList := make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth, len(source.WeeksOfTheMonth))
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
-			// Shadow the loop variable to avoid aliasing
-			weeksOfTheMonthItem := weeksOfTheMonthItem
 			weeksOfTheMonthList[weeksOfTheMonthIndex] = genruntime.ToEnum(weeksOfTheMonthItem, scheduleBasedBackupCriteria_WeeksOfTheMonth_Values)
 		}
 		criteria.WeeksOfTheMonth = weeksOfTheMonthList
@@ -7911,8 +7845,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 	if criteria.AbsoluteCriteria != nil {
 		absoluteCriterionList := make([]string, len(criteria.AbsoluteCriteria))
 		for absoluteCriterionIndex, absoluteCriterionItem := range criteria.AbsoluteCriteria {
-			// Shadow the loop variable to avoid aliasing
-			absoluteCriterionItem := absoluteCriterionItem
 			absoluteCriterionList[absoluteCriterionIndex] = string(absoluteCriterionItem)
 		}
 		destination.AbsoluteCriteria = absoluteCriterionList
@@ -7924,8 +7856,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 	if criteria.DaysOfMonth != nil {
 		daysOfMonthList := make([]storage.Day, len(criteria.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range criteria.DaysOfMonth {
-			// Shadow the loop variable to avoid aliasing
-			daysOfMonthItem := daysOfMonthItem
 			var daysOfMonth storage.Day
 			err := daysOfMonthItem.AssignProperties_To_Day(&daysOfMonth)
 			if err != nil {
@@ -7942,8 +7872,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 	if criteria.DaysOfTheWeek != nil {
 		daysOfTheWeekList := make([]string, len(criteria.DaysOfTheWeek))
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range criteria.DaysOfTheWeek {
-			// Shadow the loop variable to avoid aliasing
-			daysOfTheWeekItem := daysOfTheWeekItem
 			daysOfTheWeekList[daysOfTheWeekIndex] = string(daysOfTheWeekItem)
 		}
 		destination.DaysOfTheWeek = daysOfTheWeekList
@@ -7955,8 +7883,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 	if criteria.MonthsOfYear != nil {
 		monthsOfYearList := make([]string, len(criteria.MonthsOfYear))
 		for monthsOfYearIndex, monthsOfYearItem := range criteria.MonthsOfYear {
-			// Shadow the loop variable to avoid aliasing
-			monthsOfYearItem := monthsOfYearItem
 			monthsOfYearList[monthsOfYearIndex] = string(monthsOfYearItem)
 		}
 		destination.MonthsOfYear = monthsOfYearList
@@ -7979,8 +7905,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 	if criteria.WeeksOfTheMonth != nil {
 		weeksOfTheMonthList := make([]string, len(criteria.WeeksOfTheMonth))
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range criteria.WeeksOfTheMonth {
-			// Shadow the loop variable to avoid aliasing
-			weeksOfTheMonthItem := weeksOfTheMonthItem
 			weeksOfTheMonthList[weeksOfTheMonthIndex] = string(weeksOfTheMonthItem)
 		}
 		destination.WeeksOfTheMonth = weeksOfTheMonthList
@@ -8006,8 +7930,6 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 	if source.AbsoluteCriteria != nil {
 		absoluteCriterionList := make([]ScheduleBasedBackupCriteria_AbsoluteCriteria, len(source.AbsoluteCriteria))
 		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
-			// Shadow the loop variable to avoid aliasing
-			absoluteCriterionItem := absoluteCriterionItem
 			absoluteCriterion := genruntime.ToEnum(string(absoluteCriterionItem), scheduleBasedBackupCriteria_AbsoluteCriteria_Values)
 			absoluteCriterionList[absoluteCriterionIndex] = absoluteCriterion
 		}
@@ -8020,8 +7942,6 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 	if source.DaysOfMonth != nil {
 		daysOfMonthList := make([]Day, len(source.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range source.DaysOfMonth {
-			// Shadow the loop variable to avoid aliasing
-			daysOfMonthItem := daysOfMonthItem
 			var daysOfMonth Day
 			err := daysOfMonth.Initialize_From_Day_STATUS(&daysOfMonthItem)
 			if err != nil {
@@ -8038,8 +7958,6 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 	if source.DaysOfTheWeek != nil {
 		daysOfTheWeekList := make([]ScheduleBasedBackupCriteria_DaysOfTheWeek, len(source.DaysOfTheWeek))
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
-			// Shadow the loop variable to avoid aliasing
-			daysOfTheWeekItem := daysOfTheWeekItem
 			daysOfTheWeek := genruntime.ToEnum(string(daysOfTheWeekItem), scheduleBasedBackupCriteria_DaysOfTheWeek_Values)
 			daysOfTheWeekList[daysOfTheWeekIndex] = daysOfTheWeek
 		}
@@ -8052,8 +7970,6 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 	if source.MonthsOfYear != nil {
 		monthsOfYearList := make([]ScheduleBasedBackupCriteria_MonthsOfYear, len(source.MonthsOfYear))
 		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
-			// Shadow the loop variable to avoid aliasing
-			monthsOfYearItem := monthsOfYearItem
 			monthsOfYear := genruntime.ToEnum(string(monthsOfYearItem), scheduleBasedBackupCriteria_MonthsOfYear_Values)
 			monthsOfYearList[monthsOfYearIndex] = monthsOfYear
 		}
@@ -8077,8 +7993,6 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 	if source.WeeksOfTheMonth != nil {
 		weeksOfTheMonthList := make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth, len(source.WeeksOfTheMonth))
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
-			// Shadow the loop variable to avoid aliasing
-			weeksOfTheMonthItem := weeksOfTheMonthItem
 			weeksOfTheMonth := genruntime.ToEnum(string(weeksOfTheMonthItem), scheduleBasedBackupCriteria_WeeksOfTheMonth_Values)
 			weeksOfTheMonthList[weeksOfTheMonthIndex] = weeksOfTheMonth
 		}
@@ -8190,8 +8104,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 	if source.AbsoluteCriteria != nil {
 		absoluteCriterionList := make([]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS, len(source.AbsoluteCriteria))
 		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
-			// Shadow the loop variable to avoid aliasing
-			absoluteCriterionItem := absoluteCriterionItem
 			absoluteCriterionList[absoluteCriterionIndex] = genruntime.ToEnum(absoluteCriterionItem, scheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_Values)
 		}
 		criteria.AbsoluteCriteria = absoluteCriterionList
@@ -8203,8 +8115,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 	if source.DaysOfMonth != nil {
 		daysOfMonthList := make([]Day_STATUS, len(source.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range source.DaysOfMonth {
-			// Shadow the loop variable to avoid aliasing
-			daysOfMonthItem := daysOfMonthItem
 			var daysOfMonth Day_STATUS
 			err := daysOfMonth.AssignProperties_From_Day_STATUS(&daysOfMonthItem)
 			if err != nil {
@@ -8221,8 +8131,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 	if source.DaysOfTheWeek != nil {
 		daysOfTheWeekList := make([]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS, len(source.DaysOfTheWeek))
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
-			// Shadow the loop variable to avoid aliasing
-			daysOfTheWeekItem := daysOfTheWeekItem
 			daysOfTheWeekList[daysOfTheWeekIndex] = genruntime.ToEnum(daysOfTheWeekItem, scheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Values)
 		}
 		criteria.DaysOfTheWeek = daysOfTheWeekList
@@ -8234,8 +8142,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 	if source.MonthsOfYear != nil {
 		monthsOfYearList := make([]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS, len(source.MonthsOfYear))
 		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
-			// Shadow the loop variable to avoid aliasing
-			monthsOfYearItem := monthsOfYearItem
 			monthsOfYearList[monthsOfYearIndex] = genruntime.ToEnum(monthsOfYearItem, scheduleBasedBackupCriteria_MonthsOfYear_STATUS_Values)
 		}
 		criteria.MonthsOfYear = monthsOfYearList
@@ -8259,8 +8165,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 	if source.WeeksOfTheMonth != nil {
 		weeksOfTheMonthList := make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS, len(source.WeeksOfTheMonth))
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
-			// Shadow the loop variable to avoid aliasing
-			weeksOfTheMonthItem := weeksOfTheMonthItem
 			weeksOfTheMonthList[weeksOfTheMonthIndex] = genruntime.ToEnum(weeksOfTheMonthItem, scheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Values)
 		}
 		criteria.WeeksOfTheMonth = weeksOfTheMonthList
@@ -8281,8 +8185,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 	if criteria.AbsoluteCriteria != nil {
 		absoluteCriterionList := make([]string, len(criteria.AbsoluteCriteria))
 		for absoluteCriterionIndex, absoluteCriterionItem := range criteria.AbsoluteCriteria {
-			// Shadow the loop variable to avoid aliasing
-			absoluteCriterionItem := absoluteCriterionItem
 			absoluteCriterionList[absoluteCriterionIndex] = string(absoluteCriterionItem)
 		}
 		destination.AbsoluteCriteria = absoluteCriterionList
@@ -8294,8 +8196,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 	if criteria.DaysOfMonth != nil {
 		daysOfMonthList := make([]storage.Day_STATUS, len(criteria.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range criteria.DaysOfMonth {
-			// Shadow the loop variable to avoid aliasing
-			daysOfMonthItem := daysOfMonthItem
 			var daysOfMonth storage.Day_STATUS
 			err := daysOfMonthItem.AssignProperties_To_Day_STATUS(&daysOfMonth)
 			if err != nil {
@@ -8312,8 +8212,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 	if criteria.DaysOfTheWeek != nil {
 		daysOfTheWeekList := make([]string, len(criteria.DaysOfTheWeek))
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range criteria.DaysOfTheWeek {
-			// Shadow the loop variable to avoid aliasing
-			daysOfTheWeekItem := daysOfTheWeekItem
 			daysOfTheWeekList[daysOfTheWeekIndex] = string(daysOfTheWeekItem)
 		}
 		destination.DaysOfTheWeek = daysOfTheWeekList
@@ -8325,8 +8223,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 	if criteria.MonthsOfYear != nil {
 		monthsOfYearList := make([]string, len(criteria.MonthsOfYear))
 		for monthsOfYearIndex, monthsOfYearItem := range criteria.MonthsOfYear {
-			// Shadow the loop variable to avoid aliasing
-			monthsOfYearItem := monthsOfYearItem
 			monthsOfYearList[monthsOfYearIndex] = string(monthsOfYearItem)
 		}
 		destination.MonthsOfYear = monthsOfYearList
@@ -8349,8 +8245,6 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 	if criteria.WeeksOfTheMonth != nil {
 		weeksOfTheMonthList := make([]string, len(criteria.WeeksOfTheMonth))
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range criteria.WeeksOfTheMonth {
-			// Shadow the loop variable to avoid aliasing
-			weeksOfTheMonthItem := weeksOfTheMonthItem
 			weeksOfTheMonthList[weeksOfTheMonthIndex] = string(weeksOfTheMonthItem)
 		}
 		destination.WeeksOfTheMonth = weeksOfTheMonthList

@@ -528,8 +528,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_From_RedisEnterpr
 	if source.Modules != nil {
 		moduleList := make([]Module, len(source.Modules))
 		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module Module
 			err := module.AssignProperties_From_Module(&moduleItem)
 			if err != nil {
@@ -617,8 +615,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 	if database.Modules != nil {
 		moduleList := make([]storage.Module, len(database.Modules))
 		for moduleIndex, moduleItem := range database.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module storage.Module
 			err := moduleItem.AssignProperties_To_Module(&module)
 			if err != nil {
@@ -949,8 +945,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 	if source.Modules != nil {
 		moduleList := make([]Module_STATUS, len(source.Modules))
 		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module Module_STATUS
 			err := module.AssignProperties_From_Module_STATUS(&moduleItem)
 			if err != nil {
@@ -1045,8 +1039,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 	if database.Modules != nil {
 		moduleList := make([]storage.Module_STATUS, len(database.Modules))
 		for moduleIndex, moduleItem := range database.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module storage.Module_STATUS
 			err := moduleItem.AssignProperties_To_Module_STATUS(&module)
 			if err != nil {
@@ -1750,8 +1742,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1768,8 +1758,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1795,8 +1783,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1813,8 +1799,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

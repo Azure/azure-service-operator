@@ -278,7 +278,7 @@ type AccountProperties struct {
 	Locations                     *MultiRegionSettings        `json:"locations,omitempty"`
 	MigrationToken                *genruntime.SecretReference `json:"migrationToken,omitempty"`
 	NetworkAcls                   *NetworkRuleSet             `json:"networkAcls,omitempty"`
-	NetworkInjections             *NetworkInjections          `json:"networkInjections,omitempty"`
+	NetworkInjections             []NetworkInjection          `json:"networkInjections,omitempty"`
 	PropertyBag                   genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess           *string                     `json:"publicNetworkAccess,omitempty"`
 	RaiMonitorConfig              *RaiMonitorConfig           `json:"raiMonitorConfig,omitempty"`
@@ -312,7 +312,7 @@ type AccountProperties_STATUS struct {
 	IsMigrated                    *bool                              `json:"isMigrated,omitempty"`
 	Locations                     *MultiRegionSettings_STATUS        `json:"locations,omitempty"`
 	NetworkAcls                   *NetworkRuleSet_STATUS             `json:"networkAcls,omitempty"`
-	NetworkInjections             *NetworkInjections_STATUS          `json:"networkInjections,omitempty"`
+	NetworkInjections             []NetworkInjection_STATUS          `json:"networkInjections,omitempty"`
 	PrivateEndpointConnections    []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState             *string                            `json:"provisioningState,omitempty"`
@@ -480,11 +480,11 @@ type MultiRegionSettings_STATUS struct {
 	RoutingMethod *string                `json:"routingMethod,omitempty"`
 }
 
-// Storage version of v1api20250601.NetworkInjections
+// Storage version of v1api20250601.NetworkInjection
 // Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the
 // user's private network, eliminating public internet exposure while maintaining control over network configurations and
 // resources.
-type NetworkInjections struct {
+type NetworkInjection struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Scenario    *string                `json:"scenario,omitempty"`
 
@@ -493,11 +493,11 @@ type NetworkInjections struct {
 	UseMicrosoftManagedNetwork *bool                         `json:"useMicrosoftManagedNetwork,omitempty"`
 }
 
-// Storage version of v1api20250601.NetworkInjections_STATUS
+// Storage version of v1api20250601.NetworkInjection_STATUS
 // Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the
 // user's private network, eliminating public internet exposure while maintaining control over network configurations and
 // resources.
-type NetworkInjections_STATUS struct {
+type NetworkInjection_STATUS struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Scenario                   *string                `json:"scenario,omitempty"`
 	SubnetArmId                *string                `json:"subnetArmId,omitempty"`

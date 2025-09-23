@@ -459,8 +459,6 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_From_Mainte
 	if source.NotAllowedTime != nil {
 		notAllowedTimeList := make([]TimeSpan, len(source.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range source.NotAllowedTime {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedTimeItem := notAllowedTimeItem
 			var notAllowedTime TimeSpan
 			err := notAllowedTime.AssignProperties_From_TimeSpan(&notAllowedTimeItem)
 			if err != nil {
@@ -497,8 +495,6 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_From_Mainte
 	if source.TimeInWeek != nil {
 		timeInWeekList := make([]TimeInWeek, len(source.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range source.TimeInWeek {
-			// Shadow the loop variable to avoid aliasing
-			timeInWeekItem := timeInWeekItem
 			var timeInWeek TimeInWeek
 			err := timeInWeek.AssignProperties_From_TimeInWeek(&timeInWeekItem)
 			if err != nil {
@@ -539,8 +535,6 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_Maintena
 	if configuration.NotAllowedTime != nil {
 		notAllowedTimeList := make([]storage.TimeSpan, len(configuration.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range configuration.NotAllowedTime {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedTimeItem := notAllowedTimeItem
 			var notAllowedTime storage.TimeSpan
 			err := notAllowedTimeItem.AssignProperties_To_TimeSpan(&notAllowedTime)
 			if err != nil {
@@ -580,8 +574,6 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_Maintena
 	if configuration.TimeInWeek != nil {
 		timeInWeekList := make([]storage.TimeInWeek, len(configuration.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range configuration.TimeInWeek {
-			// Shadow the loop variable to avoid aliasing
-			timeInWeekItem := timeInWeekItem
 			var timeInWeek storage.TimeInWeek
 			err := timeInWeekItem.AssignProperties_To_TimeInWeek(&timeInWeek)
 			if err != nil {
@@ -624,8 +616,6 @@ func (configuration *MaintenanceConfiguration_Spec) Initialize_From_MaintenanceC
 	if source.NotAllowedTime != nil {
 		notAllowedTimeList := make([]TimeSpan, len(source.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range source.NotAllowedTime {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedTimeItem := notAllowedTimeItem
 			var notAllowedTime TimeSpan
 			err := notAllowedTime.Initialize_From_TimeSpan_STATUS(&notAllowedTimeItem)
 			if err != nil {
@@ -642,8 +632,6 @@ func (configuration *MaintenanceConfiguration_Spec) Initialize_From_MaintenanceC
 	if source.TimeInWeek != nil {
 		timeInWeekList := make([]TimeInWeek, len(source.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range source.TimeInWeek {
-			// Shadow the loop variable to avoid aliasing
-			timeInWeekItem := timeInWeekItem
 			var timeInWeek TimeInWeek
 			err := timeInWeek.Initialize_From_TimeInWeek_STATUS(&timeInWeekItem)
 			if err != nil {
@@ -864,8 +852,6 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_From_Main
 	if source.NotAllowedTime != nil {
 		notAllowedTimeList := make([]TimeSpan_STATUS, len(source.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range source.NotAllowedTime {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedTimeItem := notAllowedTimeItem
 			var notAllowedTime TimeSpan_STATUS
 			err := notAllowedTime.AssignProperties_From_TimeSpan_STATUS(&notAllowedTimeItem)
 			if err != nil {
@@ -894,8 +880,6 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_From_Main
 	if source.TimeInWeek != nil {
 		timeInWeekList := make([]TimeInWeek_STATUS, len(source.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range source.TimeInWeek {
-			// Shadow the loop variable to avoid aliasing
-			timeInWeekItem := timeInWeekItem
 			var timeInWeek TimeInWeek_STATUS
 			err := timeInWeek.AssignProperties_From_TimeInWeek_STATUS(&timeInWeekItem)
 			if err != nil {
@@ -945,8 +929,6 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 	if configuration.NotAllowedTime != nil {
 		notAllowedTimeList := make([]storage.TimeSpan_STATUS, len(configuration.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range configuration.NotAllowedTime {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedTimeItem := notAllowedTimeItem
 			var notAllowedTime storage.TimeSpan_STATUS
 			err := notAllowedTimeItem.AssignProperties_To_TimeSpan_STATUS(&notAllowedTime)
 			if err != nil {
@@ -975,8 +957,6 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 	if configuration.TimeInWeek != nil {
 		timeInWeekList := make([]storage.TimeInWeek_STATUS, len(configuration.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range configuration.TimeInWeek {
-			// Shadow the loop variable to avoid aliasing
-			timeInWeekItem := timeInWeekItem
 			var timeInWeek storage.TimeInWeek_STATUS
 			err := timeInWeekItem.AssignProperties_To_TimeInWeek_STATUS(&timeInWeek)
 			if err != nil {
@@ -1019,8 +999,6 @@ func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_From_Main
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1037,8 +1015,6 @@ func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_From_Main
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1064,8 +1040,6 @@ func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_To_Mainte
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1082,8 +1056,6 @@ func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_To_Mainte
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1265,8 +1237,6 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 	if source.NotAllowedDates != nil {
 		notAllowedDateList := make([]DateSpan, len(source.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range source.NotAllowedDates {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedDateItem := notAllowedDateItem
 			var notAllowedDate DateSpan
 			err := notAllowedDate.AssignProperties_From_DateSpan(&notAllowedDateItem)
 			if err != nil {
@@ -1316,8 +1286,6 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	if window.NotAllowedDates != nil {
 		notAllowedDateList := make([]storage.DateSpan, len(window.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range window.NotAllowedDates {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedDateItem := notAllowedDateItem
 			var notAllowedDate storage.DateSpan
 			err := notAllowedDateItem.AssignProperties_To_DateSpan(&notAllowedDate)
 			if err != nil {
@@ -1372,8 +1340,6 @@ func (window *MaintenanceWindow) Initialize_From_MaintenanceWindow_STATUS(source
 	if source.NotAllowedDates != nil {
 		notAllowedDateList := make([]DateSpan, len(source.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range source.NotAllowedDates {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedDateItem := notAllowedDateItem
 			var notAllowedDate DateSpan
 			err := notAllowedDate.Initialize_From_DateSpan_STATUS(&notAllowedDateItem)
 			if err != nil {
@@ -1510,8 +1476,6 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_
 	if source.NotAllowedDates != nil {
 		notAllowedDateList := make([]DateSpan_STATUS, len(source.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range source.NotAllowedDates {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedDateItem := notAllowedDateItem
 			var notAllowedDate DateSpan_STATUS
 			err := notAllowedDate.AssignProperties_From_DateSpan_STATUS(&notAllowedDateItem)
 			if err != nil {
@@ -1561,8 +1525,6 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 	if window.NotAllowedDates != nil {
 		notAllowedDateList := make([]storage.DateSpan_STATUS, len(window.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range window.NotAllowedDates {
-			// Shadow the loop variable to avoid aliasing
-			notAllowedDateItem := notAllowedDateItem
 			var notAllowedDate storage.DateSpan_STATUS
 			err := notAllowedDateItem.AssignProperties_To_DateSpan_STATUS(&notAllowedDate)
 			if err != nil {
@@ -1847,8 +1809,6 @@ func (week *TimeInWeek) AssignProperties_From_TimeInWeek(source *storage.TimeInW
 	if source.HourSlots != nil {
 		hourSlotList := make([]HourInDay, len(source.HourSlots))
 		for hourSlotIndex, hourSlotItem := range source.HourSlots {
-			// Shadow the loop variable to avoid aliasing
-			hourSlotItem := hourSlotItem
 			hourSlotList[hourSlotIndex] = HourInDay(hourSlotItem)
 		}
 		week.HourSlots = hourSlotList
@@ -1877,8 +1837,6 @@ func (week *TimeInWeek) AssignProperties_To_TimeInWeek(destination *storage.Time
 	if week.HourSlots != nil {
 		hourSlotList := make([]int, len(week.HourSlots))
 		for hourSlotIndex, hourSlotItem := range week.HourSlots {
-			// Shadow the loop variable to avoid aliasing
-			hourSlotItem := hourSlotItem
 			hourSlotList[hourSlotIndex] = int(hourSlotItem)
 		}
 		destination.HourSlots = hourSlotList
@@ -1912,8 +1870,6 @@ func (week *TimeInWeek) Initialize_From_TimeInWeek_STATUS(source *TimeInWeek_STA
 	if source.HourSlots != nil {
 		hourSlotList := make([]HourInDay, len(source.HourSlots))
 		for hourSlotIndex, hourSlotItem := range source.HourSlots {
-			// Shadow the loop variable to avoid aliasing
-			hourSlotItem := hourSlotItem
 			hourSlotList[hourSlotIndex] = HourInDay(hourSlotItem)
 		}
 		week.HourSlots = hourSlotList
@@ -1983,8 +1939,6 @@ func (week *TimeInWeek_STATUS) AssignProperties_From_TimeInWeek_STATUS(source *s
 	if source.HourSlots != nil {
 		hourSlotList := make([]int, len(source.HourSlots))
 		for hourSlotIndex, hourSlotItem := range source.HourSlots {
-			// Shadow the loop variable to avoid aliasing
-			hourSlotItem := hourSlotItem
 			hourSlotList[hourSlotIndex] = hourSlotItem
 		}
 		week.HourSlots = hourSlotList
@@ -2013,8 +1967,6 @@ func (week *TimeInWeek_STATUS) AssignProperties_To_TimeInWeek_STATUS(destination
 	if week.HourSlots != nil {
 		hourSlotList := make([]int, len(week.HourSlots))
 		for hourSlotIndex, hourSlotItem := range week.HourSlots {
-			// Shadow the loop variable to avoid aliasing
-			hourSlotItem := hourSlotItem
 			hourSlotList[hourSlotIndex] = hourSlotItem
 		}
 		destination.HourSlots = hourSlotList

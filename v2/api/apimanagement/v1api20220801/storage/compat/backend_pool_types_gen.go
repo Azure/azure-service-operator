@@ -25,8 +25,6 @@ func (pool *BackendPool) AssignProperties_From_BackendPool(source *storage.Backe
 	if source.Services != nil {
 		serviceList := make([]BackendPoolItem, len(source.Services))
 		for serviceIndex, serviceItem := range source.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service BackendPoolItem
 			err := service.AssignProperties_From_BackendPoolItem(&serviceItem)
 			if err != nil {
@@ -68,8 +66,6 @@ func (pool *BackendPool) AssignProperties_To_BackendPool(destination *storage.Ba
 	if pool.Services != nil {
 		serviceList := make([]storage.BackendPoolItem, len(pool.Services))
 		for serviceIndex, serviceItem := range pool.Services {
-			// Shadow the loop variable to avoid aliasing
-			serviceItem := serviceItem
 			var service storage.BackendPoolItem
 			err := serviceItem.AssignProperties_To_BackendPoolItem(&service)
 			if err != nil {
