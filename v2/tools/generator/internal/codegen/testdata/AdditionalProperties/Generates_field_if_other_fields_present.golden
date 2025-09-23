@@ -73,8 +73,6 @@ func (tags *Test_Tags) AssignProperties_From_Test_Tags(source *storage.Test_Tags
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]float64, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
 		}
 		tags.AdditionalProperties = additionalPropertyMap
@@ -98,8 +96,6 @@ func (tags *Test_Tags) AssignProperties_To_Test_Tags(destination *storage.Test_T
 	if tags.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]float64, len(tags.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range tags.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
 		}
 		destination.AdditionalProperties = additionalPropertyMap

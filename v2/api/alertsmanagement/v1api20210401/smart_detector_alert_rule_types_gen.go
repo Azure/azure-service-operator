@@ -634,8 +634,6 @@ func (rule *SmartDetectorAlertRule_Spec) AssignProperties_From_SmartDetectorAler
 	if source.ScopeReferences != nil {
 		scopeReferenceList := make([]genruntime.ResourceReference, len(source.ScopeReferences))
 		for scopeReferenceIndex, scopeReferenceItem := range source.ScopeReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopeReferenceItem := scopeReferenceItem
 			scopeReferenceList[scopeReferenceIndex] = scopeReferenceItem.Copy()
 		}
 		rule.ScopeReferences = scopeReferenceList
@@ -748,8 +746,6 @@ func (rule *SmartDetectorAlertRule_Spec) AssignProperties_To_SmartDetectorAlertR
 	if rule.ScopeReferences != nil {
 		scopeReferenceList := make([]genruntime.ResourceReference, len(rule.ScopeReferences))
 		for scopeReferenceIndex, scopeReferenceItem := range rule.ScopeReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopeReferenceItem := scopeReferenceItem
 			scopeReferenceList[scopeReferenceIndex] = scopeReferenceItem.Copy()
 		}
 		destination.ScopeReferences = scopeReferenceList
@@ -1386,8 +1382,6 @@ func (information *ActionGroupsInformation) AssignProperties_From_ActionGroupsIn
 	if source.GroupReferences != nil {
 		groupReferenceList := make([]genruntime.ResourceReference, len(source.GroupReferences))
 		for groupReferenceIndex, groupReferenceItem := range source.GroupReferences {
-			// Shadow the loop variable to avoid aliasing
-			groupReferenceItem := groupReferenceItem
 			groupReferenceList[groupReferenceIndex] = groupReferenceItem.Copy()
 		}
 		information.GroupReferences = groupReferenceList
@@ -1414,8 +1408,6 @@ func (information *ActionGroupsInformation) AssignProperties_To_ActionGroupsInfo
 	if information.GroupReferences != nil {
 		groupReferenceList := make([]genruntime.ResourceReference, len(information.GroupReferences))
 		for groupReferenceIndex, groupReferenceItem := range information.GroupReferences {
-			// Shadow the loop variable to avoid aliasing
-			groupReferenceItem := groupReferenceItem
 			groupReferenceList[groupReferenceIndex] = groupReferenceItem.Copy()
 		}
 		destination.GroupReferences = groupReferenceList
@@ -1676,8 +1668,6 @@ func (detector *Detector) AssignProperties_From_Detector(source *storage.Detecto
 	if source.Parameters != nil {
 		parameterMap := make(map[string]v1.JSON, len(source.Parameters))
 		for parameterKey, parameterValue := range source.Parameters {
-			// Shadow the loop variable to avoid aliasing
-			parameterValue := parameterValue
 			parameterMap[parameterKey] = *parameterValue.DeepCopy()
 		}
 		detector.Parameters = parameterMap
@@ -1701,8 +1691,6 @@ func (detector *Detector) AssignProperties_To_Detector(destination *storage.Dete
 	if detector.Parameters != nil {
 		parameterMap := make(map[string]v1.JSON, len(detector.Parameters))
 		for parameterKey, parameterValue := range detector.Parameters {
-			// Shadow the loop variable to avoid aliasing
-			parameterValue := parameterValue
 			parameterMap[parameterKey] = *parameterValue.DeepCopy()
 		}
 		destination.Parameters = parameterMap
@@ -1731,8 +1719,6 @@ func (detector *Detector) Initialize_From_Detector_STATUS(source *Detector_STATU
 	if source.Parameters != nil {
 		parameterMap := make(map[string]v1.JSON, len(source.Parameters))
 		for parameterKey, parameterValue := range source.Parameters {
-			// Shadow the loop variable to avoid aliasing
-			parameterValue := parameterValue
 			parameterMap[parameterKey] = *parameterValue.DeepCopy()
 		}
 		detector.Parameters = parameterMap
@@ -1859,8 +1845,6 @@ func (detector *Detector_STATUS) AssignProperties_From_Detector_STATUS(source *s
 	if source.ParameterDefinitions != nil {
 		parameterDefinitionList := make([]DetectorParameterDefinition_STATUS, len(source.ParameterDefinitions))
 		for parameterDefinitionIndex, parameterDefinitionItem := range source.ParameterDefinitions {
-			// Shadow the loop variable to avoid aliasing
-			parameterDefinitionItem := parameterDefinitionItem
 			var parameterDefinition DetectorParameterDefinition_STATUS
 			err := parameterDefinition.AssignProperties_From_DetectorParameterDefinition_STATUS(&parameterDefinitionItem)
 			if err != nil {
@@ -1877,8 +1861,6 @@ func (detector *Detector_STATUS) AssignProperties_From_Detector_STATUS(source *s
 	if source.Parameters != nil {
 		parameterMap := make(map[string]v1.JSON, len(source.Parameters))
 		for parameterKey, parameterValue := range source.Parameters {
-			// Shadow the loop variable to avoid aliasing
-			parameterValue := parameterValue
 			parameterMap[parameterKey] = *parameterValue.DeepCopy()
 		}
 		detector.Parameters = parameterMap
@@ -1890,8 +1872,6 @@ func (detector *Detector_STATUS) AssignProperties_From_Detector_STATUS(source *s
 	if source.SupportedCadences != nil {
 		supportedCadenceList := make([]int, len(source.SupportedCadences))
 		for supportedCadenceIndex, supportedCadenceItem := range source.SupportedCadences {
-			// Shadow the loop variable to avoid aliasing
-			supportedCadenceItem := supportedCadenceItem
 			supportedCadenceList[supportedCadenceIndex] = supportedCadenceItem
 		}
 		detector.SupportedCadences = supportedCadenceList
@@ -1927,8 +1907,6 @@ func (detector *Detector_STATUS) AssignProperties_To_Detector_STATUS(destination
 	if detector.ParameterDefinitions != nil {
 		parameterDefinitionList := make([]storage.DetectorParameterDefinition_STATUS, len(detector.ParameterDefinitions))
 		for parameterDefinitionIndex, parameterDefinitionItem := range detector.ParameterDefinitions {
-			// Shadow the loop variable to avoid aliasing
-			parameterDefinitionItem := parameterDefinitionItem
 			var parameterDefinition storage.DetectorParameterDefinition_STATUS
 			err := parameterDefinitionItem.AssignProperties_To_DetectorParameterDefinition_STATUS(&parameterDefinition)
 			if err != nil {
@@ -1945,8 +1923,6 @@ func (detector *Detector_STATUS) AssignProperties_To_Detector_STATUS(destination
 	if detector.Parameters != nil {
 		parameterMap := make(map[string]v1.JSON, len(detector.Parameters))
 		for parameterKey, parameterValue := range detector.Parameters {
-			// Shadow the loop variable to avoid aliasing
-			parameterValue := parameterValue
 			parameterMap[parameterKey] = *parameterValue.DeepCopy()
 		}
 		destination.Parameters = parameterMap
@@ -1958,8 +1934,6 @@ func (detector *Detector_STATUS) AssignProperties_To_Detector_STATUS(destination
 	if detector.SupportedCadences != nil {
 		supportedCadenceList := make([]int, len(detector.SupportedCadences))
 		for supportedCadenceIndex, supportedCadenceItem := range detector.SupportedCadences {
-			// Shadow the loop variable to avoid aliasing
-			supportedCadenceItem := supportedCadenceItem
 			supportedCadenceList[supportedCadenceIndex] = supportedCadenceItem
 		}
 		destination.SupportedCadences = supportedCadenceList
@@ -1997,8 +1971,6 @@ func (operator *SmartDetectorAlertRuleOperatorSpec) AssignProperties_From_SmartD
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2015,8 +1987,6 @@ func (operator *SmartDetectorAlertRuleOperatorSpec) AssignProperties_From_SmartD
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2042,8 +2012,6 @@ func (operator *SmartDetectorAlertRuleOperatorSpec) AssignProperties_To_SmartDet
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2060,8 +2028,6 @@ func (operator *SmartDetectorAlertRuleOperatorSpec) AssignProperties_To_SmartDet
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

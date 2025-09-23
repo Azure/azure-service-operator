@@ -1074,8 +1074,6 @@ func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_From_Availabilit
 	if source.Statuses != nil {
 		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
 		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
 			var status InstanceViewStatus_STATUS
 			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
 			if err != nil {
@@ -1122,8 +1120,6 @@ func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_From_Availabilit
 	if source.VirtualMachines != nil {
 		virtualMachineList := make([]SubResource_STATUS, len(source.VirtualMachines))
 		for virtualMachineIndex, virtualMachineItem := range source.VirtualMachines {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineItem := virtualMachineItem
 			var virtualMachine SubResource_STATUS
 			err := virtualMachine.AssignProperties_From_SubResource_STATUS(&virtualMachineItem)
 			if err != nil {
@@ -1203,8 +1199,6 @@ func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_To_AvailabilityS
 	if availabilitySet.Statuses != nil {
 		statusList := make([]storage.InstanceViewStatus_STATUS, len(availabilitySet.Statuses))
 		for statusIndex, statusItem := range availabilitySet.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
 			var status storage.InstanceViewStatus_STATUS
 			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 			if err != nil {
@@ -1251,8 +1245,6 @@ func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_To_AvailabilityS
 	if availabilitySet.VirtualMachines != nil {
 		virtualMachineList := make([]storage.SubResource_STATUS, len(availabilitySet.VirtualMachines))
 		for virtualMachineIndex, virtualMachineItem := range availabilitySet.VirtualMachines {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineItem := virtualMachineItem
 			var virtualMachine storage.SubResource_STATUS
 			err := virtualMachineItem.AssignProperties_To_SubResource_STATUS(&virtualMachine)
 			if err != nil {
@@ -1292,8 +1284,6 @@ func (operator *AvailabilitySetOperatorSpec) AssignProperties_From_AvailabilityS
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1310,8 +1300,6 @@ func (operator *AvailabilitySetOperatorSpec) AssignProperties_From_AvailabilityS
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1337,8 +1325,6 @@ func (operator *AvailabilitySetOperatorSpec) AssignProperties_To_AvailabilitySet
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1355,8 +1341,6 @@ func (operator *AvailabilitySetOperatorSpec) AssignProperties_To_AvailabilitySet
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

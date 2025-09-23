@@ -361,8 +361,6 @@ func (table *StorageAccountsTableServicesTable_Spec) AssignProperties_From_Stora
 	if source.SignedIdentifiers != nil {
 		signedIdentifierList := make([]TableSignedIdentifier, len(source.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range source.SignedIdentifiers {
-			// Shadow the loop variable to avoid aliasing
-			signedIdentifierItem := signedIdentifierItem
 			var signedIdentifier TableSignedIdentifier
 			err := signedIdentifier.AssignProperties_From_TableSignedIdentifier(&signedIdentifierItem)
 			if err != nil {
@@ -430,8 +428,6 @@ func (table *StorageAccountsTableServicesTable_Spec) AssignProperties_To_Storage
 	if table.SignedIdentifiers != nil {
 		signedIdentifierList := make([]storage.TableSignedIdentifier, len(table.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range table.SignedIdentifiers {
-			// Shadow the loop variable to avoid aliasing
-			signedIdentifierItem := signedIdentifierItem
 			var signedIdentifier storage.TableSignedIdentifier
 			err := signedIdentifierItem.AssignProperties_To_TableSignedIdentifier(&signedIdentifier)
 			if err != nil {
@@ -543,8 +539,6 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_From_Sto
 	if source.SignedIdentifiers != nil {
 		signedIdentifierList := make([]TableSignedIdentifier_STATUS, len(source.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range source.SignedIdentifiers {
-			// Shadow the loop variable to avoid aliasing
-			signedIdentifierItem := signedIdentifierItem
 			var signedIdentifier TableSignedIdentifier_STATUS
 			err := signedIdentifier.AssignProperties_From_TableSignedIdentifier_STATUS(&signedIdentifierItem)
 			if err != nil {
@@ -601,8 +595,6 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_To_Stora
 	if table.SignedIdentifiers != nil {
 		signedIdentifierList := make([]storage.TableSignedIdentifier_STATUS, len(table.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range table.SignedIdentifiers {
-			// Shadow the loop variable to avoid aliasing
-			signedIdentifierItem := signedIdentifierItem
 			var signedIdentifier storage.TableSignedIdentifier_STATUS
 			err := signedIdentifierItem.AssignProperties_To_TableSignedIdentifier_STATUS(&signedIdentifier)
 			if err != nil {
@@ -668,8 +660,6 @@ func (operator *StorageAccountsTableServicesTableOperatorSpec) AssignProperties_
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -686,8 +676,6 @@ func (operator *StorageAccountsTableServicesTableOperatorSpec) AssignProperties_
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -729,8 +717,6 @@ func (operator *StorageAccountsTableServicesTableOperatorSpec) AssignProperties_
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -747,8 +733,6 @@ func (operator *StorageAccountsTableServicesTableOperatorSpec) AssignProperties_
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

@@ -1185,8 +1185,6 @@ func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source
 	if source.StorageSettings != nil {
 		storageSettingList := make([]StorageSetting_STATUS, len(source.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range source.StorageSettings {
-			// Shadow the loop variable to avoid aliasing
-			storageSettingItem := storageSettingItem
 			var storageSetting StorageSetting_STATUS
 			err := storageSetting.AssignProperties_From_StorageSetting_STATUS(&storageSettingItem)
 			if err != nil {
@@ -1295,8 +1293,6 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 	if vault.StorageSettings != nil {
 		storageSettingList := make([]storage.StorageSetting_STATUS, len(vault.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range vault.StorageSettings {
-			// Shadow the loop variable to avoid aliasing
-			storageSettingItem := storageSettingItem
 			var storageSetting storage.StorageSetting_STATUS
 			err := storageSettingItem.AssignProperties_To_StorageSetting_STATUS(&storageSetting)
 			if err != nil {
@@ -1339,8 +1335,6 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperat
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1369,8 +1363,6 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperat
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1396,8 +1388,6 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperator
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1426,8 +1416,6 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperator
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1635,8 +1623,6 @@ func (vault *BackupVaultSpec) AssignProperties_From_BackupVaultSpec(source *stor
 	if source.StorageSettings != nil {
 		storageSettingList := make([]StorageSetting, len(source.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range source.StorageSettings {
-			// Shadow the loop variable to avoid aliasing
-			storageSettingItem := storageSettingItem
 			var storageSetting StorageSetting
 			err := storageSetting.AssignProperties_From_StorageSetting(&storageSettingItem)
 			if err != nil {
@@ -1701,8 +1687,6 @@ func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *s
 	if vault.StorageSettings != nil {
 		storageSettingList := make([]storage.StorageSetting, len(vault.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range vault.StorageSettings {
-			// Shadow the loop variable to avoid aliasing
-			storageSettingItem := storageSettingItem
 			var storageSetting storage.StorageSetting
 			err := storageSettingItem.AssignProperties_To_StorageSetting(&storageSetting)
 			if err != nil {
@@ -1772,8 +1756,6 @@ func (vault *BackupVaultSpec) Initialize_From_BackupVault_STATUS(source *BackupV
 	if source.StorageSettings != nil {
 		storageSettingList := make([]StorageSetting, len(source.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range source.StorageSettings {
-			// Shadow the loop variable to avoid aliasing
-			storageSettingItem := storageSettingItem
 			var storageSetting StorageSetting
 			err := storageSetting.Initialize_From_StorageSetting_STATUS(&storageSettingItem)
 			if err != nil {
@@ -1861,8 +1843,6 @@ func (details *DppIdentityDetails) AssignProperties_From_DppIdentityDetails(sour
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -1891,8 +1871,6 @@ func (details *DppIdentityDetails) AssignProperties_To_DppIdentityDetails(destin
 	if details.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(details.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range details.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2019,8 +1997,6 @@ func (details *DppIdentityDetails_STATUS) AssignProperties_From_DppIdentityDetai
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -2055,8 +2031,6 @@ func (details *DppIdentityDetails_STATUS) AssignProperties_To_DppIdentityDetails
 	if details.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(details.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range details.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
