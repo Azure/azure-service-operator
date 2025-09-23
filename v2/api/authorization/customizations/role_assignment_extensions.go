@@ -86,7 +86,7 @@ func (extension *RoleAssignmentExtension) ModifyARMResource(
 			return nil, eris.Wrapf(err, "loading built in role definitions to resolve %q", roleDefinitionName)
 		}
 
-		roleDefinitionId, err := resolveBuiltInRoleDefinition(roleDefinitionName, obj)
+		roleDefinitionId, err := resolveBuiltInRoleDefinition(roleDefinitionName, armObj)
 		if err != nil {
 			return nil, eris.Wrapf(err, "resolving built in role definition %q", roleDefinitionName)
 		}
@@ -143,7 +143,7 @@ func ensureBuiltInRoleDefinitionsLoaded(
 
 func resolveBuiltInRoleDefinition(
 	roleDefinitionName string,
-	obj genruntime.ARMMetaObject,
+	armObj genruntime.ARMResource,
 ) (string, error) {
 	roleId, ok := builtInRoleDefinitions[strings.ToLower(roleDefinitionName)]
 	if !ok {
@@ -152,15 +152,9 @@ func resolveBuiltInRoleDefinition(
 	}
 
 	// We need the subscription ID from the resource to construct the ARM ID for a well known role
-	resourceID, hasResourceID := genruntime.GetResourceID(obj)
-	if !hasResourceID {
-		// If we don't have an ARM ID yet, we've not been claimed so just return the original role definition name
-		return roleDefinitionName, nil
-	}
-
-	roleARMId, err := arm.ParseResourceID(resourceID)
+	roleARMId, err := arm.ParseResourceID(armObj.GetID())
 	if err != nil {
-		return "", eris.Wrapf(err, "failed to parse the ARM ResourceId for %s", resourceID)
+		return "", eris.Wrapf(err, "failed to parse the ARM ResourceId for %s", armObj.GetID())
 	}
 
 	armID := fmt.Sprintf(
