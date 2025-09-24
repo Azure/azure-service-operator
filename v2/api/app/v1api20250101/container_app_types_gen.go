@@ -5856,7 +5856,7 @@ type IdentitySettings struct {
 	// +kubebuilder:validation:Required
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// Lifecycle: Use to select the lifecycle stages of a Container App during which the Managed Identity should be available.
 	Lifecycle *IdentitySettings_Lifecycle `json:"lifecycle,omitempty"`
@@ -5873,11 +5873,19 @@ func (settings *IdentitySettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Identity":
 	if settings.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*settings.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if settings.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = settings.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(settings.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -7248,7 +7256,7 @@ var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentity
 type RegistryCredentials struct {
 	// IdentityReference: A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned
 	// identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system'
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// PasswordSecretRef: The name of the Secret that contains the registry login password
 	PasswordSecretRef *string `json:"passwordSecretRef,omitempty"`
@@ -7271,11 +7279,19 @@ func (credentials *RegistryCredentials) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Identity":
 	if credentials.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*credentials.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if credentials.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = credentials.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(credentials.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -8094,7 +8110,7 @@ func (scale *Scale_STATUS) AssignProperties_To_Scale_STATUS(destination *storage
 type Secret struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// KeyVaultUrl: Azure Key Vault URL pointing to the secret referenced by the container app.
 	KeyVaultUrl *string `json:"keyVaultUrl,omitempty"`
@@ -8117,11 +8133,19 @@ func (secret *Secret) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Identity":
 	if secret.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*secret.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if secret.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = secret.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(secret.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -13869,7 +13893,7 @@ type CustomScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// Metadata: Metadata properties to describe custom scale rule.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -13899,11 +13923,19 @@ func (rule *CustomScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Identity":
 	if rule.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if rule.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = rule.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(rule.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -14222,7 +14254,7 @@ type HttpScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// Metadata: Metadata properties to describe http scale rule.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -14248,11 +14280,19 @@ func (rule *HttpScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Identity":
 	if rule.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if rule.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = rule.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(rule.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -14591,7 +14631,7 @@ type QueueScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// QueueLength: Queue length.
 	QueueLength *int `json:"queueLength,omitempty"`
@@ -14626,11 +14666,19 @@ func (rule *QueueScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Identity":
 	if rule.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if rule.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = rule.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(rule.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -14972,7 +15020,7 @@ type TcpScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// Metadata: Metadata properties to describe tcp scale rule.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -14998,11 +15046,19 @@ func (rule *TcpScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Identity":
 	if rule.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if rule.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = rule.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(rule.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 

@@ -3685,7 +3685,7 @@ type JobScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// Metadata: Metadata properties to describe the scale rule.
 	Metadata map[string]v1.JSON `json:"metadata,omitempty"`
@@ -3718,11 +3718,19 @@ func (rule *JobScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Identity":
 	if rule.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if rule.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = rule.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(rule.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 

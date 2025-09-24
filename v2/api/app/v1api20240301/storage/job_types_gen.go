@@ -2605,7 +2605,7 @@ func (rule *JobScaleRule) AssignProperties_To_JobScaleRule(destination *storage.
 
 	// IdentityReference
 	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.ResourceReference
+		var identityReference genruntime.WellKnownResourceReference
 		err := propertyBag.Pull("IdentityReference", &identityReference)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")

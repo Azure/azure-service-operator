@@ -1247,13 +1247,13 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ServiceBind:
         ServiceId:
           $referenceType: arm
       Secret:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ContainerApp_Spec:
         ManagedBy:
           $referenceType: arm
@@ -1282,25 +1282,25 @@ objectModelConfiguration:
           $referenceType: arm
       IdentitySettings:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       HttpScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       TcpScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       CustomScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       JobScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       QueueScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       CertificateKeyVaultProperties:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
     2024-03-01:
       ContainerApp:
         $exportAs: ContainerApp
@@ -1315,13 +1315,13 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ServiceBind:
         ServiceId:
           $referenceType: arm
       Secret:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ContainerApp_Spec:
         ManagedBy:
           $referenceType: arm

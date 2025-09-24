@@ -6135,7 +6135,7 @@ var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentity
 type RegistryCredentials struct {
 	// IdentityReference: A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned
 	// identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system'
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// PasswordSecretRef: The name of the Secret that contains the registry login password
 	PasswordSecretRef *string `json:"passwordSecretRef,omitempty"`
@@ -6158,11 +6158,19 @@ func (credentials *RegistryCredentials) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Identity":
 	if credentials.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*credentials.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if credentials.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = credentials.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(credentials.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -6656,7 +6664,7 @@ func (scale *Scale_STATUS) AssignProperties_To_Scale_STATUS(destination *storage
 type Secret struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// KeyVaultUrl: Azure Key Vault URL pointing to the secret referenced by the container app.
 	KeyVaultUrl *string `json:"keyVaultUrl,omitempty"`
@@ -6679,11 +6687,19 @@ func (secret *Secret) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Identity":
 	if secret.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*secret.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if secret.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = secret.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(secret.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 

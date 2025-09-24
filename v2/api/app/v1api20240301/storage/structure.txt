@@ -402,13 +402,13 @@ ContainerApp: Resource
 │   │   ├── MaxInactiveRevisions: *int
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Registries: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── PasswordSecretRef: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Server: *string
 │   │   │   └── Username: *string
 │   │   ├── Secrets: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -821,7 +821,7 @@ Job: Resource
 │   │   │   └── ReplicaCompletionCount: *int
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Registries: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── PasswordSecretRef: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Server: *string
@@ -834,7 +834,7 @@ Job: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ReplicaCompletionCount: *int
 │   │   ├── Secrets: Object (5 properties)[]
-│   │   │   ├── IdentityReference: *genruntime.ResourceReference
+│   │   │   ├── IdentityReference: *genruntime.WellKnownResourceReference
 │   │   │   ├── KeyVaultUrl: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
