@@ -550,6 +550,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20240901/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20241101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20241101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/</loc>
