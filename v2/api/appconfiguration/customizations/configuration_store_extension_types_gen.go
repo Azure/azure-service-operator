@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type ConfigurationStoreExtension struct {
 func (extension *ConfigurationStoreExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20220501.ConfigurationStore{},
-		&storage.ConfigurationStore{}}
+		&v20220501s.ConfigurationStore{},
+		&v20240601.ConfigurationStore{},
+		&v20240601s.ConfigurationStore{}}
 }
