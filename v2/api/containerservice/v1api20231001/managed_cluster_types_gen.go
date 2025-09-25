@@ -14107,10 +14107,16 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 // Details about a user assigned identity.
 type UserAssignedIdentity struct {
 	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
+	ClientId *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+
+	// ClientIdFromConfig: The client ID of the user assigned identity.
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
 
 	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+
+	// ObjectIdFromConfig: The object ID of the user assigned identity.
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// ResourceReference: The resource ID of the user assigned identity.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -14130,10 +14136,26 @@ func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertTo
 		clientId := *identity.ClientId
 		result.ClientId = &clientId
 	}
+	if identity.ClientIdFromConfig != nil {
+		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*identity.ClientIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
+		}
+		clientId := clientIdValue
+		result.ClientId = &clientId
+	}
 
 	// Set property "ObjectId":
 	if identity.ObjectId != nil {
 		objectId := *identity.ObjectId
+		result.ObjectId = &objectId
+	}
+	if identity.ObjectIdFromConfig != nil {
+		objectIdValue, err := resolved.ResolvedConfigMaps.Lookup(*identity.ObjectIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ObjectId")
+		}
+		objectId := objectIdValue
 		result.ObjectId = &objectId
 	}
 
@@ -14167,11 +14189,15 @@ func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.Arbitrary
 		identity.ClientId = &clientId
 	}
 
+	// no assignment for property "ClientIdFromConfig"
+
 	// Set property "ObjectId":
 	if typedInput.ObjectId != nil {
 		objectId := *typedInput.ObjectId
 		identity.ObjectId = &objectId
 	}
+
+	// no assignment for property "ObjectIdFromConfig"
 
 	// no assignment for property "ResourceReference"
 
@@ -14185,8 +14211,24 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		identity.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		identity.ClientIdFromConfig = nil
+	}
+
 	// ObjectId
 	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		identity.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		identity.ObjectIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -14208,8 +14250,24 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
 
+	// ClientIdFromConfig
+	if identity.ClientIdFromConfig != nil {
+		clientIdFromConfig := identity.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
+	}
+
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ObjectIdFromConfig
+	if identity.ObjectIdFromConfig != nil {
+		objectIdFromConfig := identity.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if identity.ResourceReference != nil {

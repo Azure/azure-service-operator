@@ -2028,6 +2028,11 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $referenceType: arm
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
     2023-02-01:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2074,6 +2079,11 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $referenceType: arm
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
     2023-03-15-preview:
       Fleet:
         $exportAs: Fleet
@@ -2136,6 +2146,11 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $referenceType: arm
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
     2023-11-02-preview:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2184,6 +2199,11 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $referenceType: arm
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
     2024-04-02-preview:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2234,6 +2254,11 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $referenceType: arm
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
     2024-09-01:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2287,6 +2312,11 @@ objectModelConfiguration:
       ManagedClusters_MaintenanceConfiguration:
         $exportAs: MaintenanceConfiguration
         $supportedFrom: v2.11.0
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
   datafactory:
     2018-06-01:
       PurviewConfiguration:

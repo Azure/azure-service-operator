@@ -121,6 +121,7 @@ func (cluster *ManagedCluster) createValidations() []func(ctx context.Context, o
 		cluster.validateOwnerReference,
 		cluster.validateSecretDestinations,
 		cluster.validateConfigMapDestinations,
+		cluster.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (cluster *ManagedCluster) updateValidations() []func(ctx context.Context, o
 		func(ctx context.Context, oldObj *v20210501.ManagedCluster, newObj *v20210501.ManagedCluster) (admission.Warnings, error) {
 			return cluster.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20210501.ManagedCluster, newObj *v20210501.ManagedCluster) (admission.Warnings, error) {
+			return cluster.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -154,6 +158,15 @@ func (cluster *ManagedCluster) validateConfigMapDestinations(ctx context.Context
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (cluster *ManagedCluster) validateOptionalConfigMapReferences(ctx context.Context, obj *v20210501.ManagedCluster) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
