@@ -13,12 +13,12 @@ type WellKnownResourceReference struct {
 	WellKnownName string `json:"wellKnownName,omitempty"`
 }
 
-// Copy makes an independent copy of the WellknownResourceReference
+// Copy makes an independent copy of the WellKnownResourceReference
 func (ref *WellKnownResourceReference) Copy() WellKnownResourceReference {
 	return *ref
 }
 
-// CreateWellKnownResourceReferenceFromARMID creates a new WellknownResourceReference from a string representing an ARM ID
+// CreateWellKnownResourceReferenceFromARMID creates a new WellKnownResourceReference from a string representing an ARM ID
 func CreateWellKnownResourceReferenceFromARMID(armID string) WellKnownResourceReference {
 	return WellKnownResourceReference{
 		ResourceReference: ResourceReference{
