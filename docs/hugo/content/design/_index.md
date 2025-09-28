@@ -19,39 +19,19 @@ These ADRs reflect work that is being discussed, has been proposed, or is curren
 
 ### 2025
 
-| Title                                                                       | Description                                                                                                                                                 |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [**Version Priority**]({{< relref "ADR-2025-05-Version-Priority" >}})       | A design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes. |
-| [**Improving ARM References**]({{< relref "ADR-2025-01-ARM-References" >}}) | Options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.                                  |
-
-### 2024
-
-| Title                                                                   | Description                                                                   |
-| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [**Upstream Deletion**]({{< relref "ADR-2024-02-Upstream-Deletion" >}}) | When might deletion of an upstream resource occur and how will ASO handle it. |
-
-### 2023
-
-| Title                                                                | Description                                                                                                                                                                                                  |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [**Resource Deprecation**]({{< relref "ADR-2023-04-Deprecation" >}}) | Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources. |
-
-### 2022
-
-| Title                                                                 | Description                                                                                                                                                                                                                                                                      |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [**Change Detection**]({{< relref "ADR-2022-11-Change-Detection" >}}) | The challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues. |
-
-### Older
-
-| Title                                                                          | Description                                                                                                                                                                                             |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [**CrossPlane**]({{< relref "crossplane" >}})                                  | Discusses the intricacies of code generation for Crossplane, including static "special" properties, cross resource references, and the challenges associated with generating these references.          |
-| [**Improving the Reconciler interface**]({{< relref "reconcile-interface" >}}) | Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations. |
+| Year  | Title                                                                          | Description                                                                                                                                                                                                                                                                      | Status                  |
+| ----- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 2025  | [**Version Priority**]({{< relref "ADR-2025-05-Version-Priority" >}})          | A design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes.                                                                                                                      | Implementation underway |
+| 2025  | [**Improving ARM References**]({{< relref "ADR-2025-01-ARM-References" >}})    | Options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.                                                                                                                                                       | Implementation underway |
+| 2024  | [**Upstream Deletion**]({{< relref "ADR-2024-02-Upstream-Deletion" >}})        | When might deletion of an upstream resource occur and how will ASO handle it.                                                                                                                                                                                                    | Open                    |
+| 2023  | [**Resource Deprecation**]({{< relref "ADR-2023-04-Deprecation" >}})           | Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.                                                                     | Open                    |
+| 2022  | [**Change Detection**]({{< relref "ADR-2022-11-Change-Detection" >}})          | The challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues. | Revision in progress    |
+| Older | [**CrossPlane**]({{< relref "crossplane" >}})                                  | Discusses the intricacies of code generation for Crossplane, including static "special" properties, cross resource references, and the challenges associated with generating these references.                                                                                   | Open                    |
+| Older | [**Improving the Reconciler interface**]({{< relref "reconcile-interface" >}}) | Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.                                                                          | Open                    |
 
 ## Completed Changes
 
-These ADRs reflect work that has been completed.
+These ADRs reflect work that has been completed, grouped by year of proposal.
 
 ### 2024
 
