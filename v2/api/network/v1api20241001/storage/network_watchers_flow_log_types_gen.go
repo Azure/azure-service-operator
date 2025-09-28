@@ -166,12 +166,6 @@ type NetworkWatchersFlowLogList struct {
 	Items           []NetworkWatchersFlowLog `json:"items"`
 }
 
-// Storage version of v1api20241001.APIVersion
-// +kubebuilder:validation:Enum={"2024-10-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2024-10-01")
-
 // Storage version of v1api20241001.NetworkWatchersFlowLog_Spec
 type NetworkWatchersFlowLog_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

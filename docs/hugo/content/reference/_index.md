@@ -719,6 +719,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource               | ARM Version | CRD Version   | Supported From | Sample |
 |------------------------|-------------|---------------|----------------|--------|
+| NetworkWatcher         | 2024-10-01  | v1api20241001 | v2.16.0        | -      |
 | NetworkWatchersFlowLog | 2024-10-01  | v1api20241001 | v2.16.0        | -      |
 
 ### Latest Released Versions

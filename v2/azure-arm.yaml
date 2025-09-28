@@ -4252,6 +4252,9 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
     2024-10-01:
+      NetworkWatcher:
+        $exportAs: NetworkWatcher
+        $supportedFrom: v2.16.0
       NetworkWatchers_FlowLog:
         $exportAs: NetworkWatchersFlowLog
         $supportedFrom: v2.16.0

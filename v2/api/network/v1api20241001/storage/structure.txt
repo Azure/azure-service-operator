@@ -4,6 +4,30 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/storage
 APIVersion: Enum (1 value)
 └── "2024-10-01"
 
+NetworkWatcher: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (7 properties)
+│   ├── AzureName: string
+│   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── Tags: map[string]string
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Etag: *string
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── Tags: map[string]string
+    └── Type: *string
+
 NetworkWatchersFlowLog: Resource
 ├── Owner: network/v1api20241001.NetworkWatcher
 ├── Spec: Object (15 properties)

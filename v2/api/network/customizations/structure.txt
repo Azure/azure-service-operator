@@ -57,6 +57,8 @@ NetworkSecurityGroupExtension: Object (0 properties)
 
 NetworkSecurityGroupsSecurityRuleExtension: Object (0 properties)
 
+NetworkWatcherExtension: Object (0 properties)
+
 NetworkWatchersFlowLogExtension: Object (0 properties)
 
 PrivateDnsZoneExtension: Object (0 properties)
