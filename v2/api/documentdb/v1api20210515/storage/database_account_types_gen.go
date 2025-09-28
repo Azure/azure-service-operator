@@ -477,13 +477,6 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 		propertyBag.Remove("CreateMode")
 	}
 
-	// CustomerManagedKeyStatus
-	if source.CustomerManagedKeyStatus != nil {
-		propertyBag.Add("CustomerManagedKeyStatus", *source.CustomerManagedKeyStatus)
-	} else {
-		propertyBag.Remove("CustomerManagedKeyStatus")
-	}
-
 	// DatabaseAccountOfferType
 	account.DatabaseAccountOfferType = genruntime.ClonePointerToString(source.DatabaseAccountOfferType)
 
@@ -837,19 +830,6 @@ func (account *DatabaseAccount_Spec) AssignProperties_To_DatabaseAccount_Spec(de
 		destination.CreateMode = &createMode
 	} else {
 		destination.CreateMode = nil
-	}
-
-	// CustomerManagedKeyStatus
-	if propertyBag.Contains("CustomerManagedKeyStatus") {
-		var customerManagedKeyStatus string
-		err := propertyBag.Pull("CustomerManagedKeyStatus", &customerManagedKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CustomerManagedKeyStatus' from propertyBag")
-		}
-
-		destination.CustomerManagedKeyStatus = &customerManagedKeyStatus
-	} else {
-		destination.CustomerManagedKeyStatus = nil
 	}
 
 	// DatabaseAccountOfferType

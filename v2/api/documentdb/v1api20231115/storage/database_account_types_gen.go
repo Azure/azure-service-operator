@@ -281,7 +281,6 @@ type DatabaseAccount_Spec struct {
 	ConsistencyPolicy                  *ConsistencyPolicy             `json:"consistencyPolicy,omitempty"`
 	Cors                               []CorsPolicy                   `json:"cors,omitempty"`
 	CreateMode                         *string                        `json:"createMode,omitempty"`
-	CustomerManagedKeyStatus           *string                        `json:"customerManagedKeyStatus,omitempty"`
 	DatabaseAccountOfferType           *string                        `json:"databaseAccountOfferType,omitempty"`
 	DefaultIdentity                    *string                        `json:"defaultIdentity,omitempty"`
 	DisableKeyBasedMetadataWriteAccess *bool                          `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
@@ -473,9 +472,6 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// CreateMode
 	account.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
-
-	// CustomerManagedKeyStatus
-	account.CustomerManagedKeyStatus = genruntime.ClonePointerToString(source.CustomerManagedKeyStatus)
 
 	// DatabaseAccountOfferType
 	account.DatabaseAccountOfferType = genruntime.ClonePointerToString(source.DatabaseAccountOfferType)
@@ -815,9 +811,6 @@ func (account *DatabaseAccount_Spec) AssignProperties_To_DatabaseAccount_Spec(de
 
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(account.CreateMode)
-
-	// CustomerManagedKeyStatus
-	destination.CustomerManagedKeyStatus = genruntime.ClonePointerToString(account.CustomerManagedKeyStatus)
 
 	// DatabaseAccountOfferType
 	destination.DatabaseAccountOfferType = genruntime.ClonePointerToString(account.DatabaseAccountOfferType)
