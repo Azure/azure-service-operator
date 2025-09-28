@@ -20,13 +20,13 @@
 <title>cache.azure.com/v1api20241101 | Azure Service Operator</title>
 <meta name="description" content="APIVersion Value Description “2024-11-01” Redis Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{name}
 Used by: RedisList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisCreateProperties_MinimumTlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisCreateProperties_PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCreateProperties_RedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisCreateProperties_UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisCreateProperties_ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisProperties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. RedisProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisProperties_PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisProperties_RedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisProperties_UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisProperties_ZonalAllocationPolicy_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicy_STATUSOptional zones The availability zones. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/cache/v1api20241101/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="cache.azure.com/v1api20241101">
   <meta property="og:description" content="APIVersion Value Description “2024-11-01” Redis Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{name}
 Used by: RedisList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisCreateProperties_MinimumTlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisCreateProperties_PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCreateProperties_RedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisCreateProperties_UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisCreateProperties_ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisProperties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. RedisProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisProperties_PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisProperties_RedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisProperties_UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisProperties_ZonalAllocationPolicy_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicy_STATUSOptional zones The availability zones. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
@@ -34,13 +34,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
   <meta itemprop="name" content="cache.azure.com/v1api20241101">
   <meta itemprop="description" content="APIVersion Value Description “2024-11-01” Redis Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{name}
 Used by: RedisList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisCreateProperties_MinimumTlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisCreateProperties_PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCreateProperties_RedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisCreateProperties_UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisCreateProperties_ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisProperties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. RedisProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisProperties_PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisProperties_RedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisProperties_UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisProperties_ZonalAllocationPolicy_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
-  <meta itemprop="wordCount" content="5908">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicy_STATUSOptional zones The availability zones. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
+  <meta itemprop="wordCount" content="6637">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="cache.azure.com/v1api20241101">
   <meta name="twitter:description" content="APIVersion Value Description “2024-11-01” Redis Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{name}
 Used by: RedisList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisCreateProperties_MinimumTlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisCreateProperties_PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCreateProperties_RedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisCreateProperties_UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisCreateProperties_ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) RedisProperties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. RedisProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. Default value is Enabled RedisProperties_PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisProperties_RedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. RedisProperties_UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. RedisProperties_ZonalAllocationPolicy_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptional status Redis_STATUSOptional Redis_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional identity The identity of the resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccessOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfigurationOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. SkuRequired staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetReference The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannelOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicyOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional Redis_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional disableAccessKeyAuthentication Authentication to Redis through access keys is disabled when set as true. Default value is false. boolOptional enableNonSslPort Specifies whether the non-ssl Redis server port (6379) is enabled. boolOptional hostName Redis host name. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentity_STATUSOptional instances List of the Redis instances associated with the cache RedisInstanceDetails_STATUS[]Optional linkedServers List of the linked servers associated with the cache RedisLinkedServer_STATUS[]Optional location The geo-location where the resource lives stringOptional minimumTlsVersion Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, 1.0, 1.1, 1.2) TlsVersion_STATUSOptional name The name of the resource stringOptional port Redis non-SSL port. intOptional privateEndpointConnections List of private endpoint connection associated with the specified redis cache PrivateEndpointConnection_STATUS[]Optional provisioningState Redis instance provisioning status. ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be Enabled or Disabled. If Disabled, private endpoints are the exclusive access method. PublicNetworkAccess_STATUSOptional redisConfiguration All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. RedisCommonPropertiesRedisConfiguration_STATUSOptional redisVersion Redis version. This should be in the form major[.minor] (only major is required) or the value latest which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is latest. stringOptional replicasPerMaster The number of replicas to be created per primary. intOptional replicasPerPrimary The number of replicas to be created per primary. intOptional shardCount The number of shards to be created on a Premium Cluster Cache. intOptional sku The SKU of the Redis cache to deploy. Sku_STATUSOptional sslPort Redis SSL port. intOptional staticIP Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. stringOptional subnetId The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​Microsoft.{Network ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional tenantSettings A dictionary of tenant settings map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updateChannel Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using Preview update channel get latest Redis updates at least 4 weeks ahead of Stable channel caches. Default value is Stable. UpdateChannel_STATUSOptional zonalAllocationPolicy Optional: Specifies how availability zones are allocated to the Redis cache. Automatic enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. UserDefined will select availability zones passed in by you using the zones parameter. NoZones will produce a non-zonal cache. If zonalAllocationPolicy is not passed, it will be set to UserDefined when zones are passed in, otherwise, it will be set to Automatic in regions where zones are supported and NoZones in regions where zones are not supported. ZonalAllocationPolicy_STATUSOptional zones The availability zones. string[]Optional RedisAccessPolicy Generator information: - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redis/​{cacheName}/​accessPolicies/​{accessPolicyName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -899,46 +899,49 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
     <li><a href="#RedisLinkedServer_Spec">RedisLinkedServer_Spec</a></li>
     <li><a href="#RedisPatchSchedule_Spec">RedisPatchSchedule_Spec</a></li>
     <li><a href="#RedisPatchSchedule_STATUS">RedisPatchSchedule_STATUS</a></li>
+    <li><a href="#AccessPolicyAssignmentProvisioningState_STATUS">AccessPolicyAssignmentProvisioningState_STATUS</a></li>
+    <li><a href="#AccessPolicyProvisioningState_STATUS">AccessPolicyProvisioningState_STATUS</a></li>
+    <li><a href="#AccessPolicyType_STATUS">AccessPolicyType_STATUS</a></li>
     <li><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a></li>
     <li><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a></li>
     <li><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</a></li>
+    <li><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a></li>
+    <li><a href="#PublicNetworkAccess">PublicNetworkAccess</a></li>
+    <li><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a></li>
     <li><a href="#RedisAccessPolicyAssignmentOperatorSpec">RedisAccessPolicyAssignmentOperatorSpec</a></li>
     <li><a href="#RedisAccessPolicyOperatorSpec">RedisAccessPolicyOperatorSpec</a></li>
-    <li><a href="#RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS</a></li>
-    <li><a href="#RedisCacheAccessPolicyProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyProperties_ProvisioningState_STATUS</a></li>
-    <li><a href="#RedisCacheAccessPolicyProperties_Type_STATUS">RedisCacheAccessPolicyProperties_Type_STATUS</a></li>
-    <li><a href="#RedisCreateProperties_MinimumTlsVersion">RedisCreateProperties_MinimumTlsVersion</a></li>
-    <li><a href="#RedisCreateProperties_PublicNetworkAccess">RedisCreateProperties_PublicNetworkAccess</a></li>
-    <li><a href="#RedisCreateProperties_RedisConfiguration">RedisCreateProperties_RedisConfiguration</a></li>
-    <li><a href="#RedisCreateProperties_UpdateChannel">RedisCreateProperties_UpdateChannel</a></li>
-    <li><a href="#RedisCreateProperties_ZonalAllocationPolicy">RedisCreateProperties_ZonalAllocationPolicy</a></li>
+    <li><a href="#RedisCommonPropertiesRedisConfiguration">RedisCommonPropertiesRedisConfiguration</a></li>
+    <li><a href="#RedisCommonPropertiesRedisConfiguration_STATUS">RedisCommonPropertiesRedisConfiguration_STATUS</a></li>
     <li><a href="#RedisFirewallRuleOperatorSpec">RedisFirewallRuleOperatorSpec</a></li>
     <li><a href="#RedisInstanceDetails_STATUS">RedisInstanceDetails_STATUS</a></li>
     <li><a href="#RedisLinkedServer_STATUS">RedisLinkedServer_STATUS</a></li>
-    <li><a href="#RedisLinkedServerCreateProperties_ServerRole">RedisLinkedServerCreateProperties_ServerRole</a></li>
     <li><a href="#RedisLinkedServerOperatorSpec">RedisLinkedServerOperatorSpec</a></li>
-    <li><a href="#RedisLinkedServerProperties_ServerRole_STATUS">RedisLinkedServerProperties_ServerRole_STATUS</a></li>
     <li><a href="#RedisOperatorSpec">RedisOperatorSpec</a></li>
     <li><a href="#RedisPatchScheduleOperatorSpec">RedisPatchScheduleOperatorSpec</a></li>
-    <li><a href="#RedisProperties_MinimumTlsVersion_STATUS">RedisProperties_MinimumTlsVersion_STATUS</a></li>
-    <li><a href="#RedisProperties_ProvisioningState_STATUS">RedisProperties_ProvisioningState_STATUS</a></li>
-    <li><a href="#RedisProperties_PublicNetworkAccess_STATUS">RedisProperties_PublicNetworkAccess_STATUS</a></li>
-    <li><a href="#RedisProperties_RedisConfiguration_STATUS">RedisProperties_RedisConfiguration_STATUS</a></li>
-    <li><a href="#RedisProperties_UpdateChannel_STATUS">RedisProperties_UpdateChannel_STATUS</a></li>
-    <li><a href="#RedisProperties_ZonalAllocationPolicy_STATUS">RedisProperties_ZonalAllocationPolicy_STATUS</a></li>
+    <li><a href="#ReplicationRole">ReplicationRole</a></li>
+    <li><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a></li>
     <li><a href="#ScheduleEntry">ScheduleEntry</a></li>
     <li><a href="#ScheduleEntry_STATUS">ScheduleEntry_STATUS</a></li>
     <li><a href="#Sku">Sku</a></li>
     <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
+    <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#TlsVersion">TlsVersion</a></li>
+    <li><a href="#TlsVersion_STATUS">TlsVersion_STATUS</a></li>
+    <li><a href="#UpdateChannel">UpdateChannel</a></li>
+    <li><a href="#UpdateChannel_STATUS">UpdateChannel_STATUS</a></li>
+    <li><a href="#ZonalAllocationPolicy">ZonalAllocationPolicy</a></li>
+    <li><a href="#ZonalAllocationPolicy_STATUS">ZonalAllocationPolicy_STATUS</a></li>
+    <li><a href="#DayOfWeek">DayOfWeek</a></li>
+    <li><a href="#DayOfWeek_STATUS">DayOfWeek_STATUS</a></li>
     <li><a href="#ManagedServiceIdentityType">ManagedServiceIdentityType</a></li>
     <li><a href="#ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</a></li>
     <li><a href="#RedisOperatorSecrets">RedisOperatorSecrets</a></li>
-    <li><a href="#ScheduleEntry_DayOfWeek">ScheduleEntry_DayOfWeek</a></li>
-    <li><a href="#ScheduleEntry_DayOfWeek_STATUS">ScheduleEntry_DayOfWeek_STATUS</a></li>
-    <li><a href="#Sku_Family">Sku_Family</a></li>
-    <li><a href="#Sku_Family_STATUS">Sku_Family_STATUS</a></li>
-    <li><a href="#Sku_Name">Sku_Name</a></li>
-    <li><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a></li>
+    <li><a href="#SkuFamily">SkuFamily</a></li>
+    <li><a href="#SkuFamily_STATUS">SkuFamily_STATUS</a></li>
+    <li><a href="#SkuName">SkuName</a></li>
+    <li><a href="#SkuName_STATUS">SkuName_STATUS</a></li>
+    <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
     <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
   </ul>
@@ -1056,7 +1059,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>minimumTlsVersion</td>
           <td>Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, <code>1.0</code>, <code>1.1</code>, <code>1.2</code>)</td>
-          <td><a href="#RedisCreateProperties_MinimumTlsVersion">RedisCreateProperties_MinimumTlsVersion</a><br/><small>Optional</small></td>
+          <td><a href="#TlsVersion">TlsVersion</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
@@ -1070,13 +1073,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method. Default value is <code>Enabled</code></td>
-          <td><a href="#RedisCreateProperties_PublicNetworkAccess">RedisCreateProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method.</td>
+          <td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisConfiguration</td>
           <td>All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc.</td>
-          <td><a href="#RedisCreateProperties_RedisConfiguration">RedisCreateProperties_RedisConfiguration</a><br/><small>Optional</small></td>
+          <td><a href="#RedisCommonPropertiesRedisConfiguration">RedisCommonPropertiesRedisConfiguration</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisVersion</td>
@@ -1126,12 +1129,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>updateChannel</td>
           <td>Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using <code>Preview</code> update channel get latest Redis updates at least 4 weeks ahead of <code>Stable</code> channel caches. Default value is <code>Stable</code>.</td>
-          <td><a href="#RedisCreateProperties_UpdateChannel">RedisCreateProperties_UpdateChannel</a><br/><small>Optional</small></td>
+          <td><a href="#UpdateChannel">UpdateChannel</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zonalAllocationPolicy</td>
           <td>Optional: Specifies how availability zones are allocated to the Redis cache. <code>Automatic</code> enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. <code>UserDefined</code> will select availability zones passed in by you using the <code>zones</code> parameter. <code>NoZones</code> will produce a non-zonal cache. If <code>zonalAllocationPolicy</code> is not passed, it will be set to <code>UserDefined</code> when zones are passed in, otherwise, it will be set to <code>Automatic</code> in regions where zones are supported and <code>NoZones</code> in regions where zones are not supported.</td>
-          <td><a href="#RedisCreateProperties_ZonalAllocationPolicy">RedisCreateProperties_ZonalAllocationPolicy</a><br/><small>Optional</small></td>
+          <td><a href="#ZonalAllocationPolicy">ZonalAllocationPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zones</td>
@@ -1172,12 +1175,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>identity</td>
-          <td>The identity of the resource.</td>
+          <td>The managed service identities assigned to this resource.</td>
           <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1198,7 +1201,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>minimumTlsVersion</td>
           <td>Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, <code>1.0</code>, <code>1.1</code>, <code>1.2</code>)</td>
-          <td><a href="#RedisProperties_MinimumTlsVersion_STATUS">RedisProperties_MinimumTlsVersion_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#TlsVersion_STATUS">TlsVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1218,17 +1221,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>provisioningState</td>
           <td>Redis instance provisioning status.</td>
-          <td><a href="#RedisProperties_ProvisioningState_STATUS">RedisProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method. Default value is <code>Enabled</code></td>
-          <td><a href="#RedisProperties_PublicNetworkAccess_STATUS">RedisProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method.</td>
+          <td><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisConfiguration</td>
           <td>All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc.</td>
-          <td><a href="#RedisProperties_RedisConfiguration_STATUS">RedisProperties_RedisConfiguration_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#RedisCommonPropertiesRedisConfiguration_STATUS">RedisCommonPropertiesRedisConfiguration_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisVersion</td>
@@ -1271,6 +1274,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td>ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>tags</td>
           <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
@@ -1288,16 +1296,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>updateChannel</td>
           <td>Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using <code>Preview</code> update channel get latest Redis updates at least 4 weeks ahead of <code>Stable</code> channel caches. Default value is <code>Stable</code>.</td>
-          <td><a href="#RedisProperties_UpdateChannel_STATUS">RedisProperties_UpdateChannel_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#UpdateChannel_STATUS">UpdateChannel_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zonalAllocationPolicy</td>
           <td>Optional: Specifies how availability zones are allocated to the Redis cache. <code>Automatic</code> enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. <code>UserDefined</code> will select availability zones passed in by you using the <code>zones</code> parameter. <code>NoZones</code> will produce a non-zonal cache. If <code>zonalAllocationPolicy</code> is not passed, it will be set to <code>UserDefined</code> when zones are passed in, otherwise, it will be set to <code>Automatic</code> in regions where zones are supported and <code>NoZones</code> in regions where zones are not supported.</td>
-          <td><a href="#RedisProperties_ZonalAllocationPolicy_STATUS">RedisProperties_ZonalAllocationPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ZonalAllocationPolicy_STATUS">ZonalAllocationPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zones</td>
-          <td>A list of availability zones denoting where the resource needs to come from.</td>
+          <td>The availability zones.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -1385,7 +1393,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1401,12 +1409,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>properties_type</td>
           <td>Built-In or Custom access policy</td>
-          <td><a href="#RedisCacheAccessPolicyProperties_Type_STATUS">RedisCacheAccessPolicyProperties_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AccessPolicyType_STATUS">AccessPolicyType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
           <td>Provisioning state of access policy</td>
-          <td><a href="#RedisCacheAccessPolicyProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AccessPolicyProvisioningState_STATUS">AccessPolicyProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -1472,12 +1485,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>objectId</td>
           <td>Object Id to assign access policy to</td>
-          <td>string<br/><small>Required</small></td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>objectIdAlias</td>
           <td>User friendly name for object id. Also represents username for token based authentication</td>
-          <td>string<br/><small>Required</small></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>objectIdAliasFromConfig</td>
+          <td>User friendly name for object id. Also represents username for token based authentication</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>objectIdFromConfig</td>
+          <td>Object Id to assign access policy to</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
@@ -1513,7 +1536,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1534,7 +1557,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>provisioningState</td>
           <td>Provisioning state of an access policy assignment set</td>
-          <td><a href="#RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AccessPolicyAssignmentProvisioningState_STATUS">AccessPolicyAssignmentProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -1692,7 +1720,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1704,6 +1732,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td>startIP</td>
           <td>lowest IP address included in the range</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -1812,7 +1845,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>serverRole</td>
           <td>Role of the linked server.</td>
-          <td><a href="#RedisLinkedServerCreateProperties_ServerRole">RedisLinkedServerCreateProperties_ServerRole</a><br/><small>Required</small></td>
+          <td><a href="#ReplicationRole">ReplicationRole</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1838,7 +1871,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1869,7 +1902,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>serverRole</td>
           <td>Role of the linked server.</td>
-          <td><a href="#RedisLinkedServerProperties_ServerRole_STATUS">RedisLinkedServerProperties_ServerRole_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -2012,7 +2050,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2029,6 +2067,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td>scheduleEntries</td>
           <td>List of patch schedules for a Redis cache.</td>
           <td><a href="#ScheduleEntry_STATUS">ScheduleEntry_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -2088,7 +2131,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2119,7 +2162,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>serverRole</td>
           <td>Role of the linked server.</td>
-          <td><a href="#RedisLinkedServerProperties_ServerRole_STATUS">RedisLinkedServerProperties_ServerRole_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -2167,7 +2215,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>minimumTlsVersion</td>
           <td>Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, <code>1.0</code>, <code>1.1</code>, <code>1.2</code>)</td>
-          <td><a href="#RedisCreateProperties_MinimumTlsVersion">RedisCreateProperties_MinimumTlsVersion</a><br/><small>Optional</small></td>
+          <td><a href="#TlsVersion">TlsVersion</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
@@ -2181,13 +2229,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method. Default value is <code>Enabled</code></td>
-          <td><a href="#RedisCreateProperties_PublicNetworkAccess">RedisCreateProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method.</td>
+          <td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisConfiguration</td>
           <td>All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc.</td>
-          <td><a href="#RedisCreateProperties_RedisConfiguration">RedisCreateProperties_RedisConfiguration</a><br/><small>Optional</small></td>
+          <td><a href="#RedisCommonPropertiesRedisConfiguration">RedisCommonPropertiesRedisConfiguration</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisVersion</td>
@@ -2237,12 +2285,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>updateChannel</td>
           <td>Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using <code>Preview</code> update channel get latest Redis updates at least 4 weeks ahead of <code>Stable</code> channel caches. Default value is <code>Stable</code>.</td>
-          <td><a href="#RedisCreateProperties_UpdateChannel">RedisCreateProperties_UpdateChannel</a><br/><small>Optional</small></td>
+          <td><a href="#UpdateChannel">UpdateChannel</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zonalAllocationPolicy</td>
           <td>Optional: Specifies how availability zones are allocated to the Redis cache. <code>Automatic</code> enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. <code>UserDefined</code> will select availability zones passed in by you using the <code>zones</code> parameter. <code>NoZones</code> will produce a non-zonal cache. If <code>zonalAllocationPolicy</code> is not passed, it will be set to <code>UserDefined</code> when zones are passed in, otherwise, it will be set to <code>Automatic</code> in regions where zones are supported and <code>NoZones</code> in regions where zones are not supported.</td>
-          <td><a href="#RedisCreateProperties_ZonalAllocationPolicy">RedisCreateProperties_ZonalAllocationPolicy</a><br/><small>Optional</small></td>
+          <td><a href="#ZonalAllocationPolicy">ZonalAllocationPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zones</td>
@@ -2284,12 +2332,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>identity</td>
-          <td>The identity of the resource.</td>
+          <td>The managed service identities assigned to this resource.</td>
           <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2310,7 +2358,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>minimumTlsVersion</td>
           <td>Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, <code>1.0</code>, <code>1.1</code>, <code>1.2</code>)</td>
-          <td><a href="#RedisProperties_MinimumTlsVersion_STATUS">RedisProperties_MinimumTlsVersion_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#TlsVersion_STATUS">TlsVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -2330,17 +2378,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>provisioningState</td>
           <td>Redis instance provisioning status.</td>
-          <td><a href="#RedisProperties_ProvisioningState_STATUS">RedisProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method. Default value is <code>Enabled</code></td>
-          <td><a href="#RedisProperties_PublicNetworkAccess_STATUS">RedisProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+          <td>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method.</td>
+          <td><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisConfiguration</td>
           <td>All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc.</td>
-          <td><a href="#RedisProperties_RedisConfiguration_STATUS">RedisProperties_RedisConfiguration_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#RedisCommonPropertiesRedisConfiguration_STATUS">RedisCommonPropertiesRedisConfiguration_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>redisVersion</td>
@@ -2383,6 +2431,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td>ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>tags</td>
           <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
@@ -2400,16 +2453,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>updateChannel</td>
           <td>Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using <code>Preview</code> update channel get latest Redis updates at least 4 weeks ahead of <code>Stable</code> channel caches. Default value is <code>Stable</code>.</td>
-          <td><a href="#RedisProperties_UpdateChannel_STATUS">RedisProperties_UpdateChannel_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#UpdateChannel_STATUS">UpdateChannel_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zonalAllocationPolicy</td>
           <td>Optional: Specifies how availability zones are allocated to the Redis cache. <code>Automatic</code> enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. <code>UserDefined</code> will select availability zones passed in by you using the <code>zones</code> parameter. <code>NoZones</code> will produce a non-zonal cache. If <code>zonalAllocationPolicy</code> is not passed, it will be set to <code>UserDefined</code> when zones are passed in, otherwise, it will be set to <code>Automatic</code> in regions where zones are supported and <code>NoZones</code> in regions where zones are not supported.</td>
-          <td><a href="#RedisProperties_ZonalAllocationPolicy_STATUS">RedisProperties_ZonalAllocationPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ZonalAllocationPolicy_STATUS">ZonalAllocationPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>zones</td>
-          <td>A list of availability zones denoting where the resource needs to come from.</td>
+          <td>The availability zones.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -2465,7 +2518,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2481,12 +2534,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>properties_type</td>
           <td>Built-In or Custom access policy</td>
-          <td><a href="#RedisCacheAccessPolicyProperties_Type_STATUS">RedisCacheAccessPolicyProperties_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AccessPolicyType_STATUS">AccessPolicyType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
           <td>Provisioning state of access policy</td>
-          <td><a href="#RedisCacheAccessPolicyProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AccessPolicyProvisioningState_STATUS">AccessPolicyProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -2519,12 +2577,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>objectId</td>
           <td>Object Id to assign access policy to</td>
-          <td>string<br/><small>Required</small></td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>objectIdAlias</td>
           <td>User friendly name for object id. Also represents username for token based authentication</td>
-          <td>string<br/><small>Required</small></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>objectIdAliasFromConfig</td>
+          <td>User friendly name for object id. Also represents username for token based authentication</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>objectIdFromConfig</td>
+          <td>Object Id to assign access policy to</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
@@ -2561,7 +2629,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2582,7 +2650,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>provisioningState</td>
           <td>Provisioning state of an access policy assignment set</td>
-          <td><a href="#RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AccessPolicyAssignmentProvisioningState_STATUS">AccessPolicyAssignmentProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -2652,7 +2725,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2664,6 +2737,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td>startIP</td>
           <td>lowest IP address included in the range</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
@@ -2711,7 +2789,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>serverRole</td>
           <td>Role of the linked server.</td>
-          <td><a href="#RedisLinkedServerCreateProperties_ServerRole">RedisLinkedServerCreateProperties_ServerRole</a><br/><small>Required</small></td>
+          <td><a href="#ReplicationRole">ReplicationRole</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2761,7 +2839,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2780,9 +2858,109 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td><a href="#ScheduleEntry_STATUS">ScheduleEntry_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>type</td>
           <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AccessPolicyAssignmentProvisioningState_STATUS">AccessPolicyAssignmentProvisioningState_STATUS</h2>
+<p>Provisioning state of an access policy assignment set</p>
+<p>Used by: <a href="#RedisAccessPolicyAssignment_STATUS">RedisAccessPolicyAssignment_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleted&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AccessPolicyProvisioningState_STATUS">AccessPolicyProvisioningState_STATUS</h2>
+<p>Provisioning state of access policy</p>
+<p>Used by: <a href="#RedisAccessPolicy_STATUS">RedisAccessPolicy_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleted&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AccessPolicyType_STATUS">AccessPolicyType_STATUS</h2>
+<p>Built-In or Custom access policy</p>
+<p>Used by: <a href="#RedisAccessPolicy_STATUS">RedisAccessPolicy_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;BuiltIn&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Custom&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2845,7 +3023,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
   </tbody>
 </table>
 <h2 id="PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</h2>
-<p>The Private Endpoint Connection resource.</p>
+<p>The private endpoint connection resource.</p>
 <p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
 <table>
   <thead>
@@ -2858,8 +3036,115 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
   <tbody>
       <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ProvisioningState_STATUS">ProvisioningState_STATUS</h2>
+<p>Redis instance provisioning status.</p>
+<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;ConfiguringAAD&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Linking&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Provisioning&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;RecoveringScaleFailure&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Scaling&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Unlinking&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Unprovisioning&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PublicNetworkAccess">PublicNetworkAccess</h2>
+<p>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method. Default value is <code>Enabled</code></p>
+<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</h2>
+<p>Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code>. If <code>Disabled</code>, private endpoints are the exclusive access method. Default value is <code>Enabled</code></p>
+<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2911,143 +3196,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyAssignmentProperties_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#RedisAccessPolicyAssignment_STATUS">RedisAccessPolicyAssignment_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Canceled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleted&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisCacheAccessPolicyProperties_ProvisioningState_STATUS">RedisCacheAccessPolicyProperties_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#RedisAccessPolicy_STATUS">RedisAccessPolicy_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Canceled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleted&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisCacheAccessPolicyProperties_Type_STATUS">RedisCacheAccessPolicyProperties_Type_STATUS</h2>
-<p>Used by: <a href="#RedisAccessPolicy_STATUS">RedisAccessPolicy_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;BuiltIn&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Custom&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisCreateProperties_MinimumTlsVersion">RedisCreateProperties_MinimumTlsVersion</h2>
-<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;1.0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.2&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisCreateProperties_PublicNetworkAccess">RedisCreateProperties_PublicNetworkAccess</h2>
-<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisCreateProperties_RedisConfiguration">RedisCreateProperties_RedisConfiguration</h2>
+<h2 id="RedisCommonPropertiesRedisConfiguration">RedisCommonPropertiesRedisConfiguration</h2>
+<p>All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc.</p>
 <p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
 <table>
   <thead>
@@ -3080,7 +3230,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>authnotrequired</td>
-          <td>Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view.</td>
+          <td>Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view; you should never disable authentication using this property!</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3115,7 +3265,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>rdb-backup-enabled</td>
-          <td>Specifies whether the rdb backup is enabled</td>
+          <td>Specifies whether the RDB backup is enabled</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3140,47 +3290,112 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="RedisCreateProperties_UpdateChannel">RedisCreateProperties_UpdateChannel</h2>
-<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
+<h2 id="RedisCommonPropertiesRedisConfiguration_STATUS">RedisCommonPropertiesRedisConfiguration_STATUS</h2>
+<p>All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc.</p>
+<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
-          <th>Value</th>
+          <th>Property</th>
           <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Preview&rdquo;</td>
-          <td></td>
+          <td>aad-enabled</td>
+          <td>Specifies whether AAD based authentication has been enabled or disabled for the cache</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>&ldquo;Stable&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisCreateProperties_ZonalAllocationPolicy">RedisCreateProperties_ZonalAllocationPolicy</h2>
-<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Automatic&rdquo;</td>
-          <td></td>
+          <td>aof-backup-enabled</td>
+          <td>Specifies whether the aof backup is enabled</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>&ldquo;NoZones&rdquo;</td>
-          <td></td>
+          <td>aof-storage-connection-string-0</td>
+          <td>First storage account connection string</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>&ldquo;UserDefined&rdquo;</td>
-          <td></td>
+          <td>aof-storage-connection-string-1</td>
+          <td>Second storage account connection string</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>authnotrequired</td>
+          <td>Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view; you should never disable authentication using this property!</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>maxclients</td>
+          <td>The max clients config</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>maxfragmentationmemory-reserved</td>
+          <td>Value in megabytes reserved for fragmentation per shard</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>maxmemory-delta</td>
+          <td>Value in megabytes reserved for non-cache usage per shard e.g. failover.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>maxmemory-policy</td>
+          <td>The eviction strategy used when your data won&rsquo;t fit within its memory limit.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>maxmemory-reserved</td>
+          <td>Value in megabytes reserved for non-cache usage per shard e.g. failover.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>notify-keyspace-events</td>
+          <td>The keyspace events which should be monitored.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>preferred-data-archive-auth-method</td>
+          <td>Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>preferred-data-persistence-auth-method</td>
+          <td>Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>rdb-backup-enabled</td>
+          <td>Specifies whether the RDB backup is enabled</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>rdb-backup-frequency</td>
+          <td>Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440)</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>rdb-backup-max-snapshot-count</td>
+          <td>Specifies the maximum number of snapshots for rdb backup</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>rdb-storage-connection-string</td>
+          <td>The storage account connection string for storing rdb file</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storage-subscription-id</td>
+          <td>SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>zonal-configuration</td>
+          <td>Zonal Configuration</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3271,26 +3486,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="RedisLinkedServerCreateProperties_ServerRole">RedisLinkedServerCreateProperties_ServerRole</h2>
-<p>Used by: <a href="#RedisLinkedServer_Spec">RedisLinkedServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Primary&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Secondary&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="RedisLinkedServerOperatorSpec">RedisLinkedServerOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#RedisLinkedServer_Spec">RedisLinkedServer_Spec</a>.</p>
@@ -3312,26 +3507,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
           <td>secretExpressions</td>
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisLinkedServerProperties_ServerRole_STATUS">RedisLinkedServerProperties_ServerRole_STATUS</h2>
-<p>Used by: <a href="#Redis_LinkedServer_STATUS">Redis_LinkedServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Primary&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Secondary&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -3388,8 +3563,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="RedisProperties_MinimumTlsVersion_STATUS">RedisProperties_MinimumTlsVersion_STATUS</h2>
-<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<h2 id="ReplicationRole">ReplicationRole</h2>
+<p>Role of the linked server.</p>
+<p>Used by: <a href="#RedisLinkedServer_Spec">RedisLinkedServer_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3399,21 +3575,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;1.0&rdquo;</td>
+          <td>&ldquo;Primary&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;1.1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.2&rdquo;</td>
+          <td>&ldquo;Secondary&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="RedisProperties_ProvisioningState_STATUS">RedisProperties_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<h2 id="ReplicationRole_STATUS">ReplicationRole_STATUS</h2>
+<p>Role of the linked server.</p>
+<p>Used by: <a href="#Redis_LinkedServer_STATUS">Redis_LinkedServer_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3423,227 +3596,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;ConfiguringAAD&rdquo;</td>
+          <td>&ldquo;Primary&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Creating&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Linking&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Provisioning&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;RecoveringScaleFailure&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Scaling&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unlinking&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unprovisioning&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisProperties_PublicNetworkAccess_STATUS">RedisProperties_PublicNetworkAccess_STATUS</h2>
-<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisProperties_RedisConfiguration_STATUS">RedisProperties_RedisConfiguration_STATUS</h2>
-<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>aad-enabled</td>
-          <td>Specifies whether AAD based authentication has been enabled or disabled for the cache</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>aof-backup-enabled</td>
-          <td>Specifies whether the aof backup is enabled</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>aof-storage-connection-string-0</td>
-          <td>First storage account connection string</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>aof-storage-connection-string-1</td>
-          <td>Second storage account connection string</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>authnotrequired</td>
-          <td>Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxclients</td>
-          <td>The max clients config</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxfragmentationmemory-reserved</td>
-          <td>Value in megabytes reserved for fragmentation per shard</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxmemory-delta</td>
-          <td>Value in megabytes reserved for non-cache usage per shard e.g. failover.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxmemory-policy</td>
-          <td>The eviction strategy used when your data won&rsquo;t fit within its memory limit.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxmemory-reserved</td>
-          <td>Value in megabytes reserved for non-cache usage per shard e.g. failover.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>notify-keyspace-events</td>
-          <td>The keyspace events which should be monitored.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>preferred-data-archive-auth-method</td>
-          <td>Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>preferred-data-persistence-auth-method</td>
-          <td>Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rdb-backup-enabled</td>
-          <td>Specifies whether the rdb backup is enabled</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rdb-backup-frequency</td>
-          <td>Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440)</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rdb-backup-max-snapshot-count</td>
-          <td>Specifies the maximum number of snapshots for rdb backup</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rdb-storage-connection-string</td>
-          <td>The storage account connection string for storing rdb file</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storage-subscription-id</td>
-          <td>SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>zonal-configuration</td>
-          <td>Zonal Configuration</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisProperties_UpdateChannel_STATUS">RedisProperties_UpdateChannel_STATUS</h2>
-<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Preview&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Stable&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RedisProperties_ZonalAllocationPolicy_STATUS">RedisProperties_ZonalAllocationPolicy_STATUS</h2>
-<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Automatic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;NoZones&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UserDefined&rdquo;</td>
+          <td>&ldquo;Secondary&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -3663,7 +3620,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>dayOfWeek</td>
           <td>Day of the week when a cache can be patched.</td>
-          <td><a href="#ScheduleEntry_DayOfWeek">ScheduleEntry_DayOfWeek</a><br/><small>Required</small></td>
+          <td><a href="#DayOfWeek">DayOfWeek</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>maintenanceWindow</td>
@@ -3692,7 +3649,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>dayOfWeek</td>
           <td>Day of the week when a cache can be patched.</td>
-          <td><a href="#ScheduleEntry_DayOfWeek_STATUS">ScheduleEntry_DayOfWeek_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#DayOfWeek_STATUS">DayOfWeek_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>maintenanceWindow</td>
@@ -3726,12 +3683,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>family</td>
           <td>The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</td>
-          <td><a href="#Sku_Family">Sku_Family</a><br/><small>Required</small></td>
+          <td><a href="#SkuFamily">SkuFamily</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>name</td>
           <td>The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)</td>
-          <td><a href="#Sku_Name">Sku_Name</a><br/><small>Required</small></td>
+          <td><a href="#SkuName">SkuName</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -3755,12 +3712,296 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       <tr>
           <td>family</td>
           <td>The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</td>
-          <td><a href="#Sku_Family_STATUS">Sku_Family_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#SkuFamily_STATUS">SkuFamily_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
           <td>The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)</td>
-          <td><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#SkuName_STATUS">SkuName_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_STATUS">SystemData_STATUS</h2>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+<p>Used by: <a href="#Redis_LinkedServer_STATUS">Redis_LinkedServer_STATUS</a>, <a href="#Redis_STATUS">Redis_STATUS</a>, <a href="#RedisAccessPolicy_STATUS">RedisAccessPolicy_STATUS</a>, <a href="#RedisAccessPolicyAssignment_STATUS">RedisAccessPolicyAssignment_STATUS</a>, <a href="#RedisFirewallRule_STATUS">RedisFirewallRule_STATUS</a>, and <a href="#RedisPatchSchedule_STATUS">RedisPatchSchedule_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TlsVersion">TlsVersion</h2>
+<p>Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, <code>1.0</code>, <code>1.1</code>, <code>1.2</code>)</p>
+<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;1.0&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;1.1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;1.2&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TlsVersion_STATUS">TlsVersion_STATUS</h2>
+<p>Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, <code>1.0</code>, <code>1.1</code>, <code>1.2</code>)</p>
+<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;1.0&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;1.1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;1.2&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UpdateChannel">UpdateChannel</h2>
+<p>Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using <code>Preview</code> update channel get latest Redis updates at least 4 weeks ahead of <code>Stable</code> channel caches. Default value is <code>Stable</code>.</p>
+<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Preview&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Stable&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UpdateChannel_STATUS">UpdateChannel_STATUS</h2>
+<p>Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using <code>Preview</code> update channel get latest Redis updates at least 4 weeks ahead of <code>Stable</code> channel caches. Default value is <code>Stable</code>.</p>
+<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Preview&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Stable&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ZonalAllocationPolicy">ZonalAllocationPolicy</h2>
+<p>Optional: Specifies how availability zones are allocated to the Redis cache. <code>Automatic</code> enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. <code>UserDefined</code> will select availability zones passed in by you using the <code>zones</code> parameter. <code>NoZones</code> will produce a non-zonal cache. If <code>zonalAllocationPolicy</code> is not passed, it will be set to <code>UserDefined</code> when zones are passed in, otherwise, it will be set to <code>Automatic</code> in regions where zones are supported and <code>NoZones</code> in regions where zones are not supported.</p>
+<p>Used by: <a href="#Redis_Spec">Redis_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Automatic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;NoZones&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserDefined&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ZonalAllocationPolicy_STATUS">ZonalAllocationPolicy_STATUS</h2>
+<p>Optional: Specifies how availability zones are allocated to the Redis cache. <code>Automatic</code> enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. <code>UserDefined</code> will select availability zones passed in by you using the <code>zones</code> parameter. <code>NoZones</code> will produce a non-zonal cache. If <code>zonalAllocationPolicy</code> is not passed, it will be set to <code>UserDefined</code> when zones are passed in, otherwise, it will be set to <code>Automatic</code> in regions where zones are supported and <code>NoZones</code> in regions where zones are not supported.</p>
+<p>Used by: <a href="#Redis_STATUS">Redis_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Automatic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;NoZones&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserDefined&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DayOfWeek">DayOfWeek</h2>
+<p>Day of the week when a cache can be patched.</p>
+<p>Used by: <a href="#ScheduleEntry">ScheduleEntry</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Everyday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Friday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Monday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Saturday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Sunday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Thursday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Tuesday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Wednesday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Weekend&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DayOfWeek_STATUS">DayOfWeek_STATUS</h2>
+<p>Day of the week when a cache can be patched.</p>
+<p>Used by: <a href="#ScheduleEntry_STATUS">ScheduleEntry_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Everyday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Friday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Monday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Saturday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Sunday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Thursday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Tuesday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Wednesday&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Weekend&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -3860,103 +4101,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="ScheduleEntry_DayOfWeek">ScheduleEntry_DayOfWeek</h2>
-<p>Used by: <a href="#ScheduleEntry">ScheduleEntry</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Everyday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Friday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Monday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Saturday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sunday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Thursday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Tuesday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Wednesday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Weekend&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScheduleEntry_DayOfWeek_STATUS">ScheduleEntry_DayOfWeek_STATUS</h2>
-<p>Used by: <a href="#ScheduleEntry_STATUS">ScheduleEntry_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Everyday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Friday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Monday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Saturday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sunday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Thursday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Tuesday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Wednesday&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Weekend&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Family">Sku_Family</h2>
+<h2 id="SkuFamily">SkuFamily</h2>
+<p>The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</p>
 <p>Used by: <a href="#Sku">Sku</a>.</p>
 <table>
   <thead>
@@ -3976,7 +4122,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="Sku_Family_STATUS">Sku_Family_STATUS</h2>
+<h2 id="SkuFamily_STATUS">SkuFamily_STATUS</h2>
+<p>The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</p>
 <p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
 <table>
   <thead>
@@ -3996,7 +4143,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="Sku_Name">Sku_Name</h2>
+<h2 id="SkuName">SkuName</h2>
+<p>The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)</p>
 <p>Used by: <a href="#Sku">Sku</a>.</p>
 <table>
   <thead>
@@ -4020,7 +4168,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="Sku_Name_STATUS">Sku_Name_STATUS</h2>
+<h2 id="SkuName_STATUS">SkuName_STATUS</h2>
+<p>The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)</p>
 <p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
 <table>
   <thead>
@@ -4040,6 +4189,62 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Redis_SpecOptio
       </tr>
       <tr>
           <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
           <td></td>
       </tr>
   </tbody>

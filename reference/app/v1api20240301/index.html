@@ -5983,7 +5983,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
       <tr>
           <td>identityReference</td>
           <td>A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned identities, use the full user-assigned identity Resource ID. For system-assigned identities, use <code>system</code></td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#WellKnownResourceReference">genruntime.WellKnownResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>passwordSecretRef</td>
@@ -6109,7 +6109,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
       <tr>
           <td>identityReference</td>
           <td>Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned identity.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#WellKnownResourceReference">genruntime.WellKnownResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>keyVaultUrl</td>
