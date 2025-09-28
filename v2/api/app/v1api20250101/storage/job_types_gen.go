@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20250101.Job
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/Jobs.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/Jobs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}
 type Job struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -157,7 +157,7 @@ func (job *Job) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20250101.Job
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/Jobs.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/Jobs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}
 type JobList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -382,11 +382,11 @@ type JobScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
-	Metadata          map[string]v1.JSON            `json:"metadata,omitempty"`
-	Name              *string                       `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type              *string                       `json:"type,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	Metadata          map[string]v1.JSON                     `json:"metadata,omitempty"`
+	Name              *string                                `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	Type              *string                                `json:"type,omitempty"`
 }
 
 // Storage version of v1api20250101.JobScaleRule_STATUS

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
+// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2022-05-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
 type ConfigurationStore struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (store *ConfigurationStore) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
+// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2022-05-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
 type ConfigurationStoreList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1328,8 +1328,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_From_ConfigurationStore
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnectionReference_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnectionReference_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnectionReference_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1472,8 +1470,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_To_ConfigurationStore_S
 	if store.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnectionReference_STATUS, len(store.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range store.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnectionReference_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnectionReference_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -1565,8 +1561,6 @@ func (operator *ConfigurationStoreOperatorSpec) AssignProperties_From_Configurat
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1583,8 +1577,6 @@ func (operator *ConfigurationStoreOperatorSpec) AssignProperties_From_Configurat
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1622,8 +1614,6 @@ func (operator *ConfigurationStoreOperatorSpec) AssignProperties_To_Configuratio
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1640,8 +1630,6 @@ func (operator *ConfigurationStoreOperatorSpec) AssignProperties_To_Configuratio
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2097,8 +2085,6 @@ func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source 
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -2132,8 +2118,6 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2276,8 +2260,6 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_From_ResourceIdentity_
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -2317,8 +2299,6 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_ST
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {

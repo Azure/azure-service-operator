@@ -15,7 +15,7 @@ APIVersion{#APIVersion}
 FederatedIdentityCredential{#FederatedIdentityCredential}
 ---------------------------------------------------------
 
-Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/&ZeroWidthSpace;userAssignedIdentities/&ZeroWidthSpace;{resourceName}/&ZeroWidthSpace;federatedIdentityCredentials/&ZeroWidthSpace;{federatedIdentityCredentialResourceName}
+Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/&ZeroWidthSpace;userAssignedIdentities/&ZeroWidthSpace;{resourceName}/&ZeroWidthSpace;federatedIdentityCredentials/&ZeroWidthSpace;{federatedIdentityCredentialResourceName}
 
 Used by: [FederatedIdentityCredentialList](#FederatedIdentityCredentialList).
 
@@ -54,7 +54,7 @@ Used by: [FederatedIdentityCredentialList](#FederatedIdentityCredentialList).
 FederatedIdentityCredentialList{#FederatedIdentityCredentialList}
 -----------------------------------------------------------------
 
-Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/&ZeroWidthSpace;userAssignedIdentities/&ZeroWidthSpace;{resourceName}/&ZeroWidthSpace;federatedIdentityCredentials/&ZeroWidthSpace;{federatedIdentityCredentialResourceName}
+Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/&ZeroWidthSpace;userAssignedIdentities/&ZeroWidthSpace;{resourceName}/&ZeroWidthSpace;federatedIdentityCredentials/&ZeroWidthSpace;{federatedIdentityCredentialResourceName}
 
 | Property                                                                            | Description | Type                                                                                      |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------|

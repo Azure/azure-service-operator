@@ -510,8 +510,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -528,8 +526,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -555,8 +551,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -573,8 +567,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -700,8 +692,6 @@ func (properties *FakeResourceProperties) AssignProperties_From_FakeResourceProp
 	if source.NsgMapReferences != nil {
 		nsgMapReferenceMap := make(map[string]genruntime.ResourceReference, len(source.NsgMapReferences))
 		for nsgMapReferenceKey, nsgMapReferenceValue := range source.NsgMapReferences {
-			// Shadow the loop variable to avoid aliasing
-			nsgMapReferenceValue := nsgMapReferenceValue
 			nsgMapReferenceMap[nsgMapReferenceKey] = nsgMapReferenceValue.Copy()
 		}
 		properties.NsgMapReferences = nsgMapReferenceMap
@@ -713,8 +703,6 @@ func (properties *FakeResourceProperties) AssignProperties_From_FakeResourceProp
 	if source.NsgReferences != nil {
 		nsgReferenceList := make([]genruntime.ResourceReference, len(source.NsgReferences))
 		for nsgReferenceIndex, nsgReferenceItem := range source.NsgReferences {
-			// Shadow the loop variable to avoid aliasing
-			nsgReferenceItem := nsgReferenceItem
 			nsgReferenceList[nsgReferenceIndex] = nsgReferenceItem.Copy()
 		}
 		properties.NsgReferences = nsgReferenceList
@@ -751,8 +739,6 @@ func (properties *FakeResourceProperties) AssignProperties_To_FakeResourceProper
 	if properties.NsgMapReferences != nil {
 		nsgMapReferenceMap := make(map[string]genruntime.ResourceReference, len(properties.NsgMapReferences))
 		for nsgMapReferenceKey, nsgMapReferenceValue := range properties.NsgMapReferences {
-			// Shadow the loop variable to avoid aliasing
-			nsgMapReferenceValue := nsgMapReferenceValue
 			nsgMapReferenceMap[nsgMapReferenceKey] = nsgMapReferenceValue.Copy()
 		}
 		destination.NsgMapReferences = nsgMapReferenceMap
@@ -764,8 +750,6 @@ func (properties *FakeResourceProperties) AssignProperties_To_FakeResourceProper
 	if properties.NsgReferences != nil {
 		nsgReferenceList := make([]genruntime.ResourceReference, len(properties.NsgReferences))
 		for nsgReferenceIndex, nsgReferenceItem := range properties.NsgReferences {
-			// Shadow the loop variable to avoid aliasing
-			nsgReferenceItem := nsgReferenceItem
 			nsgReferenceList[nsgReferenceIndex] = nsgReferenceItem.Copy()
 		}
 		destination.NsgReferences = nsgReferenceList

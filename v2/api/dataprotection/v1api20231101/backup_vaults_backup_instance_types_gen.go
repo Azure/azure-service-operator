@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}
 type BackupVaultsBackupInstance struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (instance *BackupVaultsBackupInstance) OriginalGVK() *schema.GroupVersionKi
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+// - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}
 type BackupVaultsBackupInstanceList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1655,8 +1655,6 @@ func (operator *BackupVaultsBackupInstanceOperatorSpec) AssignProperties_From_Ba
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1673,8 +1671,6 @@ func (operator *BackupVaultsBackupInstanceOperatorSpec) AssignProperties_From_Ba
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1700,8 +1696,6 @@ func (operator *BackupVaultsBackupInstanceOperatorSpec) AssignProperties_To_Back
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1718,8 +1712,6 @@ func (operator *BackupVaultsBackupInstanceOperatorSpec) AssignProperties_To_Back
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3676,8 +3668,6 @@ func (error *UserFacingError_STATUS) AssignProperties_From_UserFacingError_STATU
 	if source.Details != nil {
 		detailList := make([]UserFacingError_STATUS_Unrolled, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detail UserFacingError_STATUS_Unrolled
 			err := detail.AssignProperties_From_UserFacingError_STATUS_Unrolled(&detailItem)
 			if err != nil {
@@ -3746,8 +3736,6 @@ func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(
 	if error.Details != nil {
 		detailList := make([]storage.UserFacingError_STATUS_Unrolled, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detail storage.UserFacingError_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_UserFacingError_STATUS_Unrolled(&detail)
 			if err != nil {
@@ -4206,8 +4194,6 @@ func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(sourc
 	if source.BackupDatasourceParametersList != nil {
 		backupDatasourceParametersList := make([]BackupDatasourceParameters, len(source.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range source.BackupDatasourceParametersList {
-			// Shadow the loop variable to avoid aliasing
-			backupDatasourceParametersListItem := backupDatasourceParametersListItem
 			var backupDatasourceParametersListLocal BackupDatasourceParameters
 			err := backupDatasourceParametersListLocal.AssignProperties_From_BackupDatasourceParameters(&backupDatasourceParametersListItem)
 			if err != nil {
@@ -4224,8 +4210,6 @@ func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(sourc
 	if source.DataStoreParametersList != nil {
 		dataStoreParametersList := make([]DataStoreParameters, len(source.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range source.DataStoreParametersList {
-			// Shadow the loop variable to avoid aliasing
-			dataStoreParametersListItem := dataStoreParametersListItem
 			var dataStoreParametersListLocal DataStoreParameters
 			err := dataStoreParametersListLocal.AssignProperties_From_DataStoreParameters(&dataStoreParametersListItem)
 			if err != nil {
@@ -4251,8 +4235,6 @@ func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destina
 	if parameters.BackupDatasourceParametersList != nil {
 		backupDatasourceParametersList := make([]storage.BackupDatasourceParameters, len(parameters.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range parameters.BackupDatasourceParametersList {
-			// Shadow the loop variable to avoid aliasing
-			backupDatasourceParametersListItem := backupDatasourceParametersListItem
 			var backupDatasourceParametersListLocal storage.BackupDatasourceParameters
 			err := backupDatasourceParametersListItem.AssignProperties_To_BackupDatasourceParameters(&backupDatasourceParametersListLocal)
 			if err != nil {
@@ -4269,8 +4251,6 @@ func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destina
 	if parameters.DataStoreParametersList != nil {
 		dataStoreParametersList := make([]storage.DataStoreParameters, len(parameters.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range parameters.DataStoreParametersList {
-			// Shadow the loop variable to avoid aliasing
-			dataStoreParametersListItem := dataStoreParametersListItem
 			var dataStoreParametersListLocal storage.DataStoreParameters
 			err := dataStoreParametersListItem.AssignProperties_To_DataStoreParameters(&dataStoreParametersListLocal)
 			if err != nil {
@@ -4301,8 +4281,6 @@ func (parameters *PolicyParameters) Initialize_From_PolicyParameters_STATUS(sour
 	if source.BackupDatasourceParametersList != nil {
 		backupDatasourceParametersList := make([]BackupDatasourceParameters, len(source.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range source.BackupDatasourceParametersList {
-			// Shadow the loop variable to avoid aliasing
-			backupDatasourceParametersListItem := backupDatasourceParametersListItem
 			var backupDatasourceParametersListLocal BackupDatasourceParameters
 			err := backupDatasourceParametersListLocal.Initialize_From_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListItem)
 			if err != nil {
@@ -4319,8 +4297,6 @@ func (parameters *PolicyParameters) Initialize_From_PolicyParameters_STATUS(sour
 	if source.DataStoreParametersList != nil {
 		dataStoreParametersList := make([]DataStoreParameters, len(source.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range source.DataStoreParametersList {
-			// Shadow the loop variable to avoid aliasing
-			dataStoreParametersListItem := dataStoreParametersListItem
 			var dataStoreParametersListLocal DataStoreParameters
 			err := dataStoreParametersListLocal.Initialize_From_DataStoreParameters_STATUS(&dataStoreParametersListItem)
 			if err != nil {
@@ -4391,8 +4367,6 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameter
 	if source.BackupDatasourceParametersList != nil {
 		backupDatasourceParametersList := make([]BackupDatasourceParameters_STATUS, len(source.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range source.BackupDatasourceParametersList {
-			// Shadow the loop variable to avoid aliasing
-			backupDatasourceParametersListItem := backupDatasourceParametersListItem
 			var backupDatasourceParametersListLocal BackupDatasourceParameters_STATUS
 			err := backupDatasourceParametersListLocal.AssignProperties_From_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListItem)
 			if err != nil {
@@ -4409,8 +4383,6 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameter
 	if source.DataStoreParametersList != nil {
 		dataStoreParametersList := make([]DataStoreParameters_STATUS, len(source.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range source.DataStoreParametersList {
-			// Shadow the loop variable to avoid aliasing
-			dataStoreParametersListItem := dataStoreParametersListItem
 			var dataStoreParametersListLocal DataStoreParameters_STATUS
 			err := dataStoreParametersListLocal.AssignProperties_From_DataStoreParameters_STATUS(&dataStoreParametersListItem)
 			if err != nil {
@@ -4436,8 +4408,6 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_
 	if parameters.BackupDatasourceParametersList != nil {
 		backupDatasourceParametersList := make([]storage.BackupDatasourceParameters_STATUS, len(parameters.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range parameters.BackupDatasourceParametersList {
-			// Shadow the loop variable to avoid aliasing
-			backupDatasourceParametersListItem := backupDatasourceParametersListItem
 			var backupDatasourceParametersListLocal storage.BackupDatasourceParameters_STATUS
 			err := backupDatasourceParametersListItem.AssignProperties_To_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListLocal)
 			if err != nil {
@@ -4454,8 +4424,6 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_
 	if parameters.DataStoreParametersList != nil {
 		dataStoreParametersList := make([]storage.DataStoreParameters_STATUS, len(parameters.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range parameters.DataStoreParametersList {
-			// Shadow the loop variable to avoid aliasing
-			dataStoreParametersListItem := dataStoreParametersListItem
 			var dataStoreParametersListLocal storage.DataStoreParameters_STATUS
 			err := dataStoreParametersListItem.AssignProperties_To_DataStoreParameters_STATUS(&dataStoreParametersListLocal)
 			if err != nil {
@@ -6712,8 +6680,6 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 	if source.BackupHookReferences != nil {
 		backupHookReferenceList := make([]NamespacedNameResource, len(source.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range source.BackupHookReferences {
-			// Shadow the loop variable to avoid aliasing
-			backupHookReferenceItem := backupHookReferenceItem
 			var backupHookReference NamespacedNameResource
 			err := backupHookReference.AssignProperties_From_NamespacedNameResource(&backupHookReferenceItem)
 			if err != nil {
@@ -6779,8 +6745,6 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 	if parameters.BackupHookReferences != nil {
 		backupHookReferenceList := make([]storage.NamespacedNameResource, len(parameters.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range parameters.BackupHookReferences {
-			// Shadow the loop variable to avoid aliasing
-			backupHookReferenceItem := backupHookReferenceItem
 			var backupHookReference storage.NamespacedNameResource
 			err := backupHookReferenceItem.AssignProperties_To_NamespacedNameResource(&backupHookReference)
 			if err != nil {
@@ -6850,8 +6814,6 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) Initialize_From_K
 	if source.BackupHookReferences != nil {
 		backupHookReferenceList := make([]NamespacedNameResource, len(source.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range source.BackupHookReferences {
-			// Shadow the loop variable to avoid aliasing
-			backupHookReferenceItem := backupHookReferenceItem
 			var backupHookReference NamespacedNameResource
 			err := backupHookReference.Initialize_From_NamespacedNameResource_STATUS(&backupHookReferenceItem)
 			if err != nil {
@@ -7023,8 +6985,6 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 	if source.BackupHookReferences != nil {
 		backupHookReferenceList := make([]NamespacedNameResource_STATUS, len(source.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range source.BackupHookReferences {
-			// Shadow the loop variable to avoid aliasing
-			backupHookReferenceItem := backupHookReferenceItem
 			var backupHookReference NamespacedNameResource_STATUS
 			err := backupHookReference.AssignProperties_From_NamespacedNameResource_STATUS(&backupHookReferenceItem)
 			if err != nil {
@@ -7090,8 +7050,6 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 	if parameters.BackupHookReferences != nil {
 		backupHookReferenceList := make([]storage.NamespacedNameResource_STATUS, len(parameters.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range parameters.BackupHookReferences {
-			// Shadow the loop variable to avoid aliasing
-			backupHookReferenceItem := backupHookReferenceItem
 			var backupHookReference storage.NamespacedNameResource_STATUS
 			err := backupHookReferenceItem.AssignProperties_To_NamespacedNameResource_STATUS(&backupHookReference)
 			if err != nil {

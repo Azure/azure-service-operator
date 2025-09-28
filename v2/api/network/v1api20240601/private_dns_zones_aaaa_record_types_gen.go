@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/AAAA/{relativeRecordSetName}
 type PrivateDnsZonesAAAARecord struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (record *PrivateDnsZonesAAAARecord) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/AAAA/{relativeRecordSetName}
 type PrivateDnsZonesAAAARecordList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -613,8 +613,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_From_PrivateDnsZo
 	if source.ARecords != nil {
 		aRecordList := make([]ARecord, len(source.ARecords))
 		for aRecordIndex, aRecordItem := range source.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
 			var aRecord ARecord
 			err := aRecord.AssignProperties_From_ARecord(&aRecordItem)
 			if err != nil {
@@ -631,8 +629,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_From_PrivateDnsZo
 	if source.AaaaRecords != nil {
 		aaaaRecordList := make([]AaaaRecord, len(source.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range source.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord AaaaRecord
 			err := aaaaRecord.AssignProperties_From_AaaaRecord(&aaaaRecordItem)
 			if err != nil {
@@ -670,8 +666,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_From_PrivateDnsZo
 	if source.MxRecords != nil {
 		mxRecordList := make([]MxRecord, len(source.MxRecords))
 		for mxRecordIndex, mxRecordItem := range source.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
 			var mxRecord MxRecord
 			err := mxRecord.AssignProperties_From_MxRecord(&mxRecordItem)
 			if err != nil {
@@ -708,8 +702,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_From_PrivateDnsZo
 	if source.PtrRecords != nil {
 		ptrRecordList := make([]PtrRecord, len(source.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range source.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
 			var ptrRecord PtrRecord
 			err := ptrRecord.AssignProperties_From_PtrRecord(&ptrRecordItem)
 			if err != nil {
@@ -738,8 +730,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_From_PrivateDnsZo
 	if source.SrvRecords != nil {
 		srvRecordList := make([]SrvRecord, len(source.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range source.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
 			var srvRecord SrvRecord
 			err := srvRecord.AssignProperties_From_SrvRecord(&srvRecordItem)
 			if err != nil {
@@ -759,8 +749,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_From_PrivateDnsZo
 	if source.TxtRecords != nil {
 		txtRecordList := make([]TxtRecord, len(source.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range source.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
 			var txtRecord TxtRecord
 			err := txtRecord.AssignProperties_From_TxtRecord(&txtRecordItem)
 			if err != nil {
@@ -786,8 +774,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	if record.ARecords != nil {
 		aRecordList := make([]storage.ARecord, len(record.ARecords))
 		for aRecordIndex, aRecordItem := range record.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
 			var aRecord storage.ARecord
 			err := aRecordItem.AssignProperties_To_ARecord(&aRecord)
 			if err != nil {
@@ -804,8 +790,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	if record.AaaaRecords != nil {
 		aaaaRecordList := make([]storage.AaaaRecord, len(record.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range record.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord storage.AaaaRecord
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord(&aaaaRecord)
 			if err != nil {
@@ -843,8 +827,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	if record.MxRecords != nil {
 		mxRecordList := make([]storage.MxRecord, len(record.MxRecords))
 		for mxRecordIndex, mxRecordItem := range record.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
 			var mxRecord storage.MxRecord
 			err := mxRecordItem.AssignProperties_To_MxRecord(&mxRecord)
 			if err != nil {
@@ -884,8 +866,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	if record.PtrRecords != nil {
 		ptrRecordList := make([]storage.PtrRecord, len(record.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range record.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
 			var ptrRecord storage.PtrRecord
 			err := ptrRecordItem.AssignProperties_To_PtrRecord(&ptrRecord)
 			if err != nil {
@@ -914,8 +894,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	if record.SrvRecords != nil {
 		srvRecordList := make([]storage.SrvRecord, len(record.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range record.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
 			var srvRecord storage.SrvRecord
 			err := srvRecordItem.AssignProperties_To_SrvRecord(&srvRecord)
 			if err != nil {
@@ -935,8 +913,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	if record.TxtRecords != nil {
 		txtRecordList := make([]storage.TxtRecord, len(record.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range record.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
 			var txtRecord storage.TxtRecord
 			err := txtRecordItem.AssignProperties_To_TxtRecord(&txtRecord)
 			if err != nil {
@@ -967,8 +943,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAA
 	if source.ARecords != nil {
 		aRecordList := make([]ARecord, len(source.ARecords))
 		for aRecordIndex, aRecordItem := range source.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
 			var aRecord ARecord
 			err := aRecord.Initialize_From_ARecord_STATUS(&aRecordItem)
 			if err != nil {
@@ -985,8 +959,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAA
 	if source.AaaaRecords != nil {
 		aaaaRecordList := make([]AaaaRecord, len(source.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range source.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord AaaaRecord
 			err := aaaaRecord.Initialize_From_AaaaRecord_STATUS(&aaaaRecordItem)
 			if err != nil {
@@ -1021,8 +993,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAA
 	if source.MxRecords != nil {
 		mxRecordList := make([]MxRecord, len(source.MxRecords))
 		for mxRecordIndex, mxRecordItem := range source.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
 			var mxRecord MxRecord
 			err := mxRecord.Initialize_From_MxRecord_STATUS(&mxRecordItem)
 			if err != nil {
@@ -1039,8 +1009,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAA
 	if source.PtrRecords != nil {
 		ptrRecordList := make([]PtrRecord, len(source.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range source.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
 			var ptrRecord PtrRecord
 			err := ptrRecord.Initialize_From_PtrRecord_STATUS(&ptrRecordItem)
 			if err != nil {
@@ -1069,8 +1037,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAA
 	if source.SrvRecords != nil {
 		srvRecordList := make([]SrvRecord, len(source.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range source.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
 			var srvRecord SrvRecord
 			err := srvRecord.Initialize_From_SrvRecord_STATUS(&srvRecordItem)
 			if err != nil {
@@ -1090,8 +1056,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAA
 	if source.TxtRecords != nil {
 		txtRecordList := make([]TxtRecord, len(source.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range source.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
 			var txtRecord TxtRecord
 			err := txtRecord.Initialize_From_TxtRecord_STATUS(&txtRecordItem)
 			if err != nil {
@@ -1137,8 +1101,8 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// Fqdn: Fully qualified domain name of the record set.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// Id: Fully qualified resource Id for the resource. Example -
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// IsAutoRegistered: Is the record set auto-registered in the Private DNS zone through a virtual network link?
@@ -1150,7 +1114,7 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// MxRecords: The list of MX records in the record set.
 	MxRecords []MxRecord_STATUS `json:"mxRecords,omitempty"`
 
-	// Name: The name of the record set.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PtrRecords: The list of PTR records in the record set.
@@ -1162,13 +1126,16 @@ type PrivateDnsZonesAAAARecord_STATUS struct {
 	// SrvRecords: The list of SRV records in the record set.
 	SrvRecords []SrvRecord_STATUS `json:"srvRecords,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Ttl: The TTL (time-to-live) of the records in the record set.
 	Ttl *int `json:"ttl,omitempty"`
 
 	// TxtRecords: The list of TXT records in the record set.
 	TxtRecords []TxtRecord_STATUS `json:"txtRecords,omitempty"`
 
-	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -1378,6 +1345,17 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		record.SystemData = &systemData
+	}
+
 	// Set property "Ttl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1417,8 +1395,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 	if source.ARecords != nil {
 		aRecordList := make([]ARecord_STATUS, len(source.ARecords))
 		for aRecordIndex, aRecordItem := range source.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
 			var aRecord ARecord_STATUS
 			err := aRecord.AssignProperties_From_ARecord_STATUS(&aRecordItem)
 			if err != nil {
@@ -1435,8 +1411,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 	if source.AaaaRecords != nil {
 		aaaaRecordList := make([]AaaaRecord_STATUS, len(source.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range source.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord AaaaRecord_STATUS
 			err := aaaaRecord.AssignProperties_From_AaaaRecord_STATUS(&aaaaRecordItem)
 			if err != nil {
@@ -1488,8 +1462,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 	if source.MxRecords != nil {
 		mxRecordList := make([]MxRecord_STATUS, len(source.MxRecords))
 		for mxRecordIndex, mxRecordItem := range source.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
 			var mxRecord MxRecord_STATUS
 			err := mxRecord.AssignProperties_From_MxRecord_STATUS(&mxRecordItem)
 			if err != nil {
@@ -1509,8 +1481,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 	if source.PtrRecords != nil {
 		ptrRecordList := make([]PtrRecord_STATUS, len(source.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range source.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
 			var ptrRecord PtrRecord_STATUS
 			err := ptrRecord.AssignProperties_From_PtrRecord_STATUS(&ptrRecordItem)
 			if err != nil {
@@ -1539,8 +1509,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 	if source.SrvRecords != nil {
 		srvRecordList := make([]SrvRecord_STATUS, len(source.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range source.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
 			var srvRecord SrvRecord_STATUS
 			err := srvRecord.AssignProperties_From_SrvRecord_STATUS(&srvRecordItem)
 			if err != nil {
@@ -1553,6 +1521,18 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 		record.SrvRecords = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		record.SystemData = &systemDatum
+	} else {
+		record.SystemData = nil
+	}
+
 	// Ttl
 	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
 
@@ -1560,8 +1540,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_From_PrivateDns
 	if source.TxtRecords != nil {
 		txtRecordList := make([]TxtRecord_STATUS, len(source.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range source.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
 			var txtRecord TxtRecord_STATUS
 			err := txtRecord.AssignProperties_From_TxtRecord_STATUS(&txtRecordItem)
 			if err != nil {
@@ -1590,8 +1568,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 	if record.ARecords != nil {
 		aRecordList := make([]storage.ARecord_STATUS, len(record.ARecords))
 		for aRecordIndex, aRecordItem := range record.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
 			var aRecord storage.ARecord_STATUS
 			err := aRecordItem.AssignProperties_To_ARecord_STATUS(&aRecord)
 			if err != nil {
@@ -1608,8 +1584,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 	if record.AaaaRecords != nil {
 		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(record.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range record.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord storage.AaaaRecord_STATUS
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord_STATUS(&aaaaRecord)
 			if err != nil {
@@ -1661,8 +1635,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 	if record.MxRecords != nil {
 		mxRecordList := make([]storage.MxRecord_STATUS, len(record.MxRecords))
 		for mxRecordIndex, mxRecordItem := range record.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
 			var mxRecord storage.MxRecord_STATUS
 			err := mxRecordItem.AssignProperties_To_MxRecord_STATUS(&mxRecord)
 			if err != nil {
@@ -1682,8 +1654,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 	if record.PtrRecords != nil {
 		ptrRecordList := make([]storage.PtrRecord_STATUS, len(record.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range record.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
 			var ptrRecord storage.PtrRecord_STATUS
 			err := ptrRecordItem.AssignProperties_To_PtrRecord_STATUS(&ptrRecord)
 			if err != nil {
@@ -1712,8 +1682,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 	if record.SrvRecords != nil {
 		srvRecordList := make([]storage.SrvRecord_STATUS, len(record.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range record.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
 			var srvRecord storage.SrvRecord_STATUS
 			err := srvRecordItem.AssignProperties_To_SrvRecord_STATUS(&srvRecord)
 			if err != nil {
@@ -1726,6 +1694,18 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 		destination.SrvRecords = nil
 	}
 
+	// SystemData
+	if record.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := record.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Ttl
 	destination.Ttl = genruntime.ClonePointerToInt(record.Ttl)
 
@@ -1733,8 +1713,6 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 	if record.TxtRecords != nil {
 		txtRecordList := make([]storage.TxtRecord_STATUS, len(record.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range record.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
 			var txtRecord storage.TxtRecord_STATUS
 			err := txtRecordItem.AssignProperties_To_TxtRecord_STATUS(&txtRecord)
 			if err != nil {
@@ -2388,8 +2366,6 @@ func (operator *PrivateDnsZonesAAAARecordOperatorSpec) AssignProperties_From_Pri
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2406,8 +2382,6 @@ func (operator *PrivateDnsZonesAAAARecordOperatorSpec) AssignProperties_From_Pri
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2433,8 +2407,6 @@ func (operator *PrivateDnsZonesAAAARecordOperatorSpec) AssignProperties_To_Priva
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2451,8 +2423,6 @@ func (operator *PrivateDnsZonesAAAARecordOperatorSpec) AssignProperties_To_Priva
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

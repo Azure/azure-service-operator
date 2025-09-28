@@ -1350,8 +1350,6 @@ func (operator *ImageOperatorSpec) AssignProperties_From_ImageOperatorSpec(sourc
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1368,8 +1366,6 @@ func (operator *ImageOperatorSpec) AssignProperties_From_ImageOperatorSpec(sourc
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1395,8 +1391,6 @@ func (operator *ImageOperatorSpec) AssignProperties_To_ImageOperatorSpec(destina
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1413,8 +1407,6 @@ func (operator *ImageOperatorSpec) AssignProperties_To_ImageOperatorSpec(destina
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1541,8 +1533,6 @@ func (profile *ImageStorageProfile) AssignProperties_From_ImageStorageProfile(so
 	if source.DataDisks != nil {
 		dataDiskList := make([]ImageDataDisk, len(source.DataDisks))
 		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk ImageDataDisk
 			err := dataDisk.AssignProperties_From_ImageDataDisk(&dataDiskItem)
 			if err != nil {
@@ -1588,8 +1578,6 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 	if profile.DataDisks != nil {
 		dataDiskList := make([]storage.ImageDataDisk, len(profile.DataDisks))
 		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk storage.ImageDataDisk
 			err := dataDiskItem.AssignProperties_To_ImageDataDisk(&dataDisk)
 			if err != nil {
@@ -1640,8 +1628,6 @@ func (profile *ImageStorageProfile) Initialize_From_ImageStorageProfile_STATUS(s
 	if source.DataDisks != nil {
 		dataDiskList := make([]ImageDataDisk, len(source.DataDisks))
 		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk ImageDataDisk
 			err := dataDisk.Initialize_From_ImageDataDisk_STATUS(&dataDiskItem)
 			if err != nil {
@@ -1747,8 +1733,6 @@ func (profile *ImageStorageProfile_STATUS) AssignProperties_From_ImageStoragePro
 	if source.DataDisks != nil {
 		dataDiskList := make([]ImageDataDisk_STATUS, len(source.DataDisks))
 		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk ImageDataDisk_STATUS
 			err := dataDisk.AssignProperties_From_ImageDataDisk_STATUS(&dataDiskItem)
 			if err != nil {
@@ -1794,8 +1778,6 @@ func (profile *ImageStorageProfile_STATUS) AssignProperties_To_ImageStorageProfi
 	if profile.DataDisks != nil {
 		dataDiskList := make([]storage.ImageDataDisk_STATUS, len(profile.DataDisks))
 		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
 			var dataDisk storage.ImageDataDisk_STATUS
 			err := dataDiskItem.AssignProperties_To_ImageDataDisk_STATUS(&dataDisk)
 			if err != nil {

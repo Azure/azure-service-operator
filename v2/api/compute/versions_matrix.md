@@ -17,6 +17,8 @@
 | ApiError_STATUS                                                                            |               | v1api20201201 |               | v1api20220301 | v1api20220702 | v1api20240302 |               |
 | ApplicationProfile                                                                         |               |               |               | v1api20220301 |               |               |               |
 | ApplicationProfile_STATUS                                                                  |               |               |               | v1api20220301 |               |               |               |
+| Architecture                                                                               |               |               |               |               |               | v1api20240302 |               |
+| Architecture_STATUS                                                                        |               |               |               |               |               | v1api20240302 |               |
 | AutomaticOSUpgradePolicy                                                                   |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | AutomaticOSUpgradePolicy_STATUS                                                            |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | AutomaticRepairsPolicy                                                                     |               | v1api20201201 |               | v1api20220301 |               |               |               |
@@ -40,16 +42,14 @@
 | CapacityReservationProfile                                                                 |               |               |               | v1api20220301 |               |               |               |
 | CapacityReservationProfile_STATUS                                                          |               |               |               | v1api20220301 |               |               |               |
 | CopyCompletionError                                                                        |               |               |               |               |               | v1api20240302 |               |
-| CopyCompletionError_ErrorCode                                                              |               |               |               |               |               | v1api20240302 |               |
-| CopyCompletionError_ErrorCode_STATUS                                                       |               |               |               |               |               | v1api20240302 |               |
+| CopyCompletionErrorReason                                                                  |               |               |               |               |               | v1api20240302 |               |
+| CopyCompletionErrorReason_STATUS                                                           |               |               |               |               |               | v1api20240302 |               |
 | CopyCompletionError_STATUS                                                                 |               |               |               |               |               | v1api20240302 |               |
 | CreateOption                                                                               |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | CreateOption_STATUS                                                                        |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | CreationData                                                                               | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| CreationData_CreateOption                                                                  | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| CreationData_CreateOption_STATUS                                                           | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| CreationData_ProvisionedBandwidthCopySpeed                                                 |               |               |               |               |               | v1api20240302 |               |
-| CreationData_ProvisionedBandwidthCopySpeed_STATUS                                          |               |               |               |               |               | v1api20240302 |               |
+| CreationData_CreateOption                                                                  | v1api20200930 |               |               |               |               |               |               |
+| CreationData_CreateOption_STATUS                                                           | v1api20200930 |               |               |               |               |               |               |
 | CreationData_STATUS                                                                        | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | DataAccessAuthMode                                                                         |               |               |               |               |               | v1api20240302 |               |
 | DataAccessAuthMode_STATUS                                                                  |               |               |               |               |               | v1api20240302 |               |
@@ -73,7 +73,11 @@
 | DiskAccessProperties_STATUS                                                                |               |               |               |               |               | v1api20240302 |               |
 | DiskAccess_STATUS                                                                          |               |               |               |               |               | v1api20240302 |               |
 | DiskAccess_Spec                                                                            |               |               |               |               |               | v1api20240302 |               |
+| DiskCreateOption                                                                           |               |               |               |               |               | v1api20240302 |               |
+| DiskCreateOption_STATUS                                                                    |               |               |               |               |               | v1api20240302 |               |
 | DiskEncryptionSet                                                                          |               |               |               |               | v1api20220702 | v1api20240302 |               |
+| DiskEncryptionSetIdentityType                                                              |               |               |               |               |               | v1api20240302 |               |
+| DiskEncryptionSetIdentityType_STATUS                                                       |               |               |               |               |               | v1api20240302 |               |
 | DiskEncryptionSetType                                                                      |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | DiskEncryptionSetType_STATUS                                                               |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | DiskEncryptionSet_STATUS                                                                   |               |               |               |               | v1api20220702 | v1api20240302 |               |
@@ -82,29 +86,31 @@
 | DiskEncryptionSettings_STATUS                                                              |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | DiskInstanceView_STATUS                                                                    |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | DiskProperties                                                                             | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskProperties_HyperVGeneration                                                            | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskProperties_HyperVGeneration_STATUS                                                     | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskProperties_OsType                                                                      | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskProperties_OsType_STATUS                                                               | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| DiskProperties_HyperVGeneration                                                            | v1api20200930 |               |               |               |               |               |               |
+| DiskProperties_HyperVGeneration_STATUS                                                     | v1api20200930 |               |               |               |               |               |               |
+| DiskProperties_OsType                                                                      | v1api20200930 |               |               |               |               |               |               |
+| DiskProperties_OsType_STATUS                                                               | v1api20200930 |               |               |               |               |               |               |
 | DiskProperties_STATUS                                                                      | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| DiskPurchasePlan                                                                           |               |               |               |               |               | v1api20240302 |               |
+| DiskPurchasePlan_STATUS                                                                    |               |               |               |               |               | v1api20240302 |               |
 | DiskSecurityProfile                                                                        |               |               |               |               |               | v1api20240302 |               |
 | DiskSecurityProfile_STATUS                                                                 |               |               |               |               |               | v1api20240302 |               |
-| DiskSecurityType                                                                           |               |               |               |               |               | v1api20240302 |               |
-| DiskSecurityType_STATUS                                                                    |               |               |               |               |               | v1api20240302 |               |
+| DiskSecurityTypes                                                                          |               |               |               |               |               | v1api20240302 |               |
+| DiskSecurityTypes_STATUS                                                                   |               |               |               |               |               | v1api20240302 |               |
 | DiskSku                                                                                    | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskSku_Name                                                                               | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskSku_Name_STATUS                                                                        | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| DiskSku_Name                                                                               | v1api20200930 |               |               |               |               |               |               |
+| DiskSku_Name_STATUS                                                                        | v1api20200930 |               |               |               |               |               |               |
 | DiskSku_STATUS                                                                             | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| DiskState                                                                                  | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | DiskState_STATUS                                                                           | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| DiskStorageAccountTypes                                                                    |               |               |               |               |               | v1api20240302 |               |
+| DiskStorageAccountTypes_STATUS                                                             |               |               |               |               |               | v1api20240302 |               |
 | Disk_STATUS                                                                                | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | Disk_Spec                                                                                  | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | Encryption                                                                                 | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | EncryptionSetIdentity                                                                      |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | EncryptionSetIdentity_STATUS                                                               |               |               |               |               | v1api20220702 | v1api20240302 |               |
-| EncryptionSetIdentity_Type                                                                 |               |               |               |               | v1api20220702 | v1api20240302 |               |
-| EncryptionSetIdentity_Type_STATUS                                                          |               |               |               |               | v1api20220702 | v1api20240302 |               |
-| EncryptionSetIdentity_UserAssignedIdentities_STATUS                                        |               |               |               |               | v1api20220702 | v1api20240302 |               |
+| EncryptionSetIdentity_Type                                                                 |               |               |               |               | v1api20220702 |               |               |
+| EncryptionSetIdentity_Type_STATUS                                                          |               |               |               |               | v1api20220702 |               |               |
 | EncryptionSetProperties                                                                    |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | EncryptionSetProperties_STATUS                                                             |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | EncryptionSettingsCollection                                                               | v1api20200930 |               |               |               |               | v1api20240302 |               |
@@ -125,8 +131,10 @@
 | HardwareProfile                                                                            |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | HardwareProfile_STATUS                                                                     |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | HardwareProfile_VmSize_STATUS                                                              |               | v1api20201201 |               | v1api20220301 |               |               |               |
+| HyperVGeneration                                                                           |               |               |               |               |               | v1api20240302 |               |
 | HyperVGenerationType                                                                       |               |               | v1api20210701 | v1api20220301 |               |               |               |
 | HyperVGenerationType_STATUS                                                                |               |               | v1api20210701 | v1api20220301 |               |               |               |
+| HyperVGeneration_STATUS                                                                    |               |               |               |               |               | v1api20240302 |               |
 | Image                                                                                      |               |               | v1api20210701 | v1api20220301 |               |               |               |
 | ImageDataDisk                                                                              |               |               | v1api20210701 | v1api20220301 |               |               |               |
 | ImageDataDisk_Caching                                                                      |               |               | v1api20210701 | v1api20220301 |               |               |               |
@@ -153,7 +161,7 @@
 | InnerError_STATUS                                                                          |               | v1api20201201 |               | v1api20220301 | v1api20220702 | v1api20240302 |               |
 | InstanceViewStatus                                                                         |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | InstanceViewStatus_Level                                                                   |               | v1api20201201 |               | v1api20220301 |               |               |               |
-| InstanceViewStatus_Level_STATUS                                                            |               | v1api20201201 |               | v1api20220301 |               |               | v1api20241101 |
+| InstanceViewStatus_Level_STATUS                                                            |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | InstanceViewStatus_STATUS                                                                  |               | v1api20201201 |               | v1api20220301 |               |               | v1api20241101 |
 | KeyForDiskEncryptionSet                                                                    |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | KeyForDiskEncryptionSet_STATUS                                                             |               |               |               |               | v1api20220702 | v1api20240302 |               |
@@ -201,6 +209,8 @@
 | OSDisk_STATUS                                                                              |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | OSProfile                                                                                  |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | OSProfile_STATUS                                                                           |               | v1api20201201 |               | v1api20220301 |               |               |               |
+| OperatingSystemTypes                                                                       |               |               |               |               |               | v1api20240302 |               |
+| OperatingSystemTypes_STATUS                                                                |               |               |               |               |               | v1api20240302 |               |
 | OrchestrationMode                                                                          |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | OrchestrationMode_STATUS                                                                   |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | PatchSettings                                                                              |               | v1api20201201 |               | v1api20220301 |               |               |               |
@@ -215,6 +225,8 @@
 | Priority_STATUS                                                                            |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | PrivateEndpointConnection_STATUS                                                           |               |               |               |               |               | v1api20240302 |               |
 | PropertyUpdatesInProgress_STATUS                                                           |               |               |               |               |               | v1api20240302 |               |
+| ProvisionedBandwidthCopyOption                                                             |               |               |               |               |               | v1api20240302 |               |
+| ProvisionedBandwidthCopyOption_STATUS                                                      |               |               |               |               |               | v1api20240302 |               |
 | PublicIPAddressSku                                                                         |               |               |               | v1api20220301 |               |               |               |
 | PublicIPAddressSku_Name                                                                    |               |               |               | v1api20220301 |               |               |               |
 | PublicIPAddressSku_Name_STATUS                                                             |               |               |               | v1api20220301 |               |               |               |
@@ -223,8 +235,8 @@
 | PublicIPAddressSku_Tier_STATUS                                                             |               |               |               | v1api20220301 |               |               |               |
 | PublicNetworkAccess                                                                        |               |               |               |               |               | v1api20240302 |               |
 | PublicNetworkAccess_STATUS                                                                 |               |               |               |               |               | v1api20240302 |               |
-| PurchasePlan                                                                               | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| PurchasePlan_STATUS                                                                        | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| PurchasePlan                                                                               | v1api20200930 |               |               |               |               |               |               |
+| PurchasePlan_STATUS                                                                        | v1api20200930 |               |               |               |               |               |               |
 | RollingUpgradePolicy                                                                       |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | RollingUpgradePolicy_STATUS                                                                |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | ScaleInPolicy                                                                              |               | v1api20201201 |               | v1api20220301 |               |               |               |
@@ -246,15 +258,17 @@
 | Sku_STATUS                                                                                 |               | v1api20201201 |               | v1api20220301 |               |               | v1api20241101 |
 | Snapshot                                                                                   | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | SnapshotProperties                                                                         | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| SnapshotProperties_HyperVGeneration                                                        | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| SnapshotProperties_HyperVGeneration_STATUS                                                 | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| SnapshotProperties_OsType                                                                  | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| SnapshotProperties_OsType_STATUS                                                           | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| SnapshotProperties_HyperVGeneration                                                        | v1api20200930 |               |               |               |               |               |               |
+| SnapshotProperties_HyperVGeneration_STATUS                                                 | v1api20200930 |               |               |               |               |               |               |
+| SnapshotProperties_OsType                                                                  | v1api20200930 |               |               |               |               |               |               |
+| SnapshotProperties_OsType_STATUS                                                           | v1api20200930 |               |               |               |               |               |               |
 | SnapshotProperties_STATUS                                                                  | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | SnapshotSku                                                                                | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| SnapshotSku_Name                                                                           | v1api20200930 |               |               |               |               | v1api20240302 |               |
-| SnapshotSku_Name_STATUS                                                                    | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| SnapshotSku_Name                                                                           | v1api20200930 |               |               |               |               |               |               |
+| SnapshotSku_Name_STATUS                                                                    | v1api20200930 |               |               |               |               |               |               |
 | SnapshotSku_STATUS                                                                         | v1api20200930 |               |               |               |               | v1api20240302 |               |
+| SnapshotStorageAccountTypes                                                                |               |               |               |               |               | v1api20240302 |               |
+| SnapshotStorageAccountTypes_STATUS                                                         |               |               |               |               |               | v1api20240302 |               |
 | Snapshot_STATUS                                                                            | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | Snapshot_Spec                                                                              | v1api20200930 |               |               |               |               | v1api20240302 |               |
 | SourceVault                                                                                | v1api20200930 |               |               |               | v1api20220702 | v1api20240302 |               |
@@ -265,6 +279,7 @@
 | SshConfiguration_STATUS                                                                    |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | SshPublicKeySpec                                                                           |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | SshPublicKey_STATUS                                                                        |               | v1api20201201 |               | v1api20220301 |               |               |               |
+| StatusLevelTypes_STATUS                                                                    |               |               |               |               |               |               | v1api20241101 |
 | StorageAccountType                                                                         |               | v1api20201201 | v1api20210701 | v1api20220301 |               |               |               |
 | StorageAccountType_STATUS                                                                  |               | v1api20201201 | v1api20210701 | v1api20220301 |               |               |               |
 | StorageProfile                                                                             |               | v1api20201201 |               | v1api20220301 |               |               |               |
@@ -272,9 +287,10 @@
 | SubResource                                                                                |               | v1api20201201 | v1api20210701 | v1api20220301 |               |               | v1api20241101 |
 | SubResource_STATUS                                                                         |               | v1api20201201 | v1api20210701 | v1api20220301 |               |               | v1api20241101 |
 | SupportedCapabilities                                                                      |               |               |               |               |               | v1api20240302 |               |
-| SupportedCapabilities_Architecture                                                         |               |               |               |               |               | v1api20240302 |               |
-| SupportedCapabilities_Architecture_STATUS                                                  |               |               |               |               |               | v1api20240302 |               |
 | SupportedCapabilities_STATUS                                                               |               |               |               |               |               | v1api20240302 |               |
+| SystemData_CreatedByType_STATUS                                                            |               |               |               |               |               | v1api20240302 | v1api20241101 |
+| SystemData_LastModifiedByType_STATUS                                                       |               |               |               |               |               | v1api20240302 | v1api20241101 |
+| SystemData_STATUS                                                                          |               |               |               |               |               | v1api20240302 | v1api20241101 |
 | TerminateNotificationProfile                                                               |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | TerminateNotificationProfile_STATUS                                                        |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | UefiSettings                                                                               |               | v1api20201201 |               | v1api20220301 |               |               |               |
@@ -283,6 +299,7 @@
 | UpgradePolicy_Mode                                                                         |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | UpgradePolicy_Mode_STATUS                                                                  |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | UpgradePolicy_STATUS                                                                       |               | v1api20201201 |               | v1api20220301 |               |               |               |
+| UserAssignedIdentitiesValue_STATUS                                                         |               |               |               |               | v1api20220702 | v1api20240302 |               |
 | UserAssignedIdentityDetails                                                                |               | v1api20201201 |               | v1api20220301 | v1api20220702 | v1api20240302 |               |
 | UserInitiatedReboot                                                                        |               |               |               |               |               |               | v1api20241101 |
 | UserInitiatedReboot_STATUS                                                                 |               |               |               |               |               |               | v1api20241101 |

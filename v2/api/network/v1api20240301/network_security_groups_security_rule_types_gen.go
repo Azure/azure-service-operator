@@ -668,8 +668,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_From_Networ
 	if source.DestinationApplicationSecurityGroups != nil {
 		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
 			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
@@ -739,8 +737,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_From_Networ
 	if source.SourceApplicationSecurityGroups != nil {
 		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
 			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
@@ -792,8 +788,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkS
 	if rule.DestinationApplicationSecurityGroups != nil {
 		destinationApplicationSecurityGroupList := make([]storage.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(rule.DestinationApplicationSecurityGroups))
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
 			var destinationApplicationSecurityGroup storage.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroup)
 			if err != nil {
@@ -864,8 +858,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkS
 	if rule.SourceApplicationSecurityGroups != nil {
 		sourceApplicationSecurityGroupList := make([]storage.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(rule.SourceApplicationSecurityGroups))
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
 			var sourceApplicationSecurityGroup storage.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroup)
 			if err != nil {
@@ -919,8 +911,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) Initialize_From_NetworkSecur
 	if source.DestinationApplicationSecurityGroups != nil {
 		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
 			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
@@ -968,8 +958,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) Initialize_From_NetworkSecur
 	if source.SourceApplicationSecurityGroups != nil {
 		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
 			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
@@ -1351,8 +1339,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_From_Netw
 	if source.DestinationApplicationSecurityGroups != nil {
 		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
 			var destinationApplicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
@@ -1420,8 +1406,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_From_Netw
 	if source.SourceApplicationSecurityGroups != nil {
 		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
 			var sourceApplicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
@@ -1476,8 +1460,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_To_Networ
 	if rule.DestinationApplicationSecurityGroups != nil {
 		destinationApplicationSecurityGroupList := make([]storage.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(rule.DestinationApplicationSecurityGroups))
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
 			var destinationApplicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroup)
 			if err != nil {
@@ -1542,8 +1524,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_To_Networ
 	if rule.SourceApplicationSecurityGroups != nil {
 		sourceApplicationSecurityGroupList := make([]storage.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(rule.SourceApplicationSecurityGroups))
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
 			var sourceApplicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroup)
 			if err != nil {
@@ -1750,8 +1730,6 @@ func (operator *NetworkSecurityGroupsSecurityRuleOperatorSpec) AssignProperties_
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1768,8 +1746,6 @@ func (operator *NetworkSecurityGroupsSecurityRuleOperatorSpec) AssignProperties_
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1795,8 +1771,6 @@ func (operator *NetworkSecurityGroupsSecurityRuleOperatorSpec) AssignProperties_
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1813,8 +1787,6 @@ func (operator *NetworkSecurityGroupsSecurityRuleOperatorSpec) AssignProperties_
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

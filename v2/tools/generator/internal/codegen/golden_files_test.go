@@ -336,13 +336,13 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 			isCrossResourceReference := func(
 				_ astmodel.InternalTypeName,
 				prop *astmodel.PropertyDefinition,
-			) pipeline.ARMIDPropertyClassification {
+			) pipeline.ReferenceType {
 				ref := pipeline.DoesPropertyLookLikeARMReference(prop)
 				if ref {
-					return pipeline.ARMIDPropertyClassificationSet
+					return pipeline.ReferenceTypeARM
 				}
 
-				return pipeline.ARMIDPropertyClassificationUnspecified
+				return pipeline.ReferenceTypeUnspecified
 			}
 
 			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference, logr.Discard())
@@ -361,7 +361,12 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 					return nil, eris.Wrapf(err, "crossReferenceVisitor failed visiting %q", def.Name())
 				}
 
-				updatedDef, err = resourceReferenceVisitor.VisitDefinition(updatedDef, def.Name())
+				conversionContext := pipeline.ARMIDToReferenceTypeConverterContext{
+					DefinitionName:        def.Name(),
+					SelectedReferenceType: astmodel.ResourceReferenceType,
+				}
+
+				updatedDef, err = resourceReferenceVisitor.VisitDefinition(updatedDef, conversionContext)
 				if err != nil {
 					return nil, eris.Wrapf(err, "resourceReferenceVisitor failed visiting %q", def.Name())
 				}
@@ -405,10 +410,7 @@ func TestGolden(t *testing.T) {
 		t.Fatalf("Expected at least %d test groups, found: %d", minExpectedTestGroups, len(testGroups))
 	}
 
-	// Skip linting next line, see https://github.com/kunwardeep/paralleltest/issues/14. Linter doesn't support maps
-	// nolint:paralleltest
 	for groupName, fs := range testGroups {
-		fs := fs
 		groupName := groupName
 
 		configPath := fmt.Sprintf("%s/%s/config.yaml", testDataRoot, groupName)

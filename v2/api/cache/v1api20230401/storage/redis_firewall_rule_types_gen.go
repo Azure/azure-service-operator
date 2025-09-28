@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RedisFirewallRule{}
 
 // ConvertFrom populates our RedisFirewallRule from the provided hub RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230801/storage/RedisFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_RedisFirewallRule(source)
+	err = rule.AssignProperties_From_RedisFirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisFirewallRule from our RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230801/storage/RedisFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisFirewallRule
+	err := rule.AssignProperties_To_RedisFirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_RedisFirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisFirewallRule{}
@@ -615,8 +628,6 @@ func (operator *RedisFirewallRuleOperatorSpec) AssignProperties_From_RedisFirewa
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -633,8 +644,6 @@ func (operator *RedisFirewallRuleOperatorSpec) AssignProperties_From_RedisFirewa
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -676,8 +685,6 @@ func (operator *RedisFirewallRuleOperatorSpec) AssignProperties_To_RedisFirewall
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -694,8 +701,6 @@ func (operator *RedisFirewallRuleOperatorSpec) AssignProperties_To_RedisFirewall
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

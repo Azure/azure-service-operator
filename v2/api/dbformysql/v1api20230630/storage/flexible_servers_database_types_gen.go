@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230630.FlexibleServersDatabase
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Databases/stable/2023-06-30/Databases.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-06-30/Databases.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/databases/{databaseName}
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 // +kubebuilder:object:root=true
 // Storage version of v1api20230630.FlexibleServersDatabase
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Databases/stable/2023-06-30/Databases.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-06-30/Databases.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/databases/{databaseName}
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -640,8 +640,6 @@ func (operator *FlexibleServersDatabaseOperatorSpec) AssignProperties_From_Flexi
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -658,8 +656,6 @@ func (operator *FlexibleServersDatabaseOperatorSpec) AssignProperties_From_Flexi
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -701,8 +697,6 @@ func (operator *FlexibleServersDatabaseOperatorSpec) AssignProperties_To_Flexibl
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -719,8 +713,6 @@ func (operator *FlexibleServersDatabaseOperatorSpec) AssignProperties_To_Flexibl
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

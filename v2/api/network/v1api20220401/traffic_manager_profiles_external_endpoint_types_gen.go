@@ -664,8 +664,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) AssignProperties_Fr
 	if source.CustomHeaders != nil {
 		customHeaderList := make([]EndpointProperties_CustomHeaders, len(source.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range source.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader EndpointProperties_CustomHeaders
 			err := customHeader.AssignProperties_From_EndpointProperties_CustomHeaders(&customHeaderItem)
 			if err != nil {
@@ -738,8 +736,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) AssignProperties_Fr
 	if source.Subnets != nil {
 		subnetList := make([]EndpointProperties_Subnets, len(source.Subnets))
 		for subnetIndex, subnetItem := range source.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet EndpointProperties_Subnets
 			err := subnet.AssignProperties_From_EndpointProperties_Subnets(&subnetItem)
 			if err != nil {
@@ -793,8 +789,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) AssignProperties_To
 	if endpoint.CustomHeaders != nil {
 		customHeaderList := make([]storage.EndpointProperties_CustomHeaders, len(endpoint.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range endpoint.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader storage.EndpointProperties_CustomHeaders
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders(&customHeader)
 			if err != nil {
@@ -868,8 +862,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) AssignProperties_To
 	if endpoint.Subnets != nil {
 		subnetList := make([]storage.EndpointProperties_Subnets, len(endpoint.Subnets))
 		for subnetIndex, subnetItem := range endpoint.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet storage.EndpointProperties_Subnets
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets(&subnet)
 			if err != nil {
@@ -925,8 +917,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) Initialize_From_Tra
 	if source.CustomHeaders != nil {
 		customHeaderList := make([]EndpointProperties_CustomHeaders, len(source.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range source.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader EndpointProperties_CustomHeaders
 			err := customHeader.Initialize_From_EndpointProperties_CustomHeaders_STATUS(&customHeaderItem)
 			if err != nil {
@@ -977,8 +967,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) Initialize_From_Tra
 	if source.Subnets != nil {
 		subnetList := make([]EndpointProperties_Subnets, len(source.Subnets))
 		for subnetIndex, subnetItem := range source.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet EndpointProperties_Subnets
 			err := subnet.Initialize_From_EndpointProperties_Subnets_STATUS(&subnetItem)
 			if err != nil {
@@ -1338,8 +1326,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_STATUS) AssignProperties_
 	if source.CustomHeaders != nil {
 		customHeaderList := make([]EndpointProperties_CustomHeaders_STATUS, len(source.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range source.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader EndpointProperties_CustomHeaders_STATUS
 			err := customHeader.AssignProperties_From_EndpointProperties_CustomHeaders_STATUS(&customHeaderItem)
 			if err != nil {
@@ -1398,8 +1384,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_STATUS) AssignProperties_
 	if source.Subnets != nil {
 		subnetList := make([]EndpointProperties_Subnets_STATUS, len(source.Subnets))
 		for subnetIndex, subnetItem := range source.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet EndpointProperties_Subnets_STATUS
 			err := subnet.AssignProperties_From_EndpointProperties_Subnets_STATUS(&subnetItem)
 			if err != nil {
@@ -1448,8 +1432,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_STATUS) AssignProperties_
 	if endpoint.CustomHeaders != nil {
 		customHeaderList := make([]storage.EndpointProperties_CustomHeaders_STATUS, len(endpoint.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range endpoint.CustomHeaders {
-			// Shadow the loop variable to avoid aliasing
-			customHeaderItem := customHeaderItem
 			var customHeader storage.EndpointProperties_CustomHeaders_STATUS
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(&customHeader)
 			if err != nil {
@@ -1506,8 +1488,6 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_STATUS) AssignProperties_
 	if endpoint.Subnets != nil {
 		subnetList := make([]storage.EndpointProperties_Subnets_STATUS, len(endpoint.Subnets))
 		for subnetIndex, subnetItem := range endpoint.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
 			var subnet storage.EndpointProperties_Subnets_STATUS
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets_STATUS(&subnet)
 			if err != nil {
@@ -1559,8 +1539,6 @@ func (operator *TrafficManagerProfilesExternalEndpointOperatorSpec) AssignProper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1577,8 +1555,6 @@ func (operator *TrafficManagerProfilesExternalEndpointOperatorSpec) AssignProper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1604,8 +1580,6 @@ func (operator *TrafficManagerProfilesExternalEndpointOperatorSpec) AssignProper
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1622,8 +1596,6 @@ func (operator *TrafficManagerProfilesExternalEndpointOperatorSpec) AssignProper
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

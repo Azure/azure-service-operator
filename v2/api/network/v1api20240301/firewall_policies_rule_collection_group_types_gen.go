@@ -432,8 +432,6 @@ func (group *FirewallPoliciesRuleCollectionGroup_Spec) AssignProperties_From_Fir
 	if source.RuleCollections != nil {
 		ruleCollectionList := make([]FirewallPolicyRuleCollection, len(source.RuleCollections))
 		for ruleCollectionIndex, ruleCollectionItem := range source.RuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionItem := ruleCollectionItem
 			var ruleCollection FirewallPolicyRuleCollection
 			err := ruleCollection.AssignProperties_From_FirewallPolicyRuleCollection(&ruleCollectionItem)
 			if err != nil {
@@ -488,8 +486,6 @@ func (group *FirewallPoliciesRuleCollectionGroup_Spec) AssignProperties_To_Firew
 	if group.RuleCollections != nil {
 		ruleCollectionList := make([]storage.FirewallPolicyRuleCollection, len(group.RuleCollections))
 		for ruleCollectionIndex, ruleCollectionItem := range group.RuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionItem := ruleCollectionItem
 			var ruleCollection storage.FirewallPolicyRuleCollection
 			err := ruleCollectionItem.AssignProperties_To_FirewallPolicyRuleCollection(&ruleCollection)
 			if err != nil {
@@ -523,8 +519,6 @@ func (group *FirewallPoliciesRuleCollectionGroup_Spec) Initialize_From_FirewallP
 	if source.RuleCollections != nil {
 		ruleCollectionList := make([]FirewallPolicyRuleCollection, len(source.RuleCollections))
 		for ruleCollectionIndex, ruleCollectionItem := range source.RuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionItem := ruleCollectionItem
 			var ruleCollection FirewallPolicyRuleCollection
 			err := ruleCollection.Initialize_From_FirewallPolicyRuleCollection_STATUS(&ruleCollectionItem)
 			if err != nil {
@@ -747,8 +741,6 @@ func (group *FirewallPoliciesRuleCollectionGroup_STATUS) AssignProperties_From_F
 	if source.RuleCollections != nil {
 		ruleCollectionList := make([]FirewallPolicyRuleCollection_STATUS, len(source.RuleCollections))
 		for ruleCollectionIndex, ruleCollectionItem := range source.RuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionItem := ruleCollectionItem
 			var ruleCollection FirewallPolicyRuleCollection_STATUS
 			err := ruleCollection.AssignProperties_From_FirewallPolicyRuleCollection_STATUS(&ruleCollectionItem)
 			if err != nil {
@@ -803,8 +795,6 @@ func (group *FirewallPoliciesRuleCollectionGroup_STATUS) AssignProperties_To_Fir
 	if group.RuleCollections != nil {
 		ruleCollectionList := make([]storage.FirewallPolicyRuleCollection_STATUS, len(group.RuleCollections))
 		for ruleCollectionIndex, ruleCollectionItem := range group.RuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			ruleCollectionItem := ruleCollectionItem
 			var ruleCollection storage.FirewallPolicyRuleCollection_STATUS
 			err := ruleCollectionItem.AssignProperties_To_FirewallPolicyRuleCollection_STATUS(&ruleCollection)
 			if err != nil {
@@ -850,8 +840,6 @@ func (operator *FirewallPoliciesRuleCollectionGroupOperatorSpec) AssignPropertie
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -868,8 +856,6 @@ func (operator *FirewallPoliciesRuleCollectionGroupOperatorSpec) AssignPropertie
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -895,8 +881,6 @@ func (operator *FirewallPoliciesRuleCollectionGroupOperatorSpec) AssignPropertie
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -913,8 +897,6 @@ func (operator *FirewallPoliciesRuleCollectionGroupOperatorSpec) AssignPropertie
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1397,8 +1379,6 @@ func (collection *FirewallPolicyFilterRuleCollection) AssignProperties_From_Fire
 	if source.Rules != nil {
 		ruleList := make([]FirewallPolicyRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule FirewallPolicyRule
 			err := rule.AssignProperties_From_FirewallPolicyRule(&ruleItem)
 			if err != nil {
@@ -1450,8 +1430,6 @@ func (collection *FirewallPolicyFilterRuleCollection) AssignProperties_To_Firewa
 	if collection.Rules != nil {
 		ruleList := make([]storage.FirewallPolicyRule, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.FirewallPolicyRule
 			err := ruleItem.AssignProperties_To_FirewallPolicyRule(&rule)
 			if err != nil {
@@ -1508,8 +1486,6 @@ func (collection *FirewallPolicyFilterRuleCollection) Initialize_From_FirewallPo
 	if source.Rules != nil {
 		ruleList := make([]FirewallPolicyRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule FirewallPolicyRule
 			err := rule.Initialize_From_FirewallPolicyRule_STATUS(&ruleItem)
 			if err != nil {
@@ -1635,8 +1611,6 @@ func (collection *FirewallPolicyFilterRuleCollection_STATUS) AssignProperties_Fr
 	if source.Rules != nil {
 		ruleList := make([]FirewallPolicyRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule FirewallPolicyRule_STATUS
 			err := rule.AssignProperties_From_FirewallPolicyRule_STATUS(&ruleItem)
 			if err != nil {
@@ -1688,8 +1662,6 @@ func (collection *FirewallPolicyFilterRuleCollection_STATUS) AssignProperties_To
 	if collection.Rules != nil {
 		ruleList := make([]storage.FirewallPolicyRule_STATUS, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.FirewallPolicyRule_STATUS
 			err := ruleItem.AssignProperties_To_FirewallPolicyRule_STATUS(&rule)
 			if err != nil {
@@ -1874,8 +1846,6 @@ func (collection *FirewallPolicyNatRuleCollection) AssignProperties_From_Firewal
 	if source.Rules != nil {
 		ruleList := make([]FirewallPolicyRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule FirewallPolicyRule
 			err := rule.AssignProperties_From_FirewallPolicyRule(&ruleItem)
 			if err != nil {
@@ -1927,8 +1897,6 @@ func (collection *FirewallPolicyNatRuleCollection) AssignProperties_To_FirewallP
 	if collection.Rules != nil {
 		ruleList := make([]storage.FirewallPolicyRule, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.FirewallPolicyRule
 			err := ruleItem.AssignProperties_To_FirewallPolicyRule(&rule)
 			if err != nil {
@@ -1985,8 +1953,6 @@ func (collection *FirewallPolicyNatRuleCollection) Initialize_From_FirewallPolic
 	if source.Rules != nil {
 		ruleList := make([]FirewallPolicyRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule FirewallPolicyRule
 			err := rule.Initialize_From_FirewallPolicyRule_STATUS(&ruleItem)
 			if err != nil {
@@ -2112,8 +2078,6 @@ func (collection *FirewallPolicyNatRuleCollection_STATUS) AssignProperties_From_
 	if source.Rules != nil {
 		ruleList := make([]FirewallPolicyRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule FirewallPolicyRule_STATUS
 			err := rule.AssignProperties_From_FirewallPolicyRule_STATUS(&ruleItem)
 			if err != nil {
@@ -2165,8 +2129,6 @@ func (collection *FirewallPolicyNatRuleCollection_STATUS) AssignProperties_To_Fi
 	if collection.Rules != nil {
 		ruleList := make([]storage.FirewallPolicyRule_STATUS, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.FirewallPolicyRule_STATUS
 			err := ruleItem.AssignProperties_To_FirewallPolicyRule_STATUS(&rule)
 			if err != nil {
@@ -3221,8 +3183,6 @@ func (rule *ApplicationRule) AssignProperties_From_ApplicationRule(source *stora
 	if source.HttpHeadersToInsert != nil {
 		httpHeadersToInsertList := make([]FirewallPolicyHttpHeaderToInsert, len(source.HttpHeadersToInsert))
 		for httpHeadersToInsertIndex, httpHeadersToInsertItem := range source.HttpHeadersToInsert {
-			// Shadow the loop variable to avoid aliasing
-			httpHeadersToInsertItem := httpHeadersToInsertItem
 			var httpHeadersToInsert FirewallPolicyHttpHeaderToInsert
 			err := httpHeadersToInsert.AssignProperties_From_FirewallPolicyHttpHeaderToInsert(&httpHeadersToInsertItem)
 			if err != nil {
@@ -3242,8 +3202,6 @@ func (rule *ApplicationRule) AssignProperties_From_ApplicationRule(source *stora
 	if source.Protocols != nil {
 		protocolList := make([]FirewallPolicyRuleApplicationProtocol, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol FirewallPolicyRuleApplicationProtocol
 			err := protocol.AssignProperties_From_FirewallPolicyRuleApplicationProtocol(&protocolItem)
 			if err != nil {
@@ -3310,8 +3268,6 @@ func (rule *ApplicationRule) AssignProperties_To_ApplicationRule(destination *st
 	if rule.HttpHeadersToInsert != nil {
 		httpHeadersToInsertList := make([]storage.FirewallPolicyHttpHeaderToInsert, len(rule.HttpHeadersToInsert))
 		for httpHeadersToInsertIndex, httpHeadersToInsertItem := range rule.HttpHeadersToInsert {
-			// Shadow the loop variable to avoid aliasing
-			httpHeadersToInsertItem := httpHeadersToInsertItem
 			var httpHeadersToInsert storage.FirewallPolicyHttpHeaderToInsert
 			err := httpHeadersToInsertItem.AssignProperties_To_FirewallPolicyHttpHeaderToInsert(&httpHeadersToInsert)
 			if err != nil {
@@ -3331,8 +3287,6 @@ func (rule *ApplicationRule) AssignProperties_To_ApplicationRule(destination *st
 	if rule.Protocols != nil {
 		protocolList := make([]storage.FirewallPolicyRuleApplicationProtocol, len(rule.Protocols))
 		for protocolIndex, protocolItem := range rule.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol storage.FirewallPolicyRuleApplicationProtocol
 			err := protocolItem.AssignProperties_To_FirewallPolicyRuleApplicationProtocol(&protocol)
 			if err != nil {
@@ -3403,8 +3357,6 @@ func (rule *ApplicationRule) Initialize_From_ApplicationRule_STATUS(source *Appl
 	if source.HttpHeadersToInsert != nil {
 		httpHeadersToInsertList := make([]FirewallPolicyHttpHeaderToInsert, len(source.HttpHeadersToInsert))
 		for httpHeadersToInsertIndex, httpHeadersToInsertItem := range source.HttpHeadersToInsert {
-			// Shadow the loop variable to avoid aliasing
-			httpHeadersToInsertItem := httpHeadersToInsertItem
 			var httpHeadersToInsert FirewallPolicyHttpHeaderToInsert
 			err := httpHeadersToInsert.Initialize_From_FirewallPolicyHttpHeaderToInsert_STATUS(&httpHeadersToInsertItem)
 			if err != nil {
@@ -3424,8 +3376,6 @@ func (rule *ApplicationRule) Initialize_From_ApplicationRule_STATUS(source *Appl
 	if source.Protocols != nil {
 		protocolList := make([]FirewallPolicyRuleApplicationProtocol, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol FirewallPolicyRuleApplicationProtocol
 			err := protocol.Initialize_From_FirewallPolicyRuleApplicationProtocol_STATUS(&protocolItem)
 			if err != nil {
@@ -3628,8 +3578,6 @@ func (rule *ApplicationRule_STATUS) AssignProperties_From_ApplicationRule_STATUS
 	if source.HttpHeadersToInsert != nil {
 		httpHeadersToInsertList := make([]FirewallPolicyHttpHeaderToInsert_STATUS, len(source.HttpHeadersToInsert))
 		for httpHeadersToInsertIndex, httpHeadersToInsertItem := range source.HttpHeadersToInsert {
-			// Shadow the loop variable to avoid aliasing
-			httpHeadersToInsertItem := httpHeadersToInsertItem
 			var httpHeadersToInsert FirewallPolicyHttpHeaderToInsert_STATUS
 			err := httpHeadersToInsert.AssignProperties_From_FirewallPolicyHttpHeaderToInsert_STATUS(&httpHeadersToInsertItem)
 			if err != nil {
@@ -3649,8 +3597,6 @@ func (rule *ApplicationRule_STATUS) AssignProperties_From_ApplicationRule_STATUS
 	if source.Protocols != nil {
 		protocolList := make([]FirewallPolicyRuleApplicationProtocol_STATUS, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol FirewallPolicyRuleApplicationProtocol_STATUS
 			err := protocol.AssignProperties_From_FirewallPolicyRuleApplicationProtocol_STATUS(&protocolItem)
 			if err != nil {
@@ -3717,8 +3663,6 @@ func (rule *ApplicationRule_STATUS) AssignProperties_To_ApplicationRule_STATUS(d
 	if rule.HttpHeadersToInsert != nil {
 		httpHeadersToInsertList := make([]storage.FirewallPolicyHttpHeaderToInsert_STATUS, len(rule.HttpHeadersToInsert))
 		for httpHeadersToInsertIndex, httpHeadersToInsertItem := range rule.HttpHeadersToInsert {
-			// Shadow the loop variable to avoid aliasing
-			httpHeadersToInsertItem := httpHeadersToInsertItem
 			var httpHeadersToInsert storage.FirewallPolicyHttpHeaderToInsert_STATUS
 			err := httpHeadersToInsertItem.AssignProperties_To_FirewallPolicyHttpHeaderToInsert_STATUS(&httpHeadersToInsert)
 			if err != nil {
@@ -3738,8 +3682,6 @@ func (rule *ApplicationRule_STATUS) AssignProperties_To_ApplicationRule_STATUS(d
 	if rule.Protocols != nil {
 		protocolList := make([]storage.FirewallPolicyRuleApplicationProtocol_STATUS, len(rule.Protocols))
 		for protocolIndex, protocolItem := range rule.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol storage.FirewallPolicyRuleApplicationProtocol_STATUS
 			err := protocolItem.AssignProperties_To_FirewallPolicyRuleApplicationProtocol_STATUS(&protocol)
 			if err != nil {
@@ -4053,8 +3995,6 @@ func (rule *NatRule) AssignProperties_From_NatRule(source *storage.NatRule) erro
 	if source.IpProtocols != nil {
 		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol, len(source.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = genruntime.ToEnum(ipProtocolItem, firewallPolicyRuleNetworkProtocol_Values)
 		}
 		rule.IpProtocols = ipProtocolList
@@ -4111,8 +4051,6 @@ func (rule *NatRule) AssignProperties_To_NatRule(destination *storage.NatRule) e
 	if rule.IpProtocols != nil {
 		ipProtocolList := make([]string, len(rule.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range rule.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = string(ipProtocolItem)
 		}
 		destination.IpProtocols = ipProtocolList
@@ -4173,8 +4111,6 @@ func (rule *NatRule) Initialize_From_NatRule_STATUS(source *NatRule_STATUS) erro
 	if source.IpProtocols != nil {
 		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol, len(source.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocol := genruntime.ToEnum(string(ipProtocolItem), firewallPolicyRuleNetworkProtocol_Values)
 			ipProtocolList[ipProtocolIndex] = ipProtocol
 		}
@@ -4346,8 +4282,6 @@ func (rule *NatRule_STATUS) AssignProperties_From_NatRule_STATUS(source *storage
 	if source.IpProtocols != nil {
 		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol_STATUS, len(source.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = genruntime.ToEnum(ipProtocolItem, firewallPolicyRuleNetworkProtocol_STATUS_Values)
 		}
 		rule.IpProtocols = ipProtocolList
@@ -4404,8 +4338,6 @@ func (rule *NatRule_STATUS) AssignProperties_To_NatRule_STATUS(destination *stor
 	if rule.IpProtocols != nil {
 		ipProtocolList := make([]string, len(rule.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range rule.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = string(ipProtocolItem)
 		}
 		destination.IpProtocols = ipProtocolList
@@ -4646,8 +4578,6 @@ func (rule *NetworkRule) AssignProperties_From_NetworkRule(source *storage.Netwo
 	if source.IpProtocols != nil {
 		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol, len(source.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = genruntime.ToEnum(ipProtocolItem, firewallPolicyRuleNetworkProtocol_Values)
 		}
 		rule.IpProtocols = ipProtocolList
@@ -4701,8 +4631,6 @@ func (rule *NetworkRule) AssignProperties_To_NetworkRule(destination *storage.Ne
 	if rule.IpProtocols != nil {
 		ipProtocolList := make([]string, len(rule.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range rule.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = string(ipProtocolItem)
 		}
 		destination.IpProtocols = ipProtocolList
@@ -4760,8 +4688,6 @@ func (rule *NetworkRule) Initialize_From_NetworkRule_STATUS(source *NetworkRule_
 	if source.IpProtocols != nil {
 		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol, len(source.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocol := genruntime.ToEnum(string(ipProtocolItem), firewallPolicyRuleNetworkProtocol_Values)
 			ipProtocolList[ipProtocolIndex] = ipProtocol
 		}
@@ -4919,8 +4845,6 @@ func (rule *NetworkRule_STATUS) AssignProperties_From_NetworkRule_STATUS(source 
 	if source.IpProtocols != nil {
 		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol_STATUS, len(source.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = genruntime.ToEnum(ipProtocolItem, firewallPolicyRuleNetworkProtocol_STATUS_Values)
 		}
 		rule.IpProtocols = ipProtocolList
@@ -4974,8 +4898,6 @@ func (rule *NetworkRule_STATUS) AssignProperties_To_NetworkRule_STATUS(destinati
 	if rule.IpProtocols != nil {
 		ipProtocolList := make([]string, len(rule.IpProtocols))
 		for ipProtocolIndex, ipProtocolItem := range rule.IpProtocols {
-			// Shadow the loop variable to avoid aliasing
-			ipProtocolItem := ipProtocolItem
 			ipProtocolList[ipProtocolIndex] = string(ipProtocolItem)
 		}
 		destination.IpProtocols = ipProtocolList

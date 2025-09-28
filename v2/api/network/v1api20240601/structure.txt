@@ -15,7 +15,7 @@ PrivateDnsZone: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Tags: map[string]string
-└── Status: Object (15 properties)
+└── Status: Object (16 properties)
     ├── Conditions: conditions.Condition[]
     ├── Etag: *string
     ├── Id: *string
@@ -35,6 +35,21 @@ PrivateDnsZone: Resource
     │   ├── "Failed"
     │   ├── "Succeeded"
     │   └── "Updating"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
 
@@ -75,7 +90,7 @@ PrivateDnsZonesAAAARecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -107,6 +122,21 @@ PrivateDnsZonesAAAARecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -149,7 +179,7 @@ PrivateDnsZonesARecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -181,6 +211,21 @@ PrivateDnsZonesARecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -223,7 +268,7 @@ PrivateDnsZonesCNAMERecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -255,6 +300,21 @@ PrivateDnsZonesCNAMERecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -297,7 +357,7 @@ PrivateDnsZonesMXRecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -329,6 +389,21 @@ PrivateDnsZonesMXRecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -371,7 +446,7 @@ PrivateDnsZonesPTRRecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -403,6 +478,21 @@ PrivateDnsZonesPTRRecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -445,7 +535,7 @@ PrivateDnsZonesSRVRecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -477,6 +567,21 @@ PrivateDnsZonesSRVRecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -519,7 +624,7 @@ PrivateDnsZonesTXTRecord: Resource
 │   ├── Ttl: *int
 │   └── TxtRecords: Object (1 property)[]
 │       └── Value: string[]
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── ARecords: Object (1 property)[]
     │   └── Ipv4Address: *string
     ├── AaaaRecords: Object (1 property)[]
@@ -551,6 +656,21 @@ PrivateDnsZonesTXTRecord: Resource
     │   ├── Priority: *int
     │   ├── Target: *string
     │   └── Weight: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Ttl: *int
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
@@ -573,7 +693,7 @@ PrivateDnsZonesVirtualNetworkLink: Resource
 │   ├── Tags: map[string]string
 │   └── VirtualNetwork: *Object (1 property)
 │       └── Reference: *genruntime.ResourceReference
-└── Status: Object (12 properties)
+└── Status: Object (13 properties)
     ├── Conditions: conditions.Condition[]
     ├── Etag: *string
     ├── Id: *string
@@ -590,6 +710,21 @@ PrivateDnsZonesVirtualNetworkLink: Resource
     ├── ResolutionPolicy: *Enum (2 values)
     │   ├── "Default"
     │   └── "NxDomainRedirect"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     ├── Type: *string
     ├── VirtualNetwork: *Object (1 property)

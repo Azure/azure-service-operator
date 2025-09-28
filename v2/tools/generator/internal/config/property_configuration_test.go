@@ -37,7 +37,7 @@ func TestPropertyConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g.Expect(err).NotTo(Succeed())
 }
 
-func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
+func TestPropertyConfiguration_ReferenceType_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -49,7 +49,7 @@ func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(
 	g.Expect(referenceType).To(Equal(ReferenceTypeARM))
 }
 
-func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
+func TestPropertyConfiguration_ReferenceType_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -59,7 +59,7 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 	g.Expect(ok).To(BeFalse())
 }
 
-func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_ReturnsNil(t *testing.T) {
+func TestPropertyConfiguration_VerifyReferenceTypeConsumed_WhenNotConfigured_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -69,7 +69,7 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_Retu
 	g.Expect(property.ReferenceType.VerifyConsumed()).To(Succeed())
 }
 
-func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
+func TestPropertyConfiguration_VerifyReferenceTypeConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -81,7 +81,7 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_Retu
 	g.Expect(property.ReferenceType.VerifyConsumed()).To(Succeed())
 }
 
-func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
+func TestPropertyConfiguration_VerifyReferenceTypeConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -89,8 +89,7 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_R
 	property.ReferenceType.Set(ReferenceTypeARM)
 
 	err := property.ReferenceType.VerifyConsumed()
-	g.Expect(err).NotTo(BeNil())
-	g.Expect(err.Error()).To(ContainSubstring(property.name))
+	g.Expect(err).To(MatchError(ContainSubstring(property.name)))
 }
 
 func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *testing.T) {

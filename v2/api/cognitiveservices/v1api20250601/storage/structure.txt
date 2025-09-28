@@ -87,7 +87,7 @@ Account: Resource
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── Reference: *genruntime.ResourceReference
 │   │   │       └── State: *string
-│   │   ├── NetworkInjections: *Object (4 properties)
+│   │   ├── NetworkInjections: Object (4 properties)[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Scenario: *string
 │   │   │   ├── SubnetArmReference: *genruntime.ResourceReference
@@ -214,7 +214,7 @@ Account: Resource
     │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       └── State: *string
-    │   ├── NetworkInjections: *Object (4 properties)
+    │   ├── NetworkInjections: Object (4 properties)[]
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Scenario: *string
     │   │   ├── SubnetArmId: *string

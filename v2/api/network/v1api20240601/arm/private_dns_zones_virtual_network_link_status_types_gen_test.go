@@ -97,6 +97,7 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS
 // AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualNetworkLinkProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -227,15 +228,15 @@ func VirtualNetworkLinkProperties_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Canceled,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Creating,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Deleting,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Failed,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Succeeded,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_ResolutionPolicy_STATUS_Default, VirtualNetworkLinkProperties_ResolutionPolicy_STATUS_NxDomainRedirect))
-	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Completed, VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_InProgress))
+	gens["ResolutionPolicy"] = gen.PtrOf(gen.OneConstOf(ResolutionPolicy_STATUS_Default, ResolutionPolicy_STATUS_NxDomainRedirect))
+	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkState_STATUS_Completed, VirtualNetworkLinkState_STATUS_InProgress))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkLinkProperties_STATUS is a factory method for creating gopter generators

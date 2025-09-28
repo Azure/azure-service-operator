@@ -778,8 +778,6 @@ func (pool *WorkspacesBigDataPool_Spec) AssignProperties_From_WorkspacesBigDataP
 	if source.CustomLibraries != nil {
 		customLibraryList := make([]LibraryInfo, len(source.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range source.CustomLibraries {
-			// Shadow the loop variable to avoid aliasing
-			customLibraryItem := customLibraryItem
 			var customLibrary LibraryInfo
 			err := customLibrary.AssignProperties_From_LibraryInfo(&customLibraryItem)
 			if err != nil {
@@ -954,8 +952,6 @@ func (pool *WorkspacesBigDataPool_Spec) AssignProperties_To_WorkspacesBigDataPoo
 	if pool.CustomLibraries != nil {
 		customLibraryList := make([]storage.LibraryInfo, len(pool.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range pool.CustomLibraries {
-			// Shadow the loop variable to avoid aliasing
-			customLibraryItem := customLibraryItem
 			var customLibrary storage.LibraryInfo
 			err := customLibraryItem.AssignProperties_To_LibraryInfo(&customLibrary)
 			if err != nil {
@@ -1133,8 +1129,6 @@ func (pool *WorkspacesBigDataPool_Spec) Initialize_From_WorkspacesBigDataPool_ST
 	if source.CustomLibraries != nil {
 		customLibraryList := make([]LibraryInfo, len(source.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range source.CustomLibraries {
-			// Shadow the loop variable to avoid aliasing
-			customLibraryItem := customLibraryItem
 			var customLibrary LibraryInfo
 			err := customLibrary.Initialize_From_LibraryInfo_STATUS(&customLibraryItem)
 			if err != nil {
@@ -1680,8 +1674,6 @@ func (pool *WorkspacesBigDataPool_STATUS) AssignProperties_From_WorkspacesBigDat
 	if source.CustomLibraries != nil {
 		customLibraryList := make([]LibraryInfo_STATUS, len(source.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range source.CustomLibraries {
-			// Shadow the loop variable to avoid aliasing
-			customLibraryItem := customLibraryItem
 			var customLibrary LibraryInfo_STATUS
 			err := customLibrary.AssignProperties_From_LibraryInfo_STATUS(&customLibraryItem)
 			if err != nil {
@@ -1851,8 +1843,6 @@ func (pool *WorkspacesBigDataPool_STATUS) AssignProperties_To_WorkspacesBigDataP
 	if pool.CustomLibraries != nil {
 		customLibraryList := make([]storage.LibraryInfo_STATUS, len(pool.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range pool.CustomLibraries {
-			// Shadow the loop variable to avoid aliasing
-			customLibraryItem := customLibraryItem
 			var customLibrary storage.LibraryInfo_STATUS
 			err := customLibraryItem.AssignProperties_To_LibraryInfo_STATUS(&customLibrary)
 			if err != nil {
@@ -3553,8 +3543,6 @@ func (operator *WorkspacesBigDataPoolOperatorSpec) AssignProperties_From_Workspa
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3571,8 +3559,6 @@ func (operator *WorkspacesBigDataPoolOperatorSpec) AssignProperties_From_Workspa
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3598,8 +3584,6 @@ func (operator *WorkspacesBigDataPoolOperatorSpec) AssignProperties_To_Workspace
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3616,8 +3600,6 @@ func (operator *WorkspacesBigDataPoolOperatorSpec) AssignProperties_To_Workspace
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

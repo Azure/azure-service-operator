@@ -2535,7 +2535,7 @@ func Test_PurchasePlan_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PurchasePlan to PurchasePlan via AssignProperties_To_PurchasePlan & AssignProperties_From_PurchasePlan returns original",
+		"Round trip from PurchasePlan to DiskPurchasePlan via AssignProperties_To_DiskPurchasePlan & AssignProperties_From_DiskPurchasePlan returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPurchasePlan, PurchasePlanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2546,15 +2546,15 @@ func RunPropertyAssignmentTestForPurchasePlan(subject PurchasePlan) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240302s.PurchasePlan
-	err := copied.AssignProperties_To_PurchasePlan(&other)
+	var other v20240302s.DiskPurchasePlan
+	err := copied.AssignProperties_To_DiskPurchasePlan(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PurchasePlan
-	err = actual.AssignProperties_From_PurchasePlan(&other)
+	err = actual.AssignProperties_From_DiskPurchasePlan(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2640,7 +2640,7 @@ func Test_PurchasePlan_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PurchasePlan_STATUS to PurchasePlan_STATUS via AssignProperties_To_PurchasePlan_STATUS & AssignProperties_From_PurchasePlan_STATUS returns original",
+		"Round trip from PurchasePlan_STATUS to DiskPurchasePlan_STATUS via AssignProperties_To_DiskPurchasePlan_STATUS & AssignProperties_From_DiskPurchasePlan_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPurchasePlan_STATUS, PurchasePlan_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2651,15 +2651,15 @@ func RunPropertyAssignmentTestForPurchasePlan_STATUS(subject PurchasePlan_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240302s.PurchasePlan_STATUS
-	err := copied.AssignProperties_To_PurchasePlan_STATUS(&other)
+	var other v20240302s.DiskPurchasePlan_STATUS
+	err := copied.AssignProperties_To_DiskPurchasePlan_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PurchasePlan_STATUS
-	err = actual.AssignProperties_From_PurchasePlan_STATUS(&other)
+	err = actual.AssignProperties_From_DiskPurchasePlan_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

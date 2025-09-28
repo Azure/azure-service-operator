@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/AuthConfigs.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/AuthConfigs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}
 type AuthConfig struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (config *AuthConfig) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/AuthConfigs.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/AuthConfigs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}
 type AuthConfigList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1279,8 +1279,6 @@ func (operator *AuthConfigOperatorSpec) AssignProperties_From_AuthConfigOperator
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1297,8 +1295,6 @@ func (operator *AuthConfigOperatorSpec) AssignProperties_From_AuthConfigOperator
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1324,8 +1320,6 @@ func (operator *AuthConfigOperatorSpec) AssignProperties_To_AuthConfigOperatorSp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1342,8 +1336,6 @@ func (operator *AuthConfigOperatorSpec) AssignProperties_To_AuthConfigOperatorSp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2658,8 +2650,6 @@ func (providers *IdentityProviders) AssignProperties_From_IdentityProviders(sour
 	if source.CustomOpenIdConnectProviders != nil {
 		customOpenIdConnectProviderMap := make(map[string]CustomOpenIdConnectProvider, len(source.CustomOpenIdConnectProviders))
 		for customOpenIdConnectProviderKey, customOpenIdConnectProviderValue := range source.CustomOpenIdConnectProviders {
-			// Shadow the loop variable to avoid aliasing
-			customOpenIdConnectProviderValue := customOpenIdConnectProviderValue
 			var customOpenIdConnectProvider CustomOpenIdConnectProvider
 			err := customOpenIdConnectProvider.AssignProperties_From_CustomOpenIdConnectProvider(&customOpenIdConnectProviderValue)
 			if err != nil {
@@ -2769,8 +2759,6 @@ func (providers *IdentityProviders) AssignProperties_To_IdentityProviders(destin
 	if providers.CustomOpenIdConnectProviders != nil {
 		customOpenIdConnectProviderMap := make(map[string]storage.CustomOpenIdConnectProvider, len(providers.CustomOpenIdConnectProviders))
 		for customOpenIdConnectProviderKey, customOpenIdConnectProviderValue := range providers.CustomOpenIdConnectProviders {
-			// Shadow the loop variable to avoid aliasing
-			customOpenIdConnectProviderValue := customOpenIdConnectProviderValue
 			var customOpenIdConnectProvider storage.CustomOpenIdConnectProvider
 			err := customOpenIdConnectProviderValue.AssignProperties_To_CustomOpenIdConnectProvider(&customOpenIdConnectProvider)
 			if err != nil {
@@ -2885,8 +2873,6 @@ func (providers *IdentityProviders) Initialize_From_IdentityProviders_STATUS(sou
 	if source.CustomOpenIdConnectProviders != nil {
 		customOpenIdConnectProviderMap := make(map[string]CustomOpenIdConnectProvider, len(source.CustomOpenIdConnectProviders))
 		for customOpenIdConnectProviderKey, customOpenIdConnectProviderValue := range source.CustomOpenIdConnectProviders {
-			// Shadow the loop variable to avoid aliasing
-			customOpenIdConnectProviderValue := customOpenIdConnectProviderValue
 			var customOpenIdConnectProvider CustomOpenIdConnectProvider
 			err := customOpenIdConnectProvider.Initialize_From_CustomOpenIdConnectProvider_STATUS(&customOpenIdConnectProviderValue)
 			if err != nil {
@@ -3131,8 +3117,6 @@ func (providers *IdentityProviders_STATUS) AssignProperties_From_IdentityProvide
 	if source.CustomOpenIdConnectProviders != nil {
 		customOpenIdConnectProviderMap := make(map[string]CustomOpenIdConnectProvider_STATUS, len(source.CustomOpenIdConnectProviders))
 		for customOpenIdConnectProviderKey, customOpenIdConnectProviderValue := range source.CustomOpenIdConnectProviders {
-			// Shadow the loop variable to avoid aliasing
-			customOpenIdConnectProviderValue := customOpenIdConnectProviderValue
 			var customOpenIdConnectProvider CustomOpenIdConnectProvider_STATUS
 			err := customOpenIdConnectProvider.AssignProperties_From_CustomOpenIdConnectProvider_STATUS(&customOpenIdConnectProviderValue)
 			if err != nil {
@@ -3242,8 +3226,6 @@ func (providers *IdentityProviders_STATUS) AssignProperties_To_IdentityProviders
 	if providers.CustomOpenIdConnectProviders != nil {
 		customOpenIdConnectProviderMap := make(map[string]storage.CustomOpenIdConnectProvider_STATUS, len(providers.CustomOpenIdConnectProviders))
 		for customOpenIdConnectProviderKey, customOpenIdConnectProviderValue := range providers.CustomOpenIdConnectProviders {
-			// Shadow the loop variable to avoid aliasing
-			customOpenIdConnectProviderValue := customOpenIdConnectProviderValue
 			var customOpenIdConnectProvider storage.CustomOpenIdConnectProvider_STATUS
 			err := customOpenIdConnectProviderValue.AssignProperties_To_CustomOpenIdConnectProvider_STATUS(&customOpenIdConnectProvider)
 			if err != nil {

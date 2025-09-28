@@ -131,14 +131,14 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
 			expectedGroup:   "cache.azure.com",
 			expectedKind:    "Redis",
-			expectedVersion: "v1api20230801",
+			expectedVersion: "v1api20241101",
 		},
 		{
 			name:            "Redis cache different case",
 			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
 			expectedGroup:   "cache.azure.com",
 			expectedKind:    "Redis",
-			expectedVersion: "v1api20230801",
+			expectedVersion: "v1api20241101",
 		},
 	}
 

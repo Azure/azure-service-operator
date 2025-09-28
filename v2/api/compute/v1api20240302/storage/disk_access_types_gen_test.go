@@ -214,6 +214,7 @@ func AddIndependentPropertyGeneratorsForDiskAccess_STATUS(gens map[string]gopter
 func AddRelatedPropertyGeneratorsForDiskAccess_STATUS(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_DiskAccess_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -5,6 +5,19 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `cache.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                          |
+|------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Redis]({{< relref "/reference/cache/v1api20241101#Redis" >}})                                             | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redis.yaml)                       |
+| [RedisAccessPolicy]({{< relref "/reference/cache/v1api20241101#RedisAccessPolicy" >}})                     | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redisaccesspolicy.yaml)           |
+| [RedisAccessPolicyAssignment]({{< relref "/reference/cache/v1api20241101#RedisAccessPolicyAssignment" >}}) | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redisaccesspolicyassignment.yaml) |
+| [RedisFirewallRule]({{< relref "/reference/cache/v1api20241101#RedisFirewallRule" >}})                     | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redisfirewallrule.yaml)           |
+| [RedisLinkedServer]({{< relref "/reference/cache/v1api20241101#RedisLinkedServer" >}})                     | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redislinkedserver.yaml)           |
+| [RedisPatchSchedule]({{< relref "/reference/cache/v1api20241101#RedisPatchSchedule" >}})                   | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redispatchschedule.yaml)          |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

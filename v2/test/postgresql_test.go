@@ -24,11 +24,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
+const postgresqlTestRegion string = "westcentralus" // This region is chosen because it currently has capacity for PostgreSQL Flexible Servers
+
 func Test_PostgreSQL_Combined(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	// Force this test to run in a region that is not capacity constrained.
-	tc.AzureRegion = to.Ptr("australiaeast") // TODO: Uncomment this line when West US 2 is no longer constrained
+	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
@@ -310,7 +312,7 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 func Test_PostgreSQL_User(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"

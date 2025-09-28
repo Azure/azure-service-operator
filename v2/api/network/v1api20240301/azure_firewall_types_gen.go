@@ -715,8 +715,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_From_AzureFirewall_Spec(sou
 	if source.ApplicationRuleCollections != nil {
 		applicationRuleCollectionList := make([]AzureFirewallApplicationRuleCollection, len(source.ApplicationRuleCollections))
 		for applicationRuleCollectionIndex, applicationRuleCollectionItem := range source.ApplicationRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			applicationRuleCollectionItem := applicationRuleCollectionItem
 			var applicationRuleCollection AzureFirewallApplicationRuleCollection
 			err := applicationRuleCollection.AssignProperties_From_AzureFirewallApplicationRuleCollection(&applicationRuleCollectionItem)
 			if err != nil {
@@ -772,8 +770,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_From_AzureFirewall_Spec(sou
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]AzureFirewallIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration AzureFirewallIPConfiguration
 			err := ipConfiguration.AssignProperties_From_AzureFirewallIPConfiguration(&ipConfigurationItem)
 			if err != nil {
@@ -805,8 +801,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_From_AzureFirewall_Spec(sou
 	if source.NatRuleCollections != nil {
 		natRuleCollectionList := make([]AzureFirewallNatRuleCollection, len(source.NatRuleCollections))
 		for natRuleCollectionIndex, natRuleCollectionItem := range source.NatRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			natRuleCollectionItem := natRuleCollectionItem
 			var natRuleCollection AzureFirewallNatRuleCollection
 			err := natRuleCollection.AssignProperties_From_AzureFirewallNatRuleCollection(&natRuleCollectionItem)
 			if err != nil {
@@ -823,8 +817,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_From_AzureFirewall_Spec(sou
 	if source.NetworkRuleCollections != nil {
 		networkRuleCollectionList := make([]AzureFirewallNetworkRuleCollection, len(source.NetworkRuleCollections))
 		for networkRuleCollectionIndex, networkRuleCollectionItem := range source.NetworkRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			networkRuleCollectionItem := networkRuleCollectionItem
 			var networkRuleCollection AzureFirewallNetworkRuleCollection
 			err := networkRuleCollection.AssignProperties_From_AzureFirewallNetworkRuleCollection(&networkRuleCollectionItem)
 			if err != nil {
@@ -912,8 +904,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_To_AzureFirewall_Spec(desti
 	if firewall.ApplicationRuleCollections != nil {
 		applicationRuleCollectionList := make([]storage.AzureFirewallApplicationRuleCollection, len(firewall.ApplicationRuleCollections))
 		for applicationRuleCollectionIndex, applicationRuleCollectionItem := range firewall.ApplicationRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			applicationRuleCollectionItem := applicationRuleCollectionItem
 			var applicationRuleCollection storage.AzureFirewallApplicationRuleCollection
 			err := applicationRuleCollectionItem.AssignProperties_To_AzureFirewallApplicationRuleCollection(&applicationRuleCollection)
 			if err != nil {
@@ -969,8 +959,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_To_AzureFirewall_Spec(desti
 	if firewall.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.AzureFirewallIPConfiguration, len(firewall.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range firewall.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.AzureFirewallIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_AzureFirewallIPConfiguration(&ipConfiguration)
 			if err != nil {
@@ -1002,8 +990,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_To_AzureFirewall_Spec(desti
 	if firewall.NatRuleCollections != nil {
 		natRuleCollectionList := make([]storage.AzureFirewallNatRuleCollection, len(firewall.NatRuleCollections))
 		for natRuleCollectionIndex, natRuleCollectionItem := range firewall.NatRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			natRuleCollectionItem := natRuleCollectionItem
 			var natRuleCollection storage.AzureFirewallNatRuleCollection
 			err := natRuleCollectionItem.AssignProperties_To_AzureFirewallNatRuleCollection(&natRuleCollection)
 			if err != nil {
@@ -1020,8 +1006,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_To_AzureFirewall_Spec(desti
 	if firewall.NetworkRuleCollections != nil {
 		networkRuleCollectionList := make([]storage.AzureFirewallNetworkRuleCollection, len(firewall.NetworkRuleCollections))
 		for networkRuleCollectionIndex, networkRuleCollectionItem := range firewall.NetworkRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			networkRuleCollectionItem := networkRuleCollectionItem
 			var networkRuleCollection storage.AzureFirewallNetworkRuleCollection
 			err := networkRuleCollectionItem.AssignProperties_To_AzureFirewallNetworkRuleCollection(&networkRuleCollection)
 			if err != nil {
@@ -1116,8 +1100,6 @@ func (firewall *AzureFirewall_Spec) Initialize_From_AzureFirewall_STATUS(source 
 	if source.ApplicationRuleCollections != nil {
 		applicationRuleCollectionList := make([]AzureFirewallApplicationRuleCollection, len(source.ApplicationRuleCollections))
 		for applicationRuleCollectionIndex, applicationRuleCollectionItem := range source.ApplicationRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			applicationRuleCollectionItem := applicationRuleCollectionItem
 			var applicationRuleCollection AzureFirewallApplicationRuleCollection
 			err := applicationRuleCollection.Initialize_From_AzureFirewallApplicationRuleCollection_STATUS(&applicationRuleCollectionItem)
 			if err != nil {
@@ -1170,8 +1152,6 @@ func (firewall *AzureFirewall_Spec) Initialize_From_AzureFirewall_STATUS(source 
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]AzureFirewallIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration AzureFirewallIPConfiguration
 			err := ipConfiguration.Initialize_From_AzureFirewallIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -1203,8 +1183,6 @@ func (firewall *AzureFirewall_Spec) Initialize_From_AzureFirewall_STATUS(source 
 	if source.NatRuleCollections != nil {
 		natRuleCollectionList := make([]AzureFirewallNatRuleCollection, len(source.NatRuleCollections))
 		for natRuleCollectionIndex, natRuleCollectionItem := range source.NatRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			natRuleCollectionItem := natRuleCollectionItem
 			var natRuleCollection AzureFirewallNatRuleCollection
 			err := natRuleCollection.Initialize_From_AzureFirewallNatRuleCollection_STATUS(&natRuleCollectionItem)
 			if err != nil {
@@ -1221,8 +1199,6 @@ func (firewall *AzureFirewall_Spec) Initialize_From_AzureFirewall_STATUS(source 
 	if source.NetworkRuleCollections != nil {
 		networkRuleCollectionList := make([]AzureFirewallNetworkRuleCollection, len(source.NetworkRuleCollections))
 		for networkRuleCollectionIndex, networkRuleCollectionItem := range source.NetworkRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			networkRuleCollectionItem := networkRuleCollectionItem
 			var networkRuleCollection AzureFirewallNetworkRuleCollection
 			err := networkRuleCollection.Initialize_From_AzureFirewallNetworkRuleCollection_STATUS(&networkRuleCollectionItem)
 			if err != nil {
@@ -1659,8 +1635,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 	if source.ApplicationRuleCollections != nil {
 		applicationRuleCollectionList := make([]AzureFirewallApplicationRuleCollection_STATUS, len(source.ApplicationRuleCollections))
 		for applicationRuleCollectionIndex, applicationRuleCollectionItem := range source.ApplicationRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			applicationRuleCollectionItem := applicationRuleCollectionItem
 			var applicationRuleCollection AzureFirewallApplicationRuleCollection_STATUS
 			err := applicationRuleCollection.AssignProperties_From_AzureFirewallApplicationRuleCollection_STATUS(&applicationRuleCollectionItem)
 			if err != nil {
@@ -1722,8 +1696,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]AzureFirewallIPConfiguration_STATUS, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration AzureFirewallIPConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_AzureFirewallIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -1740,8 +1712,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 	if source.IpGroups != nil {
 		ipGroupList := make([]AzureFirewallIpGroups_STATUS, len(source.IpGroups))
 		for ipGroupIndex, ipGroupItem := range source.IpGroups {
-			// Shadow the loop variable to avoid aliasing
-			ipGroupItem := ipGroupItem
 			var ipGroup AzureFirewallIpGroups_STATUS
 			err := ipGroup.AssignProperties_From_AzureFirewallIpGroups_STATUS(&ipGroupItem)
 			if err != nil {
@@ -1776,8 +1746,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 	if source.NatRuleCollections != nil {
 		natRuleCollectionList := make([]AzureFirewallNatRuleCollection_STATUS, len(source.NatRuleCollections))
 		for natRuleCollectionIndex, natRuleCollectionItem := range source.NatRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			natRuleCollectionItem := natRuleCollectionItem
 			var natRuleCollection AzureFirewallNatRuleCollection_STATUS
 			err := natRuleCollection.AssignProperties_From_AzureFirewallNatRuleCollection_STATUS(&natRuleCollectionItem)
 			if err != nil {
@@ -1794,8 +1762,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 	if source.NetworkRuleCollections != nil {
 		networkRuleCollectionList := make([]AzureFirewallNetworkRuleCollection_STATUS, len(source.NetworkRuleCollections))
 		for networkRuleCollectionIndex, networkRuleCollectionItem := range source.NetworkRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			networkRuleCollectionItem := networkRuleCollectionItem
 			var networkRuleCollection AzureFirewallNetworkRuleCollection_STATUS
 			err := networkRuleCollection.AssignProperties_From_AzureFirewallNetworkRuleCollection_STATUS(&networkRuleCollectionItem)
 			if err != nil {
@@ -1875,8 +1841,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 	if firewall.ApplicationRuleCollections != nil {
 		applicationRuleCollectionList := make([]storage.AzureFirewallApplicationRuleCollection_STATUS, len(firewall.ApplicationRuleCollections))
 		for applicationRuleCollectionIndex, applicationRuleCollectionItem := range firewall.ApplicationRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			applicationRuleCollectionItem := applicationRuleCollectionItem
 			var applicationRuleCollection storage.AzureFirewallApplicationRuleCollection_STATUS
 			err := applicationRuleCollectionItem.AssignProperties_To_AzureFirewallApplicationRuleCollection_STATUS(&applicationRuleCollection)
 			if err != nil {
@@ -1938,8 +1902,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 	if firewall.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.AzureFirewallIPConfiguration_STATUS, len(firewall.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range firewall.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.AzureFirewallIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_AzureFirewallIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
@@ -1956,8 +1918,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 	if firewall.IpGroups != nil {
 		ipGroupList := make([]storage.AzureFirewallIpGroups_STATUS, len(firewall.IpGroups))
 		for ipGroupIndex, ipGroupItem := range firewall.IpGroups {
-			// Shadow the loop variable to avoid aliasing
-			ipGroupItem := ipGroupItem
 			var ipGroup storage.AzureFirewallIpGroups_STATUS
 			err := ipGroupItem.AssignProperties_To_AzureFirewallIpGroups_STATUS(&ipGroup)
 			if err != nil {
@@ -1992,8 +1952,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 	if firewall.NatRuleCollections != nil {
 		natRuleCollectionList := make([]storage.AzureFirewallNatRuleCollection_STATUS, len(firewall.NatRuleCollections))
 		for natRuleCollectionIndex, natRuleCollectionItem := range firewall.NatRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			natRuleCollectionItem := natRuleCollectionItem
 			var natRuleCollection storage.AzureFirewallNatRuleCollection_STATUS
 			err := natRuleCollectionItem.AssignProperties_To_AzureFirewallNatRuleCollection_STATUS(&natRuleCollection)
 			if err != nil {
@@ -2010,8 +1968,6 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 	if firewall.NetworkRuleCollections != nil {
 		networkRuleCollectionList := make([]storage.AzureFirewallNetworkRuleCollection_STATUS, len(firewall.NetworkRuleCollections))
 		for networkRuleCollectionIndex, networkRuleCollectionItem := range firewall.NetworkRuleCollections {
-			// Shadow the loop variable to avoid aliasing
-			networkRuleCollectionItem := networkRuleCollectionItem
 			var networkRuleCollection storage.AzureFirewallNetworkRuleCollection_STATUS
 			err := networkRuleCollectionItem.AssignProperties_To_AzureFirewallNetworkRuleCollection_STATUS(&networkRuleCollection)
 			if err != nil {
@@ -2227,8 +2183,6 @@ func (collection *AzureFirewallApplicationRuleCollection) AssignProperties_From_
 	if source.Rules != nil {
 		ruleList := make([]AzureFirewallApplicationRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule AzureFirewallApplicationRule
 			err := rule.AssignProperties_From_AzureFirewallApplicationRule(&ruleItem)
 			if err != nil {
@@ -2272,8 +2226,6 @@ func (collection *AzureFirewallApplicationRuleCollection) AssignProperties_To_Az
 	if collection.Rules != nil {
 		ruleList := make([]storage.AzureFirewallApplicationRule, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.AzureFirewallApplicationRule
 			err := ruleItem.AssignProperties_To_AzureFirewallApplicationRule(&rule)
 			if err != nil {
@@ -3012,8 +2964,6 @@ func (collection *AzureFirewallNatRuleCollection) AssignProperties_From_AzureFir
 	if source.Rules != nil {
 		ruleList := make([]AzureFirewallNatRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule AzureFirewallNatRule
 			err := rule.AssignProperties_From_AzureFirewallNatRule(&ruleItem)
 			if err != nil {
@@ -3057,8 +3007,6 @@ func (collection *AzureFirewallNatRuleCollection) AssignProperties_To_AzureFirew
 	if collection.Rules != nil {
 		ruleList := make([]storage.AzureFirewallNatRule, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.AzureFirewallNatRule
 			err := ruleItem.AssignProperties_To_AzureFirewallNatRule(&rule)
 			if err != nil {
@@ -3291,8 +3239,6 @@ func (collection *AzureFirewallNetworkRuleCollection) AssignProperties_From_Azur
 	if source.Rules != nil {
 		ruleList := make([]AzureFirewallNetworkRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule AzureFirewallNetworkRule
 			err := rule.AssignProperties_From_AzureFirewallNetworkRule(&ruleItem)
 			if err != nil {
@@ -3336,8 +3282,6 @@ func (collection *AzureFirewallNetworkRuleCollection) AssignProperties_To_AzureF
 	if collection.Rules != nil {
 		ruleList := make([]storage.AzureFirewallNetworkRule, len(collection.Rules))
 		for ruleIndex, ruleItem := range collection.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.AzureFirewallNetworkRule
 			err := ruleItem.AssignProperties_To_AzureFirewallNetworkRule(&rule)
 			if err != nil {
@@ -3443,8 +3387,6 @@ func (operator *AzureFirewallOperatorSpec) AssignProperties_From_AzureFirewallOp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3461,8 +3403,6 @@ func (operator *AzureFirewallOperatorSpec) AssignProperties_From_AzureFirewallOp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3488,8 +3428,6 @@ func (operator *AzureFirewallOperatorSpec) AssignProperties_To_AzureFirewallOper
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3506,8 +3444,6 @@ func (operator *AzureFirewallOperatorSpec) AssignProperties_To_AzureFirewallOper
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4379,8 +4315,6 @@ func (rule *AzureFirewallApplicationRule) AssignProperties_From_AzureFirewallApp
 	if source.Protocols != nil {
 		protocolList := make([]AzureFirewallApplicationRuleProtocol, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol AzureFirewallApplicationRuleProtocol
 			err := protocol.AssignProperties_From_AzureFirewallApplicationRuleProtocol(&protocolItem)
 			if err != nil {
@@ -4424,8 +4358,6 @@ func (rule *AzureFirewallApplicationRule) AssignProperties_To_AzureFirewallAppli
 	if rule.Protocols != nil {
 		protocolList := make([]storage.AzureFirewallApplicationRuleProtocol, len(rule.Protocols))
 		for protocolIndex, protocolItem := range rule.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			var protocol storage.AzureFirewallApplicationRuleProtocol
 			err := protocolItem.AssignProperties_To_AzureFirewallApplicationRuleProtocol(&protocol)
 			if err != nil {
@@ -4740,8 +4672,6 @@ func (rule *AzureFirewallNatRule) AssignProperties_From_AzureFirewallNatRule(sou
 	if source.Protocols != nil {
 		protocolList := make([]AzureFirewallNetworkRuleProtocol, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = genruntime.ToEnum(protocolItem, azureFirewallNetworkRuleProtocol_Values)
 		}
 		rule.Protocols = protocolList
@@ -4789,8 +4719,6 @@ func (rule *AzureFirewallNatRule) AssignProperties_To_AzureFirewallNatRule(desti
 	if rule.Protocols != nil {
 		protocolList := make([]string, len(rule.Protocols))
 		for protocolIndex, protocolItem := range rule.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = string(protocolItem)
 		}
 		destination.Protocols = protocolList
@@ -5004,8 +4932,6 @@ func (rule *AzureFirewallNetworkRule) AssignProperties_From_AzureFirewallNetwork
 	if source.Protocols != nil {
 		protocolList := make([]AzureFirewallNetworkRuleProtocol, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = genruntime.ToEnum(protocolItem, azureFirewallNetworkRuleProtocol_Values)
 		}
 		rule.Protocols = protocolList
@@ -5050,8 +4976,6 @@ func (rule *AzureFirewallNetworkRule) AssignProperties_To_AzureFirewallNetworkRu
 	if rule.Protocols != nil {
 		protocolList := make([]string, len(rule.Protocols))
 		for protocolIndex, protocolItem := range rule.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = string(protocolItem)
 		}
 		destination.Protocols = protocolList
@@ -5297,8 +5221,6 @@ func (addresses *HubPublicIPAddresses) AssignProperties_From_HubPublicIPAddresse
 	if source.Addresses != nil {
 		addressList := make([]AzureFirewallPublicIPAddress, len(source.Addresses))
 		for addressIndex, addressItem := range source.Addresses {
-			// Shadow the loop variable to avoid aliasing
-			addressItem := addressItem
 			var address AzureFirewallPublicIPAddress
 			err := address.AssignProperties_From_AzureFirewallPublicIPAddress(&addressItem)
 			if err != nil {
@@ -5327,8 +5249,6 @@ func (addresses *HubPublicIPAddresses) AssignProperties_To_HubPublicIPAddresses(
 	if addresses.Addresses != nil {
 		addressList := make([]storage.AzureFirewallPublicIPAddress, len(addresses.Addresses))
 		for addressIndex, addressItem := range addresses.Addresses {
-			// Shadow the loop variable to avoid aliasing
-			addressItem := addressItem
 			var address storage.AzureFirewallPublicIPAddress
 			err := addressItem.AssignProperties_To_AzureFirewallPublicIPAddress(&address)
 			if err != nil {
@@ -5362,8 +5282,6 @@ func (addresses *HubPublicIPAddresses) Initialize_From_HubPublicIPAddresses_STAT
 	if source.Addresses != nil {
 		addressList := make([]AzureFirewallPublicIPAddress, len(source.Addresses))
 		for addressIndex, addressItem := range source.Addresses {
-			// Shadow the loop variable to avoid aliasing
-			addressItem := addressItem
 			var address AzureFirewallPublicIPAddress
 			err := address.Initialize_From_AzureFirewallPublicIPAddress_STATUS(&addressItem)
 			if err != nil {
@@ -5433,8 +5351,6 @@ func (addresses *HubPublicIPAddresses_STATUS) AssignProperties_From_HubPublicIPA
 	if source.Addresses != nil {
 		addressList := make([]AzureFirewallPublicIPAddress_STATUS, len(source.Addresses))
 		for addressIndex, addressItem := range source.Addresses {
-			// Shadow the loop variable to avoid aliasing
-			addressItem := addressItem
 			var address AzureFirewallPublicIPAddress_STATUS
 			err := address.AssignProperties_From_AzureFirewallPublicIPAddress_STATUS(&addressItem)
 			if err != nil {
@@ -5463,8 +5379,6 @@ func (addresses *HubPublicIPAddresses_STATUS) AssignProperties_To_HubPublicIPAdd
 	if addresses.Addresses != nil {
 		addressList := make([]storage.AzureFirewallPublicIPAddress_STATUS, len(addresses.Addresses))
 		for addressIndex, addressItem := range addresses.Addresses {
-			// Shadow the loop variable to avoid aliasing
-			addressItem := addressItem
 			var address storage.AzureFirewallPublicIPAddress_STATUS
 			err := addressItem.AssignProperties_To_AzureFirewallPublicIPAddress_STATUS(&address)
 			if err != nil {

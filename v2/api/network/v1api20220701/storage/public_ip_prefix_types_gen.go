@@ -372,8 +372,6 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 	if source.IpTags != nil {
 		ipTagList := make([]IpTag, len(source.IpTags))
 		for ipTagIndex, ipTagItem := range source.IpTags {
-			// Shadow the loop variable to avoid aliasing
-			ipTagItem := ipTagItem
 			var ipTag IpTag
 			err := ipTag.AssignProperties_From_IpTag(&ipTagItem)
 			if err != nil {
@@ -504,8 +502,6 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 	if prefix.IpTags != nil {
 		ipTagList := make([]v20240301s.IpTag, len(prefix.IpTags))
 		for ipTagIndex, ipTagItem := range prefix.IpTags {
-			// Shadow the loop variable to avoid aliasing
-			ipTagItem := ipTagItem
 			var ipTag v20240301s.IpTag
 			err := ipTagItem.AssignProperties_To_IpTag(&ipTag)
 			if err != nil {
@@ -726,8 +722,6 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 	if source.IpTags != nil {
 		ipTagList := make([]IpTag_STATUS, len(source.IpTags))
 		for ipTagIndex, ipTagItem := range source.IpTags {
-			// Shadow the loop variable to avoid aliasing
-			ipTagItem := ipTagItem
 			var ipTag IpTag_STATUS
 			err := ipTag.AssignProperties_From_IpTag_STATUS(&ipTagItem)
 			if err != nil {
@@ -788,8 +782,6 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 	if source.PublicIPAddresses != nil {
 		publicIPAddressList := make([]ReferencedPublicIpAddress_STATUS, len(source.PublicIPAddresses))
 		for publicIPAddressIndex, publicIPAddressItem := range source.PublicIPAddresses {
-			// Shadow the loop variable to avoid aliasing
-			publicIPAddressItem := publicIPAddressItem
 			var publicIPAddress ReferencedPublicIpAddress_STATUS
 			err := publicIPAddress.AssignProperties_From_ReferencedPublicIpAddress_STATUS(&publicIPAddressItem)
 			if err != nil {
@@ -896,8 +888,6 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 	if prefix.IpTags != nil {
 		ipTagList := make([]v20240301s.IpTag_STATUS, len(prefix.IpTags))
 		for ipTagIndex, ipTagItem := range prefix.IpTags {
-			// Shadow the loop variable to avoid aliasing
-			ipTagItem := ipTagItem
 			var ipTag v20240301s.IpTag_STATUS
 			err := ipTagItem.AssignProperties_To_IpTag_STATUS(&ipTag)
 			if err != nil {
@@ -958,8 +948,6 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 	if prefix.PublicIPAddresses != nil {
 		publicIPAddressList := make([]v20240301s.ReferencedPublicIpAddress_STATUS, len(prefix.PublicIPAddresses))
 		for publicIPAddressIndex, publicIPAddressItem := range prefix.PublicIPAddresses {
-			// Shadow the loop variable to avoid aliasing
-			publicIPAddressItem := publicIPAddressItem
 			var publicIPAddress v20240301s.ReferencedPublicIpAddress_STATUS
 			err := publicIPAddressItem.AssignProperties_To_ReferencedPublicIpAddress_STATUS(&publicIPAddress)
 			if err != nil {
@@ -1321,8 +1309,6 @@ func (operator *PublicIPPrefixOperatorSpec) AssignProperties_From_PublicIPPrefix
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1339,8 +1325,6 @@ func (operator *PublicIPPrefixOperatorSpec) AssignProperties_From_PublicIPPrefix
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1382,8 +1366,6 @@ func (operator *PublicIPPrefixOperatorSpec) AssignProperties_To_PublicIPPrefixOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1400,8 +1382,6 @@ func (operator *PublicIPPrefixOperatorSpec) AssignProperties_To_PublicIPPrefixOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

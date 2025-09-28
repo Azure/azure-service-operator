@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RedisPatchSchedule{}
 
 // ConvertFrom populates our RedisPatchSchedule from the provided hub RedisPatchSchedule
 func (schedule *RedisPatchSchedule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisPatchSchedule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230801/storage/RedisPatchSchedule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisPatchSchedule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return schedule.AssignProperties_From_RedisPatchSchedule(source)
+	err = schedule.AssignProperties_From_RedisPatchSchedule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to schedule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisPatchSchedule from our RedisPatchSchedule
 func (schedule *RedisPatchSchedule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisPatchSchedule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230801/storage/RedisPatchSchedule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisPatchSchedule
+	err := schedule.AssignProperties_To_RedisPatchSchedule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from schedule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return schedule.AssignProperties_To_RedisPatchSchedule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisPatchSchedule{}
@@ -87,17 +101,6 @@ func (schedule *RedisPatchSchedule) SecretDestinationExpressions() []*core.Desti
 		return nil
 	}
 	return schedule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisPatchSchedule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (schedule *RedisPatchSchedule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisPatchSchedule_STATUS); ok {
-		return schedule.Spec.Initialize_From_RedisPatchSchedule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisPatchSchedule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}
@@ -402,8 +405,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 	if source.ScheduleEntries != nil {
 		scheduleEntryList := make([]ScheduleEntry, len(source.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range source.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry ScheduleEntry
 			err := scheduleEntry.AssignProperties_From_ScheduleEntry(&scheduleEntryItem)
 			if err != nil {
@@ -452,8 +453,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_
 	if schedule.ScheduleEntries != nil {
 		scheduleEntryList := make([]storage.ScheduleEntry, len(schedule.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range schedule.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry storage.ScheduleEntry
 			err := scheduleEntryItem.AssignProperties_To_ScheduleEntry(&scheduleEntry)
 			if err != nil {
@@ -471,31 +470,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisPatchSchedule_STATUS populates our RedisPatchSchedule_Spec from the provided source RedisPatchSchedule_STATUS
-func (schedule *RedisPatchSchedule_Spec) Initialize_From_RedisPatchSchedule_STATUS(source *RedisPatchSchedule_STATUS) error {
-
-	// ScheduleEntries
-	if source.ScheduleEntries != nil {
-		scheduleEntryList := make([]ScheduleEntry, len(source.ScheduleEntries))
-		for scheduleEntryIndex, scheduleEntryItem := range source.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
-			var scheduleEntry ScheduleEntry
-			err := scheduleEntry.Initialize_From_ScheduleEntry_STATUS(&scheduleEntryItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScheduleEntry_STATUS() to populate field ScheduleEntries")
-			}
-			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
-		}
-		schedule.ScheduleEntries = scheduleEntryList
-	} else {
-		schedule.ScheduleEntries = nil
 	}
 
 	// No error
@@ -654,8 +628,6 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_From_RedisPatchSched
 	if source.ScheduleEntries != nil {
 		scheduleEntryList := make([]ScheduleEntry_STATUS, len(source.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range source.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry ScheduleEntry_STATUS
 			err := scheduleEntry.AssignProperties_From_ScheduleEntry_STATUS(&scheduleEntryItem)
 			if err != nil {
@@ -696,8 +668,6 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_To_RedisPatchSchedul
 	if schedule.ScheduleEntries != nil {
 		scheduleEntryList := make([]storage.ScheduleEntry_STATUS, len(schedule.ScheduleEntries))
 		for scheduleEntryIndex, scheduleEntryItem := range schedule.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry storage.ScheduleEntry_STATUS
 			err := scheduleEntryItem.AssignProperties_To_ScheduleEntry_STATUS(&scheduleEntry)
 			if err != nil {
@@ -740,8 +710,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_From_RedisPatch
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -758,8 +726,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_From_RedisPatch
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -785,8 +751,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchSc
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -803,8 +767,6 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchSc
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -956,27 +918,6 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *stora
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScheduleEntry_STATUS populates our ScheduleEntry from the provided source ScheduleEntry_STATUS
-func (entry *ScheduleEntry) Initialize_From_ScheduleEntry_STATUS(source *ScheduleEntry_STATUS) error {
-
-	// DayOfWeek
-	if source.DayOfWeek != nil {
-		dayOfWeek := genruntime.ToEnum(string(*source.DayOfWeek), scheduleEntry_DayOfWeek_Values)
-		entry.DayOfWeek = &dayOfWeek
-	} else {
-		entry.DayOfWeek = nil
-	}
-
-	// MaintenanceWindow
-	entry.MaintenanceWindow = genruntime.ClonePointerToString(source.MaintenanceWindow)
-
-	// StartHourUtc
-	entry.StartHourUtc = genruntime.ClonePointerToInt(source.StartHourUtc)
 
 	// No error
 	return nil

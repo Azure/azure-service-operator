@@ -557,8 +557,6 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_From_PrometheusRuleGroup
 	if source.Rules != nil {
 		ruleList := make([]PrometheusRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule PrometheusRule
 			err := rule.AssignProperties_From_PrometheusRule(&ruleItem)
 			if err != nil {
@@ -575,8 +573,6 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_From_PrometheusRuleGroup
 	if source.ScopesReferences != nil {
 		scopesReferenceList := make([]genruntime.ResourceReference, len(source.ScopesReferences))
 		for scopesReferenceIndex, scopesReferenceItem := range source.ScopesReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopesReferenceItem := scopesReferenceItem
 			scopesReferenceList[scopesReferenceIndex] = scopesReferenceItem.Copy()
 		}
 		group.ScopesReferences = scopesReferenceList
@@ -646,8 +642,6 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_To_PrometheusRuleGroup_S
 	if group.Rules != nil {
 		ruleList := make([]storage.PrometheusRule, len(group.Rules))
 		for ruleIndex, ruleItem := range group.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.PrometheusRule
 			err := ruleItem.AssignProperties_To_PrometheusRule(&rule)
 			if err != nil {
@@ -664,8 +658,6 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_To_PrometheusRuleGroup_S
 	if group.ScopesReferences != nil {
 		scopesReferenceList := make([]genruntime.ResourceReference, len(group.ScopesReferences))
 		for scopesReferenceIndex, scopesReferenceItem := range group.ScopesReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopesReferenceItem := scopesReferenceItem
 			scopesReferenceList[scopesReferenceIndex] = scopesReferenceItem.Copy()
 		}
 		destination.ScopesReferences = scopesReferenceList
@@ -714,8 +706,6 @@ func (group *PrometheusRuleGroup_Spec) Initialize_From_PrometheusRuleGroup_STATU
 	if source.Rules != nil {
 		ruleList := make([]PrometheusRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule PrometheusRule
 			err := rule.Initialize_From_PrometheusRule_STATUS(&ruleItem)
 			if err != nil {
@@ -993,8 +983,6 @@ func (group *PrometheusRuleGroup_STATUS) AssignProperties_From_PrometheusRuleGro
 	if source.Rules != nil {
 		ruleList := make([]PrometheusRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule PrometheusRule_STATUS
 			err := rule.AssignProperties_From_PrometheusRule_STATUS(&ruleItem)
 			if err != nil {
@@ -1070,8 +1058,6 @@ func (group *PrometheusRuleGroup_STATUS) AssignProperties_To_PrometheusRuleGroup
 	if group.Rules != nil {
 		ruleList := make([]storage.PrometheusRule_STATUS, len(group.Rules))
 		for ruleIndex, ruleItem := range group.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.PrometheusRule_STATUS
 			err := ruleItem.AssignProperties_To_PrometheusRule_STATUS(&rule)
 			if err != nil {
@@ -1331,8 +1317,6 @@ func (rule *PrometheusRule) AssignProperties_From_PrometheusRule(source *storage
 	if source.Actions != nil {
 		actionList := make([]PrometheusRuleGroupAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action PrometheusRuleGroupAction
 			err := action.AssignProperties_From_PrometheusRuleGroupAction(&actionItem)
 			if err != nil {
@@ -1399,8 +1383,6 @@ func (rule *PrometheusRule) AssignProperties_To_PrometheusRule(destination *stor
 	if rule.Actions != nil {
 		actionList := make([]storage.PrometheusRuleGroupAction, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action storage.PrometheusRuleGroupAction
 			err := actionItem.AssignProperties_To_PrometheusRuleGroupAction(&action)
 			if err != nil {
@@ -1472,8 +1454,6 @@ func (rule *PrometheusRule) Initialize_From_PrometheusRule_STATUS(source *Promet
 	if source.Actions != nil {
 		actionList := make([]PrometheusRuleGroupAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action PrometheusRuleGroupAction
 			err := action.Initialize_From_PrometheusRuleGroupAction_STATUS(&actionItem)
 			if err != nil {
@@ -1665,8 +1645,6 @@ func (rule *PrometheusRule_STATUS) AssignProperties_From_PrometheusRule_STATUS(s
 	if source.Actions != nil {
 		actionList := make([]PrometheusRuleGroupAction_STATUS, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action PrometheusRuleGroupAction_STATUS
 			err := action.AssignProperties_From_PrometheusRuleGroupAction_STATUS(&actionItem)
 			if err != nil {
@@ -1733,8 +1711,6 @@ func (rule *PrometheusRule_STATUS) AssignProperties_To_PrometheusRule_STATUS(des
 	if rule.Actions != nil {
 		actionList := make([]storage.PrometheusRuleGroupAction_STATUS, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action storage.PrometheusRuleGroupAction_STATUS
 			err := actionItem.AssignProperties_To_PrometheusRuleGroupAction_STATUS(&action)
 			if err != nil {
@@ -1815,8 +1791,6 @@ func (operator *PrometheusRuleGroupOperatorSpec) AssignProperties_From_Prometheu
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1833,8 +1807,6 @@ func (operator *PrometheusRuleGroupOperatorSpec) AssignProperties_From_Prometheu
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1860,8 +1832,6 @@ func (operator *PrometheusRuleGroupOperatorSpec) AssignProperties_To_PrometheusR
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1878,8 +1848,6 @@ func (operator *PrometheusRuleGroupOperatorSpec) AssignProperties_To_PrometheusR
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

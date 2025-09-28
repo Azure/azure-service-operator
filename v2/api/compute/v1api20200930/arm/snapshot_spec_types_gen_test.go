@@ -85,13 +85,6 @@ func SnapshotPropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSnapshotProperties(gens map[string]gopter.Gen) {
 	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_ActiveSAS,
-		DiskState_ActiveUpload,
-		DiskState_Attached,
-		DiskState_ReadyToUpload,
-		DiskState_Reserved,
-		DiskState_Unattached))
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))

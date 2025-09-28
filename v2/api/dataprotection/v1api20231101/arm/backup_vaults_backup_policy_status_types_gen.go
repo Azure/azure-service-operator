@@ -355,7 +355,8 @@ var azureBackupParams_ObjectType_STATUS_Values = map[string]AzureBackupParams_Ob
 
 // Schedule for backup
 type BackupSchedule_STATUS struct {
-	// RepeatingTimeIntervals: ISO 8601 repeating time interval format
+	// RepeatingTimeIntervals: Repeating time interval which only support the following ISO 8601 format
+	// [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M
 	RepeatingTimeIntervals []string `json:"repeatingTimeIntervals,omitempty"`
 
 	// TimeZone: Time zone for a schedule. Example: Pacific Standard Time

@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20250101.ManagedEnvironment
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/ManagedEnvironments.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/ManagedEnvironments.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}
 type ManagedEnvironment struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (environment *ManagedEnvironment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20250101.ManagedEnvironment
 // Generator information:
-// - Generated from: /app/resource-manager/Microsoft.App/stable/2025-01-01/ManagedEnvironments.json
+// - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/ManagedEnvironments.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}
 type ManagedEnvironmentList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -401,9 +401,9 @@ type WorkloadProfile_STATUS struct {
 type CertificateKeyVaultProperties struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
-	KeyVaultUrl       *string                       `json:"keyVaultUrl,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	KeyVaultUrl       *string                                `json:"keyVaultUrl,omitempty"`
+	PropertyBag       genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20250101.CertificateKeyVaultProperties_STATUS

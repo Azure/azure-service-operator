@@ -16,8 +16,6 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 	if source.Ratings != nil {
 		ratingMap := make(map[string]int, len(source.Ratings))
 		for ratingKey, ratingValue := range source.Ratings {
-			// Shadow the loop variable to avoid aliasing
-			ratingValue := ratingValue
 			ratingMap[ratingKey] = ratingValue
 		}
 		person.Ratings = ratingMap
@@ -36,8 +34,6 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 	if person.Ratings != nil {
 		ratingMap := make(map[string]int, len(person.Ratings))
 		for ratingKey, ratingValue := range person.Ratings {
-			// Shadow the loop variable to avoid aliasing
-			ratingValue := ratingValue
 			ratingMap[ratingKey] = ratingValue
 		}
 		destination.Ratings = ratingMap

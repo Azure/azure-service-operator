@@ -335,6 +335,12 @@ typeTransformers:
     remove: true
     because: VirtualMachines is a list of VMs created in the AvailabilitySet and should only be on status, not spec
 
+  - group: compute
+    name: SnapshotProperties
+    property: DiskState
+    remove: true
+    because: this should be marked as readonly in Swagger
+
   # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',
@@ -1241,13 +1247,13 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ServiceBind:
         ServiceId:
           $referenceType: arm
       Secret:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ContainerApp_Spec:
         ManagedBy:
           $referenceType: arm
@@ -1276,25 +1282,25 @@ objectModelConfiguration:
           $referenceType: arm
       IdentitySettings:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       HttpScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       TcpScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       CustomScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       JobScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       QueueScaleRule:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       CertificateKeyVaultProperties:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
     2024-03-01:
       ContainerApp:
         $exportAs: ContainerApp
@@ -1309,13 +1315,13 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ServiceBind:
         ServiceId:
           $referenceType: arm
       Secret:
         Identity:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits `system` to use a system-assigned identity
       ContainerApp_Spec:
         ManagedBy:
           $referenceType: arm
@@ -1499,6 +1505,48 @@ objectModelConfiguration:
       Redis_PatchSchedule:
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.10.0
+      RedisCreateProperties_RedisConfiguration:
+        $nameInNextVersion: RedisCommonPropertiesRedisConfiguration
+      RedisCreateProperties_RedisConfiguration_STATUS:
+        $nameInNextVersion: RedisCommonPropertiesRedisConfiguration_STATUS
+      RedisProperties_RedisConfiguration_STATUS:
+        $nameInNextVersion: RedisCommonPropertiesRedisConfiguration_STATUS
+    2024-11-01:
+      Redis:
+        $exportAs: Redis
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - HostName
+          - Port
+          - SSLPort
+      RedisCreateProperties:
+        SubnetId:
+          $referenceType: arm
+      Redis_AccessPolicy:
+        $exportAs: RedisAccessPolicy
+        $supportedFrom: v2.16.0
+      Redis_AccessPolicyAssignment:
+        $exportAs: RedisAccessPolicyAssignment
+        $supportedFrom: v2.16.0
+      RedisCacheAccessPolicyAssignmentProperties:
+        ObjectId:
+          $importConfigMapMode: optional
+        ObjectIdAlias:
+          $importConfigMapMode: optional
+      Redis_FirewallRule:
+        $exportAs: RedisFirewallRule
+        $supportedFrom: v2.16.0
+      Redis_LinkedServer:
+        $exportAs: RedisLinkedServer
+        $supportedFrom: v2.16.0
+      RedisLinkedServerCreateProperties:
+        LinkedRedisCacheId:
+          $referenceType: arm
+      Redis_PatchSchedule:
+        $exportAs: RedisPatchSchedule
+        $supportedFrom: v2.16.0
     2025-04-01:
       RedisEnterprise:
         $exportAs: RedisEnterprise
@@ -1697,6 +1745,10 @@ objectModelConfiguration:
       ImageDiskReference:
         Id:
           $referenceType: arm
+      PurchasePlan:
+        $nameInNextVersion: DiskPurchasePlan
+      PurchasePlan_STATUS:
+        $nameInNextVersion: DiskPurchasePlan_STATUS
       Snapshot:
         $exportAs: Snapshot
         $supportedFrom: v2.0.0-alpha.4
@@ -1836,6 +1888,8 @@ objectModelConfiguration:
       DiskEncryptionSet:
         $exportAs: DiskEncryptionSet
         $supportedFrom: v2.3.0
+      EncryptionSetIdentity_UserAssignedIdentities_STATUS:
+        $renameTo: UserAssignedIdentitiesValue_STATUS
       SourceVault:
         Id:
           $referenceType: arm
@@ -4224,6 +4278,9 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.11.0
+      SubResource:
+        Id:
+          $referenceType: arm
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:
@@ -4821,7 +4878,6 @@ objectModelConfiguration:
         SqlAdministratorLoginPassword:
           $isSecret: true
       Workspaces_BigDataPool:
-        $exportAs: Workspaces_BigDataPool
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
 
