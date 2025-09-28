@@ -4251,6 +4251,16 @@ objectModelConfiguration:
       SubResource:
         Id:
           $referenceType: arm
+    2024-10-01:
+      NetworkWatchers_FlowLog:
+        $exportAs: NetworkWatchersFlowLog
+        $supportedFrom: v2.16.0
+      FlowLogPropertiesFormat:
+        TargetResourceId:
+          $referenceType: arm
+      TrafficAnalyticsConfigurationProperties:
+        WorkspaceResourceId:
+          $referenceType: arm
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:

@@ -311,6 +311,9 @@ import (
 	network_v20240601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601"
 	network_v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	network_v20240601w "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/webhook"
+	network_v20241001 "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001"
+	network_v20241001s "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/storage"
+	network_v20241001w "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/webhook"
 	notificationhubs_customizations "github.com/Azure/azure-service-operator/v2/api/notificationhubs/customizations"
 	notificationhubs_v20230901 "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901"
 	notificationhubs_v20230901s "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901/storage"
@@ -1873,6 +1876,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{
 		Obj: new(notificationhubs_v20230901s.Namespace),
@@ -4794,6 +4798,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)},
 		&registration.KnownType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(network_v20241001.NetworkWatchersFlowLog),
+		Defaulter: &network_v20241001w.NetworkWatchersFlowLog{},
+		Validator: &network_v20241001w.NetworkWatchersFlowLog{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy),
 		Defaulter: &networkfrontdoor_v20220501w.WebApplicationFirewallPolicy{},
 		Validator: &networkfrontdoor_v20220501w.WebApplicationFirewallPolicy{},
@@ -5588,6 +5598,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20240301s.AddToScheme(scheme)
 	_ = network_v20240601.AddToScheme(scheme)
 	_ = network_v20240601s.AddToScheme(scheme)
+	_ = network_v20241001.AddToScheme(scheme)
+	_ = network_v20241001s.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = notificationhubs_v20230901.AddToScheme(scheme)
@@ -5800,6 +5812,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
+	result = append(result, &network_customizations.NetworkWatchersFlowLogExtension{})
 	result = append(result, &network_customizations.PrivateDnsZoneExtension{})
 	result = append(result, &network_customizations.PrivateDnsZonesAAAARecordExtension{})
 	result = append(result, &network_customizations.PrivateDnsZonesARecordExtension{})
