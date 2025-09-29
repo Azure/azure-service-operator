@@ -4259,6 +4259,8 @@ objectModelConfiguration:
         $exportAs: NetworkWatchersFlowLog
         $supportedFrom: v2.16.0
       FlowLogPropertiesFormat:
+        StorageId:
+          $referenceType: arm
         TargetResourceId:
           $referenceType: arm
       TrafficAnalyticsConfigurationProperties:
