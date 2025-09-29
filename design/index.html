@@ -29,7 +29,7 @@
 
   <meta itemprop="name" content="Design & Specifications">
   <meta itemprop="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-  <meta itemprop="wordCount" content="1441">
+  <meta itemprop="wordCount" content="1454">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Design & Specifications">
   <meta name="twitter:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
@@ -839,17 +839,13 @@
     <li><a href="#in-progress">In progress</a>
       <ul>
         <li><a href="#2025">2025</a></li>
-        <li><a href="#2024">2024</a></li>
-        <li><a href="#2023">2023</a></li>
-        <li><a href="#2022">2022</a></li>
-        <li><a href="#older">Older</a></li>
       </ul>
     </li>
     <li><a href="#completed-changes">Completed Changes</a>
       <ul>
-        <li><a href="#2024-1">2024</a></li>
-        <li><a href="#2023-1">2023</a></li>
-        <li><a href="#2022-1">2022</a></li>
+        <li><a href="#2024">2024</a></li>
+        <li><a href="#2023">2023</a></li>
+        <li><a href="#2022">2022</a></li>
         <li><a href="#2021">2021</a></li>
         <li><a href="#2020">2020</a></li>
         <li><a href="#earlier">Earlier</a></li>
@@ -887,88 +883,60 @@ folder. ADRs are listed reverse chronologically by year. <a href="#format">See b
 <table>
   <thead>
       <tr>
+          <th style="text-align: center">Proposed</th>
           <th>Title</th>
           <th>Description</th>
+          <th>Status</th>
       </tr>
   </thead>
   <tbody>
       <tr>
+          <td style="text-align: center">2025</td>
           <td><a href="/azure-service-operator/design/adr-2025-05-version-priority/"><strong>Version Priority</strong></a></td>
           <td>A design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes.</td>
+          <td>Implementation underway</td>
       </tr>
       <tr>
+          <td style="text-align: center">2025</td>
           <td><a href="/azure-service-operator/design/adr-2025-01-arm-references/"><strong>Improving ARM References</strong></a></td>
           <td>Options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.</td>
+          <td>Implementation underway</td>
       </tr>
-  </tbody>
-</table>
-<h3 id="2024">2024</h3>
-<table>
-  <thead>
       <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
+          <td style="text-align: center">2024</td>
           <td><a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/"><strong>Upstream Deletion</strong></a></td>
           <td>When might deletion of an upstream resource occur and how will ASO handle it.</td>
+          <td>Open</td>
       </tr>
-  </tbody>
-</table>
-<h3 id="2023">2023</h3>
-<table>
-  <thead>
       <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
+          <td style="text-align: center">2023</td>
           <td><a href="/azure-service-operator/design/adr-2023-04-deprecation/"><strong>Resource Deprecation</strong></a></td>
           <td>Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.</td>
+          <td>Open</td>
       </tr>
-  </tbody>
-</table>
-<h3 id="2022">2022</h3>
-<table>
-  <thead>
       <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
+          <td style="text-align: center">2022</td>
           <td><a href="/azure-service-operator/design/adr-2022-11-change-detection/"><strong>Change Detection</strong></a></td>
           <td>The challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues.</td>
+          <td>Revision in progress</td>
       </tr>
-  </tbody>
-</table>
-<h3 id="older">Older</h3>
-<table>
-  <thead>
       <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
+          <td style="text-align: center">Earlier</td>
           <td><a href="/azure-service-operator/design/crossplane/"><strong>CrossPlane</strong></a></td>
           <td>Discusses the intricacies of code generation for Crossplane, including static &ldquo;special&rdquo; properties, cross resource references, and the challenges associated with generating these references.</td>
+          <td>Open</td>
       </tr>
       <tr>
+          <td style="text-align: center">Earlier</td>
           <td><a href="/azure-service-operator/design/reconcile-interface/"><strong>Improving the Reconciler interface</strong></a></td>
           <td>Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.</td>
+          <td>Open</td>
       </tr>
   </tbody>
 </table>
 <h2 id="completed-changes">Completed Changes</h2>
-<p>These ADRs reflect work that has been completed.</p>
-<h3 id="2024-1">2024</h3>
+<p>These ADRs reflect work that has been completed, grouped by year of proposal.</p>
+<h3 id="2024">2024</h3>
 <table>
   <thead>
       <tr>
@@ -987,7 +955,7 @@ folder. ADRs are listed reverse chronologically by year. <a href="#format">See b
       </tr>
   </tbody>
 </table>
-<h3 id="2023-1">2023</h3>
+<h3 id="2023">2023</h3>
 <table>
   <thead>
       <tr>
@@ -1034,7 +1002,7 @@ folder. ADRs are listed reverse chronologically by year. <a href="#format">See b
       </tr>
   </tbody>
 </table>
-<h3 id="2022-1">2022</h3>
+<h3 id="2022">2022</h3>
 <table>
   <thead>
       <tr>
