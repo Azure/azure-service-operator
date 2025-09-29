@@ -1,0 +1,30 @@
+apiVersion: redhatopenshift.azure.com/v1api20240610preview
+kind: HcpOpenShiftClustersExternalAuth
+metadata:
+  name: mveber-int-external-auth
+  namespace: default
+spec:
+  azureName: mveber-int-external-auth
+  owner:
+    group: redhatopenshift.azure.com
+    kind: HcpOpenShiftCluster
+    name: mveber-int
+  properties:
+    issuer:
+      url: "https://login.microsoftonline.com/tenant-id/v2.0"
+      ca:
+        name: oidc-ca-secret
+        key: ca.crt
+    clientProfile:
+      id: "client-id-12345"
+      secret:
+        name: oidc-client-secret
+        key: client-secret
+    claimProfile:
+      username:
+        claim: "preferred_username"
+        prefix: "oidc:"
+        prefixPolicy: "Prefix"
+      groups:
+        claim: "groups"
+        prefix: "oidc:"

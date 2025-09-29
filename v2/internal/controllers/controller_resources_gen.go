@@ -332,6 +332,9 @@ import (
 	redhatopenshift_v20231122 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 	redhatopenshift_v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
 	redhatopenshift_v20231122w "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/webhook"
+	redhatopenshift_v20240610p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview"
+	redhatopenshift_v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	redhatopenshift_v20240610pw "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/webhook"
 	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
@@ -2271,6 +2274,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftCluster)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersExternalAuth)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20231101s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
@@ -5011,6 +5017,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &redhatopenshift_v20231122w.OpenShiftCluster{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(redhatopenshift_v20231122s.OpenShiftCluster)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20240610p.HcpOpenShiftCluster),
+			Defaulter: &redhatopenshift_v20240610pw.HcpOpenShiftCluster{},
+			Validator: &redhatopenshift_v20240610pw.HcpOpenShiftCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20240610p.HcpOpenShiftClustersExternalAuth),
+			Defaulter: &redhatopenshift_v20240610pw.HcpOpenShiftClustersExternalAuth{},
+			Validator: &redhatopenshift_v20240610pw.HcpOpenShiftClustersExternalAuth{},
+		},
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20240610p.HcpOpenShiftClustersNodePool),
+			Defaulter: &redhatopenshift_v20240610pw.HcpOpenShiftClustersNodePool{},
+			Validator: &redhatopenshift_v20240610pw.HcpOpenShiftClustersNodePool{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftCluster)},
+		&registration.KnownType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersExternalAuth)},
+		&registration.KnownType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(resources_v20200601.ResourceGroup),
 		Defaulter: &resources_v20200601w.ResourceGroup{},
@@ -5774,6 +5802,8 @@ func createScheme() *runtime.Scheme {
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122s.AddToScheme(scheme)
+	_ = redhatopenshift_v20240610p.AddToScheme(scheme)
+	_ = redhatopenshift_v20240610ps.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = search_v20220901.AddToScheme(scheme)
@@ -6013,6 +6043,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &notificationhubs_customizations.NotificationHubExtension{})
 	result = append(result, &notificationhubs_customizations.NotificationHubsAuthorizationRuleExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClusterExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClustersExternalAuthExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClustersNodePoolExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})

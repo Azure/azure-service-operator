@@ -1,0 +1,38 @@
+apiVersion: redhatopenshift.azure.com/v1api20240610preview
+kind: HcpOpenShiftClustersNodePool
+metadata:
+  name: mveber-int-mp-0
+  namespace: default
+spec:
+  azureName: mveber-int-mp-0
+  location: uksouth
+  owner:
+    group: redhatopenshift.azure.com
+    kind: HcpOpenShiftCluster
+    name: mveber-int
+  properties:
+    # replicas: 2
+    autoRepair: true
+    autoScaling:
+      min: 2
+      max: 10
+    labels:
+      - key: region
+        value: uksouth
+    taints:
+      - key: "example.com/special"
+        value: "true"
+        effect: "NoSchedule"
+    platform:
+      osDisk:
+        diskStorageAccountType: "Standard_LRS"
+        sizeGiB: 128
+      subnetReference:
+        armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourceGroups/mveber-int-resgroup/providers/Microsoft.Network/virtualNetworks/mveber-int-vnet/subnets/mveber-int-subnet"
+      vmSize: "Standard_D4s_v3"
+    version:
+      channelGroup: stable
+      id: "4.19.0"
+  tags:
+    environment: production
+    cost-center: engineering

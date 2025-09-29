@@ -98,6 +98,11 @@ typeFilters:
     because: We need ScheduledQueryRules from this.
 
   - action: include
+    group: redhatopenshift
+    version: v*20240610preview
+    because: We want to export ARO-HCP resources from this preview version
+
+  - action: include
     group: common
     because: we need these for common resource properties
 
@@ -4517,6 +4522,26 @@ objectModelConfiguration:
           $isSecret: true
         ClientId:
           $importConfigMapMode: optional
+    2024-06-10-preview:
+      HcpOpenShiftClusters_NodePool:
+        $supportedFrom: v2.16.0
+        $exportAs: HcpOpenShiftClustersNodePool
+      HcpOpenShiftClusters_ExternalAuth:
+        $supportedFrom: v2.16.0
+        $exportAs: HcpOpenShiftClustersExternalAuth
+      HcpOpenShiftCluster:
+        $exportAs: HcpOpenShiftCluster
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+      # Configure references for complex types
+      NodePoolVersionProfile:
+        Id:
+          $referenceType: simple
+      VersionProfile:
+        Id:
+          $referenceType: simple
+
   search:
     2022-09-01:
       SearchService:
