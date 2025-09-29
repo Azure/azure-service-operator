@@ -637,7 +637,6 @@ func AddIndependentPropertyGeneratorsForNetworkWatchersFlowLog_Spec(gens map[str
 	gens["EnabledFilteringCriteria"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["StorageId"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

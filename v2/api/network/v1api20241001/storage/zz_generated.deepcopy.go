@@ -672,9 +672,9 @@ func (in *NetworkWatchersFlowLog_Spec) DeepCopyInto(out *NetworkWatchersFlowLog_
 		*out = new(RetentionPolicyParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.StorageId != nil {
-		in, out := &in.StorageId, &out.StorageId
-		*out = new(string)
+	if in.StorageReference != nil {
+		in, out := &in.StorageReference, &out.StorageReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.Tags != nil {

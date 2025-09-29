@@ -61,7 +61,7 @@ NetworkWatchersFlowLog: Resource
 │   ├── RetentionPolicy: *Object (2 properties)
 │   │   ├── Days: *int
 │   │   └── Enabled: *bool
-│   ├── StorageId: *string
+│   ├── StorageReference: *genruntime.ResourceReference
 │   ├── Tags: map[string]string
 │   └── TargetResourceReference: *genruntime.ResourceReference
 └── Status: Object (17 properties)

@@ -187,8 +187,11 @@ type NetworkWatchersFlowLog_Spec struct {
 	Owner           *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkWatcher"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RetentionPolicy *RetentionPolicyParameters         `json:"retentionPolicy,omitempty"`
-	StorageId       *string                            `json:"storageId,omitempty"`
-	Tags            map[string]string                  `json:"tags,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// StorageReference: ID of the storage account which is used to store the flow log.
+	StorageReference *genruntime.ResourceReference `armReference:"StorageId" json:"storageReference,omitempty"`
+	Tags             map[string]string             `json:"tags,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// TargetResourceReference: ID of network security group to which flow log will be applied.

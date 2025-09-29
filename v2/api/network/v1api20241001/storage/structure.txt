@@ -65,7 +65,7 @@ NetworkWatchersFlowLog: Resource
 │   │   ├── Days: *int
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
-│   ├── StorageId: *string
+│   ├── StorageReference: *genruntime.ResourceReference
 │   ├── Tags: map[string]string
 │   └── TargetResourceReference: *genruntime.ResourceReference
 └── Status: Object (18 properties)

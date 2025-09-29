@@ -284,8 +284,8 @@ type NetworkWatchersFlowLog_Spec struct {
 	RetentionPolicy *RetentionPolicyParameters `json:"retentionPolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// StorageId: ID of the storage account which is used to store the flow log.
-	StorageId *string `json:"storageId,omitempty"`
+	// StorageReference: ID of the storage account which is used to store the flow log.
+	StorageReference *genruntime.ResourceReference `armReference:"StorageId" json:"storageReference,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -329,7 +329,7 @@ func (flowLog *NetworkWatchersFlowLog_Spec) ConvertToARM(resolved genruntime.Con
 		flowLog.FlowAnalyticsConfiguration != nil ||
 		flowLog.Format != nil ||
 		flowLog.RetentionPolicy != nil ||
-		flowLog.StorageId != nil ||
+		flowLog.StorageReference != nil ||
 		flowLog.TargetResourceReference != nil {
 		result.Properties = &arm.FlowLogPropertiesFormat{}
 	}
@@ -365,8 +365,12 @@ func (flowLog *NetworkWatchersFlowLog_Spec) ConvertToARM(resolved genruntime.Con
 		retentionPolicy := *retentionPolicy_ARM.(*arm.RetentionPolicyParameters)
 		result.Properties.RetentionPolicy = &retentionPolicy
 	}
-	if flowLog.StorageId != nil {
-		storageId := *flowLog.StorageId
+	if flowLog.StorageReference != nil {
+		storageIdARMID, err := resolved.ResolvedReferences.Lookup(*flowLog.StorageReference)
+		if err != nil {
+			return nil, err
+		}
+		storageId := storageIdARMID
 		result.Properties.StorageId = &storageId
 	}
 	if flowLog.TargetResourceReference != nil {
@@ -488,14 +492,7 @@ func (flowLog *NetworkWatchersFlowLog_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property "StorageId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageId != nil {
-			storageId := *typedInput.Properties.StorageId
-			flowLog.StorageId = &storageId
-		}
-	}
+	// no assignment for property "StorageReference"
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
@@ -649,8 +646,13 @@ func (flowLog *NetworkWatchersFlowLog_Spec) AssignProperties_From_NetworkWatcher
 		flowLog.RetentionPolicy = nil
 	}
 
-	// StorageId
-	flowLog.StorageId = genruntime.ClonePointerToString(source.StorageId)
+	// StorageReference
+	if source.StorageReference != nil {
+		storageReference := source.StorageReference.Copy()
+		flowLog.StorageReference = &storageReference
+	} else {
+		flowLog.StorageReference = nil
+	}
 
 	// Tags
 	flowLog.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -760,8 +762,13 @@ func (flowLog *NetworkWatchersFlowLog_Spec) AssignProperties_To_NetworkWatchersF
 		destination.RetentionPolicy = nil
 	}
 
-	// StorageId
-	destination.StorageId = genruntime.ClonePointerToString(flowLog.StorageId)
+	// StorageReference
+	if flowLog.StorageReference != nil {
+		storageReference := flowLog.StorageReference.Copy()
+		destination.StorageReference = &storageReference
+	} else {
+		destination.StorageReference = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(flowLog.Tags)
@@ -850,8 +857,13 @@ func (flowLog *NetworkWatchersFlowLog_Spec) Initialize_From_NetworkWatchersFlowL
 		flowLog.RetentionPolicy = nil
 	}
 
-	// StorageId
-	flowLog.StorageId = genruntime.ClonePointerToString(source.StorageId)
+	// StorageReference
+	if source.StorageId != nil {
+		storageReference := genruntime.CreateResourceReferenceFromARMID(*source.StorageId)
+		flowLog.StorageReference = &storageReference
+	} else {
+		flowLog.StorageReference = nil
+	}
 
 	// Tags
 	flowLog.Tags = genruntime.CloneMapOfStringToString(source.Tags)
