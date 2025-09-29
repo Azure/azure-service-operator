@@ -10,13 +10,12 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001"
 	network_prev "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001"
+	"github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 func Test_Networking_NetworkWatcher_20241001_CRUD(t *testing.T) {
@@ -25,6 +24,8 @@ func Test_Networking_NetworkWatcher_20241001_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
+
+	tc.AzureRegion = to.Ptr("newzealandnorth") // Can only have one network watcher per region per subscription, so we use a less common region for tests
 
 	// NetworkWatcher
 	networkWatcher := &network.NetworkWatcher{
@@ -55,7 +56,7 @@ func Test_Networking_NetworkWatcher_20241001_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "FlowLog CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				NetworkWatcher_FlowLog_20241001_CRUD(tc, networkWatcher)
+				NetworkWatcher_FlowLog_20241001_CRUD(tc, rg, networkWatcher)
 			},
 		},
 	)
@@ -69,15 +70,19 @@ func Test_Networking_NetworkWatcher_20241001_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func NetworkWatcher_FlowLog_20241001_CRUD(tc *testcommon.KubePerTestContext, networkWatcher client.Object) {
+func NetworkWatcher_FlowLog_20241001_CRUD(
+	tc *testcommon.KubePerTestContext,
+	rg *v1api20200601.ResourceGroup,
+	networkWatcher *network.NetworkWatcher,
+) {
 	// Create a storage account for the flow log
 	storageAccount := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{
+			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(networkWatcher.GetOwnerReferences()[0]),
 			Sku: &storage.Sku{
-				Name: to.Ptr(storage.Sku_Name_Standard_LRS),
+				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
 			Kind: to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
 		},
@@ -87,28 +92,20 @@ func NetworkWatcher_FlowLog_20241001_CRUD(tc *testcommon.KubePerTestContext, net
 	nsg := &network_prev.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
 		Spec: network_prev.NetworkSecurityGroup_Spec{
+			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(networkWatcher.GetOwnerReferences()[0]),
 		},
 	}
-
-	tc.CreateResourcesAndWait(storageAccount, nsg)
-	
-	// Get storage account ARM ID for the FlowLog
-	tc.Expect(storageAccount.Status.Id).ToNot(BeNil())
-	storageAccountArmId := *storageAccount.Status.Id
 
 	// NetworkWatchersFlowLog
 	flowLog := &network.NetworkWatchersFlowLog{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("flowlog")),
 		Spec: network.NetworkWatchersFlowLog_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(networkWatcher),
-			Enabled:  to.Ptr(true),
-			TargetResourceReference: &genruntime.ResourceReference{
-				Reference: tc.MakeReferenceFromResource(nsg),
-			},
-			StorageId: &storageAccountArmId,
+			Owner:                   testcommon.AsOwner(networkWatcher),
+			Location:                tc.AzureRegion,
+			Enabled:                 to.Ptr(true),
+			TargetResourceReference: tc.MakeReferenceFromResource(nsg),
+			StorageReference:        tc.MakeReferenceFromResource(storageAccount),
 			RetentionPolicy: &network.RetentionPolicyParameters{
 				Enabled: to.Ptr(true),
 				Days:    to.Ptr(7), // 7 days retention for testing
@@ -120,7 +117,7 @@ func NetworkWatcher_FlowLog_20241001_CRUD(tc *testcommon.KubePerTestContext, net
 		},
 	}
 
-	tc.CreateResourceAndWait(flowLog)
+	tc.CreateResourcesAndWait(storageAccount, nsg, flowLog)
 
 	tc.Expect(flowLog.Status.Id).ToNot(BeNil())
 	flowLogArmId := *flowLog.Status.Id
