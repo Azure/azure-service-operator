@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
@@ -107,12 +108,23 @@ func (extension *RoleAssignmentExtension) ModifyARMResource(
 	return armObj, nil
 }
 
-var builtInRoleDefinitions map[string]string = make(map[string]string, 800)
+var (
+	// builtInRoleDefinitions is a cache of all known built-in role definitions, keyed by
+	// lower case role name. At the time of writing there are ~700 such roles, so we
+	// pre-initialize the map to sufficient capacity to accommodate those and some modest growth.
+	builtInRoleDefinitions map[string]string = make(map[string]string, 800)
+
+	// builtInRoleDefinitionsLock protects access to builtInRoleDefinitions
+	builtInRoleDefinitionsLock sync.Mutex
+)
 
 func ensureBuiltInRoleDefinitionsLoaded(
 	ctx context.Context,
 	armClient *genericarmclient.GenericClient,
 ) error {
+	builtInRoleDefinitionsLock.Lock()
+	defer builtInRoleDefinitionsLock.Unlock()
+
 	// Short circuit if already loaded
 	if len(builtInRoleDefinitions) > 0 {
 		return nil
