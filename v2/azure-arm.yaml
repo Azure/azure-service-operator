@@ -583,7 +583,7 @@ typeTransformers:
     because: This property should have been marked readonly but wasn't.
 
   - group: documentdb
-    name: DatabaseAccount_Spec
+    name: DatabaseAccountCreateUpdateProperties
     property: CustomerManagedKeyStatus
     remove: true
     because: This property should have been marked readonly but wasn't.

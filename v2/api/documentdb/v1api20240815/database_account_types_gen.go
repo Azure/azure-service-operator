@@ -286,10 +286,6 @@ type DatabaseAccount_Spec struct {
 	// CreateMode: Enum to indicate the mode of account creation.
 	CreateMode *CreateMode `json:"createMode,omitempty"`
 
-	// CustomerManagedKeyStatus: Indicates the status of the Customer Managed Key feature on the account. In case there are
-	// errors, the property provides troubleshooting guidance.
-	CustomerManagedKeyStatus *string `json:"customerManagedKeyStatus,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// DatabaseAccountOfferType: The offer type for the database
 	DatabaseAccountOfferType *DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
@@ -428,7 +424,6 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		account.ConsistencyPolicy != nil ||
 		account.Cors != nil ||
 		account.CreateMode != nil ||
-		account.CustomerManagedKeyStatus != nil ||
 		account.DatabaseAccountOfferType != nil ||
 		account.DefaultIdentity != nil ||
 		account.DisableKeyBasedMetadataWriteAccess != nil ||
@@ -517,10 +512,6 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		temp = string(*account.CreateMode)
 		createMode := arm.CreateMode(temp)
 		result.Properties.CreateMode = &createMode
-	}
-	if account.CustomerManagedKeyStatus != nil {
-		customerManagedKeyStatus := *account.CustomerManagedKeyStatus
-		result.Properties.CustomerManagedKeyStatus = &customerManagedKeyStatus
 	}
 	if account.DatabaseAccountOfferType != nil {
 		var temp string
@@ -771,15 +762,6 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 			temp = string(*typedInput.Properties.CreateMode)
 			createMode := CreateMode(temp)
 			account.CreateMode = &createMode
-		}
-	}
-
-	// Set property "CustomerManagedKeyStatus":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomerManagedKeyStatus != nil {
-			customerManagedKeyStatus := *typedInput.Properties.CustomerManagedKeyStatus
-			account.CustomerManagedKeyStatus = &customerManagedKeyStatus
 		}
 	}
 
@@ -1201,9 +1183,6 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 		account.CreateMode = nil
 	}
 
-	// CustomerManagedKeyStatus
-	account.CustomerManagedKeyStatus = genruntime.ClonePointerToString(source.CustomerManagedKeyStatus)
-
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
 		databaseAccountOfferType := *source.DatabaseAccountOfferType
@@ -1564,9 +1543,6 @@ func (account *DatabaseAccount_Spec) AssignProperties_To_DatabaseAccount_Spec(de
 		destination.CreateMode = nil
 	}
 
-	// CustomerManagedKeyStatus
-	destination.CustomerManagedKeyStatus = genruntime.ClonePointerToString(account.CustomerManagedKeyStatus)
-
 	// DatabaseAccountOfferType
 	if account.DatabaseAccountOfferType != nil {
 		databaseAccountOfferType := string(*account.DatabaseAccountOfferType)
@@ -1926,9 +1902,6 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 	} else {
 		account.CreateMode = nil
 	}
-
-	// CustomerManagedKeyStatus
-	account.CustomerManagedKeyStatus = genruntime.ClonePointerToString(source.CustomerManagedKeyStatus)
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
