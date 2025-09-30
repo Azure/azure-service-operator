@@ -115,7 +115,7 @@ var (
 	builtInRoleDefinitions map[string]string = make(map[string]string, 800)
 
 	// builtInRoleDefinitionsLock protects access to builtInRoleDefinitions
-	builtInRoleDefinitionsLock sync.Mutex
+	builtInRoleDefinitionsLock sync.RWMutex
 )
 
 func ensureBuiltInRoleDefinitionsLoaded(
@@ -157,7 +157,7 @@ func resolveBuiltInRoleDefinition(
 	roleDefinitionName string,
 	armObj genruntime.ARMResource,
 ) (string, error) {
-	builtInRoleDefinitionsLock.Lock()
+	builtInRoleDefinitionsLock.RLock()
 	defer builtInRoleDefinitionsLock.Unlock()
 
 	roleId, ok := builtInRoleDefinitions[strings.ToLower(roleDefinitionName)]
