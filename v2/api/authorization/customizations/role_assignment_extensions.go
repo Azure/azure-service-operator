@@ -157,6 +157,9 @@ func resolveBuiltInRoleDefinition(
 	roleDefinitionName string,
 	armObj genruntime.ARMResource,
 ) (string, error) {
+	builtInRoleDefinitionsLock.Lock()
+	defer builtInRoleDefinitionsLock.Unlock()
+
 	roleId, ok := builtInRoleDefinitions[strings.ToLower(roleDefinitionName)]
 	if !ok {
 		// If we can't resolve, it, leave it intact
