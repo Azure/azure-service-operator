@@ -10,6 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	kusto "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -19,6 +20,10 @@ import (
 )
 
 var _ extensions.PreReconciliationChecker = &ClusterExtension{}
+
+// Ensure we're dealing with the hub version of Cluster
+// If this no longer compiles (due to a newer version being imported), change the import above to that version.
+var _ conversion.Hub = &kusto.Cluster{}
 
 // PreReconcileCheck is called before the reconciliation of the resource to see if the cluster
 // is in a state that will allow reconciliation to proceed.

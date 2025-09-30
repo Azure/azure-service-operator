@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240413.PrincipalAssignment
 // Generator information:
-// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/kusto.json
+// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/Kusto/stable/2024-04-13/kusto.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/principalAssignments/{principalAssignmentName}
 type PrincipalAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (assignment *PrincipalAssignment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240413.PrincipalAssignment
 // Generator information:
-// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/kusto.json
+// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/Kusto/stable/2024-04-13/kusto.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/principalAssignments/{principalAssignmentName}
 type PrincipalAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
