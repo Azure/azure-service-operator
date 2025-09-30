@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210702.IotHub
 // Generator information:
-// - Generated from: /iothub/resource-manager/Microsoft.Devices/stable/2021-07-02/iothub.json
+// - Generated from: /iothub/resource-manager/Microsoft.Devices/IoTHub/stable/2021-07-02/iothub.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}
 type IotHub struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (iotHub *IotHub) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210702.IotHub
 // Generator information:
-// - Generated from: /iothub/resource-manager/Microsoft.Devices/stable/2021-07-02/iothub.json
+// - Generated from: /iothub/resource-manager/Microsoft.Devices/IoTHub/stable/2021-07-02/iothub.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}
 type IotHubList struct {
 	metav1.TypeMeta `json:",inline"`
