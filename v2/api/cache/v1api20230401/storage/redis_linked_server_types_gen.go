@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230401.RedisLinkedServer
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2023-04-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2023-04-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (server *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230401.RedisLinkedServer
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2023-04-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2023-04-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}
 type RedisLinkedServerList struct {
 	metav1.TypeMeta `json:",inline"`

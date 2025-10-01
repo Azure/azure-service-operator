@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240101.Namespace
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240101.Namespace
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
 type NamespaceList struct {
 	metav1.TypeMeta `json:",inline"`

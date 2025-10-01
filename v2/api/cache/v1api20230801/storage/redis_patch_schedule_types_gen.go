@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230801.RedisPatchSchedule
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2023-08-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2023-08-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230801.RedisPatchSchedule
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2023-08-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2023-08-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`

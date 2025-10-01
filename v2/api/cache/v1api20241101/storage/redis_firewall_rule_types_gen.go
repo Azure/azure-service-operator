@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20241101.RedisFirewallRule
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2024-11-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (rule *RedisFirewallRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20241101.RedisFirewallRule
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2024-11-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2024-11-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}
 type RedisFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210101preview.NamespacesTopicsSubscription
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/subscriptions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
 type NamespacesTopicsSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (subscription *NamespacesTopicsSubscription) OriginalGVK() *schema.GroupVer
 // +kubebuilder:object:root=true
 // Storage version of v1api20210101preview.NamespacesTopicsSubscription
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/subscriptions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
 type NamespacesTopicsSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
