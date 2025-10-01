@@ -16,7 +16,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-06-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2020-06-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -27,7 +27,7 @@ type Redis struct {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-06-01/redis.json
+// - Generated from: /redis/resource-manager/Microsoft.Cache/Redis/stable/2020-06-01/redis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
