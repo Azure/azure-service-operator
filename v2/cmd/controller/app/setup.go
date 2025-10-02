@@ -416,7 +416,6 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 
 	armClientCache := armreconciler.NewARMClientCache(
 		credentialProvider,
-		kubeClient,
 		cfg.Cloud(),
 		nil,
 		armMetrics)
