@@ -1,0 +1,67 @@
+# This sample demonstrates how to create a NetworkWatcher and FlowLog for network traffic monitoring.
+# The resources created in this sample include:
+# - ResourceGroup (as the owner of the NetworkWatcher)
+# - NetworkWatcher (for network monitoring in the region)
+# - NetworkSecurityGroup (as the target for flow logging)
+# - NetworkWatchersFlowLog (to capture network flow logs)
+
+# Resource Group - required as the owner of the NetworkWatcher
+---
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: sample-rg
+  namespace: default
+spec:
+  location: westus2
+
+# Network Security Group - target for flow logging
+---
+apiVersion: network.azure.com/v1api20240301
+kind: NetworkSecurityGroup
+metadata:
+  name: sample-nsg
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: sample-rg
+
+# NetworkWatcher - monitors network resources in the region
+---
+apiVersion: network.azure.com/v1api20241001
+kind: NetworkWatcher
+metadata:
+  name: sample-network-watcher
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: sample-rg
+
+# NetworkWatchersFlowLog - captures network flow logs from the NSG
+---
+apiVersion: network.azure.com/v1api20241001
+kind: NetworkWatchersFlowLog
+metadata:
+  name: sample-flow-log
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: sample-network-watcher
+  # Enable flow logging
+  enabled: true
+  # Target the Network Security Group for flow logging
+  targetResourceReference:
+    group: network.azure.com
+    kind: NetworkSecurityGroup
+    name: sample-nsg
+  # Configure retention policy (optional)
+  retentionPolicy:
+    enabled: true
+    days: 30
+  # Configure flow log format (optional)
+  format:
+    type: JSON
+    version: 2

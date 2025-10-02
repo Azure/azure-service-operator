@@ -2466,7 +2466,15 @@ VirtualNetworksVirtualNetworkPeering: Resource
     ├── Type: *string
     └── UseRemoteGateways: *bool
 
+augmentConversionForManagedServiceIdentity: Interface
+
+augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForManagedServiceIdentity_UserAssignedIdentities_STATUS: Interface
+
 augmentConversionForSubResource: Interface
 
 augmentConversionForSubResource_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
 

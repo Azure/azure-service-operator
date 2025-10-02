@@ -1,0 +1,25 @@
+# This sample demonstrates how to create a NetworkWatcher for network monitoring.
+# NetworkWatcher is required for advanced network monitoring features like flow logs,
+# packet captures, and network diagnostics.
+
+# Resource Group - required as the owner of the NetworkWatcher
+---
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: sample-rg
+  namespace: default
+spec:
+  location: westus2
+
+# NetworkWatcher - monitors network resources in the region
+---
+apiVersion: network.azure.com/v1api20241001
+kind: NetworkWatcher
+metadata:
+  name: sample-network-watcher
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: sample-rg
