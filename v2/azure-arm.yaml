@@ -974,9 +974,19 @@ status:
 # $referenceType: string
 #     Indicates whether this property is an ARM reference to another resource or some other kind 
 #     of reference.
-#  o  Set to 'arm' to confirm the property is an ARM reference.
+#
+#  o  Set to 'arm' to specify the property is an ARM reference.
+#     This can be required if the property is identified as one of our heuristics as confirmation.
+#
+#  o  Set to `arm+wellknown` if the property allows identification of resources via a well-known 
+#     name as an alternative to an ARM ID.
+#
+#  o  Set to `arm+compat` to mark an ARM reference property previously released as a simple string.
+#     This allows us to fix up prior mistakes without breaking backward compatibility.
+#     Do not use this unless absolutely necessary.
+#
 #  o  Set to 'simple' to indicate this is a simple value not requiring special handling. This is 
-#     used disable our heuristics if a property is incorrectly identified as an ARM reference.
+#     used to disable our heuristics if a property is incorrectly identified as an ARM reference.
 #
 # $resourceLifecycleOwnedByParent: <string>
 #     Specifies that the property references a misbehaving embedded resource, one whose parent
@@ -1384,7 +1394,8 @@ objectModelConfiguration:
         DelegatedManagedIdentityResourceId:
           $referenceType: arm 
         RoleDefinitionId:
-          $referenceType: arm
+          $description: The role definition ID. This can be the ARM ID of a custom role definition, or the well-known name of a built-in role definition. See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for well-known role definition names.
+          $referenceType: arm+wellknown
         PrincipalId:
           $importConfigMapMode: optional
     2022-04-01:
@@ -1400,7 +1411,8 @@ objectModelConfiguration:
         DelegatedManagedIdentityResourceId:
           $referenceType: arm
         RoleDefinitionId:
-          $referenceType: arm
+          $description: The role definition ID. This can be the ARM ID of a custom role definition, or the well-known name of a built-in role definition. See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for well-known role definition names.
+          $referenceType: arm+wellknown
         PrincipalId:
           $importConfigMapMode: optional
       RoleDefinition:

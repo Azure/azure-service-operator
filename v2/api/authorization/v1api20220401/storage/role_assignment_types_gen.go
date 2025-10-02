@@ -197,7 +197,7 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
-	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
+	RoleDefinitionReference *genruntime.WellKnownResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RoleAssignment_Spec{}

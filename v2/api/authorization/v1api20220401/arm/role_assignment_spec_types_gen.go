@@ -51,7 +51,9 @@ type RoleAssignmentProperties struct {
 	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
 
-	// RoleDefinitionId: The role definition ID.
+	// RoleDefinitionId: The role definition ID. This can be the ARM ID of a custom role definition, or the well-known name of
+	// a built-in role definition. See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for
+	// well-known role definition names.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 }
 
