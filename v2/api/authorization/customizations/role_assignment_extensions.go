@@ -118,6 +118,9 @@ var (
 	builtInRoleDefinitionsLock sync.RWMutex
 )
 
+// ensureBuiltInRoleDefinitionsLoaded loads the built-in role definitions into memory if not already loaded.
+// We load them once, and then keep them for the lifetime of the pod.
+// Given the list of built-in role definitions changes very slowly, this seems reasonable.
 func ensureBuiltInRoleDefinitionsLoaded(
 	ctx context.Context,
 	armClient *genericarmclient.GenericClient,
