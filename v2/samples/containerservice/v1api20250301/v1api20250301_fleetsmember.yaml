@@ -6,4 +6,7 @@ metadata:
 spec:
   owner:
     name: samplefleet20250301
-  clusterResourceId: "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.ContainerService/managedClusters/{cluster-name}"
+  clusterResourceReference:
+    group: containerservice.azure.com
+    kind: ManagedCluster
+    name: aks-managedcluster-sample-fleet

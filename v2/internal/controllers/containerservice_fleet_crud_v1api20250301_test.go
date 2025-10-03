@@ -46,7 +46,141 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 	tc.Expect(flt.Spec.Tags["name"]).To(Equal("test-tag"))
 	armId := *flt.Status.Id
 
-	// Test the new UpdateStrategy resource from 2025-03-01 API
+	// patching a fleet
+	old := flt.DeepCopy()
+	flt.Spec.Tags = map[string]string{
+		"name": "test-tag2",
+	}
+	tc.PatchResourceAndWait(old, flt)
+	tc.Expect(flt.Spec.Tags["name"]).To(Equal("test-tag2"))
+
+	adminUsername := "adminUser"
+	sshPublicKey, err := tc.GenerateSSHKey(2048)
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	cluster := &aks.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: aks.ManagedCluster_Spec{
+			Location:  region,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
+					OsType: to.Ptr(aks.OSType_Linux),
+					Mode:   to.Ptr(aks.AgentPoolMode_System),
+				},
+			},
+			LinuxProfile: &aks.ContainerServiceLinuxProfile{
+				AdminUsername: &adminUsername,
+				Ssh: &aks.ContainerServiceSshConfiguration{
+					PublicKeys: []aks.ContainerServiceSshPublicKey{
+						{
+							KeyData: sshPublicKey,
+						},
+					},
+				},
+			},
+			Identity: &aks.ManagedClusterIdentity{
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
+			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
+			},
+			KubernetesVersion: to.Ptr("1.31.11"),
+		},
+	}
+	tc.CreateResourceAndWait(cluster)
+	tc.Expect(cluster.Status.Id).ToNot(BeNil())
+	clusterArmID := *cluster.Status.Id
+
+	// Run sub tests - updateRun subtest depends on fleetMember subtest
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "Fleet FleetMember CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_Fleet_FleetMember_20250301_CRUD(tc, flt, clusterArmID)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Fleet UpdateRun CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_Fleet_UpdateRun_20250301_CRUD(tc, flt)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Fleet UpdateStrategy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_Fleet_UpdateStrategy_202150301_CRUD(tc, flt)
+			},
+		},
+	)
+
+	// Delete the resources
+	tc.DeleteResourcesAndWait(cluster, flt)
+
+	// Ensure that fleet was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func AKS_Fleet_FleetMember_20250301_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet, clusterArmID string) {
+	fltMember := &fleet.FleetsMember{
+		ObjectMeta: tc.MakeObjectMeta("fleetmember"),
+		Spec: fleet.FleetsMember_Spec{
+			Owner: testcommon.AsOwner(flt),
+			ClusterResourceReference: &genruntime.ResourceReference{
+				ARMID: clusterArmID,
+			},
+		},
+	}
+
+	// create fleet member
+	tc.CreateResourceAndWait(fltMember)
+	tc.Expect(fltMember.Status.Id).ToNot(BeNil())
+	tc.Expect(fltMember.Status.ClusterResourceId).ToNot(BeNil())
+
+	// not deleting fleet member since updateRun test depends on resource
+}
+
+func AKS_Fleet_UpdateRun_20250301_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet) {
+	updateRun := &fleet.FleetsUpdateRun{
+		ObjectMeta: tc.MakeObjectMeta("updaterun"),
+		Spec: fleet.FleetsUpdateRun_Spec{
+			ManagedClusterUpdate: &fleet.ManagedClusterUpdate{
+				Upgrade: &fleet.ManagedClusterUpgradeSpec{
+					Type:              to.Ptr(fleet.ManagedClusterUpgradeType_Full),
+					KubernetesVersion: to.Ptr("1.32.7"),
+				},
+			},
+			Owner: testcommon.AsOwner(flt),
+		},
+	}
+
+	tc.CreateResourceAndWait(updateRun)
+
+	defer tc.DeleteResourceAndWait(updateRun)
+
+	tc.Expect(updateRun.Status.Id).ToNot(BeNil())
+
+	// a basic assertion on a few properties
+	tc.Expect(*updateRun.Status.ManagedClusterUpdate.Upgrade.Type).To(Equal(fleet.ManagedClusterUpgradeType_STATUS_Full))
+
+	// Perform a simple patch
+	old := updateRun.DeepCopy()
+	updateRun.Spec.ManagedClusterUpdate.Upgrade.Type = to.Ptr(fleet.ManagedClusterUpgradeType_NodeImageOnly)
+	updateRun.Spec.ManagedClusterUpdate.Upgrade.KubernetesVersion = nil // This must be nil for NodeImageOnly upgrade
+
+	tc.PatchResourceAndWait(old, updateRun)
+
+	tc.Expect(*updateRun.Status.ManagedClusterUpdate.Upgrade.Type).To(Equal(fleet.ManagedClusterUpgradeType_STATUS_NodeImageOnly))
+}
+
+func AKS_Fleet_UpdateStrategy_202150301_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet) {
 	updateStrategy := &fleet.FleetsUpdateStrategy{
 		ObjectMeta: tc.MakeObjectMeta("updatestrategy"),
 		Spec: fleet.FleetsUpdateStrategy_Spec{
@@ -74,36 +208,5 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 	tc.Expect(updateStrategy.Status.Strategy.Stages[0].Name).ToNot(BeNil())
 	tc.Expect(*updateStrategy.Status.Strategy.Stages[0].Name).To(Equal("stage1"))
 
-	// Test the new AutoUpgradeProfile resource from 2025-03-01 API
-	autoUpgradeProfile := &fleet.FleetsAutoUpgradeProfile{
-		ObjectMeta: tc.MakeObjectMeta("autoupgradeprofile"),
-		Spec: fleet.FleetsAutoUpgradeProfile_Spec{
-			Owner:   testcommon.AsOwner(flt),
-			Channel: to.Ptr(fleet.UpgradeChannel_Stable),
-		},
-	}
-
-	// Create and verify AutoUpgradeProfile
-	tc.CreateResourceAndWait(autoUpgradeProfile)
-	tc.Expect(autoUpgradeProfile.Status.Id).ToNot(BeNil())
-	tc.Expect(autoUpgradeProfile.Status.Channel).ToNot(BeNil())
-	tc.Expect(*autoUpgradeProfile.Status.Channel).To(Equal(fleet.UpgradeChannel_STATUS_Stable))
-
-	// Clean up AutoUpgradeProfile
-	tc.DeleteResourceAndWait(autoUpgradeProfile)
-
-	// Clean up UpdateStrategy
 	tc.DeleteResourceAndWait(updateStrategy)
-
-	// Clean up Fleet
-	tc.DeleteResourceAndWait(flt)
-
-	// Ensure the fleet was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(
-		tc.Ctx,
-		armId,
-		string(fleet.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
 }
