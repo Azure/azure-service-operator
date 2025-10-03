@@ -12,6 +12,20 @@ description: Tutorials for using Azure Service Operator
 ---
 
 {{% cardpane %}}
+{{% card header="Create ASO resources and visuals"%}}
+
+[Create ASO resources and view them](https://azure-samples.github.io/aks-labs/docs/platform-engineering/aks-capz-aso/#sample-1-create-a-new-aks-cluster-as-an-argo-cd-application) through the Argo CD UI.
+
+{{% /card %}}
+{{% card header="Create Your own Manifest"%}}
+
+[Create your own deployment manifests](https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-redis) on ASO.
+
+{{% /card %}}
+{{% /cardpane %}}
+
+
+{{% cardpane %}}
 {{% card header="CosmosDB to-do List"%}}
 
 [Create a to-do list application](https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/cosmos-todo-list) backed by CosmosDB.
@@ -37,19 +51,6 @@ The CosmosDB is hosted in Azure but created easily via `kubectl` and Azure Servi
 {{% card header="Redis Votes"%}}
 
 [Create a simple voting application](https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-redis) backed by Azure Redis.
-
-{{% /card %}}
-{{% /cardpane %}}
-
-{{% cardpane %}}
-{{% card header="Create ASO resources and visuals"%}}
-
-[Create ASO resources and view them](https://azure-samples.github.io/aks-labs/docs/platform-engineering/aks-capz-aso/#sample-1-create-a-new-aks-cluster-as-an-argo-cd-application) through the Argo CD UI.
-
-{{% /card %}}
-{{% card header="Create Your own Manifest"%}}
-
-[Create your own deployment manifests](https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-redis) on ASO.
 
 {{% /card %}}
 {{% /cardpane %}}
