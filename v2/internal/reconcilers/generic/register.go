@@ -204,7 +204,9 @@ func registerNamespaceWatcher(kubeclient kubeclient.Client, gvk schema.GroupVers
 		}
 		// list the objects for the current kind
 
-		log.V(Verbose).Info("Detected namespace reconcile-policy annotation", "namespace", obj.GetName())
+		log.V(Verbose).Info("Detected namespace reconcile-policy annotation change",
+			"namespace", obj.GetName(),
+			"reconcile-policy", obj.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"])
 		for _, el := range aList.Items {
 			if _, ok := el.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
 				// If the annotation is defined for the object, there's no need to reconcile it and we skip the object
