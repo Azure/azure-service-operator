@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,6 +18,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_AbsoluteMonthlySchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AbsoluteMonthlySchedule to AbsoluteMonthlySchedule via AssignProperties_To_AbsoluteMonthlySchedule & AssignProperties_From_AbsoluteMonthlySchedule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAbsoluteMonthlySchedule, AbsoluteMonthlyScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAbsoluteMonthlySchedule tests if a specific instance of AbsoluteMonthlySchedule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAbsoluteMonthlySchedule(subject AbsoluteMonthlySchedule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.AbsoluteMonthlySchedule
+	err := copied.AssignProperties_To_AbsoluteMonthlySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AbsoluteMonthlySchedule
+	err = actual.AssignProperties_From_AbsoluteMonthlySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_AbsoluteMonthlySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +121,48 @@ func AbsoluteMonthlyScheduleGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule(gens map[string]gopter.Gen) {
 	gens["DayOfMonth"] = gen.PtrOf(gen.Int())
 	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
+}
+
+func Test_AbsoluteMonthlySchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AbsoluteMonthlySchedule_STATUS to AbsoluteMonthlySchedule_STATUS via AssignProperties_To_AbsoluteMonthlySchedule_STATUS & AssignProperties_From_AbsoluteMonthlySchedule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAbsoluteMonthlySchedule_STATUS, AbsoluteMonthlySchedule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAbsoluteMonthlySchedule_STATUS tests if a specific instance of AbsoluteMonthlySchedule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAbsoluteMonthlySchedule_STATUS(subject AbsoluteMonthlySchedule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.AbsoluteMonthlySchedule_STATUS
+	err := copied.AssignProperties_To_AbsoluteMonthlySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AbsoluteMonthlySchedule_STATUS
+	err = actual.AssignProperties_From_AbsoluteMonthlySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AbsoluteMonthlySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -142,6 +227,48 @@ func AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule_STATUS(gens map[
 	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
 }
 
+func Test_DailySchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DailySchedule to DailySchedule via AssignProperties_To_DailySchedule & AssignProperties_From_DailySchedule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDailySchedule, DailyScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDailySchedule tests if a specific instance of DailySchedule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDailySchedule(subject DailySchedule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.DailySchedule
+	err := copied.AssignProperties_To_DailySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DailySchedule
+	err = actual.AssignProperties_From_DailySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DailySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -200,6 +327,48 @@ func DailyScheduleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDailySchedule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDailySchedule(gens map[string]gopter.Gen) {
 	gens["IntervalDays"] = gen.PtrOf(gen.Int())
+}
+
+func Test_DailySchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DailySchedule_STATUS to DailySchedule_STATUS via AssignProperties_To_DailySchedule_STATUS & AssignProperties_From_DailySchedule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDailySchedule_STATUS, DailySchedule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDailySchedule_STATUS tests if a specific instance of DailySchedule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDailySchedule_STATUS(subject DailySchedule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.DailySchedule_STATUS
+	err := copied.AssignProperties_To_DailySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DailySchedule_STATUS
+	err = actual.AssignProperties_From_DailySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DailySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -263,6 +432,48 @@ func AddIndependentPropertyGeneratorsForDailySchedule_STATUS(gens map[string]gop
 	gens["IntervalDays"] = gen.PtrOf(gen.Int())
 }
 
+func Test_DateSpan_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DateSpan to DateSpan via AssignProperties_To_DateSpan & AssignProperties_From_DateSpan returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDateSpan, DateSpanGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDateSpan tests if a specific instance of DateSpan can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDateSpan(subject DateSpan) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.DateSpan
+	err := copied.AssignProperties_To_DateSpan(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DateSpan
+	err = actual.AssignProperties_From_DateSpan(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DateSpan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -324,6 +535,48 @@ func AddIndependentPropertyGeneratorsForDateSpan(gens map[string]gopter.Gen) {
 	gens["Start"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_DateSpan_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DateSpan_STATUS to DateSpan_STATUS via AssignProperties_To_DateSpan_STATUS & AssignProperties_From_DateSpan_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDateSpan_STATUS, DateSpan_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDateSpan_STATUS tests if a specific instance of DateSpan_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDateSpan_STATUS(subject DateSpan_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.DateSpan_STATUS
+	err := copied.AssignProperties_To_DateSpan_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DateSpan_STATUS
+	err = actual.AssignProperties_From_DateSpan_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DateSpan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -383,6 +636,91 @@ func DateSpan_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDateSpan_STATUS(gens map[string]gopter.Gen) {
 	gens["End"] = gen.PtrOf(gen.AlphaString())
 	gens["Start"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_MaintenanceConfiguration_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceConfiguration to hub returns original",
+		prop.ForAll(RunResourceConversionTestForMaintenanceConfiguration, MaintenanceConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForMaintenanceConfiguration tests if a specific instance of MaintenanceConfiguration round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForMaintenanceConfiguration(subject MaintenanceConfiguration) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20250801s.MaintenanceConfiguration
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual MaintenanceConfiguration
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MaintenanceConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceConfiguration to MaintenanceConfiguration via AssignProperties_To_MaintenanceConfiguration & AssignProperties_From_MaintenanceConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceConfiguration, MaintenanceConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceConfiguration tests if a specific instance of MaintenanceConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceConfiguration(subject MaintenanceConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.MaintenanceConfiguration
+	err := copied.AssignProperties_To_MaintenanceConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceConfiguration
+	err = actual.AssignProperties_From_MaintenanceConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_MaintenanceConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -447,6 +785,48 @@ func AddRelatedPropertyGeneratorsForMaintenanceConfiguration(gens map[string]gop
 	gens["Status"] = MaintenanceConfiguration_STATUSGenerator()
 }
 
+func Test_MaintenanceConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceConfigurationOperatorSpec to MaintenanceConfigurationOperatorSpec via AssignProperties_To_MaintenanceConfigurationOperatorSpec & AssignProperties_From_MaintenanceConfigurationOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec, MaintenanceConfigurationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec tests if a specific instance of MaintenanceConfigurationOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec(subject MaintenanceConfigurationOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.MaintenanceConfigurationOperatorSpec
+	err := copied.AssignProperties_To_MaintenanceConfigurationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceConfigurationOperatorSpec
+	err = actual.AssignProperties_From_MaintenanceConfigurationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MaintenanceConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -500,6 +880,48 @@ func MaintenanceConfigurationOperatorSpecGenerator() gopter.Gen {
 	maintenanceConfigurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfigurationOperatorSpec{}), generators)
 
 	return maintenanceConfigurationOperatorSpecGenerator
+}
+
+func Test_MaintenanceConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceConfiguration_STATUS to MaintenanceConfiguration_STATUS via AssignProperties_To_MaintenanceConfiguration_STATUS & AssignProperties_From_MaintenanceConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceConfiguration_STATUS, MaintenanceConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceConfiguration_STATUS tests if a specific instance of MaintenanceConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceConfiguration_STATUS(subject MaintenanceConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.MaintenanceConfiguration_STATUS
+	err := copied.AssignProperties_To_MaintenanceConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceConfiguration_STATUS
+	err = actual.AssignProperties_From_MaintenanceConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_MaintenanceConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -582,6 +1004,48 @@ func AddRelatedPropertyGeneratorsForMaintenanceConfiguration_STATUS(gens map[str
 	gens["TimeInWeek"] = gen.SliceOf(TimeInWeek_STATUSGenerator())
 }
 
+func Test_MaintenanceConfiguration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceConfiguration_Spec to MaintenanceConfiguration_Spec via AssignProperties_To_MaintenanceConfiguration_Spec & AssignProperties_From_MaintenanceConfiguration_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceConfiguration_Spec, MaintenanceConfiguration_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceConfiguration_Spec tests if a specific instance of MaintenanceConfiguration_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceConfiguration_Spec(subject MaintenanceConfiguration_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.MaintenanceConfiguration_Spec
+	err := copied.AssignProperties_To_MaintenanceConfiguration_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceConfiguration_Spec
+	err = actual.AssignProperties_From_MaintenanceConfiguration_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MaintenanceConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -661,6 +1125,48 @@ func AddRelatedPropertyGeneratorsForMaintenanceConfiguration_Spec(gens map[strin
 	gens["TimeInWeek"] = gen.SliceOf(TimeInWeekGenerator())
 }
 
+func Test_MaintenanceWindow_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceWindow to MaintenanceWindow via AssignProperties_To_MaintenanceWindow & AssignProperties_From_MaintenanceWindow returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceWindow, MaintenanceWindowGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceWindow tests if a specific instance of MaintenanceWindow can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.MaintenanceWindow
+	err := copied.AssignProperties_To_MaintenanceWindow(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceWindow
+	err = actual.AssignProperties_From_MaintenanceWindow(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MaintenanceWindow_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -737,6 +1243,48 @@ func AddIndependentPropertyGeneratorsForMaintenanceWindow(gens map[string]gopter
 func AddRelatedPropertyGeneratorsForMaintenanceWindow(gens map[string]gopter.Gen) {
 	gens["NotAllowedDates"] = gen.SliceOf(DateSpanGenerator())
 	gens["Schedule"] = gen.PtrOf(ScheduleGenerator())
+}
+
+func Test_MaintenanceWindow_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceWindow_STATUS to MaintenanceWindow_STATUS via AssignProperties_To_MaintenanceWindow_STATUS & AssignProperties_From_MaintenanceWindow_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceWindow_STATUS, MaintenanceWindow_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceWindow_STATUS tests if a specific instance of MaintenanceWindow_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceWindow_STATUS(subject MaintenanceWindow_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.MaintenanceWindow_STATUS
+	err := copied.AssignProperties_To_MaintenanceWindow_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceWindow_STATUS
+	err = actual.AssignProperties_From_MaintenanceWindow_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_MaintenanceWindow_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -818,6 +1366,48 @@ func AddRelatedPropertyGeneratorsForMaintenanceWindow_STATUS(gens map[string]gop
 	gens["Schedule"] = gen.PtrOf(Schedule_STATUSGenerator())
 }
 
+func Test_RelativeMonthlySchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RelativeMonthlySchedule to RelativeMonthlySchedule via AssignProperties_To_RelativeMonthlySchedule & AssignProperties_From_RelativeMonthlySchedule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRelativeMonthlySchedule, RelativeMonthlyScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRelativeMonthlySchedule tests if a specific instance of RelativeMonthlySchedule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRelativeMonthlySchedule(subject RelativeMonthlySchedule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.RelativeMonthlySchedule
+	err := copied.AssignProperties_To_RelativeMonthlySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RelativeMonthlySchedule
+	err = actual.AssignProperties_From_RelativeMonthlySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RelativeMonthlySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -879,6 +1469,48 @@ func AddIndependentPropertyGeneratorsForRelativeMonthlySchedule(gens map[string]
 	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
 	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
 	gens["WeekIndex"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RelativeMonthlySchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RelativeMonthlySchedule_STATUS to RelativeMonthlySchedule_STATUS via AssignProperties_To_RelativeMonthlySchedule_STATUS & AssignProperties_From_RelativeMonthlySchedule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRelativeMonthlySchedule_STATUS, RelativeMonthlySchedule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRelativeMonthlySchedule_STATUS tests if a specific instance of RelativeMonthlySchedule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRelativeMonthlySchedule_STATUS(subject RelativeMonthlySchedule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.RelativeMonthlySchedule_STATUS
+	err := copied.AssignProperties_To_RelativeMonthlySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RelativeMonthlySchedule_STATUS
+	err = actual.AssignProperties_From_RelativeMonthlySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RelativeMonthlySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -944,6 +1576,48 @@ func AddIndependentPropertyGeneratorsForRelativeMonthlySchedule_STATUS(gens map[
 	gens["WeekIndex"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Schedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Schedule to Schedule via AssignProperties_To_Schedule & AssignProperties_From_Schedule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedule, ScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedule tests if a specific instance of Schedule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSchedule(subject Schedule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.Schedule
+	err := copied.AssignProperties_To_Schedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Schedule
+	err = actual.AssignProperties_From_Schedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Schedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1005,6 +1679,48 @@ func AddRelatedPropertyGeneratorsForSchedule(gens map[string]gopter.Gen) {
 	gens["Daily"] = gen.PtrOf(DailyScheduleGenerator())
 	gens["RelativeMonthly"] = gen.PtrOf(RelativeMonthlyScheduleGenerator())
 	gens["Weekly"] = gen.PtrOf(WeeklyScheduleGenerator())
+}
+
+func Test_Schedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Schedule_STATUS to Schedule_STATUS via AssignProperties_To_Schedule_STATUS & AssignProperties_From_Schedule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedule_STATUS, Schedule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedule_STATUS tests if a specific instance of Schedule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSchedule_STATUS(subject Schedule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.Schedule_STATUS
+	err := copied.AssignProperties_To_Schedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Schedule_STATUS
+	err = actual.AssignProperties_From_Schedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Schedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1087,7 +1803,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20250301s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1177,6 +1893,48 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_TimeInWeek_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TimeInWeek to TimeInWeek via AssignProperties_To_TimeInWeek & AssignProperties_From_TimeInWeek returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTimeInWeek, TimeInWeekGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTimeInWeek tests if a specific instance of TimeInWeek can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTimeInWeek(subject TimeInWeek) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.TimeInWeek
+	err := copied.AssignProperties_To_TimeInWeek(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TimeInWeek
+	err = actual.AssignProperties_From_TimeInWeek(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_TimeInWeek_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1236,6 +1994,48 @@ func TimeInWeekGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTimeInWeek(gens map[string]gopter.Gen) {
 	gens["Day"] = gen.PtrOf(gen.AlphaString())
 	gens["HourSlots"] = gen.SliceOf(gen.Int())
+}
+
+func Test_TimeInWeek_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TimeInWeek_STATUS to TimeInWeek_STATUS via AssignProperties_To_TimeInWeek_STATUS & AssignProperties_From_TimeInWeek_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTimeInWeek_STATUS, TimeInWeek_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTimeInWeek_STATUS tests if a specific instance of TimeInWeek_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTimeInWeek_STATUS(subject TimeInWeek_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.TimeInWeek_STATUS
+	err := copied.AssignProperties_To_TimeInWeek_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TimeInWeek_STATUS
+	err = actual.AssignProperties_From_TimeInWeek_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TimeInWeek_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1299,6 +2099,48 @@ func AddIndependentPropertyGeneratorsForTimeInWeek_STATUS(gens map[string]gopter
 	gens["HourSlots"] = gen.SliceOf(gen.Int())
 }
 
+func Test_TimeSpan_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TimeSpan to TimeSpan via AssignProperties_To_TimeSpan & AssignProperties_From_TimeSpan returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTimeSpan, TimeSpanGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTimeSpan tests if a specific instance of TimeSpan can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTimeSpan(subject TimeSpan) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.TimeSpan
+	err := copied.AssignProperties_To_TimeSpan(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TimeSpan
+	err = actual.AssignProperties_From_TimeSpan(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_TimeSpan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1358,6 +2200,48 @@ func TimeSpanGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTimeSpan(gens map[string]gopter.Gen) {
 	gens["End"] = gen.PtrOf(gen.AlphaString())
 	gens["Start"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_TimeSpan_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TimeSpan_STATUS to TimeSpan_STATUS via AssignProperties_To_TimeSpan_STATUS & AssignProperties_From_TimeSpan_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTimeSpan_STATUS, TimeSpan_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTimeSpan_STATUS tests if a specific instance of TimeSpan_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTimeSpan_STATUS(subject TimeSpan_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.TimeSpan_STATUS
+	err := copied.AssignProperties_To_TimeSpan_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TimeSpan_STATUS
+	err = actual.AssignProperties_From_TimeSpan_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TimeSpan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1421,6 +2305,48 @@ func AddIndependentPropertyGeneratorsForTimeSpan_STATUS(gens map[string]gopter.G
 	gens["Start"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_WeeklySchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WeeklySchedule to WeeklySchedule via AssignProperties_To_WeeklySchedule & AssignProperties_From_WeeklySchedule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWeeklySchedule, WeeklyScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWeeklySchedule tests if a specific instance of WeeklySchedule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWeeklySchedule(subject WeeklySchedule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.WeeklySchedule
+	err := copied.AssignProperties_To_WeeklySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WeeklySchedule
+	err = actual.AssignProperties_From_WeeklySchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WeeklySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1480,6 +2406,48 @@ func WeeklyScheduleGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWeeklySchedule(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
 	gens["IntervalWeeks"] = gen.PtrOf(gen.Int())
+}
+
+func Test_WeeklySchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WeeklySchedule_STATUS to WeeklySchedule_STATUS via AssignProperties_To_WeeklySchedule_STATUS & AssignProperties_From_WeeklySchedule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWeeklySchedule_STATUS, WeeklySchedule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWeeklySchedule_STATUS tests if a specific instance of WeeklySchedule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWeeklySchedule_STATUS(subject WeeklySchedule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801s.WeeklySchedule_STATUS
+	err := copied.AssignProperties_To_WeeklySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WeeklySchedule_STATUS
+	err = actual.AssignProperties_From_WeeklySchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WeeklySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
