@@ -7,7 +7,7 @@ metadata:
   {{- end }}
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.15.0
+    app.kubernetes.io/version: v2.15.1
     control-plane: controller-manager
   name: azureserviceoperator-controller-manager
   namespace: {{ .Release.Namespace }}
@@ -31,7 +31,7 @@ spec:
         aadpodidbinding: aso-manager-binding
         {{- end }}
         app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: v2.15.0
+        app.kubernetes.io/version: v2.15.1
         control-plane: controller-manager
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
