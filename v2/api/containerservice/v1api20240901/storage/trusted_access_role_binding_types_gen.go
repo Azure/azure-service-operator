@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=containerservice.azure.com,resources=trustedaccessrolebindings,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=containerservice.azure.com,resources={trustedaccessrolebindings/status,trustedaccessrolebindings/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,containerservice}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (binding *TrustedAccessRoleBinding) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (binding *TrustedAccessRoleBinding) SetConditions(conditions conditions.Conditions) {
 	binding.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &TrustedAccessRoleBinding{}
+
+// ConvertFrom populates our TrustedAccessRoleBinding from the provided hub TrustedAccessRoleBinding
+func (binding *TrustedAccessRoleBinding) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.TrustedAccessRoleBinding)
+	if !ok {
+		return fmt.Errorf("expected containerservice/v1api20250801/storage/TrustedAccessRoleBinding but received %T instead", hub)
+	}
+
+	return binding.AssignProperties_From_TrustedAccessRoleBinding(source)
+}
+
+// ConvertTo populates the provided hub TrustedAccessRoleBinding from our TrustedAccessRoleBinding
+func (binding *TrustedAccessRoleBinding) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.TrustedAccessRoleBinding)
+	if !ok {
+		return fmt.Errorf("expected containerservice/v1api20250801/storage/TrustedAccessRoleBinding but received %T instead", hub)
+	}
+
+	return binding.AssignProperties_To_TrustedAccessRoleBinding(destination)
 }
 
 var _ configmaps.Exporter = &TrustedAccessRoleBinding{}
@@ -143,8 +164,75 @@ func (binding *TrustedAccessRoleBinding) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// Hub marks that this TrustedAccessRoleBinding is the hub type for conversion
-func (binding *TrustedAccessRoleBinding) Hub() {}
+// AssignProperties_From_TrustedAccessRoleBinding populates our TrustedAccessRoleBinding from the provided source TrustedAccessRoleBinding
+func (binding *TrustedAccessRoleBinding) AssignProperties_From_TrustedAccessRoleBinding(source *storage.TrustedAccessRoleBinding) error {
+
+	// ObjectMeta
+	binding.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec TrustedAccessRoleBinding_Spec
+	err := spec.AssignProperties_From_TrustedAccessRoleBinding_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_TrustedAccessRoleBinding_Spec() to populate field Spec")
+	}
+	binding.Spec = spec
+
+	// Status
+	var status TrustedAccessRoleBinding_STATUS
+	err = status.AssignProperties_From_TrustedAccessRoleBinding_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_TrustedAccessRoleBinding_STATUS() to populate field Status")
+	}
+	binding.Status = status
+
+	// Invoke the augmentConversionForTrustedAccessRoleBinding interface (if implemented) to customize the conversion
+	var bindingAsAny any = binding
+	if augmentedBinding, ok := bindingAsAny.(augmentConversionForTrustedAccessRoleBinding); ok {
+		err := augmentedBinding.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TrustedAccessRoleBinding populates the provided destination TrustedAccessRoleBinding from our TrustedAccessRoleBinding
+func (binding *TrustedAccessRoleBinding) AssignProperties_To_TrustedAccessRoleBinding(destination *storage.TrustedAccessRoleBinding) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *binding.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.TrustedAccessRoleBinding_Spec
+	err := binding.Spec.AssignProperties_To_TrustedAccessRoleBinding_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_TrustedAccessRoleBinding_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.TrustedAccessRoleBinding_STATUS
+	err = binding.Status.AssignProperties_To_TrustedAccessRoleBinding_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_TrustedAccessRoleBinding_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForTrustedAccessRoleBinding interface (if implemented) to customize the conversion
+	var bindingAsAny any = binding
+	if augmentedBinding, ok := bindingAsAny.(augmentConversionForTrustedAccessRoleBinding); ok {
+		err := augmentedBinding.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (binding *TrustedAccessRoleBinding) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type TrustedAccessRoleBindingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []TrustedAccessRoleBinding `json:"items"`
+}
+
+type augmentConversionForTrustedAccessRoleBinding interface {
+	AssignPropertiesFrom(src *storage.TrustedAccessRoleBinding) error
+	AssignPropertiesTo(dst *storage.TrustedAccessRoleBinding) error
 }
 
 // Storage version of v1api20240901.TrustedAccessRoleBinding_Spec
@@ -191,20 +284,174 @@ var _ genruntime.ConvertibleSpec = &TrustedAccessRoleBinding_Spec{}
 
 // ConvertSpecFrom populates our TrustedAccessRoleBinding_Spec from the provided source
 func (binding *TrustedAccessRoleBinding_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == binding {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.TrustedAccessRoleBinding_Spec)
+	if ok {
+		// Populate our instance from source
+		return binding.AssignProperties_From_TrustedAccessRoleBinding_Spec(src)
 	}
 
-	return source.ConvertSpecTo(binding)
+	// Convert to an intermediate form
+	src = &storage.TrustedAccessRoleBinding_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = binding.AssignProperties_From_TrustedAccessRoleBinding_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our TrustedAccessRoleBinding_Spec
 func (binding *TrustedAccessRoleBinding_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == binding {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.TrustedAccessRoleBinding_Spec)
+	if ok {
+		// Populate destination from our instance
+		return binding.AssignProperties_To_TrustedAccessRoleBinding_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(binding)
+	// Convert to an intermediate form
+	dst = &storage.TrustedAccessRoleBinding_Spec{}
+	err := binding.AssignProperties_To_TrustedAccessRoleBinding_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_TrustedAccessRoleBinding_Spec populates our TrustedAccessRoleBinding_Spec from the provided source TrustedAccessRoleBinding_Spec
+func (binding *TrustedAccessRoleBinding_Spec) AssignProperties_From_TrustedAccessRoleBinding_Spec(source *storage.TrustedAccessRoleBinding_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	binding.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec TrustedAccessRoleBindingOperatorSpec
+		err := operatorSpec.AssignProperties_From_TrustedAccessRoleBindingOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TrustedAccessRoleBindingOperatorSpec() to populate field OperatorSpec")
+		}
+		binding.OperatorSpec = &operatorSpec
+	} else {
+		binding.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	binding.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		binding.Owner = &owner
+	} else {
+		binding.Owner = nil
+	}
+
+	// Roles
+	binding.Roles = genruntime.CloneSliceOfString(source.Roles)
+
+	// SourceResourceReference
+	if source.SourceResourceReference != nil {
+		sourceResourceReference := source.SourceResourceReference.Copy()
+		binding.SourceResourceReference = &sourceResourceReference
+	} else {
+		binding.SourceResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		binding.PropertyBag = propertyBag
+	} else {
+		binding.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTrustedAccessRoleBinding_Spec interface (if implemented) to customize the conversion
+	var bindingAsAny any = binding
+	if augmentedBinding, ok := bindingAsAny.(augmentConversionForTrustedAccessRoleBinding_Spec); ok {
+		err := augmentedBinding.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TrustedAccessRoleBinding_Spec populates the provided destination TrustedAccessRoleBinding_Spec from our TrustedAccessRoleBinding_Spec
+func (binding *TrustedAccessRoleBinding_Spec) AssignProperties_To_TrustedAccessRoleBinding_Spec(destination *storage.TrustedAccessRoleBinding_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(binding.PropertyBag)
+
+	// AzureName
+	destination.AzureName = binding.AzureName
+
+	// OperatorSpec
+	if binding.OperatorSpec != nil {
+		var operatorSpec storage.TrustedAccessRoleBindingOperatorSpec
+		err := binding.OperatorSpec.AssignProperties_To_TrustedAccessRoleBindingOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TrustedAccessRoleBindingOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = binding.OriginalVersion
+
+	// Owner
+	if binding.Owner != nil {
+		owner := binding.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Roles
+	destination.Roles = genruntime.CloneSliceOfString(binding.Roles)
+
+	// SourceResourceReference
+	if binding.SourceResourceReference != nil {
+		sourceResourceReference := binding.SourceResourceReference.Copy()
+		destination.SourceResourceReference = &sourceResourceReference
+	} else {
+		destination.SourceResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTrustedAccessRoleBinding_Spec interface (if implemented) to customize the conversion
+	var bindingAsAny any = binding
+	if augmentedBinding, ok := bindingAsAny.(augmentConversionForTrustedAccessRoleBinding_Spec); ok {
+		err := augmentedBinding.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240901.TrustedAccessRoleBinding_STATUS
@@ -224,20 +471,176 @@ var _ genruntime.ConvertibleStatus = &TrustedAccessRoleBinding_STATUS{}
 
 // ConvertStatusFrom populates our TrustedAccessRoleBinding_STATUS from the provided source
 func (binding *TrustedAccessRoleBinding_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == binding {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.TrustedAccessRoleBinding_STATUS)
+	if ok {
+		// Populate our instance from source
+		return binding.AssignProperties_From_TrustedAccessRoleBinding_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(binding)
+	// Convert to an intermediate form
+	src = &storage.TrustedAccessRoleBinding_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = binding.AssignProperties_From_TrustedAccessRoleBinding_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our TrustedAccessRoleBinding_STATUS
 func (binding *TrustedAccessRoleBinding_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == binding {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.TrustedAccessRoleBinding_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return binding.AssignProperties_To_TrustedAccessRoleBinding_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(binding)
+	// Convert to an intermediate form
+	dst = &storage.TrustedAccessRoleBinding_STATUS{}
+	err := binding.AssignProperties_To_TrustedAccessRoleBinding_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_TrustedAccessRoleBinding_STATUS populates our TrustedAccessRoleBinding_STATUS from the provided source TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_STATUS) AssignProperties_From_TrustedAccessRoleBinding_STATUS(source *storage.TrustedAccessRoleBinding_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	binding.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	binding.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	binding.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	binding.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Roles
+	binding.Roles = genruntime.CloneSliceOfString(source.Roles)
+
+	// SourceResourceId
+	binding.SourceResourceId = genruntime.ClonePointerToString(source.SourceResourceId)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		binding.SystemData = &systemDatum
+	} else {
+		binding.SystemData = nil
+	}
+
+	// Type
+	binding.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		binding.PropertyBag = propertyBag
+	} else {
+		binding.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTrustedAccessRoleBinding_STATUS interface (if implemented) to customize the conversion
+	var bindingAsAny any = binding
+	if augmentedBinding, ok := bindingAsAny.(augmentConversionForTrustedAccessRoleBinding_STATUS); ok {
+		err := augmentedBinding.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TrustedAccessRoleBinding_STATUS populates the provided destination TrustedAccessRoleBinding_STATUS from our TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_STATUS) AssignProperties_To_TrustedAccessRoleBinding_STATUS(destination *storage.TrustedAccessRoleBinding_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(binding.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(binding.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(binding.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(binding.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(binding.ProvisioningState)
+
+	// Roles
+	destination.Roles = genruntime.CloneSliceOfString(binding.Roles)
+
+	// SourceResourceId
+	destination.SourceResourceId = genruntime.ClonePointerToString(binding.SourceResourceId)
+
+	// SystemData
+	if binding.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := binding.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(binding.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTrustedAccessRoleBinding_STATUS interface (if implemented) to customize the conversion
+	var bindingAsAny any = binding
+	if augmentedBinding, ok := bindingAsAny.(augmentConversionForTrustedAccessRoleBinding_STATUS); ok {
+		err := augmentedBinding.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTrustedAccessRoleBinding_Spec interface {
+	AssignPropertiesFrom(src *storage.TrustedAccessRoleBinding_Spec) error
+	AssignPropertiesTo(dst *storage.TrustedAccessRoleBinding_Spec) error
+}
+
+type augmentConversionForTrustedAccessRoleBinding_STATUS interface {
+	AssignPropertiesFrom(src *storage.TrustedAccessRoleBinding_STATUS) error
+	AssignPropertiesTo(dst *storage.TrustedAccessRoleBinding_STATUS) error
 }
 
 // Storage version of v1api20240901.TrustedAccessRoleBindingOperatorSpec
@@ -246,6 +649,125 @@ type TrustedAccessRoleBindingOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_TrustedAccessRoleBindingOperatorSpec populates our TrustedAccessRoleBindingOperatorSpec from the provided source TrustedAccessRoleBindingOperatorSpec
+func (operator *TrustedAccessRoleBindingOperatorSpec) AssignProperties_From_TrustedAccessRoleBindingOperatorSpec(source *storage.TrustedAccessRoleBindingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTrustedAccessRoleBindingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForTrustedAccessRoleBindingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TrustedAccessRoleBindingOperatorSpec populates the provided destination TrustedAccessRoleBindingOperatorSpec from our TrustedAccessRoleBindingOperatorSpec
+func (operator *TrustedAccessRoleBindingOperatorSpec) AssignProperties_To_TrustedAccessRoleBindingOperatorSpec(destination *storage.TrustedAccessRoleBindingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTrustedAccessRoleBindingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForTrustedAccessRoleBindingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTrustedAccessRoleBindingOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.TrustedAccessRoleBindingOperatorSpec) error
+	AssignPropertiesTo(dst *storage.TrustedAccessRoleBindingOperatorSpec) error
 }
 
 func init() {

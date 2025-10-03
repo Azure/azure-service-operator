@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	compat "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -56,22 +55,36 @@ var _ conversion.Convertible = &ManagedCluster{}
 
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20240901/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ManagedCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_ManagedCluster(source)
+	err = cluster.AssignProperties_From_ManagedCluster(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20240901/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ManagedCluster
+	err := cluster.AssignProperties_To_ManagedCluster(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_ManagedCluster(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ManagedCluster{}

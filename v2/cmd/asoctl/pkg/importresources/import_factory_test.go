@@ -32,7 +32,7 @@ func Test_selectVersionFromGK_givenGK_returnsExpectedVersion(t *testing.T) {
 		"Managed Cluster": {
 			group:           "containerservice.azure.com",
 			kind:            "ManagedCluster",
-			expectedVersion: "v1api20240901",
+			expectedVersion: "v1api20250801",
 		},
 		"Coffee isn't supported": {
 			group:         "coffee.azure.com",
