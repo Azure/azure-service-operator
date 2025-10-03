@@ -1,5 +1,5 @@
 ---
-title: Creating deployment manifests
+title: "Tutorial: Creating deployment manifests"
 weight: 10
 type: docs
 ---
