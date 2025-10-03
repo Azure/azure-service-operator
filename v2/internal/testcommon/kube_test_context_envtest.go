@@ -532,7 +532,6 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 			// register resources needed by controller for namespace
 			armClientCache := arm.NewARMClientCache(
 				credentialProvider,
-				envtest.KubeClient,
 				cfg.Cloud(),
 				perTestContext.HTTPClient,
 				metrics.NewARMClientMetrics())
