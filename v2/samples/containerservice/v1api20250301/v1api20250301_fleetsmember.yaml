@@ -1,0 +1,12 @@
+apiVersion: containerservice.azure.com/v1api20250301
+kind: FleetsMember
+metadata:
+  name: samplefleetsmember20250301
+  namespace: default
+spec:
+  owner:
+    name: samplefleet20250301
+  clusterResourceReference:
+    group: containerservice.azure.com
+    kind: ManagedCluster
+    name: aks-managedcluster-sample-fleet

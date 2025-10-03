@@ -5,6 +5,7 @@ package storage
 
 import (
 	"context"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -1424,6 +1425,62 @@ type UserAssignedIdentityDetails struct {
 	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	details.Reference = source.Reference.Copy()
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		details.PropertyBag = propertyBag
+	} else {
+		details.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
+
+	// Reference
+	destination.Reference = details.Reference.Copy()
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240901.WindowsGmsaProfile
 // Windows gMSA Profile in the managed cluster.
 type WindowsGmsaProfile struct {
@@ -1468,6 +1525,11 @@ type AdvancedNetworkingSecurity struct {
 type AdvancedNetworkingSecurity_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+type augmentConversionForUserAssignedIdentityDetails interface {
+	AssignPropertiesFrom(src *storage.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *storage.UserAssignedIdentityDetails) error
 }
 
 // Storage version of v1api20240901.ContainerServiceSshPublicKey

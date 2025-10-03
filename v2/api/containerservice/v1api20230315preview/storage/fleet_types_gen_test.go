@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
+	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,6 +18,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Fleet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Fleet to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFleet, FleetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFleet tests if a specific instance of Fleet round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFleet(subject Fleet) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20250301s.Fleet
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Fleet
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Fleet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Fleet to Fleet via AssignProperties_To_Fleet & AssignProperties_From_Fleet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleet, FleetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleet tests if a specific instance of Fleet can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleet(subject Fleet) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.Fleet
+	err := copied.AssignProperties_To_Fleet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Fleet
+	err = actual.AssignProperties_From_Fleet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Fleet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +165,48 @@ func AddRelatedPropertyGeneratorsForFleet(gens map[string]gopter.Gen) {
 	gens["Status"] = Fleet_STATUSGenerator()
 }
 
+func Test_FleetHubProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FleetHubProfile to FleetHubProfile via AssignProperties_To_FleetHubProfile & AssignProperties_From_FleetHubProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleetHubProfile, FleetHubProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleetHubProfile tests if a specific instance of FleetHubProfile can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleetHubProfile(subject FleetHubProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.FleetHubProfile
+	err := copied.AssignProperties_To_FleetHubProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FleetHubProfile
+	err = actual.AssignProperties_From_FleetHubProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FleetHubProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -137,6 +265,48 @@ func FleetHubProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFleetHubProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFleetHubProfile(gens map[string]gopter.Gen) {
 	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FleetHubProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FleetHubProfile_STATUS to FleetHubProfile_STATUS via AssignProperties_To_FleetHubProfile_STATUS & AssignProperties_From_FleetHubProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleetHubProfile_STATUS, FleetHubProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleetHubProfile_STATUS tests if a specific instance of FleetHubProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleetHubProfile_STATUS(subject FleetHubProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.FleetHubProfile_STATUS
+	err := copied.AssignProperties_To_FleetHubProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FleetHubProfile_STATUS
+	err = actual.AssignProperties_From_FleetHubProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FleetHubProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -202,6 +372,48 @@ func AddIndependentPropertyGeneratorsForFleetHubProfile_STATUS(gens map[string]g
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_FleetOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FleetOperatorSecrets to FleetOperatorSecrets via AssignProperties_To_FleetOperatorSecrets & AssignProperties_From_FleetOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleetOperatorSecrets, FleetOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleetOperatorSecrets tests if a specific instance of FleetOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleetOperatorSecrets(subject FleetOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.FleetOperatorSecrets
+	err := copied.AssignProperties_To_FleetOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FleetOperatorSecrets
+	err = actual.AssignProperties_From_FleetOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FleetOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -255,6 +467,48 @@ func FleetOperatorSecretsGenerator() gopter.Gen {
 	fleetOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(FleetOperatorSecrets{}), generators)
 
 	return fleetOperatorSecretsGenerator
+}
+
+func Test_FleetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FleetOperatorSpec to FleetOperatorSpec via AssignProperties_To_FleetOperatorSpec & AssignProperties_From_FleetOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleetOperatorSpec, FleetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleetOperatorSpec tests if a specific instance of FleetOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleetOperatorSpec(subject FleetOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.FleetOperatorSpec
+	err := copied.AssignProperties_To_FleetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FleetOperatorSpec
+	err = actual.AssignProperties_From_FleetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FleetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -315,6 +569,48 @@ func FleetOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFleetOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFleetOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(FleetOperatorSecretsGenerator())
+}
+
+func Test_Fleet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Fleet_STATUS to Fleet_STATUS via AssignProperties_To_Fleet_STATUS & AssignProperties_From_Fleet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleet_STATUS, Fleet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleet_STATUS tests if a specific instance of Fleet_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleet_STATUS(subject Fleet_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.Fleet_STATUS
+	err := copied.AssignProperties_To_Fleet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Fleet_STATUS
+	err = actual.AssignProperties_From_Fleet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Fleet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -398,6 +694,48 @@ func AddIndependentPropertyGeneratorsForFleet_STATUS(gens map[string]gopter.Gen)
 func AddRelatedPropertyGeneratorsForFleet_STATUS(gens map[string]gopter.Gen) {
 	gens["HubProfile"] = gen.PtrOf(FleetHubProfile_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Fleet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Fleet_Spec to Fleet_Spec via AssignProperties_To_Fleet_Spec & AssignProperties_From_Fleet_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleet_Spec, Fleet_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleet_Spec tests if a specific instance of Fleet_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleet_Spec(subject Fleet_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.Fleet_Spec
+	err := copied.AssignProperties_To_Fleet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Fleet_Spec
+	err = actual.AssignProperties_From_Fleet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Fleet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -497,7 +835,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20230201s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -1,0 +1,12 @@
+apiVersion: containerservice.azure.com/v1api20250301
+kind: FleetsUpdateRun
+metadata:
+  name: samplefleet20250301
+  namespace: default
+spec:
+  owner:
+    name: samplefleet20250301
+  managedClusterUpdate:
+    upgrade:
+      type: Full
+      kubernetesVersion: 1.32.7

@@ -1,0 +1,11 @@
+apiVersion: containerservice.azure.com/v1api20250301
+kind: Fleet
+metadata:
+  name: samplefleet20250301
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  hubProfile:
+    dnsPrefix: aso
