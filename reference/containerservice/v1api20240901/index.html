@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   <meta itemprop="description" content="APIVersion Value Description “2024-09-01” MaintenanceConfiguration Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName}
 Used by: MaintenanceConfigurationList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConfiguration_SpecOptional status MaintenanceConfiguration_STATUSOptional MaintenanceConfiguration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindowOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MaintenanceConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired timeInWeek If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek[]Optional MaintenanceConfiguration_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Resource ID. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindow_STATUSOptional name The name of the resource that is unique within a resource group. This name can be used to access the resource. stringOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan_STATUS[]Optional systemData The system metadata relating to this resource. SystemData_STATUSOptional timeInWeek If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek_STATUS[]Optional type Resource type stringOptional MaintenanceConfigurationList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName}">
-  <meta itemprop="wordCount" content="22805">
+  <meta itemprop="wordCount" content="22825">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="containerservice.azure.com/v1api20240901">
   <meta name="twitter:description" content="APIVersion Value Description “2024-09-01” MaintenanceConfiguration Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName}
@@ -7409,9 +7409,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>clientIdFromConfig</td>
+          <td>The client ID of the user assigned identity.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>objectId</td>
           <td>The object ID of the user assigned identity.</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>objectIdFromConfig</td>
+          <td>The object ID of the user assigned identity.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>resourceReference</td>
