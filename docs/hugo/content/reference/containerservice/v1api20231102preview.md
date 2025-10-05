@@ -1856,11 +1856,13 @@ UserAssignedIdentity{#UserAssignedIdentity}
 
 Used by: [ManagedCluster_Spec](#ManagedCluster_Spec), and [ManagedClusterPodIdentity](#ManagedClusterPodIdentity).
 
-| Property          | Description | Type                                                                                                                                                       |
-|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| clientId          |             | string<br/><small>Optional</small>                                                                                                                         |
-| objectId          |             | string<br/><small>Optional</small>                                                                                                                         |
-| resourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| Property           | Description | Type                                                                                                                                                         |
+|--------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| clientId           |             | string<br/><small>Optional</small>                                                                                                                           |
+| clientIdFromConfig |             | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small> |
+| objectId           |             | string<br/><small>Optional</small>                                                                                                                           |
+| objectIdFromConfig |             | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small> |
+| resourceReference  |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>   |
 
 UserAssignedIdentity_STATUS{#UserAssignedIdentity_STATUS}
 ---------------------------------------------------------
