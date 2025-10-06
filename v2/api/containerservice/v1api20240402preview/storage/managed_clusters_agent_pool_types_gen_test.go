@@ -150,7 +150,7 @@ func Test_AgentPoolGPUProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AgentPoolGPUProfile to AgentPoolGPUProfile via AssignProperties_To_AgentPoolGPUProfile & AssignProperties_From_AgentPoolGPUProfile returns original",
+		"Round trip from AgentPoolGPUProfile to GPUProfile via AssignProperties_To_GPUProfile & AssignProperties_From_GPUProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAgentPoolGPUProfile, AgentPoolGPUProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -161,15 +161,15 @@ func RunPropertyAssignmentTestForAgentPoolGPUProfile(subject AgentPoolGPUProfile
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901sc.AgentPoolGPUProfile
-	err := copied.AssignProperties_To_AgentPoolGPUProfile(&other)
+	var other v20240901sc.GPUProfile
+	err := copied.AssignProperties_To_GPUProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AgentPoolGPUProfile
-	err = actual.AssignProperties_From_AgentPoolGPUProfile(&other)
+	err = actual.AssignProperties_From_GPUProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -253,7 +253,7 @@ func Test_AgentPoolGPUProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AgentPoolGPUProfile_STATUS to AgentPoolGPUProfile_STATUS via AssignProperties_To_AgentPoolGPUProfile_STATUS & AssignProperties_From_AgentPoolGPUProfile_STATUS returns original",
+		"Round trip from AgentPoolGPUProfile_STATUS to GPUProfile_STATUS via AssignProperties_To_GPUProfile_STATUS & AssignProperties_From_GPUProfile_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAgentPoolGPUProfile_STATUS, AgentPoolGPUProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -264,15 +264,15 @@ func RunPropertyAssignmentTestForAgentPoolGPUProfile_STATUS(subject AgentPoolGPU
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901sc.AgentPoolGPUProfile_STATUS
-	err := copied.AssignProperties_To_AgentPoolGPUProfile_STATUS(&other)
+	var other v20240901sc.GPUProfile_STATUS
+	err := copied.AssignProperties_To_GPUProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AgentPoolGPUProfile_STATUS
-	err = actual.AssignProperties_From_AgentPoolGPUProfile_STATUS(&other)
+	err = actual.AssignProperties_From_GPUProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

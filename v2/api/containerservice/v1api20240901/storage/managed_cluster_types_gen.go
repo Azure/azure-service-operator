@@ -4113,7 +4113,12 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// GpuProfile
 	if source.GpuProfile != nil {
-		propertyBag.Add("GpuProfile", *source.GpuProfile)
+		var gpuProfile compat.GPUProfile
+		err := gpuProfile.AssignProperties_From_GPUProfile(source.GpuProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_GPUProfile() to populate field GpuProfile")
+		}
+		propertyBag.Add("GpuProfile", gpuProfile)
 	} else {
 		propertyBag.Remove("GpuProfile")
 	}
@@ -4452,12 +4457,17 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// GpuProfile
 	if propertyBag.Contains("GpuProfile") {
-		var gpuProfile storage.GPUProfile
-		err := propertyBag.Pull("GpuProfile", &gpuProfile)
+		var gpuProfileFromBag compat.GPUProfile
+		err := propertyBag.Pull("GpuProfile", &gpuProfileFromBag)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
 		}
 
+		var gpuProfile storage.GPUProfile
+		err = gpuProfileFromBag.AssignProperties_To_GPUProfile(&gpuProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_GPUProfile() to populate field GpuProfile")
+		}
 		destination.GpuProfile = &gpuProfile
 	} else {
 		destination.GpuProfile = nil
@@ -4869,7 +4879,12 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// GpuProfile
 	if source.GpuProfile != nil {
-		propertyBag.Add("GpuProfile", *source.GpuProfile)
+		var gpuProfile compat.GPUProfile_STATUS
+		err := gpuProfile.AssignProperties_From_GPUProfile_STATUS(source.GpuProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_GPUProfile_STATUS() to populate field GpuProfile")
+		}
+		propertyBag.Add("GpuProfile", gpuProfile)
 	} else {
 		propertyBag.Remove("GpuProfile")
 	}
@@ -5197,12 +5212,17 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// GpuProfile
 	if propertyBag.Contains("GpuProfile") {
-		var gpuProfile storage.GPUProfile_STATUS
-		err := propertyBag.Pull("GpuProfile", &gpuProfile)
+		var gpuProfileFromBag compat.GPUProfile_STATUS
+		err := propertyBag.Pull("GpuProfile", &gpuProfileFromBag)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
 		}
 
+		var gpuProfile storage.GPUProfile_STATUS
+		err = gpuProfileFromBag.AssignProperties_To_GPUProfile_STATUS(&gpuProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_GPUProfile_STATUS() to populate field GpuProfile")
+		}
 		destination.GpuProfile = &gpuProfile
 	} else {
 		destination.GpuProfile = nil
