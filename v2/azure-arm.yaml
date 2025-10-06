@@ -2112,6 +2112,10 @@ objectModelConfiguration:
         ObjectId:
           $importConfigMapMode: optional
     2024-04-02-preview:
+      AgentPoolGPUProfile:
+        $nameInNextVersion: GPUProfile
+      AgentPoolGPUProfile_STATUS:
+        $nameInNextVersion: GPUProfile_STATUS
       ContainerServiceSshPublicKey:
         KeyData:
           $isSecret: false
