@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const RepairSkippingPropertiesStageID = "repairSkippingProperties"
@@ -43,7 +44,9 @@ const RepairSkippingPropertiesStageID = "repairSkippingProperties"
 // GivenName: present in (v1); no issue
 //
 // Address: present in (v1, v3); (skipping v2), repair required.
-func RepairSkippingProperties() *Stage {
+func RepairSkippingProperties(
+	objectModelConfiguration *config.ObjectModelConfiguration,
+) *Stage {
 	stage := NewStage(
 		RepairSkippingPropertiesStageID,
 		"Repair property bag serialization for properties that skip resource or object versions",
@@ -55,7 +58,7 @@ func RepairSkippingProperties() *Stage {
 				graph = g
 			}
 
-			repairer := newSkippingPropertyRepairer(state.Definitions(), graph)
+			repairer := newSkippingPropertyRepairer(state.Definitions(), graph, objectModelConfiguration)
 
 			// Add resources and objects to the graph
 			for _, def := range state.Definitions() {
@@ -85,11 +88,12 @@ func RepairSkippingProperties() *Stage {
 }
 
 type skippingPropertyRepairer struct {
-	links              map[astmodel.PropertyReference]astmodel.PropertyReference // Individual links in chains of related properties
-	observedProperties *astmodel.PropertyReferenceSet                            // Set of properties we've observed
-	definitions        astmodel.TypeDefinitionSet                                // Set of all known type definitions
-	conversionGraph    *storage.ConversionGraph                                  // Graph of conversions between types
-	comparer           *structuralComparer                                       // Helper used to compare types for structural equality
+	links                    map[astmodel.PropertyReference]astmodel.PropertyReference // Individual links in chains of related properties
+	observedProperties       *astmodel.PropertyReferenceSet                            // Set of properties we've observed
+	definitions              astmodel.TypeDefinitionSet                                // Set of all known type definitions
+	conversionGraph          *storage.ConversionGraph                                  // Graph of conversions between types
+	comparer                 *structuralComparer                                       // Helper used to compare types for structural equality
+	objectModelConfiguration *config.ObjectModelConfiguration                          // Configuration, used to allow for type renames
 }
 
 // newSkippingPropertyRepairer creates a new graph for tracking chains of properties as they evolve through different
@@ -99,13 +103,15 @@ type skippingPropertyRepairer struct {
 func newSkippingPropertyRepairer(
 	definitions astmodel.TypeDefinitionSet,
 	conversionGraph *storage.ConversionGraph,
+	objectModelConfiguration *config.ObjectModelConfiguration,
 ) *skippingPropertyRepairer {
 	return &skippingPropertyRepairer{
-		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
-		observedProperties: astmodel.NewPropertyReferenceSet(),
-		definitions:        definitions,
-		conversionGraph:    conversionGraph,
-		comparer:           newStructuralComparer(definitions),
+		links:                    make(map[astmodel.PropertyReference]astmodel.PropertyReference),
+		observedProperties:       astmodel.NewPropertyReferenceSet(),
+		definitions:              definitions,
+		conversionGraph:          conversionGraph,
+		comparer:                 newStructuralComparer(definitions),
+		objectModelConfiguration: objectModelConfiguration,
 	}
 }
 
@@ -244,7 +250,7 @@ func (repairer *skippingPropertyRepairer) repairChain(
 		return nil, nil
 	}
 
-	// If the properties have the same type, we don't have a break here - so we check the remainder of the chain
+	// If the properties have the same shape, we don't have a break here - so we check the remainder of the chain
 	// (This is Ok because the value serialized into the property bag from lastObserved will deserialize into the
 	// reintroduced property intact.)
 	typesSame := repairer.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
@@ -281,11 +287,16 @@ func (repairer *skippingPropertyRepairer) repairChain(
 			tn)
 	}
 
-	// Move all of these types into a compatibility package
+	// Move all of these types into a compatibility package, respecting any renames specified in the configuration
 	compatPkg := astmodel.MakeCompatPackageReference(lastMissing.DeclaringType().InternalPackageReference())
 	renamer := astmodel.NewRenamingVisitorFromLambda(
 		func(name astmodel.InternalTypeName) astmodel.InternalTypeName {
-			return name.WithPackageReference(compatPkg)
+			result := name.WithPackageReference(compatPkg)
+			if newName, ok := repairer.objectModelConfiguration.TypeNameInNextVersion.Lookup(name); ok {
+				result = result.WithName(newName)
+			}
+
+			return result
 		})
 	newDefs, err := renamer.RenameAll(defs)
 	if err != nil {
