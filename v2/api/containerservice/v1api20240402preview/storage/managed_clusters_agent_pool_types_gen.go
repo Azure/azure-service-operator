@@ -2201,8 +2201,8 @@ type AgentPoolGPUProfile struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_AgentPoolGPUProfile populates our AgentPoolGPUProfile from the provided source AgentPoolGPUProfile
-func (profile *AgentPoolGPUProfile) AssignProperties_From_AgentPoolGPUProfile(source *v20240901sc.AgentPoolGPUProfile) error {
+// AssignProperties_From_GPUProfile populates our AgentPoolGPUProfile from the provided source GPUProfile
+func (profile *AgentPoolGPUProfile) AssignProperties_From_GPUProfile(source *v20240901sc.GPUProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2234,8 +2234,8 @@ func (profile *AgentPoolGPUProfile) AssignProperties_From_AgentPoolGPUProfile(so
 	return nil
 }
 
-// AssignProperties_To_AgentPoolGPUProfile populates the provided destination AgentPoolGPUProfile from our AgentPoolGPUProfile
-func (profile *AgentPoolGPUProfile) AssignProperties_To_AgentPoolGPUProfile(destination *v20240901sc.AgentPoolGPUProfile) error {
+// AssignProperties_To_GPUProfile populates the provided destination GPUProfile from our AgentPoolGPUProfile
+func (profile *AgentPoolGPUProfile) AssignProperties_To_GPUProfile(destination *v20240901sc.GPUProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2273,8 +2273,8 @@ type AgentPoolGPUProfile_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_AgentPoolGPUProfile_STATUS populates our AgentPoolGPUProfile_STATUS from the provided source AgentPoolGPUProfile_STATUS
-func (profile *AgentPoolGPUProfile_STATUS) AssignProperties_From_AgentPoolGPUProfile_STATUS(source *v20240901sc.AgentPoolGPUProfile_STATUS) error {
+// AssignProperties_From_GPUProfile_STATUS populates our AgentPoolGPUProfile_STATUS from the provided source GPUProfile_STATUS
+func (profile *AgentPoolGPUProfile_STATUS) AssignProperties_From_GPUProfile_STATUS(source *v20240901sc.GPUProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2306,8 +2306,8 @@ func (profile *AgentPoolGPUProfile_STATUS) AssignProperties_From_AgentPoolGPUPro
 	return nil
 }
 
-// AssignProperties_To_AgentPoolGPUProfile_STATUS populates the provided destination AgentPoolGPUProfile_STATUS from our AgentPoolGPUProfile_STATUS
-func (profile *AgentPoolGPUProfile_STATUS) AssignProperties_To_AgentPoolGPUProfile_STATUS(destination *v20240901sc.AgentPoolGPUProfile_STATUS) error {
+// AssignProperties_To_GPUProfile_STATUS populates the provided destination GPUProfile_STATUS from our AgentPoolGPUProfile_STATUS
+func (profile *AgentPoolGPUProfile_STATUS) AssignProperties_To_GPUProfile_STATUS(destination *v20240901sc.GPUProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -4195,13 +4195,13 @@ type augmentConversionForAgentPoolGatewayProfile_STATUS interface {
 }
 
 type augmentConversionForAgentPoolGPUProfile interface {
-	AssignPropertiesFrom(src *v20240901sc.AgentPoolGPUProfile) error
-	AssignPropertiesTo(dst *v20240901sc.AgentPoolGPUProfile) error
+	AssignPropertiesFrom(src *v20240901sc.GPUProfile) error
+	AssignPropertiesTo(dst *v20240901sc.GPUProfile) error
 }
 
 type augmentConversionForAgentPoolGPUProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20240901sc.AgentPoolGPUProfile_STATUS) error
-	AssignPropertiesTo(dst *v20240901sc.AgentPoolGPUProfile_STATUS) error
+	AssignPropertiesFrom(src *v20240901sc.GPUProfile_STATUS) error
+	AssignPropertiesTo(dst *v20240901sc.GPUProfile_STATUS) error
 }
 
 type augmentConversionForAgentPoolNetworkProfile interface {
