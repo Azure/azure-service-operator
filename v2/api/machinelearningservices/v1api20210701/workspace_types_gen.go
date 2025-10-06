@@ -4223,6 +4223,10 @@ var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
 type IdentityForCmk struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
+
+	// UserAssignedIdentityReference: The ArmId of the user assigned identity that will be used to access the customer managed
+	// key vault
+	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IdentityForCmk{}
@@ -4235,7 +4239,14 @@ func (forCmk *IdentityForCmk) ConvertToARM(resolved genruntime.ConvertToARMResol
 	result := &arm.IdentityForCmk{}
 
 	// Set property "UserAssignedIdentity":
-	if forCmk.UserAssignedIdentity != nil {
+	if forCmk.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*forCmk.UserAssignedIdentityReference)
+		if err != nil {
+			return nil, err
+		}
+		userAssignedIdentityReference := userAssignedIdentityReferenceARMID
+		result.UserAssignedIdentity = &userAssignedIdentityReference
+	} else if forCmk.UserAssignedIdentity != nil {
 		userAssignedIdentity := *forCmk.UserAssignedIdentity
 		result.UserAssignedIdentity = &userAssignedIdentity
 	}
@@ -4260,6 +4271,8 @@ func (forCmk *IdentityForCmk) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		forCmk.UserAssignedIdentity = &userAssignedIdentity
 	}
 
+	// no assignment for property "UserAssignedIdentityReference"
+
 	// No error
 	return nil
 }
@@ -4269,6 +4282,14 @@ func (forCmk *IdentityForCmk) AssignProperties_From_IdentityForCmk(source *stora
 
 	// UserAssignedIdentity
 	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
+
+	// UserAssignedIdentityReference
+	if source.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
+		forCmk.UserAssignedIdentityReference = &userAssignedIdentityReference
+	} else {
+		forCmk.UserAssignedIdentityReference = nil
+	}
 
 	// No error
 	return nil
@@ -4281,6 +4302,14 @@ func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *st
 
 	// UserAssignedIdentity
 	destination.UserAssignedIdentity = genruntime.ClonePointerToString(forCmk.UserAssignedIdentity)
+
+	// UserAssignedIdentityReference
+	if forCmk.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReference := forCmk.UserAssignedIdentityReference.Copy()
+		destination.UserAssignedIdentityReference = &userAssignedIdentityReference
+	} else {
+		destination.UserAssignedIdentityReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4363,6 +4392,10 @@ type KeyVaultProperties struct {
 	// +kubebuilder:validation:Required
 	// KeyVaultArmId: The ArmId of the keyVault where the customer owned encryption key is present.
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// KeyVaultArmReference: The ArmId of the keyVault where the customer owned encryption key is present.
+	KeyVaultArmReference *genruntime.ResourceReference `armReference:"KeyVaultArmId" json:"keyVaultArmReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -4387,7 +4420,14 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property "KeyVaultArmId":
-	if properties.KeyVaultArmId != nil {
+	if properties.KeyVaultArmReference != nil {
+		keyVaultArmReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.KeyVaultArmReference)
+		if err != nil {
+			return nil, err
+		}
+		keyVaultArmReference := keyVaultArmReferenceARMID
+		result.KeyVaultArmId = &keyVaultArmReference
+	} else if properties.KeyVaultArmId != nil {
 		keyVaultArmId := *properties.KeyVaultArmId
 		result.KeyVaultArmId = &keyVaultArmId
 	}
@@ -4424,6 +4464,8 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.KeyVaultArmId = &keyVaultArmId
 	}
 
+	// no assignment for property "KeyVaultArmReference"
+
 	// No error
 	return nil
 }
@@ -4439,6 +4481,14 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 
 	// KeyVaultArmId
 	properties.KeyVaultArmId = genruntime.ClonePointerToString(source.KeyVaultArmId)
+
+	// KeyVaultArmReference
+	if source.KeyVaultArmReference != nil {
+		keyVaultArmReference := source.KeyVaultArmReference.Copy()
+		properties.KeyVaultArmReference = &keyVaultArmReference
+	} else {
+		properties.KeyVaultArmReference = nil
+	}
 
 	// No error
 	return nil
@@ -4457,6 +4507,14 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 
 	// KeyVaultArmId
 	destination.KeyVaultArmId = genruntime.ClonePointerToString(properties.KeyVaultArmId)
+
+	// KeyVaultArmReference
+	if properties.KeyVaultArmReference != nil {
+		keyVaultArmReference := properties.KeyVaultArmReference.Copy()
+		destination.KeyVaultArmReference = &keyVaultArmReference
+	} else {
+		destination.KeyVaultArmReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
