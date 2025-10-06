@@ -9,12 +9,12 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                 | ARM Version | CRD Version   | Supported From | Sample |
-|--------------------------|-------------|---------------|----------------|--------|
-| MaintenanceConfiguration | 2025-08-01  | v1api20250801 | v2.16.0        | -      |
-| ManagedCluster           | 2025-08-01  | v1api20250801 | v2.16.0        | -      |
-| ManagedClustersAgentPool | 2025-08-01  | v1api20250801 | v2.16.0        | -      |
-| TrustedAccessRoleBinding | 2025-08-01  | v1api20250801 | v2.16.0        | -      |
+| Resource                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
+|--------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MaintenanceConfiguration | 2025-08-01  | v1api20250801 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_maintenanceconfiguration.yaml) |
+| ManagedCluster           | 2025-08-01  | v1api20250801 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_managedcluster.yaml)           |
+| ManagedClustersAgentPool | 2025-08-01  | v1api20250801 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_managedclustersagentpool.yaml) |
+| TrustedAccessRoleBinding | 2025-08-01  | v1api20250801 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_trustedaccessrolebinding.yaml) |
 
 ### Latest Released Versions
 
@@ -24,10 +24,10 @@ These resource(s) are the latest versions available for use in the current relea
 | [Fleet]({{< relref "/reference/containerservice/v1api20230315preview#Fleet" >}})                                | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleet.yaml)           |
 | [FleetsMember]({{< relref "/reference/containerservice/v1api20230315preview#FleetsMember" >}})                  | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleetsmember.yaml)    |
 | [FleetsUpdateRun]({{< relref "/reference/containerservice/v1api20230315preview#FleetsUpdateRun" >}})            | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleetsupdaterun.yaml) |
-| [MaintenanceConfiguration]({{< relref "/reference/containerservice/v1api20240901#MaintenanceConfiguration" >}}) | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250901/v1api20240901_maintenanceconfiguration.yaml)      |
-| [ManagedCluster]({{< relref "/reference/containerservice/v1api20240901#ManagedCluster" >}})                     | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250901/v1api20240901_managedcluster.yaml)                |
-| [ManagedClustersAgentPool]({{< relref "/reference/containerservice/v1api20240901#ManagedClustersAgentPool" >}}) | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250901/v1api20240901_managedclustersagentpool.yaml)      |
-| [TrustedAccessRoleBinding]({{< relref "/reference/containerservice/v1api20240901#TrustedAccessRoleBinding" >}}) | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250901/v1api20240901_trustedaccessrolebinding.yaml)      |
+| [MaintenanceConfiguration]({{< relref "/reference/containerservice/v1api20240901#MaintenanceConfiguration" >}}) | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240901/v1api20240901_maintenanceconfiguration.yaml)      |
+| [ManagedCluster]({{< relref "/reference/containerservice/v1api20240901#ManagedCluster" >}})                     | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240901/v1api20240901_managedcluster.yaml)                |
+| [ManagedClustersAgentPool]({{< relref "/reference/containerservice/v1api20240901#ManagedClustersAgentPool" >}}) | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240901/v1api20240901_managedclustersagentpool.yaml)      |
+| [TrustedAccessRoleBinding]({{< relref "/reference/containerservice/v1api20240901#TrustedAccessRoleBinding" >}}) | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240901/v1api20240901_trustedaccessrolebinding.yaml)      |
 
 ### Other Supported Versions
 
