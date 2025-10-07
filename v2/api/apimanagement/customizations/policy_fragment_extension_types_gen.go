@@ -8,6 +8,8 @@ import (
 	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
 	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
+	v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *PolicyFragmentExtension) GetExtendedResources() []genruntime.Ku
 		&v20220801.PolicyFragment{},
 		&v20220801s.PolicyFragment{},
 		&v20230501p.PolicyFragment{},
-		&v20230501ps.PolicyFragment{}}
+		&v20230501ps.PolicyFragment{},
+		&v20240501.PolicyFragment{},
+		&v20240501s.PolicyFragment{}}
 }

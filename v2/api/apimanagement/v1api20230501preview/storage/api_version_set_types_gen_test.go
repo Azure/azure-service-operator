@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForApiVersionSet(subject ApiVersionSet) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ApiVersionSet
+	var hub v20240501s.ApiVersionSet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForApiVersionSet(subject ApiVersionSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiVersionSet
+	var other v20220801s.ApiVersionSet
 	err := copied.AssignProperties_To_ApiVersionSet(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForApiVersionSetOperatorSpec(subject ApiVersionSet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiVersionSetOperatorSpec
+	var other v20220801s.ApiVersionSetOperatorSpec
 	err := copied.AssignProperties_To_ApiVersionSetOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForApiVersionSet_STATUS(subject ApiVersionSet_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiVersionSet_STATUS
+	var other v20220801s.ApiVersionSet_STATUS
 	err := copied.AssignProperties_To_ApiVersionSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -388,7 +389,7 @@ func RunPropertyAssignmentTestForApiVersionSet_Spec(subject ApiVersionSet_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiVersionSet_Spec
+	var other v20220801s.ApiVersionSet_Spec
 	err := copied.AssignProperties_To_ApiVersionSet_Spec(&other)
 	if err != nil {
 		return err.Error()
