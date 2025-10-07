@@ -1394,7 +1394,6 @@ func TrafficAnalyticsConfigurationPropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTrafficAnalyticsConfigurationProperties(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["TrafficAnalyticsInterval"] = gen.PtrOf(gen.Int())
-	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceRegion"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -785,11 +785,6 @@ func (in *TrafficAnalyticsConfigurationProperties) DeepCopyInto(out *TrafficAnal
 		*out = new(int)
 		**out = **in
 	}
-	if in.WorkspaceId != nil {
-		in, out := &in.WorkspaceId, &out.WorkspaceId
-		*out = new(string)
-		**out = **in
-	}
 	if in.WorkspaceRegion != nil {
 		in, out := &in.WorkspaceRegion, &out.WorkspaceRegion
 		*out = new(string)

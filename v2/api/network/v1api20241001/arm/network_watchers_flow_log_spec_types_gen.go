@@ -135,9 +135,6 @@ type TrafficAnalyticsConfigurationProperties struct {
 	// TrafficAnalyticsInterval: The interval in minutes which would decide how frequently TA service should do flow analytics.
 	TrafficAnalyticsInterval *int `json:"trafficAnalyticsInterval,omitempty"`
 
-	// WorkspaceId: The resource guid of the attached workspace.
-	WorkspaceId *string `json:"workspaceId,omitempty"`
-
 	// WorkspaceRegion: The location of the attached workspace.
 	WorkspaceRegion *string `json:"workspaceRegion,omitempty"`
 

@@ -345,7 +345,6 @@ type TrafficAnalyticsConfigurationProperties struct {
 	Enabled                  *bool                  `json:"enabled,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TrafficAnalyticsInterval *int                   `json:"trafficAnalyticsInterval,omitempty"`
-	WorkspaceId              *string                `json:"workspaceId,omitempty"`
 	WorkspaceRegion          *string                `json:"workspaceRegion,omitempty"`
 
 	// WorkspaceResourceReference: Resource Id of the attached workspace.

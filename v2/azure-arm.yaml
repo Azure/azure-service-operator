@@ -452,6 +452,12 @@ typeTransformers:
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
   
+  - group: network
+    name: TrafficAnalyticsConfigurationProperties
+    property: WorkspaceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
   # 
   # In the group 'network'
   # remove the property 'Type'

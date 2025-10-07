@@ -35,11 +35,10 @@ NetworkWatchersFlowLog: Resource
 │   ├── Enabled: *bool
 │   ├── EnabledFilteringCriteria: *string
 │   ├── FlowAnalyticsConfiguration: *Object (2 properties)
-│   │   ├── NetworkWatcherFlowAnalyticsConfiguration: *Object (6 properties)
+│   │   ├── NetworkWatcherFlowAnalyticsConfiguration: *Object (5 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── TrafficAnalyticsInterval: *int
-│   │   │   ├── WorkspaceId: *string
 │   │   │   ├── WorkspaceRegion: *string
 │   │   │   └── WorkspaceResourceReference: *genruntime.ResourceReference
 │   │   └── PropertyBag: genruntime.PropertyBag

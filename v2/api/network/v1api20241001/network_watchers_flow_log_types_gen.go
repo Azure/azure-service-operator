@@ -2576,9 +2576,6 @@ type TrafficAnalyticsConfigurationProperties struct {
 	// TrafficAnalyticsInterval: The interval in minutes which would decide how frequently TA service should do flow analytics.
 	TrafficAnalyticsInterval *int `json:"trafficAnalyticsInterval,omitempty"`
 
-	// WorkspaceId: The resource guid of the attached workspace.
-	WorkspaceId *string `json:"workspaceId,omitempty"`
-
 	// WorkspaceRegion: The location of the attached workspace.
 	WorkspaceRegion *string `json:"workspaceRegion,omitempty"`
 
@@ -2605,12 +2602,6 @@ func (properties *TrafficAnalyticsConfigurationProperties) ConvertToARM(resolved
 	if properties.TrafficAnalyticsInterval != nil {
 		trafficAnalyticsInterval := *properties.TrafficAnalyticsInterval
 		result.TrafficAnalyticsInterval = &trafficAnalyticsInterval
-	}
-
-	// Set property "WorkspaceId":
-	if properties.WorkspaceId != nil {
-		workspaceId := *properties.WorkspaceId
-		result.WorkspaceId = &workspaceId
 	}
 
 	// Set property "WorkspaceRegion":
@@ -2655,12 +2646,6 @@ func (properties *TrafficAnalyticsConfigurationProperties) PopulateFromARM(owner
 		properties.TrafficAnalyticsInterval = &trafficAnalyticsInterval
 	}
 
-	// Set property "WorkspaceId":
-	if typedInput.WorkspaceId != nil {
-		workspaceId := *typedInput.WorkspaceId
-		properties.WorkspaceId = &workspaceId
-	}
-
 	// Set property "WorkspaceRegion":
 	if typedInput.WorkspaceRegion != nil {
 		workspaceRegion := *typedInput.WorkspaceRegion
@@ -2686,9 +2671,6 @@ func (properties *TrafficAnalyticsConfigurationProperties) AssignProperties_From
 
 	// TrafficAnalyticsInterval
 	properties.TrafficAnalyticsInterval = genruntime.ClonePointerToInt(source.TrafficAnalyticsInterval)
-
-	// WorkspaceId
-	properties.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
 
 	// WorkspaceRegion
 	properties.WorkspaceRegion = genruntime.ClonePointerToString(source.WorkspaceRegion)
@@ -2720,9 +2702,6 @@ func (properties *TrafficAnalyticsConfigurationProperties) AssignProperties_To_T
 
 	// TrafficAnalyticsInterval
 	destination.TrafficAnalyticsInterval = genruntime.ClonePointerToInt(properties.TrafficAnalyticsInterval)
-
-	// WorkspaceId
-	destination.WorkspaceId = genruntime.ClonePointerToString(properties.WorkspaceId)
 
 	// WorkspaceRegion
 	destination.WorkspaceRegion = genruntime.ClonePointerToString(properties.WorkspaceRegion)
@@ -2759,9 +2738,6 @@ func (properties *TrafficAnalyticsConfigurationProperties) Initialize_From_Traff
 
 	// TrafficAnalyticsInterval
 	properties.TrafficAnalyticsInterval = genruntime.ClonePointerToInt(source.TrafficAnalyticsInterval)
-
-	// WorkspaceId
-	properties.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
 
 	// WorkspaceRegion
 	properties.WorkspaceRegion = genruntime.ClonePointerToString(source.WorkspaceRegion)
