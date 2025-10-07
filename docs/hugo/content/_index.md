@@ -46,7 +46,7 @@ If you've got a question, a problem, a request, or just want to chat, here are t
 See [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) if you'd like to learn more about the project.
 
 ``` bash
-$ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.1/cert-manager.yaml
+$ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.18.2/cert-manager.yaml
 ```
 
 Check that the cert-manager pods have started successfully before continuing.
@@ -390,7 +390,7 @@ to get started. For example, creating and deleting cert-manager.
 
 ``` bash
 # remove the cert-manager components
-$ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+$ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.18.2/cert-manager.yaml
 ```
 
 ## How to contribute
