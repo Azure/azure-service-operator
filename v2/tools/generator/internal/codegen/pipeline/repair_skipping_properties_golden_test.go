@@ -57,8 +57,8 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(),      // and then we get to run the stage we're testing
-		CreateConversionGraph(cfg, "v"), // Then, RECREATE the conversion graph showing relationships
+		RepairSkippingProperties(cfg.ObjectModelConfiguration), // and then we get to run the stage we're testing
+		CreateConversionGraph(cfg, "v"),                        // Then, RECREATE the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 	)
 	g.Expect(err).To(BeNil())

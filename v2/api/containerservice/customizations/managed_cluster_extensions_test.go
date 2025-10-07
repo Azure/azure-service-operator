@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )

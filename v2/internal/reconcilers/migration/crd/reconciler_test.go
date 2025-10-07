@@ -44,7 +44,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20240901storage",
+						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -59,7 +59,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20240901storage",
+						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -77,7 +77,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20240901storage",
+						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -106,7 +106,7 @@ func TestReconcileCRDs(t *testing.T) {
 			}
 
 			deprecatedCRDVersions := map[string][]string{
-				"managedclusters.containerservice.azure.com": {"v1api20231102previewstorage"},
+				"managedclusters.containerservice.azure.com": {"v1api20230201storage"},
 			}
 
 			options := crd.Options{
@@ -130,9 +130,9 @@ func TestReconcileCRDs(t *testing.T) {
 				crd)).To(Succeed())
 
 			if tt.expectDeprecated {
-				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20231102previewstorage"))
+				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20230201storage"))
 			} else {
-				g.Expect(crd.Status.StoredVersions).To(ContainElement("v1api20231102previewstorage"))
+				g.Expect(crd.Status.StoredVersions).To(ContainElement("v1api20230201storage"))
 			}
 		})
 	}

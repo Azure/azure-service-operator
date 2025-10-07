@@ -641,7 +641,7 @@ func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
 		return astmodel.NewMapType(m.KeyType(), value)
 	}
 
-	// If t is a TypeName, check for the existence of a compatibility type in a subpackge under the receiver
+	// If t is a TypeName, check for the existence of a compatibility type in a subpackage under the receiver
 	if tn, ok := astmodel.AsInternalTypeName(t); ok {
 		compatPkg := astmodel.MakeCompatPackageReference(
 			builder.receiverDefinition.Name().InternalPackageReference())
