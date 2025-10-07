@@ -4,10 +4,11 @@
 package customizations
 
 import (
+	"github.com/go-logr/logr"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-	"github.com/go-logr/logr"
 )
 
 var _ extensions.ErrorClassifier = &NetworkWatchersFlowLogExtension{}
