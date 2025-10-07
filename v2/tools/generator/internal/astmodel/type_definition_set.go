@@ -189,6 +189,8 @@ func DiffTypes(x, y interface{}) string {
 		FlaggedType{},
 		InternalTypeName{},
 		ExternalTypeName{},
+		ExternalPackageReference{},
+		SubPackageReference{},
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},
