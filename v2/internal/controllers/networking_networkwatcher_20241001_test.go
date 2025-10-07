@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	network_prev "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
+	networkv20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001"
 	"github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
@@ -89,9 +89,9 @@ func NetworkWatcher_FlowLog_20241001_CRUD(
 	}
 
 	// Create an NSG as target for the flow log
-	nsg := &network_prev.NetworkSecurityGroup{
+	nsg := &networkv20240301.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
-		Spec: network_prev.NetworkSecurityGroup_Spec{
+		Spec: networkv20240301.NetworkSecurityGroup_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 		},
