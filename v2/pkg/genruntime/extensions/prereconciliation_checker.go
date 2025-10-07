@@ -11,12 +11,10 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // PreReconciliationChecker is implemented by resources that want to do extra checks before proceeding with
@@ -28,6 +26,8 @@ type PreReconciliationChecker interface {
 	// Returns BlockReconcile and a human-readable reason if the reconciliation should be skipped.
 	// ctx is the current operation context.
 	// obj is the resource about to be reconciled. The resource's State will be freshly updated.
+	// owner is the owner of the resource about to be reconciled. The owner's State will be freshly updated. May be nil
+	// if the resource has no owner, or if it has been referenced via ARMID directly.
 	// kubeClient allows access to the cluster for any required queries.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
@@ -62,7 +62,7 @@ func CreatePreReconciliationChecker(
 ) (PreReconcileCheckFunc, bool) {
 	impl, ok := host.(PreReconciliationChecker)
 	if !ok {
-		return alwaysReconcile, false
+		return preReconciliationCheckerAlways, false
 	}
 
 	return func(
@@ -75,7 +75,7 @@ func CreatePreReconciliationChecker(
 	) (PreReconcileCheckResult, error) {
 		log.V(Status).Info("Extension pre-reconcile check running")
 
-		result, err := impl.PreReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, alwaysReconcile)
+		result, err := impl.PreReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, preReconciliationCheckerAlways)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension pre-reconcile check failed",
@@ -94,10 +94,10 @@ func CreatePreReconciliationChecker(
 	}, true
 }
 
-// alwaysReconcile is a PreReconciliationChecker that always indicates a reconciliation is required.
+// preReconciliationCheckerAlways is a PreReconciliationChecker that always indicates a reconciliation is required.
 // We have this here so we can set up a chain, even if it's only one link long.
 // When we start doing proper comparisons between Spec and Status, we'll have an actual chain of checkers.
-func alwaysReconcile(
+func preReconciliationCheckerAlways(
 	_ context.Context,
 	_ genruntime.MetaObject,
 	_ genruntime.MetaObject,
