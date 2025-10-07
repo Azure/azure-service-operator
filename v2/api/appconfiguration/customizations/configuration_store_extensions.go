@@ -17,7 +17,8 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	storage20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	storage20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -49,54 +50,37 @@ func (ext *ConfigurationStoreExtension) ExportKubernetesSecrets(
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
 ) (*genruntime.KubernetesSecretExportResult, error) {
-	// This has to be the current hub storage version. It will need to be updated
-	// if the hub storage version changes.
-	typedObj, ok := obj.(*storage.ConfigurationStore)
-	if !ok {
-		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *appconfiguration.ConfigurationStore", obj)
+	// Check which version we're dealing with and handle accordingly
+	if typedObj20220501, ok := obj.(*storage20220501.ConfigurationStore); ok {
+		return ext.exportKubernetesSecrets20220501(ctx, typedObj20220501, additionalSecrets, armClient, log)
+	}
+	if typedObj20240601, ok := obj.(*storage20240601.ConfigurationStore); ok {
+		return ext.exportKubernetesSecrets20240601(ctx, typedObj20240601, additionalSecrets, armClient, log)
 	}
 
-	// Type assert that we are the hub type. This will fail to compile if
-	// the hub type has been changed but this extension has not
-	var _ conversion.Hub = typedObj
+	return nil, eris.Errorf("cannot run on unknown resource type %T", obj)
+}
 
-	primarySecrets := secretsSpecified(typedObj)
+func (ext *ConfigurationStoreExtension) exportKubernetesSecrets20220501(
+	ctx context.Context,
+	obj *storage20220501.ConfigurationStore,
+	additionalSecrets set.Set[string],
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+) (*genruntime.KubernetesSecretExportResult, error) {
+	primarySecrets := secretsSpecified20220501(obj)
 	requestedSecrets := set.Union(primarySecrets, additionalSecrets)
 	if len(requestedSecrets) == 0 {
 		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
 		return nil, nil
 	}
 
-	id, err := genruntime.GetAndParseResourceID(typedObj)
+	keys, err := ext.getAPIKeys(ctx, obj, armClient, log)
 	if err != nil {
 		return nil, err
 	}
 
-	keys := make(map[string]armappconfiguration.APIKey)
-	// Only bother calling ListKeys if there are secrets to retrieve
-	if len(requestedSecrets) > 0 {
-		subscription := id.SubscriptionID
-		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
-		// connection each time through
-		var confClient *armappconfiguration.ConfigurationStoresClient
-		confClient, err = armappconfiguration.NewConfigurationStoresClient(subscription, armClient.Creds(), armClient.ClientOptions())
-		if err != nil {
-			return nil, eris.Wrapf(err, "failed to create new ConfigurationStoresClient")
-		}
-
-		var pager *runtime.Pager[armappconfiguration.ConfigurationStoresClientListKeysResponse]
-		var resp armappconfiguration.ConfigurationStoresClientListKeysResponse
-		pager = confClient.NewListKeysPager(id.ResourceGroupName, typedObj.AzureName(), nil)
-		for pager.More() {
-			resp, err = pager.NextPage(ctx)
-			if err != nil {
-				return nil, eris.Wrapf(err, "failed to retreive response")
-			}
-			addSecretsToMap(resp.Value, keys)
-		}
-	}
-
-	secretSlice, err := secretsToWrite(typedObj, keys)
+	secretSlice, err := secretsToWrite20220501(obj, keys)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +93,126 @@ func (ext *ConfigurationStoreExtension) ExportKubernetesSecrets(
 	}, nil
 }
 
-func secretsSpecified(obj *storage.ConfigurationStore) set.Set[string] {
+func (ext *ConfigurationStoreExtension) exportKubernetesSecrets20240601(
+	ctx context.Context,
+	obj *storage20240601.ConfigurationStore,
+	additionalSecrets set.Set[string],
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+) (*genruntime.KubernetesSecretExportResult, error) {
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
+	var _ conversion.Hub = obj
+
+	primarySecrets := secretsSpecified20240601(obj)
+	requestedSecrets := set.Union(primarySecrets, additionalSecrets)
+	if len(requestedSecrets) == 0 {
+		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
+		return nil, nil
+	}
+
+	keys, err := ext.getAPIKeys(ctx, obj, armClient, log)
+	if err != nil {
+		return nil, err
+	}
+
+	secretSlice, err := secretsToWrite20240601(obj, keys)
+	if err != nil {
+		return nil, err
+	}
+
+	resolvedSecrets := makeResolvedSecretsMap(keys)
+
+	return &genruntime.KubernetesSecretExportResult{
+		Objs:       secrets.SliceToClientObjectSlice(secretSlice),
+		RawSecrets: secrets.SelectSecrets(additionalSecrets, resolvedSecrets),
+	}, nil
+}
+
+func (ext *ConfigurationStoreExtension) getAPIKeys(
+	ctx context.Context,
+	obj genruntime.ARMMetaObject,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+) (map[string]armappconfiguration.APIKey, error) {
+	id, err := genruntime.GetAndParseResourceID(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	keys := make(map[string]armappconfiguration.APIKey)
+	subscription := id.SubscriptionID
+	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
+	// connection each time through
+	var confClient *armappconfiguration.ConfigurationStoresClient
+	confClient, err = armappconfiguration.NewConfigurationStoresClient(subscription, armClient.Creds(), armClient.ClientOptions())
+	if err != nil {
+		return nil, eris.Wrapf(err, "failed to create new ConfigurationStoresClient")
+	}
+
+	var pager *runtime.Pager[armappconfiguration.ConfigurationStoresClientListKeysResponse]
+	var resp armappconfiguration.ConfigurationStoresClientListKeysResponse
+	
+	pager = confClient.NewListKeysPager(id.ResourceGroupName, obj.AzureName(), nil)
+	for pager.More() {
+		resp, err = pager.NextPage(ctx)
+		if err != nil {
+			return nil, eris.Wrapf(err, "failed to retreive response")
+		}
+		addSecretsToMap(resp.Value, keys)
+	}
+
+	return keys, nil
+}
+
+func secretsSpecified20220501(obj *storage20220501.ConfigurationStore) set.Set[string] {
+	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+
+	secrets := obj.Spec.OperatorSpec.Secrets
+
+	result := make(set.Set[string])
+	if secrets.PrimaryKeyID != nil {
+		result.Add(primaryKeyID)
+	}
+	if secrets.SecondaryKeyID != nil {
+		result.Add(secondaryKeyID)
+	}
+	if secrets.PrimaryReadOnlyKeyID != nil {
+		result.Add(primaryReadOnlyKeyID)
+	}
+	if secrets.SecondaryReadOnlyKeyID != nil {
+		result.Add(secondaryReadOnlyKeyID)
+	}
+	if secrets.PrimaryKey != nil {
+		result.Add(primaryKey)
+	}
+	if secrets.SecondaryKey != nil {
+		result.Add(secondaryKey)
+	}
+	if secrets.PrimaryReadOnlyKey != nil {
+		result.Add(primaryReadOnlyKey)
+	}
+	if secrets.SecondaryReadOnlyKey != nil {
+		result.Add(secondaryReadOnlyKey)
+	}
+	if secrets.PrimaryConnectionString != nil {
+		result.Add(primaryConnectionString)
+	}
+	if secrets.SecondaryConnectionString != nil {
+		result.Add(secondaryConnectionString)
+	}
+	if secrets.PrimaryReadOnlyConnectionString != nil {
+		result.Add(primaryReadOnlyConnectionString)
+	}
+	if secrets.SecondaryReadOnlyConnectionString != nil {
+		result.Add(secondaryReadOnlyConnectionString)
+	}
+	return result
+}
+
+func secretsSpecified20240601(obj *storage20240601.ConfigurationStore) set.Set[string] {
 	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
@@ -165,7 +268,45 @@ func addSecretsToMap(keys []*armappconfiguration.APIKey, result map[string]armap
 	}
 }
 
-func secretsToWrite(obj *storage.ConfigurationStore, keys map[string]armappconfiguration.APIKey) ([]*v1.Secret, error) {
+func secretsToWrite20220501(obj *storage20220501.ConfigurationStore, keys map[string]armappconfiguration.APIKey) ([]*v1.Secret, error) {
+	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
+	if operatorSpecSecrets == nil {
+		return nil, nil
+	}
+
+	collector := secrets.NewCollector(obj.Namespace)
+	primary, ok := keys["Primary"]
+	if ok {
+		collector.AddValue(operatorSpecSecrets.PrimaryConnectionString, to.Value(primary.ConnectionString))
+		collector.AddValue(operatorSpecSecrets.PrimaryKeyID, to.Value(primary.ID))
+		collector.AddValue(operatorSpecSecrets.PrimaryKey, to.Value(primary.Value))
+	}
+
+	primaryReadOnly, ok := keys["Primary Read Only"]
+	if ok {
+		collector.AddValue(operatorSpecSecrets.PrimaryReadOnlyConnectionString, to.Value(primaryReadOnly.ConnectionString))
+		collector.AddValue(operatorSpecSecrets.PrimaryReadOnlyKeyID, to.Value(primaryReadOnly.ID))
+		collector.AddValue(operatorSpecSecrets.PrimaryReadOnlyKey, to.Value(primaryReadOnly.Value))
+	}
+
+	secondary, ok := keys["Secondary"]
+	if ok {
+		collector.AddValue(operatorSpecSecrets.SecondaryConnectionString, to.Value(secondary.ConnectionString))
+		collector.AddValue(operatorSpecSecrets.SecondaryKeyID, to.Value(secondary.ID))
+		collector.AddValue(operatorSpecSecrets.SecondaryKey, to.Value(secondary.Value))
+	}
+
+	secondaryReadOnly, ok := keys["Secondary Read Only"]
+	if ok {
+		collector.AddValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, to.Value(secondaryReadOnly.ConnectionString))
+		collector.AddValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, to.Value(secondaryReadOnly.ID))
+		collector.AddValue(operatorSpecSecrets.SecondaryReadOnlyKey, to.Value(secondaryReadOnly.Value))
+	}
+
+	return collector.Values()
+}
+
+func secretsToWrite20240601(obj *storage20240601.ConfigurationStore, keys map[string]armappconfiguration.APIKey) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
 		return nil, nil

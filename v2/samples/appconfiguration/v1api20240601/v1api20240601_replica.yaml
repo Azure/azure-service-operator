@@ -1,0 +1,10 @@
+apiVersion: appconfiguration.azure.com/v1api20240601
+kind: Replica
+metadata:
+  name: aso-sample-replica
+  namespace: default
+spec:
+  azureName: "eastus2-replica"
+  owner:
+    name: aso-sample-confstore-v2
+  location: eastus2
