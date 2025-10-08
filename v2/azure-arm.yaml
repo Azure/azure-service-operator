@@ -452,6 +452,12 @@ typeTransformers:
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
   
+  - group: network
+    name: TrafficAnalyticsConfigurationProperties
+    property: WorkspaceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
   # 
   # In the group 'network'
   # remove the property 'Type'
@@ -4417,6 +4423,21 @@ objectModelConfiguration:
         $supportedFrom: v2.11.0
       SubResource:
         Id:
+          $referenceType: arm
+    2024-10-01:
+      NetworkWatcher:
+        $exportAs: NetworkWatcher
+        $supportedFrom: v2.16.0
+      NetworkWatchers_FlowLog:
+        $exportAs: NetworkWatchersFlowLog
+        $supportedFrom: v2.16.0
+      FlowLogPropertiesFormat:
+        StorageId:
+          $referenceType: arm
+        TargetResourceId:
+          $referenceType: arm
+      TrafficAnalyticsConfigurationProperties:
+        WorkspaceResourceId:
           $referenceType: arm
   network.frontdoor:
     2022-05-01:
