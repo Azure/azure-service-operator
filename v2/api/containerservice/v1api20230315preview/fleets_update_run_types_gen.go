@@ -52,22 +52,36 @@ var _ conversion.Convertible = &FleetsUpdateRun{}
 
 // ConvertFrom populates our FleetsUpdateRun from the provided hub FleetsUpdateRun
 func (updateRun *FleetsUpdateRun) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FleetsUpdateRun)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230315preview/storage/FleetsUpdateRun but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FleetsUpdateRun
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return updateRun.AssignProperties_From_FleetsUpdateRun(source)
+	err = updateRun.AssignProperties_From_FleetsUpdateRun(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to updateRun")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FleetsUpdateRun from our FleetsUpdateRun
 func (updateRun *FleetsUpdateRun) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FleetsUpdateRun)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230315preview/storage/FleetsUpdateRun but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FleetsUpdateRun
+	err := updateRun.AssignProperties_To_FleetsUpdateRun(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from updateRun")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return updateRun.AssignProperties_To_FleetsUpdateRun(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FleetsUpdateRun{}
@@ -88,17 +102,6 @@ func (updateRun *FleetsUpdateRun) SecretDestinationExpressions() []*core.Destina
 		return nil
 	}
 	return updateRun.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FleetsUpdateRun{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (updateRun *FleetsUpdateRun) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FleetsUpdateRun_STATUS); ok {
-		return updateRun.Spec.Initialize_From_FleetsUpdateRun_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FleetsUpdateRun_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FleetsUpdateRun{}
@@ -531,37 +534,6 @@ func (updateRun *FleetsUpdateRun_Spec) AssignProperties_To_FleetsUpdateRun_Spec(
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FleetsUpdateRun_STATUS populates our FleetsUpdateRun_Spec from the provided source FleetsUpdateRun_STATUS
-func (updateRun *FleetsUpdateRun_Spec) Initialize_From_FleetsUpdateRun_STATUS(source *FleetsUpdateRun_STATUS) error {
-
-	// ManagedClusterUpdate
-	if source.ManagedClusterUpdate != nil {
-		var managedClusterUpdate ManagedClusterUpdate
-		err := managedClusterUpdate.Initialize_From_ManagedClusterUpdate_STATUS(source.ManagedClusterUpdate)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedClusterUpdate_STATUS() to populate field ManagedClusterUpdate")
-		}
-		updateRun.ManagedClusterUpdate = &managedClusterUpdate
-	} else {
-		updateRun.ManagedClusterUpdate = nil
-	}
-
-	// Strategy
-	if source.Strategy != nil {
-		var strategy UpdateRunStrategy
-		err := strategy.Initialize_From_UpdateRunStrategy_STATUS(source.Strategy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UpdateRunStrategy_STATUS() to populate field Strategy")
-		}
-		updateRun.Strategy = &strategy
-	} else {
-		updateRun.Strategy = nil
 	}
 
 	// No error
@@ -1140,25 +1112,6 @@ func (update *ManagedClusterUpdate) AssignProperties_To_ManagedClusterUpdate(des
 	return nil
 }
 
-// Initialize_From_ManagedClusterUpdate_STATUS populates our ManagedClusterUpdate from the provided source ManagedClusterUpdate_STATUS
-func (update *ManagedClusterUpdate) Initialize_From_ManagedClusterUpdate_STATUS(source *ManagedClusterUpdate_STATUS) error {
-
-	// Upgrade
-	if source.Upgrade != nil {
-		var upgrade ManagedClusterUpgradeSpec
-		err := upgrade.Initialize_From_ManagedClusterUpgradeSpec_STATUS(source.Upgrade)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedClusterUpgradeSpec_STATUS() to populate field Upgrade")
-		}
-		update.Upgrade = &upgrade
-	} else {
-		update.Upgrade = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The update to be applied to the ManagedClusters.
 type ManagedClusterUpdate_STATUS struct {
 	// Upgrade: The upgrade to apply to the ManagedClusters.
@@ -1498,29 +1451,6 @@ func (strategy *UpdateRunStrategy) AssignProperties_To_UpdateRunStrategy(destina
 	return nil
 }
 
-// Initialize_From_UpdateRunStrategy_STATUS populates our UpdateRunStrategy from the provided source UpdateRunStrategy_STATUS
-func (strategy *UpdateRunStrategy) Initialize_From_UpdateRunStrategy_STATUS(source *UpdateRunStrategy_STATUS) error {
-
-	// Stages
-	if source.Stages != nil {
-		stageList := make([]UpdateStage, len(source.Stages))
-		for stageIndex, stageItem := range source.Stages {
-			var stage UpdateStage
-			err := stage.Initialize_From_UpdateStage_STATUS(&stageItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_UpdateStage_STATUS() to populate field Stages")
-			}
-			stageList[stageIndex] = stage
-		}
-		strategy.Stages = stageList
-	} else {
-		strategy.Stages = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the update sequence of the clusters via stages and groups.
 // Stages within a run are executed sequentially one
 // after another.
@@ -1721,24 +1651,6 @@ func (upgrade *ManagedClusterUpgradeSpec) AssignProperties_To_ManagedClusterUpgr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterUpgradeSpec_STATUS populates our ManagedClusterUpgradeSpec from the provided source ManagedClusterUpgradeSpec_STATUS
-func (upgrade *ManagedClusterUpgradeSpec) Initialize_From_ManagedClusterUpgradeSpec_STATUS(source *ManagedClusterUpgradeSpec_STATUS) error {
-
-	// KubernetesVersion
-	upgrade.KubernetesVersion = genruntime.ClonePointerToString(source.KubernetesVersion)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedClusterUpgradeType_Values)
-		upgrade.Type = &typeVar
-	} else {
-		upgrade.Type = nil
 	}
 
 	// No error
@@ -1982,35 +1894,6 @@ func (stage *UpdateStage) AssignProperties_To_UpdateStage(destination *storage.U
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UpdateStage_STATUS populates our UpdateStage from the provided source UpdateStage_STATUS
-func (stage *UpdateStage) Initialize_From_UpdateStage_STATUS(source *UpdateStage_STATUS) error {
-
-	// AfterStageWaitInSeconds
-	stage.AfterStageWaitInSeconds = genruntime.ClonePointerToInt(source.AfterStageWaitInSeconds)
-
-	// Groups
-	if source.Groups != nil {
-		groupList := make([]UpdateGroup, len(source.Groups))
-		for groupIndex, groupItem := range source.Groups {
-			var group UpdateGroup
-			err := group.Initialize_From_UpdateGroup_STATUS(&groupItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_UpdateGroup_STATUS() to populate field Groups")
-			}
-			groupList[groupIndex] = group
-		}
-		stage.Groups = groupList
-	} else {
-		stage.Groups = nil
-	}
-
-	// Name
-	stage.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2739,16 +2622,6 @@ func (group *UpdateGroup) AssignProperties_To_UpdateGroup(destination *storage.U
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UpdateGroup_STATUS populates our UpdateGroup from the provided source UpdateGroup_STATUS
-func (group *UpdateGroup) Initialize_From_UpdateGroup_STATUS(source *UpdateGroup_STATUS) error {
-
-	// Name
-	group.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
