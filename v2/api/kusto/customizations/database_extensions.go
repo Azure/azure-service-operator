@@ -19,23 +19,22 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &ClusterExtension{}
+var _ extensions.PreReconciliationOwnerChecker = &DatabaseExtension{}
 
 // Ensure we're dealing with the hub version of Cluster
 // If this no longer compiles (due to a newer version being imported), change the import above to that version.
 var _ conversion.Hub = &kusto.Cluster{}
 
-// PreReconcileCheck is called before the reconciliation of the resource to see if the cluster
+// PreReconcileOwnerCheck is called before the reconciliation of the resource to see if the cluster
 // is in a state that will allow reconciliation to proceed.
 // We can't try to create/update a Database unless the cluster is in a state that allows it.
-func (ext *DatabaseExtension) PreReconcileCheck(
+func (ext *DatabaseExtension) PreReconcileOwnerCheck(
 	ctx context.Context,
-	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient_ *genericarmclient.GenericClient,
 	log logr.Logger,
-	next extensions.PreReconcileCheckFunc,
+	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if the owning cluster is in a state that will block us from reconciling
 	// Owner nil can happen if the owner of the database is referenced by armID
@@ -58,5 +57,5 @@ func (ext *DatabaseExtension) PreReconcileCheck(
 		}
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient_, log)
+	return next(ctx, owner, resourceResolver, armClient_, log)
 }

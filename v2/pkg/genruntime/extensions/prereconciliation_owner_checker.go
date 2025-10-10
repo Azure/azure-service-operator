@@ -19,33 +19,34 @@ import (
 
 // PreReconciliationChecker is implemented by resources that want to do extra checks before proceeding with
 // a full ARM reconcile.
-type PreReconciliationChecker interface {
-	// PreReconcileCheck does a pre-reconcile check to see if the resource is in a state that can be reconciled.
+type PreReconciliationOwnerChecker interface {
+	// PreReconcileOwnerCheck does a pre-reconcile check to see if the owner of a resource is in a state that permits
+	// the resource to be reconciled. For a limited number of resources, the state of their owner can block all access
+	// to the resource, including GETs. One example is a Kusto Cluster, where you can't even GET the database if the
+	// cluster is powered off.
+	// Prefer to implement PreReconciliationChecker unless you specifically need to avoid GETs on the resource itself.
 	// ARM resources should implement this to avoid reconciliation attempts that cannot possibly succeed.
 	// Returns ProceedWithReconcile if the reconciliation should go ahead.
 	// Returns BlockReconcile and a human-readable reason if the reconciliation should be skipped.
 	// ctx is the current operation context.
-	// obj is the resource about to be reconciled. The resource's State will be freshly updated.
 	// owner is the owner of the resource about to be reconciled. The owner's State will be freshly updated. May be nil
 	// if the resource has no owner, or if it has been referenced via ARMID directly.
 	// kubeClient allows access to the cluster for any required queries.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
 	// next is the next (nested) implementation to call.
-	PreReconcileCheck(
+	PreReconcileOwnerCheck(
 		ctx context.Context,
-		obj genruntime.MetaObject,
 		owner genruntime.MetaObject,
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
-		next PreReconcileCheckFunc,
+		next PreReconcileOwnerCheckFunc,
 	) (PreReconcileCheckResult, error)
 }
 
-type PreReconcileCheckFunc func(
+type PreReconcileOwnerCheckFunc func(
 	ctx context.Context,
-	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
@@ -57,17 +58,16 @@ type PreReconcileCheckFunc func(
 // is returned directly.
 // We also return a bool indicating whether the resource extension implements the PreReconciliationChecker interface.
 // host is a resource extension that may implement the PreReconciliationChecker interface.
-func CreatePreReconciliationChecker(
+func CreatePreReconciliationOwnerChecker(
 	host genruntime.ResourceExtension,
-) (PreReconcileCheckFunc, bool) {
-	impl, ok := host.(PreReconciliationChecker)
+) (PreReconcileOwnerCheckFunc, bool) {
+	impl, ok := host.(PreReconciliationOwnerChecker)
 	if !ok {
-		return preReconciliationCheckerAlways, false
+		return preReconciliationOwnerCheckerAlways, false
 	}
 
 	return func(
 		ctx context.Context,
-		obj genruntime.MetaObject,
 		owner genruntime.MetaObject,
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
@@ -75,31 +75,30 @@ func CreatePreReconciliationChecker(
 	) (PreReconcileCheckResult, error) {
 		log.V(Status).Info("Extension pre-reconcile check running")
 
-		result, err := impl.PreReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, preReconciliationCheckerAlways)
+		result, err := impl.PreReconcileOwnerCheck(ctx, owner, resourceResolver, armClient, log, preReconciliationOwnerCheckerAlways)
 		if err != nil {
 			log.V(Status).Info(
-				"Extension pre-reconcile check failed",
+				"Extension pre-reconcile owner check failed",
 				"Error", err.Error())
 
 			// We choose to skip here so that things are definitely broken and the user will notice
 			// If we defaulted to always reconciling, the user might not notice that something is wrong
-			return BlockReconcile("Extension PreReconcileCheck failed"), err
+			return BlockReconcile("Extension PreReconcileOwnerCheck failed"), err
 		}
 
 		log.V(Status).Info(
-			"Extension pre-reconcile check succeeded",
+			"Extension pre-reconcile owner check succeeded",
 			"Result", result)
 
 		return result, nil
 	}, true
 }
 
-// preReconciliationCheckerAlways is a PreReconciliationChecker that always indicates a reconciliation is required.
+// preReconciliationOwnerCheckerAlways is a PreReconciliationOwnerChecker that always indicates a reconciliation is required.
 // We have this here so we can set up a chain, even if it's only one link long.
 // When we start doing proper comparisons between Spec and Status, we'll have an actual chain of checkers.
-func preReconciliationCheckerAlways(
+func preReconciliationOwnerCheckerAlways(
 	_ context.Context,
-	_ genruntime.MetaObject,
 	_ genruntime.MetaObject,
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,

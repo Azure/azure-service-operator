@@ -296,27 +296,47 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	return ctrl.Result{Requeue: true}, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.Context) (extensions.PreReconcileCheckResult, error) {
-	// Create a checker for access to the extension point, if required
+func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
+	ctx context.Context,
+) (extensions.PreReconcileCheckResult, error) {
+	// Check to see which extensions are available
 	checker, extensionFound := extensions.CreatePreReconciliationChecker(r.Extension)
-	if !extensionFound {
-		// No extension found, nothing to do
+	ownerChecker, ownerExtensionFound := extensions.CreatePreReconciliationOwnerChecker(r.Extension)
+
+	if !extensionFound && !ownerExtensionFound {
+		// No extensions found, nothing to do
 		return extensions.ProceedWithReconcile(), nil
 	}
 
-	// Having a checker requires our resource to have an up-to-date status
-	r.Log.V(Verbose).Info("Refreshing Status of resource")
+	// Load owner details so it has an an up-to-date status
+	ownerDetails, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
+	if ownerErr != nil {
+		// We can't obtain the owner, so we can't run either extension
+		return extensions.PreReconcileCheckResult{}, ownerErr
+	}
+
+	// Run the PreReconciliationOwnerChecker if we have one
+	if ownerExtensionFound {
+		check, checkErr := ownerChecker(ctx, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
+		if checkErr != nil {
+			// Something went wrong running the check.
+			return extensions.PreReconcileCheckResult{}, checkErr
+		}
+
+		// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
+		if check.PostponeReconciliation() {
+			return extensions.PreReconcileCheckResult{}, nil
+		}
+	}
+
+	// Load resource details so it also has an up-to-date status
+	// We defer this until after we've done the owner check as if that says postpone
+	// we don't need to do this work.
+	// Plus, this avoids errors if the owner is in a state where going a GET on the resource will fail.
 	statusErr := r.updateStatus(ctx)
 	if statusErr != nil && !genericarmclient.IsNotFoundError(statusErr) {
 		// We have an error, and it's not because the resource doesn't exist yet
 		return extensions.PreReconcileCheckResult{}, statusErr
-	}
-
-	// We also need to have our owner, it too with an up-to-date status
-	ownerDetails, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
-	if ownerErr != nil {
-		// We can't obtain the owner, so we can't run the extension
-		return extensions.PreReconcileCheckResult{}, ownerErr
 	}
 
 	// Run our pre-reconciliation checker
