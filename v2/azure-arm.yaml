@@ -4481,6 +4481,11 @@ objectModelConfiguration:
       WorkspaceFeatures:
         ClusterResourceId:
           $referenceType: arm
+  quota:
+    2025-09-01:
+      Quota:
+        $exportAs: GroupQuota
+        $supportedFrom: v2.16.0
   resources:
     2020-06-01:
       ResourceGroup:

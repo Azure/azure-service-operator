@@ -883,6 +883,18 @@ These resource(s) are available for use in the current release of ASO. Different
 |--------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | [Workspace]({{< relref "/reference/operationalinsights/v1api20210601#Workspace" >}}) | 2021-06-01  | v1api20210601 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1api/v1api20210601_workspace.yaml) |
 
+## Quota
+
+To install the CRDs for these resources, your ASO configuration must include `quota.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                         |
+|------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------|
+| GroupQuota | 2025-09-01  | v1api20250901 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/quota/v1api20250901/v1api20250901_groupquota.yaml) |
+
 ## RedHatOpenShift
 
 To install the CRDs for these resources, your ASO configuration must include `redhatopenshift.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
