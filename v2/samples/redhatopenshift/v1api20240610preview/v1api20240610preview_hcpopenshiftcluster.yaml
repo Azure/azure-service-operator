@@ -1,0 +1,104 @@
+apiVersion: redhatopenshift.azure.com/v1api20240610preview
+kind: HcpOpenShiftCluster
+metadata:
+  name: mveber-int
+  namespace: default
+spec:
+  azureName: mveber-int
+  location: uksouth
+  owner:
+    group: resources.azure.com
+    kind: ResourceGroup
+    name: mveber-int-resgroup
+  identity: 
+    type: UserAssigned
+    userAssignedIdentities:
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-cloud-controller-manager-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-cloud-network-config-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-cluster-api-azure-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-control-plane-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-disk-csi-driver-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-file-csi-driver-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-image-registry-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-ingress-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-kms-46972e"
+        - reference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-service-managed-identity-46972e"
+  properties:
+    platform:
+      networkSecurityGroupReference:
+        group: network.azure.com
+        kind: NetworkSecurityGroup
+        name: mveber-int-nsg
+      operatorsAuthentication:
+        userAssignedIdentities:
+          controlPlaneOperatorsReferences:
+            cloud-controller-manager:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-cloud-controller-manager-46972e"
+            cloud-network-config:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-cloud-network-config-46972e"
+            cluster-api-azure:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-cluster-api-azure-46972e"
+            control-plane:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-control-plane-46972e"
+            disk-csi-driver:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-disk-csi-driver-46972e"
+            file-csi-driver:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-file-csi-driver-46972e"
+            image-registry:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-image-registry-46972e"
+            ingress:
+              armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-ingress-46972e"
+            kms:
+              armId:  "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-cp-kms-46972e"
+          dataPlaneOperatorsReferences:
+           disk-csi-driver:
+            armId:  "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-dp-disk-csi-driver-46972e"
+           file-csi-driver:
+            armId:  "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-dp-file-csi-driver-46972e"
+           image-registry:
+            armId:  "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-dp-image-registry-46972e"
+          serviceManagedIdentityReference:
+            armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourcegroups/mveber-int-resgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mveber-mveber-int-service-managed-identity-46972e"
+      subnetReference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: "mveber-int-vnet-mveber-int-subnet"
+        # namespace: default
+      managedResourceGroup: "capz_node_mveber-int_mveber-int-resgroup_rg"
+      outboundType: LoadBalancer
+    clusterImageRegistry:
+      state: Enabled
+    etcd:
+      dataEncryption:
+        keyManagementMode: CustomerManaged
+        customerManaged:
+          encryptionType: KMS
+          kms:
+            activeKey:
+              vaultName: "mveber-int-kv"
+              name: "etcd-data-kms-encryption-key"
+              version: "40037529f72042cbb4f69ddb97b8bced"
+    network:
+      hostPrefix: 23
+      networkType: OVNKubernetes
+      machineCidr: "10.0.0.0/16"
+      podCidr: "10.128.0.0/14"
+      serviceCidr: "172.30.0.0/16"
+    version:
+      channelGroup: stable
+      id: "4.19"
+    api:
+      visibility: Public
+  tags:
+    environment: production
+    owner: sre-team
