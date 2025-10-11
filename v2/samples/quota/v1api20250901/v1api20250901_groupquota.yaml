@@ -1,0 +1,17 @@
+apiVersion: quota.azure.com/v1api20250901
+kind: GroupQuota
+metadata:
+  name: aso-sample-group-quota
+  namespace: default
+spec:
+  # Resource Group or Subscription that will own this quota resource
+  # Replace with your actual resource group ARM ID
+  owner:
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group
+  # Quota properties - example for compute cores
+  properties:
+    name:
+      value: "cores"
+    resourceType: "cores"
+    limit:
+      value: 100
