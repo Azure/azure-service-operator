@@ -39,8 +39,16 @@
 | BootDiagnostics_STATUS                                                                     |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | Caching                                                                                    |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | Caching_STATUS                                                                             |               | v1api20201201 |               | v1api20220301 |               |               |               |
+| CapacityReservationGroup                                                                   |               |               |               |               |               |               | v1api20241101 |
+| CapacityReservationGroupInstanceView_STATUS                                                |               |               |               |               |               |               | v1api20241101 |
+| CapacityReservationGroupProperties                                                         |               |               |               |               |               |               | v1api20241101 |
+| CapacityReservationGroupProperties_STATUS                                                  |               |               |               |               |               |               | v1api20241101 |
+| CapacityReservationGroup_STATUS                                                            |               |               |               |               |               |               | v1api20241101 |
+| CapacityReservationGroup_Spec                                                              |               |               |               |               |               |               | v1api20241101 |
+| CapacityReservationInstanceViewWithName_STATUS                                             |               |               |               |               |               |               | v1api20241101 |
 | CapacityReservationProfile                                                                 |               |               |               | v1api20220301 |               |               |               |
 | CapacityReservationProfile_STATUS                                                          |               |               |               | v1api20220301 |               |               |               |
+| CapacityReservationUtilization_STATUS                                                      |               |               |               |               |               |               | v1api20241101 |
 | CopyCompletionError                                                                        |               |               |               |               |               | v1api20240302 |               |
 | CopyCompletionErrorReason                                                                  |               |               |               |               |               | v1api20240302 |               |
 | CopyCompletionErrorReason_STATUS                                                           |               |               |               |               |               | v1api20240302 |               |
@@ -237,6 +245,8 @@
 | PublicNetworkAccess_STATUS                                                                 |               |               |               |               |               | v1api20240302 |               |
 | PurchasePlan                                                                               | v1api20200930 |               |               |               |               |               |               |
 | PurchasePlan_STATUS                                                                        | v1api20200930 |               |               |               |               |               |               |
+| ResourceSharingProfile                                                                     |               |               |               |               |               |               | v1api20241101 |
+| ResourceSharingProfile_STATUS                                                              |               |               |               |               |               |               | v1api20241101 |
 | RollingUpgradePolicy                                                                       |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | RollingUpgradePolicy_STATUS                                                                |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | ScaleInPolicy                                                                              |               | v1api20201201 |               | v1api20220301 |               |               |               |
@@ -285,6 +295,7 @@
 | StorageProfile                                                                             |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | StorageProfile_STATUS                                                                      |               | v1api20201201 |               | v1api20220301 |               |               |               |
 | SubResource                                                                                |               | v1api20201201 | v1api20210701 | v1api20220301 |               |               | v1api20241101 |
+| SubResourceReadOnly_STATUS                                                                 |               |               |               |               |               |               | v1api20241101 |
 | SubResource_STATUS                                                                         |               | v1api20201201 | v1api20210701 | v1api20220301 |               |               | v1api20241101 |
 | SupportedCapabilities                                                                      |               |               |               |               |               | v1api20240302 |               |
 | SupportedCapabilities_STATUS                                                               |               |               |               |               |               | v1api20240302 |               |

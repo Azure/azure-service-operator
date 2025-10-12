@@ -979,6 +979,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.Snapshot)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20241101s.AvailabilitySet)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20241101s.CapacityReservationGroup)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -3327,8 +3328,12 @@ func getKnownTypes() []*registration.KnownType {
 		Obj:       new(compute_v20241101.AvailabilitySet),
 		Defaulter: &compute_v20241101w.AvailabilitySet{},
 		Validator: &compute_v20241101w.AvailabilitySet{},
+	}, &registration.KnownType{
+		Obj:       new(compute_v20241101.CapacityReservationGroup),
+		Defaulter: &compute_v20241101w.CapacityReservationGroup{},
+		Validator: &compute_v20241101w.CapacityReservationGroup{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(compute_v20241101s.AvailabilitySet)})
+	result = append(result, &registration.KnownType{Obj: new(compute_v20241101s.AvailabilitySet)}, &registration.KnownType{Obj: new(compute_v20241101s.CapacityReservationGroup)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(containerinstance_v20211001.ContainerGroup),
 		Defaulter: &containerinstance_v20211001w.ContainerGroup{},
@@ -5858,6 +5863,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
 	result = append(result, &compute_customizations.AvailabilitySetExtension{})
+	result = append(result, &compute_customizations.CapacityReservationGroupExtension{})
 	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
