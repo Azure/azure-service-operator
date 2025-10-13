@@ -9,27 +9,27 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-type GroupQuota_Spec struct {
+type Quota_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Quota properties for the specified resource, based on the API called, Quotas or Usages.
 	Properties *QuotaProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &GroupQuota_Spec{}
+var _ genruntime.ARMResourceSpec = &Quota_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2025-09-01"
-func (quota GroupQuota_Spec) GetAPIVersion() string {
+func (quota Quota_Spec) GetAPIVersion() string {
 	return "2025-09-01"
 }
 
 // GetName returns the Name of the resource
-func (quota *GroupQuota_Spec) GetName() string {
+func (quota *Quota_Spec) GetName() string {
 	return quota.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Quota/quotas"
-func (quota *GroupQuota_Spec) GetType() string {
+func (quota *Quota_Spec) GetType() string {
 	return "Microsoft.Quota/quotas"
 }
 

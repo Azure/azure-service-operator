@@ -2239,7 +2239,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(notificationhubs_v20230901s.NotificationHubsAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
-	result = append(result, &registration.StorageType{Obj: new(quota_v20250901s.GroupQuota)})
+	result = append(result, &registration.StorageType{Obj: new(quota_v20250901s.Quota)})
 	result = append(result, &registration.StorageType{
 		Obj: new(redhatopenshift_v20231122s.OpenShiftCluster),
 		Indexes: []registration.Index{
@@ -5011,11 +5011,11 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(quota_v20250901.GroupQuota),
-		Defaulter: &quota_v20250901w.GroupQuota{},
-		Validator: &quota_v20250901w.GroupQuota{},
+		Obj:       new(quota_v20250901.Quota),
+		Defaulter: &quota_v20250901w.Quota{},
+		Validator: &quota_v20250901w.Quota{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(quota_v20250901s.GroupQuota)})
+	result = append(result, &registration.KnownType{Obj: new(quota_v20250901s.Quota)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(redhatopenshift_v20231122.OpenShiftCluster),
 		Defaulter: &redhatopenshift_v20231122w.OpenShiftCluster{},
@@ -6026,7 +6026,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &notificationhubs_customizations.NotificationHubExtension{})
 	result = append(result, &notificationhubs_customizations.NotificationHubsAuthorizationRuleExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
-	result = append(result, &quota_customizations.GroupQuotaExtension{})
+	result = append(result, &quota_customizations.QuotaExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})

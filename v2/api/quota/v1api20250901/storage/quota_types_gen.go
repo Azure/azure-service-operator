@@ -15,8 +15,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +kubebuilder:rbac:groups=quota.azure.com,resources=groupquotas,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=quota.azure.com,resources={groupquotas/status,groupquotas/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=quota.azure.com,resources=quotas,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=quota.azure.com,resources={quotas/status,quotas/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,quota}
@@ -26,78 +26,78 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20250901.GroupQuota
+// Storage version of v1api20250901.Quota
 // Generator information:
 // - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json
 // - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
-type GroupQuota struct {
+type Quota struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GroupQuota_Spec   `json:"spec,omitempty"`
-	Status            GroupQuota_STATUS `json:"status,omitempty"`
+	Spec              Quota_Spec   `json:"spec,omitempty"`
+	Status            Quota_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &GroupQuota{}
+var _ conditions.Conditioner = &Quota{}
 
 // GetConditions returns the conditions of the resource
-func (quota *GroupQuota) GetConditions() conditions.Conditions {
+func (quota *Quota) GetConditions() conditions.Conditions {
 	return quota.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (quota *GroupQuota) SetConditions(conditions conditions.Conditions) {
+func (quota *Quota) SetConditions(conditions conditions.Conditions) {
 	quota.Status.Conditions = conditions
 }
 
-var _ configmaps.Exporter = &GroupQuota{}
+var _ configmaps.Exporter = &Quota{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (quota *GroupQuota) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+func (quota *Quota) ConfigMapDestinationExpressions() []*core.DestinationExpression {
 	if quota.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return quota.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &GroupQuota{}
+var _ secrets.Exporter = &Quota{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (quota *GroupQuota) SecretDestinationExpressions() []*core.DestinationExpression {
+func (quota *Quota) SecretDestinationExpressions() []*core.DestinationExpression {
 	if quota.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return quota.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.KubernetesResource = &GroupQuota{}
+var _ genruntime.KubernetesResource = &Quota{}
 
 // AzureName returns the Azure name of the resource
-func (quota *GroupQuota) AzureName() string {
+func (quota *Quota) AzureName() string {
 	return quota.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2025-09-01"
-func (quota GroupQuota) GetAPIVersion() string {
+func (quota Quota) GetAPIVersion() string {
 	return "2025-09-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (quota *GroupQuota) GetResourceScope() genruntime.ResourceScope {
+func (quota *Quota) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeExtension
 }
 
 // GetSpec returns the specification of this resource
-func (quota *GroupQuota) GetSpec() genruntime.ConvertibleSpec {
+func (quota *Quota) GetSpec() genruntime.ConvertibleSpec {
 	return &quota.Spec
 }
 
 // GetStatus returns the status of this resource
-func (quota *GroupQuota) GetStatus() genruntime.ConvertibleStatus {
+func (quota *Quota) GetStatus() genruntime.ConvertibleStatus {
 	return &quota.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (quota *GroupQuota) GetSupportedOperations() []genruntime.ResourceOperation {
+func (quota *Quota) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationGet,
 		genruntime.ResourceOperationPut,
@@ -105,17 +105,17 @@ func (quota *GroupQuota) GetSupportedOperations() []genruntime.ResourceOperation
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Quota/quotas"
-func (quota *GroupQuota) GetType() string {
+func (quota *Quota) GetType() string {
 	return "Microsoft.Quota/quotas"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (quota *GroupQuota) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &GroupQuota_STATUS{}
+func (quota *Quota) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &Quota_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (quota *GroupQuota) Owner() *genruntime.ResourceReference {
+func (quota *Quota) Owner() *genruntime.ResourceReference {
 	if quota.Spec.Owner == nil {
 		return nil
 	}
@@ -124,15 +124,15 @@ func (quota *GroupQuota) Owner() *genruntime.ResourceReference {
 }
 
 // SetStatus sets the status of this resource
-func (quota *GroupQuota) SetStatus(status genruntime.ConvertibleStatus) error {
+func (quota *Quota) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*GroupQuota_STATUS); ok {
+	if st, ok := status.(*Quota_STATUS); ok {
 		quota.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st GroupQuota_STATUS
+	var st Quota_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -142,27 +142,27 @@ func (quota *GroupQuota) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this GroupQuota is the hub type for conversion
-func (quota *GroupQuota) Hub() {}
+// Hub marks that this Quota is the hub type for conversion
+func (quota *Quota) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (quota *GroupQuota) OriginalGVK() *schema.GroupVersionKind {
+func (quota *Quota) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: quota.Spec.OriginalVersion,
-		Kind:    "GroupQuota",
+		Kind:    "Quota",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20250901.GroupQuota
+// Storage version of v1api20250901.Quota
 // Generator information:
 // - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json
 // - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
-type GroupQuotaList struct {
+type QuotaList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []GroupQuota `json:"items"`
+	Items           []Quota `json:"items"`
 }
 
 // Storage version of v1api20250901.APIVersion
@@ -171,13 +171,13 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2025-09-01")
 
-// Storage version of v1api20250901.GroupQuota_Spec
-type GroupQuota_Spec struct {
+// Storage version of v1api20250901.Quota_Spec
+type Quota_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                  `json:"azureName,omitempty"`
-	OperatorSpec    *GroupQuotaOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string                  `json:"originalVersion,omitempty"`
+	AzureName       string             `json:"azureName,omitempty"`
+	OperatorSpec    *QuotaOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -188,10 +188,10 @@ type GroupQuota_Spec struct {
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &GroupQuota_Spec{}
+var _ genruntime.ConvertibleSpec = &Quota_Spec{}
 
-// ConvertSpecFrom populates our GroupQuota_Spec from the provided source
-func (quota *GroupQuota_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Quota_Spec from the provided source
+func (quota *Quota_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == quota {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -199,8 +199,8 @@ func (quota *GroupQuota_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	return source.ConvertSpecTo(quota)
 }
 
-// ConvertSpecTo populates the provided destination from our GroupQuota_Spec
-func (quota *GroupQuota_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Quota_Spec
+func (quota *Quota_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == quota {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -208,8 +208,8 @@ func (quota *GroupQuota_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	return destination.ConvertSpecFrom(quota)
 }
 
-// Storage version of v1api20250901.GroupQuota_STATUS
-type GroupQuota_STATUS struct {
+// Storage version of v1api20250901.Quota_STATUS
+type Quota_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
 	Id          *string                 `json:"id,omitempty"`
 	Name        *string                 `json:"name,omitempty"`
@@ -219,10 +219,10 @@ type GroupQuota_STATUS struct {
 	Type        *string                 `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &GroupQuota_STATUS{}
+var _ genruntime.ConvertibleStatus = &Quota_STATUS{}
 
-// ConvertStatusFrom populates our GroupQuota_STATUS from the provided source
-func (quota *GroupQuota_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Quota_STATUS from the provided source
+func (quota *Quota_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == quota {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -230,8 +230,8 @@ func (quota *GroupQuota_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	return source.ConvertStatusTo(quota)
 }
 
-// ConvertStatusTo populates the provided destination from our GroupQuota_STATUS
-func (quota *GroupQuota_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Quota_STATUS
+func (quota *Quota_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == quota {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -239,9 +239,9 @@ func (quota *GroupQuota_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	return destination.ConvertStatusFrom(quota)
 }
 
-// Storage version of v1api20250901.GroupQuotaOperatorSpec
+// Storage version of v1api20250901.QuotaOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type GroupQuotaOperatorSpec struct {
+type QuotaOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
@@ -326,5 +326,5 @@ type LimitObject_STATUS struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&GroupQuota{}, &GroupQuotaList{})
+	SchemeBuilder.Register(&Quota{}, &QuotaList{})
 }

@@ -17,83 +17,6 @@ import (
 	"testing"
 )
 
-func Test_GroupQuota_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupQuota_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupQuota_STATUS, GroupQuota_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForGroupQuota_STATUS runs a test to see if a specific instance of GroupQuota_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupQuota_STATUS(subject GroupQuota_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual GroupQuota_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of GroupQuota_STATUS instances for property testing - lazily instantiated by GroupQuota_STATUSGenerator()
-var groupQuota_STATUSGenerator gopter.Gen
-
-// GroupQuota_STATUSGenerator returns a generator of GroupQuota_STATUS instances for property testing.
-// We first initialize groupQuota_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func GroupQuota_STATUSGenerator() gopter.Gen {
-	if groupQuota_STATUSGenerator != nil {
-		return groupQuota_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_STATUS(generators)
-	groupQuota_STATUSGenerator = gen.Struct(reflect.TypeOf(GroupQuota_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_STATUS(generators)
-	AddRelatedPropertyGeneratorsForGroupQuota_STATUS(generators)
-	groupQuota_STATUSGenerator = gen.Struct(reflect.TypeOf(GroupQuota_STATUS{}), generators)
-
-	return groupQuota_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGroupQuota_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGroupQuota_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForGroupQuota_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGroupQuota_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(QuotaProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
 func Test_LimitJsonObject_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -303,6 +226,83 @@ func AddIndependentPropertyGeneratorsForQuotaProperties_STATUS(gens map[string]g
 func AddRelatedPropertyGeneratorsForQuotaProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["Limit"] = gen.PtrOf(LimitJsonObject_STATUSGenerator())
 	gens["Name"] = gen.PtrOf(ResourceName_STATUSGenerator())
+}
+
+func Test_Quota_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Quota_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQuota_STATUS, Quota_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQuota_STATUS runs a test to see if a specific instance of Quota_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForQuota_STATUS(subject Quota_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Quota_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Quota_STATUS instances for property testing - lazily instantiated by Quota_STATUSGenerator()
+var quota_STATUSGenerator gopter.Gen
+
+// Quota_STATUSGenerator returns a generator of Quota_STATUS instances for property testing.
+// We first initialize quota_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Quota_STATUSGenerator() gopter.Gen {
+	if quota_STATUSGenerator != nil {
+		return quota_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_STATUS(generators)
+	quota_STATUSGenerator = gen.Struct(reflect.TypeOf(Quota_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_STATUS(generators)
+	AddRelatedPropertyGeneratorsForQuota_STATUS(generators)
+	quota_STATUSGenerator = gen.Struct(reflect.TypeOf(Quota_STATUS{}), generators)
+
+	return quota_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForQuota_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForQuota_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForQuota_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQuota_STATUS(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(QuotaProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_ResourceName_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

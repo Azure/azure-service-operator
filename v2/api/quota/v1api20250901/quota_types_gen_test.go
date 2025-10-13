@@ -18,485 +18,6 @@ import (
 	"testing"
 )
 
-func Test_GroupQuota_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupQuota to hub returns original",
-		prop.ForAll(RunResourceConversionTestForGroupQuota, GroupQuotaGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForGroupQuota tests if a specific instance of GroupQuota round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForGroupQuota(subject GroupQuota) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.GroupQuota
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual GroupQuota
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_GroupQuota_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupQuota to GroupQuota via AssignProperties_To_GroupQuota & AssignProperties_From_GroupQuota returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGroupQuota, GroupQuotaGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForGroupQuota tests if a specific instance of GroupQuota can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGroupQuota(subject GroupQuota) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GroupQuota
-	err := copied.AssignProperties_To_GroupQuota(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GroupQuota
-	err = actual.AssignProperties_From_GroupQuota(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_GroupQuota_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupQuota via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupQuota, GroupQuotaGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForGroupQuota runs a test to see if a specific instance of GroupQuota round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupQuota(subject GroupQuota) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual GroupQuota
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of GroupQuota instances for property testing - lazily instantiated by GroupQuotaGenerator()
-var groupQuotaGenerator gopter.Gen
-
-// GroupQuotaGenerator returns a generator of GroupQuota instances for property testing.
-func GroupQuotaGenerator() gopter.Gen {
-	if groupQuotaGenerator != nil {
-		return groupQuotaGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForGroupQuota(generators)
-	groupQuotaGenerator = gen.Struct(reflect.TypeOf(GroupQuota{}), generators)
-
-	return groupQuotaGenerator
-}
-
-// AddRelatedPropertyGeneratorsForGroupQuota is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGroupQuota(gens map[string]gopter.Gen) {
-	gens["Spec"] = GroupQuota_SpecGenerator()
-	gens["Status"] = GroupQuota_STATUSGenerator()
-}
-
-func Test_GroupQuotaOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupQuotaOperatorSpec to GroupQuotaOperatorSpec via AssignProperties_To_GroupQuotaOperatorSpec & AssignProperties_From_GroupQuotaOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGroupQuotaOperatorSpec, GroupQuotaOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForGroupQuotaOperatorSpec tests if a specific instance of GroupQuotaOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGroupQuotaOperatorSpec(subject GroupQuotaOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GroupQuotaOperatorSpec
-	err := copied.AssignProperties_To_GroupQuotaOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GroupQuotaOperatorSpec
-	err = actual.AssignProperties_From_GroupQuotaOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_GroupQuotaOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupQuotaOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupQuotaOperatorSpec, GroupQuotaOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForGroupQuotaOperatorSpec runs a test to see if a specific instance of GroupQuotaOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupQuotaOperatorSpec(subject GroupQuotaOperatorSpec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual GroupQuotaOperatorSpec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of GroupQuotaOperatorSpec instances for property testing - lazily instantiated by
-// GroupQuotaOperatorSpecGenerator()
-var groupQuotaOperatorSpecGenerator gopter.Gen
-
-// GroupQuotaOperatorSpecGenerator returns a generator of GroupQuotaOperatorSpec instances for property testing.
-func GroupQuotaOperatorSpecGenerator() gopter.Gen {
-	if groupQuotaOperatorSpecGenerator != nil {
-		return groupQuotaOperatorSpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	groupQuotaOperatorSpecGenerator = gen.Struct(reflect.TypeOf(GroupQuotaOperatorSpec{}), generators)
-
-	return groupQuotaOperatorSpecGenerator
-}
-
-func Test_GroupQuota_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupQuota_STATUS to GroupQuota_STATUS via AssignProperties_To_GroupQuota_STATUS & AssignProperties_From_GroupQuota_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGroupQuota_STATUS, GroupQuota_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForGroupQuota_STATUS tests if a specific instance of GroupQuota_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGroupQuota_STATUS(subject GroupQuota_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GroupQuota_STATUS
-	err := copied.AssignProperties_To_GroupQuota_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GroupQuota_STATUS
-	err = actual.AssignProperties_From_GroupQuota_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_GroupQuota_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupQuota_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupQuota_STATUS, GroupQuota_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForGroupQuota_STATUS runs a test to see if a specific instance of GroupQuota_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupQuota_STATUS(subject GroupQuota_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual GroupQuota_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of GroupQuota_STATUS instances for property testing - lazily instantiated by GroupQuota_STATUSGenerator()
-var groupQuota_STATUSGenerator gopter.Gen
-
-// GroupQuota_STATUSGenerator returns a generator of GroupQuota_STATUS instances for property testing.
-// We first initialize groupQuota_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func GroupQuota_STATUSGenerator() gopter.Gen {
-	if groupQuota_STATUSGenerator != nil {
-		return groupQuota_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_STATUS(generators)
-	groupQuota_STATUSGenerator = gen.Struct(reflect.TypeOf(GroupQuota_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_STATUS(generators)
-	AddRelatedPropertyGeneratorsForGroupQuota_STATUS(generators)
-	groupQuota_STATUSGenerator = gen.Struct(reflect.TypeOf(GroupQuota_STATUS{}), generators)
-
-	return groupQuota_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGroupQuota_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGroupQuota_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForGroupQuota_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGroupQuota_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(QuotaProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_GroupQuota_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupQuota_Spec to GroupQuota_Spec via AssignProperties_To_GroupQuota_Spec & AssignProperties_From_GroupQuota_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGroupQuota_Spec, GroupQuota_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForGroupQuota_Spec tests if a specific instance of GroupQuota_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGroupQuota_Spec(subject GroupQuota_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GroupQuota_Spec
-	err := copied.AssignProperties_To_GroupQuota_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GroupQuota_Spec
-	err = actual.AssignProperties_From_GroupQuota_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_GroupQuota_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupQuota_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupQuota_Spec, GroupQuota_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForGroupQuota_Spec runs a test to see if a specific instance of GroupQuota_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupQuota_Spec(subject GroupQuota_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual GroupQuota_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of GroupQuota_Spec instances for property testing - lazily instantiated by GroupQuota_SpecGenerator()
-var groupQuota_SpecGenerator gopter.Gen
-
-// GroupQuota_SpecGenerator returns a generator of GroupQuota_Spec instances for property testing.
-// We first initialize groupQuota_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func GroupQuota_SpecGenerator() gopter.Gen {
-	if groupQuota_SpecGenerator != nil {
-		return groupQuota_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_Spec(generators)
-	groupQuota_SpecGenerator = gen.Struct(reflect.TypeOf(GroupQuota_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_Spec(generators)
-	AddRelatedPropertyGeneratorsForGroupQuota_Spec(generators)
-	groupQuota_SpecGenerator = gen.Struct(reflect.TypeOf(GroupQuota_Spec{}), generators)
-
-	return groupQuota_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGroupQuota_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGroupQuota_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForGroupQuota_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGroupQuota_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(GroupQuotaOperatorSpecGenerator())
-	gens["Properties"] = gen.PtrOf(QuotaPropertiesGenerator())
-}
-
 func Test_LimitJsonObject_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -928,6 +449,248 @@ func AddIndependentPropertyGeneratorsForLimitObject_STATUS(gens map[string]gopte
 	gens["Value"] = gen.PtrOf(gen.Int())
 }
 
+func Test_Quota_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Quota to hub returns original",
+		prop.ForAll(RunResourceConversionTestForQuota, QuotaGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForQuota tests if a specific instance of Quota round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForQuota(subject Quota) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.Quota
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Quota
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Quota_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Quota to Quota via AssignProperties_To_Quota & AssignProperties_From_Quota returns original",
+		prop.ForAll(RunPropertyAssignmentTestForQuota, QuotaGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForQuota tests if a specific instance of Quota can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForQuota(subject Quota) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Quota
+	err := copied.AssignProperties_To_Quota(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Quota
+	err = actual.AssignProperties_From_Quota(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Quota_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Quota via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQuota, QuotaGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQuota runs a test to see if a specific instance of Quota round trips to JSON and back losslessly
+func RunJSONSerializationTestForQuota(subject Quota) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Quota
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Quota instances for property testing - lazily instantiated by QuotaGenerator()
+var quotaGenerator gopter.Gen
+
+// QuotaGenerator returns a generator of Quota instances for property testing.
+func QuotaGenerator() gopter.Gen {
+	if quotaGenerator != nil {
+		return quotaGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForQuota(generators)
+	quotaGenerator = gen.Struct(reflect.TypeOf(Quota{}), generators)
+
+	return quotaGenerator
+}
+
+// AddRelatedPropertyGeneratorsForQuota is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQuota(gens map[string]gopter.Gen) {
+	gens["Spec"] = Quota_SpecGenerator()
+	gens["Status"] = Quota_STATUSGenerator()
+}
+
+func Test_QuotaOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from QuotaOperatorSpec to QuotaOperatorSpec via AssignProperties_To_QuotaOperatorSpec & AssignProperties_From_QuotaOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForQuotaOperatorSpec, QuotaOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForQuotaOperatorSpec tests if a specific instance of QuotaOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForQuotaOperatorSpec(subject QuotaOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.QuotaOperatorSpec
+	err := copied.AssignProperties_To_QuotaOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual QuotaOperatorSpec
+	err = actual.AssignProperties_From_QuotaOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_QuotaOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of QuotaOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQuotaOperatorSpec, QuotaOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQuotaOperatorSpec runs a test to see if a specific instance of QuotaOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForQuotaOperatorSpec(subject QuotaOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual QuotaOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of QuotaOperatorSpec instances for property testing - lazily instantiated by QuotaOperatorSpecGenerator()
+var quotaOperatorSpecGenerator gopter.Gen
+
+// QuotaOperatorSpecGenerator returns a generator of QuotaOperatorSpec instances for property testing.
+func QuotaOperatorSpecGenerator() gopter.Gen {
+	if quotaOperatorSpecGenerator != nil {
+		return quotaOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	quotaOperatorSpecGenerator = gen.Struct(reflect.TypeOf(QuotaOperatorSpec{}), generators)
+
+	return quotaOperatorSpecGenerator
+}
+
 func Test_QuotaProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1164,6 +927,242 @@ func AddIndependentPropertyGeneratorsForQuotaProperties_STATUS(gens map[string]g
 func AddRelatedPropertyGeneratorsForQuotaProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["Limit"] = gen.PtrOf(LimitJsonObject_STATUSGenerator())
 	gens["Name"] = gen.PtrOf(ResourceName_STATUSGenerator())
+}
+
+func Test_Quota_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Quota_STATUS to Quota_STATUS via AssignProperties_To_Quota_STATUS & AssignProperties_From_Quota_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForQuota_STATUS, Quota_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForQuota_STATUS tests if a specific instance of Quota_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForQuota_STATUS(subject Quota_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Quota_STATUS
+	err := copied.AssignProperties_To_Quota_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Quota_STATUS
+	err = actual.AssignProperties_From_Quota_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Quota_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Quota_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQuota_STATUS, Quota_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQuota_STATUS runs a test to see if a specific instance of Quota_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForQuota_STATUS(subject Quota_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Quota_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Quota_STATUS instances for property testing - lazily instantiated by Quota_STATUSGenerator()
+var quota_STATUSGenerator gopter.Gen
+
+// Quota_STATUSGenerator returns a generator of Quota_STATUS instances for property testing.
+// We first initialize quota_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Quota_STATUSGenerator() gopter.Gen {
+	if quota_STATUSGenerator != nil {
+		return quota_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_STATUS(generators)
+	quota_STATUSGenerator = gen.Struct(reflect.TypeOf(Quota_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_STATUS(generators)
+	AddRelatedPropertyGeneratorsForQuota_STATUS(generators)
+	quota_STATUSGenerator = gen.Struct(reflect.TypeOf(Quota_STATUS{}), generators)
+
+	return quota_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForQuota_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForQuota_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForQuota_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQuota_STATUS(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(QuotaProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Quota_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Quota_Spec to Quota_Spec via AssignProperties_To_Quota_Spec & AssignProperties_From_Quota_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForQuota_Spec, Quota_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForQuota_Spec tests if a specific instance of Quota_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForQuota_Spec(subject Quota_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Quota_Spec
+	err := copied.AssignProperties_To_Quota_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Quota_Spec
+	err = actual.AssignProperties_From_Quota_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Quota_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Quota_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQuota_Spec, Quota_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQuota_Spec runs a test to see if a specific instance of Quota_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForQuota_Spec(subject Quota_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Quota_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Quota_Spec instances for property testing - lazily instantiated by Quota_SpecGenerator()
+var quota_SpecGenerator gopter.Gen
+
+// Quota_SpecGenerator returns a generator of Quota_Spec instances for property testing.
+// We first initialize quota_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Quota_SpecGenerator() gopter.Gen {
+	if quota_SpecGenerator != nil {
+		return quota_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_Spec(generators)
+	quota_SpecGenerator = gen.Struct(reflect.TypeOf(Quota_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_Spec(generators)
+	AddRelatedPropertyGeneratorsForQuota_Spec(generators)
+	quota_SpecGenerator = gen.Struct(reflect.TypeOf(Quota_Spec{}), generators)
+
+	return quota_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForQuota_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForQuota_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForQuota_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQuota_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(QuotaOperatorSpecGenerator())
+	gens["Properties"] = gen.PtrOf(QuotaPropertiesGenerator())
 }
 
 func Test_ResourceName_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -17,80 +17,6 @@ import (
 	"testing"
 )
 
-func Test_GroupQuota_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupQuota_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupQuota_Spec, GroupQuota_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForGroupQuota_Spec runs a test to see if a specific instance of GroupQuota_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupQuota_Spec(subject GroupQuota_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual GroupQuota_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of GroupQuota_Spec instances for property testing - lazily instantiated by GroupQuota_SpecGenerator()
-var groupQuota_SpecGenerator gopter.Gen
-
-// GroupQuota_SpecGenerator returns a generator of GroupQuota_Spec instances for property testing.
-// We first initialize groupQuota_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func GroupQuota_SpecGenerator() gopter.Gen {
-	if groupQuota_SpecGenerator != nil {
-		return groupQuota_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_Spec(generators)
-	groupQuota_SpecGenerator = gen.Struct(reflect.TypeOf(GroupQuota_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupQuota_Spec(generators)
-	AddRelatedPropertyGeneratorsForGroupQuota_Spec(generators)
-	groupQuota_SpecGenerator = gen.Struct(reflect.TypeOf(GroupQuota_Spec{}), generators)
-
-	return groupQuota_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGroupQuota_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGroupQuota_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForGroupQuota_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGroupQuota_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(QuotaPropertiesGenerator())
-}
-
 func Test_LimitJsonObject_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -295,6 +221,80 @@ func AddIndependentPropertyGeneratorsForQuotaProperties(gens map[string]gopter.G
 func AddRelatedPropertyGeneratorsForQuotaProperties(gens map[string]gopter.Gen) {
 	gens["Limit"] = gen.PtrOf(LimitJsonObjectGenerator())
 	gens["Name"] = gen.PtrOf(ResourceNameGenerator())
+}
+
+func Test_Quota_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Quota_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQuota_Spec, Quota_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQuota_Spec runs a test to see if a specific instance of Quota_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForQuota_Spec(subject Quota_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Quota_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Quota_Spec instances for property testing - lazily instantiated by Quota_SpecGenerator()
+var quota_SpecGenerator gopter.Gen
+
+// Quota_SpecGenerator returns a generator of Quota_Spec instances for property testing.
+// We first initialize quota_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Quota_SpecGenerator() gopter.Gen {
+	if quota_SpecGenerator != nil {
+		return quota_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_Spec(generators)
+	quota_SpecGenerator = gen.Struct(reflect.TypeOf(Quota_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForQuota_Spec(generators)
+	AddRelatedPropertyGeneratorsForQuota_Spec(generators)
+	quota_SpecGenerator = gen.Struct(reflect.TypeOf(Quota_Spec{}), generators)
+
+	return quota_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForQuota_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForQuota_Spec(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForQuota_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQuota_Spec(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(QuotaPropertiesGenerator())
 }
 
 func Test_ResourceName_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

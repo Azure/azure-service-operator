@@ -4484,7 +4484,7 @@ objectModelConfiguration:
   quota:
     2025-09-01:
       Quota:
-        $exportAs: GroupQuota
+        $exportAs: Quota
         $supportedFrom: v2.16.0
   resources:
     2020-06-01:

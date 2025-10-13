@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type GroupQuotaExtension struct {
+type QuotaExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *GroupQuotaExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *QuotaExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20250901.GroupQuota{},
-		&storage.GroupQuota{}}
+		&v20250901.Quota{},
+		&storage.Quota{}}
 }

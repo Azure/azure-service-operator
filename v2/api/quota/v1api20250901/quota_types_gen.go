@@ -29,107 +29,107 @@ import (
 // Generator information:
 // - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json
 // - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
-type GroupQuota struct {
+type Quota struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GroupQuota_Spec   `json:"spec,omitempty"`
-	Status            GroupQuota_STATUS `json:"status,omitempty"`
+	Spec              Quota_Spec   `json:"spec,omitempty"`
+	Status            Quota_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &GroupQuota{}
+var _ conditions.Conditioner = &Quota{}
 
 // GetConditions returns the conditions of the resource
-func (quota *GroupQuota) GetConditions() conditions.Conditions {
+func (quota *Quota) GetConditions() conditions.Conditions {
 	return quota.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (quota *GroupQuota) SetConditions(conditions conditions.Conditions) {
+func (quota *Quota) SetConditions(conditions conditions.Conditions) {
 	quota.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &GroupQuota{}
+var _ conversion.Convertible = &Quota{}
 
-// ConvertFrom populates our GroupQuota from the provided hub GroupQuota
-func (quota *GroupQuota) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.GroupQuota)
+// ConvertFrom populates our Quota from the provided hub Quota
+func (quota *Quota) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.Quota)
 	if !ok {
-		return fmt.Errorf("expected quota/v1api20250901/storage/GroupQuota but received %T instead", hub)
+		return fmt.Errorf("expected quota/v1api20250901/storage/Quota but received %T instead", hub)
 	}
 
-	return quota.AssignProperties_From_GroupQuota(source)
+	return quota.AssignProperties_From_Quota(source)
 }
 
-// ConvertTo populates the provided hub GroupQuota from our GroupQuota
-func (quota *GroupQuota) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.GroupQuota)
+// ConvertTo populates the provided hub Quota from our Quota
+func (quota *Quota) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.Quota)
 	if !ok {
-		return fmt.Errorf("expected quota/v1api20250901/storage/GroupQuota but received %T instead", hub)
+		return fmt.Errorf("expected quota/v1api20250901/storage/Quota but received %T instead", hub)
 	}
 
-	return quota.AssignProperties_To_GroupQuota(destination)
+	return quota.AssignProperties_To_Quota(destination)
 }
 
-var _ configmaps.Exporter = &GroupQuota{}
+var _ configmaps.Exporter = &Quota{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (quota *GroupQuota) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+func (quota *Quota) ConfigMapDestinationExpressions() []*core.DestinationExpression {
 	if quota.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return quota.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &GroupQuota{}
+var _ secrets.Exporter = &Quota{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (quota *GroupQuota) SecretDestinationExpressions() []*core.DestinationExpression {
+func (quota *Quota) SecretDestinationExpressions() []*core.DestinationExpression {
 	if quota.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return quota.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.ImportableResource = &GroupQuota{}
+var _ genruntime.ImportableResource = &Quota{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (quota *GroupQuota) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*GroupQuota_STATUS); ok {
-		return quota.Spec.Initialize_From_GroupQuota_STATUS(s)
+func (quota *Quota) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Quota_STATUS); ok {
+		return quota.Spec.Initialize_From_Quota_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type GroupQuota_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type Quota_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &GroupQuota{}
+var _ genruntime.KubernetesResource = &Quota{}
 
 // AzureName returns the Azure name of the resource
-func (quota *GroupQuota) AzureName() string {
+func (quota *Quota) AzureName() string {
 	return quota.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2025-09-01"
-func (quota GroupQuota) GetAPIVersion() string {
+func (quota Quota) GetAPIVersion() string {
 	return "2025-09-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (quota *GroupQuota) GetResourceScope() genruntime.ResourceScope {
+func (quota *Quota) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeExtension
 }
 
 // GetSpec returns the specification of this resource
-func (quota *GroupQuota) GetSpec() genruntime.ConvertibleSpec {
+func (quota *Quota) GetSpec() genruntime.ConvertibleSpec {
 	return &quota.Spec
 }
 
 // GetStatus returns the status of this resource
-func (quota *GroupQuota) GetStatus() genruntime.ConvertibleStatus {
+func (quota *Quota) GetStatus() genruntime.ConvertibleStatus {
 	return &quota.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (quota *GroupQuota) GetSupportedOperations() []genruntime.ResourceOperation {
+func (quota *Quota) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationGet,
 		genruntime.ResourceOperationPut,
@@ -137,17 +137,17 @@ func (quota *GroupQuota) GetSupportedOperations() []genruntime.ResourceOperation
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Quota/quotas"
-func (quota *GroupQuota) GetType() string {
+func (quota *Quota) GetType() string {
 	return "Microsoft.Quota/quotas"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (quota *GroupQuota) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &GroupQuota_STATUS{}
+func (quota *Quota) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &Quota_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (quota *GroupQuota) Owner() *genruntime.ResourceReference {
+func (quota *Quota) Owner() *genruntime.ResourceReference {
 	if quota.Spec.Owner == nil {
 		return nil
 	}
@@ -156,15 +156,15 @@ func (quota *GroupQuota) Owner() *genruntime.ResourceReference {
 }
 
 // SetStatus sets the status of this resource
-func (quota *GroupQuota) SetStatus(status genruntime.ConvertibleStatus) error {
+func (quota *Quota) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*GroupQuota_STATUS); ok {
+	if st, ok := status.(*Quota_STATUS); ok {
 		quota.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st GroupQuota_STATUS
+	var st Quota_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -174,25 +174,25 @@ func (quota *GroupQuota) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// AssignProperties_From_GroupQuota populates our GroupQuota from the provided source GroupQuota
-func (quota *GroupQuota) AssignProperties_From_GroupQuota(source *storage.GroupQuota) error {
+// AssignProperties_From_Quota populates our Quota from the provided source Quota
+func (quota *Quota) AssignProperties_From_Quota(source *storage.Quota) error {
 
 	// ObjectMeta
 	quota.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec GroupQuota_Spec
-	err := spec.AssignProperties_From_GroupQuota_Spec(&source.Spec)
+	var spec Quota_Spec
+	err := spec.AssignProperties_From_Quota_Spec(&source.Spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_GroupQuota_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Quota_Spec() to populate field Spec")
 	}
 	quota.Spec = spec
 
 	// Status
-	var status GroupQuota_STATUS
-	err = status.AssignProperties_From_GroupQuota_STATUS(&source.Status)
+	var status Quota_STATUS
+	err = status.AssignProperties_From_Quota_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_GroupQuota_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Quota_STATUS() to populate field Status")
 	}
 	quota.Status = status
 
@@ -200,25 +200,25 @@ func (quota *GroupQuota) AssignProperties_From_GroupQuota(source *storage.GroupQ
 	return nil
 }
 
-// AssignProperties_To_GroupQuota populates the provided destination GroupQuota from our GroupQuota
-func (quota *GroupQuota) AssignProperties_To_GroupQuota(destination *storage.GroupQuota) error {
+// AssignProperties_To_Quota populates the provided destination Quota from our Quota
+func (quota *Quota) AssignProperties_To_Quota(destination *storage.Quota) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *quota.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.GroupQuota_Spec
-	err := quota.Spec.AssignProperties_To_GroupQuota_Spec(&spec)
+	var spec storage.Quota_Spec
+	err := quota.Spec.AssignProperties_To_Quota_Spec(&spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_GroupQuota_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Quota_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.GroupQuota_STATUS
-	err = quota.Status.AssignProperties_To_GroupQuota_STATUS(&status)
+	var status storage.Quota_STATUS
+	err = quota.Status.AssignProperties_To_Quota_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_GroupQuota_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Quota_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -227,11 +227,11 @@ func (quota *GroupQuota) AssignProperties_To_GroupQuota(destination *storage.Gro
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (quota *GroupQuota) OriginalGVK() *schema.GroupVersionKind {
+func (quota *Quota) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: quota.Spec.OriginalVersion(),
-		Kind:    "GroupQuota",
+		Kind:    "Quota",
 	}
 }
 
@@ -239,10 +239,10 @@ func (quota *GroupQuota) OriginalGVK() *schema.GroupVersionKind {
 // Generator information:
 // - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json
 // - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
-type GroupQuotaList struct {
+type QuotaList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []GroupQuota `json:"items"`
+	Items           []Quota `json:"items"`
 }
 
 // +kubebuilder:validation:Enum={"2025-09-01"}
@@ -250,14 +250,14 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2025-09-01")
 
-type GroupQuota_Spec struct {
+type Quota_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
-	OperatorSpec *GroupQuotaOperatorSpec `json:"operatorSpec,omitempty"`
+	OperatorSpec *QuotaOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -269,14 +269,14 @@ type GroupQuota_Spec struct {
 	Properties *QuotaProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &GroupQuota_Spec{}
+var _ genruntime.ARMTransformer = &Quota_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (quota *GroupQuota_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (quota *Quota_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if quota == nil {
 		return nil, nil
 	}
-	result := &arm.GroupQuota_Spec{}
+	result := &arm.Quota_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -294,15 +294,15 @@ func (quota *GroupQuota_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (quota *GroupQuota_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.GroupQuota_Spec{}
+func (quota *Quota_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.Quota_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (quota *GroupQuota_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.GroupQuota_Spec)
+func (quota *Quota_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.Quota_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GroupQuota_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Quota_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -328,25 +328,25 @@ func (quota *GroupQuota_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &GroupQuota_Spec{}
+var _ genruntime.ConvertibleSpec = &Quota_Spec{}
 
-// ConvertSpecFrom populates our GroupQuota_Spec from the provided source
-func (quota *GroupQuota_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.GroupQuota_Spec)
+// ConvertSpecFrom populates our Quota_Spec from the provided source
+func (quota *Quota_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Quota_Spec)
 	if ok {
 		// Populate our instance from source
-		return quota.AssignProperties_From_GroupQuota_Spec(src)
+		return quota.AssignProperties_From_Quota_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.GroupQuota_Spec{}
+	src = &storage.Quota_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = quota.AssignProperties_From_GroupQuota_Spec(src)
+	err = quota.AssignProperties_From_Quota_Spec(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -354,17 +354,17 @@ func (quota *GroupQuota_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our GroupQuota_Spec
-func (quota *GroupQuota_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.GroupQuota_Spec)
+// ConvertSpecTo populates the provided destination from our Quota_Spec
+func (quota *Quota_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Quota_Spec)
 	if ok {
 		// Populate destination from our instance
-		return quota.AssignProperties_To_GroupQuota_Spec(dst)
+		return quota.AssignProperties_To_Quota_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.GroupQuota_Spec{}
-	err := quota.AssignProperties_To_GroupQuota_Spec(dst)
+	dst = &storage.Quota_Spec{}
+	err := quota.AssignProperties_To_Quota_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -378,18 +378,18 @@ func (quota *GroupQuota_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	return nil
 }
 
-// AssignProperties_From_GroupQuota_Spec populates our GroupQuota_Spec from the provided source GroupQuota_Spec
-func (quota *GroupQuota_Spec) AssignProperties_From_GroupQuota_Spec(source *storage.GroupQuota_Spec) error {
+// AssignProperties_From_Quota_Spec populates our Quota_Spec from the provided source Quota_Spec
+func (quota *Quota_Spec) AssignProperties_From_Quota_Spec(source *storage.Quota_Spec) error {
 
 	// AzureName
 	quota.AzureName = source.AzureName
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
-		var operatorSpec GroupQuotaOperatorSpec
-		err := operatorSpec.AssignProperties_From_GroupQuotaOperatorSpec(source.OperatorSpec)
+		var operatorSpec QuotaOperatorSpec
+		err := operatorSpec.AssignProperties_From_QuotaOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_GroupQuotaOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_QuotaOperatorSpec() to populate field OperatorSpec")
 		}
 		quota.OperatorSpec = &operatorSpec
 	} else {
@@ -420,8 +420,8 @@ func (quota *GroupQuota_Spec) AssignProperties_From_GroupQuota_Spec(source *stor
 	return nil
 }
 
-// AssignProperties_To_GroupQuota_Spec populates the provided destination GroupQuota_Spec from our GroupQuota_Spec
-func (quota *GroupQuota_Spec) AssignProperties_To_GroupQuota_Spec(destination *storage.GroupQuota_Spec) error {
+// AssignProperties_To_Quota_Spec populates the provided destination Quota_Spec from our Quota_Spec
+func (quota *Quota_Spec) AssignProperties_To_Quota_Spec(destination *storage.Quota_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -430,10 +430,10 @@ func (quota *GroupQuota_Spec) AssignProperties_To_GroupQuota_Spec(destination *s
 
 	// OperatorSpec
 	if quota.OperatorSpec != nil {
-		var operatorSpec storage.GroupQuotaOperatorSpec
-		err := quota.OperatorSpec.AssignProperties_To_GroupQuotaOperatorSpec(&operatorSpec)
+		var operatorSpec storage.QuotaOperatorSpec
+		err := quota.OperatorSpec.AssignProperties_To_QuotaOperatorSpec(&operatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_GroupQuotaOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_QuotaOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -474,8 +474,8 @@ func (quota *GroupQuota_Spec) AssignProperties_To_GroupQuota_Spec(destination *s
 	return nil
 }
 
-// Initialize_From_GroupQuota_STATUS populates our GroupQuota_Spec from the provided source GroupQuota_STATUS
-func (quota *GroupQuota_Spec) Initialize_From_GroupQuota_STATUS(source *GroupQuota_STATUS) error {
+// Initialize_From_Quota_STATUS populates our Quota_Spec from the provided source Quota_STATUS
+func (quota *Quota_Spec) Initialize_From_Quota_STATUS(source *Quota_STATUS) error {
 
 	// Properties
 	if source.Properties != nil {
@@ -494,14 +494,14 @@ func (quota *GroupQuota_Spec) Initialize_From_GroupQuota_STATUS(source *GroupQuo
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (quota *GroupQuota_Spec) OriginalVersion() string {
+func (quota *Quota_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (quota *GroupQuota_Spec) SetAzureName(azureName string) { quota.AzureName = azureName }
+func (quota *Quota_Spec) SetAzureName(azureName string) { quota.AzureName = azureName }
 
-type GroupQuota_STATUS struct {
+type Quota_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -522,25 +522,25 @@ type GroupQuota_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &GroupQuota_STATUS{}
+var _ genruntime.ConvertibleStatus = &Quota_STATUS{}
 
-// ConvertStatusFrom populates our GroupQuota_STATUS from the provided source
-func (quota *GroupQuota_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.GroupQuota_STATUS)
+// ConvertStatusFrom populates our Quota_STATUS from the provided source
+func (quota *Quota_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Quota_STATUS)
 	if ok {
 		// Populate our instance from source
-		return quota.AssignProperties_From_GroupQuota_STATUS(src)
+		return quota.AssignProperties_From_Quota_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.GroupQuota_STATUS{}
+	src = &storage.Quota_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = quota.AssignProperties_From_GroupQuota_STATUS(src)
+	err = quota.AssignProperties_From_Quota_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -548,17 +548,17 @@ func (quota *GroupQuota_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our GroupQuota_STATUS
-func (quota *GroupQuota_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.GroupQuota_STATUS)
+// ConvertStatusTo populates the provided destination from our Quota_STATUS
+func (quota *Quota_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Quota_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return quota.AssignProperties_To_GroupQuota_STATUS(dst)
+		return quota.AssignProperties_To_Quota_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.GroupQuota_STATUS{}
-	err := quota.AssignProperties_To_GroupQuota_STATUS(dst)
+	dst = &storage.Quota_STATUS{}
+	err := quota.AssignProperties_To_Quota_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -572,18 +572,18 @@ func (quota *GroupQuota_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &GroupQuota_STATUS{}
+var _ genruntime.FromARMConverter = &Quota_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (quota *GroupQuota_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.GroupQuota_STATUS{}
+func (quota *Quota_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.Quota_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (quota *GroupQuota_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.GroupQuota_STATUS)
+func (quota *Quota_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.Quota_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GroupQuota_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Quota_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -632,8 +632,8 @@ func (quota *GroupQuota_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignProperties_From_GroupQuota_STATUS populates our GroupQuota_STATUS from the provided source GroupQuota_STATUS
-func (quota *GroupQuota_STATUS) AssignProperties_From_GroupQuota_STATUS(source *storage.GroupQuota_STATUS) error {
+// AssignProperties_From_Quota_STATUS populates our Quota_STATUS from the provided source Quota_STATUS
+func (quota *Quota_STATUS) AssignProperties_From_Quota_STATUS(source *storage.Quota_STATUS) error {
 
 	// Conditions
 	quota.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -675,8 +675,8 @@ func (quota *GroupQuota_STATUS) AssignProperties_From_GroupQuota_STATUS(source *
 	return nil
 }
 
-// AssignProperties_To_GroupQuota_STATUS populates the provided destination GroupQuota_STATUS from our GroupQuota_STATUS
-func (quota *GroupQuota_STATUS) AssignProperties_To_GroupQuota_STATUS(destination *storage.GroupQuota_STATUS) error {
+// AssignProperties_To_Quota_STATUS populates the provided destination Quota_STATUS from our Quota_STATUS
+func (quota *Quota_STATUS) AssignProperties_To_Quota_STATUS(destination *storage.Quota_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -728,7 +728,7 @@ func (quota *GroupQuota_STATUS) AssignProperties_To_GroupQuota_STATUS(destinatio
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type GroupQuotaOperatorSpec struct {
+type QuotaOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
@@ -736,8 +736,8 @@ type GroupQuotaOperatorSpec struct {
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// AssignProperties_From_GroupQuotaOperatorSpec populates our GroupQuotaOperatorSpec from the provided source GroupQuotaOperatorSpec
-func (operator *GroupQuotaOperatorSpec) AssignProperties_From_GroupQuotaOperatorSpec(source *storage.GroupQuotaOperatorSpec) error {
+// AssignProperties_From_QuotaOperatorSpec populates our QuotaOperatorSpec from the provided source QuotaOperatorSpec
+func (operator *QuotaOperatorSpec) AssignProperties_From_QuotaOperatorSpec(source *storage.QuotaOperatorSpec) error {
 
 	// ConfigMapExpressions
 	if source.ConfigMapExpressions != nil {
@@ -775,8 +775,8 @@ func (operator *GroupQuotaOperatorSpec) AssignProperties_From_GroupQuotaOperator
 	return nil
 }
 
-// AssignProperties_To_GroupQuotaOperatorSpec populates the provided destination GroupQuotaOperatorSpec from our GroupQuotaOperatorSpec
-func (operator *GroupQuotaOperatorSpec) AssignProperties_To_GroupQuotaOperatorSpec(destination *storage.GroupQuotaOperatorSpec) error {
+// AssignProperties_To_QuotaOperatorSpec populates the provided destination QuotaOperatorSpec from our QuotaOperatorSpec
+func (operator *QuotaOperatorSpec) AssignProperties_To_QuotaOperatorSpec(destination *storage.QuotaOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2175,5 +2175,5 @@ var quotaLimitTypes_STATUS_Values = map[string]QuotaLimitTypes_STATUS{
 }
 
 func init() {
-	SchemeBuilder.Register(&GroupQuota{}, &GroupQuotaList{})
+	SchemeBuilder.Register(&Quota{}, &QuotaList{})
 }
