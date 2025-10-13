@@ -9,13 +9,13 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
-|--------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Fleet                    | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleet.yaml)                    |
-| FleetsAutoUpgradeProfile | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsautoupgradeprofile.yaml) |
-| FleetsMember             | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsmember.yaml)             |
-| FleetsUpdateRun          | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsupdaterun.yaml)          |
-| FleetsUpdateStrategy     | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsupdatestrategy.yaml)     |
+| Resource                                                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
+|-----------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Fleet]({{< relref "/reference/containerservice/v1api20250301#Fleet" >}})                                       | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleet.yaml)                    |
+| [FleetsAutoUpgradeProfile]({{< relref "/reference/containerservice/v1api20250301#FleetsAutoUpgradeProfile" >}}) | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsautoupgradeprofile.yaml) |
+| [FleetsMember]({{< relref "/reference/containerservice/v1api20250301#FleetsMember" >}})                         | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsmember.yaml)             |
+| [FleetsUpdateRun]({{< relref "/reference/containerservice/v1api20250301#FleetsUpdateRun" >}})                   | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsupdaterun.yaml)          |
+| [FleetsUpdateStrategy]({{< relref "/reference/containerservice/v1api20250301#FleetsUpdateStrategy" >}})         | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsupdatestrategy.yaml)     |
 
 ### Latest Released Versions
 
