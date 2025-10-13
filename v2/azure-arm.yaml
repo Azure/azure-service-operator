@@ -2068,16 +2068,19 @@ objectModelConfiguration:
       DiskSecurityProfile:
         SecureVMDiskEncryptionSetId:
           $referenceType: arm
-    2024-07-01:
-      CapacityReservation:
-        $exportAs: CapacityReservation
-        $supportedFrom: v2.16.0
     2024-11-01:
       AvailabilitySet:
         $exportAs: AvailabilitySet
         $supportedFrom: v2.15.0
+      SubResource:
+        Id:
+          $referenceType: arm
+    2025-04-01:
       CapacityReservationGroup:
         $exportAs: CapacityReservationGroup
+        $supportedFrom: v2.16.0
+      CapacityReservationGroups_CapacityReservation:
+        $exportAs: CapacityReservation
         $supportedFrom: v2.16.0
       SubResource:
         Id:

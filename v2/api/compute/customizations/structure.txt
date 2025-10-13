@@ -3,6 +3,8 @@ github.com/Azure/azure-service-operator/v2/api/compute/customizations
 ---------------------------------------------------------------------
 AvailabilitySetExtension: Object (0 properties)
 
+CapacityReservationExtension: Object (0 properties)
+
 CapacityReservationGroupExtension: Object (0 properties)
 
 DiskAccessExtension: Object (0 properties)

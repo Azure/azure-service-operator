@@ -25,9 +25,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20241101.CapacityReservationGroup
+// Storage version of v1api20250401.CapacityReservationGroup
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}
 type CapacityReservationGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -75,9 +75,9 @@ func (group *CapacityReservationGroup) AzureName() string {
 	return group.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2024-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2025-04-01"
 func (group CapacityReservationGroup) GetAPIVersion() string {
-	return "2024-11-01"
+	return "2025-04-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -156,9 +156,9 @@ func (group *CapacityReservationGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20241101.CapacityReservationGroup
+// Storage version of v1api20250401.CapacityReservationGroup
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}
 type CapacityReservationGroupList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -166,7 +166,7 @@ type CapacityReservationGroupList struct {
 	Items           []CapacityReservationGroup `json:"items"`
 }
 
-// Storage version of v1api20241101.CapacityReservationGroup_Spec
+// Storage version of v1api20250401.CapacityReservationGroup_Spec
 type CapacityReservationGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -179,11 +179,12 @@ type CapacityReservationGroup_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SharingProfile *ResourceSharingProfile            `json:"sharingProfile,omitempty"`
-	Tags           map[string]string                  `json:"tags,omitempty"`
-	Zones          []string                           `json:"zones,omitempty"`
+	Owner           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ReservationType *string                            `json:"reservationType,omitempty"`
+	SharingProfile  *ResourceSharingProfile            `json:"sharingProfile,omitempty"`
+	Tags            map[string]string                  `json:"tags,omitempty"`
+	Zones           []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &CapacityReservationGroup_Spec{}
@@ -206,7 +207,7 @@ func (group *CapacityReservationGroup_Spec) ConvertSpecTo(destination genruntime
 	return destination.ConvertSpecFrom(group)
 }
 
-// Storage version of v1api20241101.CapacityReservationGroup_STATUS
+// Storage version of v1api20250401.CapacityReservationGroup_STATUS
 // Specifies information about the capacity reservation group that the capacity reservations should be assigned to.
 // Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing
 // capacity reservation cannot be added or moved to another capacity reservation group.
@@ -218,6 +219,7 @@ type CapacityReservationGroup_STATUS struct {
 	Location                  *string                                      `json:"location,omitempty"`
 	Name                      *string                                      `json:"name,omitempty"`
 	PropertyBag               genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+	ReservationType           *string                                      `json:"reservationType,omitempty"`
 	SharingProfile            *ResourceSharingProfile_STATUS               `json:"sharingProfile,omitempty"`
 	SystemData                *SystemData_STATUS                           `json:"systemData,omitempty"`
 	Tags                      map[string]string                            `json:"tags,omitempty"`
@@ -246,14 +248,14 @@ func (group *CapacityReservationGroup_STATUS) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(group)
 }
 
-// Storage version of v1api20241101.CapacityReservationGroupInstanceView_STATUS
+// Storage version of v1api20250401.CapacityReservationGroupInstanceView_STATUS
 type CapacityReservationGroupInstanceView_STATUS struct {
 	CapacityReservations  []CapacityReservationInstanceViewWithName_STATUS `json:"capacityReservations,omitempty"`
 	PropertyBag           genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
 	SharedSubscriptionIds []SubResourceReadOnly_STATUS                     `json:"sharedSubscriptionIds,omitempty"`
 }
 
-// Storage version of v1api20241101.CapacityReservationGroupOperatorSpec
+// Storage version of v1api20250401.CapacityReservationGroupOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type CapacityReservationGroupOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -261,25 +263,19 @@ type CapacityReservationGroupOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v1api20241101.ResourceSharingProfile
+// Storage version of v1api20250401.ResourceSharingProfile
 type ResourceSharingProfile struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SubscriptionIds []SubResource          `json:"subscriptionIds,omitempty"`
 }
 
-// Storage version of v1api20241101.ResourceSharingProfile_STATUS
+// Storage version of v1api20250401.ResourceSharingProfile_STATUS
 type ResourceSharingProfile_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SubscriptionIds []SubResource_STATUS   `json:"subscriptionIds,omitempty"`
 }
 
-// Storage version of v1api20241101.SubResourceReadOnly_STATUS
-type SubResourceReadOnly_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20241101.CapacityReservationInstanceViewWithName_STATUS
+// Storage version of v1api20250401.CapacityReservationInstanceViewWithName_STATUS
 // The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the
 // response to the instance view of a capacity reservation group.
 type CapacityReservationInstanceViewWithName_STATUS struct {
@@ -289,12 +285,18 @@ type CapacityReservationInstanceViewWithName_STATUS struct {
 	UtilizationInfo *CapacityReservationUtilization_STATUS `json:"utilizationInfo,omitempty"`
 }
 
-// Storage version of v1api20241101.CapacityReservationUtilization_STATUS
-// Represents the capacity reservation utilization in terms of resources allocated.
-type CapacityReservationUtilization_STATUS struct {
-	CurrentCapacity          *int                         `json:"currentCapacity,omitempty"`
-	PropertyBag              genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	VirtualMachinesAllocated []SubResourceReadOnly_STATUS `json:"virtualMachinesAllocated,omitempty"`
+// Storage version of v1api20250401.SubResource
+type SubResource struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource Id
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1api20250401.SubResource_STATUS
+type SubResource_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

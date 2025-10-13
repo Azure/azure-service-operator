@@ -266,6 +266,7 @@ func AddIndependentPropertyGeneratorsForCapacityReservationGroup_STATUS(gens map
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ReservationType"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
@@ -352,6 +353,7 @@ func AddIndependentPropertyGeneratorsForCapacityReservationGroup_Spec(gens map[s
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
+	gens["ReservationType"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
@@ -438,81 +440,6 @@ func AddIndependentPropertyGeneratorsForCapacityReservationInstanceViewWithName_
 func AddRelatedPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS(gens map[string]gopter.Gen) {
 	gens["Statuses"] = gen.SliceOf(InstanceViewStatus_STATUSGenerator())
 	gens["UtilizationInfo"] = gen.PtrOf(CapacityReservationUtilization_STATUSGenerator())
-}
-
-func Test_CapacityReservationUtilization_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationUtilization_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationUtilization_STATUS, CapacityReservationUtilization_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCapacityReservationUtilization_STATUS runs a test to see if a specific instance of CapacityReservationUtilization_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationUtilization_STATUS(subject CapacityReservationUtilization_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CapacityReservationUtilization_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CapacityReservationUtilization_STATUS instances for property testing - lazily instantiated by
-// CapacityReservationUtilization_STATUSGenerator()
-var capacityReservationUtilization_STATUSGenerator gopter.Gen
-
-// CapacityReservationUtilization_STATUSGenerator returns a generator of CapacityReservationUtilization_STATUS instances for property testing.
-// We first initialize capacityReservationUtilization_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CapacityReservationUtilization_STATUSGenerator() gopter.Gen {
-	if capacityReservationUtilization_STATUSGenerator != nil {
-		return capacityReservationUtilization_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationUtilization_STATUS(generators)
-	capacityReservationUtilization_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationUtilization_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationUtilization_STATUS(generators)
-	AddRelatedPropertyGeneratorsForCapacityReservationUtilization_STATUS(generators)
-	capacityReservationUtilization_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationUtilization_STATUS{}), generators)
-
-	return capacityReservationUtilization_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCapacityReservationUtilization_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCapacityReservationUtilization_STATUS(gens map[string]gopter.Gen) {
-	gens["CurrentCapacity"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForCapacityReservationUtilization_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCapacityReservationUtilization_STATUS(gens map[string]gopter.Gen) {
-	gens["VirtualMachinesAllocated"] = gen.SliceOf(SubResourceReadOnly_STATUSGenerator())
 }
 
 func Test_ResourceSharingProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -637,20 +564,20 @@ func AddRelatedPropertyGeneratorsForResourceSharingProfile_STATUS(gens map[strin
 	gens["SubscriptionIds"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
-func Test_SubResourceReadOnly_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SubResourceReadOnly_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResourceReadOnly_STATUS, SubResourceReadOnly_STATUSGenerator()))
+		"Round trip of SubResource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource, SubResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubResourceReadOnly_STATUS runs a test to see if a specific instance of SubResourceReadOnly_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResourceReadOnly_STATUS(subject SubResourceReadOnly_STATUS) string {
+// RunJSONSerializationTestForSubResource runs a test to see if a specific instance of SubResource round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource(subject SubResource) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -658,7 +585,7 @@ func RunJSONSerializationTestForSubResourceReadOnly_STATUS(subject SubResourceRe
 	}
 
 	// Deserialize back into memory
-	var actual SubResourceReadOnly_STATUS
+	var actual SubResource
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -676,24 +603,77 @@ func RunJSONSerializationTestForSubResourceReadOnly_STATUS(subject SubResourceRe
 	return ""
 }
 
-// Generator of SubResourceReadOnly_STATUS instances for property testing - lazily instantiated by
-// SubResourceReadOnly_STATUSGenerator()
-var subResourceReadOnly_STATUSGenerator gopter.Gen
+// Generator of SubResource instances for property testing - lazily instantiated by SubResourceGenerator()
+var subResourceGenerator gopter.Gen
 
-// SubResourceReadOnly_STATUSGenerator returns a generator of SubResourceReadOnly_STATUS instances for property testing.
-func SubResourceReadOnly_STATUSGenerator() gopter.Gen {
-	if subResourceReadOnly_STATUSGenerator != nil {
-		return subResourceReadOnly_STATUSGenerator
+// SubResourceGenerator returns a generator of SubResource instances for property testing.
+func SubResourceGenerator() gopter.Gen {
+	if subResourceGenerator != nil {
+		return subResourceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResourceReadOnly_STATUS(generators)
-	subResourceReadOnly_STATUSGenerator = gen.Struct(reflect.TypeOf(SubResourceReadOnly_STATUS{}), generators)
+	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
 
-	return subResourceReadOnly_STATUSGenerator
+	return subResourceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubResourceReadOnly_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResourceReadOnly_STATUS(gens map[string]gopter.Gen) {
+func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubResource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource_STATUS, SubResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubResource_STATUS runs a test to see if a specific instance of SubResource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource_STATUS(subject SubResource_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubResource_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubResource_STATUS instances for property testing - lazily instantiated by SubResource_STATUSGenerator()
+var subResource_STATUSGenerator gopter.Gen
+
+// SubResource_STATUSGenerator returns a generator of SubResource_STATUS instances for property testing.
+func SubResource_STATUSGenerator() gopter.Gen {
+	if subResource_STATUSGenerator != nil {
+		return subResource_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubResource_STATUS(generators)
+	subResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUS{}), generators)
+
+	return subResource_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubResource_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

@@ -61,16 +61,30 @@ func RunJSONSerializationTestForCapacityReservationGroupProperties(subject Capac
 var capacityReservationGroupPropertiesGenerator gopter.Gen
 
 // CapacityReservationGroupPropertiesGenerator returns a generator of CapacityReservationGroupProperties instances for property testing.
+// We first initialize capacityReservationGroupPropertiesGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func CapacityReservationGroupPropertiesGenerator() gopter.Gen {
 	if capacityReservationGroupPropertiesGenerator != nil {
 		return capacityReservationGroupPropertiesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCapacityReservationGroupProperties(generators)
+	capacityReservationGroupPropertiesGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroupProperties{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCapacityReservationGroupProperties(generators)
 	AddRelatedPropertyGeneratorsForCapacityReservationGroupProperties(generators)
 	capacityReservationGroupPropertiesGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroupProperties{}), generators)
 
 	return capacityReservationGroupPropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCapacityReservationGroupProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCapacityReservationGroupProperties(gens map[string]gopter.Gen) {
+	gens["ReservationType"] = gen.PtrOf(gen.OneConstOf(ReservationType_Block, ReservationType_Targeted))
 }
 
 // AddRelatedPropertyGeneratorsForCapacityReservationGroupProperties is a factory method for creating gopter generators
@@ -217,4 +231,64 @@ func ResourceSharingProfileGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForResourceSharingProfile is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForResourceSharingProfile(gens map[string]gopter.Gen) {
 	gens["SubscriptionIds"] = gen.SliceOf(SubResourceGenerator())
+}
+
+func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubResource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource, SubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubResource runs a test to see if a specific instance of SubResource round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource(subject SubResource) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubResource
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubResource instances for property testing - lazily instantiated by SubResourceGenerator()
+var subResourceGenerator gopter.Gen
+
+// SubResourceGenerator returns a generator of SubResource instances for property testing.
+func SubResourceGenerator() gopter.Gen {
+	if subResourceGenerator != nil {
+		return subResourceGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubResource(generators)
+	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
+
+	return subResourceGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

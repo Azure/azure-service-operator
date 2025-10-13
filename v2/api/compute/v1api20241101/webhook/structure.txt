@@ -3,5 +3,3 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/webhook
 ----------------------------------------------------------------------------
 AvailabilitySet: Object (0 properties)
 
-CapacityReservationGroup: Object (0 properties)
-

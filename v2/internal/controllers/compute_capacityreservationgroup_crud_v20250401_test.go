@@ -10,8 +10,6 @@ import (
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Compute_CapacityReservationGroup_CRUD(t *testing.T) {
@@ -55,7 +53,7 @@ func Test_Compute_CapacityReservationGroup_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(capacityReservationGroup)
 
 	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, capacityReservationGroup.Status.Id, string(compute.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *capacityReservationGroup.Status.Id, string(compute.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

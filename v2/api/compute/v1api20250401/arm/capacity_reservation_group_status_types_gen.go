@@ -42,6 +42,11 @@ type CapacityReservationGroupProperties_STATUS struct {
 	// reservations that belong to the capacity reservation group.
 	InstanceView *CapacityReservationGroupInstanceView_STATUS `json:"instanceView,omitempty"`
 
+	// ReservationType: Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations
+	// and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation
+	// group is provided. The reservation type is immutable and cannot be changed after it is assigned.
+	ReservationType *ReservationType_STATUS `json:"reservationType,omitempty"`
+
 	// SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
 	// resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single
 	// Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity
@@ -53,6 +58,27 @@ type CapacityReservationGroupProperties_STATUS struct {
 	VirtualMachinesAssociated []SubResourceReadOnly_STATUS `json:"virtualMachinesAssociated,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
 type CapacityReservationGroupInstanceView_STATUS struct {
 	// CapacityReservations: List of instance view of the capacity reservations under the capacity reservation group.
 	CapacityReservations []CapacityReservationInstanceViewWithName_STATUS `json:"capacityReservations,omitempty"`
@@ -60,6 +86,22 @@ type CapacityReservationGroupInstanceView_STATUS struct {
 	// SharedSubscriptionIds: List of the subscriptions that the capacity reservation group is shared with. Note: Minimum
 	// api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 	SharedSubscriptionIds []SubResourceReadOnly_STATUS `json:"sharedSubscriptionIds,omitempty"`
+}
+
+// Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted'
+// for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is
+// provided. The reservation type is immutable and cannot be changed after it is assigned.
+type ReservationType_STATUS string
+
+const (
+	ReservationType_STATUS_Block    = ReservationType_STATUS("Block")
+	ReservationType_STATUS_Targeted = ReservationType_STATUS("Targeted")
+)
+
+// Mapping from string to ReservationType_STATUS
+var reservationType_STATUS_Values = map[string]ReservationType_STATUS{
+	"block":    ReservationType_STATUS_Block,
+	"targeted": ReservationType_STATUS_Targeted,
 }
 
 type ResourceSharingProfile_STATUS struct {
@@ -72,6 +114,40 @@ type ResourceSharingProfile_STATUS struct {
 type SubResourceReadOnly_STATUS struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the
@@ -87,12 +163,7 @@ type CapacityReservationInstanceViewWithName_STATUS struct {
 	UtilizationInfo *CapacityReservationUtilization_STATUS `json:"utilizationInfo,omitempty"`
 }
 
-// Represents the capacity reservation utilization in terms of resources allocated.
-type CapacityReservationUtilization_STATUS struct {
-	// CurrentCapacity: The value provides the current capacity of the VM size which was reserved successfully and for which
-	// the customer is getting billed. Minimum api-version: 2022-08-01.
-	CurrentCapacity *int `json:"currentCapacity,omitempty"`
-
-	// VirtualMachinesAllocated: A list of all virtual machines resource ids allocated against the capacity reservation.
-	VirtualMachinesAllocated []SubResourceReadOnly_STATUS `json:"virtualMachinesAllocated,omitempty"`
+type SubResource_STATUS struct {
+	// Id: Resource Id
+	Id *string `json:"id,omitempty"`
 }

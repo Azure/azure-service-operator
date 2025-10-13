@@ -22,9 +22,9 @@ type CapacityReservationGroup_Spec struct {
 
 var _ genruntime.ARMResourceSpec = &CapacityReservationGroup_Spec{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2024-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2025-04-01"
 func (group CapacityReservationGroup_Spec) GetAPIVersion() string {
-	return "2024-11-01"
+	return "2025-04-01"
 }
 
 // GetName returns the Name of the resource
@@ -39,6 +39,11 @@ func (group *CapacityReservationGroup_Spec) GetType() string {
 
 // capacity reservation group Properties.
 type CapacityReservationGroupProperties struct {
+	// ReservationType: Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations
+	// and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation
+	// group is provided. The reservation type is immutable and cannot be changed after it is assigned.
+	ReservationType *ReservationType `json:"reservationType,omitempty"`
+
 	// SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
 	// resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single
 	// Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity
@@ -47,9 +52,31 @@ type CapacityReservationGroupProperties struct {
 	SharingProfile *ResourceSharingProfile `json:"sharingProfile,omitempty"`
 }
 
+// Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted'
+// for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is
+// provided. The reservation type is immutable and cannot be changed after it is assigned.
+// +kubebuilder:validation:Enum={"Block","Targeted"}
+type ReservationType string
+
+const (
+	ReservationType_Block    = ReservationType("Block")
+	ReservationType_Targeted = ReservationType("Targeted")
+)
+
+// Mapping from string to ReservationType
+var reservationType_Values = map[string]ReservationType{
+	"block":    ReservationType_Block,
+	"targeted": ReservationType_Targeted,
+}
+
 type ResourceSharingProfile struct {
 	// SubscriptionIds: Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block
 	// Capacity Reservations does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer
 	// to https://aka.ms/computereservationsharing for more details.
 	SubscriptionIds []SubResource `json:"subscriptionIds,omitempty"`
+}
+
+type SubResource struct {
+	// Id: Resource Id
+	Id *string `json:"id,omitempty"`
 }

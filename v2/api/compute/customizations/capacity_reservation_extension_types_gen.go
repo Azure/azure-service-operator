@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type CapacityReservationGroupExtension struct {
+type CapacityReservationExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *CapacityReservationGroupExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *CapacityReservationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20250401.CapacityReservationGroup{},
-		&storage.CapacityReservationGroup{}}
+		&v20250401.CapacityReservation{},
+		&storage.CapacityReservation{}}
 }

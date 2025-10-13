@@ -98,6 +98,9 @@ import (
 	compute_v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
 	compute_v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
 	compute_v20241101w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/webhook"
+	compute_v20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401"
+	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v20250401w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/webhook"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
@@ -979,7 +982,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.Snapshot)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20241101s.AvailabilitySet)})
-	result = append(result, &registration.StorageType{Obj: new(compute_v20241101s.CapacityReservationGroup)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20250401s.CapacityReservation)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20250401s.CapacityReservationGroup)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -3328,12 +3332,18 @@ func getKnownTypes() []*registration.KnownType {
 		Obj:       new(compute_v20241101.AvailabilitySet),
 		Defaulter: &compute_v20241101w.AvailabilitySet{},
 		Validator: &compute_v20241101w.AvailabilitySet{},
-	}, &registration.KnownType{
-		Obj:       new(compute_v20241101.CapacityReservationGroup),
-		Defaulter: &compute_v20241101w.CapacityReservationGroup{},
-		Validator: &compute_v20241101w.CapacityReservationGroup{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(compute_v20241101s.AvailabilitySet)}, &registration.KnownType{Obj: new(compute_v20241101s.CapacityReservationGroup)})
+	result = append(result, &registration.KnownType{Obj: new(compute_v20241101s.AvailabilitySet)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v20250401.CapacityReservation),
+		Defaulter: &compute_v20250401w.CapacityReservation{},
+		Validator: &compute_v20250401w.CapacityReservation{},
+	}, &registration.KnownType{
+		Obj:       new(compute_v20250401.CapacityReservationGroup),
+		Defaulter: &compute_v20250401w.CapacityReservationGroup{},
+		Validator: &compute_v20250401w.CapacityReservationGroup{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v20250401s.CapacityReservation)}, &registration.KnownType{Obj: new(compute_v20250401s.CapacityReservationGroup)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(containerinstance_v20211001.ContainerGroup),
 		Defaulter: &containerinstance_v20211001w.ContainerGroup{},
@@ -5639,6 +5649,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20240302s.AddToScheme(scheme)
 	_ = compute_v20241101.AddToScheme(scheme)
 	_ = compute_v20241101s.AddToScheme(scheme)
+	_ = compute_v20250401.AddToScheme(scheme)
+	_ = compute_v20250401s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -5863,6 +5875,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
 	result = append(result, &compute_customizations.AvailabilitySetExtension{})
+	result = append(result, &compute_customizations.CapacityReservationExtension{})
 	result = append(result, &compute_customizations.CapacityReservationGroupExtension{})
 	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
