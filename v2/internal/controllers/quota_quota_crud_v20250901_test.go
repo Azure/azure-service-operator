@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	quota "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -21,10 +22,18 @@ func Test_Quota_Quota_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// Create a Resource Group to own the Quota (since it's an extension resource)
-	rg := tc.CreateTestResourceGroupAndWait()
+	// Use fixed names to match the recording
+	rg := &resources.ResourceGroup{
+		ObjectMeta: tc.MakeObjectMetaWithName("asotest-rg-mpunbm"),
+		Spec: resources.ResourceGroup_Spec{
+			Location: tc.AzureRegion,
+			Tags: map[string]string{"CreatedAt": "2001-02-03T04:05:06Z"},
+		},
+	}
+	tc.CreateResourceAndWait(rg)
 
 	quotaResource := &quota.Quota{
-		ObjectMeta: tc.MakeObjectMeta("quota"),
+		ObjectMeta: tc.MakeObjectMetaWithName("asotest-quota-gicqir"),
 		Spec: quota.Quota_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			Properties: &quota.QuotaProperties{
