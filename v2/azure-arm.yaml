@@ -2106,58 +2106,6 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
   containerservice:
     $payloadType: explicitCollections
-    2021-05-01:
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.0.0-alpha.1
-        $stripDocumentation: true
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        ProximityPlacementGroupID:
-          $referenceType: simple  # This is true in the next version and we have custom conversion to make round-tripping work
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.0.0-alpha.1
-      ManagedClusterAgentPoolProfileProperties:
-        ProximityPlacementGroupID:
-          $referenceType: simple # This is true in the next version and we have custom conversion to make round-tripping work
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2023-02-01:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2294,60 +2242,11 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
-    2023-11-02-preview:
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      DelegatedResource:
-        ResourceId:
-          $referenceType: arm
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.6.0
-        $stripDocumentation: true
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.6.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2024-04-02-preview:
+      AgentPoolGPUProfile:
+        $nameInNextVersion: GPUProfile
+      AgentPoolGPUProfile_STATUS:
+        $nameInNextVersion: GPUProfile_STATUS
       ContainerServiceSshPublicKey:
         KeyData:
           $isSecret: false
@@ -2455,6 +2354,64 @@ objectModelConfiguration:
       ManagedClusters_MaintenanceConfiguration:
         $exportAs: MaintenanceConfiguration
         $supportedFrom: v2.11.0
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+    2025-08-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
+      DelegatedResource:
+        ResourceId:
+          $referenceType: arm
+      ManagedCluster:
+        $exportAs: ManagedCluster
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.16.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $referenceType: arm
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.16.0
+      ManagedClusters_MaintenanceConfiguration:
+        $exportAs: MaintenanceConfiguration
+        $supportedFrom: v2.16.0
       UserAssignedIdentity:
         ClientId:
           $importConfigMapMode: optional

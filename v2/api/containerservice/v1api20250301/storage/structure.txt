@@ -471,3 +471,13 @@ FleetsUpdateStrategy: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForErrorAdditionalInfo_STATUS: Interface
+
+augmentConversionForErrorDetail_STATUS: Interface
+
+augmentConversionForErrorDetail_STATUS_Unrolled: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+

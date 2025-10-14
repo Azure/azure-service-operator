@@ -42,7 +42,7 @@ func TestSkippingPropertyRepairer_AddProperty_CreatesExpectedChain(t *testing.T)
 	graph, err := builder.Build()
 	g.Expect(err).NotTo(HaveOccurred())
 
-	repairer := newSkippingPropertyRepairer(defs, graph)
+	repairer := newSkippingPropertyRepairer(defs, graph, cfg)
 	err = repairer.AddProperties(person2020.Name(), test.FullNameProperty)
 	g.Expect(err).NotTo(HaveOccurred())
 
@@ -76,7 +76,7 @@ func TestSkippingPropertyRepairer_findBreak_returnsExpectedResults(t *testing.T)
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
 	graph, _ := storage.NewConversionGraphBuilder(cfg, "v").Build()
-	repairer := newSkippingPropertyRepairer(defs, graph)
+	repairer := newSkippingPropertyRepairer(defs, graph, cfg)
 
 	repairer.addLink(alphaSeen, betaSeen)
 	repairer.addLink(betaSeen, gammaSeen)
@@ -147,7 +147,7 @@ func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_DoesNotChangeDefin
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(cfg.ObjectModelConfiguration), // and then we get to run the stage we're testing
 	)
 
 	// Assert - we expect no error, and no new definitions
@@ -186,7 +186,7 @@ func Test_RepairSkippingProperties_WhenPropertyStructurlyIdentical_DoesNotChange
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(cfg.ObjectModelConfiguration), // and then we get to run the stage we're testing
 	)
 	g.Expect(err).To(BeNil())
 
@@ -226,7 +226,7 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditi
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(cfg.ObjectModelConfiguration), // and then we get to run the stage we're testing
 	)
 
 	// Assert - we expect no error, and one new definition
