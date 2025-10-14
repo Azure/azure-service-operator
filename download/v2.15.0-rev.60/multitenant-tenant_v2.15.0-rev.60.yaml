@@ -1,0 +1,305 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenant1-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+  name: azureserviceoperator-default
+  namespace: tenant1-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: azureserviceoperator-leader-election-role
+  namespace: tenant1-system
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps/status
+    verbs:
+      - get
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: azureserviceoperator-leader-election-rolebinding
+  namespace: tenant1-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: azureserviceoperator-leader-election-role
+subjects:
+  - kind: ServiceAccount
+    name: azureserviceoperator-default
+    namespace: tenant1-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureserviceoperator-crd-reader-rolebinding-tenant1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureserviceoperator-crd-reader-role
+subjects:
+  - kind: ServiceAccount
+    name: azureserviceoperator-default
+    namespace: tenant1-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureserviceoperator-manager-rolebinding-tenant1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureserviceoperator-manager-role
+subjects:
+  - kind: ServiceAccount
+    name: azureserviceoperator-default
+    namespace: tenant1-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.15.0-rev.60
+    control-plane: controller-manager
+  name: azureserviceoperator-controller-manager
+  namespace: tenant1-system
+spec:
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+      labels:
+        app.kubernetes.io/name: azure-service-operator
+        app.kubernetes.io/version: v2.15.0-rev.60
+        control-plane: controller-manager
+    spec:
+      containers:
+        - args:
+            - --metrics-addr=0.0.0.0:8443
+            - --secure-metrics=true
+            - --profiling-metrics=false
+            - --health-addr=:8081
+            - --enable-leader-election
+            - --v=2
+            - --crd-pattern=
+            - --webhook-port=9443
+            - --webhook-cert-dir=/tmp/k8s-webhook-server/serving-certs
+          env:
+            - name: GOMEMLIMIT
+              value: 400MiB
+            - name: AZURE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_CLIENT_ID
+                  name: aso-controller-settings
+            - name: AZURE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_CLIENT_SECRET
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_TENANT_ID
+                  name: aso-controller-settings
+            - name: AZURE_ADDITIONAL_TENANTS
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_ADDITIONAL_TENANTS
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_SUBSCRIPTION_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_SUBSCRIPTION_ID
+                  name: aso-controller-settings
+            - name: AZURE_CLIENT_CERTIFICATE
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_CLIENT_CERTIFICATE
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_CLIENT_CERTIFICATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_CLIENT_CERTIFICATE_PASSWORD
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_AUTHORITY_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_AUTHORITY_HOST
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_RESOURCE_MANAGER_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_RESOURCE_MANAGER_ENDPOINT
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_RESOURCE_MANAGER_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_RESOURCE_MANAGER_AUDIENCE
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_TARGET_NAMESPACES
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_TARGET_NAMESPACES
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_OPERATOR_MODE
+              value: watchers
+            - name: AZURE_SYNC_PERIOD
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_SYNC_PERIOD
+                  name: aso-controller-settings
+                  optional: true
+            - name: USE_WORKLOAD_IDENTITY_AUTH
+              valueFrom:
+                secretKeyRef:
+                  key: USE_WORKLOAD_IDENTITY_AUTH
+                  name: aso-controller-settings
+                  optional: true
+            - name: AZURE_USER_AGENT_SUFFIX
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_USER_AGENT_SUFFIX
+                  name: aso-controller-settings
+                  optional: true
+            - name: MAX_CONCURRENT_RECONCILES
+              valueFrom:
+                secretKeyRef:
+                  key: MAX_CONCURRENT_RECONCILES
+                  name: aso-controller-settings
+                  optional: true
+            - name: RATE_LIMIT_MODE
+              valueFrom:
+                secretKeyRef:
+                  key: RATE_LIMIT_MODE
+                  name: aso-controller-settings
+                  optional: true
+            - name: RATE_LIMIT_QPS
+              valueFrom:
+                secretKeyRef:
+                  key: RATE_LIMIT_QPS
+                  name: aso-controller-settings
+                  optional: true
+            - name: RATE_LIMIT_BUCKET_SIZE
+              valueFrom:
+                secretKeyRef:
+                  key: RATE_LIMIT_BUCKET_SIZE
+                  name: aso-controller-settings
+                  optional: true
+            - name: DEFAULT_RECONCILE_POLICY
+              valueFrom:
+                secretKeyRef:
+                  key: DEFAULT_RECONCILE_POLICY
+                  name: aso-controller-settings
+                  optional: true
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: mcr.microsoft.com/k8s/azureserviceoperator:v2.15.0-rev.60
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+          name: manager
+          ports:
+            - containerPort: 8081
+              name: health-port
+              protocol: TCP
+            - containerPort: 8443
+              name: metrics-port
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 65532
+            runAsNonRoot: true
+            runAsUser: 65532
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: 8081
+            periodSeconds: 10
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: azureserviceoperator-default
+      terminationGracePeriodSeconds: 10
