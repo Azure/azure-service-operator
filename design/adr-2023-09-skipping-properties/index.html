@@ -32,7 +32,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <meta itemprop="name" content="2023-09 Complex Properties that Skip Versions">
   <meta itemprop="description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
 TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
-  <meta itemprop="wordCount" content="1941">
+  <meta itemprop="wordCount" content="2155">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="2023-09 Complex Properties that Skip Versions">
   <meta name="twitter:description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
@@ -1168,10 +1168,32 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 <h2 id="consequences">Consequences</h2>
 <p>TBC</p>
 <h2 id="experience-report">Experience Report</h2>
+<p>As implemented by <a href="https://github.com/Azure/azure-service-operator/pull/3614">PR#3614</a>, we can successfully handle most situations without requiring any manual intervention.</p>
+<p>There&rsquo;s an edge case, however, when the <em>type</em> of the property changes between removal and reintroduction, as discovered with <code>containerservice.ManagedCluster</code>.</p>
+<p>The property <code>ManagedClusterAgentPoolProfile.GPUProfile</code> had the type <code>AgentPoolGPUProfile</code> in version <code>2024-04-02-preview</code>, but when it was reintroduced in <code>2025-08-01</code>, the type had been renamed to <code>GPUProfile</code>.</p>
+<p>This resulted in testing failures when the shape persisted in the property bag was inconsistent between directions, as predicted above.</p>
+<pre tabindex="0"><code>Round trip from ManagedClustersAgentPool to hub returns original: Falsified after 1 passed tests.
+Labels of failing property: 
+  converting from destination to hub: 
+    converting from destination to hub: 
+      converting from destination to hub: 
+        calling AssignProperties_To_ManagedClustersAgentPool_Spec() to populate field Spec: 
+          pulling&#39;GpuProfile&#39; from propertyBag: 
+            pulling &#34;GpuProfile&#34; from PropertyBag: json: 
+              unknown field &#34;installGPUDriver&#34;
+</code></pre><p>Automatic repair of the skipping property failed in this case because the code was unaware that the type had been renamed from <code>AgentPoolGPUProfile</code> to <code>GPUProfile</code>.</p>
+<p>A code fix has been implemented, but requires additional configuration to activate if this edge case recurs, as follows:</p>
+<p>On the version where the property is last seen, add <code>$nameInNextVersion: NewName</code> to the objectModelConfiguration section for each property type that&rsquo;s been renamed. Remember to do both the spec and status variants if applicable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">containerservice</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">2024-04-02-preview</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AgentPoolGPUProfile</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$nameInNextVersion</span>: <span style="color:#ae81ff">GPUProfile</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AgentPoolGPUProfile_STATUS</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$nameInNextVersion</span>: <span style="color:#ae81ff">GPUProfile_STATUS</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span></code></pre></div><h2 id="references">References</h2>
 <p>TBC</p>
-<h2 id="references">References</h2>
-<p>TBC
-``</p>
 
 	<div class="section-index">
     
