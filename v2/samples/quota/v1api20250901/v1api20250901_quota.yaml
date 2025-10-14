@@ -4,17 +4,19 @@ metadata:
   name: aso-sample-quota
   namespace: default
 spec:
-  # Resource Group or Subscription that will own this quota resource
-  # Replace with your actual resource group ARM ID
+  # Resource Group that will own this quota resource
   owner:
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group
+    name: aso-sample-rg
+    group: resources.azure.com
+    kind: ResourceGroup
   # Quota properties - example for compute cores
   properties:
     name:
       value: "cores"
     resourceType: "cores"
     limit:
-      limitObjectType: "LimitValue"
-      limitType: "Independent"
-      value: 100
+      limitValue:
+        limitObjectType: "LimitValue"
+        limitType: "Independent"
+        value: 100
 
