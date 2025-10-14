@@ -28,6 +28,7 @@ var _ conversion.Hub = &kusto.Cluster{}
 // PreReconcileOwnerCheck is called before the reconciliation of the resource to see if the cluster
 // is in a state that will allow reconciliation to proceed.
 // We can't try to create/update a Database unless the cluster is in a state that allows it.
+// We use PreReconcileOwnerCheck instead of PreReconcileCheck because you can't even GET a database if the cluster is powered down.
 func (ext *DatabaseExtension) PreReconcileOwnerCheck(
 	ctx context.Context,
 	owner genruntime.MetaObject,
