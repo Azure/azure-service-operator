@@ -239,25 +239,19 @@ func (t *SamplesTester) setSamplesOwnershipAndReferences(samples map[string]clie
 		if asoType.Owner().Kind == resolver.ResourceGroupKind {
 			ownersName = t.rgName
 		} else if t.useRandomName {
-			// Skip direct ARM references as they don't need owner lookup by Kind
-			if asoType.Owner().IsDirectARMReference() {
-				// Direct ARM references don't need owner name updates
-				// Continue to updateFieldsForTest to handle ARM ID updates
-			} else {
-				// Check if the owner exists in refs, then continue. We don't use random names for refs so its correct anyway.
-				_, found := refs[asoType.Owner().Kind]
-				if found {
-					continue
-				}
-
-				var owner client.Object
-				owner, found = samples[asoType.Owner().Kind]
-				if !found {
-					return fmt.Errorf("owner: %s, does not exist for resource '%s'", asoType.Owner().Kind, gk)
-				}
-
-				ownersName = owner.GetName()
+			// Check if the owner exists in refs, then continue. We don't use random names for refs so its correct anyway.
+			_, found := refs[asoType.Owner().Kind]
+			if found {
+				continue
 			}
+
+			var owner client.Object
+			owner, found = samples[asoType.Owner().Kind]
+			if !found {
+				return fmt.Errorf("owner: %s, does not exist for resource '%s'", asoType.Owner().Kind, gk)
+			}
+
+			ownersName = owner.GetName()
 		}
 
 		if ownersName != "" {
