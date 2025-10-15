@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -125,6 +126,139 @@ func Test_SamplesTester_UpdatesResourceGroupName(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(sample.Reference.Name).To(Equal(tester.rgName))
+}
+
+func Test_SamplesTester_HandlesDirectARMReferenceOwner(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	tester := &SamplesTester{
+		useRandomName: true,
+		rgName:        "test-rg",
+	}
+
+	// Create a mock resource with a direct ARM reference owner (like the Quota sample)
+	mockOwner := &genruntime.ArbitraryOwnerReference{
+		ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg",
+		// Note: Kind and Group are empty, simulating the Quota sample scenario
+	}
+
+	mockResource := &mockResourceWithOwner{
+		owner: mockOwner,
+	}
+
+	samples := map[string]client.Object{
+		"TestResource": mockResource,
+	}
+	refs := map[string]client.Object{}
+
+	// This should not return an error anymore with our fix
+	err := tester.setSamplesOwnershipAndReferences(samples, refs)
+	g.Expect(err).ToNot(HaveOccurred())
+}
+
+func Test_SamplesTester_FailsForMissingKubernetesOwner(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	tester := &SamplesTester{
+		useRandomName: true,
+		rgName:        "test-rg",
+	}
+
+	// Create a mock resource with a Kubernetes reference owner that doesn't exist
+	mockOwner := &genruntime.ArbitraryOwnerReference{
+		Kind:  "NonExistentResource",
+		Group: "test.azure.com",
+		Name:  "some-name",
+		// No ARMID - this is a Kubernetes reference
+	}
+
+	mockResource := &mockResourceWithOwner{
+		owner: mockOwner,
+	}
+
+	samples := map[string]client.Object{
+		"TestResource": mockResource,
+	}
+	refs := map[string]client.Object{}
+
+	// This should still return an error for missing Kubernetes resources
+	err := tester.setSamplesOwnershipAndReferences(samples, refs)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("owner: NonExistentResource, does not exist for resource 'TestResource'"))
+}
+
+// mockResourceWithOwner is a test helper that implements genruntime.ARMMetaObject
+// and has an owner field for testing owner resolution logic
+type mockResourceWithOwner struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	owner             *genruntime.ArbitraryOwnerReference
+}
+
+var _ genruntime.ARMMetaObject = &mockResourceWithOwner{}
+var _ client.Object = &mockResourceWithOwner{}
+
+func (m *mockResourceWithOwner) Owner() *genruntime.ResourceReference {
+	if m.owner == nil {
+		return nil
+	}
+	return m.owner.AsResourceReference()
+}
+
+func (m *mockResourceWithOwner) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{}
+}
+
+func (m *mockResourceWithOwner) GetConditions() conditions.Conditions {
+	return conditions.Conditions{}
+}
+
+func (m *mockResourceWithOwner) SetConditions(conditions conditions.Conditions) {
+	// No-op for testing
+}
+
+func (m *mockResourceWithOwner) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
+}
+
+func (m *mockResourceWithOwner) GetSpec() genruntime.ConvertibleSpec {
+	return nil
+}
+
+func (m *mockResourceWithOwner) GetStatus() genruntime.ConvertibleStatus {
+	return nil
+}
+
+func (m *mockResourceWithOwner) SetStatus(status genruntime.ConvertibleStatus) error {
+	return nil
+}
+
+func (m *mockResourceWithOwner) GetType() string {
+	return "Microsoft.Test/mockResources"
+}
+
+func (m *mockResourceWithOwner) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return nil
+}
+
+func (m *mockResourceWithOwner) AzureName() string {
+	return "mock-resource"
+}
+
+func (m *mockResourceWithOwner) GetAPIVersion() string {
+	return "2023-01-01"
+}
+
+func (m *mockResourceWithOwner) DeepCopyObject() runtime.Object {
+	return &mockResourceWithOwner{
+		TypeMeta:   m.TypeMeta,
+		ObjectMeta: m.ObjectMeta,
+		owner:      m.owner,
+	}
 }
 
 func (s *sampleResource) GetSupportedOperations() []genruntime.ResourceOperation {
