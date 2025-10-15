@@ -4,9 +4,10 @@ metadata:
   name: aso-sample-quota
   namespace: default
 spec:
-  # Owner can be any Azure resource - using ResourceGroup as an example
+  # Quota is a subscription-scoped extension resource
+  # In real usage, reference an existing ResourceGroup in your cluster
   owner:
-    name: aso-sample-rg
+    name: my-resource-group  # Reference to your existing ResourceGroup
     group: resources.azure.com
     kind: ResourceGroup
   # Quota properties - example for compute cores
