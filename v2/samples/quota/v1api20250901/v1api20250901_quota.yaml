@@ -4,12 +4,12 @@ metadata:
   name: aso-sample-quota
   namespace: default
 spec:
-  # Quota is a subscription-scoped extension resource
-  # In real usage, reference an existing ResourceGroup in your cluster
   owner:
-    name: my-resource-group  # Reference to your existing ResourceGroup
+    name: my-resource-group  # Reference an existing ResourceGroup
     group: resources.azure.com
     kind: ResourceGroup
+    # Alternative: Use armId for provider-location scope
+    # armId: /subscriptions/{id}/providers/Microsoft.Compute/locations/eastus
   # Quota properties - example for compute cores
   properties:
     name:
