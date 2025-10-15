@@ -54,10 +54,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "2999"
             X-Msedge-Ref:
-                - 'Ref A: 5004F55915E144A19C988CC06D92A572 Ref B: MAA201060516047 Ref C: 2025-10-14T11:28:48Z'
+                - 'Ref A: 82B388F425B3415F89E747D800FF9311 Ref B: MAA201060516017 Ref C: 2025-10-14T23:53:42Z'
         status: 201 Created
         code: 201
-        duration: 3.839138578s
+        duration: 4.345241306s
     - id: 1
       request:
         proto: HTTP/1.1
@@ -107,10 +107,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "3749"
             X-Msedge-Ref:
-                - 'Ref A: 81ED82042035444680BC18057034679E Ref B: MAA201060516047 Ref C: 2025-10-14T11:28:55Z'
+                - 'Ref A: 3B71978F19254E958879CFC742455B34 Ref B: MAA201060516017 Ref C: 2025-10-14T23:53:50Z'
         status: 200 OK
         code: 200
-        duration: 475.94871ms
+        duration: 471.38018ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -148,7 +148,7 @@ interactions:
             Azure-Asyncnotification:
                 - Enabled
             Azure-Asyncoperation:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus/operations/5e7e7c69-923a-4af6-af1b-98554138d785?p=febc774d-ef08-41b5-8e4e-df7d872af304&api-version=2025-04-01
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus/operations/bb69b370-525b-43fc-ac50-b135168cec16?p=febc774d-ef08-41b5-8e4e-df7d872af304&api-version=2025-04-01
             Cache-Control:
                 - no-cache
             Content-Length:
@@ -168,16 +168,16 @@ interactions:
             X-Ms-Need-To-Refresh-Epl-Cache:
                 - "False"
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westus2/a55427cb-2960-40f4-8c53-f88eeacdcb08
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westus2/50f61968-d800-429e-aeed-30780fa3a165
             X-Ms-Ratelimit-Remaining-Resource:
                 - Microsoft.Compute/PutDeleteCapacityReservationSubscriptionMaximum;119
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "2999"
             X-Msedge-Ref:
-                - 'Ref A: 19E5A27EB19F4E1D96492BCE8460DCDC Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:02Z'
+                - 'Ref A: AEB9E4DBAF164A759A167409242A61E4 Ref B: MAA201060516017 Ref C: 2025-10-14T23:53:55Z'
         status: 201 Created
         code: 201
-        duration: 679.581496ms
+        duration: 534.97448ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -194,7 +194,7 @@ interactions:
         headers:
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus/operations/5e7e7c69-923a-4af6-af1b-98554138d785?p=febc774d-ef08-41b5-8e4e-df7d872af304&api-version=2025-04-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus/operations/bb69b370-525b-43fc-ac50-b135168cec16?p=febc774d-ef08-41b5-8e4e-df7d872af304&api-version=2025-04-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -204,7 +204,7 @@ interactions:
         trailer: {}
         content_length: 184
         uncompressed: false
-        body: "{\r\n  \"startTime\": \"2025-10-14T11:29:02.3989461+00:00\",\r\n  \"endTime\": \"2025-10-14T11:29:02.4301958+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\": \"5e7e7c69-923a-4af6-af1b-98554138d785\"\r\n}"
+        body: "{\r\n  \"startTime\": \"2025-10-14T23:53:56.2519418+00:00\",\r\n  \"endTime\": \"2025-10-14T23:53:56.2988156+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\": \"bb69b370-525b-43fc-ac50-b135168cec16\"\r\n}"
         headers:
             Cache-Control:
                 - no-cache
@@ -225,16 +225,16 @@ interactions:
             X-Ms-Need-To-Refresh-Epl-Cache:
                 - "False"
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westus2/e950fb99-a955-44a3-bea4-e417adade4be
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westus2/c9e0de4b-3db2-4ec6-99ac-b03ceaf77399
             X-Ms-Ratelimit-Remaining-Resource:
                 - Microsoft.Compute/GetOperationResource;43,Microsoft.Compute/GetOperationSubscriptionMaximum;14998
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "3749"
+                - "3748"
             X-Msedge-Ref:
-                - 'Ref A: 07373FBA40634E9AAD5DFA7655B94C24 Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:05Z'
+                - 'Ref A: 4F4C7ABF35F74EC1A96D60FA42CEA59E Ref B: MAA201060516017 Ref C: 2025-10-14T23:53:59Z'
         status: 200 OK
         code: 200
-        duration: 403.262558ms
+        duration: 309.896068ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -286,10 +286,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "3749"
             X-Msedge-Ref:
-                - 'Ref A: 5905DA38680243B6A453F3E232F518A7 Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:06Z'
+                - 'Ref A: A733C8329972452AAC22633C1EEF2319 Ref B: MAA201060516017 Ref C: 2025-10-14T23:53:59Z'
         status: 200 OK
         code: 200
-        duration: 620.211247ms
+        duration: 510.717667ms
     - id: 5
       request:
         proto: HTTP/1.1
@@ -341,13 +341,249 @@ interactions:
             X-Ms-Ratelimit-Remaining-Resource:
                 - Microsoft.Compute/GetCapacityReservationSubscriptionMaximum;266
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "3749"
+                - "3747"
             X-Msedge-Ref:
-                - 'Ref A: EC85FECDA13C42D38A41A146AE5C322D Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:07Z'
+                - 'Ref A: 929E50FFF3524B6488A470F08845714F Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:00Z'
         status: 200 OK
         code: 200
-        duration: 401.248378ms
+        duration: 312.209529ms
     - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 206
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"eastus","name":"sample-capacity-reservation","sku":{"capacity":2,"name":"Standard_D2s_v3"},"tags":{"environment":"production","purpose":"vm-capacity-guarantee","team":"platform"},"zones":["1"]}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "206"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 5bb0bd4fae45e3f7ed5e0ca920c9c6834973248cbf00984186910982787a5771
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation?api-version=2025-04-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 816
+        uncompressed: false
+        body: "{\r\n  \"name\": \"sample-capacity-reservation\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation\",\r\n  \"type\": \"Microsoft.Compute/capacityReservationGroups/capacityReservations\",\r\n  \"location\": \"eastus\",\r\n  \"tags\": {\r\n    \"environment\": \"production\",\r\n    \"purpose\": \"vm-capacity-guarantee\",\r\n    \"team\": \"platform\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Standard_D2s_v3\",\r\n    \"capacity\": 2\r\n  },\r\n  \"zones\": [\r\n    \"1\"\r\n  ],\r\n  \"properties\": {\r\n    \"platformFaultDomainCount\": 1,\r\n    \"reservationId\": \"7d0ce774-0e63-469b-aeb9-4713352501a1\",\r\n    \"provisioningState\": \"Creating\",\r\n    \"timeCreated\": \"2025-10-14T23:54:03.7363659+00:00\"\r\n  }\r\n}"
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus/operations/cd0b1650-d3a7-40be-94b5-9ad2fe2a2470?p=febc774d-ef08-41b5-8e4e-df7d872af304&api-version=2025-04-01
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "816"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Need-To-Refresh-Epl-Cache:
+                - "False"
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westus2/7f653fdc-c820-46d5-ab5f-00c8e479edbb
+            X-Ms-Ratelimit-Remaining-Resource:
+                - Microsoft.Compute/PutDeleteCapacityReservationSubscriptionMaximum;118
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "2998"
+            X-Msedge-Ref:
+                - 'Ref A: E87BF3F929D94CD3811DEB9B8B7E0CB4 Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:03Z'
+        status: 201 Created
+        code: 201
+        duration: 1.254868617s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus/operations/cd0b1650-d3a7-40be-94b5-9ad2fe2a2470?p=febc774d-ef08-41b5-8e4e-df7d872af304&api-version=2025-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 184
+        uncompressed: false
+        body: "{\r\n  \"startTime\": \"2025-10-14T23:54:03.7363659+00:00\",\r\n  \"endTime\": \"2025-10-14T23:54:04.3926216+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\": \"cd0b1650-d3a7-40be-94b5-9ad2fe2a2470\"\r\n}"
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "184"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Need-To-Refresh-Epl-Cache:
+                - "False"
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westus2/42049515-f066-4dd7-ad31-546329c53cec
+            X-Ms-Ratelimit-Remaining-Resource:
+                - Microsoft.Compute/GetOperationResource;43,Microsoft.Compute/GetOperationSubscriptionMaximum;14996
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3747"
+            X-Msedge-Ref:
+                - 'Ref A: BDB80BBBD03A4AB2AB4B92C9D568D7D0 Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:06Z'
+        status: 200 OK
+        code: 200
+        duration: 398.563564ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation?api-version=2025-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 878
+        uncompressed: false
+        body: "{\r\n  \"name\": \"sample-capacity-reservation\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation\",\r\n  \"type\": \"Microsoft.Compute/capacityReservationGroups/capacityReservations\",\r\n  \"location\": \"eastus\",\r\n  \"tags\": {\r\n    \"environment\": \"production\",\r\n    \"purpose\": \"vm-capacity-guarantee\",\r\n    \"team\": \"platform\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Standard_D2s_v3\",\r\n    \"capacity\": 2\r\n  },\r\n  \"zones\": [\r\n    \"1\"\r\n  ],\r\n  \"properties\": {\r\n    \"platformFaultDomainCount\": 1,\r\n    \"reservationId\": \"7d0ce774-0e63-469b-aeb9-4713352501a1\",\r\n    \"provisioningTime\": \"2025-10-14T23:54:04.267619+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"timeCreated\": \"2025-10-14T23:54:03.7363659+00:00\"\r\n  }\r\n}"
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "878"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Need-To-Refresh-Epl-Cache:
+                - "False"
+            X-Ms-Ratelimit-Remaining-Resource:
+                - Microsoft.Compute/GetCapacityReservationSubscriptionMaximum;263
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 138FB44707614BB4A7A7D357475C2840 Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:07Z'
+        status: 200 OK
+        code: 200
+        duration: 1.034529782s
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation?api-version=2025-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 878
+        uncompressed: false
+        body: "{\r\n  \"name\": \"sample-capacity-reservation\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation\",\r\n  \"type\": \"Microsoft.Compute/capacityReservationGroups/capacityReservations\",\r\n  \"location\": \"eastus\",\r\n  \"tags\": {\r\n    \"environment\": \"production\",\r\n    \"purpose\": \"vm-capacity-guarantee\",\r\n    \"team\": \"platform\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Standard_D2s_v3\",\r\n    \"capacity\": 2\r\n  },\r\n  \"zones\": [\r\n    \"1\"\r\n  ],\r\n  \"properties\": {\r\n    \"platformFaultDomainCount\": 1,\r\n    \"reservationId\": \"7d0ce774-0e63-469b-aeb9-4713352501a1\",\r\n    \"provisioningTime\": \"2025-10-14T23:54:04.267619+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"timeCreated\": \"2025-10-14T23:54:03.7363659+00:00\"\r\n  }\r\n}"
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "878"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Need-To-Refresh-Epl-Cache:
+                - "False"
+            X-Ms-Ratelimit-Remaining-Resource:
+                - Microsoft.Compute/GetCapacityReservationSubscriptionMaximum;262
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3746"
+            X-Msedge-Ref:
+                - 'Ref A: C5A14B3F76C945ADA0260437BAA33D2D Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:09Z'
+        status: 200 OK
+        code: 200
+        duration: 316.203335ms
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -398,11 +634,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                 - "2999"
             X-Msedge-Ref:
-                - 'Ref A: 421DF091C3AD456685115177212A5E62 Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:11Z'
+                - 'Ref A: EE459BE0361648018EC709B75ED99531 Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:14Z'
         status: 202 Accepted
         code: 202
-        duration: 333.375357ms
-    - id: 7
+        duration: 359.967117ms
+    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -451,11 +687,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "3749"
             X-Msedge-Ref:
-                - 'Ref A: 6C9A4EFBCB564D5CA8E45C100698632E Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:26Z'
+                - 'Ref A: 96CE497EF54C45538F898DDAEE0AC965 Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:30Z'
         status: 202 Accepted
         code: 202
-        duration: 1.525295616s
-    - id: 8
+        duration: 1.644490891s
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -504,11 +740,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "3749"
             X-Msedge-Ref:
-                - 'Ref A: A5880A5B546D409BB150E4D717127F2A Ref B: MAA201060516047 Ref C: 2025-10-14T11:29:44Z'
+                - 'Ref A: 772A6EA7E36E43D78A3E87FA32BF42DB Ref B: MAA201060516017 Ref C: 2025-10-14T23:54:49Z'
         status: 202 Accepted
         code: 202
-        duration: 1.397233792s
-    - id: 9
+        duration: 935.764658ms
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -557,11 +793,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "3749"
             X-Msedge-Ref:
-                - 'Ref A: 9E0C7CF107A247F4B5909C52510A862F Ref B: MAA201060516047 Ref C: 2025-10-14T11:30:02Z'
+                - 'Ref A: 83530EE7DFAB415680BE8847EEC26C60 Ref B: MAA201060516017 Ref C: 2025-10-14T23:55:05Z'
         status: 202 Accepted
         code: 202
-        duration: 897.684945ms
-    - id: 10
+        duration: 1.567116084s
+    - id: 14
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -595,6 +831,165 @@ interactions:
                 - "0"
             Expires:
                 - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRSVNBTVgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 29873782AAD84772BFD7EA5899D7C9E9 Ref B: MAA201060516017 Ref C: 2025-10-14T23:55:24Z'
+        status: 202 Accepted
+        code: 202
+        duration: 946.601205ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "4"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRSVNBTVgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRSVNBTVgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 8932F9FAB6674F46B4C429C1BA867F2D Ref B: MAA201060516017 Ref C: 2025-10-14T23:55:40Z'
+        status: 202 Accepted
+        code: 202
+        duration: 933.502512ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "5"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRSVNBTVgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRSVNBTVgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 854BC62D97AE496EB7B2E268A51C5297 Ref B: MAA201060516017 Ref C: 2025-10-14T23:55:57Z'
+        status: 202 Accepted
+        code: 202
+        duration: 1.460020364s
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "6"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRSVNBTVgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
             Pragma:
                 - no-cache
             Strict-Transport-Security:
@@ -606,11 +1001,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "3749"
             X-Msedge-Ref:
-                - 'Ref A: C1676D63181A4014BE6A096F9577FDC5 Ref B: MAA201060516047 Ref C: 2025-10-14T11:30:19Z'
+                - 'Ref A: B3008088CA9B4DFABE95E5605DDFEF7E Ref B: MAA201060516017 Ref C: 2025-10-14T23:56:15Z'
         status: 200 OK
         code: 200
-        duration: 861.443131ms
-    - id: 11
+        duration: 1.596995987s
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -659,7 +1054,60 @@ interactions:
             X-Ms-Failure-Cause:
                 - gateway
             X-Msedge-Ref:
-                - 'Ref A: 436A0086CA2F46BE87836119AE69F78E Ref B: MAA201060516047 Ref C: 2025-10-14T11:30:26Z'
+                - 'Ref A: B4A3AA095B604775AA314F11D5F308C1 Ref B: MAA201060516017 Ref C: 2025-10-14T23:56:20Z'
         status: 404 Not Found
         code: 404
-        duration: 475.315473ms
+        duration: 792.544193ms
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qisamx/providers/Microsoft.Compute/capacityReservationGroups/sample-capacity-reservation-group/capacityReservations/sample-capacity-reservation?api-version=2025-04-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qisamx'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 6A9FB0E9E43346D086204CE73C3CF483 Ref B: MAA201060516017 Ref C: 2025-10-14T23:56:25Z'
+        status: 404 Not Found
+        code: 404
+        duration: 790.438765ms

@@ -253,7 +253,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
 |--------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| CapacityReservation      | 2025-04-01  | v1api20250401 | v2.16.0        | -                                                                                                                                              |
+| CapacityReservation      | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservation.yaml)      |
 | CapacityReservationGroup | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservationgroup.yaml) |
 
 ### Latest Released Versions
