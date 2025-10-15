@@ -6,7 +6,9 @@ metadata:
 spec:
   # Owner can be any Azure resource - using ResourceGroup as an example
   owner:
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+    name: aso-sample-rg
+    group: resources.azure.com
+    kind: ResourceGroup
   # Quota properties - example for compute cores
   properties:
     name:
