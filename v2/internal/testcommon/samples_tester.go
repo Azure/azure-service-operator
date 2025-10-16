@@ -76,9 +76,6 @@ var exclusions = []string{
 	"backupvaultsbackupinstance",
 
 	"virtualnetworkgateway", // blocks RG deletion and causes networking tests to fail
-
-	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
-	"quota",
 }
 
 type SamplesTester struct {

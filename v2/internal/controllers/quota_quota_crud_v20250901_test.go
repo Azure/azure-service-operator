@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	quota "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -22,18 +21,10 @@ func Test_Quota_Quota_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// Create a Resource Group to own the Quota (since it's an extension resource)
-	// Use fixed names to match the recording
-	rg := &resources.ResourceGroup{
-		ObjectMeta: tc.MakeObjectMetaWithName("asotest-rg-mpunbm"),
-		Spec: resources.ResourceGroup_Spec{
-			Location: tc.AzureRegion,
-			Tags: map[string]string{"CreatedAt": "2001-02-03T04:05:06Z"},
-		},
-	}
-	tc.CreateResourceAndWait(rg)
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	quotaResource := &quota.Quota{
-		ObjectMeta: tc.MakeObjectMetaWithName("asotest-quota-gicqir"),
+		ObjectMeta: tc.MakeObjectMeta("asotest-quota"),
 		Spec: quota.Quota_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			Properties: &quota.QuotaProperties{
@@ -73,12 +64,12 @@ func Test_Quota_Quota_CRUD(t *testing.T) {
 	}
 
 	// NOTE: We do NOT test deletion here because:
-	// 1. Azure Quota API does not support real deletion of quotas
+	// 1. Azure Quota API does not support deletion of quotas
 	// 2. Quotas are system-managed resources, not user-created resources
-	// 3. The DELETE API returns 204 but doesn't actually delete anything
+	// 3. The DELETE API returns 400 Bad Request
 	// 4. Quotas persist as Azure platform limits and cannot be removed
 	//
-	// Instead, we verify the quota exists and has the correct updated values
+	// We simply verify the quota exists and has the correct updated values
 	g.Expect(quotaResource.Status.Id).ToNot(BeNil())
 	armId := *quotaResource.Status.Id
 	
@@ -87,15 +78,6 @@ func Test_Quota_Quota_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeTrue()) // Quota should still exist
-
-	// Clean up the Kubernetes resource (this will not delete the quota in Azure)
-	tc.DeleteResourceAndWait(quotaResource)
-	
-	// Verify the quota still exists in Azure even after Kubernetes resource deletion
-	exists, retryAfter, err = tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(quota.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeTrue()) // Quota should still exist in Azure
 }
 
 
