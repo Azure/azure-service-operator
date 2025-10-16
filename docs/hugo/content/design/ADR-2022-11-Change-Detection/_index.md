@@ -8,6 +8,8 @@ In ASO v2 up to at least the v2.15 release, we reconcile each resource by perfor
 
 While this approach works, some customers are running into ARM throttling limits with moderate numbers of resources. This occurs despite ARM throttling limits being lifted substantially since ASO went GA.
 
+There are also a limited number of resources (AKS AgentPools being one) where a PUT operation is not strictly idempotent. In these cases, doing a PUT when no change is needed may have detectable side effects, even if minor.
+
 The current ASO default reconciliation interval is 1 hour. This is a compromise that means we will detect and correct resource drift more slowly than we might like, and has proven insufficient to prevent throttling for larger deployments.
 
 It has been previously suggested (see [#1491](https://github.com/Azure/azure-service-operator/issues/1491)) that we should do our own goal state comparison and only perform a PUT if the resource has changed. This would allow us to reconcile more frequently, as GET requests have a significantly higher throttle limit. According to [_Understand how Azure Resource Manager throttles requests_](https://docs.azure.cn/en-us/azure-resource-manager/management/request-limits-and-throttling), the default write limit is just 1,200 per hour, while the default read limit is 12,000 per hour.
@@ -46,7 +48,7 @@ For example, the CosmosDB API will return the region `West US` when the resource
 
 **Potential mitigations**:
 
-* Generally speaking, Azure identifiers are expected to be "case-preserving, case-insensitive", so we should compare those string fields in a case-insensitive manner.
+* Generally speaking, Azure aims for resource providers to be "case-preserving, case-insensitive", but this isn't uniformly applied. We should compare those string fields in a case-insensitive manner.
 * Region names and virtual machine SKUs are two known special cases where we may need to implement special case handling.
 * Capturing the changes (as detailed above) would also work for this issue.
 
@@ -56,8 +58,8 @@ Some resources have arrays of items. These arrays may not be guaranteed to be re
 
 **Potential mitigations**:
 
-* In the common case where the items in an array have a known identifier (e.g., when they are sub-resources with an `id` field), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index.
-* Add specific configuration for array properties to specify how they should be compared — whether by an id field or by index. Consistent with our similar configuration used elsewhere, we'd require every array property to be annotated to ensure we don't do the wrong thing by default.
+* In the common case where the items in an array have a known identifier (e.g., when they are sub-resources with an `id` field), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index. Many resources include `x-ms-identifiers` in their Swagger specification to indicate which fields are identifiers; we may be able to leverage this.
+* Add specific configuration for array properties to specify how they should be compared — whether by an id field or by index. Consistent with our similar configuration used elsewhere, we'd require every array property to be annotated to ensure we don't do the wrong thing by default. This would be very verbose.
 
 ### Issue: Changes to test recordings
 
@@ -103,16 +105,46 @@ What's the CPU overhead of doing a GET and diff on every reconciliation compared
 
 We'll be adding another network round trip (with the associated bandwidth and latency costs) for every reconciliation, plus the CPU cost of doing the diff itself. We need to ensure that this doesn't cause us to exceed our resource limits in the controller pod, especially when reconciling large numbers of resources.
 
+### Issue: ARM References
+
+References to other resources can be specified in a number of ways - as an `ARM ID` in Azure, by specifying Group/Kind/Name of the resource within the cluster, or (for some resources) by specifying a well known name.
+
+When we do a GET to retrieve the current state of a resource, any references will be returned as `ARM IDs`. We need to ensure that our diffing logic can handle this and correctly identify when a reference has or has not changed.
+
 ## Decision
 
 Recommendation: Implement differencing as follows:
 
-* Update our code generator to add a `DiffWith()` method to every spec type that accumulates a list of the differences found
-* Add helper methods to a package `genruntime/diff` to help with common comparison tasks
-* Introduce `operatorStatus` on each top level status type, with a `knownDifferences map[string]string` field to capture the differences found.
-  * _Can we come up with a better name than `knownDifferences`?_
-* Make GET+PUT the default reconciliation approach, with an explicit configuration option to revert to PUT-only for selected resources
-* Opt-in all existing resources to use PUT-only so we can migrate in a controlled fashion
+To detect changes:
+
+* Perform a GET to retrieve the current state of the resource from Azure.
+* Convert the returned Status to a Spec using our existing generated conversion code.
+* Compare the original Spec (the desired state) with the converted Spec (the actual state) to identify current differences.
+* Reconcile that set of differences with a set of _known differences_ that we have previously recorded.
+* If any new differences are found, log them (so we know why the PUT was triggered) and perform a PUT to reconcile the resource to the desired state.
+
+When creating or updating a resource:
+
+* After performing a PUT (or completing the LRO polling), capture the returned Status on the resource (this already happens).
+* Convert that Status to a Spec using our existing generated conversion code.
+* Compare the original Spec (the desired state) with the converted Spec (the actual state) to identify _known differences_ for the resource, capturing any normalizations or default values applied by Azure.
+* Store those _known differences_ in the operatorStatus on the resource.
+
+To support this functionality:
+
+* Update our code generator to add a `DiffWith()` method to every spec type that accumulates a list of the differences found.
+* Add helper methods to a package `genruntime/diff` to help with common comparison tasks.
+* Introduce `operatorStatus` on each top level status type, with a `knownDifferences` field to capture the differences found.
+
+Migrate to the new approach by:
+  
+* Making GET+PUT the default reconciliation approach for all resources.
+* Add configuration to allow PUT-only reconciliation to be specified for selected resources.
+* Opt-in all existing resources to use PUT-only so their behaviour doesn't change until we can validate the new approach.
+
+### Outstanding questions
+
+* Can we come up with a better name than `knownDifferences`?
 
 ## Status
 
