@@ -1,0 +1,19 @@
+apiVersion: quota.azure.com/v1api20250901
+kind: Quota
+metadata:
+  name: aso-sample-quota
+  namespace: default
+spec:
+  # Compute quotas must use provider-location scope
+  owner:
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2
+  # Quota properties - example for compute cores
+  properties:
+    name:
+      value: "cores"
+    limit:
+      limitValue:
+        limitObjectType: "LimitValue"
+        limitType: "Independent"
+        value: 100
+

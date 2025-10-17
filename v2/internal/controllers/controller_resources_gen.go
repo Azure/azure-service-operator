@@ -328,6 +328,10 @@ import (
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
 	operationalinsights_v20210601w "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/webhook"
+	quota_customizations "github.com/Azure/azure-service-operator/v2/api/quota/customizations"
+	quota_v20250901 "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901"
+	quota_v20250901s "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901/storage"
+	quota_v20250901w "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901/webhook"
 	redhatopenshift_customizations "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/customizations"
 	redhatopenshift_v20231122 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 	redhatopenshift_v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
@@ -2237,6 +2241,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(notificationhubs_v20230901s.NotificationHubsAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
+	result = append(result, &registration.StorageType{Obj: new(quota_v20250901s.Quota)})
 	result = append(result, &registration.StorageType{
 		Obj: new(redhatopenshift_v20231122s.OpenShiftCluster),
 		Indexes: []registration.Index{
@@ -5026,6 +5031,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(quota_v20250901.Quota),
+		Defaulter: &quota_v20250901w.Quota{},
+		Validator: &quota_v20250901w.Quota{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(quota_v20250901s.Quota)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(redhatopenshift_v20231122.OpenShiftCluster),
 		Defaulter: &redhatopenshift_v20231122w.OpenShiftCluster{},
 		Validator: &redhatopenshift_v20231122w.OpenShiftCluster{},
@@ -5792,6 +5803,8 @@ func createScheme() *runtime.Scheme {
 	_ = notificationhubs_v20230901s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
+	_ = quota_v20250901.AddToScheme(scheme)
+	_ = quota_v20250901s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
@@ -6035,6 +6048,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &notificationhubs_customizations.NotificationHubExtension{})
 	result = append(result, &notificationhubs_customizations.NotificationHubsAuthorizationRuleExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
+	result = append(result, &quota_customizations.QuotaExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
