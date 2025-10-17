@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	quota "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901"
@@ -24,7 +25,7 @@ func Test_Quota_Quota_v20250901_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// Compute quotas must be scoped to provider-location, not ResourceGroup
-	providerLocationScope := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Compute/locations/%s", 
+	providerLocationScope := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Compute/locations/%s",
 		tc.AzureSubscription, *tc.AzureRegion)
 
 	quotaResource := &quota.Quota{
@@ -69,7 +70,7 @@ func Test_Quota_Quota_v20250901_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, quotaResource)
 
 	if quotaResource.Status.Properties != nil &&
-		quotaResource.Status.Properties.Limit != nil && 
+		quotaResource.Status.Properties.Limit != nil &&
 		quotaResource.Status.Properties.Limit.LimitValue != nil {
 		g.Expect(quotaResource.Status.Properties.Limit.LimitValue.Value).To(Equal(to.Ptr(200)))
 	}
@@ -83,7 +84,6 @@ func Test_Quota_Quota_v20250901_CRUD(t *testing.T) {
 	// We simply verify the quota exists and has the correct updated values
 	g.Expect(quotaResource.Status.Id).ToNot(BeNil())
 	armId := *quotaResource.Status.Id
-	
 	// Verify the quota still exists in Azure with updated values
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(quota.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -94,8 +94,6 @@ func Test_Quota_Quota_v20250901_CRUD(t *testing.T) {
 	// since Azure Quota API doesn't support deletion
 	old = quotaResource.DeepCopy()
 	quotaResource.SetOwnerReferences([]metav1.OwnerReference{}) // Remove owner reference
-	quotaResource.SetFinalizers([]string{})                    // Remove finalizers
+	quotaResource.SetFinalizers([]string{})                     // Remove finalizers
 	tc.Patch(old, quotaResource)
 }
-
-
