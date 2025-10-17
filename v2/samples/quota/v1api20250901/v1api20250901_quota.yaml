@@ -4,17 +4,13 @@ metadata:
   name: aso-sample-quota
   namespace: default
 spec:
+  # Compute quotas must use provider-location scope
   owner:
-    name: aso-sample-rg  # Reference an existing ResourceGroup
-    group: resources.azure.com
-    kind: ResourceGroup
-    # Alternative: Use armId for provider-location scope
-    # armId: /subscriptions/{id}/providers/Microsoft.Compute/locations/eastus
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2
   # Quota properties - example for compute cores
   properties:
     name:
       value: "cores"
-    resourceType: "cores"
     limit:
       limitValue:
         limitObjectType: "LimitValue"
