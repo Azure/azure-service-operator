@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: my-resource-group  # Reference an existing ResourceGroup
+    name: aso-sample-rg  # Reference an existing ResourceGroup
     group: resources.azure.com
     kind: ResourceGroup
     # Alternative: Use armId for provider-location scope
