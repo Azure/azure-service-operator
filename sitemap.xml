@@ -286,6 +286,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/postgresql/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/quota/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/redhatopenshift/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/redis/</loc>
