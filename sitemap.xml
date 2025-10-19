@@ -388,8 +388,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/keyvault/v1api20210401preview/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20210501/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20210501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20210501preview/</loc>
@@ -510,8 +508,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/search/v1api20231101/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231102preview/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20231115/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/redhatopenshift/v1api20231122/</loc>
@@ -566,7 +562,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20250401/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20250401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cognitiveservices/v1api20250601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20250801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
