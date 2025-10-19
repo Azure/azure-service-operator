@@ -9,10 +9,10 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
-|--------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| CapacityReservation      | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservation.yaml)      |
-| CapacityReservationGroup | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservationgroup.yaml) |
+| Resource                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
+|--------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| [CapacityReservation]({{< relref "/reference/compute/v1api20250401#CapacityReservation" >}})           | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservation.yaml)      |
+| [CapacityReservationGroup]({{< relref "/reference/compute/v1api20250401#CapacityReservationGroup" >}}) | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservationgroup.yaml) |
 
 ### Latest Released Versions
 
