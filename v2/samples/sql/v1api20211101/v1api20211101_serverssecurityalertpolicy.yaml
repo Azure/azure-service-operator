@@ -3,6 +3,8 @@ kind: ServersSecurityAlertPolicy
 metadata:
   name: aso-sample-alertpolicy
   namespace: default
+  annotations: 
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: aso-sample-sqlserver

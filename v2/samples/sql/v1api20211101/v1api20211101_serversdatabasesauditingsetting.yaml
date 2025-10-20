@@ -3,6 +3,8 @@ kind: ServersDatabasesAuditingSetting
 metadata:
   name: aso-sample-audit
   namespace: default
+  annotations: 
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: aso-sample-db
