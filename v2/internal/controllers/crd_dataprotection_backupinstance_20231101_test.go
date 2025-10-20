@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -70,6 +71,8 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+
+	addAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("velero"),
@@ -307,4 +310,18 @@ func newBackupInstanceManagedCluster(tc *testcommon.KubePerTestContext, rg *reso
 		},
 	}
 	return cluster
+}
+
+func addAnnotation(
+	obj *v1.ObjectMeta,
+	key string,
+	value string,
+) {
+	annotations := obj.GetAnnotations()
+	if annotations == nil {
+		annotations = make(map[string]string)
+	}
+
+	annotations[key] = value
+	obj.SetAnnotations(annotations)
 }
