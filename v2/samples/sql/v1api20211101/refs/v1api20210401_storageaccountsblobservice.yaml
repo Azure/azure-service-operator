@@ -4,6 +4,7 @@ metadata:
   name: sqlstorageservice
   namespace: default
   annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent storage account
     serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
