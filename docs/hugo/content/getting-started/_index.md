@@ -234,7 +234,7 @@ stringData:
 
 {{% tab header="CMD" %}}
 
-Create a file named `secret.yaml` with the following content. Replace each of the variables such as
+Create a file named `secret.yaml` with the following content. Manually replace each of the variables such as
 `%AZURE_SUBSCRIPTION_ID%` with the subscription ID, `%AZURE_CLIENT_SECRET%` with the client secret and so on.
 
 ```
