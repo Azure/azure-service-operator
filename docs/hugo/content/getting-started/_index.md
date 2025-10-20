@@ -348,7 +348,7 @@ For samples of additional resources, see the [resource samples directory](https:
 ## Tearing it down
 
 {{% alert title="Warning" color="warning" %}}
-if you `kubectl delete` an ASO resource from your cluster, ASO will delete the Azure resource. This can
+If you `kubectl delete` an ASO resource from your cluster, ASO **will also delete** the Azure resource. This can
 be dangerous if you were to do this with an existing resource group which contains resources you do
 not wish to be deleted.
 {{% /alert %}}
