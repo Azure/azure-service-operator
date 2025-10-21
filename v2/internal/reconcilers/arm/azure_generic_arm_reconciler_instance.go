@@ -131,7 +131,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineDeleteAction() (DeleteActio
 	}
 
 	if !genruntime.ResourceOperationDelete.IsSupportedBy(r.Obj) {
-		// Resource doesn't support delete, so we just remove the finalizer and stop managing it
+		// Resource doesn't support delete; we'll end up returning an actionable error
 		return DeleteActionNotPossibleInAzure, r.DeleteNotPossibleInAzure, nil
 	}
 
