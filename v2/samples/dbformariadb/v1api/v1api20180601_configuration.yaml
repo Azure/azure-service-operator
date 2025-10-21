@@ -3,6 +3,9 @@ kind: Configuration
 metadata:
   name: query_cache_size
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent server
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   azureName: query_cache_size
   owner:
