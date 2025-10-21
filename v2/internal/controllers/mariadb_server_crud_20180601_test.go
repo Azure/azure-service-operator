@@ -32,7 +32,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 	adminUser := "testadmin"
 	adminPasswordRef := createPasswordSecret("admin", "password", tc)
 
-	server := mariadb.Server{
+	server := &mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
 		Spec: mariadb.Server_Spec{
 			AzureName: serverName,
@@ -65,37 +65,29 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.T.Logf("Creating MariaDB Server %q", serverName)
-	tc.CreateResourcesAndWait(&server)
-
-	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
-
 	// Configuration
 	configName := tc.NoSpaceNamer.GenerateName("mcfg")
 
-	configuration := mariadb.Configuration{
+	configuration := &mariadb.Configuration{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
 		Spec: mariadb.Configuration_Spec{
 			AzureName: "query_cache_size",
-			Owner:     testcommon.AsOwner(&server),
+			Owner:     testcommon.AsOwner(server),
 			Value:     to.Ptr("102400"),
 		},
 	}
+	tc.AddAnnotation(&configuration.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
-	tc.T.Logf("Creating MariaDB Configuration %q", configName)
-	tc.CreateResourcesAndWait(&configuration)
-	// Can't delete, so don't even try // defer tc.DeleteResourcesAndWait(&configuration)
-
-	database := mariadb.Database{
+	database := &mariadb.Database{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
 		Spec: mariadb.Database_Spec{
 			AzureName: *to.Ptr("adventureworks"),
-			Owner:     testcommon.AsOwner(&server),
+			Owner:     testcommon.AsOwner(server),
 		},
 	}
 
-	tc.T.Logf("Creating MariaDB Database %q", database.Spec.AzureName)
-	tc.CreateResourcesAndWait(&database)
+	tc.CreateResourcesAndWait(server, database, configuration)
+	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 }
 
 func createPasswordSecret(
