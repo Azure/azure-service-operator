@@ -3,6 +3,9 @@ kind: SqlDatabaseThroughputSetting
 metadata:
   name: sample-sql-throughput
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent database
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: sample-sql-db
