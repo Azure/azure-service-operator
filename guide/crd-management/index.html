@@ -35,7 +35,7 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
   <meta itemprop="description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
 This is for two reasons:
 ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they’re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
-  <meta itemprop="wordCount" content="1212">
+  <meta itemprop="wordCount" content="1200">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CRD management in ASO">
   <meta name="twitter:description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
@@ -151,7 +151,9 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
@@ -1018,8 +1020,7 @@ this.</li>
 <p>For manually installed CRDs, <a href="/azure-service-operator/tools/asoctl/#clean-crds"><code>asoctl clean crds</code></a> can be used to prepare
 CRDs for upgrade when a CRD version that was previously a storage version was removed.</p>
 <p>For ASO managed CRDs, ASO will automatically clean up the old storage versions when it&rsquo;s upgraded to the new version
-that removed those CRDs. <strong>Note:</strong> This is not yet implemented, it is being tracked by
-<a href="https://github.com/Azure/azure-service-operator/issues/4376">#4376</a>.</p>
+that removed those CRDs.</p>
 <h2 id="best-practices">Best Practices</h2>
 <ul>
 <li>Do not use <code>crdPattern=*</code> on AKS free tier clusters. It installs so many CRDs that it can overload kube-apiserver and cause
