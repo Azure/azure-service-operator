@@ -238,6 +238,8 @@ func MySQLFlexibleServer_Configuration_20231230_CRUD(tc *testcommon.KubePerTestC
 			Value:     to.Ptr("20"),
 		},
 	}
+	tc.AddAnnotation(&configuration.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(configuration)
 	tc.Expect(configuration.Status.Id).ToNot(BeNil())
 }
