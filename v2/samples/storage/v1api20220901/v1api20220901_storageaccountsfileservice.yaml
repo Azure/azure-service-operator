@@ -3,6 +3,9 @@ kind: StorageAccountsFileService
 metadata:
   name: samplekubestoragefile
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent account
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: samplestorageaccount
