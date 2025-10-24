@@ -198,6 +198,7 @@ func DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc *testcommo
 			},
 		},
 	}
+	tc.AddAnnotation(&throughputSettings.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.T.Log("creating mongo database throughput")
 	tc.CreateResourceAndWait(&throughputSettings)
