@@ -71,6 +71,8 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 		},
 	}
 
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("velero"),
 		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
