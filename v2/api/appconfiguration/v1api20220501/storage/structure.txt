@@ -105,3 +105,39 @@ ConfigurationStore: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+augmentConversionForConfigurationStore: Interface
+
+augmentConversionForConfigurationStoreOperatorSecrets: Interface
+
+augmentConversionForConfigurationStoreOperatorSpec: Interface
+
+augmentConversionForConfigurationStore_STATUS: Interface
+
+augmentConversionForConfigurationStore_Spec: Interface
+
+augmentConversionForEncryptionProperties: Interface
+
+augmentConversionForEncryptionProperties_STATUS: Interface
+
+augmentConversionForKeyVaultProperties: Interface
+
+augmentConversionForKeyVaultProperties_STATUS: Interface
+
+augmentConversionForPrivateEndpointConnectionReference_STATUS: Interface
+
+augmentConversionForResourceIdentity: Interface
+
+augmentConversionForResourceIdentity_STATUS: Interface
+
+augmentConversionForSku: Interface
+
+augmentConversionForSku_STATUS: Interface
+
+augmentConversionForSystemData: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForUserIdentity_STATUS: Interface
+
