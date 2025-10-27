@@ -496,10 +496,6 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 		},
 	}
 
-	tc.CreateResourceAndWait(securityAlertPolicy)
-
-	tc.Expect(securityAlertPolicy.Status.Id).ToNot(BeNil())
-
 	secret := tc.GetSecret(storageDetails.secretName)
 	blobEndpoint := string(secret.Data[storageDetails.blobEndpointSecretKey])
 
@@ -519,8 +515,9 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 		},
 	}
 
-	tc.CreateResourceAndWait(vulnerabilityAssessment)
+	tc.CreateResourcesAndWait(securityAlertPolicy, vulnerabilityAssessment)
 
+	tc.Expect(securityAlertPolicy.Status.Id).ToNot(BeNil())
 	tc.Expect(vulnerabilityAssessment.Status.Id).ToNot(BeNil())
 
 	tc.DeleteResourceAndWait(vulnerabilityAssessment)
