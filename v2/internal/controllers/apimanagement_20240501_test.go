@@ -308,12 +308,6 @@ func APIM_Product_Policy20240501_CRUD(tc *testcommon.KubePerTestContext, service
 		},
 	}
 
-	tc.T.Log("creating apim product to attach policy to")
-	tc.CreateResourceAndWait(&product)
-
-	tc.Expect(product.Status).ToNot(BeNil())
-	tc.Expect(product.Status.Id).ToNot(BeNil())
-
 	productPolicy := apim.ProductPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productpolicy")),
 		Spec: apim.ProductPolicy_Spec{
@@ -322,9 +316,11 @@ func APIM_Product_Policy20240501_CRUD(tc *testcommon.KubePerTestContext, service
 		},
 	}
 
-	tc.T.Log("creating apim product policy")
-	tc.CreateResourceAndWait(&productPolicy)
+	tc.T.Log("creating apim product and product policy")
+	tc.CreateResourcesAndWait(&product, &productPolicy)
 
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
 	tc.Expect(productPolicy.Status).ToNot(BeNil())
 	tc.Expect(productPolicy.Status.Id).ToNot(BeNil())
 
@@ -346,12 +342,6 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 		},
 	}
 
-	tc.T.Log("creating apim product to attach api to")
-	tc.CreateResourceAndWait(&product)
-
-	tc.Expect(product.Status).ToNot(BeNil())
-	tc.Expect(product.Status.Id).ToNot(BeNil())
-
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs2")),
 		Spec: apim.ApiVersionSet_Spec{
@@ -362,12 +352,8 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 		},
 	}
 
-	tc.T.Log("creating apim version set")
-	tc.CreateResourceAndWait(&versionSet)
-
-	versionSetReference := genruntime.ResourceReference{
-		ARMID: *versionSet.Status.Id,
-	}
+	// Use within-cluster reference instead of ARMID
+	versionSetReference := tc.MakeReferenceFromResource(&versionSet)
 
 	// Add a simple Api
 	api := apim.Api{
@@ -377,7 +363,7 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 			ApiRevision:            to.Ptr("v1"),
 			ApiRevisionDescription: to.Ptr("First Revision"),
 			ApiVersionDescription:  to.Ptr("Second Version"),
-			ApiVersionSetReference: &versionSetReference,
+			ApiVersionSetReference: versionSetReference,
 			Description:            to.Ptr("A Description about the api"),
 			DisplayName:            to.Ptr("account-api2"),
 			Owner:                  testcommon.AsOwner(service),
@@ -399,9 +385,6 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 		},
 	}
 
-	tc.T.Log("creating apim api to attach to product")
-	tc.CreateResourceAndWait(&api)
-
 	// Now link the display name of the api to the product
 	productAPI := apim.ProductApi{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
@@ -411,9 +394,11 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 		},
 	}
 
-	tc.T.Log("creating apim product api")
-	tc.CreateResourceAndWait(&productAPI)
+	tc.T.Log("creating apim product, version set, api and product api")
+	tc.CreateResourcesAndWait(&product, &versionSet, &api, &productAPI)
 
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
 	tc.Expect(productAPI.Status).ToNot(BeNil())
 
 	defer tc.DeleteResourceAndWait(&product)
@@ -433,12 +418,8 @@ func APIM_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 		},
 	}
 
-	tc.T.Log("creating apim version set")
-	tc.CreateResourceAndWait(&versionSet)
-
-	versionSetReference := genruntime.ResourceReference{
-		ARMID: *versionSet.Status.Id,
-	}
+	// Use within-cluster reference instead of ARMID
+	versionSetReference := tc.MakeReferenceFromResource(&versionSet)
 
 	// Add a simple Api
 	api := apim.Api{
@@ -448,7 +429,7 @@ func APIM_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 			ApiRevision:            to.Ptr("v1"),
 			ApiRevisionDescription: to.Ptr("First Revision"),
 			ApiVersionDescription:  to.Ptr("Second Version"),
-			ApiVersionSetReference: &versionSetReference,
+			ApiVersionSetReference: versionSetReference,
 			Description:            to.Ptr("A Description about the api"),
 			DisplayName:            to.Ptr("account-api"),
 			Owner:                  testcommon.AsOwner(service),
@@ -470,8 +451,8 @@ func APIM_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 		},
 	}
 
-	tc.T.Log("creating apim api")
-	tc.CreateResourceAndWait(&api)
+	tc.T.Log("creating apim version set and api")
+	tc.CreateResourcesAndWait(&versionSet, &api)
 	defer tc.DeleteResourceAndWait(&api)
 
 	tc.Expect(api.Status).ToNot(BeNil())
@@ -518,9 +499,6 @@ func APIM_AuthorizationProviders_Authorization20240501_CRUD(tc *testcommon.KubeP
 		},
 	}
 
-	tc.T.Log("creating apim authorization provider")
-	tc.CreateResourceAndWait(&authorizationProvider)
-
 	authorization := apim.AuthorizationProvidersAuthorization{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
 		Spec: apim.AuthorizationProvidersAuthorization_Spec{
@@ -530,8 +508,8 @@ func APIM_AuthorizationProviders_Authorization20240501_CRUD(tc *testcommon.KubeP
 		},
 	}
 
-	tc.T.Log("creating apim authorization")
-	tc.CreateResourceAndWait(&authorization)
+	tc.T.Log("creating apim authorization provider and authorization")
+	tc.CreateResourcesAndWait(&authorizationProvider, &authorization)
 
 	defer tc.DeleteResourceAndWait(&authorization)
 	tc.Expect(authorization.Status).ToNot(BeNil())
@@ -557,9 +535,6 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20240501_CRUD(tc *te
 		},
 	}
 
-	tc.T.Log("creating apim authorization provider")
-	tc.CreateResourceAndWait(&authorizationProvider)
-
 	authorization := apim.AuthorizationProvidersAuthorization{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
 		Spec: apim.AuthorizationProvidersAuthorization_Spec{
@@ -568,9 +543,6 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20240501_CRUD(tc *te
 			Owner:             testcommon.AsOwner(&authorizationProvider),
 		},
 	}
-
-	tc.T.Log("creating apim authorization")
-	tc.CreateResourceAndWait(&authorization)
 
 	configMapName := "my-configmap"
 	principalIDKey := "principalId"
@@ -597,10 +569,6 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20240501_CRUD(tc *te
 		},
 	}
 
-	tc.CreateResourceAndWait(mi)
-	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
-	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
-
 	accessPolicy := apim.AuthorizationProvidersAuthorizationsAccessPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization-access-policy")),
 		Spec: apim.AuthorizationProvidersAuthorizationsAccessPolicy_Spec{
@@ -616,8 +584,10 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20240501_CRUD(tc *te
 		},
 	}
 
-	tc.T.Log("creating apim authorization accessPolicy")
-	tc.CreateResourceAndWait(&accessPolicy)
+	tc.T.Log("creating apim authorization provider, authorization, managed identity and access policy")
+	tc.CreateResourcesAndWait(&authorizationProvider, &authorization, mi, &accessPolicy)
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
 	defer tc.DeleteResourceAndWait(&accessPolicy)
 	tc.Expect(accessPolicy.Status).ToNot(BeNil())
