@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>dbformysql.azure.com/v1api20210501 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2021-05-01” FlexibleServer Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}
-Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional administratorLoginPassword The password of the administrator login (required for server creation). genruntime.SecretReferenceOptional availabilityZone availability Zone information of the server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup related properties of a server. BackupOptional createMode The mode to create a new MySQL server. ServerProperties_CreateModeOptional dataEncryption The Data Encryption for CMK. DataEncryptionOptional highAvailability High availability related properties of a server. HighAvailabilityOptional identity The cmk identity for the server. IdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window of a server. MaintenanceWindowOptional network Network related properties of a server. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired replicationRole The replication role. ReplicationRoleOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. SkuOptional sourceServerResourceId The source MySQL server id. stringOptional storage Storage related properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Server version. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional availabilityZone availability Zone information of the server. stringOptional backup Backup related properties of a server. Backup_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode The mode to create a new MySQL server. ServerProperties_CreateMode_STATUSOptional dataEncryption The Data Encryption for CMK. DataEncryption_STATUSOptional fullyQualifiedDomainName The fully qualified domain name of a server. stringOptional highAvailability High availability related properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The cmk identity for the server. Identity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window of a server. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional network Network related properties of a server. Network_STATUSOptional replicaCapacity The maximum number of replicas that a primary server can have. intOptional replicationRole The replication role. ReplicationRole_STATUSOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. Sku_STATUSOptional sourceServerResourceId The source MySQL server id. stringOptional state The state of a server. ServerProperties_State_STATUSOptional storage Storage related properties of a server. Storage_STATUSOptional systemData The system metadata relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Server version. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20210501/">
+<title>quota.azure.com/v1api20250901 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2025-09-01” Quota Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
+Used by: QuotaList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Quota_SpecOptional status Quota_STATUSOptional Quota_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure QuotaOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaPropertiesOptional Quota_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional QuotaList Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/quota/v1api20250901/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="dbformysql.azure.com/v1api20210501">
-  <meta property="og:description" content="APIVersion Value Description “2021-05-01” FlexibleServer Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}
-Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional administratorLoginPassword The password of the administrator login (required for server creation). genruntime.SecretReferenceOptional availabilityZone availability Zone information of the server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup related properties of a server. BackupOptional createMode The mode to create a new MySQL server. ServerProperties_CreateModeOptional dataEncryption The Data Encryption for CMK. DataEncryptionOptional highAvailability High availability related properties of a server. HighAvailabilityOptional identity The cmk identity for the server. IdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window of a server. MaintenanceWindowOptional network Network related properties of a server. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired replicationRole The replication role. ReplicationRoleOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. SkuOptional sourceServerResourceId The source MySQL server id. stringOptional storage Storage related properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Server version. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional availabilityZone availability Zone information of the server. stringOptional backup Backup related properties of a server. Backup_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode The mode to create a new MySQL server. ServerProperties_CreateMode_STATUSOptional dataEncryption The Data Encryption for CMK. DataEncryption_STATUSOptional fullyQualifiedDomainName The fully qualified domain name of a server. stringOptional highAvailability High availability related properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The cmk identity for the server. Identity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window of a server. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional network Network related properties of a server. Network_STATUSOptional replicaCapacity The maximum number of replicas that a primary server can have. intOptional replicationRole The replication role. ReplicationRole_STATUSOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. Sku_STATUSOptional sourceServerResourceId The source MySQL server id. stringOptional state The state of a server. ServerProperties_State_STATUSOptional storage Storage related properties of a server. Storage_STATUSOptional systemData The system metadata relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Server version. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}">
+  <meta property="og:title" content="quota.azure.com/v1api20250901">
+  <meta property="og:description" content="APIVersion Value Description “2025-09-01” Quota Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
+Used by: QuotaList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Quota_SpecOptional status Quota_STATUSOptional Quota_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure QuotaOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaPropertiesOptional Quota_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional QuotaList Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="dbformysql.azure.com/v1api20210501">
-  <meta itemprop="description" content="APIVersion Value Description “2021-05-01” FlexibleServer Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}
-Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional administratorLoginPassword The password of the administrator login (required for server creation). genruntime.SecretReferenceOptional availabilityZone availability Zone information of the server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup related properties of a server. BackupOptional createMode The mode to create a new MySQL server. ServerProperties_CreateModeOptional dataEncryption The Data Encryption for CMK. DataEncryptionOptional highAvailability High availability related properties of a server. HighAvailabilityOptional identity The cmk identity for the server. IdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window of a server. MaintenanceWindowOptional network Network related properties of a server. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired replicationRole The replication role. ReplicationRoleOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. SkuOptional sourceServerResourceId The source MySQL server id. stringOptional storage Storage related properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Server version. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional availabilityZone availability Zone information of the server. stringOptional backup Backup related properties of a server. Backup_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode The mode to create a new MySQL server. ServerProperties_CreateMode_STATUSOptional dataEncryption The Data Encryption for CMK. DataEncryption_STATUSOptional fullyQualifiedDomainName The fully qualified domain name of a server. stringOptional highAvailability High availability related properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The cmk identity for the server. Identity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window of a server. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional network Network related properties of a server. Network_STATUSOptional replicaCapacity The maximum number of replicas that a primary server can have. intOptional replicationRole The replication role. ReplicationRole_STATUSOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. Sku_STATUSOptional sourceServerResourceId The source MySQL server id. stringOptional state The state of a server. ServerProperties_State_STATUSOptional storage Storage related properties of a server. Storage_STATUSOptional systemData The system metadata relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Server version. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}">
-  <meta itemprop="wordCount" content="3162">
+  <meta itemprop="name" content="quota.azure.com/v1api20250901">
+  <meta itemprop="description" content="APIVersion Value Description “2025-09-01” Quota Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
+Used by: QuotaList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Quota_SpecOptional status Quota_STATUSOptional Quota_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure QuotaOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaPropertiesOptional Quota_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional QuotaList Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}">
+  <meta itemprop="wordCount" content="960">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="dbformysql.azure.com/v1api20210501">
-  <meta name="twitter:description" content="APIVersion Value Description “2021-05-01” FlexibleServer Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}
-Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional administratorLoginPassword The password of the administrator login (required for server creation). genruntime.SecretReferenceOptional availabilityZone availability Zone information of the server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup related properties of a server. BackupOptional createMode The mode to create a new MySQL server. ServerProperties_CreateModeOptional dataEncryption The Data Encryption for CMK. DataEncryptionOptional highAvailability High availability related properties of a server. HighAvailabilityOptional identity The cmk identity for the server. IdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window of a server. MaintenanceWindowOptional network Network related properties of a server. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired replicationRole The replication role. ReplicationRoleOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. SkuOptional sourceServerResourceId The source MySQL server id. stringOptional storage Storage related properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Server version. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin The administrator’s login name of a server. Can only be specified when the server is being created (and is required for creation). stringOptional availabilityZone availability Zone information of the server. stringOptional backup Backup related properties of a server. Backup_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode The mode to create a new MySQL server. ServerProperties_CreateMode_STATUSOptional dataEncryption The Data Encryption for CMK. DataEncryption_STATUSOptional fullyQualifiedDomainName The fully qualified domain name of a server. stringOptional highAvailability High availability related properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The cmk identity for the server. Identity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window of a server. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional network Network related properties of a server. Network_STATUSOptional replicaCapacity The maximum number of replicas that a primary server can have. intOptional replicationRole The replication role. ReplicationRole_STATUSOptional restorePointInTime Restore point creation time (ISO8601 format), specifying the time to restore from. stringOptional sku The SKU (pricing tier) of the server. Sku_STATUSOptional sourceServerResourceId The source MySQL server id. stringOptional state The state of a server. ServerProperties_State_STATUSOptional storage Storage related properties of a server. Storage_STATUSOptional systemData The system metadata relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Server version. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}">
+  <meta name="twitter:title" content="quota.azure.com/v1api20250901">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-09-01” Quota Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}
+Used by: QuotaList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Quota_SpecOptional status Quota_STATUSOptional Quota_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure QuotaOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaPropertiesOptional Quota_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties Quota properties for the specified resource, based on the API called, Quotas or Usages. QuotaProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional QuotaList Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -409,18 +409,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
   <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" title="dbformysql.azure.com/v1api20210501" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="td-sidebar-nav-active-item">v1api20210501</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" title="dbformysql.azure.com/v1api20210501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">v1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" title="dbformysql.azure.com/v1api20220101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">v1api20220101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" title="dbformysql.azure.com/v1api20230630" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">v1api20230630</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20231230-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20231230-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" title="dbformysql.azure.com/v1api20231230" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">v1api20231230</span></a>
 </li>
   </ul>
@@ -613,11 +613,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" title="operationalinsights.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencequota-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencequota-li">
   <a href="/azure-service-operator/reference/quota/" title="Quota Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencequota"><span class="">Quota</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencequotav1api20250901-li">
-  <a href="/azure-service-operator/reference/quota/v1api20250901/" title="quota.azure.com/v1api20250901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencequotav1api20250901"><span class="">v1api20250901</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencequotav1api20250901-li">
+  <a href="/azure-service-operator/reference/quota/v1api20250901/" title="quota.azure.com/v1api20250901" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencequotav1api20250901"><span class="td-sidebar-nav-active-item">v1api20250901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
@@ -860,76 +860,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
         <nav id="TableOfContents">
   <ul>
     <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#FlexibleServer">FlexibleServer</a>
+    <li><a href="#Quota">Quota</a>
       <ul>
-        <li><a href="#FlexibleServer_Spec">FlexibleServer_Spec</a></li>
-        <li><a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a></li>
+        <li><a href="#Quota_Spec">Quota_Spec</a></li>
+        <li><a href="#Quota_STATUS">Quota_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#FlexibleServerList">FlexibleServerList</a></li>
-    <li><a href="#FlexibleServersDatabase">FlexibleServersDatabase</a>
-      <ul>
-        <li><a href="#FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</a></li>
-        <li><a href="#FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#FlexibleServersDatabaseList">FlexibleServersDatabaseList</a></li>
-    <li><a href="#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>
-      <ul>
-        <li><a href="#FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</a></li>
-        <li><a href="#FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#FlexibleServersFirewallRuleList">FlexibleServersFirewallRuleList</a></li>
-    <li><a href="#FlexibleServer_Spec">FlexibleServer_Spec</a></li>
-    <li><a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a></li>
-    <li><a href="#FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</a></li>
-    <li><a href="#FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</a></li>
-    <li><a href="#FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</a></li>
-    <li><a href="#FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a></li>
-    <li><a href="#Backup">Backup</a></li>
-    <li><a href="#Backup_STATUS">Backup_STATUS</a></li>
-    <li><a href="#DataEncryption">DataEncryption</a></li>
-    <li><a href="#DataEncryption_STATUS">DataEncryption_STATUS</a></li>
-    <li><a href="#FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a></li>
-    <li><a href="#FlexibleServersDatabaseOperatorSpec">FlexibleServersDatabaseOperatorSpec</a></li>
-    <li><a href="#FlexibleServersFirewallRuleOperatorSpec">FlexibleServersFirewallRuleOperatorSpec</a></li>
-    <li><a href="#HighAvailability">HighAvailability</a></li>
-    <li><a href="#HighAvailability_STATUS">HighAvailability_STATUS</a></li>
-    <li><a href="#Identity">Identity</a></li>
-    <li><a href="#Identity_STATUS">Identity_STATUS</a></li>
-    <li><a href="#MaintenanceWindow">MaintenanceWindow</a></li>
-    <li><a href="#MaintenanceWindow_STATUS">MaintenanceWindow_STATUS</a></li>
-    <li><a href="#Network">Network</a></li>
-    <li><a href="#Network_STATUS">Network_STATUS</a></li>
-    <li><a href="#ReplicationRole">ReplicationRole</a></li>
-    <li><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a></li>
-    <li><a href="#ServerProperties_CreateMode">ServerProperties_CreateMode</a></li>
-    <li><a href="#ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</a></li>
-    <li><a href="#ServerProperties_State_STATUS">ServerProperties_State_STATUS</a></li>
-    <li><a href="#ServerVersion">ServerVersion</a></li>
-    <li><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a></li>
-    <li><a href="#Sku">Sku</a></li>
-    <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
-    <li><a href="#Storage">Storage</a></li>
-    <li><a href="#Storage_STATUS">Storage_STATUS</a></li>
+    <li><a href="#QuotaList">QuotaList</a></li>
+    <li><a href="#Quota_Spec">Quota_Spec</a></li>
+    <li><a href="#Quota_STATUS">Quota_STATUS</a></li>
+    <li><a href="#QuotaOperatorSpec">QuotaOperatorSpec</a></li>
+    <li><a href="#QuotaProperties">QuotaProperties</a></li>
+    <li><a href="#QuotaProperties_STATUS">QuotaProperties_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
-    <li><a href="#DataEncryption_Type">DataEncryption_Type</a></li>
-    <li><a href="#DataEncryption_Type_STATUS">DataEncryption_Type_STATUS</a></li>
-    <li><a href="#EnableStatusEnum">EnableStatusEnum</a></li>
-    <li><a href="#EnableStatusEnum_STATUS">EnableStatusEnum_STATUS</a></li>
-    <li><a href="#FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps</a></li>
-    <li><a href="#FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets</a></li>
-    <li><a href="#HighAvailability_Mode">HighAvailability_Mode</a></li>
-    <li><a href="#HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS</a></li>
-    <li><a href="#HighAvailability_State_STATUS">HighAvailability_State_STATUS</a></li>
-    <li><a href="#Identity_Type">Identity_Type</a></li>
-    <li><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a></li>
-    <li><a href="#Sku_Tier">Sku_Tier</a></li>
-    <li><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a></li>
+    <li><a href="#LimitJsonObject">LimitJsonObject</a></li>
+    <li><a href="#LimitJsonObject_STATUS">LimitJsonObject_STATUS</a></li>
+    <li><a href="#ResourceName">ResourceName</a></li>
+    <li><a href="#ResourceName_STATUS">ResourceName_STATUS</a></li>
     <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
-    <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
+    <li><a href="#LimitObject">LimitObject</a></li>
+    <li><a href="#LimitObject_STATUS">LimitObject_STATUS</a></li>
+    <li><a href="#LimitType">LimitType</a></li>
+    <li><a href="#LimitType_STATUS">LimitType_STATUS</a></li>
+    <li><a href="#QuotaLimitTypes">QuotaLimitTypes</a></li>
+    <li><a href="#QuotaLimitTypes_STATUS">QuotaLimitTypes_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -946,13 +901,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/dbformysql/">DBforMySQL</a></li>
+    <a href="/azure-service-operator/reference/quota/">Quota</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v1api20210501</li>
+    v1api20250901</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>dbformysql.azure.com/v1api20210501</h1>
+	<h1>quota.azure.com/v1api20250901</h1>
 	
 	<header class="article-meta">
 		
@@ -968,14 +923,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;2021-05-01&rdquo;</td>
+          <td>&ldquo;2025-09-01&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="FlexibleServer">FlexibleServer</h2>
-<p>Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}</p>
-<p>Used by: <a href="#FlexibleServerList">FlexibleServerList</a>.</p>
+<h2 id="Quota">Quota</h2>
+<p>Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}</p>
+<p>Used by: <a href="#QuotaList">QuotaList</a>.</p>
 <table>
   <thead>
       <tr>
@@ -998,16 +953,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>spec</td>
           <td></td>
-          <td><a href="#FlexibleServer_Spec">FlexibleServer_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#Quota_Spec">Quota_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>status</td>
           <td></td>
-          <td><a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#Quota_STATUS">Quota_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="FlexibleServer_Spec">FlexibleServer_Spec</h3>
+<h3 id="Quota_Spec">Quota_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1017,114 +972,29 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </thead>
   <tbody>
-      <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>administratorLoginPassword</td>
-          <td>The password of the administrator login (required for server creation).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>availabilityZone</td>
-          <td>availability Zone information of the server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
       <tr>
           <td>azureName</td>
           <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>backup</td>
-          <td>Backup related properties of a server.</td>
-          <td><a href="#Backup">Backup</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new MySQL server.</td>
-          <td><a href="#ServerProperties_CreateMode">ServerProperties_CreateMode</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataEncryption</td>
-          <td>The Data Encryption for CMK.</td>
-          <td><a href="#DataEncryption">DataEncryption</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>highAvailability</td>
-          <td>High availability related properties of a server.</td>
-          <td><a href="#HighAvailability">HighAvailability</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>The cmk identity for the server.</td>
-          <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>maintenanceWindow</td>
-          <td>Maintenance window of a server.</td>
-          <td><a href="#MaintenanceWindow">MaintenanceWindow</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>network</td>
-          <td>Network related properties of a server.</td>
-          <td><a href="#Network">Network</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#QuotaOperatorSpec">QuotaOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>replicationRole</td>
-          <td>The replication role.</td>
-          <td><a href="#ReplicationRole">ReplicationRole</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>restorePointInTime</td>
-          <td>Restore point creation time (ISO8601 format), specifying the time to restore from.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerResourceId</td>
-          <td>The source MySQL server id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storage</td>
-          <td>Storage related properties of a server.</td>
-          <td><a href="#Storage">Storage</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Quota properties for the specified resource, based on the API called, Quotas or Usages.</td>
+          <td><a href="#QuotaProperties">QuotaProperties</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="FlexibleServer_STATUS">FlexibleServer_STATUS</h3>
+<h3 id="Quota_STATUS">Quota_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1135,64 +1005,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>availabilityZone</td>
-          <td>availability Zone information of the server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>backup</td>
-          <td>Backup related properties of a server.</td>
-          <td><a href="#Backup_STATUS">Backup_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>conditions</td>
           <td>The observed state of the resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>createMode</td>
-          <td>The mode to create a new MySQL server.</td>
-          <td><a href="#ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataEncryption</td>
-          <td>The Data Encryption for CMK.</td>
-          <td><a href="#DataEncryption_STATUS">DataEncryption_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>The fully qualified domain name of a server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>highAvailability</td>
-          <td>High availability related properties of a server.</td>
-          <td><a href="#HighAvailability_STATUS">HighAvailability_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>The cmk identity for the server.</td>
-          <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maintenanceWindow</td>
-          <td>Maintenance window of a server.</td>
-          <td><a href="#MaintenanceWindow_STATUS">MaintenanceWindow_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1200,69 +1020,24 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>network</td>
-          <td>Network related properties of a server.</td>
-          <td><a href="#Network_STATUS">Network_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicaCapacity</td>
-          <td>The maximum number of replicas that a primary server can have.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicationRole</td>
-          <td>The replication role.</td>
-          <td><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>restorePointInTime</td>
-          <td>Restore point creation time (ISO8601 format), specifying the time to restore from.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerResourceId</td>
-          <td>The source MySQL server id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The state of a server.</td>
-          <td><a href="#ServerProperties_State_STATUS">ServerProperties_State_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storage</td>
-          <td>Storage related properties of a server.</td>
-          <td><a href="#Storage_STATUS">Storage_STATUS</a><br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Quota properties for the specified resource, based on the API called, Quotas or Usages.</td>
+          <td><a href="#QuotaProperties_STATUS">QuotaProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
-          <td>The system metadata relating to this resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
           <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a><br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
-<h2 id="FlexibleServerList">FlexibleServerList</h2>
-<p>Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}</p>
+<h2 id="QuotaList">QuotaList</h2>
+<p>Generator information: - Generated from: /quota/resource-manager/Microsoft.Quota/Quota/stable/2025-09-01/openapi.json - ARM URI: /{scope}/providers/Microsoft.Quota/quotas/{resourceName}</p>
 <table>
   <thead>
       <tr>
@@ -1285,45 +1060,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>items</td>
           <td></td>
-          <td><a href="#FlexibleServer">FlexibleServer[]</a><br/><small>Optional</small></td>
+          <td><a href="#Quota">Quota[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="FlexibleServersDatabase">FlexibleServersDatabase</h2>
-<p>Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}/​databases/​{databaseName}</p>
-<p>Used by: <a href="#FlexibleServersDatabaseList">FlexibleServersDatabaseList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</h3>
+<h2 id="Quota_Spec">Quota_Spec</h2>
+<p>Used by: <a href="#Quota">Quota</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1339,174 +1081,24 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#FlexibleServersDatabaseOperatorSpec">FlexibleServersDatabaseOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#QuotaOperatorSpec">QuotaOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Quota properties for the specified resource, based on the API called, Quotas or Usages.</td>
+          <td><a href="#QuotaProperties">QuotaProperties</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system metadata relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersDatabaseList">FlexibleServersDatabaseList</h2>
-<p>Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}/​databases/​{databaseName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#FlexibleServersDatabase">FlexibleServersDatabase[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersFirewallRule">FlexibleServersFirewallRule</h2>
-<p>Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
-<p>Used by: <a href="#FlexibleServersFirewallRuleList">FlexibleServersFirewallRuleList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endIpAddress</td>
-          <td>The end IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#FlexibleServersFirewallRuleOperatorSpec">FlexibleServersFirewallRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>startIpAddress</td>
-          <td>The start IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</h3>
+<h2 id="Quota_STATUS">Quota_STATUS</h2>
+<p>Used by: <a href="#Quota">Quota</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1522,13 +1114,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>endIpAddress</td>
-          <td>The end IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1537,13 +1124,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>startIpAddress</td>
-          <td>The start IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Quota properties for the specified resource, based on the API called, Quotas or Usages.</td>
+          <td><a href="#QuotaProperties_STATUS">QuotaProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
-          <td>The system metadata relating to this resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1553,630 +1140,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="FlexibleServersFirewallRuleList">FlexibleServersFirewallRuleList</h2>
-<p>Generator information: - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2021-05-01/mysql.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMySQL/​flexibleServers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#FlexibleServersFirewallRule">FlexibleServersFirewallRule[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServer_Spec">FlexibleServer_Spec</h2>
-<p>Used by: <a href="#FlexibleServer">FlexibleServer</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>administratorLoginPassword</td>
-          <td>The password of the administrator login (required for server creation).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>availabilityZone</td>
-          <td>availability Zone information of the server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>backup</td>
-          <td>Backup related properties of a server.</td>
-          <td><a href="#Backup">Backup</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new MySQL server.</td>
-          <td><a href="#ServerProperties_CreateMode">ServerProperties_CreateMode</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataEncryption</td>
-          <td>The Data Encryption for CMK.</td>
-          <td><a href="#DataEncryption">DataEncryption</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>highAvailability</td>
-          <td>High availability related properties of a server.</td>
-          <td><a href="#HighAvailability">HighAvailability</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>The cmk identity for the server.</td>
-          <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>maintenanceWindow</td>
-          <td>Maintenance window of a server.</td>
-          <td><a href="#MaintenanceWindow">MaintenanceWindow</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>network</td>
-          <td>Network related properties of a server.</td>
-          <td><a href="#Network">Network</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>replicationRole</td>
-          <td>The replication role.</td>
-          <td><a href="#ReplicationRole">ReplicationRole</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>restorePointInTime</td>
-          <td>Restore point creation time (ISO8601 format), specifying the time to restore from.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerResourceId</td>
-          <td>The source MySQL server id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storage</td>
-          <td>Storage related properties of a server.</td>
-          <td><a href="#Storage">Storage</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServer_STATUS">FlexibleServer_STATUS</h2>
-<p>Used by: <a href="#FlexibleServer">FlexibleServer</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>availabilityZone</td>
-          <td>availability Zone information of the server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>backup</td>
-          <td>Backup related properties of a server.</td>
-          <td><a href="#Backup_STATUS">Backup_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new MySQL server.</td>
-          <td><a href="#ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataEncryption</td>
-          <td>The Data Encryption for CMK.</td>
-          <td><a href="#DataEncryption_STATUS">DataEncryption_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>The fully qualified domain name of a server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>highAvailability</td>
-          <td>High availability related properties of a server.</td>
-          <td><a href="#HighAvailability_STATUS">HighAvailability_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>The cmk identity for the server.</td>
-          <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maintenanceWindow</td>
-          <td>Maintenance window of a server.</td>
-          <td><a href="#MaintenanceWindow_STATUS">MaintenanceWindow_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>network</td>
-          <td>Network related properties of a server.</td>
-          <td><a href="#Network_STATUS">Network_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicaCapacity</td>
-          <td>The maximum number of replicas that a primary server can have.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicationRole</td>
-          <td>The replication role.</td>
-          <td><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>restorePointInTime</td>
-          <td>Restore point creation time (ISO8601 format), specifying the time to restore from.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerResourceId</td>
-          <td>The source MySQL server id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The state of a server.</td>
-          <td><a href="#ServerProperties_State_STATUS">ServerProperties_State_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storage</td>
-          <td>Storage related properties of a server.</td>
-          <td><a href="#Storage_STATUS">Storage_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system metadata relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</h2>
-<p>Used by: <a href="#FlexibleServersDatabase">FlexibleServersDatabase</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#FlexibleServersDatabaseOperatorSpec">FlexibleServersDatabaseOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</h2>
-<p>Used by: <a href="#FlexibleServersDatabase">FlexibleServersDatabase</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system metadata relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</h2>
-<p>Used by: <a href="#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endIpAddress</td>
-          <td>The end IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#FlexibleServersFirewallRuleOperatorSpec">FlexibleServersFirewallRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>startIpAddress</td>
-          <td>The start IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</h2>
-<p>Used by: <a href="#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endIpAddress</td>
-          <td>The end IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>startIpAddress</td>
-          <td>The start IP address of the server firewall rule. Must be IPv4 format.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system metadata relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Backup">Backup</h2>
-<p>Storage Profile properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>backupRetentionDays</td>
-          <td>Backup retention days for the server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoRedundantBackup</td>
-          <td>Whether or not geo redundant backup is enabled.</td>
-          <td><a href="#EnableStatusEnum">EnableStatusEnum</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Backup_STATUS">Backup_STATUS</h2>
-<p>Storage Profile properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>backupRetentionDays</td>
-          <td>Backup retention days for the server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>earliestRestoreDate</td>
-          <td>Earliest restore point creation time (ISO8601 format)</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoRedundantBackup</td>
-          <td>Whether or not geo redundant backup is enabled.</td>
-          <td><a href="#EnableStatusEnum_STATUS">EnableStatusEnum_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption">DataEncryption</h2>
-<p>The date encryption for cmk.</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>geoBackupKeyURI</td>
-          <td>Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoBackupUserAssignedIdentityReference</td>
-          <td>Geo backup user identity resource id as identity can&rsquo;t cross region, need identity in same region as geo backup</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryKeyURI</td>
-          <td>Primary key uri</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryUserAssignedIdentityReference</td>
-          <td>Primary user identity resource id</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</td>
-          <td><a href="#DataEncryption_Type">DataEncryption_Type</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption_STATUS">DataEncryption_STATUS</h2>
-<p>The date encryption for cmk.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>geoBackupKeyURI</td>
-          <td>Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoBackupUserAssignedIdentityId</td>
-          <td>Geo backup user identity resource id as identity can&rsquo;t cross region, need identity in same region as geo backup</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryKeyURI</td>
-          <td>Primary key uri</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryUserAssignedIdentityId</td>
-          <td>Primary user identity resource id</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</td>
-          <td><a href="#DataEncryption_Type_STATUS">DataEncryption_Type_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</h2>
+<h2 id="QuotaOperatorSpec">QuotaOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>configMaps</td>
-          <td>configures where to place operator written ConfigMaps.</td>
-          <td><a href="#FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secrets</td>
-          <td>configures where to place Azure generated secrets.</td>
-          <td><a href="#FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServersDatabaseOperatorSpec">FlexibleServersDatabaseOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</a>.</p>
+<p>Used by: <a href="#Quota_Spec">Quota_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2198,9 +1164,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="FlexibleServersFirewallRuleOperatorSpec">FlexibleServersFirewallRuleOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</a>.</p>
+<h2 id="QuotaProperties">QuotaProperties</h2>
+<p>Quota properties for the specified resource.</p>
+<p>Used by: <a href="#Quota_Spec">Quota_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2211,464 +1177,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>limit</td>
+          <td>Resource quota limit properties.</td>
+          <td><a href="#LimitJsonObject">LimitJsonObject</a><br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="HighAvailability">HighAvailability</h2>
-<p>Network related properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>mode</td>
-          <td>High availability mode for a server.</td>
-          <td><a href="#HighAvailability_Mode">HighAvailability_Mode</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>standbyAvailabilityZone</td>
-          <td>Availability zone of the standby server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="HighAvailability_STATUS">HighAvailability_STATUS</h2>
-<p>Network related properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>mode</td>
-          <td>High availability mode for a server.</td>
-          <td><a href="#HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>standbyAvailabilityZone</td>
-          <td>Availability zone of the standby server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The state of server high availability.</td>
-          <td><a href="#HighAvailability_State_STATUS">HighAvailability_State_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Identity">Identity</h2>
-<p>Properties to configure Identity for Bring your Own Keys</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>type</td>
-          <td>Type of managed service identity.</td>
-          <td><a href="#Identity_Type">Identity_Type</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userAssignedIdentities</td>
-          <td>Metadata of user assigned identity.</td>
-          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Identity_STATUS">Identity_STATUS</h2>
-<p>Properties to configure Identity for Bring your Own Keys</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>principalId</td>
-          <td>ObjectId from the KeyVault</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tenantId</td>
-          <td>TenantId from the KeyVault</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Type of managed service identity.</td>
-          <td><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userAssignedIdentities</td>
-          <td>Metadata of user assigned identity.</td>
-          <td>map[string]v1.JSON<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MaintenanceWindow">MaintenanceWindow</h2>
-<p>Maintenance window of a server.</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>customWindow</td>
-          <td>indicates whether custom window is enabled or disabled</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dayOfWeek</td>
-          <td>day of week for maintenance window</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>startHour</td>
-          <td>start hour for maintenance window</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>startMinute</td>
-          <td>start minute for maintenance window</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MaintenanceWindow_STATUS">MaintenanceWindow_STATUS</h2>
-<p>Maintenance window of a server.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>customWindow</td>
-          <td>indicates whether custom window is enabled or disabled</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dayOfWeek</td>
-          <td>day of week for maintenance window</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>startHour</td>
-          <td>start hour for maintenance window</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>startMinute</td>
-          <td>start minute for maintenance window</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Network">Network</h2>
-<p>Network related properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>delegatedSubnetResourceReference</td>
-          <td>Delegated subnet resource id used to setup vnet for a server.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>privateDnsZoneResourceReference</td>
-          <td>Private DNS zone resource id.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Network_STATUS">Network_STATUS</h2>
-<p>Network related properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>delegatedSubnetResourceId</td>
-          <td>Delegated subnet resource id used to setup vnet for a server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>privateDnsZoneResourceId</td>
-          <td>Private DNS zone resource id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is <code>Disabled</code> when server has VNet integration.</td>
-          <td><a href="#EnableStatusEnum_STATUS">EnableStatusEnum_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ReplicationRole">ReplicationRole</h2>
-<p>The replication role.</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;None&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Source&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ReplicationRole_STATUS">ReplicationRole_STATUS</h2>
-<p>The replication role.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;None&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Source&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerProperties_CreateMode">ServerProperties_CreateMode</h2>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeoRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;PointInTimeRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</h2>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeoRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;PointInTimeRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerProperties_State_STATUS">ServerProperties_State_STATUS</h2>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Dropping&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Ready&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Starting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Stopped&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Stopping&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerVersion">ServerVersion</h2>
-<p>The version of a server.</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;5.7&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;8.0.21&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerVersion_STATUS">ServerVersion_STATUS</h2>
-<p>The version of a server.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;5.7&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;8.0.21&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku">Sku</h2>
-<p>Billing information related properties of a server.</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
       <tr>
           <td>name</td>
-          <td>The name of the sku, e.g. Standard_D32s_v3.</td>
-          <td>string<br/><small>Required</small></td>
+          <td>Resource name provided by the resource provider. Use this property name when requesting quota.</td>
+          <td><a href="#ResourceName">ResourceName</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>tier</td>
-          <td>The tier of the particular SKU, e.g. GeneralPurpose.</td>
-          <td><a href="#Sku_Tier">Sku_Tier</a><br/><small>Required</small></td>
+          <td>properties</td>
+          <td>Additional properties for the specific resource provider.</td>
+          <td>v1.JSON<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceType</td>
+          <td>The name of the resource type. Optional field.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Sku_STATUS">Sku_STATUS</h2>
-<p>Billing information related properties of a server.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
+<h2 id="QuotaProperties_STATUS">QuotaProperties_STATUS</h2>
+<p>Quota properties for the specified resource.</p>
+<p>Used by: <a href="#Quota_STATUS">Quota_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2679,83 +1211,45 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
+          <td>isQuotaApplicable</td>
+          <td>States if quota can be requested for this resource.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>limit</td>
+          <td>Resource quota limit properties.</td>
+          <td><a href="#LimitJsonObject_STATUS">LimitJsonObject_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>name</td>
-          <td>The name of the sku, e.g. Standard_D32s_v3.</td>
+          <td>Resource name provided by the resource provider. Use this property name when requesting quota.</td>
+          <td><a href="#ResourceName_STATUS">ResourceName_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Additional properties for the specific resource provider.</td>
+          <td>v1.JSON<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>quotaPeriod</td>
+          <td>The time period over which the quota usage values are summarized. For example: *P1D (per one day) *PT1M (per one minute) *PT1S (per one second). This parameter is optional because, for some resources like compute, the period is irrelevant.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>tier</td>
-          <td>The tier of the particular SKU, e.g. GeneralPurpose.</td>
-          <td><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Storage">Storage</h2>
-<p>Storage Profile properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>autoGrow</td>
-          <td>Enable Storage Auto Grow or not.</td>
-          <td><a href="#EnableStatusEnum">EnableStatusEnum</a><br/><small>Optional</small></td>
+          <td>resourceType</td>
+          <td>The name of the resource type. Optional field.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>iops</td>
-          <td>Storage IOPS for a server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageSizeGB</td>
-          <td>Max storage size allowed for a server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Storage_STATUS">Storage_STATUS</h2>
-<p>Storage Profile properties of a server</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>autoGrow</td>
-          <td>Enable Storage Auto Grow or not.</td>
-          <td><a href="#EnableStatusEnum_STATUS">EnableStatusEnum_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>iops</td>
-          <td>Storage IOPS for a server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageSizeGB</td>
-          <td>Max storage size allowed for a server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageSku</td>
-          <td>The sku name of the server storage.</td>
+          <td>unit</td>
+          <td>The quota units, such as Count and Bytes. When requesting quota, use the unit value returned in the GET response in the request body of your PUT operation.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</a>, and <a href="#FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a>.</p>
+<p>Used by: <a href="#Quota_STATUS">Quota_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2797,90 +1291,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="DataEncryption_Type">DataEncryption_Type</h2>
-<p>Used by: <a href="#DataEncryption">DataEncryption</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;AzureKeyVault&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SystemManaged&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption_Type_STATUS">DataEncryption_Type_STATUS</h2>
-<p>Used by: <a href="#DataEncryption_STATUS">DataEncryption_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;AzureKeyVault&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SystemManaged&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EnableStatusEnum">EnableStatusEnum</h2>
-<p>Enum to indicate whether value is <code>Enabled</code> or <code>Disabled</code></p>
-<p>Used by: <a href="#Backup">Backup</a>, and <a href="#Storage">Storage</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EnableStatusEnum_STATUS">EnableStatusEnum_STATUS</h2>
-<p>Enum to indicate whether value is <code>Enabled</code> or <code>Disabled</code></p>
-<p>Used by: <a href="#Backup_STATUS">Backup_STATUS</a>, <a href="#Network_STATUS">Network_STATUS</a>, and <a href="#Storage_STATUS">Storage_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps</h2>
-<p>Used by: <a href="#FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>.</p>
+<h2 id="LimitJsonObject">LimitJsonObject</h2>
+<p>Used by: <a href="#QuotaProperties">QuotaProperties</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2891,19 +1303,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
-          <td>administratorLogin</td>
-          <td>indicates where the AdministratorLogin config map should be placed. If omitted, no config map will be created.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no config map will be created.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+          <td>limitValue</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#LimitObject">LimitObject</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets</h2>
-<p>Used by: <a href="#FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>.</p>
+<h2 id="LimitJsonObject_STATUS">LimitJsonObject_STATUS</h2>
+<p>Used by: <a href="#QuotaProperties_STATUS">QuotaProperties_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2914,169 +1321,52 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+          <td>limitValue</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#LimitObject_STATUS">LimitObject_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="HighAvailability_Mode">HighAvailability_Mode</h2>
-<p>Used by: <a href="#HighAvailability">HighAvailability</a>.</p>
+<h2 id="ResourceName">ResourceName</h2>
+<p>Name of the resource provided by the resource Provider. When requesting quota, use this property name.</p>
+<p>Used by: <a href="#QuotaProperties">QuotaProperties</a>.</p>
 <table>
   <thead>
       <tr>
-          <th>Value</th>
+          <th>Property</th>
           <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SameZone&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ZoneRedundant&rdquo;</td>
-          <td></td>
+          <td>value</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS</h2>
-<p>Used by: <a href="#HighAvailability_STATUS">HighAvailability_STATUS</a>.</p>
+<h2 id="ResourceName_STATUS">ResourceName_STATUS</h2>
+<p>Name of the resource provided by the resource Provider. When requesting quota, use this property name.</p>
+<p>Used by: <a href="#QuotaProperties_STATUS">QuotaProperties_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
-          <th>Value</th>
+          <th>Property</th>
           <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
+          <td>localizedValue</td>
+          <td>Resource display name.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>&ldquo;SameZone&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ZoneRedundant&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="HighAvailability_State_STATUS">HighAvailability_State_STATUS</h2>
-<p>Used by: <a href="#HighAvailability_STATUS">HighAvailability_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;CreatingStandby&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;FailingOver&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Healthy&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;NotEnabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;RemovingStandby&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Identity_Type">Identity_Type</h2>
-<p>Used by: <a href="#Identity">Identity</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;UserAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Identity_Type_STATUS">Identity_Type_STATUS</h2>
-<p>Used by: <a href="#Identity_STATUS">Identity_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;UserAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Tier">Sku_Tier</h2>
-<p>Used by: <a href="#Sku">Sku</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Burstable&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeneralPurpose&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;MemoryOptimized&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Tier_STATUS">Sku_Tier_STATUS</h2>
-<p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Burstable&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeneralPurpose&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;MemoryOptimized&rdquo;</td>
-          <td></td>
+          <td>value</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3136,9 +1426,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
-<p>Information about the user assigned identity for the resource</p>
-<p>Used by: <a href="#Identity">Identity</a>.</p>
+<h2 id="LimitObject">LimitObject</h2>
+<p>Used by: <a href="#LimitJsonObject">LimitJsonObject</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3149,9 +1438,123 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </thead>
   <tbody>
       <tr>
-          <td>reference</td>
+          <td>limitObjectType</td>
+          <td>The limit object type.</td>
+          <td><a href="#LimitType">LimitType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>limitType</td>
+          <td>The quota or usages limit types.</td>
+          <td><a href="#QuotaLimitTypes">QuotaLimitTypes</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>value</td>
+          <td>The quota/limit value</td>
+          <td>int<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LimitObject_STATUS">LimitObject_STATUS</h2>
+<p>Used by: <a href="#LimitJsonObject_STATUS">LimitJsonObject_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>limitObjectType</td>
+          <td>The limit object type.</td>
+          <td><a href="#LimitType_STATUS">LimitType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>limitType</td>
+          <td>The quota or usages limit types.</td>
+          <td><a href="#QuotaLimitTypes_STATUS">QuotaLimitTypes_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>value</td>
+          <td>The quota/limit value</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LimitType">LimitType</h2>
+<p>The limit object type.</p>
+<p>Used by: <a href="#LimitObject">LimitObject</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;LimitValue&rdquo;</td>
           <td></td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LimitType_STATUS">LimitType_STATUS</h2>
+<p>The limit object type.</p>
+<p>Used by: <a href="#LimitObject_STATUS">LimitObject_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;LimitValue&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="QuotaLimitTypes">QuotaLimitTypes</h2>
+<p>The quota or usages limit types.</p>
+<p>Used by: <a href="#LimitObject">LimitObject</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Independent&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Shared&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="QuotaLimitTypes_STATUS">QuotaLimitTypes_STATUS</h2>
+<p>The quota or usages limit types.</p>
+<p>Used by: <a href="#LimitObject_STATUS">LimitObject_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Independent&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Shared&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
