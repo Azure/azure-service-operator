@@ -41,6 +41,7 @@ The following extension points are available for customizing resource behavior:
 | [KubernetesSecretExporter]({{< relref "kubernetes-secret-exporter" >}}) | Export secrets to Kubernetes | After successful reconciliation |
 | [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}) | Perform post-reconciliation validation | After ARM reconciliation succeeds |
 | [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}) | Validate before reconciling | Before sending requests to ARM |
+| [PreReconciliationOwnerChecker]({{< relref "pre-reconciliation-owner-checker" >}}) | Validate owner state before reconciling | Before any ARM operations (including GET) |
 | [SuccessfulCreationHandler]({{< relref "successful-creation-handler" >}}) | Handle successful resource creation | After initial resource creation |
 
 ## When to Use Extensions

@@ -17,8 +17,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// PreReconciliationChecker is implemented by resources that want to do extra checks before proceeding with
-// a full ARM reconcile.
+// PreReconciliationOwnerChecker is implemented by resources that want to check their owner's state before
+// proceeding with a full ARM reconcile. This is a specialized variant of PreReconciliationChecker that only
+// checks the owner, avoiding any GET operations on the resource itself.
+// Implement this extension when:
+// - The owner's state can block all access to the resource, including GET operations
+// - You need to avoid attempting operations that will fail due to owner state
+// - The resource cannot be accessed when its owner is in certain states (e.g., powered off, updating)
 type PreReconciliationOwnerChecker interface {
 	// PreReconcileOwnerCheck does a pre-reconcile check to see if the owner of a resource is in a state that permits
 	// the resource to be reconciled. For a limited number of resources, the state of their owner can block all access
@@ -29,9 +34,9 @@ type PreReconciliationOwnerChecker interface {
 	// Returns ProceedWithReconcile if the reconciliation should go ahead.
 	// Returns BlockReconcile and a human-readable reason if the reconciliation should be skipped.
 	// ctx is the current operation context.
-	// owner is the owner of the resource about to be reconciled. The owner's State will be freshly updated. May be nil
+	// owner is the owner of the resource about to be reconciled. The owner's status will be freshly updated. May be nil
 	// if the resource has no owner, or if it has been referenced via ARMID directly.
-	// kubeClient allows access to the cluster for any required queries.
+	// resourceResolver helps resolve resource references.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
 	// next is the next (nested) implementation to call.
