@@ -5,15 +5,13 @@ toc_hide: true
 
 ## Context
 
-We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources, but are now running into rare occassions where the existing framework doesn't fully handle the required conversion.
+We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we're encountering the "long tail" - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
 
-The most recent example affects preview versions of [`ManagedClustersAgentPool`]({{< relref "containerservice/v1api20240402preview/_index.md" >}}#ManagedClustersAgentPool) (a child resource of [`ManagedCluster`]({{< relref "containerservice/v1api20240402preview/_index.md" >}}#ManagedCluster)) where the cardinatlity of [ScaleProfile]({{< relref "containerservice/v1api20240402preview/_index.md" >}}#ScaleProfile) has changed from plural (`AutoScaleProfile[]`) to singular (`AutoScaleProfile`).
+The most recent example affects preview versions of [`ManagedClustersAgentPool`]({{< relref "reference/containerservice/v1api20240402preview/_index.md" >}}#ManagedClustersAgentPool) (a child resource of [`ManagedCluster`]({{< relref "reference/containerservice/v1api20240402preview/_index.md" >}}#ManagedCluster)) where the cardinatlity of [ScaleProfile]({{< relref "reference/containerservice/v1api20240402preview/_index.md" >}}#ScaleProfile) has changed from plural (`AutoScaleProfile[]`) to singular (`AutoScaleProfile`).
 
 In the past, as each case of incompatibility has arisen, we've enhanced the code generator to handle the new case, taking the stance that it's better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).
 
-However, have we reached the point of diminishing returns? Each new case we handle requires more complexity in the generator, and the frequency of new cases is now very low.
-
-### Option 1: Continue to extend the generator
+### Option 1: Continue to extend the generator (status quo)
 
 As new cases that aren't yet handled arise, enhance the code generator to handle the required conviersions automatically. This is the status quo approach.
 
