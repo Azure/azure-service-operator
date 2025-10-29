@@ -89,10 +89,11 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
 	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(blobService)
-	// no DELETE, this is not a real resource
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

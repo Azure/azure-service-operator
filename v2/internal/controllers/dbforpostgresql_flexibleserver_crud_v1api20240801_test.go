@@ -261,6 +261,8 @@ func FlexibleServer_AdvancedThreatProtection_20240801_CRUD(tc *testcommon.KubePe
 			State: to.Ptr(postgresql.ServerThreatProtectionProperties_State_Enabled),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
 	tc.AddAnnotation(&threatProtection.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(threatProtection)

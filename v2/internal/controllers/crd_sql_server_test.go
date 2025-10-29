@@ -639,12 +639,17 @@ func makeStorageAccountForSQLVulnerabilityAssessment(tc *testcommon.KubePerTestC
 			},
 		},
 	}
+
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(vulnerabilityAssessmentsContainerName),
 		Spec: storage.StorageAccountsBlobServicesContainer_Spec{

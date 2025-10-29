@@ -151,6 +151,8 @@ func Insights_PricingPlan_20171001_CRUD(
 			StopSendNotificationWhenHitCap: to.Ptr(true),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
 	tc.AddAnnotation(&plan.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(plan)
