@@ -60,6 +60,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+	tc.AddAnnotation(&queueServices.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queueServices)
 

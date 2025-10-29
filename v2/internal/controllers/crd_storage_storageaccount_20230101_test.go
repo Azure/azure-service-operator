@@ -89,6 +89,7 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(blobService)
 	// no DELETE, this is not a real resource
@@ -121,6 +122,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
+	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queueService)
 	// cannot delete - not a real resource
@@ -142,6 +144,7 @@ func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, 
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
+	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queue)
 	defer tc.DeleteResourceAndWait(queue)

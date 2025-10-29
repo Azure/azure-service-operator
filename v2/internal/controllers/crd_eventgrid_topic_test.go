@@ -115,6 +115,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queueService)
 

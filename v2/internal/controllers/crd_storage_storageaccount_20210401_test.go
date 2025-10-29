@@ -109,6 +109,7 @@ func StorageAccount_QueueServices_20210401_CRUD(tc *testcommon.KubePerTestContex
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
+	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queueService)
 	// cannot delete - not a real resource
@@ -130,6 +131,7 @@ func StorageAccount_QueueServices_Queue_20210401_CRUD(tc *testcommon.KubePerTest
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
+	tc.AddAnnotation(&queue.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queue)
 	defer tc.DeleteResourceAndWait(queue)
