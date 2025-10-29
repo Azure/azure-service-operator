@@ -25,7 +25,7 @@ type Importer interface {
 	// rsrc is the resource being imported.
 	// owner is an optional owner for the resource.
 	// next is a function to call to do the actual import.
-	// Returns ImportResult indicating success or skip with a reason, and an error if import fails.
+	// Returns an ImportResult indicating success or skip with a reason, and an error if import fails.
 	Import(
 		ctx context.Context,
 		rsrc genruntime.ImportableResource,

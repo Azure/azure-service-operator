@@ -8,7 +8,7 @@ menu:
 description: "How to extend Azure Service Operator v2 resources with custom behavior"
 ---
 
-Azure Service Operator v2 provides several extension points that allow customization of resource behavior beyond what is generated from Azure OpenAPI specifications. These extension points enable contributors to add custom logic at various stages of the resource lifecycle.
+Azure Service Operator v2 provides several extension points that allow customization of resource behavior. These extension points enable contributors to compensate for variation in the behavior of resources by adding custom logic at various stages of the resource lifecycle.
 
 ## Overview
 
@@ -25,7 +25,7 @@ Extensions are typically implemented in resource-specific files under `v2/api/<s
 
 2. Implement the required method(s) of the interface
 
-3. The controller automatically detects and uses the extension through type assertion
+3. The controller automatically detects and uses the extension through a type-check at the appropriate time
 
 ### Available Extension Points
 
@@ -34,7 +34,6 @@ The following extension points are available for customizing resource behavior:
 | Extension Point | Purpose | When Invoked |
 |-----------------|---------|--------------|
 | [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}) | Modify the ARM payload before sending to Azure | Just before PUT/PATCH to ARM |
-| [Claimer]({{< relref "claimer" >}}) | Customize resource claiming logic | During resource ownership claim |
 | [Deleter]({{< relref "deleter" >}}) | Customize resource deletion behavior | When resource is being deleted |
 | [ErrorClassifier]({{< relref "error-classifier" >}}) | Classify ARM errors as retryable or fatal | When ARM returns an error |
 | [Importer]({{< relref "importer" >}}) | Customize resource import behavior | During `asoctl import` operations |
