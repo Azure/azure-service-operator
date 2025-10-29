@@ -6,7 +6,6 @@ menu:
     weight: 20
 cascade:
 - type: docs
-- render: always
 description: Azure Service Operator blog with updates, news, and announcements
 ---
 
