@@ -3,6 +3,9 @@ kind: SqlDatabaseContainerThroughputSetting
 metadata:
   name: sample-mongo-throughput
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent server
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: sample-sql-container

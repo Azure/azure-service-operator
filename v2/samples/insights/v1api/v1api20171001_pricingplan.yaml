@@ -3,6 +3,9 @@ kind: PricingPlan
 metadata:
   name: aso-sample-pricingplan
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent component
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   cap: 1.0
   owner:
