@@ -165,7 +165,7 @@ func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 	var errs []error
 	allRepairs := make(astmodel.TypeAssociation)
 	for _, ref := range chains {
-		repairs, err := repairer.repairChain(ref)
+		repairs, err := repairer.createRepairs(ref)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -284,11 +284,10 @@ func (repairer *skippingPropertyRepairer) hasLinkFrom(ref astmodel.PropertyRefer
 	return found
 }
 
-// repairChain checks for a gap in the specified property chain and identifies which types need to be created to repair it.
+// createRepairs checks for a gap in the specified property chain and identifies which types need to be created to repair it.
 // start is the first property reference in the chain.
 // Returns a set of type associations, identifying the required type copies
-// !! Rename to createRepairs
-func (repairer *skippingPropertyRepairer) repairChain(
+func (repairer *skippingPropertyRepairer) createRepairs(
 	start astmodel.PropertyReference,
 ) (astmodel.TypeAssociation, error) {
 	lastObserved, firstMissing := repairer.findBreak(start, repairer.wasPropertyObserved)
@@ -308,7 +307,7 @@ func (repairer *skippingPropertyRepairer) repairChain(
 	// reintroduced property intact.)
 	typesSame := repairer.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
 	if typesSame {
-		return repairer.repairChain(reintroduced)
+		return repairer.createRepairs(reintroduced)
 	}
 
 	repairer.log.V(2).Info(
@@ -330,14 +329,14 @@ func (repairer *skippingPropertyRepairer) repairChain(
 	if !ok {
 		// If not a type name, defer to our existing property conversion logic
 		// Continue checking the rest of the chain
-		return repairer.repairChain(reintroduced)
+		return repairer.createRepairs(reintroduced)
 	}
 
 	// Construct the name of the compatibility type we need to create
 	compatPkg := astmodel.MakeCompatPackageReference(lastMissing.DeclaringType().InternalPackageReference())
 	compatType := tn.WithPackageReference(compatPkg)
 
-	result, err := repairer.repairChain(reintroduced)
+	result, err := repairer.createRepairs(reintroduced)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
