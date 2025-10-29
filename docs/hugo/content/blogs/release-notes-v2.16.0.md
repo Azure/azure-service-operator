@@ -48,7 +48,7 @@ We've enhanced existing resource references with additional functionality:
 
 ## ⚠️ Breaking changes
 
-This release includes breaking changes. Please review the [breaking changes documentation](../guide/breaking-changes) before upgrading.
+This release includes breaking changes. Please review the [breaking changes documentation](https://azure.github.io/azure-service-operator/guide/breaking-changes/) before upgrading.
 
 
 ## 🙏 Thank You
