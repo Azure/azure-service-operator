@@ -159,8 +159,10 @@ func StorageAccount_TableServices_CRUD(tc *testcommon.KubePerTestContext, storag
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&tableService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(tableService)
-	// no DELETE, this is not a real resource
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

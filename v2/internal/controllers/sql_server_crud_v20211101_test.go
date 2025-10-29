@@ -275,6 +275,9 @@ func SQL_Server_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, server *
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&auditingSetting.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(auditingSetting)
 
 	tc.Expect(auditingSetting.Status.Id).ToNot(BeNil())

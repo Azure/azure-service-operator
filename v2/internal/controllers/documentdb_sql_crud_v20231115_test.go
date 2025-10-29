@@ -361,9 +361,11 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc *testc
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&throughputSettings.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	// Create the resource
 	tc.CreateResourceAndWait(&throughputSettings)
-	// no DELETE, this is not a real resource - to delete it you must delete its parent
 
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
