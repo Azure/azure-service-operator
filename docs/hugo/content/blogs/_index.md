@@ -4,17 +4,10 @@ linkTitle: Blogs
 menu:
   main:
     weight: 20
+cascade:
+- type: docs
+- render: always
+description: Azure Service Operator blog with updates, news, and announcements
 ---
 
-Welcome to the Azure Service Operator blog! Here you'll find articles, with ASO updates, news, and more.
-
-{{< cardpane >}}
-{{< blocks/section >}}
-{{% blocks/feature icon="fa-newspaper" title="Latest Posts" %}}
-
-{{< list_children >}}
-
-{{% /blocks/feature %}}
-{{< /blocks/section >}}
-{{< /cardpane >}}
-
+Welcome to the Azure Service Operator blog! Here you'll find articles with ASO updates, news, and more.
