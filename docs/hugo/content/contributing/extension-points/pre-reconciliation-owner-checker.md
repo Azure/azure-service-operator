@@ -478,7 +478,6 @@ However, it's less flexible because:
 
 - [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): Check resource state (use this unless you need owner-only checks)
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Validate after reconciliation
-- [Claimer]({{< relref "claimer" >}}): Customize claiming (runs before owner checks)
 - [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Modify payloads (runs after checks pass)
 
 ## Best Practices

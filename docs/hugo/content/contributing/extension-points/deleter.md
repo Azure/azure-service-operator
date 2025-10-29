@@ -340,7 +340,6 @@ func TestMyResourceExtension_Delete(t *testing.T) {
 
 ## Related Extension Points
 
-- [Claimer]({{< relref "claimer" >}}): Customize claiming (the opposite of deletion)
 - [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): Validate before operations
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Validate after operations
 - [SuccessfulCreationHandler]({{< relref "successful-creation-handler" >}}): Handle successful creation

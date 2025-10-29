@@ -389,7 +389,6 @@ Use `SuccessfulCreationHandler` when the logic truly requires:
 
 ## Related Extension Points
 
-- [Claimer]({{< relref "claimer" >}}): Runs before creation
 - [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Modifies the creation request
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Runs after every reconciliation
 - [KubernetesSecretExporter]({{< relref "kubernetes-secret-exporter" >}}): Also runs after successful creation

@@ -387,7 +387,6 @@ Clear, informative skip reasons help users understand why certain resources were
 
 - [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): Validate before reconciliation
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Validate after reconciliation
-- [Claimer]({{< relref "claimer" >}}): Customize claiming imported resources
 - [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Modify before sending to Azure
 
 ## Related Tools

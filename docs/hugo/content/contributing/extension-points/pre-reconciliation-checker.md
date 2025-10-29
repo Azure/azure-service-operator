@@ -441,7 +441,6 @@ Use the right tool for the right job:
 ## Related Extension Points
 
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Check after reconciliation
-- [Claimer]({{< relref "claimer" >}}): Runs before pre-reconciliation check
 - [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Runs after pre-reconciliation check
 - [ErrorClassifier]({{< relref "error-classifier" >}}): Handles errors that could have been prevented
 
