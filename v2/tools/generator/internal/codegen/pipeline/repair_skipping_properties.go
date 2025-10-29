@@ -442,8 +442,10 @@ func (repairer *skippingPropertyRepairer) mergeRepairs(
 			continue
 		}
 
-		// This might mean we change the compatibility type with a new release of ASO, but this is safe because we only
-		// ever store things using the compatibility type in a property bag only to have it immediately removed.
+		// This might mean we change the compatibility type with a new release of ASO, but this is safe because
+		// compatibility types like this are only ever used in a transient fashion.
+		// Any time we store things using the compatibility type in a property bag, it's promptly removed again
+		// as a part of the conversion process bewteeen an API version and the storage version.
 		if astmodel.ComparePathAndVersion(
 			proposedRepair.InternalPackageReference().ImportPath(),
 			existingRepair.InternalPackageReference().ImportPath()) > 0 {
@@ -452,10 +454,8 @@ func (repairer *skippingPropertyRepairer) mergeRepairs(
 				"type", source,
 				"using", proposedRepair,
 				"discarding", existingRepair)
+			into[source] = proposedRepair
 		}
-
-		// v is newer, so use it
-		into[source] = proposedRepair
 	}
 }
 
