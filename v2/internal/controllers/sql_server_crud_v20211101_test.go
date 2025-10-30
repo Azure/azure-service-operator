@@ -163,6 +163,9 @@ func SQL_Server_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext,
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&policy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(policy)
 
 	tc.Expect(policy.Status.Id).ToNot(BeNil())
@@ -180,6 +183,9 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 			State: &enabled,
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&alertPolicy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(alertPolicy)
 
@@ -274,6 +280,9 @@ func SQL_Server_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, server *
 			StorageEndpoint: &blobEndpoint,
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&auditingSetting.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(auditingSetting)
 
@@ -639,12 +648,17 @@ func makeStorageAccountForSQLVulnerabilityAssessment(tc *testcommon.KubePerTestC
 			},
 		},
 	}
+
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(vulnerabilityAssessmentsContainerName),
 		Spec: storage.StorageAccountsBlobServicesContainer_Spec{

@@ -225,6 +225,7 @@ func FlexibleServer_Configuration_20240801_CRUD(tc *testcommon.KubePerTestContex
 			Value:     to.Ptr("READ"),
 		},
 	}
+	tc.AddAnnotation(&configuration.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(configuration)
 	// This isn't a "real" resource so it cannot be deleted directly
@@ -261,9 +262,10 @@ func FlexibleServer_AdvancedThreatProtection_20240801_CRUD(tc *testcommon.KubePe
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&threatProtection.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(threatProtection)
-	// This isn't a "real" resource so it cannot be deleted directly
-	// defer tc.DeleteResourceAndWait(threatProtection)
 
 	tc.Expect(threatProtection.Status.Id).ToNot(BeNil())
 }
