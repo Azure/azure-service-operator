@@ -163,6 +163,9 @@ func SQL_Server_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext,
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&policy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(policy)
 
 	tc.Expect(policy.Status.Id).ToNot(BeNil())
