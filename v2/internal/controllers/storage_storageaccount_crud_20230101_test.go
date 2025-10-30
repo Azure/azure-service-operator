@@ -193,8 +193,10 @@ func StorageAccount_FileServices_CRUD(tc *testcommon.KubePerTestContext, storage
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&fileService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(fileService)
-	// no DELETE, this is not a real resource
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
