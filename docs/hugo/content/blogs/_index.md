@@ -3,7 +3,7 @@ title: Blog
 linkTitle: Blog
 menu:
   main:
-    weight: 20
+    weight: 2
 cascade:
 - type: docs
 description: Azure Service Operator blog with updates, news, and announcements
