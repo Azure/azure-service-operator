@@ -317,6 +317,7 @@ type WorkspaceOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *WorkspaceOperatorSecrets     `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20210601.WorkspaceSku
@@ -334,6 +335,13 @@ type WorkspaceSku_STATUS struct {
 	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20210601.WorkspaceOperatorSecrets
+type WorkspaceOperatorSecrets struct {
+	PrimarySharedKey   *genruntime.SecretDestination `json:"primarySharedKey,omitempty"`
+	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondarySharedKey *genruntime.SecretDestination `json:"secondarySharedKey,omitempty"`
 }
 
 func init() {

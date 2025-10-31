@@ -70,6 +70,8 @@ require (
 	sigs.k8s.io/yaml v1.6.0
 )
 
+require github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights v1.2.0
+
 require (
 	cel.dev/expr v0.24.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
