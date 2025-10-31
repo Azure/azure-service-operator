@@ -28,7 +28,7 @@ We've enhanced existing resource references with additional functionality:
 ## 🐛 Bug fixes
 
 - Fixed a [high-priority regression](https://github.com/Azure/azure-service-operator/pull/4966) from ASO v2.15.0 where resources failed with the `"/v1, Kind=Secret is not cached"` error during resource claims.
-- Kusto database creation should [no longer be attempted](https://github.com/Azure/azure-service-operator/pull/4976) while a cluster is stopped. 
+- Kusto database reconciliation should [no longer be attempted](https://github.com/Azure/azure-service-operator/pull/4976) while a cluster is stopped. 
 - `NetcfgSubnetRangeOutsideVnet` error is [now retryable](https://github.com/Azure/azure-service-operator/pull/4931) for VirtualNetworksSubnet to avoid the resources becoming stuck in certain scenarios.
 - Added a missing parameter for [default node pool](https://github.com/Azure/azure-service-operator/issues/4942) in Node Auto-Provisioning.
 - Fixed [select annotation changed predicate](https://github.com/Azure/azure-service-operator/pull/4967) from mistakenly classifying creates as containing annotation changes.
