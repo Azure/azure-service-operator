@@ -4449,6 +4449,9 @@ objectModelConfiguration:
       Workspace:
         $exportAs: Workspace
         $supportedFrom: v2.0.0-alpha.4
+        $azureGeneratedSecrets:
+          - PrimarySharedKey
+          - SecondarySharedKey
       WorkspaceFeatures:
         ClusterResourceId:
           $referenceType: arm
