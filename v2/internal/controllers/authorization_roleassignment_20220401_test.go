@@ -175,10 +175,6 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(mi)
-	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
-	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
-
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	kind := storage.StorageAccount_Kind_Spec_BlobStorage
@@ -196,7 +192,9 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(acct)
+	tc.CreateResourcesAndWait(mi, acct)
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
 	// Now assign that managed identity to a new role on the storage account
 	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
