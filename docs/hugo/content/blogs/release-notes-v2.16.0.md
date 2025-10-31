@@ -6,6 +6,10 @@ description: "Release notes for Azure Service Operator v2.16.0"
 
 We're excited to announce the release of Azure Service Operator v2.16.0! This release comes with a host of improvements and fixes, along with support being added for some oft-requested resources. 
 
+## ⚠️ Breaking changes
+
+This release includes breaking changes. Please review the [breaking changes documentation](https://azure.github.io/azure-service-operator/guide/breaking-changes/) before upgrading.
+
 ## 🎉 New and improved resource support
 
 ### New resource support
@@ -47,11 +51,6 @@ We've enhanced existing resource references with additional functionality:
 - Fixed linter issues from newly published linter. Completed in [#4916](https://github.com/Azure/azure-service-operator/pull/4916).
 - Deprecated `$export` in favor of `$exportAs` in generator configuration. Completed in [#4879](https://github.com/Azure/azure-service-operator/pull/4879).
 - Added "UnsupportedResourceType" to asoctl exclusions for extension resources. Completed in [#4934](https://github.com/Azure/azure-service-operator/pull/4934).
-
-## ⚠️ Breaking changes
-
-This release includes breaking changes. Please review the [breaking changes documentation](https://azure.github.io/azure-service-operator/guide/breaking-changes/) before upgrading.
-
 
 ## 🙏 Thank You
 
