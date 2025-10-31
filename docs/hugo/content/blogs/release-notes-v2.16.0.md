@@ -13,7 +13,9 @@ We're excited to announce the release of Azure Service Operator v2.16.0! This re
 We've added support for three new resources: 
 
 - [Azure Compute Capacity Reservation Groups](https://github.com/Azure/azure-service-operator/pull/4980) allowing capacity reservation manifests to be declaratively included alongside VM manifests 
+   - _Special thanks to [bingikarthik](https://github.com/bingikarthik) for his contribution!_
 - [Managing Azure quotas](https://github.com/Azure/azure-service-operator/pull/4979) for Kubernetes native management of Azure quotas
+   - _Special thanks to [bingikarthik](https://github.com/bingikarthik) for his contribution!_
 - [NetworkWatchers/flowLogs](https://github.com/Azure/azure-service-operator/issues/4614) for management of Network Security Group Flow Logs.
 
 ### Enhanced resource references
