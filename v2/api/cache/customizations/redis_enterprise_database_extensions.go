@@ -7,17 +7,16 @@ package customizations
 
 import (
 	"context"
-	"strconv"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	redisenterprise "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -25,14 +24,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-const (
-	primaryKey   = "primaryKey"
-	secondaryKey = "secondaryKey"
-)
+var _ genruntime.KubernetesSecretExporter = &RedisEnterpriseDatabaseExtension{}
 
-var _ genruntime.KubernetesSecretExporter = &RedisExtension{}
-
-func (ext *RedisExtension) ExportKubernetesSecrets(
+func (ext *RedisEnterpriseDatabaseExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	additionalSecrets set.Set[string],
@@ -41,18 +35,18 @@ func (ext *RedisExtension) ExportKubernetesSecrets(
 ) (*genruntime.KubernetesSecretExportResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
-	typedObj, ok := obj.(*redis.Redis)
+	typedObj, ok := obj.(*redisenterprise.RedisEnterpriseDatabase)
 	if !ok {
-		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *redis.Redis", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *redisenterprise.RedisEnterpriseDatabase", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 
-	primarySecrets, hasEndpoints := redisSecretsSpecified(typedObj)
+	primarySecrets := redisEnterpriseSecretsSpecified(typedObj)
 	requestedSecrets := set.Union(primarySecrets, additionalSecrets)
-	if len(requestedSecrets) == 0 && !hasEndpoints {
+	if len(requestedSecrets) == 0 {
 		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
 		return nil, nil
 	}
@@ -62,26 +56,26 @@ func (ext *RedisExtension) ExportKubernetesSecrets(
 		return nil, err
 	}
 
-	var accessKeys armredis.AccessKeys
+	var accessKeys armredisenterprise.AccessKeys
 	// Only bother calling ListKeys if there are secrets to retrieve
 	if len(requestedSecrets) > 0 {
 		subscription := id.SubscriptionID
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
-		var redisClient *armredis.Client
-		redisClient, err = armredis.NewClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		var databaseClient *armredisenterprise.DatabasesClient
+		databaseClient, err = armredisenterprise.NewDatabasesClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, eris.Wrapf(err, "failed to create new RedisClient")
+			return nil, eris.Wrapf(err, "failed to create new DatabasesClient")
 		}
 
-		var resp armredis.ClientListKeysResponse
-		resp, err = redisClient.ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
+		var resp armredisenterprise.DatabasesClientListKeysResponse
+		resp, err = databaseClient.ListKeys(ctx, id.ResourceGroupName, id.Parent.Name, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed listing keys")
 		}
 		accessKeys = resp.AccessKeys
 	}
-	secretSlice, err := redisSecretsToWrite(typedObj, accessKeys)
+	secretSlice, err := redisEnterpriseSecretsToWrite(typedObj, accessKeys)
 	if err != nil {
 		return nil, err
 	}
@@ -100,14 +94,13 @@ func (ext *RedisExtension) ExportKubernetesSecrets(
 	}, nil
 }
 
-func redisSecretsSpecified(obj *redis.Redis) (set.Set[string], bool) {
+func redisEnterpriseSecretsSpecified(obj *redisenterprise.RedisEnterpriseDatabase) set.Set[string] {
 	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
-		return nil, false
+		return nil
 	}
 
 	secrets := obj.Spec.OperatorSpec.Secrets
 	result := make(set.Set[string])
-	hasEndpoints := false
 
 	if secrets.PrimaryKey != nil {
 		result.Add(primaryKey)
@@ -116,16 +109,10 @@ func redisSecretsSpecified(obj *redis.Redis) (set.Set[string], bool) {
 		result.Add(secondaryKey)
 	}
 
-	if secrets.HostName != nil ||
-		secrets.Port != nil ||
-		secrets.SSLPort != nil {
-		hasEndpoints = true
-	}
-
-	return result, hasEndpoints
+	return result
 }
 
-func redisSecretsToWrite(obj *redis.Redis, accessKeys armredis.AccessKeys) ([]*v1.Secret, error) {
+func redisEnterpriseSecretsToWrite(obj *redisenterprise.RedisEnterpriseDatabase, accessKeys armredisenterprise.AccessKeys) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
 		return nil, nil
@@ -134,17 +121,6 @@ func redisSecretsToWrite(obj *redis.Redis, accessKeys armredis.AccessKeys) ([]*v
 	collector := secrets.NewCollector(obj.Namespace)
 	collector.AddValue(operatorSpecSecrets.PrimaryKey, to.Value(accessKeys.PrimaryKey))
 	collector.AddValue(operatorSpecSecrets.SecondaryKey, to.Value(accessKeys.SecondaryKey))
-	collector.AddValue(operatorSpecSecrets.HostName, to.Value(obj.Status.HostName))
-	collector.AddValue(operatorSpecSecrets.Port, intPtrToString(obj.Status.Port))
-	collector.AddValue(operatorSpecSecrets.SSLPort, intPtrToString(obj.Status.SslPort))
 
 	return collector.Values()
-}
-
-func intPtrToString(i *int) string {
-	if i == nil {
-		return ""
-	}
-
-	return strconv.Itoa(*i)
 }

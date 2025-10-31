@@ -15,6 +15,8 @@ import (
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
@@ -100,12 +102,29 @@ func RedisEnterprise_Database_20250401(tc *testcommon.KubePerTestContext, redis 
 	var redisCurrent cache.RedisEnterprise
 	tc.GetResource(objectKey, &redisCurrent)
 
+	secretName := "redissecret"
+
 	db := cache.RedisEnterpriseDatabase{
 		ObjectMeta: tc.MakeObjectMeta("redisdb"),
 		Spec: cache.RedisEnterpriseDatabase_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			AzureName:        "default",
 			ClusteringPolicy: to.Ptr(cache.DatabaseProperties_ClusteringPolicy_OSSCluster),
+			OperatorSpec: &cache.RedisEnterpriseDatabaseOperatorSpec{
+				SecretExpressions: []*core.DestinationExpression{
+					{
+						Name:  secretName,
+						Key:   "primaryKey",
+						Value: "secret.primaryKey",
+					},
+				},
+				Secrets: &cache.RedisEnterpriseDatabaseOperatorSecrets{
+					SecondaryKey: &genruntime.SecretDestination{
+						Name: secretName,
+						Key:  "secondaryKey",
+					},
+				},
+			},
 		},
 	}
 
@@ -113,4 +132,13 @@ func RedisEnterprise_Database_20250401(tc *testcommon.KubePerTestContext, redis 
 	tc.Expect(db.Status.Id).ToNot(BeNil())
 	tc.Expect(to.Value(db.Status.Name)).To(Equal("default"))
 	tc.Expect(to.Value(db.Status.ClusteringPolicy)).To(Equal(cache.DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster))
+	armId := *db.Status.Id
+
+	tc.ExpectSecretHasKeys(secretName, "primaryKey", "secondaryKey")
+
+	tc.DeleteResourceAndWait(&db)
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(cache.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }

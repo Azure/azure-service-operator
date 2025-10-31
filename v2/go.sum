@@ -87,6 +87,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshift/armredhato
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshift/armredhatopenshift v1.6.0/go.mod h1:/t2+d3mPIi1Ul1eXtxc5y9qmxMD3oHfSlCibhYKIB/U=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0 h1:nmpTBgRg1HynngFYICRhceC7s5dmbKN9fJ/XQz/UQ2I=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0/go.mod h1:3yjiOtnkVociBTlF7UZrwAGfJrGaOCsvtVS4HzNajxQ=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise v1.2.0 h1:hTmVmyvriwO+ymGLEsH7HZokVwinC2MZl8F0LjvPdHU=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise v1.2.0/go.mod h1:uHEpZj4TWSZEp35rIByJ8RX7hQBm3bxfPxS4tiz+x+g=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.2.0 h1:Dd+RhdJn0OTtVGaeDLZpcumkIVCtA/3/Fo42+eoYvVM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.2.0/go.mod h1:5kakwfW5CjC9KK+Q4wjXAg+ShuIm2mBMua0ZFj2C8PE=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.4.0 h1:zBdabY8pMSMLPb1XJnFSEdJi9Bd0h+VMjh1uU8B6Yp8=
