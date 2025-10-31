@@ -30,6 +30,7 @@ We've enhanced existing resource references with additional functionality:
 - UserAssignedIdentity now supports [config map](https://github.com/Azure/azure-service-operator/pull/4940).
 - A system-managed identity can now be [specified in the app resources' identity references]((https://github.com/Azure/azure-service-operator/pull/4924)).
 - ResourceReferences now support [WellKnown names](https://github.com/Azure/azure-service-operator/pull/4922). By enabling the proper `$resourceType`, a resource can be called by their well-known name instead of a full ARM ID.
+- Fixed 2 broken [ResourceReferenceProperties](https://github.com/Azure/azure-service-operator/pull/4925), `UserAssignedIdentityReference` and `KeyVaultArmReference`, which were previously seen as just strings but are now recognized as proper references.
 
 ## 🐛 Bug fixes
 
