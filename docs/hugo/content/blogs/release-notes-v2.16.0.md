@@ -39,7 +39,6 @@ We've enhanced existing resource references with additional functionality:
 - `NetcfgSubnetRangeOutsideVnet` error is [now retryable](https://github.com/Azure/azure-service-operator/pull/4931) for VirtualNetworksSubnet to avoid the resources becoming stuck in certain scenarios.
 - Added a missing parameter for [default node pool](https://github.com/Azure/azure-service-operator/issues/4942) in Node Auto-Provisioning.
 - Fixed [select annotation changed predicate](https://github.com/Azure/azure-service-operator/pull/4967) from mistakenly classifying creates as containing annotation changes.
-- Fixed broken [ResourceReferenceProperties](https://github.com/Azure/azure-service-operator/pull/4925).
 - Fixed `asoctl` import failures for [DataCollectionRule in PostgreSQL tables](https://github.com/Azure/azure-service-operator/issues/4919).
 
 ## 🔧 Infrastructure and technical improvements
