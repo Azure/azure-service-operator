@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,21 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Design &amp; Specifications | Azure Service Operator</title>
-<meta name="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/">
+<title>2025-10: The Long Tail of Property Conversion | Azure Service Operator</title>
+<meta name="description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Design & Specifications">
-  <meta property="og:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta property="og:title" content="2025-10: The Long Tail of Property Conversion">
+  <meta property="og:description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
-  <meta itemprop="name" content="Design & Specifications">
-  <meta itemprop="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-  <meta itemprop="wordCount" content="1487">
+  <meta itemprop="name" content="2025-10: The Long Tail of Property Conversion">
+  <meta itemprop="description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
+  <meta itemprop="wordCount" content="511">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Design & Specifications">
-  <meta name="twitter:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta name="twitter:title" content="2025-10: The Long Tail of Property Conversion">
+  <meta name="twitter:description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -743,7 +751,7 @@
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
-  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="td-sidebar-nav-active-item">Design</span></a>
+  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
@@ -851,22 +859,21 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#in-progress">In progress</a>
+    <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#2025">2025</a></li>
+        <li><a href="#option-1-continue-to-extend-the-generator-status-quo">Option 1: Continue to extend the generator (status quo)</a></li>
+        <li><a href="#option-2-add-an-opt-out-mechanism-for-custom-conversion">Option 2: Add an opt-out mechanism for custom conversion</a></li>
       </ul>
     </li>
-    <li><a href="#completed-changes">Completed Changes</a>
+    <li><a href="#decision">Decision</a>
       <ul>
-        <li><a href="#2024">2024</a></li>
-        <li><a href="#2023">2023</a></li>
-        <li><a href="#2022">2022</a></li>
-        <li><a href="#2021">2021</a></li>
-        <li><a href="#2020">2020</a></li>
-        <li><a href="#earlier">Earlier</a></li>
+        <li><a href="#suggested-configuration">Suggested Configuration</a></li>
       </ul>
     </li>
-    <li><a href="#format">Format</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
       </div>
@@ -878,300 +885,72 @@
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/design/">Design</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Design</li>
+    2025-10: The Long Tail of Property Conversion</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Design &amp; Specifications</h1>
-	<div class="lead">Design discussions, decisions, and specifications for Azure Service Operator v2</div>
+	<h1>2025-10: The Long Tail of Property Conversion</h1>
+  
 	<header class="article-meta">
 		
 </header>
-	<p>Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this
-folder. ADRs are listed reverse chronologically by year. <a href="#format">See below</a> for the structure each ADR uses.</p>
-<h2 id="in-progress">In progress</h2>
-<p>These ADRs reflect work that is being discussed, has been proposed, or is currently in progress.</p>
-<h3 id="2025">2025</h3>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: center">Proposed</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Status</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center">2025</td>
-          <td><a href="/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/"><strong>The Long Tail of Property Conversion</strong></a></td>
-          <td>A design to address the increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator for inter-version transformation of resources.</td>
-          <td>Proposed</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2025</td>
-          <td><a href="/azure-service-operator/design/adr-2025-05-version-priority/"><strong>Version Priority</strong></a></td>
-          <td>A design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes.</td>
-          <td>Implementation underway</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2025</td>
-          <td><a href="/azure-service-operator/design/adr-2025-01-arm-references/"><strong>Improving ARM References</strong></a></td>
-          <td>Options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.</td>
-          <td>Implementation underway</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2024</td>
-          <td><a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/"><strong>Upstream Deletion</strong></a></td>
-          <td>When might deletion of an upstream resource occur and how will ASO handle it.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2023</td>
-          <td><a href="/azure-service-operator/design/adr-2023-04-deprecation/"><strong>Resource Deprecation</strong></a></td>
-          <td>Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2022</td>
-          <td><a href="/azure-service-operator/design/adr-2022-11-change-detection/"><strong>Change Detection</strong></a></td>
-          <td>The challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues.</td>
-          <td>Revision in progress</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">Earlier</td>
-          <td><a href="/azure-service-operator/design/crossplane/"><strong>CrossPlane</strong></a></td>
-          <td>Discusses the intricacies of code generation for Crossplane, including static &ldquo;special&rdquo; properties, cross resource references, and the challenges associated with generating these references.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">Earlier</td>
-          <td><a href="/azure-service-operator/design/reconcile-interface/"><strong>Improving the Reconciler interface</strong></a></td>
-          <td>Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.</td>
-          <td>Open</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="completed-changes">Completed Changes</h2>
-<p>These ADRs reflect work that has been completed, grouped by year of proposal.</p>
-<h3 id="2024">2024</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/"><strong>OperatorSpec Custom Properties</strong></a></td>
-          <td>Injecting additional properties into OperatorSpec for additional flexibility and extensibility of resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/"><strong>RoleAssignments UUID Generation</strong></a></td>
-          <td>Allowing users more control over how the GUIDs used for naming RoleAssignments are generated.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2023">2023</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-02-adoption-policy/"><strong>Adoption Policy</strong></a></td>
-          <td>Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user&rsquo;s ability to control operator actions.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/"><strong>Conversion Augmentation</strong></a></td>
-          <td>Learn about the need for conversion augmentation in Kubernetes resource versions, the role of code generation, and the strategies for augmenting these conversions with hand-written code to ensure backward and forward compatibility.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/"><strong>Goal Seeking KeyVaults</strong></a></td>
-          <td>Understand the challenges posed by Azure KeyVault&rsquo;s soft-delete feature in a goal-seeking system like Azure Service Operator, and the need for a solution that prevents resources from entering permanently degraded states without manual intervention.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/"><strong>Helm Chart Size Limitations</strong></a></td>
-          <td>Address the Helm chart size limitations causing problems for Azure Service Operator, discussing the implications of Kubernetes secret size limits, the impact on chart installation, and potential workarounds such as splitting the Helm chart.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/"><strong>Installing Only Selected CRDs</strong></a></td>
-          <td>Understand the need for selective CRD installation in Azure Service Operator to mitigate kube-apiserver memory usage, and the requirements for a seamless upgrade experience and default configuration that fits into minimal memory environments</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-07-packagereferences/"><strong>Package References</strong></a></td>
-          <td>Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code generator, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-04-patch-collections/"><strong>Patch Collections</strong></a></td>
-          <td>Address the issue of resource drift in Azure Service Operator due to Azure Resource Providers&rsquo; PATCH-like behavior on PUT, and discuss potential solutions such as optional properties and explicit nulls to ensure the custom resource represents the complete desired state.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/"><strong>Post-Reconciliation Extensions</strong></a></td>
-          <td>Understand the introduction of the PostReconciliationChecker extension in Azure Service Operator to handle post-reconciliation operations, allowing for custom conditions to be set on resources based on the status received from Azure Resource Manager.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-09-skipping-properties/"><strong>Skipping Properties</strong></a></td>
-          <td>A design to address the problems that occur when a property skips multiple resource versions and has a different shape when it returns.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2022">2022</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/"><strong>Backward Compatibility</strong></a></td>
-          <td>As a part of planning for our first beta release consider the implications of modifying the version prefix for code-generated resources in Azure Service Operator.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/"><strong>Evil Discriminator</strong></a></td>
-          <td>Understand the challenges posed by the &rsquo;evil discriminator&rsquo; in Swagger/OpenAPI, a term coined by the Azure Service Operator team to describe the differences in defining polymorphic API payloads in Swagger compared to JSON Schema.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/"><strong>Muliple Credential Operator</strong></a></td>
-          <td>proposed support for multiple credentials under a global operator in Azure Service Operator, enabling management of Azure resources across multiple subscriptions, with a detailed explanation of the credential selection hierarchy and caching mechanism.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/"><strong>Reading Status properties from other ASO resources</strong></a></td>
-          <td>discussion of various ways to allow one ASO resource to consume information generated by another, with details on how we decided to use configmaps to do this.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/"><strong>Reconciler Extensions</strong></a></td>
-          <td>Understand the need for reconciler extensions in Azure Service Operator to manage inconsistencies in Azure Resource Providers&rsquo; behavior, and the proposal for precise, per-resource customization without duplicating existing functionality or risking inconsistencies.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-11-resource-import/"><strong>Resource Import</strong></a></td>
-          <td>Review the strategies for migrating from Azure Service Operator v1 to v2, including version integration and resource import job, each with its pros, cons, and potential blockers.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/"><strong>Reconciliation Extensions</strong></a></td>
-          <td>Understand the need for reconciliation extensions in Azure Service Operator to handle resources in transient states that preclude successful PUT operations, and the proposal for an extension point to modify the reconciliation flow accordingly.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2021">2021</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/"><strong>API Version Recovery</strong></a></td>
-          <td>Identity the challenges of API version recovery in Azure Service Operator, discussing the importance of using the correct Azure API version for expected behavior, and the need to pivot back to the original version for generating the correct ARM payload.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/"><strong>Committing Generated Code</strong></a></td>
-          <td>Uncover the reasons and implications of committing generated code in the Azure Service Operator, discussing the benefits of traceability, easier debugging, and the ability to review generated changes.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Property Conversions</strong></a></td>
-          <td>Explore the need for codegen conversion routines in handling property conversions across different versions of a resource, with examples of how primitive types can evolve over time.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2020">2020</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/"><strong>Abstract Syntax Tree Library Choice</strong></a></td>
-          <td>Background on the decision to adopt the <code>dst</code> (Decorated Syntax Tree) library in the Azure Service Operator Code Generator, addressing limitations of the standard Go `ast`` library such as unexpected comment placements, non-compliance with go fmt standards, and poor control over whitespace.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/"><strong>Pipeline Architecture</strong></a></td>
-          <td>The pipeline architecture of the ASO code generator, its design, and how it contributes to the overall functionality and efficiency of the system.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Why Code Generation?</strong></a></td>
-          <td>Rationale and impact of adopting code generation in the Azure Service Operator, including the benefits of full feature coverage, reduced overhead for new resources, and consistent behavior across all resources.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="earlier">Earlier</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/clarifying-object-structure/"><strong>Clarifying Object Structure</strong></a></td>
-          <td>Dive into the challenges of differentiating Azure-specific properties from operator-specific properties in the object structure of resources, with a focus on potential solutions for Status and upcoming properties like SecretConfiguration and Credentials.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/guide/annotations/"><strong>Custom validation and defaulting</strong></a></td>
-          <td>Delve into the proposal for custom validation and defaulting for code-generated resources, discussing the limitations of controller-runtime interfaces and suggesting a structure for autogenerated webhooks that allows for custom implementations.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/secrets/"><strong>Managing dataplane secrets</strong></a></td>
-          <td>Managing dataplane secrets in Azure Service Operator, including the drawbacks of auto-generating secrets and the implications for secret rollover, control, security, resource adoption, and GitOps compatibility.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/resource-states/"><strong>Reporting Resource Status</strong></a></td>
-          <td>A proposal for reporting resource status in Azure Service Operator, discussing the distinction between operator status and Azure resource state, and the current state and limitations of both handcrafted and auto-generated resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/type-references-and-ownership/"><strong>Type References and Ownership</strong></a></td>
-          <td>type references and ownership in Azure Service Operator, discussing goals such as idiomatic expression of Azure resource relationships, automatic ownership, garbage collection, and interaction with non-Kubernetes managed Azure resources.</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="format">Format</h2>
-<p>Each ADR should contain the following sections:</p>
+	<h2 id="context">Context</h2>
+<p>We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we&rsquo;re encountering the &ldquo;long tail&rdquo; - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.</p>
+<p>The most recent example affects preview versions of <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/#ManagedClustersAgentPool"><code>ManagedClustersAgentPool</code></a> (a child resource of <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/#ManagedCluster"><code>ManagedCluster</code></a>) where the cardinatlity of <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/#ScaleProfile">ScaleProfile</a> has changed from plural (<code>AutoScaleProfile[]</code>) to singular (<code>AutoScaleProfile</code>).</p>
+<p>In the past, as each case of incompatibility has arisen, we&rsquo;ve enhanced the code generator to handle the new case, taking the stance that it&rsquo;s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).</p>
+<h3 id="option-1-continue-to-extend-the-generator-status-quo">Option 1: Continue to extend the generator (status quo)</h3>
+<p>As new cases that aren&rsquo;t yet handled arise, enhance the code generator to handle the required conviersions automatically. This is the status quo approach.</p>
+<h4 id="pros">Pros</h4>
 <ul>
-<li>Context: Context for the problem. What are related issues/problems? What is the history?</li>
-<li>Requirements: A short list of goals</li>
-<li>Options optional section containing 1 or more options, w/ pros + cons. Can omit if there is only one real option.
+<li>Once a case is handled, it is handled for all resources, so we don&rsquo;t need to write custom conversion code for each resource that needs it.</li>
+</ul>
+<h4 id="cons">Cons</h4>
 <ul>
-<li>OR Category + Options: For more complex ADRs where there are multiple facets to the design that are somewhat
-orthogonal, you can instead give categories and then define options within those categories</li>
+<li>Each new case adds complexity to the generator, making it harder to maintain and reason about.</li>
+<li>The frequency of new cases is low, so the cost of enhancing the generator may outweigh the benefits.</li>
 </ul>
-</li>
-<li>Decision: Which option did you choose and why?
+<h3 id="option-2-add-an-opt-out-mechanism-for-custom-conversion">Option 2: Add an opt-out mechanism for custom conversion</h3>
+<p>When a resource requires a property conversion that the generator doesn&rsquo;t handle, allow configuration to specify that custom conversion code will be provided for that specific property. The generator will then skip generating conversion code for that property, allowing the custom code to take precedence.</p>
+<h4 id="pros-1">Pros</h4>
 <ul>
-<li>FAQ: Can optionally include an FAQ in this section answering common questions about the decision that weren&rsquo;t
-already answered in the options section.</li>
+<li>Avoids adding complexity to the generator for rare cases.</li>
+<li>Allows for targeted custom conversion code only where needed.</li>
+<li>We already have the <code>augment*</code> hooks for custom conversion code, so this approach builds on existing mechanisms.</li>
 </ul>
-</li>
-<li>Status</li>
-<li>Consequences</li>
-<li>Experience Report</li>
-<li>References</li>
+<h4 id="cons-1">Cons</h4>
+<ul>
+<li>Requires writing custom conversion code for each resource that needs it, which could lead to more code to maintain.</li>
+<li>May lead to inconsistencies if different resources implement custom conversion differently (though, policy differences between different situations may make this an advantage).</li>
 </ul>
-<p>Ideally, each ADR should run to one or two pages in length. You can use the
-<a href="/azure-service-operator/design/adr-year-month-title/">simple template</a>.</p>
-<p>For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list
-alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured
-in a separate design document linked from the ADR.</p>
-<p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
-<p>ADR documents should be updated over time to keep them relevant, typically by updating the <em>Experience Report</em> section.</p>
+<h2 id="decision">Decision</h2>
+<p>Add an opt-out mechanism for custom conversion for specific properties when the generator doesn&rsquo;t handle the required conversion.</p>
+<p>Assess each case as it arises, and if it is rare enough that enhancing the generator isn&rsquo;t justified, use the opt-out mechanism to provide custom conversion code for that property. For more common cases, continue to enhance the generator as we have in the past.</p>
+<h3 id="suggested-configuration">Suggested Configuration</h3>
+<p>Enhance the existing <code>objectModelConfiguration</code> structure to allow specifying <code>$conversionStrategy</code> at the property level. Permissible values would be:</p>
+<ul>
+<li><code>auto</code> - Default behavior, generate conversion code automatically.</li>
+<li><code>custom</code> - Skip generating conversion code for this specific property only, but generate a type assertion to force implementation of the appropriate <code>augment*</code> hook (this will help to avoid silent failures where a developer forgets to implement the custom conversion code).</li>
+<li><code>none</code> - Skip generating conversion code for this property without forcing implementation of the <code>augment*</code> hook (useful for properties that don&rsquo;t require conversion at all).</li>
+</ul>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<h2 id="experience-report">Experience Report</h2>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="/azure-service-operator/design/versioning/">Resource Versioning</a></li>
+</ul>
 
-	
+	<div class="section-index">
+    
+    
+    </div>
 </div>
-
 
           </main>
         </div>

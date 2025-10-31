@@ -166,6 +166,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2025-05-version-priority/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/chatgpt-release-template/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>

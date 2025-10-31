@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2025-10: The Long Tail of Property Conversion on Azure Service Operator</title>
+    <link>https://azure.github.io/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/</link>
+    <description>Recent content in 2025-10: The Long Tail of Property Conversion on Azure Service Operator</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="https://azure.github.io/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
