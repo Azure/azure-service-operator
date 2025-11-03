@@ -151,9 +151,6 @@ func SQL_Server_ConnectionPolicy_CRUD(tc *testcommon.KubePerTestContext, server 
 	tc.CreateResourceAndWait(policy)
 
 	tc.Expect(policy.Status.Id).ToNot(BeNil())
-
-	// TODO: Delete is not allowed for this resource
-	// tc.DeleteResourceAndWait(policy)
 }
 
 func SQL_Server_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
@@ -493,6 +490,9 @@ func SQL_BackupLongTermRetention_CRUD(tc *testcommon.KubePerTestContext, db *sql
 			WeeklyRetention: to.Ptr("P30D"),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&policy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(policy)
 	tc.Expect(policy.Status.Id).ToNot(BeNil())
