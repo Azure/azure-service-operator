@@ -564,12 +564,12 @@ func SQL_Database_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, db *sq
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&auditingSetting.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(auditingSetting)
 
 	tc.Expect(auditingSetting.Status.Id).ToNot(BeNil())
-
-	// Resource doesn't support delete
-	// tc.DeleteResourceAndWait(auditingSetting)
 }
 
 func SQL_Database_TransparentDataEncryption_CRUD(tc *testcommon.KubePerTestContext, db *sql.ServersDatabase) {
@@ -582,12 +582,12 @@ func SQL_Database_TransparentDataEncryption_CRUD(tc *testcommon.KubePerTestConte
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&transparentDataEncryption.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(transparentDataEncryption)
 
 	tc.Expect(transparentDataEncryption.Status.Id).ToNot(BeNil())
-
-	// Delete is not supported for this resource
-	// tc.DeleteResourceAndWait(transparentDataEncryption)
 }
 
 func SQL_Database_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext, db *sql.ServersDatabase) {
