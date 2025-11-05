@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FlexibleServersVirtualEndpoint{}
 
 // ConvertFrom populates our FlexibleServersVirtualEndpoint from the provided hub FlexibleServersVirtualEndpoint
 func (endpoint *FlexibleServersVirtualEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersVirtualEndpoint)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersVirtualEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersVirtualEndpoint
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return endpoint.AssignProperties_From_FlexibleServersVirtualEndpoint(source)
+	err = endpoint.AssignProperties_From_FlexibleServersVirtualEndpoint(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to endpoint")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersVirtualEndpoint from our FlexibleServersVirtualEndpoint
 func (endpoint *FlexibleServersVirtualEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersVirtualEndpoint)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersVirtualEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersVirtualEndpoint
+	err := endpoint.AssignProperties_To_FlexibleServersVirtualEndpoint(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from endpoint")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return endpoint.AssignProperties_To_FlexibleServersVirtualEndpoint(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersVirtualEndpoint{}
@@ -87,17 +101,6 @@ func (endpoint *FlexibleServersVirtualEndpoint) SecretDestinationExpressions() [
 		return nil
 	}
 	return endpoint.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServersVirtualEndpoint{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (endpoint *FlexibleServersVirtualEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServersVirtualEndpoint_STATUS); ok {
-		return endpoint.Spec.Initialize_From_FlexibleServersVirtualEndpoint_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServersVirtualEndpoint_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersVirtualEndpoint{}
@@ -484,24 +487,6 @@ func (endpoint *FlexibleServersVirtualEndpoint_Spec) AssignProperties_To_Flexibl
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServersVirtualEndpoint_STATUS populates our FlexibleServersVirtualEndpoint_Spec from the provided source FlexibleServersVirtualEndpoint_STATUS
-func (endpoint *FlexibleServersVirtualEndpoint_Spec) Initialize_From_FlexibleServersVirtualEndpoint_STATUS(source *FlexibleServersVirtualEndpoint_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := genruntime.ToEnum(string(*source.EndpointType), virtualEndpointResourceProperties_EndpointType_Values)
-		endpoint.EndpointType = &endpointType
-	} else {
-		endpoint.EndpointType = nil
-	}
-
-	// Members
-	endpoint.Members = genruntime.CloneSliceOfString(source.Members)
 
 	// No error
 	return nil
