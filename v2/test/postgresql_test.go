@@ -15,7 +15,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -364,7 +364,7 @@ func newPostgresSQLSecret(tc *testcommon.KubePerTestContext, key string, passwor
 }
 
 func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *postgresql.FlexibleServer {
-	version := postgresql.ServerVersion_16
+	version := postgresql.ServerVersion_18
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
 		Key:  adminKey,
