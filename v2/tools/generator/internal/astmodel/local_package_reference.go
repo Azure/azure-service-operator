@@ -42,6 +42,17 @@ func MakeLocalPackageReference(prefix string, group string, versionPrefix string
 	}
 }
 
+// MakeLocalPackageReference Creates a new local package reference from a group and name.
+// This is used for non-versioned packages, such as "customizations"
+func MakeNamedLocalPackageReference(prefix string, group string, name string) LocalPackageReference {
+	return LocalPackageReference{
+		localPathPrefix: prefix,
+		group:           group,
+		apiVersion:      name,
+		version:         sanitizePackageName(name),
+	}
+}
+
 // LocalPathPrefix returns the prefix (everything up to the group name)
 func (pr LocalPackageReference) LocalPathPrefix() string {
 	return pr.localPathPrefix

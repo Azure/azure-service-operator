@@ -16,7 +16,7 @@ func getExtendedResourcesTestData() (string, astmodel.LocalPackageReference) {
 	testGroup := "microsoft.person"
 
 	// We don't use test.MakeLocalPackageReference because that forces a 'v' prefix we don't need/want
-	extensionPackage := astmodel.MakeLocalPackageReference(test.GoModulePrefix, testGroup, "", "customizations")
+	extensionPackage := astmodel.MakeNamedLocalPackageReference(test.GoModulePrefix, testGroup, "customizations")
 	return testGroup, extensionPackage
 }
 
