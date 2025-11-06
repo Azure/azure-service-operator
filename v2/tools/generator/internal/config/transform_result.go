@@ -212,7 +212,7 @@ func (tr *TransformResult) produceTargetPackageReference(ref astmodel.InternalPa
 				version = tr.Version.String()
 			}
 
-			return astmodel.MakeLocalPackageReference(prefix, group, versionPrefix, version)
+			return astmodel.MakeVersionedLocalPackageReference(prefix, group, versionPrefix, version)
 		}
 
 		return ref

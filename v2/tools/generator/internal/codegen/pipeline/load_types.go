@@ -813,7 +813,7 @@ func loadAllSchemas(
 				return nil
 			}
 
-			pkg := astmodel.MakeLocalPackageReference(
+			pkg := astmodel.MakeVersionedLocalPackageReference(
 				localPathPrefix,
 				idFactory.CreateGroupName(group),
 				astmodel.GeneratorVersion,

@@ -294,7 +294,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 
 // MakeLocalPackageReference creates a local package reference based on the configured destination location
 func (config *Configuration) MakeLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersion, version)
+	return astmodel.MakeVersionedLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersion, version)
 }
 
 func getModulePathFromModFile(modFilePath string) (string, error) {

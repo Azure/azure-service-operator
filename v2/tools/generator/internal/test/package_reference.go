@@ -19,5 +19,5 @@ func MakeLocalPackageReference(group string, version string) astmodel.LocalPacka
 	// our active version prefix.
 	// For convenience, we tolerate the prefix already being present
 	version = strings.TrimPrefix(version, "v")
-	return astmodel.MakeLocalPackageReference(GoModulePrefix, group, "v", version)
+	return astmodel.MakeVersionedLocalPackageReference(GoModulePrefix, group, "v", version)
 }

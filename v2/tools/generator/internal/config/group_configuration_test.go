@@ -53,8 +53,8 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 	ver := "2021-01-01"
 	refTest := test.MakeLocalPackageReference("demo", ver)
 	refOther := test.MakeLocalPackageReference("demo", "2022-12-31")
-	refAlpha := astmodel.MakeLocalPackageReference("prefix", "demo", "v1alpha1api", ver)
-	refBeta := astmodel.MakeLocalPackageReference("prefix", "demo", "v1beta", ver)
+	refAlpha := astmodel.MakeVersionedLocalPackageReference("prefix", "demo", "v1alpha1api", ver)
+	refBeta := astmodel.MakeVersionedLocalPackageReference("prefix", "demo", "v1beta", ver)
 
 	groupConfiguration := NewGroupConfiguration("demo")
 	versionConfig := NewVersionConfiguration("2021-01-01")

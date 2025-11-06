@@ -92,7 +92,7 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			// Using GeneratorVersion here to make sure IsPreview isn't fooled
-			local := MakeLocalPackageReference("prefix", "microsoft.storage", GeneratorVersion, c.version)
+			local := MakeVersionedLocalPackageReference("prefix", "microsoft.storage", GeneratorVersion, c.version)
 			ref := MakeStoragePackageReference(local)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
@@ -134,7 +134,7 @@ func Test_StoragePackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T)
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			lpr := MakeLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
+			lpr := MakeVersionedLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
 			ref := MakeStoragePackageReference(lpr)
 			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
 		})
