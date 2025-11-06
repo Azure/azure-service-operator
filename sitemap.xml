@@ -80,6 +80,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/blogs/</loc>
+    <lastmod>2025-10-29T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/run-the-code-generator/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/generator/</loc>
@@ -103,6 +106,12 @@
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/blogs/release-notes-v2.16.0/</loc>
+    <lastmod>2025-10-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/</loc>
+    <lastmod>2025-10-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
@@ -181,8 +190,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/azuresql/</loc>
   </url><url>
