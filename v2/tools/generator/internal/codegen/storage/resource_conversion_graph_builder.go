@@ -44,7 +44,7 @@ func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.InternalTypeName)
 func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, error) {
 	stages := []func([]astmodel.InternalTypeName){
 		b.apiReferencesConvertToStorage,
-		b.compatibilityReferencesConvertForward,
+		b.compatibilityReferencesConvertToOriginalPackage,
 		b.previewReferencesConvertBackward,
 		b.nonPreviewReferencesConvertForward,
 	}
@@ -83,16 +83,22 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 	return result, nil
 }
 
-// compatibilityReferencesConvertForward links any compatibility references forward to the following version
-func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(names []astmodel.InternalTypeName) {
+// compatibilityReferencesConvertToOriginalPackage linkes any compatibility references to the original if present
+func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertToOriginalPackage(names []astmodel.InternalTypeName) {
 	for i, name := range names {
-		if !b.isCompatibilityPackage(name.PackageReference()) {
+		// Last package can't be linked forward
+		if i+1 >= len(names) {
+			break
+		}
+
+		if !b.isCompatibilityPackage(name.InternalPackageReference()) {
 			continue
 		}
 
-		// Safe to use i+1 because compatibility references will always be preceded by a reference to the original
-		// storage package reference
-		b.links[name] = names[i+1]
+		next := names[i+1]
+		if next.InternalPackageReference().HasAPIVersion(name.InternalPackageReference().APIVersion()) {
+			b.links[name] = next
+		}
 	}
 }
 
