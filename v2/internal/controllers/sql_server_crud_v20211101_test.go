@@ -508,6 +508,9 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&securityAlertPolicy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(securityAlertPolicy)
 
 	tc.Expect(securityAlertPolicy.Status.Id).ToNot(BeNil())
