@@ -201,8 +201,7 @@ func (tr *TransformResult) produceTargetPackageReference(ref astmodel.InternalPa
 		if tr.Group.IsRestrictive() || tr.Version.IsRestrictive() {
 			prefix := t.LocalPathPrefix()
 			group := t.Group()
-			versionPrefix := t.GeneratorVersion()
-			version := t.Version()
+			version := t.APIVersion()
 
 			if tr.Group.IsRestrictive() {
 				group = tr.Group.String()
@@ -212,7 +211,7 @@ func (tr *TransformResult) produceTargetPackageReference(ref astmodel.InternalPa
 				version = tr.Version.String()
 			}
 
-			return astmodel.MakeVersionedLocalPackageReference(prefix, group, versionPrefix, version)
+			return astmodel.MakeVersionedLocalPackageReference(prefix, group, version)
 		}
 
 		return ref

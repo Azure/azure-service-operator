@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-var pr astmodel.InternalPackageReference = astmodel.MakeVersionedLocalPackageReference("prefix", "group", "v", "20000101")
+var pr astmodel.InternalPackageReference = astmodel.MakeVersionedLocalPackageReference("prefix", "group", "20000101")
 
 func Test_FindChildren_ResourceDoesNotOwnItself(t *testing.T) {
 	t.Parallel()

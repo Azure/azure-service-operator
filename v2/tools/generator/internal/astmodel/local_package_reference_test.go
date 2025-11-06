@@ -16,7 +16,9 @@ func makeTestLocalPackageReference(group string, version string) LocalPackageRef
 	// We use a fixed path and version prefixes to ensure consistency across testing
 	// For convenience, we tolerate the prefix already being present
 	version = strings.TrimPrefix(version, "v")
-	return MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, "v", version)
+	result := MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, version).
+		WithVersionPrefix("v")
+	return result
 }
 
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
@@ -165,7 +167,7 @@ func TestLocalPackageReferenceIsPreview(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			// Using GeneratorVersion here to make sure IsPreview isn't fooled
-			ref := MakeVersionedLocalPackageReference("prefix", "storage", GeneratorVersion, c.version)
+			ref := MakeVersionedLocalPackageReference("prefix", "storage", c.version)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
 		})
@@ -210,7 +212,7 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := MakeVersionedLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
+			ref := MakeVersionedLocalPackageReference("v", c.group, c.apiVersion)
 			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
 		})
 	}

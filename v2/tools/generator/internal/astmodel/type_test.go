@@ -15,8 +15,8 @@ import (
 func TestWriteDebugDescription(t *testing.T) {
 	t.Parallel()
 
-	here := MakeVersionedLocalPackageReference("local", "test", "v", "1")
-	there := MakeVersionedLocalPackageReference("local", "test", "v", "2")
+	here := MakeVersionedLocalPackageReference("local", "test", "1")
+	there := MakeVersionedLocalPackageReference("local", "test", "2")
 
 	age := MakeInternalTypeName(here, "Age")
 

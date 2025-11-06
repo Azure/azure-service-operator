@@ -204,7 +204,6 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 				currentPackage = astmodel.MakeVersionedLocalPackageReference(
 					localPath,
 					currentGroup,
-					"", // no prefix needed (or wanted!) for v1
 					verConfig.name)
 				return verConfig.visitTypes(typeVisitor)
 			}
