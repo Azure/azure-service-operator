@@ -32,8 +32,8 @@ func TestGroupConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.
 	g.Expect(group.versions).To(HaveKey("2021-01-01"))
 	g.Expect(group.versions).To(HaveKey("2021-05-15"))
 	// Check for local package name equivalents
-	g.Expect(group.versions).To(HaveKey("v1api20210101"))
-	g.Expect(group.versions).To(HaveKey("v1api20210515"))
+	g.Expect(group.versions).To(HaveKey("v20210101"))
+	g.Expect(group.versions).To(HaveKey("v20210515"))
 }
 
 func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
@@ -53,8 +53,6 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 	ver := "2021-01-01"
 	refTest := test.MakeLocalPackageReference("demo", ver)
 	refOther := test.MakeLocalPackageReference("demo", "2022-12-31")
-	refAlpha := astmodel.MakeVersionedLocalPackageReference("prefix", "demo", "v1alpha1api", ver)
-	refBeta := astmodel.MakeVersionedLocalPackageReference("prefix", "demo", "v1beta", ver)
 
 	groupConfiguration := NewGroupConfiguration("demo")
 	versionConfig := NewVersionConfiguration("2021-01-01")
@@ -66,8 +64,6 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 		expectedFound bool
 	}{
 		{"Lookup by version", refTest, true},
-		{"Lookup by alpha version", refAlpha, true},
-		{"Lookup by beta version", refBeta, true},
 		{"Lookup by other version", refOther, false},
 	}
 
