@@ -95,3 +95,14 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"synapse":                 VersionMigrationModeLegacy,
 	"web":                     VersionMigrationModeLegacy,
 }
+
+// VersionPrefixForGroup returns the version prefix to use for the specified group.
+func VersionPrefixForGroup(group string) string {
+	if m, ok := versionMigrationModes[group]; ok {
+		if m == VersionMigrationModeLegacy {
+			return "v1api"
+		}
+	}
+
+	return "v"
+}
