@@ -201,7 +201,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 	versionVisitor := newEveryVersionConfigurationVisitor(
 		func(verConfig *VersionConfiguration) error {
 			if VersionRegex.MatchString(verConfig.name) {
-				currentPackage = astmodel.MakeVersionedLocalPackageReference(
+				currentPackage = astmodel.MakeNamedLocalPackageReference(
 					localPath,
 					currentGroup,
 					verConfig.name)
