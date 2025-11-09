@@ -41,8 +41,8 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
   <meta name="twitter:description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
 This is for two reasons:
 ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they’re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -937,10 +937,12 @@ even if <code>crdPattern</code> is empty.</p>
 <blockquote>
 <p><strong>Note:</strong> If you are specifying the Helm values from a shell with <code>--set crdPattern=...</code> you must wrap the crdPattern
 argument in single quotes <code>'</code> if it contains wildcard characters the shell would expand. For example:
-<code>--set crdPattern='resources.azure.com/*;containerservice.azure.com/*'</code></p></blockquote>
+<code>--set crdPattern='resources.azure.com/*;containerservice.azure.com/*'</code></p>
+</blockquote>
 <blockquote>
 <p><strong>⚠️ Warning:</strong> A <code>crdPattern</code> of <code>*</code> can be used to install all resources, but is not recommended.
-See <a href="#best-practices">best practices</a> for more details.</p></blockquote>
+See <a href="#best-practices">best practices</a> for more details.</p>
+</blockquote>
 <h3 id="manual-crd-installation">Manual CRD installation</h3>
 <p>If you do not want to grant the operator permission to create + update CRDs, you can instead manage the CRDs yourself.
 To do this you can use a YAML file containing all the ASO custom resource definitions that we include with each release.
@@ -980,7 +982,8 @@ set the <code>--crd-pattern</code> command-line argument of the operator pod to 
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
 </span></span></code></pre></div><blockquote>
 <p><strong>⚠️ Warning:</strong> A <code>--crd-pattern</code> of <code>*</code> can be used to install all resources, but is not recommended.
-See <a href="#best-practices">best practices</a> for more details.</p></blockquote>
+See <a href="#best-practices">best practices</a> for more details.</p>
+</blockquote>
 <h3 id="manual-crd-installation-1">Manual CRD installation</h3>
 <p>If you do not want to grant the operator permission to create + update CRDs, you can instead manage the CRDs yourself.
 To do this you can use a YAML file containing all the ASO custom resource definitions that we include with each release.
@@ -1080,7 +1083,7 @@ It&rsquo;s generally easier to just include the whole group.</li>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

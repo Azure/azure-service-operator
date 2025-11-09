@@ -37,8 +37,8 @@ The Status of the operator and its actions on the resource. Has the resource suc
   <meta name="twitter:title" content="Proposal for reporting resource Status">
   <meta name="twitter:description" content="What Status are we talking about? There are two types of Status that we’re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
 The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action? The State of the resource in Azure. What fields are set in Azure? There are often defaults and other values which, while you may not have specified them in the spec have been applied on the server side and we want to show to you. This document is focused on the first type of Status defined above.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -963,21 +963,28 @@ as annotations (<code>deploymentId</code> possibly), while others are obviously 
 <h2 id="more-on-conditions">More on conditions</h2>
 <p>These best practices were gathered from <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties">conditions API conventions</a> as of July 2021.</p>
 <blockquote>
-<p>Some resources in the v1 API contain fields called phase, and associated message, reason, and other status fields. The pattern of using phase is deprecated. Newer API types should use conditions instead. Phase was essentially a state-machine enumeration field, that contradicted system-design principles and hampered evolution, since adding new enum values breaks backward compatibility. Rather than encouraging clients to infer implicit properties from phases, we prefer to explicitly expose the individual conditions that clients need to monitor. Conditions also have the benefit that it is possible to create some conditions with uniform meaning across all resource types, while still exposing others that are unique to specific resource types. See <a href="https://github.com/kubernetes/kubernetes/issues/7856">#7856</a> for more details and discussion.</p></blockquote>
+<p>Some resources in the v1 API contain fields called phase, and associated message, reason, and other status fields. The pattern of using phase is deprecated. Newer API types should use conditions instead. Phase was essentially a state-machine enumeration field, that contradicted system-design principles and hampered evolution, since adding new enum values breaks backward compatibility. Rather than encouraging clients to infer implicit properties from phases, we prefer to explicitly expose the individual conditions that clients need to monitor. Conditions also have the benefit that it is possible to create some conditions with uniform meaning across all resource types, while still exposing others that are unique to specific resource types. See <a href="https://github.com/kubernetes/kubernetes/issues/7856">#7856</a> for more details and discussion.</p>
+</blockquote>
 <blockquote>
-<p>In condition types, and everywhere else they appear in the API, Reason is intended to be a one-word, CamelCase representation of the category of cause of the current status, and Message is intended to be a human-readable phrase or sentence, which may contain specific details of the individual occurrence. Reason is intended to be used in concise output, such as one-line kubectl get output, and in summarizing occurrences of causes, whereas Message is intended to be presented to users in detailed status explanations, such as kubectl describe output.</p></blockquote>
+<p>In condition types, and everywhere else they appear in the API, Reason is intended to be a one-word, CamelCase representation of the category of cause of the current status, and Message is intended to be a human-readable phrase or sentence, which may contain specific details of the individual occurrence. Reason is intended to be used in concise output, such as one-line kubectl get output, and in summarizing occurrences of causes, whereas Message is intended to be presented to users in detailed status explanations, such as kubectl describe output.</p>
+</blockquote>
 <blockquote>
-<p>In general, condition values may change back and forth, but some condition transitions may be monotonic, depending on the resource and condition type. However, conditions are observations and not, themselves, state machines, nor do we define comprehensive state machines for objects, nor behaviors associated with state transitions. The system is level-based rather than edge-triggered, and should assume an Open World.</p></blockquote>
+<p>In general, condition values may change back and forth, but some condition transitions may be monotonic, depending on the resource and condition type. However, conditions are observations and not, themselves, state machines, nor do we define comprehensive state machines for objects, nor behaviors associated with state transitions. The system is level-based rather than edge-triggered, and should assume an Open World.</p>
+</blockquote>
 <blockquote>
-<p>Controllers should apply their conditions to a resource the first time they visit the resource, even if the status is Unknown. This allows other components in the system to know that the condition exists and the controller is making progress on reconciling that resource.</p></blockquote>
+<p>Controllers should apply their conditions to a resource the first time they visit the resource, even if the status is Unknown. This allows other components in the system to know that the condition exists and the controller is making progress on reconciling that resource.</p>
+</blockquote>
 <p>These from <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions">standardizing conditions</a>:</p>
 <blockquote>
-<p>reason is required and must not be empty. The actor setting the value should always describe why the condition is the way it is, even if that value is &ldquo;unknown unknowns&rdquo;. No other actor has the information to make a better choice.</p></blockquote>
+<p>reason is required and must not be empty. The actor setting the value should always describe why the condition is the way it is, even if that value is &ldquo;unknown unknowns&rdquo;. No other actor has the information to make a better choice.</p>
+</blockquote>
 <p>Some other best practices on <a href="https://github.com/kubernetes/community/blob/4c9ef2d/contributors/design-proposals/architecture/principles.md">Kubernetes design principles</a>:</p>
 <blockquote>
-<p>Object status must be 100% reconstructable by observation. Any history kept must be just an optimization and not required for correct operation.</p></blockquote>
+<p>Object status must be 100% reconstructable by observation. Any history kept must be just an optimization and not required for correct operation.</p>
+</blockquote>
 <blockquote>
-<p>Do not define comprehensive state machines for objects with behaviors associated with state transitions and/or &ldquo;assumed&rdquo; states that cannot be ascertained by observation.</p></blockquote>
+<p>Do not define comprehensive state machines for objects with behaviors associated with state transitions and/or &ldquo;assumed&rdquo; states that cannot be ascertained by observation.</p>
+</blockquote>
 <h2 id="proposal">Proposal</h2>
 <h3 id="goals">Goals</h3>
 <ul>
@@ -1201,7 +1208,7 @@ This means we have to handle cases where the deployment failed but the resource 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

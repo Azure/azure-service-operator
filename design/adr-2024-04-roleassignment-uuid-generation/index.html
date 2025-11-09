@@ -37,8 +37,8 @@ include the namespace and name to ensure no two RoleAssignments in the same clus
   <meta name="twitter:title" content="2024-04: RoleAssignments UUID Generation">
   <meta name="twitter:description" content="Context In ASO, we made several improvements to make RoleAssignment user-friendly by auto-generating their AzureName (which must be a UUID) using UUIDv5 with a seed string based on group, kind, namespace, and name. The aim for above approach was to:
 include the namespace and name to ensure no two RoleAssignments in the same cluster can end up with the same UUID. include the group and kind to ensure that different kinds of resources get different UUIDs. This isn’t entirely required by Azure, but it makes sense to avoid collisions between two resources of different types even if they have the same namespace and name. include the owner group, kind, and name to avoid collisions between resources with the same name in different clusters that actually point to different Azure resources. In scenarios where users have multiple ASO instances across different clusters, resources within the identical namespaces, and each cluster has resources with identical names pointing to distinct Azure resources, there is no native support for this configuration. To work around this limitation, users must manually assign a unique UUID to each RoleAssignment. Alternatively, setting the AzureName property to a random UUID by default can prevent the issue, but it may lead to complications if a RoleAssignment is ever deleted and then recreated (or migrated between clusters), as the old UUID would become orphaned.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -993,7 +993,7 @@ In this case, If user does not specify any annotation and does not specify Azure
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

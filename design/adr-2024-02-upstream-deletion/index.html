@@ -41,8 +41,8 @@ Since that time, ASO has migrated to depend soley on the azure-rest-api-specs re
   <meta name="twitter:description" content="What do we do if/when a resource supported by ASO v2 is deleted upstream - removed from the Azure OpenAPI repository?
 Context In July 2022, we encountered a problem when the preview versions of the Microsoft.Auithorization service were deleted from the azure-resource-manager-schemas repository that ASO consumed at the time. This orphaned the RoleAssignment resource in ASO, which would have been a breaking change for our users.
 Since that time, ASO has migrated to depend soley on the azure-rest-api-specs repo (see PR#2323, merged December 2022) so the problem with RoleAssignment went away.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -912,7 +912,8 @@ Since that time, ASO has migrated to depend soley on the azure-rest-api-specs re
 <p>The most likely scenario is that an old preview version of a service is removed. Preview versions are only guaranteed to be supported for 90 days after creation, though in practice they are retained much longer.</p>
 <blockquote>
 <p>When releasing a new preview, the service team may completely retire any previous preview versions after giving customers at least 90 days to upgrade their code.
-&ndash; <a href="https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md">Microsoft Azure REST API Guidelines</a>, retrieved 23 Feb 2024</p></blockquote>
+&ndash; <a href="https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md">Microsoft Azure REST API Guidelines</a>, retrieved 23 Feb 2024</p>
+</blockquote>
 <p>In this situation, the resource provider will stop accepting the old version of the resource, requiring all users to update to a newer api version, including users of ASO.</p>
 <p>ASO can support migration by including a later version of the resource in a new release.</p>
 <p>If the new ASO release is available before the deprecation/deletion date, users can update their clusters to the new version, and then update their resources to the new version at any time. As long as they complete the update prior to deletion, no downtime will occur.</p>
@@ -965,7 +966,7 @@ Since that time, ASO has migrated to depend soley on the azure-rest-api-specs re
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

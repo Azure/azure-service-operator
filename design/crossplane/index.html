@@ -45,8 +45,8 @@ Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual f
 General notes Crossplane has the following static “special” properties ForProvider - this contains the actual “spec” as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
 Items #2-4 are included automatically by embedding the runtimev1alpha1.ResourceSpec from runtimev1alpha1 &#34;github.com/crossplane/crossplane-runtime/apis/core/v1alpha1&#34;.
 Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual field that exists in the Azure API. Can be set to any string you’d post to the Azure API. XRef (e.g. ResourceGroupNameRef) - A reference to a named Kubernetes object of a preordained kind. Used to resolve a value for X. XNameSelector (e.g. ResourceGroupNameSelector) - A selector used to set XRef. Note that these values cascade down from the selector, to the ref, to the underlying field. If the ref is already set the selector is ignored, and if the field is already set the ref is ignored.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -882,13 +882,13 @@ Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual f
     </li>
     <li><a href="#missing-features">Missing features</a>
       <ul>
-        <li><a href="#266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</a></li>
+        <li><a href="#266-support-for-embedding-structsinterfaces-into-generated-types">#266 Support for embedding structs/interfaces into generated types</a></li>
         <li><a href="#support-for-additionalprintercolumns-in-the-crd-yaml">Support for <code>additionalPrinterColumns</code> in the CRD YAML</a></li>
-        <li><a href="#267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</a></li>
+        <li><a href="#267-detection-and-removal-of-embedded-subresources">#267 Detection and removal of embedded subresources.</a></li>
         <li><a href="#improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">Improvements in JSON schema/Swagger upstream for marking read-only properties</a></li>
         <li><a href="#a-plan-for-secrets">A plan for secrets</a></li>
         <li><a href="#support-for-resource-references-other-than-ownership">Support for resource references other than ownership</a></li>
-        <li><a href="#268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</a></li>
+        <li><a href="#268-promote-properties-spec-property">#268 Promote “Properties” Spec property</a></li>
       </ul>
     </li>
     <li><a href="#specific-resources">Specific resources</a>
@@ -1038,7 +1038,7 @@ create a deployment that created the VNET. Once the deployment is done (resource
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

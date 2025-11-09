@@ -41,8 +41,8 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <meta name="twitter:description" content="Specification for how storage versioning will operate for code generated CRD definitions.
 We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
 Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -943,7 +943,8 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
 <p><strong>No modification of generated files.</strong> Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. Worse, this process would need to be repeated every time we want to update the operator.</p>
 <p><strong>Compliance with Kubernetes versioning.</strong> To quote <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">Kubebuilder&rsquo;s documentation</a>:</p>
 <blockquote>
-<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p></blockquote>
+<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
+</blockquote>
 <p><strong>Consistency of experience:</strong> Early adopters should have a similar experience with the latest release of the service operator as new users who are adopting it for the first time. We don&rsquo;t want early adopters to be penalized for their enthusiasm.</p>
 <h2 id="non-goals">Non-Goals</h2>
 <p><strong>Coverage of every case by code generation:</strong> While it&rsquo;s likely that very high coverage will be achievable with code generation, we don&rsquo;t believe that it will be practical to handle every possible situation automatically. It&rsquo;s therefore necessary for the solution to have some form of extensibility allowing for the injection of hand written code.</p>
@@ -1033,21 +1034,25 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
 <li>Custom types are generated independently for each version, so they will never be identical types</li>
 </ul>
 <blockquote>
-<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p></blockquote>
+<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p>
+</blockquote>
 <h3 id="external-metadata-for-common-changes">External Metadata for common changes</h3>
 <p>We&rsquo;ll capture common changes between versions in metadata (likely a YAML file) that we bundle with the code generator, allowing it to handle a wider range of scenarios.</p>
 <p><strong>If a property is renamed</strong> in a particular API version, conversion from the prior API version to that point of change will instead match based on the new name of the property on the storage type.</p>
 <p>There are more than 40 cases of properties being renamed across versions of the ARM API.</p>
 <blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p></blockquote>
+<p><em><strong>TODO: Show an example</strong></em></p>
+</blockquote>
 <p><strong>If a type has been renamed</strong> in a particular API version, conversion from the API version <em>prior</em> to that point of change will instead match based on the new type of the property on the storage type.</p>
 <p>There are 160 cases of properties changing type across versions of the ARM API. Many of these can be handled automatically by capturing type renames in metadata.</p>
 <blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p></blockquote>
+<p><em><strong>TODO: Show an example</strong></em></p>
+</blockquote>
 <blockquote>
 <p><em><strong>Outstanding Issue:</strong></em> Are there other kinds of common change we want to support?<br>
 Are there other cases of changes between versions that we may be able to handle automatically.
-Can we find examples? Do we want to support these cases?</p></blockquote>
+Can we find examples? Do we want to support these cases?</p>
+</blockquote>
 <h3 id="standard-extension-points">Standard extension points</h3>
 <p>Code generation will include interfaces to allow easy injection of manual conversion steps.</p>
 <p>For each storage type, two interfaces will be generated, one for each direction of conversion.</p>
@@ -1223,7 +1228,7 @@ Can we find examples? Do we want to support these cases?</p></blockquote>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

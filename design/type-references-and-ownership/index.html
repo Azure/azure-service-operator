@@ -33,8 +33,8 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Type References & ownership">
   <meta name="twitter:description" content="Related reading Kubernetes garbage collection. Kubernetes RBAC Related Projects ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed. Goals Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it) Ideally ResourceGroup is handled the same as other owners and isn’t special cased. Define how Kubernetes interacts with Azure resources not created/managed by Kubernetes, for example resources which were created prior to the customer onboarding to the Azure Service Operator. References should be extensible to work across multiple Azure subscriptions, although initially we may not support that. Non-goals Managing ownership for resources/resource hierarchies that were not created by the service operator. While this proposal allows references to point to external resources not managed by the service operator, the operator is not watching/monitoring the resource in question and as such cannot propagate deletes. Put another way: for the operator to manage ownership/object lifecycles, the entire resource hierarchy must exist within Kubernetes. If only part of the resource hierarchy is managed by the service operator, only those parts can have their lifecycles managed. Different kinds of resource relationships in Azure Related/linked resources Two resources are related to one another (“has-a” relationship), but there is no ownership. Example: VMSS → Subnet (json schema).">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -893,7 +893,7 @@
     </li>
     <li><a href="#faq">FAQ</a>
       <ul>
-        <li><a href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?</a></li>
+        <li><a href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">What happens when a dependent resource specifies an <code>Owner</code> that doesn’t exist?</a></li>
         <li><a href="#what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">What happens when a resource contains a link to another resource which doesn&rsquo;t exist?</a></li>
         <li><a href="#how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">How are the CRD entities going to be rendered as ARM deployments?</a></li>
         <li><a href="#arent-there-going-to-be-races-in-resource-creation">Aren&rsquo;t there going to be races in resource creation?</a></li>
@@ -1587,7 +1587,7 @@ the intent for how many we want, so having that also on the owner seems duplicat
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

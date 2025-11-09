@@ -35,14 +35,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
   <meta itemprop="description" content="APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/​workspaces/​{workspaceName}
 Used by: WorkspaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/​workspaces/​{workspaceName}">
-  <meta itemprop="wordCount" content="1320">
+  <meta itemprop="wordCount" content="1376">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="operationalinsights.azure.com/v1api20210601">
   <meta name="twitter:description" content="APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/​workspaces/​{workspaceName}
 Used by: WorkspaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/​workspaces/​{workspaceName}">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -892,6 +892,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
     <li><a href="#WorkspaceSku">WorkspaceSku</a></li>
     <li><a href="#WorkspaceSku_STATUS">WorkspaceSku_STATUS</a></li>
     <li><a href="#WorkspaceCapping_DataIngestionStatus_STATUS">WorkspaceCapping_DataIngestionStatus_STATUS</a></li>
+    <li><a href="#WorkspaceOperatorSecrets">WorkspaceOperatorSecrets</a></li>
     <li><a href="#WorkspaceSku_CapacityReservationLevel">WorkspaceSku_CapacityReservationLevel</a></li>
     <li><a href="#WorkspaceSku_CapacityReservationLevel_STATUS">WorkspaceSku_CapacityReservationLevel_STATUS</a></li>
     <li><a href="#WorkspaceSku_Name">WorkspaceSku_Name</a></li>
@@ -1596,6 +1597,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
+      <tr>
+          <td>secrets</td>
+          <td>configures where to place Azure generated secrets.</td>
+          <td><a href="#WorkspaceOperatorSecrets">WorkspaceOperatorSecrets</a><br/><small>Optional</small></td>
+      </tr>
   </tbody>
 </table>
 <h2 id="WorkspaceProperties_ProvisioningState">WorkspaceProperties_ProvisioningState</h2>
@@ -1764,6 +1770,29 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
       <tr>
           <td>&ldquo;SubscriptionSuspended&rdquo;</td>
           <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WorkspaceOperatorSecrets">WorkspaceOperatorSecrets</h2>
+<p>Used by: <a href="#WorkspaceOperatorSpec">WorkspaceOperatorSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>primarySharedKey</td>
+          <td>indicates where the PrimarySharedKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secondarySharedKey</td>
+          <td>indicates where the SecondarySharedKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1977,7 +2006,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

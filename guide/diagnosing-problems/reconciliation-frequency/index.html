@@ -41,8 +41,8 @@ If it’s necessary to change ASO so that it reconciles less frequently, set the
   <meta name="twitter:description" content="ASO is reconciling too often ASO will continue actively reconciling resources, even after they have been created. This is by design, as ASO is a desired-state operator. It will continue to check the state of resources and update them if they are not in the desired state.
 Action: change reconciliation interval By default, ASO will try to reconcile each resource once an hour once it has been successfully deployed.
 If it’s necessary to change ASO so that it reconciles less frequently, set the AZURE_SYNC_PERIOD environment variable to a longer value.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -923,7 +923,8 @@ If it’s necessary to change ASO so that it reconciles less frequently, set the
 <p>By default, ASO will try to reconcile each resource once an hour once it has been successfully deployed.</p>
 <p>If it&rsquo;s necessary to change ASO so that it reconciles more frequently,set the <a href="https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/">AZURE_SYNC_PERIOD</a> environment variable.</p>
 <blockquote>
-<p>Warning: Polling more frequently runs the risk of triggering ARM throttling that affects the entire subscription, not just ASO. Setting the reconciliation interval lower than 15m is not recommended.</p></blockquote>
+<p>Warning: Polling more frequently runs the risk of triggering ARM throttling that affects the entire subscription, not just ASO. Setting the reconciliation interval lower than 15m is not recommended.</p>
+</blockquote>
 <h2 id="aso-keeps-reconciling-even-after-the-resource-has-been-created">ASO keeps reconciling even after the resource has been created</h2>
 <p><em>a.k.a. ASO keeps doing PUTs when nothing has changed</em></p>
 <p>If you keep a close eye on your Azure Operation logs, you will see that ASO continues to interact with ARM after resources have been successfully created.</p>
@@ -933,7 +934,8 @@ If it’s necessary to change ASO so that it reconciles less frequently, set the
 <h3 id="action-stop-aso-from-reconciling">Action: stop ASO from reconciling</h3>
 <p>If you want to stop ASO from reconciling a particular resource, use the  <a href="https://azure.github.io/azure-service-operator/guide/annotations/"><code>serviceoperator.azure.com/reconcile-policy</code></a> annotation to instruct ASO to stop reconciling the resource.</p>
 <blockquote>
-<p>Note that this will not stop ASO from monitoring the resource. It will still GET the state of the resource and make that available within the cluster as the <code>status</code> field of the resource.</p></blockquote>
+<p>Note that this will not stop ASO from monitoring the resource. It will still GET the state of the resource and make that available within the cluster as the <code>status</code> field of the resource.</p>
+</blockquote>
 
 	
 </div>
@@ -968,7 +970,7 @@ If it’s necessary to change ASO so that it reconciles less frequently, set the
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

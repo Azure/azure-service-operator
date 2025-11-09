@@ -45,8 +45,8 @@ If you PUT a Person object with a new Name and no addresses, the new name will b
 Instead, they have PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the object/collection is in the JSON payload, but they will leave untouched omitted properties or collections.
 To illustrate, assume you have a Person object with a Name and a list of Addresses.
 If you PUT a Person object with a new Name and no addresses, the new name will be persisted, but the addresses will remain unchanged. If you PUT a Person object with a new Name and an empty list of addresses, the new name will be persisted, and the addresses collection will be cleared. Note: Some services will treat PUT with an omitted collection and PUT with an explicit JSON “null” the same, while other services treat “null” to mean clear, while omission means “ignore”.">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -924,7 +924,8 @@ If you PUT a Person object with a new Name and no addresses, the new name will b
 <li>If you PUT a Person object with a new Name and an <em>empty list</em> of addresses, the new name will be persisted, and the addresses collection will be cleared.</li>
 </ul>
 <blockquote>
-<p><strong>Note</strong>: Some services will treat PUT with an omitted collection and PUT with an explicit JSON &ldquo;null&rdquo; the same, while other services treat &ldquo;null&rdquo; to mean clear, while omission means &ldquo;ignore&rdquo;.</p></blockquote>
+<p><strong>Note</strong>: Some services will treat PUT with an omitted collection and PUT with an explicit JSON &ldquo;null&rdquo; the same, while other services treat &ldquo;null&rdquo; to mean clear, while omission means &ldquo;ignore&rdquo;.</p>
+</blockquote>
 <p>This is a problem for ASO because we use <code>omitempty</code> on all properties, resulting in them being omitted from the ARM payload if they aren&rsquo;t explicitly set. For array and map properties, removing the last item means the property will be entirely omitted from the JSON payload.</p>
 <p>In principle, an ASO custom resource (CR) should be the entire goal-state for the resource and should be a <em>complete</em> definition of the desired state. Whether properties are specified explicitly or not shouldn&rsquo;t change that. Equally, whether an array or map is empty or missing entirely should not matter, we should interpret that as &ldquo;clear the collection&rdquo;.</p>
 <h3 id="option-1-optional-properties">Option 1: Optional Properties</h3>
@@ -1090,11 +1091,14 @@ send an empty collection as well.</p>
 <blockquote>
 <p>Azure Storage accounts don&rsquo;t quite have PUT == full replace semantics. They have a PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the collection is in the JSON payload, but they will leave untouched properties which were omitted.</p>
 <p>When you remove virtualNetworkRules or ipRules, what actually happens on the backend is those properties are nil and don&rsquo;t get serialized. This falls afoul of item 1 above because since those properties were not included in the JSON payload storage handles them with PATCH semantics and doesn&rsquo;t clear/remove the contents of the collection.</p>
-<p>You can see some evidence of this behavior in the az storage account network-rule remove implementation, where if you read closely, removing the last item from the list of rules will serialize an empty collection to storage.</p></blockquote>
+<p>You can see some evidence of this behavior in the az storage account network-rule remove implementation, where if you read closely, removing the last item from the list of rules will serialize an empty collection to storage.</p>
+</blockquote>
 <blockquote>
-<p>It&rsquo;s this empty collection which is the key to tell storage: &ldquo;I really want you to clear this property please&rdquo;. I&rsquo;ve confirmed this by contacting the Storage team as well.</p></blockquote>
+<p>It&rsquo;s this empty collection which is the key to tell storage: &ldquo;I really want you to clear this property please&rdquo;. I&rsquo;ve confirmed this by contacting the Storage team as well.</p>
+</blockquote>
 <blockquote>
-<p>It would be nice (if not ideal) if you could just specify an empty collection ([]) for the virtualNetworkRules property to work around this issue&hellip; but you can&rsquo;t right now because ASO tacks Go&rsquo;s omitempty onto properties, and unfortunately doing that means that it&rsquo;s impossible for Go to serialize [] to the JSON payload. It will omit the property entirely if the collection is nil or [].</p></blockquote>
+<p>It would be nice (if not ideal) if you could just specify an empty collection ([]) for the virtualNetworkRules property to work around this issue&hellip; but you can&rsquo;t right now because ASO tacks Go&rsquo;s omitempty onto properties, and unfortunately doing that means that it&rsquo;s impossible for Go to serialize [] to the JSON payload. It will omit the property entirely if the collection is nil or [].</p>
+</blockquote>
 <p>Credit where it is due; I&rsquo;ve liberally reused Matt&rsquo;s wording while writing this ADR.</p>
 
 	
@@ -1130,7 +1134,7 @@ send an empty collection as well.</p>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

@@ -41,8 +41,8 @@ Credential type Azure Service Operator supports five different styles of authent
   <meta name="twitter:description" content="There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.
 Credential type Azure Service Operator supports five different styles of authentication today.
 [Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) [User Assigned Identity Credentials] ( /azure-service-operator/guide/authentication/credential-format/#user-assigned-identity-credentials ) Credential scope Each supported credential type can be specified at one of three supported scopes:">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -922,10 +922,12 @@ access to create ASO resources but without Kubernetes secret read permissions ca
 user cannot read. The user cannot access the contents of the secret, but they can manage resources in Azure
 via the identity the secret represents.</p>
 <p>The namespace is the security boundary. ASO will not allow users to read secrets from other namespaces. We recommend
-using separate namespaces for separate environments (dev, test, prod, etc) for this reason</p></blockquote>
+using separate namespaces for separate environments (dev, test, prod, etc) for this reason</p>
+</blockquote>
 <h2 id="using-multiple-operators-with-a-single-credential-per-operator">Using multiple operators with a single credential per operator</h2>
 <blockquote>
-<p><strong>This mode is not recommended unless you <em>really</em> need it</strong></p></blockquote>
+<p><strong>This mode is not recommended unless you <em>really</em> need it</strong></p>
+</blockquote>
 <p>ASO also supports installing multiple instances of the operator alongside one another, each
 configured with different credentials.</p>
 <p>This option exists for the most security conscious customers.</p>
@@ -973,7 +975,7 @@ configured with different credentials.</p>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

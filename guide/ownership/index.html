@@ -41,8 +41,8 @@ You can tell what type of resource the owner should point to by looking at the r
   <meta name="twitter:description" content="What is an owner? Most Azure Service Operator resources have an owner field, like so:
 owner: name: aso-sample-rg The Go type for this is either KnownResourceReference or ArbitraryOwnerReference, depending on if the resource supports only a single kind of owner (StorageAccounts are always owned by ResourceGroups), or many kinds of owner (RoleAssignment can be owned by any type of resource).
 You can tell what type of resource the owner should point to by looking at the reference documentation. For example:">
-<link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
-<link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -916,23 +916,28 @@ or many kinds of owner (<code>RoleAssignment</code> can be owned by any type of 
 <p>You can tell what type of resource the owner should point to by looking at the reference documentation. For example:</p>
 <p><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccount">StorageAccount owner</a></p>
 <blockquote>
-<p>Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</p></blockquote>
+<p>Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</p>
+</blockquote>
 <p><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccounts_BlobService_Spec">BlobService owner</a></p>
 <blockquote>
-<p>Owner is expected to be a reference to a storage.azure.com/StorageAccount resource</p></blockquote>
+<p>Owner is expected to be a reference to a storage.azure.com/StorageAccount resource</p>
+</blockquote>
 <p><a href="https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#authorization.azure.com/v1api20220401.RoleAssignment">RoleAssignment owner</a></p>
 <blockquote>
-<p>This resource is an extension resource, which means that any other Azure resource can be its owner.</p></blockquote>
+<p>This resource is an extension resource, which means that any other Azure resource can be its owner.</p>
+</blockquote>
 <h2 id="what-is-ownership-for">What is ownership for?</h2>
 <p>Ownership tells ASO two things:</p>
 <h3 id="what-path-is-this-resource-at">What &ldquo;path&rdquo; is this resource at?</h3>
 <p>For example: which <code>ResourceGroup</code> should this <code>StorageAccount</code> be deployed into?
 The owner represents the bolded part of this storage account ARM ID:</p>
 <blockquote>
-<p><strong>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}</strong>/providers/Microsoft.Storage/storageAccounts/mystorageaccount</p></blockquote>
+<p><strong>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}</strong>/providers/Microsoft.Storage/storageAccounts/mystorageaccount</p>
+</blockquote>
 <p>and</p>
 <blockquote>
-<p><strong>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}</strong>/agentPools/myagentpool</p></blockquote>
+<p><strong>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}</strong>/agentPools/myagentpool</p>
+</blockquote>
 <p>for an AKS <code>AgentPool</code>.</p>
 <h3 id="which-kubernetes-resource-owns-the-resource">Which Kubernetes resource owns the resource?</h3>
 <p>This is for <a href="https://kubernetes.io/docs/concepts/architecture/garbage-collection">garbage collection</a>.</p>
@@ -1003,7 +1008,7 @@ something like Kustomize or Helm.</li>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.43a25d8f87591f0223f83151b58adcaf929f461f8791fe2e0fbe037548f3f7a9.js" integrity="sha256-Q6Jdj4dZHwIj&#43;DFRtYrcr5KfRh&#43;Hkf4uD74DdUjz96k=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 
