@@ -169,6 +169,8 @@ func createAllPipelineStages(
 		// but we include it to hedge against future changes
 		pipeline.RemoveEmptyObjects(log),
 
+		pipeline.MoveTypesForVersionMigration(configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
+
 		pipeline.VerifyNoErroredTypes(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
