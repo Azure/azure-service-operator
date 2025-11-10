@@ -24,6 +24,11 @@ func (in *ARecord) DeepCopyInto(out *ARecord) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Ipv4AddressFromConfig != nil {
+		in, out := &in.Ipv4AddressFromConfig, &out.Ipv4AddressFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
