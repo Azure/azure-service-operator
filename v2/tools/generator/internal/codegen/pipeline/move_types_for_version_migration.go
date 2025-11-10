@@ -9,13 +9,17 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/rotisserie/eris"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
-	"github.com/rotisserie/eris"
 )
 
 const MoveTypesForVersionMigrationStageID = "moveTypesForVersionMigration"
 
+// MoveTypesForVersionMigration returns a pipeline stage that moves types into new packages to support
+// migration from legacy versioning (using the v1api prefix) to new versioning (using simple date-based versions).
+// See legacy.go in the astmodel package for more details on the version migration modes.
 func MoveTypesForVersionMigration(
 	configuration *config.ObjectModelConfiguration,
 ) *Stage {

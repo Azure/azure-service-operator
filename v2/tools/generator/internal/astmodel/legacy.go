@@ -29,12 +29,9 @@ const (
 	// in a controlled manner.
 	VersionMigrationModeLegacy VersionMigrationMode = "legacy"
 
-	// VersionMigrationModeHybrid indicates that new style versions will be generated for all resources, with old style
-	//
-	//
-	// that both old and new style versions will be
-	// generated for resource versions introduced up to ASO version 2.16.0, and only new style
-	// versions for resource versions introduced in ASO version 2.17.0 and later.
+	// VersionMigrationModeHybrid indicates that new style versions will be generated for all
+	// resources, with old style versions also generated for resources introduced up to ASO
+	// version v2.16.0 for backward compatibility.
 	//
 	// To achieve this, new style versions will be generated for all packages,
 	// and a new pipeline stage will create older style versions for resources existing
