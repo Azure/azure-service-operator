@@ -64,7 +64,14 @@ func (p *versionMigrationFactory) Process(ctx context.Context) (astmodel.TypeDef
 		return nil, eris.Wrap(err, "moving resources for version migration")
 	}
 
-	result := p.definitions.Except(toMove).OverlayWith(moved)
+	toCopy := p.findHybridModeResourcesToCopy()
+
+	copied, err := p.moveResources(toCopy, "v1api")
+	if err != nil {
+		return nil, eris.Wrap(err, "copying resources for version migration")
+	}
+
+	result := p.definitions.Except(toMove).OverlayWith(moved).OverlayWith(copied)
 	return result, nil
 }
 
@@ -95,6 +102,40 @@ func (p *versionMigrationFactory) findLegacyModeResourcesToMove() astmodel.TypeD
 		}
 
 		if astmodel.ComparePathAndVersion(introducedIn, p.lastLegacyVersion) > 0 {
+			result.Add(def)
+		}
+	}
+
+	return result
+}
+
+// findHybridModeResourcesToCopy identifies resources using hybrid mode versioning that need to be
+// copied to old packages using legacy versioning.
+// We scan all definitions looking for resources in groups configured for Hybrid mode versioning
+// that are noted in configuration as being introduced in ASO version 2.16 or earlier.
+func (p *versionMigrationFactory) findHybridModeResourcesToCopy() astmodel.TypeDefinitionSet {
+	result := make(astmodel.TypeDefinitionSet)
+
+	for _, def := range p.definitions {
+		_, ok := astmodel.AsResourceType(def.Type())
+		if !ok {
+			continue
+		}
+
+		pkg := def.Name().InternalPackageReference()
+		group := pkg.Group()
+
+		mode := astmodel.VersionMigrationModeForGroup(group)
+		if mode != astmodel.VersionMigrationModeHybrid {
+			continue
+		}
+
+		introducedIn, ok := p.configuration.SupportedFrom.Lookup(def.Name())
+		if !ok {
+			continue
+		}
+
+		if astmodel.ComparePathAndVersion(introducedIn, p.lastLegacyVersion) <= 0 {
 			result.Add(def)
 		}
 	}
