@@ -90,7 +90,7 @@ func (s SubPackageReference) Group() string {
 }
 
 // Parent returns the parent package reference.
-func (s SubPackageReference) Parent() PackageReference {
+func (s SubPackageReference) Parent() InternalPackageReference {
 	return s.parent
 }
 
