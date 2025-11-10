@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2023-03-01/PrometheusRuleGroups.json
+// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/AlertsManagement/stable/2023-03-01/PrometheusRuleGroups.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/prometheusRuleGroups/{ruleGroupName}
 type PrometheusRuleGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (group *PrometheusRuleGroup) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2023-03-01/PrometheusRuleGroups.json
+// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/AlertsManagement/stable/2023-03-01/PrometheusRuleGroups.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/prometheusRuleGroups/{ruleGroupName}
 type PrometheusRuleGroupList struct {
 	metav1.TypeMeta `json:",inline"`
