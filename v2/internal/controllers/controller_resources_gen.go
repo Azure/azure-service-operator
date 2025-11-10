@@ -1909,13 +1909,139 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZone)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesCNAMERecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesMXRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesPTRRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesAAAARecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesARecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesARecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesCNAMERecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesCNAMERecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesMXRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesMXRecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesPTRRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesPTRRecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesSRVRecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesTXTRecordList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatcher)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
@@ -8615,6 +8741,118 @@ func indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig(rawObj c
 			continue
 		}
 		result = append(result, targetDnsServerItem.IpAddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesAAAARecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesAAAARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesARecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesCNAMERecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesCNAMERecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesMXRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesMXRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesPTRRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesPTRRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesSRVRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesSRVRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesTXTRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesTXTRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
 	}
 	return result
 }

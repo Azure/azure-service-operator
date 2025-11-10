@@ -56,8 +56,9 @@ PrivateDnsZone: Resource
 PrivateDnsZonesAAAARecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string
@@ -145,8 +146,9 @@ PrivateDnsZonesAAAARecord: Resource
 PrivateDnsZonesARecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string
@@ -234,8 +236,9 @@ PrivateDnsZonesARecord: Resource
 PrivateDnsZonesCNAMERecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string
@@ -323,8 +326,9 @@ PrivateDnsZonesCNAMERecord: Resource
 PrivateDnsZonesMXRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string
@@ -412,8 +416,9 @@ PrivateDnsZonesMXRecord: Resource
 PrivateDnsZonesPTRRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string
@@ -501,8 +506,9 @@ PrivateDnsZonesPTRRecord: Resource
 PrivateDnsZonesSRVRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string
@@ -590,8 +596,9 @@ PrivateDnsZonesSRVRecord: Resource
 PrivateDnsZonesTXTRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (14 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
+│   ├── ARecords: Object (2 properties)[]
+│   │   ├── Ipv4Address: *string
+│   │   └── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   ├── AaaaRecords: Object (1 property)[]
 │   │   └── Ipv6Address: *string
 │   ├── AzureName: string

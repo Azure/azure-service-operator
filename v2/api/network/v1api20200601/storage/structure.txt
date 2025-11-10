@@ -7,8 +7,9 @@ APIVersion: Enum (1 value)
 PrivateDnsZonesAAAARecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
@@ -101,8 +102,9 @@ PrivateDnsZonesAAAARecord: Resource
 PrivateDnsZonesARecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
@@ -195,8 +197,9 @@ PrivateDnsZonesARecord: Resource
 PrivateDnsZonesCNAMERecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
@@ -289,8 +292,9 @@ PrivateDnsZonesCNAMERecord: Resource
 PrivateDnsZonesMXRecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
@@ -383,8 +387,9 @@ PrivateDnsZonesMXRecord: Resource
 PrivateDnsZonesPTRRecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
@@ -477,8 +482,9 @@ PrivateDnsZonesPTRRecord: Resource
 PrivateDnsZonesSRVRecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
@@ -571,8 +577,9 @@ PrivateDnsZonesSRVRecord: Resource
 PrivateDnsZonesTXTRecord: Resource
 ├── Owner: network/v1api20200601.PrivateDnsZone
 ├── Spec: Object (16 properties)
-│   ├── ARecords: Object (2 properties)[]
+│   ├── ARecords: Object (3 properties)[]
 │   │   ├── Ipv4Address: *string
+│   │   ├── Ipv4AddressFromConfig: *genruntime.ConfigMapReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── AaaaRecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string

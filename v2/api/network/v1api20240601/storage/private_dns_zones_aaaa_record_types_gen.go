@@ -274,8 +274,9 @@ type AaaaRecord_STATUS struct {
 // Storage version of v1api20240601.ARecord
 // An A record.
 type ARecord struct {
-	Ipv4Address *string                `json:"ipv4Address,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Ipv4Address           *string                        `json:"ipv4Address,omitempty" optionalConfigMapPair:"Ipv4Address"`
+	Ipv4AddressFromConfig *genruntime.ConfigMapReference `json:"ipv4AddressFromConfig,omitempty" optionalConfigMapPair:"Ipv4Address"`
+	PropertyBag           genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240601.ARecord_STATUS

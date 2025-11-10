@@ -403,6 +403,13 @@ func (record *ARecord) AssignProperties_From_ARecord(source *storage.ARecord) er
 	// Ipv4Address
 	record.Ipv4Address = genruntime.ClonePointerToString(source.Ipv4Address)
 
+	// Ipv4AddressFromConfig
+	if source.Ipv4AddressFromConfig != nil {
+		propertyBag.Add("Ipv4AddressFromConfig", *source.Ipv4AddressFromConfig)
+	} else {
+		propertyBag.Remove("Ipv4AddressFromConfig")
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		record.PropertyBag = propertyBag
@@ -430,6 +437,19 @@ func (record *ARecord) AssignProperties_To_ARecord(destination *storage.ARecord)
 
 	// Ipv4Address
 	destination.Ipv4Address = genruntime.ClonePointerToString(record.Ipv4Address)
+
+	// Ipv4AddressFromConfig
+	if propertyBag.Contains("Ipv4AddressFromConfig") {
+		var ipv4AddressFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("Ipv4AddressFromConfig", &ipv4AddressFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Ipv4AddressFromConfig' from propertyBag")
+		}
+
+		destination.Ipv4AddressFromConfig = &ipv4AddressFromConfig
+	} else {
+		destination.Ipv4AddressFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

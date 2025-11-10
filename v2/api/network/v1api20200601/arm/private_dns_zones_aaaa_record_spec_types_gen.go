@@ -73,7 +73,7 @@ type AaaaRecord struct {
 // An A record.
 type ARecord struct {
 	// Ipv4Address: The IPv4 address of this A record.
-	Ipv4Address *string `json:"ipv4Address,omitempty"`
+	Ipv4Address *string `json:"ipv4Address,omitempty" optionalConfigMapPair:"Ipv4Address"`
 }
 
 // A CNAME record.
