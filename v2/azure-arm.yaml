@@ -2481,6 +2481,26 @@ objectModelConfiguration:
       AzureOperationalStoreParameters:
         ResourceGroupId:
           $referenceType: arm
+  databricks:
+    2024-05-01:
+      AccessConnector:
+        $exportAs: AccessConnector
+        $supportedFrom: v2.17.0
+      Workspace:
+        $exportAs: Workspace
+        $supportedFrom: v2.17.0
+      Workspaces_PrivateEndpointConnection:
+        $exportAs: WorkspacesPrivateEndpointConnection
+        $supportedFrom: v2.17.0
+      Workspaces_VirtualNetworkPeering:
+        $exportAs: WorkspacesVirtualNetworkPeering
+        $supportedFrom: v2.17.0
+      VirtualNetworkPeeringPropertiesFormat_DatabricksVirtualNetwork:
+        Id:
+          $referenceType: arm
+      VirtualNetworkPeeringPropertiesFormat_RemoteVirtualNetwork:
+        Id:
+          $referenceType: arm
   dbformariadb:
     2018-06-01:
       Server:
