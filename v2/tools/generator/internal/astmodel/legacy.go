@@ -106,3 +106,14 @@ func VersionPrefixForGroup(group string) string {
 
 	return "v"
 }
+
+// VersionMigrationModeForGroup returns the version migration mode for the specified group.
+func VersionMigrationModeForGroup(
+	group string,
+) VersionMigrationMode {
+	if m, ok := versionMigrationModes[group]; ok {
+		return m
+	}
+
+	return VersionMigrationModeNone
+}
