@@ -1,0 +1,14 @@
+apiVersion: databricks.azure.com/v1api20240501
+kind: WorkspacesVirtualNetworkPeering
+metadata:
+  name: sample-databricks-vnetpeering
+  namespace: default
+spec:
+  owner:
+    name: sample-databricks-workspace
+  allowVirtualNetworkAccess: true
+  allowForwardedTraffic: false
+  allowGatewayTransit: false
+  useRemoteGateways: false
+  remoteVirtualNetwork:
+    id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-rg/providers/Microsoft.Network/virtualNetworks/sample-vnet
