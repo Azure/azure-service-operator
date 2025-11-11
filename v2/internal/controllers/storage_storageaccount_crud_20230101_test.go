@@ -90,8 +90,10 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(blobService)
-	// no DELETE, this is not a real resource
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -121,6 +123,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
+	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queueService)
 	// cannot delete - not a real resource
@@ -142,6 +145,7 @@ func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, 
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
+	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queue)
 	defer tc.DeleteResourceAndWait(queue)
@@ -155,8 +159,10 @@ func StorageAccount_TableServices_CRUD(tc *testcommon.KubePerTestContext, storag
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&tableService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(tableService)
-	// no DELETE, this is not a real resource
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -187,8 +193,10 @@ func StorageAccount_FileServices_CRUD(tc *testcommon.KubePerTestContext, storage
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	tc.AddAnnotation(&fileService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(fileService)
-	// no DELETE, this is not a real resource
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
