@@ -28,15 +28,6 @@ import (
 
 const samplesPath = "../../samples"
 
-// skipTests slice contains the groups to skip from being tested.
-var skipTests = []string{
-	// TODO: Cache has issues with linked caches being able to delete
-	"/cache/",
-	"/subscription/",                        // Can't easily be run/recorded in our standard subscription
-	"/redhatopenshift/",                     // This requires SP creation
-	"/documentdb/sqldatabase/v1api20210515", // This is blocked by corp policy (can't set DisableLocalAuth)
-}
-
 // randomNameExclusions slice contains groups for which we don't want to use random names
 var randomNameExclusions = []string{
 	"/authorization/",
@@ -66,7 +57,7 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 	_ = filepath.WalkDir(samplesPath,
 		func(filePath string, info os.DirEntry, err error) error {
-			if info.IsDir() && !testcommon.PathContains(filePath, skipTests) {
+			if info.IsDir() && !testcommon.IsSampleFolderExcluded(filePath) {
 				basePath := filepath.Base(filePath)
 				// proceed only if the base path is the matching versions.
 				if regex.MatchString(basePath) {
