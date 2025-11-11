@@ -43,6 +43,9 @@ import (
 	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
 	batch_v20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/webhook"
+	batch_v20240701 "github.com/Azure/azure-service-operator/v2/api/batch/v20240701"
+	batch_v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
+	batch_v20240701w "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/webhook"
 	cache_customizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
 	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
@@ -710,7 +713,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
-	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
+	result = append(result, &registration.StorageType{Obj: new(batch_v20240701s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicy)})
 	result = append(result, &registration.StorageType{
@@ -3173,6 +3176,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &batch_v20210101w.BatchAccount{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(batch_v20210101s.BatchAccount)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(batch_v20240701.BatchAccount),
+		Defaulter: &batch_v20240701w.BatchAccount{},
+		Validator: &batch_v20240701w.BatchAccount{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(batch_v20240701s.BatchAccount)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5876,6 +5885,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v20220401s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
 	_ = batch_v20210101s.AddToScheme(scheme)
+	_ = batch_v20240701.AddToScheme(scheme)
+	_ = batch_v20240701s.AddToScheme(scheme)
 	_ = cache_v20201201.AddToScheme(scheme)
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
