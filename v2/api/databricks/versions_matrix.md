@@ -66,10 +66,7 @@
 | ProvisioningState_STATUS                                              | v1api20240501 |
 | Sku                                                                   | v1api20240501 |
 | Sku_STATUS                                                            | v1api20240501 |
-| SystemData                                                            | v1api20240501 |
-| SystemData_CreatedByType                                              | v1api20240501 |
 | SystemData_CreatedByType_STATUS                                       | v1api20240501 |
-| SystemData_LastModifiedByType                                         | v1api20240501 |
 | SystemData_LastModifiedByType_STATUS                                  | v1api20240501 |
 | SystemData_STATUS                                                     | v1api20240501 |
 | UserAssignedIdentityDetails                                           | v1api20240501 |

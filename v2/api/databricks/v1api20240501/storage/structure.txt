@@ -6,7 +6,7 @@ APIVersion: Enum (1 value)
 
 AccessConnector: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (7 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── Identity: *Object (3 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -20,15 +20,7 @@ AccessConnector: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── PropertyBag: genruntime.PropertyBag
-│   └── SystemData: *Object (7 properties)
-│       ├── CreatedAt: *string
-│       ├── CreatedBy: *string
-│       ├── CreatedByType: *string
-│       ├── LastModifiedAt: *string
-│       ├── LastModifiedBy: *string
-│       ├── LastModifiedByType: *string
-│       └── PropertyBag: genruntime.PropertyBag
+│   └── PropertyBag: genruntime.PropertyBag
 └── Status: Object (5 properties)
     ├── Conditions: conditions.Condition[]
     ├── Identity: *Object (5 properties)
@@ -56,7 +48,7 @@ AccessConnector: Resource
 
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (20 properties)
+├── Spec: Object (19 properties)
 │   ├── AccessConnector: *Object (4 properties)
 │   │   ├── IdentityType: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -67,7 +59,6 @@ Workspace: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── RoleDefinitionId: *string
 │   ├── AzureName: string
-│   ├── CreatedDateTime: *string
 │   ├── DefaultCatalog: *Object (3 properties)
 │   │   ├── InitialName: *string
 │   │   ├── InitialType: *string

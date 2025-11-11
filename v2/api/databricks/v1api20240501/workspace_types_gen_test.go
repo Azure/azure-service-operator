@@ -5207,7 +5207,6 @@ func Workspace_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreatedDateTime"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultStorageFirewall"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_DefaultStorageFirewall_Disabled, WorkspaceProperties_DefaultStorageFirewall_Enabled))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedResourceGroupId"] = gen.PtrOf(gen.AlphaString())

@@ -35,7 +35,7 @@ AccessConnector_STATUS: Object (3 properties)
         ├── "ManagedIdentity"
         └── "User"
 
-AccessConnector_Spec: Object (3 properties)
+AccessConnector_Spec: Object (2 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *Enum (4 values)
 │   │   ├── "None"
@@ -43,22 +43,7 @@ AccessConnector_Spec: Object (3 properties)
 │   │   ├── "SystemAssigned,UserAssigned"
 │   │   └── "UserAssigned"
 │   └── UserAssignedIdentities: map[string]Object (0 properties)
-├── Name: string
-└── SystemData: *Object (6 properties)
-    ├── CreatedAt: *string
-    ├── CreatedBy: *string
-    ├── CreatedByType: *Enum (4 values)
-    │   ├── "Application"
-    │   ├── "Key"
-    │   ├── "ManagedIdentity"
-    │   └── "User"
-    ├── LastModifiedAt: *string
-    ├── LastModifiedBy: *string
-    └── LastModifiedByType: *Enum (4 values)
-        ├── "Application"
-        ├── "Key"
-        ├── "ManagedIdentity"
-        └── "User"
+└── Name: string
 
 Workspace_STATUS: Object (8 properties)
 ├── Id: *string
@@ -287,7 +272,7 @@ Workspace_STATUS: Object (8 properties)
 Workspace_Spec: Object (5 properties)
 ├── Location: *string
 ├── Name: string
-├── Properties: *Object (12 properties)
+├── Properties: *Object (11 properties)
 │   ├── AccessConnector: *Object (3 properties)
 │   │   ├── Id: *string
 │   │   ├── IdentityType: *Enum (2 values)
@@ -297,7 +282,6 @@ Workspace_Spec: Object (5 properties)
 │   ├── Authorizations: Object (2 properties)[]
 │   │   ├── PrincipalId: *string
 │   │   └── RoleDefinitionId: *string
-│   ├── CreatedDateTime: *string
 │   ├── DefaultCatalog: *Object (2 properties)
 │   │   ├── InitialName: *string
 │   │   └── InitialType: *Enum (2 values)

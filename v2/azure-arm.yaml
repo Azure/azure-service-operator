@@ -364,6 +364,28 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly in Swagger
 
+  #
+  # In the group 'databricks',
+  # from the type 'AccessConnector_Spec',
+  # Remove the property 'SystemData'
+  #
+  - group: databricks
+    name: AccessConnector_Spec
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+
+  #
+  # In the group 'databricks',
+  # from the type 'WorkspaceProperties',
+  # Remove the property 'CreatedDateTime'
+  #
+  - group: databricks
+    name: WorkspaceProperties
+    property: CreatedDateTime
+    remove: true
+    because: This property should be marked readonly in Swagger
+
   - name: IotHub_Spec
     group: devices
     property: Etag

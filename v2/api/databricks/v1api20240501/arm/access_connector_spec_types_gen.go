@@ -9,9 +9,6 @@ type AccessConnector_Spec struct {
 	// Identity: Managed service identity (system assigned and/or user assigned identities)
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 	Name     string                  `json:"name,omitempty"`
-
-	// SystemData: The system metadata relating to this resource
-	SystemData *SystemData `json:"systemData,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &AccessConnector_Spec{}
@@ -38,27 +35,6 @@ type ManagedServiceIdentity struct {
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type ManagedServiceIdentityType string
@@ -76,42 +52,6 @@ var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
 	"systemassigned":              ManagedServiceIdentityType_SystemAssigned,
 	"systemassigned,userassigned": ManagedServiceIdentityType_SystemAssignedUserAssigned,
 	"userassigned":                ManagedServiceIdentityType_UserAssigned,
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
 }
 
 // Information about the user assigned identity for the resource

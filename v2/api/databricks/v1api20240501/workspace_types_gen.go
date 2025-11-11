@@ -260,9 +260,6 @@ type Workspace_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// CreatedDateTime: Specifies the date and time when the workspace is created.
-	CreatedDateTime *string `json:"createdDateTime,omitempty"`
-
 	// DefaultCatalog: Properties for Default Catalog configuration during workspace creation.
 	DefaultCatalog *DefaultCatalogProperties `json:"defaultCatalog,omitempty"`
 
@@ -336,7 +333,6 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	// Set property "Properties":
 	if workspace.AccessConnector != nil ||
 		workspace.Authorizations != nil ||
-		workspace.CreatedDateTime != nil ||
 		workspace.DefaultCatalog != nil ||
 		workspace.DefaultStorageFirewall != nil ||
 		workspace.Encryption != nil ||
@@ -362,10 +358,6 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 			return nil, err
 		}
 		result.Properties.Authorizations = append(result.Properties.Authorizations, *item_ARM.(*arm.WorkspaceProviderAuthorization))
-	}
-	if workspace.CreatedDateTime != nil {
-		createdDateTime := *workspace.CreatedDateTime
-		result.Properties.CreatedDateTime = &createdDateTime
 	}
 	if workspace.DefaultCatalog != nil {
 		defaultCatalog_ARM, err := workspace.DefaultCatalog.ConvertToARM(resolved)
@@ -487,15 +479,6 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "AzureName":
 	workspace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property "CreatedDateTime":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedDateTime != nil {
-			createdDateTime := *typedInput.Properties.CreatedDateTime
-			workspace.CreatedDateTime = &createdDateTime
-		}
-	}
 
 	// Set property "DefaultCatalog":
 	// copying flattened property:
@@ -725,9 +708,6 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 	// AzureName
 	workspace.AzureName = source.AzureName
 
-	// CreatedDateTime
-	workspace.CreatedDateTime = genruntime.ClonePointerToString(source.CreatedDateTime)
-
 	// DefaultCatalog
 	if source.DefaultCatalog != nil {
 		var defaultCatalog DefaultCatalogProperties
@@ -886,9 +866,6 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// AzureName
 	destination.AzureName = workspace.AzureName
-
-	// CreatedDateTime
-	destination.CreatedDateTime = genruntime.ClonePointerToString(workspace.CreatedDateTime)
 
 	// DefaultCatalog
 	if workspace.DefaultCatalog != nil {
@@ -1050,9 +1027,6 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 	} else {
 		workspace.Authorizations = nil
 	}
-
-	// CreatedDateTime
-	workspace.CreatedDateTime = genruntime.ClonePointerToString(source.CreatedDateTime)
 
 	// DefaultCatalog
 	if source.DefaultCatalog != nil {

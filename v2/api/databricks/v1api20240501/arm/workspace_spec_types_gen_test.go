@@ -1191,7 +1191,6 @@ func WorkspacePropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspaceProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceProperties(gens map[string]gopter.Gen) {
-	gens["CreatedDateTime"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultStorageFirewall"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_DefaultStorageFirewall_Disabled, WorkspaceProperties_DefaultStorageFirewall_Enabled))
 	gens["ManagedResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled, WorkspaceProperties_PublicNetworkAccess_Enabled))

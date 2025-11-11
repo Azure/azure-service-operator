@@ -181,7 +181,6 @@ type AccessConnector_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &AccessConnector_Spec{}
@@ -271,18 +270,6 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId               *string                                `json:"tenantId,omitempty"`
 	Type                   *string                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1api20240501.SystemData
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240501.SystemData_STATUS

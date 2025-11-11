@@ -6,7 +6,7 @@ APIVersion: Enum (1 value)
 
 AccessConnector: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (5 properties)
+├── Spec: Object (4 properties)
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 64
 │   │   └── Rule 1: MinLength: 3
@@ -21,22 +21,7 @@ AccessConnector: Resource
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   └── SystemData: *Object (6 properties)
-│       ├── CreatedAt: *string
-│       ├── CreatedBy: *string
-│       ├── CreatedByType: *Enum (4 values)
-│       │   ├── "Application"
-│       │   ├── "Key"
-│       │   ├── "ManagedIdentity"
-│       │   └── "User"
-│       ├── LastModifiedAt: *string
-│       ├── LastModifiedBy: *string
-│       └── LastModifiedByType: *Enum (4 values)
-│           ├── "Application"
-│           ├── "Key"
-│           ├── "ManagedIdentity"
-│           └── "User"
+│   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (4 properties)
     ├── Conditions: conditions.Condition[]
     ├── Identity: *Object (4 properties)
@@ -74,7 +59,7 @@ AccessConnector: Resource
 
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (18 properties)
+├── Spec: Object (17 properties)
 │   ├── AccessConnector: *Object (3 properties)
 │   │   ├── IdentityType: *Enum (2 values)
 │   │   │   ├── "SystemAssigned"
@@ -89,7 +74,6 @@ Workspace: Resource
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 64
 │   │   └── Rule 1: MinLength: 3
-│   ├── CreatedDateTime: *string
 │   ├── DefaultCatalog: *Object (2 properties)
 │   │   ├── InitialName: *string
 │   │   └── InitialType: *Enum (2 values)

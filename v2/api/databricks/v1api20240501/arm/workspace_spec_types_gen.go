@@ -54,9 +54,6 @@ type WorkspaceProperties struct {
 	// Authorizations: The workspace provider authorizations.
 	Authorizations []WorkspaceProviderAuthorization `json:"authorizations,omitempty"`
 
-	// CreatedDateTime: Specifies the date and time when the workspace is created.
-	CreatedDateTime *string `json:"createdDateTime,omitempty"`
-
 	// DefaultCatalog: Properties for Default Catalog configuration during workspace creation.
 	DefaultCatalog *DefaultCatalogProperties `json:"defaultCatalog,omitempty"`
 

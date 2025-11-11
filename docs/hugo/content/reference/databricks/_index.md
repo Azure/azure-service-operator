@@ -9,10 +9,10 @@ To install the CRDs for these resources, your ASO configuration must include `da
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                            | ARM Version | CRD Version   | Supported From | Sample |
-|-------------------------------------|-------------|---------------|----------------|--------|
-| AccessConnector                     | 2024-05-01  | v1api20240501 | v2.17.0        | -      |
-| Workspace                           | 2024-05-01  | v1api20240501 | v2.17.0        | -      |
-| WorkspacesPrivateEndpointConnection | 2024-05-01  | v1api20240501 | v2.17.0        | -      |
-| WorkspacesVirtualNetworkPeering     | 2024-05-01  | v1api20240501 | v2.17.0        | -      |
+| Resource                            | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                   |
+|-------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AccessConnector                     | 2024-05-01  | v1api20240501 | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databricks/v1api20240501/v1api20240501_accessconnector.yaml)                 |
+| Workspace                           | 2024-05-01  | v1api20240501 | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databricks/v1api20240501/v1api20240501_workspace.yaml)                       |
+| WorkspacesPrivateEndpointConnection | 2024-05-01  | v1api20240501 | v2.17.0        | -                                                                                                                                                        |
+| WorkspacesVirtualNetworkPeering     | 2024-05-01  | v1api20240501 | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databricks/v1api20240501/v1api20240501_workspacesvirtualnetworkpeering.yaml) |
 
