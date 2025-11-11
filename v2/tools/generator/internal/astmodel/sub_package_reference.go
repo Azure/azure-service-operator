@@ -90,7 +90,7 @@ func (s SubPackageReference) Group() string {
 }
 
 // Parent returns the parent package reference.
-func (s SubPackageReference) Parent() PackageReference {
+func (s SubPackageReference) Parent() InternalPackageReference {
 	return s.parent
 }
 
@@ -100,6 +100,18 @@ func (s SubPackageReference) LocalPathPrefix() string {
 
 func (s SubPackageReference) Version() string {
 	return s.parent.Version()
+}
+
+func (s SubPackageReference) APIVersion() string {
+	return s.parent.APIVersion()
+}
+
+func (s SubPackageReference) HasAPIVersion(ver string) bool {
+	return s.parent.HasAPIVersion(ver)
+}
+
+func (s SubPackageReference) HasVersionPrefix(prefix string) bool {
+	return s.parent.HasVersionPrefix(prefix)
 }
 
 // ImportAlias returns the import alias to use for this package reference.

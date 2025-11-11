@@ -42,8 +42,8 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 	idFactory := astmodel.NewIdentifierFactory()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
@@ -58,7 +58,7 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 	finalState, err := RunTestPipeline(
 		initialState,
 		RepairSkippingProperties(cfg.ObjectModelConfiguration, logr.Discard()), // and then we get to run the stage we're testing
-		CreateConversionGraph(cfg, "v"),                                        // Then, RECREATE the conversion graph showing relationships
+		CreateConversionGraph(cfg), // Then, RECREATE the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 	)
 	g.Expect(err).To(BeNil())

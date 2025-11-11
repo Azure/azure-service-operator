@@ -28,6 +28,7 @@ makeStatusPropertiesOptional                                 Force all status pr
 transformValidatedFloats                                     Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
 addLocatableInterface                                        Add the Locatable interface for Location based resources such as ResourceGroup
 removeEmptyObjects                                           Remove empty Objects
+moveTypesForVersionMigration                      azure      Move types into new packages to support version migration
 verifyNoErroredTypes                                         Verify there are no ErroredType's containing errors
 stripUnreferenced                                            Strip unreferenced types
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON

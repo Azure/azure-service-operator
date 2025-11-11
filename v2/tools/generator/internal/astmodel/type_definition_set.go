@@ -582,7 +582,10 @@ func FindStatusDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 
 // FindConnectedDefinitions finds all types reachable from the provided definitions
 // TODO: This is very similar to ReferenceGraph.Connected.
-func FindConnectedDefinitions(definitions TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
+func FindConnectedDefinitions(
+	definitions TypeDefinitionSet,
+	roots TypeDefinitionSet,
+) (TypeDefinitionSet, error) {
 	walker := NewTypeWalker(
 		definitions,
 		TypeVisitorBuilder[any]{}.Build())

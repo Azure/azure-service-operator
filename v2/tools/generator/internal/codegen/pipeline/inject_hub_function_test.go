@@ -36,7 +36,7 @@ func TestGolden_InjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpected
 	initialState, err := RunTestPipeline(
 		NewState(defs),
 		CreateStorageTypes(),
-		CreateConversionGraph(cfg, "v"),
+		CreateConversionGraph(cfg),
 		MarkLatestStorageVariantAsHubVersion(),
 		InjectHubFunction(idFactory),
 	)
@@ -69,7 +69,7 @@ func TestGolden_InjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpec
 	initialState, err := RunTestPipeline(
 		NewState(defs),
 		CreateStorageTypes(),
-		CreateConversionGraph(cfg, "v"),
+		CreateConversionGraph(cfg),
 		MarkLatestStorageVariantAsHubVersion(),
 		InjectHubFunction(idFactory),
 	)

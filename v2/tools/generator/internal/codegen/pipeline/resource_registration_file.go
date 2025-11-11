@@ -70,7 +70,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	codeGenContext := astmodel.NewCodeGenerationContext(
 		// This is a little nasty, given we're generating into a package with a fixed name.
 		// Do we need a specific PackageReference type for this case?
-		astmodel.MakeLocalPackageReference("", "controllers", "", ""), // TODO: This should come from a config
+		astmodel.MakeNamedLocalPackageReference("", "controllers", ""), // TODO: This should come from a config
 		packageReferences,
 		nil)
 
@@ -150,7 +150,9 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	return result, nil
 }
 
-func (r *ResourceRegistrationFile) getStorageVersionToVersionsMap(codeGenerationContext *astmodel.CodeGenerationContext) map[astmodel.InternalTypeName][]astmodel.InternalTypeName {
+func (r *ResourceRegistrationFile) getStorageVersionToVersionsMap(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) map[astmodel.InternalTypeName][]astmodel.InternalTypeName {
 	result := make(map[astmodel.InternalTypeName][]astmodel.InternalTypeName, len(r.storageVersionResources))
 
 	for _, storageVersion := range r.storageVersionResources {

@@ -16,7 +16,9 @@ func makeTestLocalPackageReference(group string, version string) LocalPackageRef
 	// We use a fixed path and version prefixes to ensure consistency across testing
 	// For convenience, we tolerate the prefix already being present
 	version = strings.TrimPrefix(version, "v")
-	return MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, "v", version)
+	result := MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, version).
+		WithVersionPrefix("v")
+	return result
 }
 
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
@@ -165,7 +167,7 @@ func TestLocalPackageReferenceIsPreview(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			// Using GeneratorVersion here to make sure IsPreview isn't fooled
-			ref := MakeLocalPackageReference("prefix", "storage", GeneratorVersion, c.version)
+			ref := MakeVersionedLocalPackageReference("prefix", "storage", c.version)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
 		})
@@ -198,10 +200,6 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901"},
 		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
 		{"v1apiGroupAndVersion", "storage", "v1api", "20200901", GroupAndVersion, "storage_v20200901"},
-		// Hard coded to v1beta
-		{"v1betaVersionOnly", "storage", "v1beta", "20200901", VersionOnly, "v1beta20200901"},
-		{"v1betaGroupOnly", "storage", "v1beta", "20200901", GroupOnly, "storage"},
-		{"v1betaGroupAndVersion", "storage", "v1beta", "20200901", GroupAndVersion, "storage_v1beta20200901"},
 	}
 
 	for _, c := range cases {
@@ -210,7 +208,7 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := MakeLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
+			ref := MakeVersionedLocalPackageReference("v", c.group, c.apiVersion)
 			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
 		})
 	}
