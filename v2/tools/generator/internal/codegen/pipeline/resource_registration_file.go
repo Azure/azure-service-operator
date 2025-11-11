@@ -150,7 +150,9 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	return result, nil
 }
 
-func (r *ResourceRegistrationFile) getStorageVersionToVersionsMap(codeGenerationContext *astmodel.CodeGenerationContext) map[astmodel.InternalTypeName][]astmodel.InternalTypeName {
+func (r *ResourceRegistrationFile) getStorageVersionToVersionsMap(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) map[astmodel.InternalTypeName][]astmodel.InternalTypeName {
 	result := make(map[astmodel.InternalTypeName][]astmodel.InternalTypeName, len(r.storageVersionResources))
 
 	for _, storageVersion := range r.storageVersionResources {

@@ -17,19 +17,17 @@ import (
 // ResourceConversionGraphBuilder is used to construct a group conversion graph with all the required conversions
 // to/from/between storage variants of the packages
 type ResourceConversionGraphBuilder struct {
-	name          string                       // Name of the resources needing conversions
-	versionPrefix string                       // Prefix expected on core LocalPackageReferences
-	references    astmodel.InternalTypeNameSet // Set of all Type Names that make up this group
-	links         astmodel.TypeAssociation     // A collection of links that make up the graph
+	name       string                       // Name of the resources needing conversions
+	references astmodel.InternalTypeNameSet // Set of all Type Names that make up this group
+	links      astmodel.TypeAssociation     // A collection of links that make up the graph
 }
 
 // NewResourceConversionGraphBuilder creates a new builder for a specific resource/type
-func NewResourceConversionGraphBuilder(name string, versionPrefix string) *ResourceConversionGraphBuilder {
+func NewResourceConversionGraphBuilder(name string) *ResourceConversionGraphBuilder {
 	return &ResourceConversionGraphBuilder{
-		name:          name,
-		versionPrefix: versionPrefix,
-		references:    astmodel.NewInternalTypeNameSet(),
-		links:         make(astmodel.TypeAssociation),
+		name:       name,
+		references: astmodel.NewInternalTypeNameSet(),
+		links:      make(astmodel.TypeAssociation),
 	}
 }
 
@@ -157,7 +155,7 @@ func (b *ResourceConversionGraphBuilder) isCompatibilityPackage(ref astmodel.Pac
 	case astmodel.ExternalPackageReference:
 		return false
 	case astmodel.LocalPackageReference:
-		return !r.HasVersionPrefix(b.versionPrefix)
+		return r.HasVersionPrefix("v1api")
 	case astmodel.SubPackageReference:
 		return b.isCompatibilityPackage(r.Parent())
 	default:
