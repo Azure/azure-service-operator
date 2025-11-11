@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/eventhubs.json
+// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2021-11-01/eventhubs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -241,7 +241,7 @@ func (eventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/eventhubs.json
+// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2021-11-01/eventhubs.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}
 type NamespacesEventhubList struct {
 	metav1.TypeMeta `json:",inline"`
