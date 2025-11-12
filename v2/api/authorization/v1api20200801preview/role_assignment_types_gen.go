@@ -293,7 +293,7 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
-	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
+	RoleDefinitionReference *genruntime.WellKnownResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -358,11 +358,19 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.PrincipalType = &principalType
 	}
 	if assignment.RoleDefinitionReference != nil {
-		roleDefinitionIdARMID, err := resolved.ResolvedReferences.Lookup(*assignment.RoleDefinitionReference)
-		if err != nil {
-			return nil, err
+		var roleDefinitionIdTemp string
+		if assignment.RoleDefinitionReference.WellKnownName != "" {
+			roleDefinitionIdTemp = assignment.RoleDefinitionReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(assignment.RoleDefinitionReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			roleDefinitionIdTemp = armID
 		}
-		roleDefinitionId := roleDefinitionIdARMID
+
+		roleDefinitionId := roleDefinitionIdTemp
 		result.Properties.RoleDefinitionId = &roleDefinitionId
 	}
 	return result, nil
@@ -1068,8 +1076,6 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignment
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1089,8 +1095,6 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignment
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1116,8 +1120,6 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1137,8 +1139,6 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

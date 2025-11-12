@@ -4,7 +4,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.15.0
+    app.kubernetes.io/version: v2.16.0
     control-plane: controller-manager
   name: azureserviceoperator-controller-manager-metrics-service
   namespace: {{ .Release.Namespace }}

@@ -1450,8 +1450,6 @@ func (configuration *JobConfiguration) AssignProperties_From_JobConfiguration(so
 	if source.IdentitySettings != nil {
 		identitySettingList := make([]IdentitySettings, len(source.IdentitySettings))
 		for identitySettingIndex, identitySettingItem := range source.IdentitySettings {
-			// Shadow the loop variable to avoid aliasing
-			identitySettingItem := identitySettingItem
 			var identitySetting IdentitySettings
 			err := identitySetting.AssignProperties_From_IdentitySettings(&identitySettingItem)
 			if err != nil {
@@ -1480,8 +1478,6 @@ func (configuration *JobConfiguration) AssignProperties_From_JobConfiguration(so
 	if source.Registries != nil {
 		registryList := make([]RegistryCredentials, len(source.Registries))
 		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry RegistryCredentials
 			err := registry.AssignProperties_From_RegistryCredentials(&registryItem)
 			if err != nil {
@@ -1516,8 +1512,6 @@ func (configuration *JobConfiguration) AssignProperties_From_JobConfiguration(so
 	if source.Secrets != nil {
 		secretList := make([]Secret, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret Secret
 			err := secret.AssignProperties_From_Secret(&secretItem)
 			if err != nil {
@@ -1564,8 +1558,6 @@ func (configuration *JobConfiguration) AssignProperties_To_JobConfiguration(dest
 	if configuration.IdentitySettings != nil {
 		identitySettingList := make([]storage.IdentitySettings, len(configuration.IdentitySettings))
 		for identitySettingIndex, identitySettingItem := range configuration.IdentitySettings {
-			// Shadow the loop variable to avoid aliasing
-			identitySettingItem := identitySettingItem
 			var identitySetting storage.IdentitySettings
 			err := identitySettingItem.AssignProperties_To_IdentitySettings(&identitySetting)
 			if err != nil {
@@ -1594,8 +1586,6 @@ func (configuration *JobConfiguration) AssignProperties_To_JobConfiguration(dest
 	if configuration.Registries != nil {
 		registryList := make([]storage.RegistryCredentials, len(configuration.Registries))
 		for registryIndex, registryItem := range configuration.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry storage.RegistryCredentials
 			err := registryItem.AssignProperties_To_RegistryCredentials(&registry)
 			if err != nil {
@@ -1630,8 +1620,6 @@ func (configuration *JobConfiguration) AssignProperties_To_JobConfiguration(dest
 	if configuration.Secrets != nil {
 		secretList := make([]storage.Secret, len(configuration.Secrets))
 		for secretIndex, secretItem := range configuration.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret storage.Secret
 			err := secretItem.AssignProperties_To_Secret(&secret)
 			if err != nil {
@@ -1682,8 +1670,6 @@ func (configuration *JobConfiguration) Initialize_From_JobConfiguration_STATUS(s
 	if source.IdentitySettings != nil {
 		identitySettingList := make([]IdentitySettings, len(source.IdentitySettings))
 		for identitySettingIndex, identitySettingItem := range source.IdentitySettings {
-			// Shadow the loop variable to avoid aliasing
-			identitySettingItem := identitySettingItem
 			var identitySetting IdentitySettings
 			err := identitySetting.Initialize_From_IdentitySettings_STATUS(&identitySettingItem)
 			if err != nil {
@@ -1712,8 +1698,6 @@ func (configuration *JobConfiguration) Initialize_From_JobConfiguration_STATUS(s
 	if source.Registries != nil {
 		registryList := make([]RegistryCredentials, len(source.Registries))
 		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry RegistryCredentials
 			err := registry.Initialize_From_RegistryCredentials_STATUS(&registryItem)
 			if err != nil {
@@ -1748,8 +1732,6 @@ func (configuration *JobConfiguration) Initialize_From_JobConfiguration_STATUS(s
 	if source.Secrets != nil {
 		secretList := make([]Secret, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret Secret
 			err := secret.Initialize_From_Secret_STATUS(&secretItem)
 			if err != nil {
@@ -1927,8 +1909,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_From_JobConfigura
 	if source.IdentitySettings != nil {
 		identitySettingList := make([]IdentitySettings_STATUS, len(source.IdentitySettings))
 		for identitySettingIndex, identitySettingItem := range source.IdentitySettings {
-			// Shadow the loop variable to avoid aliasing
-			identitySettingItem := identitySettingItem
 			var identitySetting IdentitySettings_STATUS
 			err := identitySetting.AssignProperties_From_IdentitySettings_STATUS(&identitySettingItem)
 			if err != nil {
@@ -1957,8 +1937,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_From_JobConfigura
 	if source.Registries != nil {
 		registryList := make([]RegistryCredentials_STATUS, len(source.Registries))
 		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry RegistryCredentials_STATUS
 			err := registry.AssignProperties_From_RegistryCredentials_STATUS(&registryItem)
 			if err != nil {
@@ -1993,8 +1971,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_From_JobConfigura
 	if source.Secrets != nil {
 		secretList := make([]Secret_STATUS, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret Secret_STATUS
 			err := secret.AssignProperties_From_Secret_STATUS(&secretItem)
 			if err != nil {
@@ -2041,8 +2017,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_To_JobConfigurati
 	if configuration.IdentitySettings != nil {
 		identitySettingList := make([]storage.IdentitySettings_STATUS, len(configuration.IdentitySettings))
 		for identitySettingIndex, identitySettingItem := range configuration.IdentitySettings {
-			// Shadow the loop variable to avoid aliasing
-			identitySettingItem := identitySettingItem
 			var identitySetting storage.IdentitySettings_STATUS
 			err := identitySettingItem.AssignProperties_To_IdentitySettings_STATUS(&identitySetting)
 			if err != nil {
@@ -2071,8 +2045,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_To_JobConfigurati
 	if configuration.Registries != nil {
 		registryList := make([]storage.RegistryCredentials_STATUS, len(configuration.Registries))
 		for registryIndex, registryItem := range configuration.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry storage.RegistryCredentials_STATUS
 			err := registryItem.AssignProperties_To_RegistryCredentials_STATUS(&registry)
 			if err != nil {
@@ -2107,8 +2079,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_To_JobConfigurati
 	if configuration.Secrets != nil {
 		secretList := make([]storage.Secret_STATUS, len(configuration.Secrets))
 		for secretIndex, secretItem := range configuration.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret storage.Secret_STATUS
 			err := secretItem.AssignProperties_To_Secret_STATUS(&secret)
 			if err != nil {
@@ -2156,8 +2126,6 @@ func (operator *JobOperatorSpec) AssignProperties_From_JobOperatorSpec(source *s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2174,8 +2142,6 @@ func (operator *JobOperatorSpec) AssignProperties_From_JobOperatorSpec(source *s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2201,8 +2167,6 @@ func (operator *JobOperatorSpec) AssignProperties_To_JobOperatorSpec(destination
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2219,8 +2183,6 @@ func (operator *JobOperatorSpec) AssignProperties_To_JobOperatorSpec(destination
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2348,8 +2310,6 @@ func (template *JobTemplate) AssignProperties_From_JobTemplate(source *storage.J
 	if source.Containers != nil {
 		containerList := make([]Container, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container
 			err := container.AssignProperties_From_Container(&containerItem)
 			if err != nil {
@@ -2366,8 +2326,6 @@ func (template *JobTemplate) AssignProperties_From_JobTemplate(source *storage.J
 	if source.InitContainers != nil {
 		initContainerList := make([]BaseContainer, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer BaseContainer
 			err := initContainer.AssignProperties_From_BaseContainer(&initContainerItem)
 			if err != nil {
@@ -2384,8 +2342,6 @@ func (template *JobTemplate) AssignProperties_From_JobTemplate(source *storage.J
 	if source.Volumes != nil {
 		volumeList := make([]Volume, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume
 			err := volume.AssignProperties_From_Volume(&volumeItem)
 			if err != nil {
@@ -2411,8 +2367,6 @@ func (template *JobTemplate) AssignProperties_To_JobTemplate(destination *storag
 	if template.Containers != nil {
 		containerList := make([]storage.Container, len(template.Containers))
 		for containerIndex, containerItem := range template.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.Container
 			err := containerItem.AssignProperties_To_Container(&container)
 			if err != nil {
@@ -2429,8 +2383,6 @@ func (template *JobTemplate) AssignProperties_To_JobTemplate(destination *storag
 	if template.InitContainers != nil {
 		initContainerList := make([]storage.BaseContainer, len(template.InitContainers))
 		for initContainerIndex, initContainerItem := range template.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer storage.BaseContainer
 			err := initContainerItem.AssignProperties_To_BaseContainer(&initContainer)
 			if err != nil {
@@ -2447,8 +2399,6 @@ func (template *JobTemplate) AssignProperties_To_JobTemplate(destination *storag
 	if template.Volumes != nil {
 		volumeList := make([]storage.Volume, len(template.Volumes))
 		for volumeIndex, volumeItem := range template.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.Volume
 			err := volumeItem.AssignProperties_To_Volume(&volume)
 			if err != nil {
@@ -2479,8 +2429,6 @@ func (template *JobTemplate) Initialize_From_JobTemplate_STATUS(source *JobTempl
 	if source.Containers != nil {
 		containerList := make([]Container, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container
 			err := container.Initialize_From_Container_STATUS(&containerItem)
 			if err != nil {
@@ -2497,8 +2445,6 @@ func (template *JobTemplate) Initialize_From_JobTemplate_STATUS(source *JobTempl
 	if source.InitContainers != nil {
 		initContainerList := make([]BaseContainer, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer BaseContainer
 			err := initContainer.Initialize_From_BaseContainer_STATUS(&initContainerItem)
 			if err != nil {
@@ -2515,8 +2461,6 @@ func (template *JobTemplate) Initialize_From_JobTemplate_STATUS(source *JobTempl
 	if source.Volumes != nil {
 		volumeList := make([]Volume, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume
 			err := volume.Initialize_From_Volume_STATUS(&volumeItem)
 			if err != nil {
@@ -2601,8 +2545,6 @@ func (template *JobTemplate_STATUS) AssignProperties_From_JobTemplate_STATUS(sou
 	if source.Containers != nil {
 		containerList := make([]Container_STATUS, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container_STATUS
 			err := container.AssignProperties_From_Container_STATUS(&containerItem)
 			if err != nil {
@@ -2619,8 +2561,6 @@ func (template *JobTemplate_STATUS) AssignProperties_From_JobTemplate_STATUS(sou
 	if source.InitContainers != nil {
 		initContainerList := make([]BaseContainer_STATUS, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer BaseContainer_STATUS
 			err := initContainer.AssignProperties_From_BaseContainer_STATUS(&initContainerItem)
 			if err != nil {
@@ -2637,8 +2577,6 @@ func (template *JobTemplate_STATUS) AssignProperties_From_JobTemplate_STATUS(sou
 	if source.Volumes != nil {
 		volumeList := make([]Volume_STATUS, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume_STATUS
 			err := volume.AssignProperties_From_Volume_STATUS(&volumeItem)
 			if err != nil {
@@ -2664,8 +2602,6 @@ func (template *JobTemplate_STATUS) AssignProperties_To_JobTemplate_STATUS(desti
 	if template.Containers != nil {
 		containerList := make([]storage.Container_STATUS, len(template.Containers))
 		for containerIndex, containerItem := range template.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.Container_STATUS
 			err := containerItem.AssignProperties_To_Container_STATUS(&container)
 			if err != nil {
@@ -2682,8 +2618,6 @@ func (template *JobTemplate_STATUS) AssignProperties_To_JobTemplate_STATUS(desti
 	if template.InitContainers != nil {
 		initContainerList := make([]storage.BaseContainer_STATUS, len(template.InitContainers))
 		for initContainerIndex, initContainerItem := range template.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer storage.BaseContainer_STATUS
 			err := initContainerItem.AssignProperties_To_BaseContainer_STATUS(&initContainer)
 			if err != nil {
@@ -2700,8 +2634,6 @@ func (template *JobTemplate_STATUS) AssignProperties_To_JobTemplate_STATUS(desti
 	if template.Volumes != nil {
 		volumeList := make([]storage.Volume_STATUS, len(template.Volumes))
 		for volumeIndex, volumeItem := range template.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.Volume_STATUS
 			err := volumeItem.AssignProperties_To_Volume_STATUS(&volume)
 			if err != nil {
@@ -3525,8 +3457,6 @@ func (scale *JobScale) AssignProperties_From_JobScale(source *storage.JobScale) 
 	if source.Rules != nil {
 		ruleList := make([]JobScaleRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule JobScaleRule
 			err := rule.AssignProperties_From_JobScaleRule(&ruleItem)
 			if err != nil {
@@ -3561,8 +3491,6 @@ func (scale *JobScale) AssignProperties_To_JobScale(destination *storage.JobScal
 	if scale.Rules != nil {
 		ruleList := make([]storage.JobScaleRule, len(scale.Rules))
 		for ruleIndex, ruleItem := range scale.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.JobScaleRule
 			err := ruleItem.AssignProperties_To_JobScaleRule(&rule)
 			if err != nil {
@@ -3602,8 +3530,6 @@ func (scale *JobScale) Initialize_From_JobScale_STATUS(source *JobScale_STATUS) 
 	if source.Rules != nil {
 		ruleList := make([]JobScaleRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule JobScaleRule
 			err := rule.Initialize_From_JobScaleRule_STATUS(&ruleItem)
 			if err != nil {
@@ -3695,8 +3621,6 @@ func (scale *JobScale_STATUS) AssignProperties_From_JobScale_STATUS(source *stor
 	if source.Rules != nil {
 		ruleList := make([]JobScaleRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule JobScaleRule_STATUS
 			err := rule.AssignProperties_From_JobScaleRule_STATUS(&ruleItem)
 			if err != nil {
@@ -3731,8 +3655,6 @@ func (scale *JobScale_STATUS) AssignProperties_To_JobScale_STATUS(destination *s
 	if scale.Rules != nil {
 		ruleList := make([]storage.JobScaleRule_STATUS, len(scale.Rules))
 		for ruleIndex, ruleItem := range scale.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.JobScaleRule_STATUS
 			err := ruleItem.AssignProperties_To_JobScaleRule_STATUS(&rule)
 			if err != nil {
@@ -3763,7 +3685,7 @@ type JobScaleRule struct {
 
 	// IdentityReference: The resource ID of a user-assigned managed identity that is assigned to the Container App, or
 	// 'system' for system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// Metadata: Metadata properties to describe the scale rule.
 	Metadata map[string]v1.JSON `json:"metadata,omitempty"`
@@ -3796,11 +3718,19 @@ func (rule *JobScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Identity":
 	if rule.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if rule.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = rule.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(rule.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -3881,8 +3811,6 @@ func (rule *JobScaleRule) AssignProperties_From_JobScaleRule(source *storage.Job
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth
 			err := auth.AssignProperties_From_ScaleRuleAuth(&authItem)
 			if err != nil {
@@ -3907,8 +3835,6 @@ func (rule *JobScaleRule) AssignProperties_From_JobScaleRule(source *storage.Job
 	if source.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(source.Metadata))
 		for metadatumKey, metadatumValue := range source.Metadata {
-			// Shadow the loop variable to avoid aliasing
-			metadatumValue := metadatumValue
 			metadatumMap[metadatumKey] = *metadatumValue.DeepCopy()
 		}
 		rule.Metadata = metadatumMap
@@ -3935,8 +3861,6 @@ func (rule *JobScaleRule) AssignProperties_To_JobScaleRule(destination *storage.
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth
 			err := authItem.AssignProperties_To_ScaleRuleAuth(&auth)
 			if err != nil {
@@ -3961,8 +3885,6 @@ func (rule *JobScaleRule) AssignProperties_To_JobScaleRule(destination *storage.
 	if rule.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(rule.Metadata))
 		for metadatumKey, metadatumValue := range rule.Metadata {
-			// Shadow the loop variable to avoid aliasing
-			metadatumValue := metadatumValue
 			metadatumMap[metadatumKey] = *metadatumValue.DeepCopy()
 		}
 		destination.Metadata = metadatumMap
@@ -3994,8 +3916,6 @@ func (rule *JobScaleRule) Initialize_From_JobScaleRule_STATUS(source *JobScaleRu
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth
 			err := auth.Initialize_From_ScaleRuleAuth_STATUS(&authItem)
 			if err != nil {
@@ -4012,8 +3932,6 @@ func (rule *JobScaleRule) Initialize_From_JobScaleRule_STATUS(source *JobScaleRu
 	if source.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(source.Metadata))
 		for metadatumKey, metadatumValue := range source.Metadata {
-			// Shadow the loop variable to avoid aliasing
-			metadatumValue := metadatumValue
 			metadatumMap[metadatumKey] = *metadatumValue.DeepCopy()
 		}
 		rule.Metadata = metadatumMap
@@ -4112,8 +4030,6 @@ func (rule *JobScaleRule_STATUS) AssignProperties_From_JobScaleRule_STATUS(sourc
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth_STATUS, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth_STATUS
 			err := auth.AssignProperties_From_ScaleRuleAuth_STATUS(&authItem)
 			if err != nil {
@@ -4133,8 +4049,6 @@ func (rule *JobScaleRule_STATUS) AssignProperties_From_JobScaleRule_STATUS(sourc
 	if source.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(source.Metadata))
 		for metadatumKey, metadatumValue := range source.Metadata {
-			// Shadow the loop variable to avoid aliasing
-			metadatumValue := metadatumValue
 			metadatumMap[metadatumKey] = *metadatumValue.DeepCopy()
 		}
 		rule.Metadata = metadatumMap
@@ -4161,8 +4075,6 @@ func (rule *JobScaleRule_STATUS) AssignProperties_To_JobScaleRule_STATUS(destina
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth_STATUS, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth_STATUS
 			err := authItem.AssignProperties_To_ScaleRuleAuth_STATUS(&auth)
 			if err != nil {
@@ -4182,8 +4094,6 @@ func (rule *JobScaleRule_STATUS) AssignProperties_To_JobScaleRule_STATUS(destina
 	if rule.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(rule.Metadata))
 		for metadatumKey, metadatumValue := range rule.Metadata {
-			// Shadow the loop variable to avoid aliasing
-			metadatumValue := metadatumValue
 			metadatumMap[metadatumKey] = *metadatumValue.DeepCopy()
 		}
 		destination.Metadata = metadatumMap

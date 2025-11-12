@@ -1114,7 +1114,7 @@ var handCraftedConversions = []handCraftedConversion{
 		fromType:    astmodel.StringType,
 		toType:      astmodel.WellKnownResourceReferenceType,
 		implPackage: astmodel.GenRuntimeReference,
-		implFunc:    "CreateWellknownResourceReferenceFromARMID",
+		implFunc:    "CreateWellKnownResourceReferenceFromARMID",
 	},
 	{
 		fromType:    astmodel.FloatType,
@@ -1257,8 +1257,6 @@ func neuterForbiddenConversions(
 // <arr> := make([]<type>, len(<reader>))
 //
 //	for <index>, <value> := range <reader> {
-//	    // Shadow the loop variable to avoid aliasing
-//	    <value> := <value>
 //	    <arr>[<index>] := <value> // Or other conversion as required
 //	}
 //
@@ -1366,10 +1364,6 @@ func assignArrayFromArray(
 			)
 		}
 
-		avoidAliasing := astbuilder.ShortDeclaration(itemID, dst.NewIdent(itemID))
-		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
-		avoidAliasing.Decs.Before = dst.NewLine
-
 		elemConv, err := conversion(dst.NewIdent(itemID), writeToElement, loopLocals, generationContext)
 		if err != nil {
 			return nil, eris.Wrapf(
@@ -1379,10 +1373,8 @@ func assignArrayFromArray(
 				astmodel.DebugDescription(destinationEndpoint.Type()))
 		}
 
-		loopBody := astbuilder.Statements(avoidAliasing, elemConv)
-
 		assignValue := writer(dst.NewIdent(tempID))
-		loop := astbuilder.IterateOverSliceWithIndex(indexID, itemID, reader, loopBody...)
+		loop := astbuilder.IterateOverSliceWithIndex(indexID, itemID, reader, elemConv...)
 		trueBranch := astbuilder.Statements(declaration, loop, assignValue)
 
 		assignZero := writer(astbuilder.Nil())
@@ -1403,7 +1395,6 @@ func assignArrayFromArray(
 //	    }
 //	    <writer> = <map>
 //	} else {
-//
 //	    <writer> = <zero>
 //	}
 func assignMapFromMap(
@@ -1528,10 +1519,6 @@ func assignMapFromMap(
 			)
 		}
 
-		avoidAliasing := astbuilder.ShortDeclaration(itemID, dst.NewIdent(itemID))
-		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
-		avoidAliasing.Decs.Before = dst.NewLine
-
 		elemConv, err := conversion(dst.NewIdent(itemID), assignToItem, loopLocals, generationContext)
 		if err != nil {
 			return nil, eris.Wrapf(
@@ -1541,9 +1528,7 @@ func assignMapFromMap(
 				astmodel.DebugDescription(destinationMap.ValueType()))
 		}
 
-		loopBody := astbuilder.Statements(avoidAliasing, elemConv)
-
-		loop := astbuilder.IterateOverMapWithValue(keyID, itemID, actualReader, loopBody...)
+		loop := astbuilder.IterateOverMapWithValue(keyID, itemID, actualReader, elemConv...)
 		assignMap := writer(dst.NewIdent(tempID))
 		trueBranch := astbuilder.Statements(declaration, loop, assignMap)
 

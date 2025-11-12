@@ -632,6 +632,7 @@ Used by: [UpdateStatus_STATUS](#UpdateStatus_STATUS).
 | "Completed"  |             |
 | "Failed"     |             |
 | "NotStarted" |             |
+| "Pending"    |             |
 | "Running"    |             |
 | "Stopped"    |             |
 | "Stopping"   |             |

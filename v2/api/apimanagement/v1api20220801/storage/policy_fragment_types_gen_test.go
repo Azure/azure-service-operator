@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_PolicyFragment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PolicyFragment to hub returns original",
+		prop.ForAll(RunResourceConversionTestForPolicyFragment, PolicyFragmentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForPolicyFragment tests if a specific instance of PolicyFragment round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForPolicyFragment(subject PolicyFragment) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.PolicyFragment
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual PolicyFragment
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PolicyFragment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PolicyFragment to PolicyFragment via AssignProperties_To_PolicyFragment & AssignProperties_From_PolicyFragment returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPolicyFragment, PolicyFragmentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPolicyFragment tests if a specific instance of PolicyFragment can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPolicyFragment(subject PolicyFragment) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PolicyFragment
+	err := copied.AssignProperties_To_PolicyFragment(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PolicyFragment
+	err = actual.AssignProperties_From_PolicyFragment(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_PolicyFragment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +164,48 @@ func AddRelatedPropertyGeneratorsForPolicyFragment(gens map[string]gopter.Gen) {
 	gens["Status"] = PolicyFragment_STATUSGenerator()
 }
 
+func Test_PolicyFragmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PolicyFragmentOperatorSpec to PolicyFragmentOperatorSpec via AssignProperties_To_PolicyFragmentOperatorSpec & AssignProperties_From_PolicyFragmentOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPolicyFragmentOperatorSpec, PolicyFragmentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPolicyFragmentOperatorSpec tests if a specific instance of PolicyFragmentOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPolicyFragmentOperatorSpec(subject PolicyFragmentOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PolicyFragmentOperatorSpec
+	err := copied.AssignProperties_To_PolicyFragmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PolicyFragmentOperatorSpec
+	err = actual.AssignProperties_From_PolicyFragmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PolicyFragmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -131,6 +259,48 @@ func PolicyFragmentOperatorSpecGenerator() gopter.Gen {
 	policyFragmentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PolicyFragmentOperatorSpec{}), generators)
 
 	return policyFragmentOperatorSpecGenerator
+}
+
+func Test_PolicyFragment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PolicyFragment_STATUS to PolicyFragment_STATUS via AssignProperties_To_PolicyFragment_STATUS & AssignProperties_From_PolicyFragment_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPolicyFragment_STATUS, PolicyFragment_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPolicyFragment_STATUS tests if a specific instance of PolicyFragment_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPolicyFragment_STATUS(subject PolicyFragment_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PolicyFragment_STATUS
+	err := copied.AssignProperties_To_PolicyFragment_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PolicyFragment_STATUS
+	err = actual.AssignProperties_From_PolicyFragment_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PolicyFragment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -197,6 +367,48 @@ func AddIndependentPropertyGeneratorsForPolicyFragment_STATUS(gens map[string]go
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PolicyFragment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PolicyFragment_Spec to PolicyFragment_Spec via AssignProperties_To_PolicyFragment_Spec & AssignProperties_From_PolicyFragment_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPolicyFragment_Spec, PolicyFragment_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPolicyFragment_Spec tests if a specific instance of PolicyFragment_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPolicyFragment_Spec(subject PolicyFragment_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PolicyFragment_Spec
+	err := copied.AssignProperties_To_PolicyFragment_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PolicyFragment_Spec
+	err = actual.AssignProperties_From_PolicyFragment_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PolicyFragment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

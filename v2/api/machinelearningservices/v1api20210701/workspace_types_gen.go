@@ -882,8 +882,6 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 	if source.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource, len(source.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource SharedPrivateLinkResource
 			err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResource(&sharedPrivateLinkResourceItem)
 			if err != nil {
@@ -1077,8 +1075,6 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 	if workspace.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]storage.SharedPrivateLinkResource, len(workspace.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource storage.SharedPrivateLinkResource
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource(&sharedPrivateLinkResource)
 			if err != nil {
@@ -1730,8 +1726,6 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1784,8 +1778,6 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 	if source.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_STATUS, len(source.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResourceItem)
 			if err != nil {
@@ -1949,8 +1941,6 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	if workspace.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(workspace.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -2001,8 +1991,6 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	if workspace.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]storage.SharedPrivateLinkResource_STATUS, len(workspace.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource storage.SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResource)
 			if err != nil {
@@ -2450,8 +2438,6 @@ func (identity *Identity) AssignProperties_From_Identity(source *storage.Identit
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -2485,8 +2471,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2598,8 +2582,6 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -2639,8 +2621,6 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -3906,8 +3886,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3924,8 +3902,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3963,8 +3939,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3981,8 +3955,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4251,6 +4223,10 @@ var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
 type IdentityForCmk struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
+
+	// UserAssignedIdentityReference: The ArmId of the user assigned identity that will be used to access the customer managed
+	// key vault
+	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IdentityForCmk{}
@@ -4263,7 +4239,14 @@ func (forCmk *IdentityForCmk) ConvertToARM(resolved genruntime.ConvertToARMResol
 	result := &arm.IdentityForCmk{}
 
 	// Set property "UserAssignedIdentity":
-	if forCmk.UserAssignedIdentity != nil {
+	if forCmk.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*forCmk.UserAssignedIdentityReference)
+		if err != nil {
+			return nil, err
+		}
+		userAssignedIdentityReference := userAssignedIdentityReferenceARMID
+		result.UserAssignedIdentity = &userAssignedIdentityReference
+	} else if forCmk.UserAssignedIdentity != nil {
 		userAssignedIdentity := *forCmk.UserAssignedIdentity
 		result.UserAssignedIdentity = &userAssignedIdentity
 	}
@@ -4288,6 +4271,8 @@ func (forCmk *IdentityForCmk) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		forCmk.UserAssignedIdentity = &userAssignedIdentity
 	}
 
+	// no assignment for property "UserAssignedIdentityReference"
+
 	// No error
 	return nil
 }
@@ -4297,6 +4282,14 @@ func (forCmk *IdentityForCmk) AssignProperties_From_IdentityForCmk(source *stora
 
 	// UserAssignedIdentity
 	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
+
+	// UserAssignedIdentityReference
+	if source.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
+		forCmk.UserAssignedIdentityReference = &userAssignedIdentityReference
+	} else {
+		forCmk.UserAssignedIdentityReference = nil
+	}
 
 	// No error
 	return nil
@@ -4309,6 +4302,14 @@ func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *st
 
 	// UserAssignedIdentity
 	destination.UserAssignedIdentity = genruntime.ClonePointerToString(forCmk.UserAssignedIdentity)
+
+	// UserAssignedIdentityReference
+	if forCmk.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReference := forCmk.UserAssignedIdentityReference.Copy()
+		destination.UserAssignedIdentityReference = &userAssignedIdentityReference
+	} else {
+		destination.UserAssignedIdentityReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4391,6 +4392,10 @@ type KeyVaultProperties struct {
 	// +kubebuilder:validation:Required
 	// KeyVaultArmId: The ArmId of the keyVault where the customer owned encryption key is present.
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// KeyVaultArmReference: The ArmId of the keyVault where the customer owned encryption key is present.
+	KeyVaultArmReference *genruntime.ResourceReference `armReference:"KeyVaultArmId" json:"keyVaultArmReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -4415,7 +4420,14 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property "KeyVaultArmId":
-	if properties.KeyVaultArmId != nil {
+	if properties.KeyVaultArmReference != nil {
+		keyVaultArmReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.KeyVaultArmReference)
+		if err != nil {
+			return nil, err
+		}
+		keyVaultArmReference := keyVaultArmReferenceARMID
+		result.KeyVaultArmId = &keyVaultArmReference
+	} else if properties.KeyVaultArmId != nil {
 		keyVaultArmId := *properties.KeyVaultArmId
 		result.KeyVaultArmId = &keyVaultArmId
 	}
@@ -4452,6 +4464,8 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.KeyVaultArmId = &keyVaultArmId
 	}
 
+	// no assignment for property "KeyVaultArmReference"
+
 	// No error
 	return nil
 }
@@ -4467,6 +4481,14 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 
 	// KeyVaultArmId
 	properties.KeyVaultArmId = genruntime.ClonePointerToString(source.KeyVaultArmId)
+
+	// KeyVaultArmReference
+	if source.KeyVaultArmReference != nil {
+		keyVaultArmReference := source.KeyVaultArmReference.Copy()
+		properties.KeyVaultArmReference = &keyVaultArmReference
+	} else {
+		properties.KeyVaultArmReference = nil
+	}
 
 	// No error
 	return nil
@@ -4485,6 +4507,14 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 
 	// KeyVaultArmId
 	destination.KeyVaultArmId = genruntime.ClonePointerToString(properties.KeyVaultArmId)
+
+	// KeyVaultArmReference
+	if properties.KeyVaultArmReference != nil {
+		keyVaultArmReference := properties.KeyVaultArmReference.Copy()
+		destination.KeyVaultArmReference = &keyVaultArmReference
+	} else {
+		destination.KeyVaultArmReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

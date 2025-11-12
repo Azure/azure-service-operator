@@ -1045,8 +1045,6 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 	if source.HostNameSslStates != nil {
 		hostNameSslStateList := make([]HostNameSslState, len(source.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range source.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
 			var hostNameSslState HostNameSslState
 			err := hostNameSslState.AssignProperties_From_HostNameSslState(&hostNameSslStateItem)
 			if err != nil {
@@ -1319,8 +1317,6 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 	if site.HostNameSslStates != nil {
 		hostNameSslStateList := make([]storage.HostNameSslState, len(site.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range site.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
 			var hostNameSslState storage.HostNameSslState
 			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState(&hostNameSslState)
 			if err != nil {
@@ -1597,8 +1593,6 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 	if source.HostNameSslStates != nil {
 		hostNameSslStateList := make([]HostNameSslState, len(source.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range source.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
 			var hostNameSslState HostNameSslState
 			err := hostNameSslState.Initialize_From_HostNameSslState_STATUS(&hostNameSslStateItem)
 			if err != nil {
@@ -2621,8 +2615,6 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 	if source.HostNameSslStates != nil {
 		hostNameSslStateList := make([]HostNameSslState_STATUS, len(source.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range source.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
 			var hostNameSslState HostNameSslState_STATUS
 			err := hostNameSslState.AssignProperties_From_HostNameSslState_STATUS(&hostNameSslStateItem)
 			if err != nil {
@@ -2953,8 +2945,6 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 	if site.HostNameSslStates != nil {
 		hostNameSslStateList := make([]storage.HostNameSslState_STATUS, len(site.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range site.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
 			var hostNameSslState storage.HostNameSslState_STATUS
 			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState_STATUS(&hostNameSslState)
 			if err != nil {
@@ -4399,8 +4389,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -4434,8 +4422,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -4576,8 +4562,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -4617,8 +4601,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -5969,8 +5951,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.AppSettings != nil {
 		appSettingList := make([]NameValuePair, len(source.AppSettings))
 		for appSettingIndex, appSettingItem := range source.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
 			var appSetting NameValuePair
 			err := appSetting.AssignProperties_From_NameValuePair(&appSettingItem)
 			if err != nil {
@@ -6010,8 +5990,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.AzureStorageAccounts != nil {
 		azureStorageAccountMap := make(map[string]AzureStorageInfoValue, len(source.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
 			var azureStorageAccount AzureStorageInfoValue
 			err := azureStorageAccount.AssignProperties_From_AzureStorageInfoValue(&azureStorageAccountValue)
 			if err != nil {
@@ -6028,8 +6006,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.ConnectionStrings != nil {
 		connectionStringList := make([]ConnStringInfo, len(source.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range source.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
 			var connectionString ConnStringInfo
 			err := connectionString.AssignProperties_From_ConnStringInfo(&connectionStringItem)
 			if err != nil {
@@ -6104,8 +6080,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.HandlerMappings != nil {
 		handlerMappingList := make([]HandlerMapping, len(source.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range source.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
 			var handlerMapping HandlerMapping
 			err := handlerMapping.AssignProperties_From_HandlerMapping(&handlerMappingItem)
 			if err != nil {
@@ -6141,8 +6115,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]IpSecurityRestriction, len(source.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction IpSecurityRestriction
 			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&ipSecurityRestrictionItem)
 			if err != nil {
@@ -6291,8 +6263,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.ScmIpSecurityRestrictions != nil {
 		scmIpSecurityRestrictionList := make([]IpSecurityRestriction, len(source.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range source.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
 			var scmIpSecurityRestriction IpSecurityRestriction
 			err := scmIpSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&scmIpSecurityRestrictionItem)
 			if err != nil {
@@ -6346,8 +6316,6 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	if source.VirtualApplications != nil {
 		virtualApplicationList := make([]VirtualApplication, len(source.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range source.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
 			var virtualApplication VirtualApplication
 			err := virtualApplication.AssignProperties_From_VirtualApplication(&virtualApplicationItem)
 			if err != nil {
@@ -6450,8 +6418,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.AppSettings != nil {
 		appSettingList := make([]storage.NameValuePair, len(config.AppSettings))
 		for appSettingIndex, appSettingItem := range config.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
 			var appSetting storage.NameValuePair
 			err := appSettingItem.AssignProperties_To_NameValuePair(&appSetting)
 			if err != nil {
@@ -6491,8 +6457,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.AzureStorageAccounts != nil {
 		azureStorageAccountMap := make(map[string]storage.AzureStorageInfoValue, len(config.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
 			var azureStorageAccount storage.AzureStorageInfoValue
 			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue(&azureStorageAccount)
 			if err != nil {
@@ -6509,8 +6473,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.ConnectionStrings != nil {
 		connectionStringList := make([]storage.ConnStringInfo, len(config.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range config.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
 			var connectionString storage.ConnStringInfo
 			err := connectionStringItem.AssignProperties_To_ConnStringInfo(&connectionString)
 			if err != nil {
@@ -6584,8 +6546,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.HandlerMappings != nil {
 		handlerMappingList := make([]storage.HandlerMapping, len(config.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range config.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
 			var handlerMapping storage.HandlerMapping
 			err := handlerMappingItem.AssignProperties_To_HandlerMapping(&handlerMapping)
 			if err != nil {
@@ -6621,8 +6581,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]storage.IpSecurityRestriction, len(config.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range config.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction storage.IpSecurityRestriction
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&ipSecurityRestriction)
 			if err != nil {
@@ -6768,8 +6726,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.ScmIpSecurityRestrictions != nil {
 		scmIpSecurityRestrictionList := make([]storage.IpSecurityRestriction, len(config.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range config.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
 			var scmIpSecurityRestriction storage.IpSecurityRestriction
 			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&scmIpSecurityRestriction)
 			if err != nil {
@@ -6821,8 +6777,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	if config.VirtualApplications != nil {
 		virtualApplicationList := make([]storage.VirtualApplication, len(config.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range config.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
 			var virtualApplication storage.VirtualApplication
 			err := virtualApplicationItem.AssignProperties_To_VirtualApplication(&virtualApplication)
 			if err != nil {
@@ -6930,8 +6884,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.AppSettings != nil {
 		appSettingList := make([]NameValuePair, len(source.AppSettings))
 		for appSettingIndex, appSettingItem := range source.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
 			var appSetting NameValuePair
 			err := appSetting.Initialize_From_NameValuePair_STATUS(&appSettingItem)
 			if err != nil {
@@ -6971,8 +6923,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.AzureStorageAccounts != nil {
 		azureStorageAccountMap := make(map[string]AzureStorageInfoValue, len(source.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
 			var azureStorageAccount AzureStorageInfoValue
 			err := azureStorageAccount.Initialize_From_AzureStorageInfoValue_STATUS(&azureStorageAccountValue)
 			if err != nil {
@@ -6989,8 +6939,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.ConnectionStrings != nil {
 		connectionStringList := make([]ConnStringInfo, len(source.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range source.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
 			var connectionString ConnStringInfo
 			err := connectionString.Initialize_From_ConnStringInfo_STATUS(&connectionStringItem)
 			if err != nil {
@@ -7064,8 +7012,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.HandlerMappings != nil {
 		handlerMappingList := make([]HandlerMapping, len(source.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range source.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
 			var handlerMapping HandlerMapping
 			err := handlerMapping.Initialize_From_HandlerMapping_STATUS(&handlerMappingItem)
 			if err != nil {
@@ -7101,8 +7047,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]IpSecurityRestriction, len(source.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction IpSecurityRestriction
 			err := ipSecurityRestriction.Initialize_From_IpSecurityRestriction_STATUS(&ipSecurityRestrictionItem)
 			if err != nil {
@@ -7248,8 +7192,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.ScmIpSecurityRestrictions != nil {
 		scmIpSecurityRestrictionList := make([]IpSecurityRestriction, len(source.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range source.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
 			var scmIpSecurityRestriction IpSecurityRestriction
 			err := scmIpSecurityRestriction.Initialize_From_IpSecurityRestriction_STATUS(&scmIpSecurityRestrictionItem)
 			if err != nil {
@@ -7301,8 +7243,6 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	if source.VirtualApplications != nil {
 		virtualApplicationList := make([]VirtualApplication, len(source.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range source.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
 			var virtualApplication VirtualApplication
 			err := virtualApplication.Initialize_From_VirtualApplication_STATUS(&virtualApplicationItem)
 			if err != nil {
@@ -8120,8 +8060,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.AppSettings != nil {
 		appSettingList := make([]NameValuePair_STATUS, len(source.AppSettings))
 		for appSettingIndex, appSettingItem := range source.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
 			var appSetting NameValuePair_STATUS
 			err := appSetting.AssignProperties_From_NameValuePair_STATUS(&appSettingItem)
 			if err != nil {
@@ -8161,8 +8099,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.AzureStorageAccounts != nil {
 		azureStorageAccountMap := make(map[string]AzureStorageInfoValue_STATUS, len(source.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
 			var azureStorageAccount AzureStorageInfoValue_STATUS
 			err := azureStorageAccount.AssignProperties_From_AzureStorageInfoValue_STATUS(&azureStorageAccountValue)
 			if err != nil {
@@ -8179,8 +8115,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.ConnectionStrings != nil {
 		connectionStringList := make([]ConnStringInfo_STATUS, len(source.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range source.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
 			var connectionString ConnStringInfo_STATUS
 			err := connectionString.AssignProperties_From_ConnStringInfo_STATUS(&connectionStringItem)
 			if err != nil {
@@ -8255,8 +8189,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.HandlerMappings != nil {
 		handlerMappingList := make([]HandlerMapping_STATUS, len(source.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range source.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
 			var handlerMapping HandlerMapping_STATUS
 			err := handlerMapping.AssignProperties_From_HandlerMapping_STATUS(&handlerMappingItem)
 			if err != nil {
@@ -8292,8 +8224,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]IpSecurityRestriction_STATUS, len(source.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction IpSecurityRestriction_STATUS
 			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestriction_STATUS(&ipSecurityRestrictionItem)
 			if err != nil {
@@ -8454,8 +8384,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.ScmIpSecurityRestrictions != nil {
 		scmIpSecurityRestrictionList := make([]IpSecurityRestriction_STATUS, len(source.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range source.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
 			var scmIpSecurityRestriction IpSecurityRestriction_STATUS
 			err := scmIpSecurityRestriction.AssignProperties_From_IpSecurityRestriction_STATUS(&scmIpSecurityRestrictionItem)
 			if err != nil {
@@ -8509,8 +8437,6 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 	if source.VirtualApplications != nil {
 		virtualApplicationList := make([]VirtualApplication_STATUS, len(source.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range source.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
 			var virtualApplication VirtualApplication_STATUS
 			err := virtualApplication.AssignProperties_From_VirtualApplication_STATUS(&virtualApplicationItem)
 			if err != nil {
@@ -8613,8 +8539,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.AppSettings != nil {
 		appSettingList := make([]storage.NameValuePair_STATUS, len(config.AppSettings))
 		for appSettingIndex, appSettingItem := range config.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
 			var appSetting storage.NameValuePair_STATUS
 			err := appSettingItem.AssignProperties_To_NameValuePair_STATUS(&appSetting)
 			if err != nil {
@@ -8654,8 +8578,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.AzureStorageAccounts != nil {
 		azureStorageAccountMap := make(map[string]storage.AzureStorageInfoValue_STATUS, len(config.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
 			var azureStorageAccount storage.AzureStorageInfoValue_STATUS
 			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue_STATUS(&azureStorageAccount)
 			if err != nil {
@@ -8672,8 +8594,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.ConnectionStrings != nil {
 		connectionStringList := make([]storage.ConnStringInfo_STATUS, len(config.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range config.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
 			var connectionString storage.ConnStringInfo_STATUS
 			err := connectionStringItem.AssignProperties_To_ConnStringInfo_STATUS(&connectionString)
 			if err != nil {
@@ -8747,8 +8667,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.HandlerMappings != nil {
 		handlerMappingList := make([]storage.HandlerMapping_STATUS, len(config.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range config.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
 			var handlerMapping storage.HandlerMapping_STATUS
 			err := handlerMappingItem.AssignProperties_To_HandlerMapping_STATUS(&handlerMapping)
 			if err != nil {
@@ -8784,8 +8702,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]storage.IpSecurityRestriction_STATUS, len(config.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range config.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction storage.IpSecurityRestriction_STATUS
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction_STATUS(&ipSecurityRestriction)
 			if err != nil {
@@ -8943,8 +8859,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.ScmIpSecurityRestrictions != nil {
 		scmIpSecurityRestrictionList := make([]storage.IpSecurityRestriction_STATUS, len(config.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range config.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
 			var scmIpSecurityRestriction storage.IpSecurityRestriction_STATUS
 			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction_STATUS(&scmIpSecurityRestriction)
 			if err != nil {
@@ -8996,8 +8910,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	if config.VirtualApplications != nil {
 		virtualApplicationList := make([]storage.VirtualApplication_STATUS, len(config.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range config.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
 			var virtualApplication storage.VirtualApplication_STATUS
 			err := virtualApplicationItem.AssignProperties_To_VirtualApplication_STATUS(&virtualApplication)
 			if err != nil {
@@ -9068,8 +8980,6 @@ func (operator *SiteOperatorSpec) AssignProperties_From_SiteOperatorSpec(source 
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -9086,8 +8996,6 @@ func (operator *SiteOperatorSpec) AssignProperties_From_SiteOperatorSpec(source 
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -9113,8 +9021,6 @@ func (operator *SiteOperatorSpec) AssignProperties_To_SiteOperatorSpec(destinati
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -9131,8 +9037,6 @@ func (operator *SiteOperatorSpec) AssignProperties_To_SiteOperatorSpec(destinati
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -10721,8 +10625,6 @@ func (experiments *Experiments) AssignProperties_From_Experiments(source *storag
 	if source.RampUpRules != nil {
 		rampUpRuleList := make([]RampUpRule, len(source.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range source.RampUpRules {
-			// Shadow the loop variable to avoid aliasing
-			rampUpRuleItem := rampUpRuleItem
 			var rampUpRule RampUpRule
 			err := rampUpRule.AssignProperties_From_RampUpRule(&rampUpRuleItem)
 			if err != nil {
@@ -10748,8 +10650,6 @@ func (experiments *Experiments) AssignProperties_To_Experiments(destination *sto
 	if experiments.RampUpRules != nil {
 		rampUpRuleList := make([]storage.RampUpRule, len(experiments.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range experiments.RampUpRules {
-			// Shadow the loop variable to avoid aliasing
-			rampUpRuleItem := rampUpRuleItem
 			var rampUpRule storage.RampUpRule
 			err := rampUpRuleItem.AssignProperties_To_RampUpRule(&rampUpRule)
 			if err != nil {
@@ -10780,8 +10680,6 @@ func (experiments *Experiments) Initialize_From_Experiments_STATUS(source *Exper
 	if source.RampUpRules != nil {
 		rampUpRuleList := make([]RampUpRule, len(source.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range source.RampUpRules {
-			// Shadow the loop variable to avoid aliasing
-			rampUpRuleItem := rampUpRuleItem
 			var rampUpRule RampUpRule
 			err := rampUpRule.Initialize_From_RampUpRule_STATUS(&rampUpRuleItem)
 			if err != nil {
@@ -10839,8 +10737,6 @@ func (experiments *Experiments_STATUS) AssignProperties_From_Experiments_STATUS(
 	if source.RampUpRules != nil {
 		rampUpRuleList := make([]RampUpRule_STATUS, len(source.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range source.RampUpRules {
-			// Shadow the loop variable to avoid aliasing
-			rampUpRuleItem := rampUpRuleItem
 			var rampUpRule RampUpRule_STATUS
 			err := rampUpRule.AssignProperties_From_RampUpRule_STATUS(&rampUpRuleItem)
 			if err != nil {
@@ -10866,8 +10762,6 @@ func (experiments *Experiments_STATUS) AssignProperties_To_Experiments_STATUS(de
 	if experiments.RampUpRules != nil {
 		rampUpRuleList := make([]storage.RampUpRule_STATUS, len(experiments.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range experiments.RampUpRules {
-			// Shadow the loop variable to avoid aliasing
-			rampUpRuleItem := rampUpRuleItem
 			var rampUpRule storage.RampUpRule_STATUS
 			err := rampUpRuleItem.AssignProperties_To_RampUpRule_STATUS(&rampUpRule)
 			if err != nil {
@@ -11415,8 +11309,6 @@ func (restriction *IpSecurityRestriction) AssignProperties_From_IpSecurityRestri
 	if source.Headers != nil {
 		headerMap := make(map[string][]string, len(source.Headers))
 		for headerKey, headerValue := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		restriction.Headers = headerMap
@@ -11478,8 +11370,6 @@ func (restriction *IpSecurityRestriction) AssignProperties_To_IpSecurityRestrict
 	if restriction.Headers != nil {
 		headerMap := make(map[string][]string, len(restriction.Headers))
 		for headerKey, headerValue := range restriction.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		destination.Headers = headerMap
@@ -11545,8 +11435,6 @@ func (restriction *IpSecurityRestriction) Initialize_From_IpSecurityRestriction_
 	if source.Headers != nil {
 		headerMap := make(map[string][]string, len(source.Headers))
 		for headerKey, headerValue := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		restriction.Headers = headerMap
@@ -11750,8 +11638,6 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_From_IpSecurit
 	if source.Headers != nil {
 		headerMap := make(map[string][]string, len(source.Headers))
 		for headerKey, headerValue := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		restriction.Headers = headerMap
@@ -11808,8 +11694,6 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_To_IpSecurityR
 	if restriction.Headers != nil {
 		headerMap := make(map[string][]string, len(restriction.Headers))
 		for headerKey, headerValue := range restriction.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
 			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
 		}
 		destination.Headers = headerMap
@@ -13291,8 +13175,6 @@ func (application *VirtualApplication) AssignProperties_From_VirtualApplication(
 	if source.VirtualDirectories != nil {
 		virtualDirectoryList := make([]VirtualDirectory, len(source.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range source.VirtualDirectories {
-			// Shadow the loop variable to avoid aliasing
-			virtualDirectoryItem := virtualDirectoryItem
 			var virtualDirectory VirtualDirectory
 			err := virtualDirectory.AssignProperties_From_VirtualDirectory(&virtualDirectoryItem)
 			if err != nil {
@@ -13332,8 +13214,6 @@ func (application *VirtualApplication) AssignProperties_To_VirtualApplication(de
 	if application.VirtualDirectories != nil {
 		virtualDirectoryList := make([]storage.VirtualDirectory, len(application.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range application.VirtualDirectories {
-			// Shadow the loop variable to avoid aliasing
-			virtualDirectoryItem := virtualDirectoryItem
 			var virtualDirectory storage.VirtualDirectory
 			err := virtualDirectoryItem.AssignProperties_To_VirtualDirectory(&virtualDirectory)
 			if err != nil {
@@ -13378,8 +13258,6 @@ func (application *VirtualApplication) Initialize_From_VirtualApplication_STATUS
 	if source.VirtualDirectories != nil {
 		virtualDirectoryList := make([]VirtualDirectory, len(source.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range source.VirtualDirectories {
-			// Shadow the loop variable to avoid aliasing
-			virtualDirectoryItem := virtualDirectoryItem
 			var virtualDirectory VirtualDirectory
 			err := virtualDirectory.Initialize_From_VirtualDirectory_STATUS(&virtualDirectoryItem)
 			if err != nil {
@@ -13478,8 +13356,6 @@ func (application *VirtualApplication_STATUS) AssignProperties_From_VirtualAppli
 	if source.VirtualDirectories != nil {
 		virtualDirectoryList := make([]VirtualDirectory_STATUS, len(source.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range source.VirtualDirectories {
-			// Shadow the loop variable to avoid aliasing
-			virtualDirectoryItem := virtualDirectoryItem
 			var virtualDirectory VirtualDirectory_STATUS
 			err := virtualDirectory.AssignProperties_From_VirtualDirectory_STATUS(&virtualDirectoryItem)
 			if err != nil {
@@ -13519,8 +13395,6 @@ func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplica
 	if application.VirtualDirectories != nil {
 		virtualDirectoryList := make([]storage.VirtualDirectory_STATUS, len(application.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range application.VirtualDirectories {
-			// Shadow the loop variable to avoid aliasing
-			virtualDirectoryItem := virtualDirectoryItem
 			var virtualDirectory storage.VirtualDirectory_STATUS
 			err := virtualDirectoryItem.AssignProperties_To_VirtualDirectory_STATUS(&virtualDirectory)
 			if err != nil {
@@ -14055,8 +13929,6 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 	if source.SlowRequestsWithPath != nil {
 		slowRequestsWithPathList := make([]SlowRequestsBasedTrigger, len(source.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range source.SlowRequestsWithPath {
-			// Shadow the loop variable to avoid aliasing
-			slowRequestsWithPathItem := slowRequestsWithPathItem
 			var slowRequestsWithPath SlowRequestsBasedTrigger
 			err := slowRequestsWithPath.AssignProperties_From_SlowRequestsBasedTrigger(&slowRequestsWithPathItem)
 			if err != nil {
@@ -14073,8 +13945,6 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 	if source.StatusCodes != nil {
 		statusCodeList := make([]StatusCodesBasedTrigger, len(source.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range source.StatusCodes {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeItem := statusCodeItem
 			var statusCode StatusCodesBasedTrigger
 			err := statusCode.AssignProperties_From_StatusCodesBasedTrigger(&statusCodeItem)
 			if err != nil {
@@ -14091,8 +13961,6 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 	if source.StatusCodesRange != nil {
 		statusCodesRangeList := make([]StatusCodesRangeBasedTrigger, len(source.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range source.StatusCodesRange {
-			// Shadow the loop variable to avoid aliasing
-			statusCodesRangeItem := statusCodesRangeItem
 			var statusCodesRange StatusCodesRangeBasedTrigger
 			err := statusCodesRange.AssignProperties_From_StatusCodesRangeBasedTrigger(&statusCodesRangeItem)
 			if err != nil {
@@ -14145,8 +14013,6 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 	if triggers.SlowRequestsWithPath != nil {
 		slowRequestsWithPathList := make([]storage.SlowRequestsBasedTrigger, len(triggers.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range triggers.SlowRequestsWithPath {
-			// Shadow the loop variable to avoid aliasing
-			slowRequestsWithPathItem := slowRequestsWithPathItem
 			var slowRequestsWithPath storage.SlowRequestsBasedTrigger
 			err := slowRequestsWithPathItem.AssignProperties_To_SlowRequestsBasedTrigger(&slowRequestsWithPath)
 			if err != nil {
@@ -14163,8 +14029,6 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 	if triggers.StatusCodes != nil {
 		statusCodeList := make([]storage.StatusCodesBasedTrigger, len(triggers.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range triggers.StatusCodes {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeItem := statusCodeItem
 			var statusCode storage.StatusCodesBasedTrigger
 			err := statusCodeItem.AssignProperties_To_StatusCodesBasedTrigger(&statusCode)
 			if err != nil {
@@ -14181,8 +14045,6 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 	if triggers.StatusCodesRange != nil {
 		statusCodesRangeList := make([]storage.StatusCodesRangeBasedTrigger, len(triggers.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range triggers.StatusCodesRange {
-			// Shadow the loop variable to avoid aliasing
-			statusCodesRangeItem := statusCodesRangeItem
 			var statusCodesRange storage.StatusCodesRangeBasedTrigger
 			err := statusCodesRangeItem.AssignProperties_To_StatusCodesRangeBasedTrigger(&statusCodesRange)
 			if err != nil {
@@ -14240,8 +14102,6 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 	if source.SlowRequestsWithPath != nil {
 		slowRequestsWithPathList := make([]SlowRequestsBasedTrigger, len(source.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range source.SlowRequestsWithPath {
-			// Shadow the loop variable to avoid aliasing
-			slowRequestsWithPathItem := slowRequestsWithPathItem
 			var slowRequestsWithPath SlowRequestsBasedTrigger
 			err := slowRequestsWithPath.Initialize_From_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPathItem)
 			if err != nil {
@@ -14258,8 +14118,6 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 	if source.StatusCodes != nil {
 		statusCodeList := make([]StatusCodesBasedTrigger, len(source.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range source.StatusCodes {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeItem := statusCodeItem
 			var statusCode StatusCodesBasedTrigger
 			err := statusCode.Initialize_From_StatusCodesBasedTrigger_STATUS(&statusCodeItem)
 			if err != nil {
@@ -14276,8 +14134,6 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 	if source.StatusCodesRange != nil {
 		statusCodesRangeList := make([]StatusCodesRangeBasedTrigger, len(source.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range source.StatusCodesRange {
-			// Shadow the loop variable to avoid aliasing
-			statusCodesRangeItem := statusCodesRangeItem
 			var statusCodesRange StatusCodesRangeBasedTrigger
 			err := statusCodesRange.Initialize_From_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRangeItem)
 			if err != nil {
@@ -14425,8 +14281,6 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 	if source.SlowRequestsWithPath != nil {
 		slowRequestsWithPathList := make([]SlowRequestsBasedTrigger_STATUS, len(source.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range source.SlowRequestsWithPath {
-			// Shadow the loop variable to avoid aliasing
-			slowRequestsWithPathItem := slowRequestsWithPathItem
 			var slowRequestsWithPath SlowRequestsBasedTrigger_STATUS
 			err := slowRequestsWithPath.AssignProperties_From_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPathItem)
 			if err != nil {
@@ -14443,8 +14297,6 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 	if source.StatusCodes != nil {
 		statusCodeList := make([]StatusCodesBasedTrigger_STATUS, len(source.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range source.StatusCodes {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeItem := statusCodeItem
 			var statusCode StatusCodesBasedTrigger_STATUS
 			err := statusCode.AssignProperties_From_StatusCodesBasedTrigger_STATUS(&statusCodeItem)
 			if err != nil {
@@ -14461,8 +14313,6 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 	if source.StatusCodesRange != nil {
 		statusCodesRangeList := make([]StatusCodesRangeBasedTrigger_STATUS, len(source.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range source.StatusCodesRange {
-			// Shadow the loop variable to avoid aliasing
-			statusCodesRangeItem := statusCodesRangeItem
 			var statusCodesRange StatusCodesRangeBasedTrigger_STATUS
 			err := statusCodesRange.AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRangeItem)
 			if err != nil {
@@ -14515,8 +14365,6 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 	if triggers.SlowRequestsWithPath != nil {
 		slowRequestsWithPathList := make([]storage.SlowRequestsBasedTrigger_STATUS, len(triggers.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range triggers.SlowRequestsWithPath {
-			// Shadow the loop variable to avoid aliasing
-			slowRequestsWithPathItem := slowRequestsWithPathItem
 			var slowRequestsWithPath storage.SlowRequestsBasedTrigger_STATUS
 			err := slowRequestsWithPathItem.AssignProperties_To_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPath)
 			if err != nil {
@@ -14533,8 +14381,6 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 	if triggers.StatusCodes != nil {
 		statusCodeList := make([]storage.StatusCodesBasedTrigger_STATUS, len(triggers.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range triggers.StatusCodes {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeItem := statusCodeItem
 			var statusCode storage.StatusCodesBasedTrigger_STATUS
 			err := statusCodeItem.AssignProperties_To_StatusCodesBasedTrigger_STATUS(&statusCode)
 			if err != nil {
@@ -14551,8 +14397,6 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 	if triggers.StatusCodesRange != nil {
 		statusCodesRangeList := make([]storage.StatusCodesRangeBasedTrigger_STATUS, len(triggers.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range triggers.StatusCodesRange {
-			// Shadow the loop variable to avoid aliasing
-			statusCodesRangeItem := statusCodesRangeItem
 			var statusCodesRange storage.StatusCodesRangeBasedTrigger_STATUS
 			err := statusCodesRangeItem.AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRange)
 			if err != nil {

@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForProductPolicy(subject ProductPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ProductPolicy
+	var hub v20240501s.ProductPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForProductPolicy(subject ProductPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductPolicy
+	var other v20220801s.ProductPolicy
 	err := copied.AssignProperties_To_ProductPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForProductPolicyOperatorSpec(subject ProductPolicy
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductPolicyOperatorSpec
+	var other v20220801s.ProductPolicyOperatorSpec
 	err := copied.AssignProperties_To_ProductPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForProductPolicy_STATUS(subject ProductPolicy_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductPolicy_STATUS
+	var other v20220801s.ProductPolicy_STATUS
 	err := copied.AssignProperties_To_ProductPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -385,7 +386,7 @@ func RunPropertyAssignmentTestForProductPolicy_Spec(subject ProductPolicy_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductPolicy_Spec
+	var other v20220801s.ProductPolicy_Spec
 	err := copied.AssignProperties_To_ProductPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()

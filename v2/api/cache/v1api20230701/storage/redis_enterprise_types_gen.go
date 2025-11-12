@@ -6,6 +6,7 @@ package storage
 import (
 	"fmt"
 	v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
 	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -27,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230701.RedisEnterprise
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2023-07-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2023-07-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -247,7 +248,7 @@ func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230701.RedisEnterprise
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2023-07-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2023-07-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}
 type RedisEnterpriseList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -404,13 +405,18 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 
 	// Sku
 	if source.Sku != nil {
-		var skuStash v20230801s.Sku
+		var skuStash v20241101s.Sku
 		err := skuStash.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field SkuStash from Sku")
 		}
+		var skuStashLocal v20230801s.Sku
+		err = skuStashLocal.AssignProperties_From_Sku(&skuStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field SkuStash")
+		}
 		var sku Sku
-		err = sku.AssignProperties_From_Sku(&skuStash)
+		err = sku.AssignProperties_From_Sku(&skuStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku from SkuStash")
 		}
@@ -541,8 +547,13 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field SkuStash from Sku")
 		}
+		var skuStashLocal v20241101s.Sku
+		err = skuStash.AssignProperties_To_Sku(&skuStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field SkuStash")
+		}
 		var sku v20250401s.Sku
-		err = skuStash.AssignProperties_To_Sku(&sku)
+		err = skuStashLocal.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku from SkuStash")
 		}
@@ -701,15 +712,18 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnectionSTATUSStash v20230801s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnectionSTATUSStash v20241101s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionSTATUSStash.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
 			}
+			var privateEndpointConnectionSTATUSStashLocal v20230801s.PrivateEndpointConnection_STATUS
+			err = privateEndpointConnectionSTATUSStashLocal.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash")
+			}
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
-			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
+			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStashLocal)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
 			}
@@ -738,13 +752,18 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 
 	// Sku
 	if source.Sku != nil {
-		var skuSTATUSStash v20230801s.Sku_STATUS
+		var skuSTATUSStash v20241101s.Sku_STATUS
 		err := skuSTATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
+		var skuSTATUSStashLocal v20230801s.Sku_STATUS
+		err = skuSTATUSStashLocal.AssignProperties_From_Sku_STATUS(&skuSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash")
+		}
 		var sku Sku_STATUS
-		err = sku.AssignProperties_From_Sku_STATUS(&skuSTATUSStash)
+		err = sku.AssignProperties_From_Sku_STATUS(&skuSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}
@@ -861,15 +880,18 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 	if enterprise.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]v20250401s.PrivateEndpointConnection_STATUS, len(enterprise.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range enterprise.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnectionSTATUSStash v20230801s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
 			}
+			var privateEndpointConnectionSTATUSStashLocal v20241101s.PrivateEndpointConnection_STATUS
+			err = privateEndpointConnectionSTATUSStash.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStashLocal)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash")
+			}
 			var privateEndpointConnection v20250401s.PrivateEndpointConnection_STATUS
-			err = privateEndpointConnectionSTATUSStash.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			err = privateEndpointConnectionSTATUSStashLocal.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
 			}
@@ -909,8 +931,13 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
+		var skuSTATUSStashLocal v20241101s.Sku_STATUS
+		err = skuSTATUSStash.AssignProperties_To_Sku_STATUS(&skuSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash")
+		}
 		var sku v20250401s.Sku_STATUS
-		err = skuSTATUSStash.AssignProperties_To_Sku_STATUS(&sku)
+		err = skuSTATUSStashLocal.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}
@@ -1038,8 +1065,6 @@ func (operator *RedisEnterpriseOperatorSpec) AssignProperties_From_RedisEnterpri
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1056,8 +1081,6 @@ func (operator *RedisEnterpriseOperatorSpec) AssignProperties_From_RedisEnterpri
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1099,8 +1122,6 @@ func (operator *RedisEnterpriseOperatorSpec) AssignProperties_To_RedisEnterprise
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1117,8 +1138,6 @@ func (operator *RedisEnterpriseOperatorSpec) AssignProperties_To_RedisEnterprise
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

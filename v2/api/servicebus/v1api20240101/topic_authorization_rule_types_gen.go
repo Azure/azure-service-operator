@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/AuthorizationRules.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/AuthorizationRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}
 type TopicAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (rule *TopicAuthorizationRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/AuthorizationRules.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/AuthorizationRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}
 type TopicAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -409,8 +409,6 @@ func (rule *TopicAuthorizationRule_Spec) AssignProperties_From_TopicAuthorizatio
 	if source.Rights != nil {
 		rightList := make([]TopicAuthorizationRuleRights_Spec, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
 			rightList[rightIndex] = genruntime.ToEnum(rightItem, topicAuthorizationRuleRights_Spec_Values)
 		}
 		rule.Rights = rightList
@@ -457,8 +455,6 @@ func (rule *TopicAuthorizationRule_Spec) AssignProperties_To_TopicAuthorizationR
 	if rule.Rights != nil {
 		rightList := make([]string, len(rule.Rights))
 		for rightIndex, rightItem := range rule.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
 			rightList[rightIndex] = string(rightItem)
 		}
 		destination.Rights = rightList
@@ -484,8 +480,6 @@ func (rule *TopicAuthorizationRule_Spec) Initialize_From_TopicAuthorizationRule_
 	if source.Rights != nil {
 		rightList := make([]TopicAuthorizationRuleRights_Spec, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
 			right := genruntime.ToEnum(string(rightItem), topicAuthorizationRuleRights_Spec_Values)
 			rightList[rightIndex] = right
 		}
@@ -664,8 +658,6 @@ func (rule *TopicAuthorizationRule_STATUS) AssignProperties_From_TopicAuthorizat
 	if source.Rights != nil {
 		rightList := make([]TopicAuthorizationRuleRights_STATUS, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
 			rightList[rightIndex] = genruntime.ToEnum(rightItem, topicAuthorizationRuleRights_STATUS_Values)
 		}
 		rule.Rights = rightList
@@ -713,8 +705,6 @@ func (rule *TopicAuthorizationRule_STATUS) AssignProperties_To_TopicAuthorizatio
 	if rule.Rights != nil {
 		rightList := make([]string, len(rule.Rights))
 		for rightIndex, rightItem := range rule.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
 			rightList[rightIndex] = string(rightItem)
 		}
 		destination.Rights = rightList
@@ -764,8 +754,6 @@ func (operator *TopicAuthorizationRuleOperatorSpec) AssignProperties_From_TopicA
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -782,8 +770,6 @@ func (operator *TopicAuthorizationRuleOperatorSpec) AssignProperties_From_TopicA
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -809,8 +795,6 @@ func (operator *TopicAuthorizationRuleOperatorSpec) AssignProperties_To_TopicAut
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -827,8 +811,6 @@ func (operator *TopicAuthorizationRuleOperatorSpec) AssignProperties_To_TopicAut
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

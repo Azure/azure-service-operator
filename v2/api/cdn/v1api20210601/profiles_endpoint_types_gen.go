@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/Cdn/stable/2021-06-01/cdn.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (endpoint *ProfilesEndpoint) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/Cdn/stable/2021-06-01/cdn.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}
 type ProfilesEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -777,8 +777,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Sp
 	if source.GeoFilters != nil {
 		geoFilterList := make([]GeoFilter, len(source.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
-			// Shadow the loop variable to avoid aliasing
-			geoFilterItem := geoFilterItem
 			var geoFilter GeoFilter
 			err := geoFilter.AssignProperties_From_GeoFilter(&geoFilterItem)
 			if err != nil {
@@ -843,8 +841,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Sp
 	if source.OriginGroups != nil {
 		originGroupList := make([]DeepCreatedOriginGroup, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
-			// Shadow the loop variable to avoid aliasing
-			originGroupItem := originGroupItem
 			var originGroup DeepCreatedOriginGroup
 			err := originGroup.AssignProperties_From_DeepCreatedOriginGroup(&originGroupItem)
 			if err != nil {
@@ -867,8 +863,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Sp
 	if source.Origins != nil {
 		originList := make([]DeepCreatedOrigin, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin DeepCreatedOrigin
 			err := origin.AssignProperties_From_DeepCreatedOrigin(&originItem)
 			if err != nil {
@@ -908,8 +902,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Sp
 	if source.UrlSigningKeys != nil {
 		urlSigningKeyList := make([]UrlSigningKey, len(source.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
-			// Shadow the loop variable to avoid aliasing
-			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey UrlSigningKey
 			err := urlSigningKey.AssignProperties_From_UrlSigningKey(&urlSigningKeyItem)
 			if err != nil {
@@ -977,8 +969,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec
 	if endpoint.GeoFilters != nil {
 		geoFilterList := make([]storage.GeoFilter, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
-			// Shadow the loop variable to avoid aliasing
-			geoFilterItem := geoFilterItem
 			var geoFilter storage.GeoFilter
 			err := geoFilterItem.AssignProperties_To_GeoFilter(&geoFilter)
 			if err != nil {
@@ -1042,8 +1032,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec
 	if endpoint.OriginGroups != nil {
 		originGroupList := make([]storage.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
-			// Shadow the loop variable to avoid aliasing
-			originGroupItem := originGroupItem
 			var originGroup storage.DeepCreatedOriginGroup
 			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup(&originGroup)
 			if err != nil {
@@ -1069,8 +1057,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec
 	if endpoint.Origins != nil {
 		originList := make([]storage.DeepCreatedOrigin, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin storage.DeepCreatedOrigin
 			err := originItem.AssignProperties_To_DeepCreatedOrigin(&origin)
 			if err != nil {
@@ -1109,8 +1095,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec
 	if endpoint.UrlSigningKeys != nil {
 		urlSigningKeyList := make([]storage.UrlSigningKey, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
-			// Shadow the loop variable to avoid aliasing
-			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey storage.UrlSigningKey
 			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey(&urlSigningKey)
 			if err != nil {
@@ -1180,8 +1164,6 @@ func (endpoint *ProfilesEndpoint_Spec) Initialize_From_ProfilesEndpoint_STATUS(s
 	if source.GeoFilters != nil {
 		geoFilterList := make([]GeoFilter, len(source.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
-			// Shadow the loop variable to avoid aliasing
-			geoFilterItem := geoFilterItem
 			var geoFilter GeoFilter
 			err := geoFilter.Initialize_From_GeoFilter_STATUS(&geoFilterItem)
 			if err != nil {
@@ -1233,8 +1215,6 @@ func (endpoint *ProfilesEndpoint_Spec) Initialize_From_ProfilesEndpoint_STATUS(s
 	if source.OriginGroups != nil {
 		originGroupList := make([]DeepCreatedOriginGroup, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
-			// Shadow the loop variable to avoid aliasing
-			originGroupItem := originGroupItem
 			var originGroup DeepCreatedOriginGroup
 			err := originGroup.Initialize_From_DeepCreatedOriginGroup_STATUS(&originGroupItem)
 			if err != nil {
@@ -1257,8 +1237,6 @@ func (endpoint *ProfilesEndpoint_Spec) Initialize_From_ProfilesEndpoint_STATUS(s
 	if source.Origins != nil {
 		originList := make([]DeepCreatedOrigin, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin DeepCreatedOrigin
 			err := origin.Initialize_From_DeepCreatedOrigin_STATUS(&originItem)
 			if err != nil {
@@ -1289,8 +1267,6 @@ func (endpoint *ProfilesEndpoint_Spec) Initialize_From_ProfilesEndpoint_STATUS(s
 	if source.UrlSigningKeys != nil {
 		urlSigningKeyList := make([]UrlSigningKey, len(source.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
-			// Shadow the loop variable to avoid aliasing
-			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey UrlSigningKey
 			err := urlSigningKey.Initialize_From_UrlSigningKey_STATUS(&urlSigningKeyItem)
 			if err != nil {
@@ -1772,8 +1748,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_
 	if source.CustomDomains != nil {
 		customDomainList := make([]DeepCreatedCustomDomain_STATUS, len(source.CustomDomains))
 		for customDomainIndex, customDomainItem := range source.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
 			var customDomain DeepCreatedCustomDomain_STATUS
 			err := customDomain.AssignProperties_From_DeepCreatedCustomDomain_STATUS(&customDomainItem)
 			if err != nil {
@@ -1814,8 +1788,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_
 	if source.GeoFilters != nil {
 		geoFilterList := make([]GeoFilter_STATUS, len(source.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
-			// Shadow the loop variable to avoid aliasing
-			geoFilterItem := geoFilterItem
 			var geoFilter GeoFilter_STATUS
 			err := geoFilter.AssignProperties_From_GeoFilter_STATUS(&geoFilterItem)
 			if err != nil {
@@ -1877,8 +1849,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_
 	if source.OriginGroups != nil {
 		originGroupList := make([]DeepCreatedOriginGroup_STATUS, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
-			// Shadow the loop variable to avoid aliasing
-			originGroupItem := originGroupItem
 			var originGroup DeepCreatedOriginGroup_STATUS
 			err := originGroup.AssignProperties_From_DeepCreatedOriginGroup_STATUS(&originGroupItem)
 			if err != nil {
@@ -1901,8 +1871,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_
 	if source.Origins != nil {
 		originList := make([]DeepCreatedOrigin_STATUS, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin DeepCreatedOrigin_STATUS
 			err := origin.AssignProperties_From_DeepCreatedOrigin_STATUS(&originItem)
 			if err != nil {
@@ -1967,8 +1935,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_
 	if source.UrlSigningKeys != nil {
 		urlSigningKeyList := make([]UrlSigningKey_STATUS, len(source.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
-			// Shadow the loop variable to avoid aliasing
-			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey UrlSigningKey_STATUS
 			err := urlSigningKey.AssignProperties_From_UrlSigningKey_STATUS(&urlSigningKeyItem)
 			if err != nil {
@@ -2012,8 +1978,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_ST
 	if endpoint.CustomDomains != nil {
 		customDomainList := make([]storage.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
 		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
 			var customDomain storage.DeepCreatedCustomDomain_STATUS
 			err := customDomainItem.AssignProperties_To_DeepCreatedCustomDomain_STATUS(&customDomain)
 			if err != nil {
@@ -2054,8 +2018,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_ST
 	if endpoint.GeoFilters != nil {
 		geoFilterList := make([]storage.GeoFilter_STATUS, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
-			// Shadow the loop variable to avoid aliasing
-			geoFilterItem := geoFilterItem
 			var geoFilter storage.GeoFilter_STATUS
 			err := geoFilterItem.AssignProperties_To_GeoFilter_STATUS(&geoFilter)
 			if err != nil {
@@ -2116,8 +2078,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_ST
 	if endpoint.OriginGroups != nil {
 		originGroupList := make([]storage.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
-			// Shadow the loop variable to avoid aliasing
-			originGroupItem := originGroupItem
 			var originGroup storage.DeepCreatedOriginGroup_STATUS
 			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup_STATUS(&originGroup)
 			if err != nil {
@@ -2140,8 +2100,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_ST
 	if endpoint.Origins != nil {
 		originList := make([]storage.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin storage.DeepCreatedOrigin_STATUS
 			err := originItem.AssignProperties_To_DeepCreatedOrigin_STATUS(&origin)
 			if err != nil {
@@ -2203,8 +2161,6 @@ func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_ST
 	if endpoint.UrlSigningKeys != nil {
 		urlSigningKeyList := make([]storage.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
-			// Shadow the loop variable to avoid aliasing
-			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey storage.UrlSigningKey_STATUS
 			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey_STATUS(&urlSigningKey)
 			if err != nil {
@@ -3234,8 +3190,6 @@ func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGrou
 	if source.Origins != nil {
 		originList := make([]ResourceReference, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin ResourceReference
 			err := origin.AssignProperties_From_ResourceReference(&originItem)
 			if err != nil {
@@ -3291,8 +3245,6 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 	if group.Origins != nil {
 		originList := make([]storage.ResourceReference, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin storage.ResourceReference
 			err := originItem.AssignProperties_To_ResourceReference(&origin)
 			if err != nil {
@@ -3353,8 +3305,6 @@ func (group *DeepCreatedOriginGroup) Initialize_From_DeepCreatedOriginGroup_STAT
 	if source.Origins != nil {
 		originList := make([]ResourceReference, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin ResourceReference
 			err := origin.Initialize_From_ResourceReference_STATUS(&originItem)
 			if err != nil {
@@ -3504,8 +3454,6 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOri
 	if source.Origins != nil {
 		originList := make([]ResourceReference_STATUS, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin ResourceReference_STATUS
 			err := origin.AssignProperties_From_ResourceReference_STATUS(&originItem)
 			if err != nil {
@@ -3561,8 +3509,6 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOrigi
 	if group.Origins != nil {
 		originList := make([]storage.ResourceReference_STATUS, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
 			var origin storage.ResourceReference_STATUS
 			err := originItem.AssignProperties_To_ResourceReference_STATUS(&origin)
 			if err != nil {
@@ -3678,8 +3624,6 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointP
 	if source.Rules != nil {
 		ruleList := make([]DeliveryRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule DeliveryRule
 			err := rule.AssignProperties_From_DeliveryRule(&ruleItem)
 			if err != nil {
@@ -3708,8 +3652,6 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointPro
 	if policy.Rules != nil {
 		ruleList := make([]storage.DeliveryRule, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.DeliveryRule
 			err := ruleItem.AssignProperties_To_DeliveryRule(&rule)
 			if err != nil {
@@ -3743,8 +3685,6 @@ func (policy *EndpointProperties_DeliveryPolicy) Initialize_From_EndpointPropert
 	if source.Rules != nil {
 		ruleList := make([]DeliveryRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule DeliveryRule
 			err := rule.Initialize_From_DeliveryRule_STATUS(&ruleItem)
 			if err != nil {
@@ -3813,8 +3753,6 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_En
 	if source.Rules != nil {
 		ruleList := make([]DeliveryRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule DeliveryRule_STATUS
 			err := rule.AssignProperties_From_DeliveryRule_STATUS(&ruleItem)
 			if err != nil {
@@ -3843,8 +3781,6 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_Endp
 	if policy.Rules != nil {
 		ruleList := make([]storage.DeliveryRule_STATUS, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.DeliveryRule_STATUS
 			err := ruleItem.AssignProperties_To_DeliveryRule_STATUS(&rule)
 			if err != nil {
@@ -4377,8 +4313,6 @@ func (operator *ProfilesEndpointOperatorSpec) AssignProperties_From_ProfilesEndp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -4395,8 +4329,6 @@ func (operator *ProfilesEndpointOperatorSpec) AssignProperties_From_ProfilesEndp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4422,8 +4354,6 @@ func (operator *ProfilesEndpointOperatorSpec) AssignProperties_To_ProfilesEndpoi
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -4440,8 +4370,6 @@ func (operator *ProfilesEndpointOperatorSpec) AssignProperties_To_ProfilesEndpoi
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -5022,8 +4950,6 @@ func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *storage.Del
 	if source.Actions != nil {
 		actionList := make([]DeliveryRuleAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action DeliveryRuleAction
 			err := action.AssignProperties_From_DeliveryRuleAction(&actionItem)
 			if err != nil {
@@ -5040,8 +4966,6 @@ func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *storage.Del
 	if source.Conditions != nil {
 		conditionList := make([]DeliveryRuleCondition, len(source.Conditions))
 		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition DeliveryRuleCondition
 			err := condition.AssignProperties_From_DeliveryRuleCondition(&conditionItem)
 			if err != nil {
@@ -5073,8 +4997,6 @@ func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *storage.
 	if rule.Actions != nil {
 		actionList := make([]storage.DeliveryRuleAction, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action storage.DeliveryRuleAction
 			err := actionItem.AssignProperties_To_DeliveryRuleAction(&action)
 			if err != nil {
@@ -5091,8 +5013,6 @@ func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *storage.
 	if rule.Conditions != nil {
 		conditionList := make([]storage.DeliveryRuleCondition, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition storage.DeliveryRuleCondition
 			err := conditionItem.AssignProperties_To_DeliveryRuleCondition(&condition)
 			if err != nil {
@@ -5129,8 +5049,6 @@ func (rule *DeliveryRule) Initialize_From_DeliveryRule_STATUS(source *DeliveryRu
 	if source.Actions != nil {
 		actionList := make([]DeliveryRuleAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action DeliveryRuleAction
 			err := action.Initialize_From_DeliveryRuleAction_STATUS(&actionItem)
 			if err != nil {
@@ -5147,8 +5065,6 @@ func (rule *DeliveryRule) Initialize_From_DeliveryRule_STATUS(source *DeliveryRu
 	if source.Conditions != nil {
 		conditionList := make([]DeliveryRuleCondition, len(source.Conditions))
 		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition DeliveryRuleCondition
 			err := condition.Initialize_From_DeliveryRuleCondition_STATUS(&conditionItem)
 			if err != nil {
@@ -5237,8 +5153,6 @@ func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(sourc
 	if source.Actions != nil {
 		actionList := make([]DeliveryRuleAction_STATUS, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action DeliveryRuleAction_STATUS
 			err := action.AssignProperties_From_DeliveryRuleAction_STATUS(&actionItem)
 			if err != nil {
@@ -5255,8 +5169,6 @@ func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(sourc
 	if source.Conditions != nil {
 		conditionList := make([]DeliveryRuleCondition_STATUS, len(source.Conditions))
 		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition DeliveryRuleCondition_STATUS
 			err := condition.AssignProperties_From_DeliveryRuleCondition_STATUS(&conditionItem)
 			if err != nil {
@@ -5288,8 +5200,6 @@ func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destina
 	if rule.Actions != nil {
 		actionList := make([]storage.DeliveryRuleAction_STATUS, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action storage.DeliveryRuleAction_STATUS
 			err := actionItem.AssignProperties_To_DeliveryRuleAction_STATUS(&action)
 			if err != nil {
@@ -5306,8 +5216,6 @@ func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destina
 	if rule.Conditions != nil {
 		conditionList := make([]storage.DeliveryRuleCondition_STATUS, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
 			var condition storage.DeliveryRuleCondition_STATUS
 			err := conditionItem.AssignProperties_To_DeliveryRuleCondition_STATUS(&condition)
 			if err != nil {
@@ -6182,8 +6090,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 	if source.HttpErrorRanges != nil {
 		httpErrorRangeList := make([]HttpErrorRangeParameters, len(source.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
-			// Shadow the loop variable to avoid aliasing
-			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange HttpErrorRangeParameters
 			err := httpErrorRange.AssignProperties_From_HttpErrorRangeParameters(&httpErrorRangeItem)
 			if err != nil {
@@ -6221,8 +6127,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 	if parameters.HttpErrorRanges != nil {
 		httpErrorRangeList := make([]storage.HttpErrorRangeParameters, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
-			// Shadow the loop variable to avoid aliasing
-			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange storage.HttpErrorRangeParameters
 			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters(&httpErrorRange)
 			if err != nil {
@@ -6264,8 +6168,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) Initialize_From_R
 	if source.HttpErrorRanges != nil {
 		httpErrorRangeList := make([]HttpErrorRangeParameters, len(source.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
-			// Shadow the loop variable to avoid aliasing
-			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange HttpErrorRangeParameters
 			err := httpErrorRange.Initialize_From_HttpErrorRangeParameters_STATUS(&httpErrorRangeItem)
 			if err != nil {
@@ -6355,8 +6257,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 	if source.HttpErrorRanges != nil {
 		httpErrorRangeList := make([]HttpErrorRangeParameters_STATUS, len(source.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
-			// Shadow the loop variable to avoid aliasing
-			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange HttpErrorRangeParameters_STATUS
 			err := httpErrorRange.AssignProperties_From_HttpErrorRangeParameters_STATUS(&httpErrorRangeItem)
 			if err != nil {
@@ -6394,8 +6294,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 	if parameters.HttpErrorRanges != nil {
 		httpErrorRangeList := make([]storage.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
-			// Shadow the loop variable to avoid aliasing
-			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange storage.HttpErrorRangeParameters_STATUS
 			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters_STATUS(&httpErrorRange)
 			if err != nil {
@@ -18110,8 +18008,6 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -18160,8 +18056,6 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_Client
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -18214,8 +18108,6 @@ func (parameters *ClientPortMatchConditionParameters) Initialize_From_ClientPort
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -18331,8 +18223,6 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -18381,8 +18271,6 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -18568,8 +18456,6 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -18621,8 +18507,6 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMa
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -18678,8 +18562,6 @@ func (parameters *CookiesMatchConditionParameters) Initialize_From_CookiesMatchC
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -18807,8 +18689,6 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -18860,8 +18740,6 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_To_Co
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -19811,8 +19689,6 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -19861,8 +19737,6 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostName
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -19915,8 +19789,6 @@ func (parameters *HostNameMatchConditionParameters) Initialize_From_HostNameMatc
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -20032,8 +19904,6 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -20082,8 +19952,6 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_H
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -20251,8 +20119,6 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -20301,8 +20167,6 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpV
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -20355,8 +20219,6 @@ func (parameters *HttpVersionMatchConditionParameters) Initialize_From_HttpVersi
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -20472,8 +20334,6 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -20522,8 +20382,6 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_T
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -20675,8 +20533,6 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 	if source.MatchValues != nil {
 		matchValueList := make([]IsDeviceMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, isDeviceMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -20705,8 +20561,6 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -20736,8 +20590,6 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDevice
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -20765,8 +20617,6 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDevice
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -20800,8 +20650,6 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 	if source.MatchValues != nil {
 		matchValueList := make([]IsDeviceMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValue := genruntime.ToEnum(string(matchValueItem), isDeviceMatchConditionParameters_MatchValues_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
@@ -20830,8 +20678,6 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -20929,8 +20775,6 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 	if source.MatchValues != nil {
 		matchValueList := make([]IsDeviceMatchConditionParameters_MatchValues_STATUS, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, isDeviceMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -20959,8 +20803,6 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -20990,8 +20832,6 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_I
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -21019,8 +20859,6 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_I
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -21498,8 +21336,6 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -21551,8 +21387,6 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgs
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -21608,8 +21442,6 @@ func (parameters *PostArgsMatchConditionParameters) Initialize_From_PostArgsMatc
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -21737,8 +21569,6 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -21790,8 +21620,6 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_P
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -21959,8 +21787,6 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -22009,8 +21835,6 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_Query
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -22063,8 +21887,6 @@ func (parameters *QueryStringMatchConditionParameters) Initialize_From_QueryStri
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -22180,8 +22002,6 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -22230,8 +22050,6 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_T
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -22400,8 +22218,6 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -22450,8 +22266,6 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_Rem
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -22504,8 +22318,6 @@ func (parameters *RemoteAddressMatchConditionParameters) Initialize_From_RemoteA
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -22622,8 +22434,6 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -22672,8 +22482,6 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -22841,8 +22649,6 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -22891,8 +22697,6 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_Reque
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -22945,8 +22749,6 @@ func (parameters *RequestBodyMatchConditionParameters) Initialize_From_RequestBo
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -23062,8 +22864,6 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -23112,8 +22912,6 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_T
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -23299,8 +23097,6 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -23352,8 +23148,6 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_Req
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -23409,8 +23203,6 @@ func (parameters *RequestHeaderMatchConditionParameters) Initialize_From_Request
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -23538,8 +23330,6 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -23591,8 +23381,6 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -23744,8 +23532,6 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 	if source.MatchValues != nil {
 		matchValueList := make([]RequestMethodMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestMethodMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -23774,8 +23560,6 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -23805,8 +23589,6 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_Req
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -23834,8 +23616,6 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_Req
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -23869,8 +23649,6 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 	if source.MatchValues != nil {
 		matchValueList := make([]RequestMethodMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValue := genruntime.ToEnum(string(matchValueItem), requestMethodMatchConditionParameters_MatchValues_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
@@ -23899,8 +23677,6 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -23998,8 +23774,6 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 	if source.MatchValues != nil {
 		matchValueList := make([]RequestMethodMatchConditionParameters_MatchValues_STATUS, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestMethodMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -24028,8 +23802,6 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -24059,8 +23831,6 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -24088,8 +23858,6 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -24241,8 +24009,6 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 	if source.MatchValues != nil {
 		matchValueList := make([]RequestSchemeMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestSchemeMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -24271,8 +24037,6 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -24302,8 +24066,6 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_Req
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -24331,8 +24093,6 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_Req
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -24366,8 +24126,6 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 	if source.MatchValues != nil {
 		matchValueList := make([]RequestSchemeMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValue := genruntime.ToEnum(string(matchValueItem), requestSchemeMatchConditionParameters_MatchValues_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
@@ -24396,8 +24154,6 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -24495,8 +24251,6 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 	if source.MatchValues != nil {
 		matchValueList := make([]RequestSchemeMatchConditionParameters_MatchValues_STATUS, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestSchemeMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -24525,8 +24279,6 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -24556,8 +24308,6 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -24585,8 +24335,6 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -24754,8 +24502,6 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -24804,8 +24550,6 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_Reques
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -24858,8 +24602,6 @@ func (parameters *RequestUriMatchConditionParameters) Initialize_From_RequestUri
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -24975,8 +24717,6 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -25025,8 +24765,6 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -25568,8 +25306,6 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -25618,8 +25354,6 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_Server
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -25672,8 +25406,6 @@ func (parameters *ServerPortMatchConditionParameters) Initialize_From_ServerPort
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -25789,8 +25521,6 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -25839,8 +25569,6 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -26008,8 +25736,6 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -26058,8 +25784,6 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_Socket
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -26112,8 +25836,6 @@ func (parameters *SocketAddrMatchConditionParameters) Initialize_From_SocketAddr
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -26229,8 +25951,6 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -26279,8 +25999,6 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -26432,8 +26150,6 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 	if source.MatchValues != nil {
 		matchValueList := make([]SslProtocol, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, sslProtocol_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -26462,8 +26178,6 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -26493,8 +26207,6 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslPr
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -26522,8 +26234,6 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslPr
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -26557,8 +26267,6 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 	if source.MatchValues != nil {
 		matchValueList := make([]SslProtocol, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValue := genruntime.ToEnum(string(matchValueItem), sslProtocol_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
@@ -26587,8 +26295,6 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -26686,8 +26392,6 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 	if source.MatchValues != nil {
 		matchValueList := make([]SslProtocol_STATUS, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, sslProtocol_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
@@ -26716,8 +26420,6 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -26747,8 +26449,6 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_T
 	if parameters.MatchValues != nil {
 		matchValueList := make([]string, len(parameters.MatchValues))
 		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
 			matchValueList[matchValueIndex] = string(matchValueItem)
 		}
 		destination.MatchValues = matchValueList
@@ -26776,8 +26476,6 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_T
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -26945,8 +26643,6 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -26995,8 +26691,6 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -27049,8 +26743,6 @@ func (parameters *UrlFileExtensionMatchConditionParameters) Initialize_From_UrlF
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -27166,8 +26858,6 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -27216,8 +26906,6 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -27385,8 +27073,6 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -27435,8 +27121,6 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFi
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -27489,8 +27173,6 @@ func (parameters *UrlFileNameMatchConditionParameters) Initialize_From_UrlFileNa
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -27606,8 +27288,6 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -27656,8 +27336,6 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_T
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -27825,8 +27503,6 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
@@ -27875,8 +27551,6 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMa
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -27929,8 +27603,6 @@ func (parameters *UrlPathMatchConditionParameters) Initialize_From_UrlPathMatchC
 	if source.Transforms != nil {
 		transformList := make([]Transform, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
@@ -28046,8 +27718,6 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 	if source.Transforms != nil {
 		transformList := make([]Transform_STATUS, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
@@ -28096,8 +27766,6 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_To_Ur
 	if parameters.Transforms != nil {
 		transformList := make([]string, len(parameters.Transforms))
 		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
 			transformList[transformIndex] = string(transformItem)
 		}
 		destination.Transforms = transformList
@@ -29090,8 +28758,6 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 	if source.ParameterNameOverride != nil {
 		parameterNameOverrideList := make([]UrlSigningParamIdentifier, len(source.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range source.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride UrlSigningParamIdentifier
 			err := parameterNameOverride.AssignProperties_From_UrlSigningParamIdentifier(&parameterNameOverrideItem)
 			if err != nil {
@@ -29134,8 +28800,6 @@ func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActi
 	if parameters.ParameterNameOverride != nil {
 		parameterNameOverrideList := make([]storage.UrlSigningParamIdentifier, len(parameters.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride storage.UrlSigningParamIdentifier
 			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier(&parameterNameOverride)
 			if err != nil {
@@ -29182,8 +28846,6 @@ func (parameters *UrlSigningActionParameters) Initialize_From_UrlSigningActionPa
 	if source.ParameterNameOverride != nil {
 		parameterNameOverrideList := make([]UrlSigningParamIdentifier, len(source.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range source.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride UrlSigningParamIdentifier
 			err := parameterNameOverride.Initialize_From_UrlSigningParamIdentifier_STATUS(&parameterNameOverrideItem)
 			if err != nil {
@@ -29278,8 +28940,6 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 	if source.ParameterNameOverride != nil {
 		parameterNameOverrideList := make([]UrlSigningParamIdentifier_STATUS, len(source.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range source.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride UrlSigningParamIdentifier_STATUS
 			err := parameterNameOverride.AssignProperties_From_UrlSigningParamIdentifier_STATUS(&parameterNameOverrideItem)
 			if err != nil {
@@ -29322,8 +28982,6 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSign
 	if parameters.ParameterNameOverride != nil {
 		parameterNameOverrideList := make([]storage.UrlSigningParamIdentifier_STATUS, len(parameters.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride storage.UrlSigningParamIdentifier_STATUS
 			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier_STATUS(&parameterNameOverride)
 			if err != nil {

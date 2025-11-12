@@ -726,8 +726,6 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]BastionHostIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration BastionHostIPConfiguration
 			err := ipConfiguration.AssignProperties_From_BastionHostIPConfiguration(&ipConfigurationItem)
 			if err != nil {
@@ -883,8 +881,6 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 	if host.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.BastionHostIPConfiguration, len(host.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range host.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.BastionHostIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_BastionHostIPConfiguration(&ipConfiguration)
 			if err != nil {
@@ -1045,8 +1041,6 @@ func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *Bastion
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]BastionHostIPConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration BastionHostIPConfiguration
 			err := ipConfiguration.Initialize_From_BastionHostIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -1518,8 +1512,6 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]BastionHostIPConfiguration_STATUS, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration BastionHostIPConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_BastionHostIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -1676,8 +1668,6 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 	if host.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.BastionHostIPConfiguration_STATUS, len(host.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range host.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.BastionHostIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_BastionHostIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
@@ -2063,8 +2053,6 @@ func (operator *BastionHostOperatorSpec) AssignProperties_From_BastionHostOperat
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2081,8 +2069,6 @@ func (operator *BastionHostOperatorSpec) AssignProperties_From_BastionHostOperat
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2108,8 +2094,6 @@ func (operator *BastionHostOperatorSpec) AssignProperties_To_BastionHostOperator
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2126,8 +2110,6 @@ func (operator *BastionHostOperatorSpec) AssignProperties_To_BastionHostOperator
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2209,8 +2191,6 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) AssignProperties_From_Basti
 	if source.IpRules != nil {
 		ipRuleList := make([]IPRule, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IPRule
 			err := ipRule.AssignProperties_From_IPRule(&ipRuleItem)
 			if err != nil {
@@ -2236,8 +2216,6 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) AssignProperties_To_Bastion
 	if acls.IpRules != nil {
 		ipRuleList := make([]storage.IPRule, len(acls.IpRules))
 		for ipRuleIndex, ipRuleItem := range acls.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule storage.IPRule
 			err := ipRuleItem.AssignProperties_To_IPRule(&ipRule)
 			if err != nil {
@@ -2268,8 +2246,6 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) Initialize_From_BastionHost
 	if source.IpRules != nil {
 		ipRuleList := make([]IPRule, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IPRule
 			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
@@ -2326,8 +2302,6 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls_STATUS) AssignProperties_Fro
 	if source.IpRules != nil {
 		ipRuleList := make([]IPRule_STATUS, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule IPRule_STATUS
 			err := ipRule.AssignProperties_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
@@ -2353,8 +2327,6 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls_STATUS) AssignProperties_To_
 	if acls.IpRules != nil {
 		ipRuleList := make([]storage.IPRule_STATUS, len(acls.IpRules))
 		for ipRuleIndex, ipRuleItem := range acls.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
 			var ipRule storage.IPRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IPRule_STATUS(&ipRule)
 			if err != nil {

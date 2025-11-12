@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ApiVersionSet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiVersionSet to hub returns original",
+		prop.ForAll(RunResourceConversionTestForApiVersionSet, ApiVersionSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForApiVersionSet tests if a specific instance of ApiVersionSet round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForApiVersionSet(subject ApiVersionSet) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ApiVersionSet
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ApiVersionSet
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApiVersionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiVersionSet to ApiVersionSet via AssignProperties_To_ApiVersionSet & AssignProperties_From_ApiVersionSet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiVersionSet, ApiVersionSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiVersionSet tests if a specific instance of ApiVersionSet can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiVersionSet(subject ApiVersionSet) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiVersionSet
+	err := copied.AssignProperties_To_ApiVersionSet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiVersionSet
+	err = actual.AssignProperties_From_ApiVersionSet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ApiVersionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +164,48 @@ func AddRelatedPropertyGeneratorsForApiVersionSet(gens map[string]gopter.Gen) {
 	gens["Status"] = ApiVersionSet_STATUSGenerator()
 }
 
+func Test_ApiVersionSetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiVersionSetOperatorSpec to ApiVersionSetOperatorSpec via AssignProperties_To_ApiVersionSetOperatorSpec & AssignProperties_From_ApiVersionSetOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiVersionSetOperatorSpec, ApiVersionSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiVersionSetOperatorSpec tests if a specific instance of ApiVersionSetOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiVersionSetOperatorSpec(subject ApiVersionSetOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiVersionSetOperatorSpec
+	err := copied.AssignProperties_To_ApiVersionSetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiVersionSetOperatorSpec
+	err = actual.AssignProperties_From_ApiVersionSetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApiVersionSetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -131,6 +259,48 @@ func ApiVersionSetOperatorSpecGenerator() gopter.Gen {
 	apiVersionSetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetOperatorSpec{}), generators)
 
 	return apiVersionSetOperatorSpecGenerator
+}
+
+func Test_ApiVersionSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiVersionSet_STATUS to ApiVersionSet_STATUS via AssignProperties_To_ApiVersionSet_STATUS & AssignProperties_From_ApiVersionSet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiVersionSet_STATUS, ApiVersionSet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiVersionSet_STATUS tests if a specific instance of ApiVersionSet_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiVersionSet_STATUS(subject ApiVersionSet_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiVersionSet_STATUS
+	err := copied.AssignProperties_To_ApiVersionSet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiVersionSet_STATUS
+	err = actual.AssignProperties_From_ApiVersionSet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ApiVersionSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -199,6 +369,48 @@ func AddIndependentPropertyGeneratorsForApiVersionSet_STATUS(gens map[string]gop
 	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersioningScheme"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApiVersionSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiVersionSet_Spec to ApiVersionSet_Spec via AssignProperties_To_ApiVersionSet_Spec & AssignProperties_From_ApiVersionSet_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiVersionSet_Spec, ApiVersionSet_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiVersionSet_Spec tests if a specific instance of ApiVersionSet_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiVersionSet_Spec(subject ApiVersionSet_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiVersionSet_Spec
+	err := copied.AssignProperties_To_ApiVersionSet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiVersionSet_Spec
+	err = actual.AssignProperties_From_ApiVersionSet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ApiVersionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

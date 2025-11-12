@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/ContainerInstance/stable/2021-10-01/containerInstance.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
 type ContainerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (group *ContainerGroup) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/ContainerInstance/stable/2021-10-01/containerInstance.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
 type ContainerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -736,8 +736,6 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 	if source.Containers != nil {
 		containerList := make([]Container, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container
 			err := container.AssignProperties_From_Container(&containerItem)
 			if err != nil {
@@ -802,8 +800,6 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 	if source.ImageRegistryCredentials != nil {
 		imageRegistryCredentialList := make([]ImageRegistryCredential, len(source.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
-			// Shadow the loop variable to avoid aliasing
-			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential ImageRegistryCredential
 			err := imageRegistryCredential.AssignProperties_From_ImageRegistryCredential(&imageRegistryCredentialItem)
 			if err != nil {
@@ -820,8 +816,6 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 	if source.InitContainers != nil {
 		initContainerList := make([]InitContainerDefinition, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer InitContainerDefinition
 			err := initContainer.AssignProperties_From_InitContainerDefinition(&initContainerItem)
 			if err != nil {
@@ -900,8 +894,6 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 	if source.SubnetIds != nil {
 		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
 		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
-			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
 			var subnetId ContainerGroupSubnetId
 			err := subnetId.AssignProperties_From_ContainerGroupSubnetId(&subnetIdItem)
 			if err != nil {
@@ -921,8 +913,6 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 	if source.Volumes != nil {
 		volumeList := make([]Volume, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume
 			err := volume.AssignProperties_From_Volume(&volumeItem)
 			if err != nil {
@@ -954,8 +944,6 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	if group.Containers != nil {
 		containerList := make([]storage.Container, len(group.Containers))
 		for containerIndex, containerItem := range group.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.Container
 			err := containerItem.AssignProperties_To_Container(&container)
 			if err != nil {
@@ -1020,8 +1008,6 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	if group.ImageRegistryCredentials != nil {
 		imageRegistryCredentialList := make([]storage.ImageRegistryCredential, len(group.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range group.ImageRegistryCredentials {
-			// Shadow the loop variable to avoid aliasing
-			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential storage.ImageRegistryCredential
 			err := imageRegistryCredentialItem.AssignProperties_To_ImageRegistryCredential(&imageRegistryCredential)
 			if err != nil {
@@ -1038,8 +1024,6 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	if group.InitContainers != nil {
 		initContainerList := make([]storage.InitContainerDefinition, len(group.InitContainers))
 		for initContainerIndex, initContainerItem := range group.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer storage.InitContainerDefinition
 			err := initContainerItem.AssignProperties_To_InitContainerDefinition(&initContainer)
 			if err != nil {
@@ -1118,8 +1102,6 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	if group.SubnetIds != nil {
 		subnetIdList := make([]storage.ContainerGroupSubnetId, len(group.SubnetIds))
 		for subnetIdIndex, subnetIdItem := range group.SubnetIds {
-			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
 			var subnetId storage.ContainerGroupSubnetId
 			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId(&subnetId)
 			if err != nil {
@@ -1139,8 +1121,6 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	if group.Volumes != nil {
 		volumeList := make([]storage.Volume, len(group.Volumes))
 		for volumeIndex, volumeItem := range group.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.Volume
 			err := volumeItem.AssignProperties_To_Volume(&volume)
 			if err != nil {
@@ -1174,8 +1154,6 @@ func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *
 	if source.Containers != nil {
 		containerList := make([]Container, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container
 			err := container.Initialize_From_Container_STATUS(&containerItem)
 			if err != nil {
@@ -1240,8 +1218,6 @@ func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *
 	if source.ImageRegistryCredentials != nil {
 		imageRegistryCredentialList := make([]ImageRegistryCredential, len(source.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
-			// Shadow the loop variable to avoid aliasing
-			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential ImageRegistryCredential
 			err := imageRegistryCredential.Initialize_From_ImageRegistryCredential_STATUS(&imageRegistryCredentialItem)
 			if err != nil {
@@ -1258,8 +1234,6 @@ func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *
 	if source.InitContainers != nil {
 		initContainerList := make([]InitContainerDefinition, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer InitContainerDefinition
 			err := initContainer.Initialize_From_InitContainerDefinition_STATUS(&initContainerItem)
 			if err != nil {
@@ -1315,8 +1289,6 @@ func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *
 	if source.SubnetIds != nil {
 		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
 		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
-			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
 			var subnetId ContainerGroupSubnetId
 			err := subnetId.Initialize_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
 			if err != nil {
@@ -1336,8 +1308,6 @@ func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *
 	if source.Volumes != nil {
 		volumeList := make([]Volume, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume
 			err := volume.Initialize_From_Volume_STATUS(&volumeItem)
 			if err != nil {
@@ -1742,8 +1712,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 	if source.Containers != nil {
 		containerList := make([]Container_STATUS, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container_STATUS
 			err := container.AssignProperties_From_Container_STATUS(&containerItem)
 			if err != nil {
@@ -1811,8 +1779,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 	if source.ImageRegistryCredentials != nil {
 		imageRegistryCredentialList := make([]ImageRegistryCredential_STATUS, len(source.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
-			// Shadow the loop variable to avoid aliasing
-			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential ImageRegistryCredential_STATUS
 			err := imageRegistryCredential.AssignProperties_From_ImageRegistryCredential_STATUS(&imageRegistryCredentialItem)
 			if err != nil {
@@ -1829,8 +1795,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 	if source.InitContainers != nil {
 		initContainerList := make([]InitContainerDefinition_STATUS, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer InitContainerDefinition_STATUS
 			err := initContainer.AssignProperties_From_InitContainerDefinition_STATUS(&initContainerItem)
 			if err != nil {
@@ -1907,8 +1871,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 	if source.SubnetIds != nil {
 		subnetIdList := make([]ContainerGroupSubnetId_STATUS, len(source.SubnetIds))
 		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
-			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
 			var subnetId ContainerGroupSubnetId_STATUS
 			err := subnetId.AssignProperties_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
 			if err != nil {
@@ -1931,8 +1893,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 	if source.Volumes != nil {
 		volumeList := make([]Volume_STATUS, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume_STATUS
 			err := volume.AssignProperties_From_Volume_STATUS(&volumeItem)
 			if err != nil {
@@ -1964,8 +1924,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	if group.Containers != nil {
 		containerList := make([]storage.Container_STATUS, len(group.Containers))
 		for containerIndex, containerItem := range group.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.Container_STATUS
 			err := containerItem.AssignProperties_To_Container_STATUS(&container)
 			if err != nil {
@@ -2033,8 +1991,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	if group.ImageRegistryCredentials != nil {
 		imageRegistryCredentialList := make([]storage.ImageRegistryCredential_STATUS, len(group.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range group.ImageRegistryCredentials {
-			// Shadow the loop variable to avoid aliasing
-			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential storage.ImageRegistryCredential_STATUS
 			err := imageRegistryCredentialItem.AssignProperties_To_ImageRegistryCredential_STATUS(&imageRegistryCredential)
 			if err != nil {
@@ -2051,8 +2007,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	if group.InitContainers != nil {
 		initContainerList := make([]storage.InitContainerDefinition_STATUS, len(group.InitContainers))
 		for initContainerIndex, initContainerItem := range group.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer storage.InitContainerDefinition_STATUS
 			err := initContainerItem.AssignProperties_To_InitContainerDefinition_STATUS(&initContainer)
 			if err != nil {
@@ -2126,8 +2080,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	if group.SubnetIds != nil {
 		subnetIdList := make([]storage.ContainerGroupSubnetId_STATUS, len(group.SubnetIds))
 		for subnetIdIndex, subnetIdItem := range group.SubnetIds {
-			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
 			var subnetId storage.ContainerGroupSubnetId_STATUS
 			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId_STATUS(&subnetId)
 			if err != nil {
@@ -2150,8 +2102,6 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	if group.Volumes != nil {
 		volumeList := make([]storage.Volume_STATUS, len(group.Volumes))
 		for volumeIndex, volumeItem := range group.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.Volume_STATUS
 			err := volumeItem.AssignProperties_To_Volume_STATUS(&volume)
 			if err != nil {
@@ -2422,8 +2372,6 @@ func (container *Container) AssignProperties_From_Container(source *storage.Cont
 	if source.EnvironmentVariables != nil {
 		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable
 			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableItem)
 			if err != nil {
@@ -2458,8 +2406,6 @@ func (container *Container) AssignProperties_From_Container(source *storage.Cont
 	if source.Ports != nil {
 		portList := make([]ContainerPort, len(source.Ports))
 		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port ContainerPort
 			err := port.AssignProperties_From_ContainerPort(&portItem)
 			if err != nil {
@@ -2500,8 +2446,6 @@ func (container *Container) AssignProperties_From_Container(source *storage.Cont
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
 			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
 			if err != nil {
@@ -2530,8 +2474,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	if container.EnvironmentVariables != nil {
 		environmentVariableList := make([]storage.EnvironmentVariable, len(container.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range container.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable storage.EnvironmentVariable
 			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable(&environmentVariable)
 			if err != nil {
@@ -2566,8 +2508,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	if container.Ports != nil {
 		portList := make([]storage.ContainerPort, len(container.Ports))
 		for portIndex, portItem := range container.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port storage.ContainerPort
 			err := portItem.AssignProperties_To_ContainerPort(&port)
 			if err != nil {
@@ -2608,8 +2548,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	if container.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount, len(container.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount
 			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
 			if err != nil {
@@ -2643,8 +2581,6 @@ func (container *Container) Initialize_From_Container_STATUS(source *Container_S
 	if source.EnvironmentVariables != nil {
 		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable
 			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableItem)
 			if err != nil {
@@ -2679,8 +2615,6 @@ func (container *Container) Initialize_From_Container_STATUS(source *Container_S
 	if source.Ports != nil {
 		portList := make([]ContainerPort, len(source.Ports))
 		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port ContainerPort
 			err := port.Initialize_From_ContainerPort_STATUS(&portItem)
 			if err != nil {
@@ -2721,8 +2655,6 @@ func (container *Container) Initialize_From_Container_STATUS(source *Container_S
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
 			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
@@ -2918,8 +2850,6 @@ func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source
 	if source.EnvironmentVariables != nil {
 		environmentVariableList := make([]EnvironmentVariable_STATUS, len(source.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable_STATUS
 			err := environmentVariable.AssignProperties_From_EnvironmentVariable_STATUS(&environmentVariableItem)
 			if err != nil {
@@ -2966,8 +2896,6 @@ func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source
 	if source.Ports != nil {
 		portList := make([]ContainerPort_STATUS, len(source.Ports))
 		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port ContainerPort_STATUS
 			err := port.AssignProperties_From_ContainerPort_STATUS(&portItem)
 			if err != nil {
@@ -3008,8 +2936,6 @@ func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount_STATUS, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount_STATUS
 			err := volumeMount.AssignProperties_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
@@ -3038,8 +2964,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	if container.EnvironmentVariables != nil {
 		environmentVariableList := make([]storage.EnvironmentVariable_STATUS, len(container.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range container.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable storage.EnvironmentVariable_STATUS
 			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable_STATUS(&environmentVariable)
 			if err != nil {
@@ -3086,8 +3010,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	if container.Ports != nil {
 		portList := make([]storage.ContainerPort_STATUS, len(container.Ports))
 		for portIndex, portItem := range container.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port storage.ContainerPort_STATUS
 			err := portItem.AssignProperties_To_ContainerPort_STATUS(&port)
 			if err != nil {
@@ -3128,8 +3050,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	if container.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount_STATUS, len(container.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount_STATUS
 			err := volumeMountItem.AssignProperties_To_VolumeMount_STATUS(&volumeMount)
 			if err != nil {
@@ -3202,8 +3122,6 @@ func (view *ContainerGroup_Properties_InstanceView_STATUS) AssignProperties_From
 	if source.Events != nil {
 		eventList := make([]Event_STATUS, len(source.Events))
 		for eventIndex, eventItem := range source.Events {
-			// Shadow the loop variable to avoid aliasing
-			eventItem := eventItem
 			var event Event_STATUS
 			err := event.AssignProperties_From_Event_STATUS(&eventItem)
 			if err != nil {
@@ -3232,8 +3150,6 @@ func (view *ContainerGroup_Properties_InstanceView_STATUS) AssignProperties_To_C
 	if view.Events != nil {
 		eventList := make([]storage.Event_STATUS, len(view.Events))
 		for eventIndex, eventItem := range view.Events {
-			// Shadow the loop variable to avoid aliasing
-			eventItem := eventItem
 			var event storage.Event_STATUS
 			err := eventItem.AssignProperties_To_Event_STATUS(&event)
 			if err != nil {
@@ -3603,8 +3519,6 @@ func (identity *ContainerGroupIdentity) AssignProperties_From_ContainerGroupIden
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -3638,8 +3552,6 @@ func (identity *ContainerGroupIdentity) AssignProperties_To_ContainerGroupIdenti
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -3782,8 +3694,6 @@ func (identity *ContainerGroupIdentity_STATUS) AssignProperties_From_ContainerGr
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -3823,8 +3733,6 @@ func (identity *ContainerGroupIdentity_STATUS) AssignProperties_To_ContainerGrou
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -3864,8 +3772,6 @@ func (operator *ContainerGroupOperatorSpec) AssignProperties_From_ContainerGroup
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3882,8 +3788,6 @@ func (operator *ContainerGroupOperatorSpec) AssignProperties_From_ContainerGroup
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3909,8 +3813,6 @@ func (operator *ContainerGroupOperatorSpec) AssignProperties_To_ContainerGroupOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3927,8 +3829,6 @@ func (operator *ContainerGroupOperatorSpec) AssignProperties_To_ContainerGroupOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -5054,8 +4954,6 @@ func (definition *InitContainerDefinition) AssignProperties_From_InitContainerDe
 	if source.EnvironmentVariables != nil {
 		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable
 			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableItem)
 			if err != nil {
@@ -5078,8 +4976,6 @@ func (definition *InitContainerDefinition) AssignProperties_From_InitContainerDe
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
 			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
 			if err != nil {
@@ -5108,8 +5004,6 @@ func (definition *InitContainerDefinition) AssignProperties_To_InitContainerDefi
 	if definition.EnvironmentVariables != nil {
 		environmentVariableList := make([]storage.EnvironmentVariable, len(definition.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range definition.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable storage.EnvironmentVariable
 			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable(&environmentVariable)
 			if err != nil {
@@ -5132,8 +5026,6 @@ func (definition *InitContainerDefinition) AssignProperties_To_InitContainerDefi
 	if definition.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount, len(definition.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range definition.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount
 			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
 			if err != nil {
@@ -5167,8 +5059,6 @@ func (definition *InitContainerDefinition) Initialize_From_InitContainerDefiniti
 	if source.EnvironmentVariables != nil {
 		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable
 			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableItem)
 			if err != nil {
@@ -5191,8 +5081,6 @@ func (definition *InitContainerDefinition) Initialize_From_InitContainerDefiniti
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
 			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
@@ -5321,8 +5209,6 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_From_InitCont
 	if source.EnvironmentVariables != nil {
 		environmentVariableList := make([]EnvironmentVariable_STATUS, len(source.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable_STATUS
 			err := environmentVariable.AssignProperties_From_EnvironmentVariable_STATUS(&environmentVariableItem)
 			if err != nil {
@@ -5357,8 +5243,6 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_From_InitCont
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount_STATUS, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount_STATUS
 			err := volumeMount.AssignProperties_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
@@ -5387,8 +5271,6 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_To_InitContai
 	if definition.EnvironmentVariables != nil {
 		environmentVariableList := make([]storage.EnvironmentVariable_STATUS, len(definition.EnvironmentVariables))
 		for environmentVariableIndex, environmentVariableItem := range definition.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
 			var environmentVariable storage.EnvironmentVariable_STATUS
 			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable_STATUS(&environmentVariable)
 			if err != nil {
@@ -5423,8 +5305,6 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_To_InitContai
 	if definition.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount_STATUS, len(definition.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range definition.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount_STATUS
 			err := volumeMountItem.AssignProperties_To_VolumeMount_STATUS(&volumeMount)
 			if err != nil {
@@ -5598,8 +5478,6 @@ func (address *IpAddress) AssignProperties_From_IpAddress(source *storage.IpAddr
 	if source.Ports != nil {
 		portList := make([]Port, len(source.Ports))
 		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port Port
 			err := port.AssignProperties_From_Port(&portItem)
 			if err != nil {
@@ -5648,8 +5526,6 @@ func (address *IpAddress) AssignProperties_To_IpAddress(destination *storage.IpA
 	if address.Ports != nil {
 		portList := make([]storage.Port, len(address.Ports))
 		for portIndex, portItem := range address.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port storage.Port
 			err := portItem.AssignProperties_To_Port(&port)
 			if err != nil {
@@ -5702,8 +5578,6 @@ func (address *IpAddress) Initialize_From_IpAddress_STATUS(source *IpAddress_STA
 	if source.Ports != nil {
 		portList := make([]Port, len(source.Ports))
 		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port Port
 			err := port.Initialize_From_Port_STATUS(&portItem)
 			if err != nil {
@@ -5842,8 +5716,6 @@ func (address *IpAddress_STATUS) AssignProperties_From_IpAddress_STATUS(source *
 	if source.Ports != nil {
 		portList := make([]Port_STATUS, len(source.Ports))
 		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port Port_STATUS
 			err := port.AssignProperties_From_Port_STATUS(&portItem)
 			if err != nil {
@@ -5895,8 +5767,6 @@ func (address *IpAddress_STATUS) AssignProperties_To_IpAddress_STATUS(destinatio
 	if address.Ports != nil {
 		portList := make([]storage.Port_STATUS, len(address.Ports))
 		for portIndex, portItem := range address.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
 			var port storage.Port_STATUS
 			err := portItem.AssignProperties_To_Port_STATUS(&port)
 			if err != nil {
@@ -6079,8 +5949,6 @@ func (volume *Volume) AssignProperties_From_Volume(source *storage.Volume) error
 	if source.EmptyDir != nil {
 		emptyDirMap := make(map[string]v1.JSON, len(source.EmptyDir))
 		for emptyDirKey, emptyDirValue := range source.EmptyDir {
-			// Shadow the loop variable to avoid aliasing
-			emptyDirValue := emptyDirValue
 			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
 		}
 		volume.EmptyDir = emptyDirMap
@@ -6131,8 +5999,6 @@ func (volume *Volume) AssignProperties_To_Volume(destination *storage.Volume) er
 	if volume.EmptyDir != nil {
 		emptyDirMap := make(map[string]v1.JSON, len(volume.EmptyDir))
 		for emptyDirKey, emptyDirValue := range volume.EmptyDir {
-			// Shadow the loop variable to avoid aliasing
-			emptyDirValue := emptyDirValue
 			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
 		}
 		destination.EmptyDir = emptyDirMap
@@ -6188,8 +6054,6 @@ func (volume *Volume) Initialize_From_Volume_STATUS(source *Volume_STATUS) error
 	if source.EmptyDir != nil {
 		emptyDirMap := make(map[string]v1.JSON, len(source.EmptyDir))
 		for emptyDirKey, emptyDirValue := range source.EmptyDir {
-			// Shadow the loop variable to avoid aliasing
-			emptyDirValue := emptyDirValue
 			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
 		}
 		volume.EmptyDir = emptyDirMap
@@ -6318,8 +6182,6 @@ func (volume *Volume_STATUS) AssignProperties_From_Volume_STATUS(source *storage
 	if source.EmptyDir != nil {
 		emptyDirMap := make(map[string]v1.JSON, len(source.EmptyDir))
 		for emptyDirKey, emptyDirValue := range source.EmptyDir {
-			// Shadow the loop variable to avoid aliasing
-			emptyDirValue := emptyDirValue
 			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
 		}
 		volume.EmptyDir = emptyDirMap
@@ -6370,8 +6232,6 @@ func (volume *Volume_STATUS) AssignProperties_To_Volume_STATUS(destination *stor
 	if volume.EmptyDir != nil {
 		emptyDirMap := make(map[string]v1.JSON, len(volume.EmptyDir))
 		for emptyDirKey, emptyDirValue := range volume.EmptyDir {
-			// Shadow the loop variable to avoid aliasing
-			emptyDirValue := emptyDirValue
 			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
 		}
 		destination.EmptyDir = emptyDirMap
@@ -7530,8 +7390,6 @@ func (view *ContainerProperties_InstanceView_STATUS) AssignProperties_From_Conta
 	if source.Events != nil {
 		eventList := make([]Event_STATUS, len(source.Events))
 		for eventIndex, eventItem := range source.Events {
-			// Shadow the loop variable to avoid aliasing
-			eventItem := eventItem
 			var event Event_STATUS
 			err := event.AssignProperties_From_Event_STATUS(&eventItem)
 			if err != nil {
@@ -7584,8 +7442,6 @@ func (view *ContainerProperties_InstanceView_STATUS) AssignProperties_To_Contain
 	if view.Events != nil {
 		eventList := make([]storage.Event_STATUS, len(view.Events))
 		for eventIndex, eventItem := range view.Events {
-			// Shadow the loop variable to avoid aliasing
-			eventItem := eventItem
 			var event storage.Event_STATUS
 			err := eventItem.AssignProperties_To_Event_STATUS(&event)
 			if err != nil {
@@ -8287,8 +8143,6 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) AssignPropert
 	if source.Events != nil {
 		eventList := make([]Event_STATUS, len(source.Events))
 		for eventIndex, eventItem := range source.Events {
-			// Shadow the loop variable to avoid aliasing
-			eventItem := eventItem
 			var event Event_STATUS
 			err := event.AssignProperties_From_Event_STATUS(&eventItem)
 			if err != nil {
@@ -8341,8 +8195,6 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) AssignPropert
 	if view.Events != nil {
 		eventList := make([]storage.Event_STATUS, len(view.Events))
 		for eventIndex, eventItem := range view.Events {
-			// Shadow the loop variable to avoid aliasing
-			eventItem := eventItem
 			var event storage.Event_STATUS
 			err := eventItem.AssignProperties_To_Event_STATUS(&event)
 			if err != nil {
@@ -9895,8 +9747,6 @@ func (httpGet *ContainerHttpGet) AssignProperties_From_ContainerHttpGet(source *
 	if source.HttpHeaders != nil {
 		httpHeaderList := make([]HttpHeader, len(source.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader HttpHeader
 			err := httpHeader.AssignProperties_From_HttpHeader(&httpHeaderItem)
 			if err != nil {
@@ -9937,8 +9787,6 @@ func (httpGet *ContainerHttpGet) AssignProperties_To_ContainerHttpGet(destinatio
 	if httpGet.HttpHeaders != nil {
 		httpHeaderList := make([]storage.HttpHeader, len(httpGet.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range httpGet.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader storage.HttpHeader
 			err := httpHeaderItem.AssignProperties_To_HttpHeader(&httpHeader)
 			if err != nil {
@@ -9983,8 +9831,6 @@ func (httpGet *ContainerHttpGet) Initialize_From_ContainerHttpGet_STATUS(source 
 	if source.HttpHeaders != nil {
 		httpHeaderList := make([]HttpHeader, len(source.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader HttpHeader
 			err := httpHeader.Initialize_From_HttpHeader_STATUS(&httpHeaderItem)
 			if err != nil {
@@ -10085,8 +9931,6 @@ func (httpGet *ContainerHttpGet_STATUS) AssignProperties_From_ContainerHttpGet_S
 	if source.HttpHeaders != nil {
 		httpHeaderList := make([]HttpHeader_STATUS, len(source.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader HttpHeader_STATUS
 			err := httpHeader.AssignProperties_From_HttpHeader_STATUS(&httpHeaderItem)
 			if err != nil {
@@ -10127,8 +9971,6 @@ func (httpGet *ContainerHttpGet_STATUS) AssignProperties_To_ContainerHttpGet_STA
 	if httpGet.HttpHeaders != nil {
 		httpHeaderList := make([]storage.HttpHeader_STATUS, len(httpGet.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range httpGet.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader storage.HttpHeader_STATUS
 			err := httpHeaderItem.AssignProperties_To_HttpHeader_STATUS(&httpHeader)
 			if err != nil {

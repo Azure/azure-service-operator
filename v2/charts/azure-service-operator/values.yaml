@@ -91,7 +91,7 @@ webhook:
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  tag: v2.15.0
+  tag: v2.16.0
   repositoryBase: mcr.microsoft.com/k8s/azureserviceoperator
   repository: "{{ .Values.image.repositoryBase }}:{{ .Values.image.tag }}"
   pullSecrets: []

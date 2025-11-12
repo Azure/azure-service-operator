@@ -1,0 +1,10 @@
+apiVersion: cache.azure.com/v1api20241101
+kind: RedisAccessPolicy
+metadata:
+  name: sampleaccesspolicy
+  namespace: default
+spec:
+  owner:
+    name: sampleredis1
+  type: custom
+  permissions: "+get +set +del"

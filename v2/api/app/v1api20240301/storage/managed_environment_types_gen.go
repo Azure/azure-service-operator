@@ -469,8 +469,6 @@ func (environment *ManagedEnvironment_Spec) AssignProperties_From_ManagedEnviron
 	if source.WorkloadProfiles != nil {
 		workloadProfileList := make([]WorkloadProfile, len(source.WorkloadProfiles))
 		for workloadProfileIndex, workloadProfileItem := range source.WorkloadProfiles {
-			// Shadow the loop variable to avoid aliasing
-			workloadProfileItem := workloadProfileItem
 			var workloadProfile WorkloadProfile
 			err := workloadProfile.AssignProperties_From_WorkloadProfile(&workloadProfileItem)
 			if err != nil {
@@ -647,8 +645,6 @@ func (environment *ManagedEnvironment_Spec) AssignProperties_To_ManagedEnvironme
 	if environment.WorkloadProfiles != nil {
 		workloadProfileList := make([]storage.WorkloadProfile, len(environment.WorkloadProfiles))
 		for workloadProfileIndex, workloadProfileItem := range environment.WorkloadProfiles {
-			// Shadow the loop variable to avoid aliasing
-			workloadProfileItem := workloadProfileItem
 			var workloadProfile storage.WorkloadProfile
 			err := workloadProfileItem.AssignProperties_To_WorkloadProfile(&workloadProfile)
 			if err != nil {
@@ -919,8 +915,6 @@ func (environment *ManagedEnvironment_STATUS) AssignProperties_From_ManagedEnvir
 	if source.WorkloadProfiles != nil {
 		workloadProfileList := make([]WorkloadProfile_STATUS, len(source.WorkloadProfiles))
 		for workloadProfileIndex, workloadProfileItem := range source.WorkloadProfiles {
-			// Shadow the loop variable to avoid aliasing
-			workloadProfileItem := workloadProfileItem
 			var workloadProfile WorkloadProfile_STATUS
 			err := workloadProfile.AssignProperties_From_WorkloadProfile_STATUS(&workloadProfileItem)
 			if err != nil {
@@ -1118,8 +1112,6 @@ func (environment *ManagedEnvironment_STATUS) AssignProperties_To_ManagedEnviron
 	if environment.WorkloadProfiles != nil {
 		workloadProfileList := make([]storage.WorkloadProfile_STATUS, len(environment.WorkloadProfiles))
 		for workloadProfileIndex, workloadProfileItem := range environment.WorkloadProfiles {
-			// Shadow the loop variable to avoid aliasing
-			workloadProfileItem := workloadProfileItem
 			var workloadProfile storage.WorkloadProfile_STATUS
 			err := workloadProfileItem.AssignProperties_To_WorkloadProfile_STATUS(&workloadProfile)
 			if err != nil {
@@ -2037,8 +2029,6 @@ func (operator *ManagedEnvironmentOperatorSpec) AssignProperties_From_ManagedEnv
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2055,8 +2045,6 @@ func (operator *ManagedEnvironmentOperatorSpec) AssignProperties_From_ManagedEnv
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2098,8 +2086,6 @@ func (operator *ManagedEnvironmentOperatorSpec) AssignProperties_To_ManagedEnvir
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2116,8 +2102,6 @@ func (operator *ManagedEnvironmentOperatorSpec) AssignProperties_To_ManagedEnvir
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

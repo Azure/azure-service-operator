@@ -1178,8 +1178,6 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 	if source.ShareInfo != nil {
 		shareInfoList := make([]ShareInfoElement_STATUS, len(source.ShareInfo))
 		for shareInfoIndex, shareInfoItem := range source.ShareInfo {
-			// Shadow the loop variable to avoid aliasing
-			shareInfoItem := shareInfoItem
 			var shareInfo ShareInfoElement_STATUS
 			err := shareInfo.AssignProperties_From_ShareInfoElement_STATUS(&shareInfoItem)
 			if err != nil {
@@ -1516,8 +1514,6 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 	if disk.ShareInfo != nil {
 		shareInfoList := make([]v20240302s.ShareInfoElement_STATUS, len(disk.ShareInfo))
 		for shareInfoIndex, shareInfoItem := range disk.ShareInfo {
-			// Shadow the loop variable to avoid aliasing
-			shareInfoItem := shareInfoItem
 			var shareInfo v20240302s.ShareInfoElement_STATUS
 			err := shareInfoItem.AssignProperties_To_ShareInfoElement_STATUS(&shareInfo)
 			if err != nil {
@@ -2121,8 +2117,6 @@ func (operator *DiskOperatorSpec) AssignProperties_From_DiskOperatorSpec(source 
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2139,8 +2133,6 @@ func (operator *DiskOperatorSpec) AssignProperties_From_DiskOperatorSpec(source 
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2182,8 +2174,6 @@ func (operator *DiskOperatorSpec) AssignProperties_To_DiskOperatorSpec(destinati
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2200,8 +2190,6 @@ func (operator *DiskOperatorSpec) AssignProperties_To_DiskOperatorSpec(destinati
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2544,8 +2532,6 @@ func (collection *EncryptionSettingsCollection) AssignProperties_From_Encryption
 	if source.EncryptionSettings != nil {
 		encryptionSettingList := make([]EncryptionSettingsElement, len(source.EncryptionSettings))
 		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting EncryptionSettingsElement
 			err := encryptionSetting.AssignProperties_From_EncryptionSettingsElement(&encryptionSettingItem)
 			if err != nil {
@@ -2598,8 +2584,6 @@ func (collection *EncryptionSettingsCollection) AssignProperties_To_EncryptionSe
 	if collection.EncryptionSettings != nil {
 		encryptionSettingList := make([]v20240302s.EncryptionSettingsElement, len(collection.EncryptionSettings))
 		for encryptionSettingIndex, encryptionSettingItem := range collection.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting v20240302s.EncryptionSettingsElement
 			err := encryptionSettingItem.AssignProperties_To_EncryptionSettingsElement(&encryptionSetting)
 			if err != nil {
@@ -2661,8 +2645,6 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_From_Enc
 	if source.EncryptionSettings != nil {
 		encryptionSettingList := make([]EncryptionSettingsElement_STATUS, len(source.EncryptionSettings))
 		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting EncryptionSettingsElement_STATUS
 			err := encryptionSetting.AssignProperties_From_EncryptionSettingsElement_STATUS(&encryptionSettingItem)
 			if err != nil {
@@ -2715,8 +2697,6 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 	if collection.EncryptionSettings != nil {
 		encryptionSettingList := make([]v20240302s.EncryptionSettingsElement_STATUS, len(collection.EncryptionSettings))
 		for encryptionSettingIndex, encryptionSettingItem := range collection.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting v20240302s.EncryptionSettingsElement_STATUS
 			err := encryptionSettingItem.AssignProperties_To_EncryptionSettingsElement_STATUS(&encryptionSetting)
 			if err != nil {

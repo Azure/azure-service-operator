@@ -1,0 +1,18 @@
+apiVersion: compute.azure.com/v1api20250401
+kind: CapacityReservation
+metadata:
+  name: sample-capacity-reservation
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: sample-capacity-reservation-group
+  sku:
+    name: Standard_D2s_v3
+    capacity: 2
+  zones:
+    - "1"
+  tags:
+    environment: production
+    team: platform
+    purpose: vm-capacity-guarantee

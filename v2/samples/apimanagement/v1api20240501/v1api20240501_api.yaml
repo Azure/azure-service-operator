@@ -1,0 +1,27 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: Api
+metadata:
+  name: sampleapi
+  namespace: default
+spec:
+  apiVersion: "1.0.0"
+  apiRevision: "v1"
+  apiRevisionDescription: "First Revision"
+  apiVersionDescription: "First Version"
+  apiVersionSetReference:
+    armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ApiManagement/service/sampleapimservice/apiVersionSets/sampleapiversionset"
+  description: "A sample API"
+  displayName: "account-api"
+  path: "/account-api"
+  subscriptionRequired: false
+  isCurrent: true
+  contact:
+    email: "test@test.com"
+    name: "Test"
+    url: "https://www.bing.com"
+  protocols:
+    - "https"
+  termsOfServiceUrl: "https://www.bing.com/tos"
+  type: "http"
+  owner:
+    name: sampleapimservice

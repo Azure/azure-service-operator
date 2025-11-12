@@ -1642,8 +1642,6 @@ func (configuration *Configuration) AssignProperties_From_Configuration(source *
 	if source.Registries != nil {
 		registryList := make([]RegistryCredentials, len(source.Registries))
 		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry RegistryCredentials
 			err := registry.AssignProperties_From_RegistryCredentials(&registryItem)
 			if err != nil {
@@ -1660,8 +1658,6 @@ func (configuration *Configuration) AssignProperties_From_Configuration(source *
 	if source.Secrets != nil {
 		secretList := make([]Secret, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret Secret
 			err := secret.AssignProperties_From_Secret(&secretItem)
 			if err != nil {
@@ -1734,8 +1730,6 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 	if configuration.Registries != nil {
 		registryList := make([]storage.RegistryCredentials, len(configuration.Registries))
 		for registryIndex, registryItem := range configuration.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry storage.RegistryCredentials
 			err := registryItem.AssignProperties_To_RegistryCredentials(&registry)
 			if err != nil {
@@ -1752,8 +1746,6 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 	if configuration.Secrets != nil {
 		secretList := make([]storage.Secret, len(configuration.Secrets))
 		for secretIndex, secretItem := range configuration.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret storage.Secret
 			err := secretItem.AssignProperties_To_Secret(&secret)
 			if err != nil {
@@ -1943,8 +1935,6 @@ func (configuration *Configuration_STATUS) AssignProperties_From_Configuration_S
 	if source.Registries != nil {
 		registryList := make([]RegistryCredentials_STATUS, len(source.Registries))
 		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry RegistryCredentials_STATUS
 			err := registry.AssignProperties_From_RegistryCredentials_STATUS(&registryItem)
 			if err != nil {
@@ -1961,8 +1951,6 @@ func (configuration *Configuration_STATUS) AssignProperties_From_Configuration_S
 	if source.Secrets != nil {
 		secretList := make([]Secret_STATUS, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret Secret_STATUS
 			err := secret.AssignProperties_From_Secret_STATUS(&secretItem)
 			if err != nil {
@@ -2035,8 +2023,6 @@ func (configuration *Configuration_STATUS) AssignProperties_To_Configuration_STA
 	if configuration.Registries != nil {
 		registryList := make([]storage.RegistryCredentials_STATUS, len(configuration.Registries))
 		for registryIndex, registryItem := range configuration.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
 			var registry storage.RegistryCredentials_STATUS
 			err := registryItem.AssignProperties_To_RegistryCredentials_STATUS(&registry)
 			if err != nil {
@@ -2053,8 +2039,6 @@ func (configuration *Configuration_STATUS) AssignProperties_To_Configuration_STA
 	if configuration.Secrets != nil {
 		secretList := make([]storage.Secret_STATUS, len(configuration.Secrets))
 		for secretIndex, secretItem := range configuration.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret storage.Secret_STATUS
 			err := secretItem.AssignProperties_To_Secret_STATUS(&secret)
 			if err != nil {
@@ -2128,8 +2112,6 @@ func (operator *ContainerAppOperatorSpec) AssignProperties_From_ContainerAppOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2158,8 +2140,6 @@ func (operator *ContainerAppOperatorSpec) AssignProperties_From_ContainerAppOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2185,8 +2165,6 @@ func (operator *ContainerAppOperatorSpec) AssignProperties_To_ContainerAppOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2215,8 +2193,6 @@ func (operator *ContainerAppOperatorSpec) AssignProperties_To_ContainerAppOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2517,8 +2493,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -2552,8 +2526,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2665,8 +2637,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -2706,8 +2676,6 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -2916,8 +2884,6 @@ func (template *Template) AssignProperties_From_Template(source *storage.Templat
 	if source.Containers != nil {
 		containerList := make([]Container, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container
 			err := container.AssignProperties_From_Container(&containerItem)
 			if err != nil {
@@ -2934,8 +2900,6 @@ func (template *Template) AssignProperties_From_Template(source *storage.Templat
 	if source.InitContainers != nil {
 		initContainerList := make([]BaseContainer, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer BaseContainer
 			err := initContainer.AssignProperties_From_BaseContainer(&initContainerItem)
 			if err != nil {
@@ -2967,8 +2931,6 @@ func (template *Template) AssignProperties_From_Template(source *storage.Templat
 	if source.ServiceBinds != nil {
 		serviceBindList := make([]ServiceBind, len(source.ServiceBinds))
 		for serviceBindIndex, serviceBindItem := range source.ServiceBinds {
-			// Shadow the loop variable to avoid aliasing
-			serviceBindItem := serviceBindItem
 			var serviceBind ServiceBind
 			err := serviceBind.AssignProperties_From_ServiceBind(&serviceBindItem)
 			if err != nil {
@@ -2988,8 +2950,6 @@ func (template *Template) AssignProperties_From_Template(source *storage.Templat
 	if source.Volumes != nil {
 		volumeList := make([]Volume, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume
 			err := volume.AssignProperties_From_Volume(&volumeItem)
 			if err != nil {
@@ -3015,8 +2975,6 @@ func (template *Template) AssignProperties_To_Template(destination *storage.Temp
 	if template.Containers != nil {
 		containerList := make([]storage.Container, len(template.Containers))
 		for containerIndex, containerItem := range template.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.Container
 			err := containerItem.AssignProperties_To_Container(&container)
 			if err != nil {
@@ -3033,8 +2991,6 @@ func (template *Template) AssignProperties_To_Template(destination *storage.Temp
 	if template.InitContainers != nil {
 		initContainerList := make([]storage.BaseContainer, len(template.InitContainers))
 		for initContainerIndex, initContainerItem := range template.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer storage.BaseContainer
 			err := initContainerItem.AssignProperties_To_BaseContainer(&initContainer)
 			if err != nil {
@@ -3066,8 +3022,6 @@ func (template *Template) AssignProperties_To_Template(destination *storage.Temp
 	if template.ServiceBinds != nil {
 		serviceBindList := make([]storage.ServiceBind, len(template.ServiceBinds))
 		for serviceBindIndex, serviceBindItem := range template.ServiceBinds {
-			// Shadow the loop variable to avoid aliasing
-			serviceBindItem := serviceBindItem
 			var serviceBind storage.ServiceBind
 			err := serviceBindItem.AssignProperties_To_ServiceBind(&serviceBind)
 			if err != nil {
@@ -3087,8 +3041,6 @@ func (template *Template) AssignProperties_To_Template(destination *storage.Temp
 	if template.Volumes != nil {
 		volumeList := make([]storage.Volume, len(template.Volumes))
 		for volumeIndex, volumeItem := range template.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.Volume
 			err := volumeItem.AssignProperties_To_Volume(&volume)
 			if err != nil {
@@ -3230,8 +3182,6 @@ func (template *Template_STATUS) AssignProperties_From_Template_STATUS(source *s
 	if source.Containers != nil {
 		containerList := make([]Container_STATUS, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container Container_STATUS
 			err := container.AssignProperties_From_Container_STATUS(&containerItem)
 			if err != nil {
@@ -3248,8 +3198,6 @@ func (template *Template_STATUS) AssignProperties_From_Template_STATUS(source *s
 	if source.InitContainers != nil {
 		initContainerList := make([]BaseContainer_STATUS, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer BaseContainer_STATUS
 			err := initContainer.AssignProperties_From_BaseContainer_STATUS(&initContainerItem)
 			if err != nil {
@@ -3281,8 +3229,6 @@ func (template *Template_STATUS) AssignProperties_From_Template_STATUS(source *s
 	if source.ServiceBinds != nil {
 		serviceBindList := make([]ServiceBind_STATUS, len(source.ServiceBinds))
 		for serviceBindIndex, serviceBindItem := range source.ServiceBinds {
-			// Shadow the loop variable to avoid aliasing
-			serviceBindItem := serviceBindItem
 			var serviceBind ServiceBind_STATUS
 			err := serviceBind.AssignProperties_From_ServiceBind_STATUS(&serviceBindItem)
 			if err != nil {
@@ -3302,8 +3248,6 @@ func (template *Template_STATUS) AssignProperties_From_Template_STATUS(source *s
 	if source.Volumes != nil {
 		volumeList := make([]Volume_STATUS, len(source.Volumes))
 		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume Volume_STATUS
 			err := volume.AssignProperties_From_Volume_STATUS(&volumeItem)
 			if err != nil {
@@ -3329,8 +3273,6 @@ func (template *Template_STATUS) AssignProperties_To_Template_STATUS(destination
 	if template.Containers != nil {
 		containerList := make([]storage.Container_STATUS, len(template.Containers))
 		for containerIndex, containerItem := range template.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
 			var container storage.Container_STATUS
 			err := containerItem.AssignProperties_To_Container_STATUS(&container)
 			if err != nil {
@@ -3347,8 +3289,6 @@ func (template *Template_STATUS) AssignProperties_To_Template_STATUS(destination
 	if template.InitContainers != nil {
 		initContainerList := make([]storage.BaseContainer_STATUS, len(template.InitContainers))
 		for initContainerIndex, initContainerItem := range template.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
 			var initContainer storage.BaseContainer_STATUS
 			err := initContainerItem.AssignProperties_To_BaseContainer_STATUS(&initContainer)
 			if err != nil {
@@ -3380,8 +3320,6 @@ func (template *Template_STATUS) AssignProperties_To_Template_STATUS(destination
 	if template.ServiceBinds != nil {
 		serviceBindList := make([]storage.ServiceBind_STATUS, len(template.ServiceBinds))
 		for serviceBindIndex, serviceBindItem := range template.ServiceBinds {
-			// Shadow the loop variable to avoid aliasing
-			serviceBindItem := serviceBindItem
 			var serviceBind storage.ServiceBind_STATUS
 			err := serviceBindItem.AssignProperties_To_ServiceBind_STATUS(&serviceBind)
 			if err != nil {
@@ -3401,8 +3339,6 @@ func (template *Template_STATUS) AssignProperties_To_Template_STATUS(destination
 	if template.Volumes != nil {
 		volumeList := make([]storage.Volume_STATUS, len(template.Volumes))
 		for volumeIndex, volumeItem := range template.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
 			var volume storage.Volume_STATUS
 			err := volumeItem.AssignProperties_To_Volume_STATUS(&volume)
 			if err != nil {
@@ -3593,8 +3529,6 @@ func (container *BaseContainer) AssignProperties_From_BaseContainer(source *stor
 	if source.Env != nil {
 		envList := make([]EnvironmentVar, len(source.Env))
 		for envIndex, envItem := range source.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env EnvironmentVar
 			err := env.AssignProperties_From_EnvironmentVar(&envItem)
 			if err != nil {
@@ -3629,8 +3563,6 @@ func (container *BaseContainer) AssignProperties_From_BaseContainer(source *stor
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
 			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
 			if err != nil {
@@ -3662,8 +3594,6 @@ func (container *BaseContainer) AssignProperties_To_BaseContainer(destination *s
 	if container.Env != nil {
 		envList := make([]storage.EnvironmentVar, len(container.Env))
 		for envIndex, envItem := range container.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env storage.EnvironmentVar
 			err := envItem.AssignProperties_To_EnvironmentVar(&env)
 			if err != nil {
@@ -3698,8 +3628,6 @@ func (container *BaseContainer) AssignProperties_To_BaseContainer(destination *s
 	if container.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount, len(container.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount
 			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
 			if err != nil {
@@ -3831,8 +3759,6 @@ func (container *BaseContainer_STATUS) AssignProperties_From_BaseContainer_STATU
 	if source.Env != nil {
 		envList := make([]EnvironmentVar_STATUS, len(source.Env))
 		for envIndex, envItem := range source.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env EnvironmentVar_STATUS
 			err := env.AssignProperties_From_EnvironmentVar_STATUS(&envItem)
 			if err != nil {
@@ -3867,8 +3793,6 @@ func (container *BaseContainer_STATUS) AssignProperties_From_BaseContainer_STATU
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount_STATUS, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount_STATUS
 			err := volumeMount.AssignProperties_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
@@ -3900,8 +3824,6 @@ func (container *BaseContainer_STATUS) AssignProperties_To_BaseContainer_STATUS(
 	if container.Env != nil {
 		envList := make([]storage.EnvironmentVar_STATUS, len(container.Env))
 		for envIndex, envItem := range container.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env storage.EnvironmentVar_STATUS
 			err := envItem.AssignProperties_To_EnvironmentVar_STATUS(&env)
 			if err != nil {
@@ -3936,8 +3858,6 @@ func (container *BaseContainer_STATUS) AssignProperties_To_BaseContainer_STATUS(
 	if container.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount_STATUS, len(container.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount_STATUS
 			err := volumeMountItem.AssignProperties_To_VolumeMount_STATUS(&volumeMount)
 			if err != nil {
@@ -4177,8 +4097,6 @@ func (container *Container) AssignProperties_From_Container(source *storage.Cont
 	if source.Env != nil {
 		envList := make([]EnvironmentVar, len(source.Env))
 		for envIndex, envItem := range source.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env EnvironmentVar
 			err := env.AssignProperties_From_EnvironmentVar(&envItem)
 			if err != nil {
@@ -4201,8 +4119,6 @@ func (container *Container) AssignProperties_From_Container(source *storage.Cont
 	if source.Probes != nil {
 		probeList := make([]ContainerAppProbe, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe ContainerAppProbe
 			err := probe.AssignProperties_From_ContainerAppProbe(&probeItem)
 			if err != nil {
@@ -4231,8 +4147,6 @@ func (container *Container) AssignProperties_From_Container(source *storage.Cont
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
 			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
 			if err != nil {
@@ -4264,8 +4178,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	if container.Env != nil {
 		envList := make([]storage.EnvironmentVar, len(container.Env))
 		for envIndex, envItem := range container.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env storage.EnvironmentVar
 			err := envItem.AssignProperties_To_EnvironmentVar(&env)
 			if err != nil {
@@ -4288,8 +4200,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	if container.Probes != nil {
 		probeList := make([]storage.ContainerAppProbe, len(container.Probes))
 		for probeIndex, probeItem := range container.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe storage.ContainerAppProbe
 			err := probeItem.AssignProperties_To_ContainerAppProbe(&probe)
 			if err != nil {
@@ -4318,8 +4228,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	if container.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount, len(container.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount
 			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
 			if err != nil {
@@ -4464,8 +4372,6 @@ func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source
 	if source.Env != nil {
 		envList := make([]EnvironmentVar_STATUS, len(source.Env))
 		for envIndex, envItem := range source.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env EnvironmentVar_STATUS
 			err := env.AssignProperties_From_EnvironmentVar_STATUS(&envItem)
 			if err != nil {
@@ -4488,8 +4394,6 @@ func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source
 	if source.Probes != nil {
 		probeList := make([]ContainerAppProbe_STATUS, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe ContainerAppProbe_STATUS
 			err := probe.AssignProperties_From_ContainerAppProbe_STATUS(&probeItem)
 			if err != nil {
@@ -4518,8 +4422,6 @@ func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source
 	if source.VolumeMounts != nil {
 		volumeMountList := make([]VolumeMount_STATUS, len(source.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount_STATUS
 			err := volumeMount.AssignProperties_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
@@ -4551,8 +4453,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	if container.Env != nil {
 		envList := make([]storage.EnvironmentVar_STATUS, len(container.Env))
 		for envIndex, envItem := range container.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
 			var env storage.EnvironmentVar_STATUS
 			err := envItem.AssignProperties_To_EnvironmentVar_STATUS(&env)
 			if err != nil {
@@ -4575,8 +4475,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	if container.Probes != nil {
 		probeList := make([]storage.ContainerAppProbe_STATUS, len(container.Probes))
 		for probeIndex, probeItem := range container.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
 			var probe storage.ContainerAppProbe_STATUS
 			err := probeItem.AssignProperties_To_ContainerAppProbe_STATUS(&probe)
 			if err != nil {
@@ -4605,8 +4503,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	if container.VolumeMounts != nil {
 		volumeMountList := make([]storage.VolumeMount_STATUS, len(container.VolumeMounts))
 		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
 			var volumeMount storage.VolumeMount_STATUS
 			err := volumeMountItem.AssignProperties_To_VolumeMount_STATUS(&volumeMount)
 			if err != nil {
@@ -5474,8 +5370,6 @@ func (ingress *Ingress) AssignProperties_From_Ingress(source *storage.Ingress) e
 	if source.AdditionalPortMappings != nil {
 		additionalPortMappingList := make([]IngressPortMapping, len(source.AdditionalPortMappings))
 		for additionalPortMappingIndex, additionalPortMappingItem := range source.AdditionalPortMappings {
-			// Shadow the loop variable to avoid aliasing
-			additionalPortMappingItem := additionalPortMappingItem
 			var additionalPortMapping IngressPortMapping
 			err := additionalPortMapping.AssignProperties_From_IngressPortMapping(&additionalPortMappingItem)
 			if err != nil {
@@ -5521,8 +5415,6 @@ func (ingress *Ingress) AssignProperties_From_Ingress(source *storage.Ingress) e
 	if source.CustomDomains != nil {
 		customDomainList := make([]CustomDomain, len(source.CustomDomains))
 		for customDomainIndex, customDomainItem := range source.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
 			var customDomain CustomDomain
 			err := customDomain.AssignProperties_From_CustomDomain(&customDomainItem)
 			if err != nil {
@@ -5550,8 +5442,6 @@ func (ingress *Ingress) AssignProperties_From_Ingress(source *storage.Ingress) e
 	if source.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]IpSecurityRestrictionRule, len(source.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction IpSecurityRestrictionRule
 			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestrictionRule(&ipSecurityRestrictionItem)
 			if err != nil {
@@ -5583,8 +5473,6 @@ func (ingress *Ingress) AssignProperties_From_Ingress(source *storage.Ingress) e
 	if source.Traffic != nil {
 		trafficList := make([]TrafficWeight, len(source.Traffic))
 		for trafficIndex, trafficItem := range source.Traffic {
-			// Shadow the loop variable to avoid aliasing
-			trafficItem := trafficItem
 			var traffic TrafficWeight
 			err := traffic.AssignProperties_From_TrafficWeight(&trafficItem)
 			if err != nil {
@@ -5619,8 +5507,6 @@ func (ingress *Ingress) AssignProperties_To_Ingress(destination *storage.Ingress
 	if ingress.AdditionalPortMappings != nil {
 		additionalPortMappingList := make([]storage.IngressPortMapping, len(ingress.AdditionalPortMappings))
 		for additionalPortMappingIndex, additionalPortMappingItem := range ingress.AdditionalPortMappings {
-			// Shadow the loop variable to avoid aliasing
-			additionalPortMappingItem := additionalPortMappingItem
 			var additionalPortMapping storage.IngressPortMapping
 			err := additionalPortMappingItem.AssignProperties_To_IngressPortMapping(&additionalPortMapping)
 			if err != nil {
@@ -5665,8 +5551,6 @@ func (ingress *Ingress) AssignProperties_To_Ingress(destination *storage.Ingress
 	if ingress.CustomDomains != nil {
 		customDomainList := make([]storage.CustomDomain, len(ingress.CustomDomains))
 		for customDomainIndex, customDomainItem := range ingress.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
 			var customDomain storage.CustomDomain
 			err := customDomainItem.AssignProperties_To_CustomDomain(&customDomain)
 			if err != nil {
@@ -5694,8 +5578,6 @@ func (ingress *Ingress) AssignProperties_To_Ingress(destination *storage.Ingress
 	if ingress.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]storage.IpSecurityRestrictionRule, len(ingress.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range ingress.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction storage.IpSecurityRestrictionRule
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestrictionRule(&ipSecurityRestriction)
 			if err != nil {
@@ -5727,8 +5609,6 @@ func (ingress *Ingress) AssignProperties_To_Ingress(destination *storage.Ingress
 	if ingress.Traffic != nil {
 		trafficList := make([]storage.TrafficWeight, len(ingress.Traffic))
 		for trafficIndex, trafficItem := range ingress.Traffic {
-			// Shadow the loop variable to avoid aliasing
-			trafficItem := trafficItem
 			var traffic storage.TrafficWeight
 			err := trafficItem.AssignProperties_To_TrafficWeight(&traffic)
 			if err != nil {
@@ -5938,8 +5818,6 @@ func (ingress *Ingress_STATUS) AssignProperties_From_Ingress_STATUS(source *stor
 	if source.AdditionalPortMappings != nil {
 		additionalPortMappingList := make([]IngressPortMapping_STATUS, len(source.AdditionalPortMappings))
 		for additionalPortMappingIndex, additionalPortMappingItem := range source.AdditionalPortMappings {
-			// Shadow the loop variable to avoid aliasing
-			additionalPortMappingItem := additionalPortMappingItem
 			var additionalPortMapping IngressPortMapping_STATUS
 			err := additionalPortMapping.AssignProperties_From_IngressPortMapping_STATUS(&additionalPortMappingItem)
 			if err != nil {
@@ -5985,8 +5863,6 @@ func (ingress *Ingress_STATUS) AssignProperties_From_Ingress_STATUS(source *stor
 	if source.CustomDomains != nil {
 		customDomainList := make([]CustomDomain_STATUS, len(source.CustomDomains))
 		for customDomainIndex, customDomainItem := range source.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
 			var customDomain CustomDomain_STATUS
 			err := customDomain.AssignProperties_From_CustomDomain_STATUS(&customDomainItem)
 			if err != nil {
@@ -6017,8 +5893,6 @@ func (ingress *Ingress_STATUS) AssignProperties_From_Ingress_STATUS(source *stor
 	if source.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]IpSecurityRestrictionRule_STATUS, len(source.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction IpSecurityRestrictionRule_STATUS
 			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestrictionRule_STATUS(&ipSecurityRestrictionItem)
 			if err != nil {
@@ -6050,8 +5924,6 @@ func (ingress *Ingress_STATUS) AssignProperties_From_Ingress_STATUS(source *stor
 	if source.Traffic != nil {
 		trafficList := make([]TrafficWeight_STATUS, len(source.Traffic))
 		for trafficIndex, trafficItem := range source.Traffic {
-			// Shadow the loop variable to avoid aliasing
-			trafficItem := trafficItem
 			var traffic TrafficWeight_STATUS
 			err := traffic.AssignProperties_From_TrafficWeight_STATUS(&trafficItem)
 			if err != nil {
@@ -6086,8 +5958,6 @@ func (ingress *Ingress_STATUS) AssignProperties_To_Ingress_STATUS(destination *s
 	if ingress.AdditionalPortMappings != nil {
 		additionalPortMappingList := make([]storage.IngressPortMapping_STATUS, len(ingress.AdditionalPortMappings))
 		for additionalPortMappingIndex, additionalPortMappingItem := range ingress.AdditionalPortMappings {
-			// Shadow the loop variable to avoid aliasing
-			additionalPortMappingItem := additionalPortMappingItem
 			var additionalPortMapping storage.IngressPortMapping_STATUS
 			err := additionalPortMappingItem.AssignProperties_To_IngressPortMapping_STATUS(&additionalPortMapping)
 			if err != nil {
@@ -6132,8 +6002,6 @@ func (ingress *Ingress_STATUS) AssignProperties_To_Ingress_STATUS(destination *s
 	if ingress.CustomDomains != nil {
 		customDomainList := make([]storage.CustomDomain_STATUS, len(ingress.CustomDomains))
 		for customDomainIndex, customDomainItem := range ingress.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
 			var customDomain storage.CustomDomain_STATUS
 			err := customDomainItem.AssignProperties_To_CustomDomain_STATUS(&customDomain)
 			if err != nil {
@@ -6164,8 +6032,6 @@ func (ingress *Ingress_STATUS) AssignProperties_To_Ingress_STATUS(destination *s
 	if ingress.IpSecurityRestrictions != nil {
 		ipSecurityRestrictionList := make([]storage.IpSecurityRestrictionRule_STATUS, len(ingress.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range ingress.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
 			var ipSecurityRestriction storage.IpSecurityRestrictionRule_STATUS
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestrictionRule_STATUS(&ipSecurityRestriction)
 			if err != nil {
@@ -6197,8 +6063,6 @@ func (ingress *Ingress_STATUS) AssignProperties_To_Ingress_STATUS(destination *s
 	if ingress.Traffic != nil {
 		trafficList := make([]storage.TrafficWeight_STATUS, len(ingress.Traffic))
 		for trafficIndex, trafficItem := range ingress.Traffic {
-			// Shadow the loop variable to avoid aliasing
-			trafficItem := trafficItem
 			var traffic storage.TrafficWeight_STATUS
 			err := trafficItem.AssignProperties_To_TrafficWeight_STATUS(&traffic)
 			if err != nil {
@@ -6271,7 +6135,7 @@ var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentity
 type RegistryCredentials struct {
 	// IdentityReference: A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned
 	// identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system'
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// PasswordSecretRef: The name of the Secret that contains the registry login password
 	PasswordSecretRef *string `json:"passwordSecretRef,omitempty"`
@@ -6294,11 +6158,19 @@ func (credentials *RegistryCredentials) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Identity":
 	if credentials.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*credentials.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if credentials.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = credentials.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(credentials.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -6615,8 +6487,6 @@ func (scale *Scale) AssignProperties_From_Scale(source *storage.Scale) error {
 	if source.Rules != nil {
 		ruleList := make([]ScaleRule, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ScaleRule
 			err := rule.AssignProperties_From_ScaleRule(&ruleItem)
 			if err != nil {
@@ -6648,8 +6518,6 @@ func (scale *Scale) AssignProperties_To_Scale(destination *storage.Scale) error 
 	if scale.Rules != nil {
 		ruleList := make([]storage.ScaleRule, len(scale.Rules))
 		for ruleIndex, ruleItem := range scale.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ScaleRule
 			err := ruleItem.AssignProperties_To_ScaleRule(&rule)
 			if err != nil {
@@ -6738,8 +6606,6 @@ func (scale *Scale_STATUS) AssignProperties_From_Scale_STATUS(source *storage.Sc
 	if source.Rules != nil {
 		ruleList := make([]ScaleRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule ScaleRule_STATUS
 			err := rule.AssignProperties_From_ScaleRule_STATUS(&ruleItem)
 			if err != nil {
@@ -6771,8 +6637,6 @@ func (scale *Scale_STATUS) AssignProperties_To_Scale_STATUS(destination *storage
 	if scale.Rules != nil {
 		ruleList := make([]storage.ScaleRule_STATUS, len(scale.Rules))
 		for ruleIndex, ruleItem := range scale.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
 			var rule storage.ScaleRule_STATUS
 			err := ruleItem.AssignProperties_To_ScaleRule_STATUS(&rule)
 			if err != nil {
@@ -6800,7 +6664,7 @@ func (scale *Scale_STATUS) AssignProperties_To_Scale_STATUS(destination *storage
 type Secret struct {
 	// IdentityReference: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a
 	// system-assigned identity.
-	IdentityReference *genruntime.ResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
+	IdentityReference *genruntime.WellKnownResourceReference `armReference:"Identity" json:"identityReference,omitempty"`
 
 	// KeyVaultUrl: Azure Key Vault URL pointing to the secret referenced by the container app.
 	KeyVaultUrl *string `json:"keyVaultUrl,omitempty"`
@@ -6823,11 +6687,19 @@ func (secret *Secret) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Identity":
 	if secret.IdentityReference != nil {
-		identityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*secret.IdentityReference)
-		if err != nil {
-			return nil, err
+		var identityReferenceTemp string
+		if secret.IdentityReference.WellKnownName != "" {
+			identityReferenceTemp = secret.IdentityReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(secret.IdentityReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			identityReferenceTemp = armID
 		}
-		identityReference := identityReferenceARMID
+
+		identityReference := identityReferenceTemp
 		result.Identity = &identityReference
 	}
 
@@ -7595,8 +7467,6 @@ func (volume *Volume) AssignProperties_From_Volume(source *storage.Volume) error
 	if source.Secrets != nil {
 		secretList := make([]SecretVolumeItem, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret SecretVolumeItem
 			err := secret.AssignProperties_From_SecretVolumeItem(&secretItem)
 			if err != nil {
@@ -7640,8 +7510,6 @@ func (volume *Volume) AssignProperties_To_Volume(destination *storage.Volume) er
 	if volume.Secrets != nil {
 		secretList := make([]storage.SecretVolumeItem, len(volume.Secrets))
 		for secretIndex, secretItem := range volume.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret storage.SecretVolumeItem
 			err := secretItem.AssignProperties_To_SecretVolumeItem(&secret)
 			if err != nil {
@@ -7762,8 +7630,6 @@ func (volume *Volume_STATUS) AssignProperties_From_Volume_STATUS(source *storage
 	if source.Secrets != nil {
 		secretList := make([]SecretVolumeItem_STATUS, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret SecretVolumeItem_STATUS
 			err := secret.AssignProperties_From_SecretVolumeItem_STATUS(&secretItem)
 			if err != nil {
@@ -7807,8 +7673,6 @@ func (volume *Volume_STATUS) AssignProperties_To_Volume_STATUS(destination *stor
 	if volume.Secrets != nil {
 		secretList := make([]storage.SecretVolumeItem_STATUS, len(volume.Secrets))
 		for secretIndex, secretItem := range volume.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
 			var secret storage.SecretVolumeItem_STATUS
 			err := secretItem.AssignProperties_To_SecretVolumeItem_STATUS(&secret)
 			if err != nil {
@@ -11447,8 +11311,6 @@ func (httpGet *ContainerAppProbe_HttpGet) AssignProperties_From_ContainerAppProb
 	if source.HttpHeaders != nil {
 		httpHeaderList := make([]ContainerAppProbe_HttpGet_HttpHeaders, len(source.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader ContainerAppProbe_HttpGet_HttpHeaders
 			err := httpHeader.AssignProperties_From_ContainerAppProbe_HttpGet_HttpHeaders(&httpHeaderItem)
 			if err != nil {
@@ -11492,8 +11354,6 @@ func (httpGet *ContainerAppProbe_HttpGet) AssignProperties_To_ContainerAppProbe_
 	if httpGet.HttpHeaders != nil {
 		httpHeaderList := make([]storage.ContainerAppProbe_HttpGet_HttpHeaders, len(httpGet.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range httpGet.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader storage.ContainerAppProbe_HttpGet_HttpHeaders
 			err := httpHeaderItem.AssignProperties_To_ContainerAppProbe_HttpGet_HttpHeaders(&httpHeader)
 			if err != nil {
@@ -11613,8 +11473,6 @@ func (httpGet *ContainerAppProbe_HttpGet_STATUS) AssignProperties_From_Container
 	if source.HttpHeaders != nil {
 		httpHeaderList := make([]ContainerAppProbe_HttpGet_HttpHeaders_STATUS, len(source.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader ContainerAppProbe_HttpGet_HttpHeaders_STATUS
 			err := httpHeader.AssignProperties_From_ContainerAppProbe_HttpGet_HttpHeaders_STATUS(&httpHeaderItem)
 			if err != nil {
@@ -11658,8 +11516,6 @@ func (httpGet *ContainerAppProbe_HttpGet_STATUS) AssignProperties_To_ContainerAp
 	if httpGet.HttpHeaders != nil {
 		httpHeaderList := make([]storage.ContainerAppProbe_HttpGet_HttpHeaders_STATUS, len(httpGet.HttpHeaders))
 		for httpHeaderIndex, httpHeaderItem := range httpGet.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
 			var httpHeader storage.ContainerAppProbe_HttpGet_HttpHeaders_STATUS
 			err := httpHeaderItem.AssignProperties_To_ContainerAppProbe_HttpGet_HttpHeaders_STATUS(&httpHeader)
 			if err != nil {
@@ -12019,8 +11875,6 @@ func (rule *CustomScaleRule) AssignProperties_From_CustomScaleRule(source *stora
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth
 			err := auth.AssignProperties_From_ScaleRuleAuth(&authItem)
 			if err != nil {
@@ -12052,8 +11906,6 @@ func (rule *CustomScaleRule) AssignProperties_To_CustomScaleRule(destination *st
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth
 			err := authItem.AssignProperties_To_ScaleRuleAuth(&auth)
 			if err != nil {
@@ -12145,8 +11997,6 @@ func (rule *CustomScaleRule_STATUS) AssignProperties_From_CustomScaleRule_STATUS
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth_STATUS, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth_STATUS
 			err := auth.AssignProperties_From_ScaleRuleAuth_STATUS(&authItem)
 			if err != nil {
@@ -12178,8 +12028,6 @@ func (rule *CustomScaleRule_STATUS) AssignProperties_To_CustomScaleRule_STATUS(d
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth_STATUS, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth_STATUS
 			err := authItem.AssignProperties_To_ScaleRuleAuth_STATUS(&auth)
 			if err != nil {
@@ -12287,8 +12135,6 @@ func (rule *HttpScaleRule) AssignProperties_From_HttpScaleRule(source *storage.H
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth
 			err := auth.AssignProperties_From_ScaleRuleAuth(&authItem)
 			if err != nil {
@@ -12317,8 +12163,6 @@ func (rule *HttpScaleRule) AssignProperties_To_HttpScaleRule(destination *storag
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth
 			err := authItem.AssignProperties_To_ScaleRuleAuth(&auth)
 			if err != nil {
@@ -12397,8 +12241,6 @@ func (rule *HttpScaleRule_STATUS) AssignProperties_From_HttpScaleRule_STATUS(sou
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth_STATUS, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth_STATUS
 			err := auth.AssignProperties_From_ScaleRuleAuth_STATUS(&authItem)
 			if err != nil {
@@ -12427,8 +12269,6 @@ func (rule *HttpScaleRule_STATUS) AssignProperties_To_HttpScaleRule_STATUS(desti
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth_STATUS, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth_STATUS
 			err := authItem.AssignProperties_To_ScaleRuleAuth_STATUS(&auth)
 			if err != nil {
@@ -12598,8 +12438,6 @@ func (rule *QueueScaleRule) AssignProperties_From_QueueScaleRule(source *storage
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth
 			err := auth.AssignProperties_From_ScaleRuleAuth(&authItem)
 			if err != nil {
@@ -12631,8 +12469,6 @@ func (rule *QueueScaleRule) AssignProperties_To_QueueScaleRule(destination *stor
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth
 			err := authItem.AssignProperties_To_ScaleRuleAuth(&auth)
 			if err != nil {
@@ -12721,8 +12557,6 @@ func (rule *QueueScaleRule_STATUS) AssignProperties_From_QueueScaleRule_STATUS(s
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth_STATUS, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth_STATUS
 			err := auth.AssignProperties_From_ScaleRuleAuth_STATUS(&authItem)
 			if err != nil {
@@ -12754,8 +12588,6 @@ func (rule *QueueScaleRule_STATUS) AssignProperties_To_QueueScaleRule_STATUS(des
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth_STATUS, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth_STATUS
 			err := authItem.AssignProperties_To_ScaleRuleAuth_STATUS(&auth)
 			if err != nil {
@@ -12863,8 +12695,6 @@ func (rule *TcpScaleRule) AssignProperties_From_TcpScaleRule(source *storage.Tcp
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth
 			err := auth.AssignProperties_From_ScaleRuleAuth(&authItem)
 			if err != nil {
@@ -12893,8 +12723,6 @@ func (rule *TcpScaleRule) AssignProperties_To_TcpScaleRule(destination *storage.
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth
 			err := authItem.AssignProperties_To_ScaleRuleAuth(&auth)
 			if err != nil {
@@ -12973,8 +12801,6 @@ func (rule *TcpScaleRule_STATUS) AssignProperties_From_TcpScaleRule_STATUS(sourc
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth_STATUS, len(source.Auth))
 		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth ScaleRuleAuth_STATUS
 			err := auth.AssignProperties_From_ScaleRuleAuth_STATUS(&authItem)
 			if err != nil {
@@ -13003,8 +12829,6 @@ func (rule *TcpScaleRule_STATUS) AssignProperties_To_TcpScaleRule_STATUS(destina
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth_STATUS, len(rule.Auth))
 		for authIndex, authItem := range rule.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
 			var auth storage.ScaleRuleAuth_STATUS
 			err := authItem.AssignProperties_To_ScaleRuleAuth_STATUS(&auth)
 			if err != nil {

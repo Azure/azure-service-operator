@@ -410,8 +410,6 @@ func (service *PrivateLinkService_Spec) AssignProperties_From_PrivateLinkService
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration PrivateLinkServiceIpConfiguration
 			err := ipConfiguration.AssignProperties_From_PrivateLinkServiceIpConfiguration(&ipConfigurationItem)
 			if err != nil {
@@ -428,8 +426,6 @@ func (service *PrivateLinkService_Spec) AssignProperties_From_PrivateLinkService
 	if source.LoadBalancerFrontendIpConfigurations != nil {
 		loadBalancerFrontendIpConfigurationList := make([]FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded, len(source.LoadBalancerFrontendIpConfigurations))
 		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range source.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
 			var loadBalancerFrontendIpConfiguration FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
 			err := loadBalancerFrontendIpConfiguration.AssignProperties_From_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded(&loadBalancerFrontendIpConfigurationItem)
 			if err != nil {
@@ -563,8 +559,6 @@ func (service *PrivateLinkService_Spec) AssignProperties_To_PrivateLinkService_S
 	if service.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.PrivateLinkServiceIpConfiguration, len(service.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range service.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.PrivateLinkServiceIpConfiguration
 			err := ipConfigurationItem.AssignProperties_To_PrivateLinkServiceIpConfiguration(&ipConfiguration)
 			if err != nil {
@@ -581,8 +575,6 @@ func (service *PrivateLinkService_Spec) AssignProperties_To_PrivateLinkService_S
 	if service.LoadBalancerFrontendIpConfigurations != nil {
 		loadBalancerFrontendIpConfigurationList := make([]storage.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded, len(service.LoadBalancerFrontendIpConfigurations))
 		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range service.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
 			var loadBalancerFrontendIpConfiguration storage.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
 			err := loadBalancerFrontendIpConfigurationItem.AssignProperties_To_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded(&loadBalancerFrontendIpConfiguration)
 			if err != nil {
@@ -793,8 +785,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_From_PrivateLinkServi
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration_STATUS, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration PrivateLinkServiceIpConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_PrivateLinkServiceIpConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
@@ -811,8 +801,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_From_PrivateLinkServi
 	if source.LoadBalancerFrontendIpConfigurations != nil {
 		loadBalancerFrontendIpConfigurationList := make([]FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded, len(source.LoadBalancerFrontendIpConfigurations))
 		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range source.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
 			var loadBalancerFrontendIpConfiguration FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
 			err := loadBalancerFrontendIpConfiguration.AssignProperties_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(&loadBalancerFrontendIpConfigurationItem)
 			if err != nil {
@@ -835,8 +823,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_From_PrivateLinkServi
 	if source.NetworkInterfaces != nil {
 		networkInterfaceList := make([]NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded, len(source.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
 			var networkInterface NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
 			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
@@ -853,8 +839,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_From_PrivateLinkServi
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -977,8 +961,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_To_PrivateLinkService
 	if service.IpConfigurations != nil {
 		ipConfigurationList := make([]storage.PrivateLinkServiceIpConfiguration_STATUS, len(service.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range service.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration storage.PrivateLinkServiceIpConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
@@ -995,8 +977,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_To_PrivateLinkService
 	if service.LoadBalancerFrontendIpConfigurations != nil {
 		loadBalancerFrontendIpConfigurationList := make([]storage.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded, len(service.LoadBalancerFrontendIpConfigurations))
 		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range service.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
 			var loadBalancerFrontendIpConfiguration storage.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
 			err := loadBalancerFrontendIpConfigurationItem.AssignProperties_To_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(&loadBalancerFrontendIpConfiguration)
 			if err != nil {
@@ -1019,8 +999,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_To_PrivateLinkService
 	if service.NetworkInterfaces != nil {
 		networkInterfaceList := make([]storage.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded, len(service.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range service.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
 			var networkInterface storage.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded(&networkInterface)
 			if err != nil {
@@ -1037,8 +1015,6 @@ func (service *PrivateLinkService_STATUS) AssignProperties_To_PrivateLinkService
 	if service.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(service.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range service.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -1664,8 +1640,6 @@ func (operator *PrivateLinkServiceOperatorSpec) AssignProperties_From_PrivateLin
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1694,8 +1668,6 @@ func (operator *PrivateLinkServiceOperatorSpec) AssignProperties_From_PrivateLin
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1737,8 +1709,6 @@ func (operator *PrivateLinkServiceOperatorSpec) AssignProperties_To_PrivateLinkS
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1767,8 +1737,6 @@ func (operator *PrivateLinkServiceOperatorSpec) AssignProperties_To_PrivateLinkS
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

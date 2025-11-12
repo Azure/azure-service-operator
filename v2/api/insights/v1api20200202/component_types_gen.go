@@ -1729,8 +1729,6 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 	if source.PrivateLinkScopedResources != nil {
 		privateLinkScopedResourceList := make([]PrivateLinkScopedResource_STATUS, len(source.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
@@ -1910,8 +1908,6 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 	if component.PrivateLinkScopedResources != nil {
 		privateLinkScopedResourceList := make([]storage.PrivateLinkScopedResource_STATUS, len(component.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
@@ -2103,8 +2099,6 @@ func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2133,8 +2127,6 @@ func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2160,8 +2152,6 @@ func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2190,8 +2180,6 @@ func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

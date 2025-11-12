@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &NamedValue{}
 
 // ConvertFrom populates our NamedValue from the provided hub NamedValue
 func (value *NamedValue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamedValue)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/NamedValue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamedValue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return value.AssignProperties_From_NamedValue(source)
+	err = value.AssignProperties_From_NamedValue(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to value")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamedValue from our NamedValue
 func (value *NamedValue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamedValue)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/NamedValue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamedValue
+	err := value.AssignProperties_To_NamedValue(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from value")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return value.AssignProperties_To_NamedValue(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamedValue{}
@@ -917,8 +930,6 @@ func (operator *NamedValueOperatorSpec) AssignProperties_From_NamedValueOperator
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -935,8 +946,6 @@ func (operator *NamedValueOperatorSpec) AssignProperties_From_NamedValueOperator
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -978,8 +987,6 @@ func (operator *NamedValueOperatorSpec) AssignProperties_To_NamedValueOperatorSp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -996,8 +1003,6 @@ func (operator *NamedValueOperatorSpec) AssignProperties_To_NamedValueOperatorSp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

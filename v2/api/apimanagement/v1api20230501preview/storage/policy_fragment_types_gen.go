@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &PolicyFragment{}
 
 // ConvertFrom populates our PolicyFragment from the provided hub PolicyFragment
 func (fragment *PolicyFragment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PolicyFragment)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/PolicyFragment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PolicyFragment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return fragment.AssignProperties_From_PolicyFragment(source)
+	err = fragment.AssignProperties_From_PolicyFragment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to fragment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PolicyFragment from our PolicyFragment
 func (fragment *PolicyFragment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PolicyFragment)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/PolicyFragment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PolicyFragment
+	err := fragment.AssignProperties_To_PolicyFragment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from fragment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return fragment.AssignProperties_To_PolicyFragment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PolicyFragment{}
@@ -651,8 +664,6 @@ func (operator *PolicyFragmentOperatorSpec) AssignProperties_From_PolicyFragment
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -669,8 +680,6 @@ func (operator *PolicyFragmentOperatorSpec) AssignProperties_From_PolicyFragment
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -712,8 +721,6 @@ func (operator *PolicyFragmentOperatorSpec) AssignProperties_To_PolicyFragmentOp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -730,8 +737,6 @@ func (operator *PolicyFragmentOperatorSpec) AssignProperties_To_PolicyFragmentOp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

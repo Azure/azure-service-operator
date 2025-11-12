@@ -1,0 +1,28 @@
+apiVersion: network.azure.com/v1api20241001
+kind: NetworkWatchersFlowLog
+metadata:
+  name: sample-flow-log
+  namespace: default
+spec:
+  location: newzealandnorth
+  owner:
+    name: sample-network-watcher
+  # Enable flow logging
+  enabled: true
+  storageReference:
+    group: storage.azure.com
+    kind: StorageAccount
+    name: asostorage
+  # Target the Network Security Group for flow logging
+  targetResourceReference:
+    group: network.azure.com
+    kind: NetworkSecurityGroup
+    name: sample-nsg
+  # Configure retention policy (optional)
+  retentionPolicy:
+    enabled: true
+    days: 30
+  # Configure flow log format (optional)
+  format:
+    type: JSON
+    version: 2

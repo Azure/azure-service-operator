@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
@@ -29,7 +29,7 @@ func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
 			},
 		},
 	}
-	secretNames, _ := secretsSpecified(obj)
+	secretNames, _ := redisSecretsSpecified(obj)
 	expectedTags := set.Set[string]{
 		primaryKey:   {},
 		secondaryKey: {},

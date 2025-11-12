@@ -1,0 +1,17 @@
+apiVersion: compute.azure.com/v1api20250401
+kind: CapacityReservationGroup
+metadata:
+  name: sample-capacity-reservation-group
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: sample-rg
+  tags:
+    environment: production
+    team: platform
+    purpose: capacity-reservation
+  zones:
+    - "1"
+    - "2"
+    - "3"

@@ -1216,8 +1216,6 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 	if source.DedicatedCoreQuotaPerVMFamily != nil {
 		dedicatedCoreQuotaPerVMFamilyList := make([]VirtualMachineFamilyCoreQuota_STATUS, len(source.DedicatedCoreQuotaPerVMFamily))
 		for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range source.DedicatedCoreQuotaPerVMFamily {
-			// Shadow the loop variable to avoid aliasing
-			dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
 			var dedicatedCoreQuotaPerVMFamily VirtualMachineFamilyCoreQuota_STATUS
 			err := dedicatedCoreQuotaPerVMFamily.AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS(&dedicatedCoreQuotaPerVMFamilyItem)
 			if err != nil {
@@ -1302,8 +1300,6 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1377,8 +1373,6 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 	if account.DedicatedCoreQuotaPerVMFamily != nil {
 		dedicatedCoreQuotaPerVMFamilyList := make([]storage.VirtualMachineFamilyCoreQuota_STATUS, len(account.DedicatedCoreQuotaPerVMFamily))
 		for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range account.DedicatedCoreQuotaPerVMFamily {
-			// Shadow the loop variable to avoid aliasing
-			dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
 			var dedicatedCoreQuotaPerVMFamily storage.VirtualMachineFamilyCoreQuota_STATUS
 			err := dedicatedCoreQuotaPerVMFamilyItem.AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(&dedicatedCoreQuotaPerVMFamily)
 			if err != nil {
@@ -1462,8 +1456,6 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 	if account.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(account.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range account.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
@@ -1768,8 +1760,6 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -1803,8 +1793,6 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -1947,8 +1935,6 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity BatchAccountIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -1988,8 +1974,6 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.BatchAccountIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.BatchAccountIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -2029,8 +2013,6 @@ func (operator *BatchAccountOperatorSpec) AssignProperties_From_BatchAccountOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2047,8 +2029,6 @@ func (operator *BatchAccountOperatorSpec) AssignProperties_From_BatchAccountOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2074,8 +2054,6 @@ func (operator *BatchAccountOperatorSpec) AssignProperties_To_BatchAccountOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2092,8 +2070,6 @@ func (operator *BatchAccountOperatorSpec) AssignProperties_To_BatchAccountOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2025-04-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2025-04-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -626,8 +626,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_From_RedisEnterpr
 	if source.Modules != nil {
 		moduleList := make([]Module, len(source.Modules))
 		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module Module
 			err := module.AssignProperties_From_Module(&moduleItem)
 			if err != nil {
@@ -743,8 +741,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 	if database.Modules != nil {
 		moduleList := make([]storage.Module, len(database.Modules))
 		for moduleIndex, moduleItem := range database.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module storage.Module
 			err := moduleItem.AssignProperties_To_Module(&module)
 			if err != nil {
@@ -865,8 +861,6 @@ func (database *RedisEnterpriseDatabase_Spec) Initialize_From_RedisEnterpriseDat
 	if source.Modules != nil {
 		moduleList := make([]Module, len(source.Modules))
 		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module Module
 			err := module.Initialize_From_Module_STATUS(&moduleItem)
 			if err != nil {
@@ -1271,8 +1265,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 	if source.Modules != nil {
 		moduleList := make([]Module_STATUS, len(source.Modules))
 		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module Module_STATUS
 			err := module.AssignProperties_From_Module_STATUS(&moduleItem)
 			if err != nil {
@@ -1410,8 +1402,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 	if database.Modules != nil {
 		moduleList := make([]storage.Module_STATUS, len(database.Modules))
 		for moduleIndex, moduleItem := range database.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
 			var module storage.Module_STATUS
 			err := moduleItem.AssignProperties_To_Module_STATUS(&module)
 			if err != nil {
@@ -1722,8 +1712,6 @@ func (replication *DatabaseProperties_GeoReplication) AssignProperties_From_Data
 	if source.LinkedDatabases != nil {
 		linkedDatabaseList := make([]LinkedDatabase, len(source.LinkedDatabases))
 		for linkedDatabaseIndex, linkedDatabaseItem := range source.LinkedDatabases {
-			// Shadow the loop variable to avoid aliasing
-			linkedDatabaseItem := linkedDatabaseItem
 			var linkedDatabase LinkedDatabase
 			err := linkedDatabase.AssignProperties_From_LinkedDatabase(&linkedDatabaseItem)
 			if err != nil {
@@ -1752,8 +1740,6 @@ func (replication *DatabaseProperties_GeoReplication) AssignProperties_To_Databa
 	if replication.LinkedDatabases != nil {
 		linkedDatabaseList := make([]storage.LinkedDatabase, len(replication.LinkedDatabases))
 		for linkedDatabaseIndex, linkedDatabaseItem := range replication.LinkedDatabases {
-			// Shadow the loop variable to avoid aliasing
-			linkedDatabaseItem := linkedDatabaseItem
 			var linkedDatabase storage.LinkedDatabase
 			err := linkedDatabaseItem.AssignProperties_To_LinkedDatabase(&linkedDatabase)
 			if err != nil {
@@ -1787,8 +1773,6 @@ func (replication *DatabaseProperties_GeoReplication) Initialize_From_DatabasePr
 	if source.LinkedDatabases != nil {
 		linkedDatabaseList := make([]LinkedDatabase, len(source.LinkedDatabases))
 		for linkedDatabaseIndex, linkedDatabaseItem := range source.LinkedDatabases {
-			// Shadow the loop variable to avoid aliasing
-			linkedDatabaseItem := linkedDatabaseItem
 			var linkedDatabase LinkedDatabase
 			err := linkedDatabase.Initialize_From_LinkedDatabase_STATUS(&linkedDatabaseItem)
 			if err != nil {
@@ -1857,8 +1841,6 @@ func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_Fr
 	if source.LinkedDatabases != nil {
 		linkedDatabaseList := make([]LinkedDatabase_STATUS, len(source.LinkedDatabases))
 		for linkedDatabaseIndex, linkedDatabaseItem := range source.LinkedDatabases {
-			// Shadow the loop variable to avoid aliasing
-			linkedDatabaseItem := linkedDatabaseItem
 			var linkedDatabase LinkedDatabase_STATUS
 			err := linkedDatabase.AssignProperties_From_LinkedDatabase_STATUS(&linkedDatabaseItem)
 			if err != nil {
@@ -1887,8 +1869,6 @@ func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_To
 	if replication.LinkedDatabases != nil {
 		linkedDatabaseList := make([]storage.LinkedDatabase_STATUS, len(replication.LinkedDatabases))
 		for linkedDatabaseIndex, linkedDatabaseItem := range replication.LinkedDatabases {
-			// Shadow the loop variable to avoid aliasing
-			linkedDatabaseItem := linkedDatabaseItem
 			var linkedDatabase storage.LinkedDatabase_STATUS
 			err := linkedDatabaseItem.AssignProperties_To_LinkedDatabase_STATUS(&linkedDatabase)
 			if err != nil {
@@ -2495,6 +2475,9 @@ type RedisEnterpriseDatabaseOperatorSpec struct {
 
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *RedisEnterpriseDatabaseOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_RedisEnterpriseDatabaseOperatorSpec populates our RedisEnterpriseDatabaseOperatorSpec from the provided source RedisEnterpriseDatabaseOperatorSpec
@@ -2504,8 +2487,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2522,8 +2503,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2534,6 +2513,18 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 		operator.SecretExpressions = secretExpressionList
 	} else {
 		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret RedisEnterpriseDatabaseOperatorSecrets
+		err := secret.AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -2549,8 +2540,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2567,8 +2556,6 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2579,6 +2566,18 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 		destination.SecretExpressions = secretExpressionList
 	} else {
 		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.RedisEnterpriseDatabaseOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -2994,6 +2993,71 @@ var persistence_RdbFrequency_STATUS_Values = map[string]Persistence_RdbFrequency
 	"12h": Persistence_RdbFrequency_STATUS_12H,
 	"1h":  Persistence_RdbFrequency_STATUS_1H,
 	"6h":  Persistence_RdbFrequency_STATUS_6H,
+}
+
+type RedisEnterpriseDatabaseOperatorSecrets struct {
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets populates our RedisEnterpriseDatabaseOperatorSecrets from the provided source RedisEnterpriseDatabaseOperatorSecrets
+func (secrets *RedisEnterpriseDatabaseOperatorSecrets) AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets(source *storage.RedisEnterpriseDatabaseOperatorSecrets) error {
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets populates the provided destination RedisEnterpriseDatabaseOperatorSecrets from our RedisEnterpriseDatabaseOperatorSecrets
+func (secrets *RedisEnterpriseDatabaseOperatorSecrets) AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(destination *storage.RedisEnterpriseDatabaseOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type SystemData_CreatedByType_STATUS string

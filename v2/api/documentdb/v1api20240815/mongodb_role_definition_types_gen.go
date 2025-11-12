@@ -495,8 +495,6 @@ func (definition *MongodbRoleDefinition_Spec) AssignProperties_From_MongodbRoleD
 	if source.Privileges != nil {
 		privilegeList := make([]Privilege, len(source.Privileges))
 		for privilegeIndex, privilegeItem := range source.Privileges {
-			// Shadow the loop variable to avoid aliasing
-			privilegeItem := privilegeItem
 			var privilege Privilege
 			err := privilege.AssignProperties_From_Privilege(&privilegeItem)
 			if err != nil {
@@ -516,8 +514,6 @@ func (definition *MongodbRoleDefinition_Spec) AssignProperties_From_MongodbRoleD
 	if source.Roles != nil {
 		roleList := make([]Role, len(source.Roles))
 		for roleIndex, roleItem := range source.Roles {
-			// Shadow the loop variable to avoid aliasing
-			roleItem := roleItem
 			var role Role
 			err := role.AssignProperties_From_Role(&roleItem)
 			if err != nil {
@@ -581,8 +577,6 @@ func (definition *MongodbRoleDefinition_Spec) AssignProperties_To_MongodbRoleDef
 	if definition.Privileges != nil {
 		privilegeList := make([]storage.Privilege, len(definition.Privileges))
 		for privilegeIndex, privilegeItem := range definition.Privileges {
-			// Shadow the loop variable to avoid aliasing
-			privilegeItem := privilegeItem
 			var privilege storage.Privilege
 			err := privilegeItem.AssignProperties_To_Privilege(&privilege)
 			if err != nil {
@@ -602,8 +596,6 @@ func (definition *MongodbRoleDefinition_Spec) AssignProperties_To_MongodbRoleDef
 	if definition.Roles != nil {
 		roleList := make([]storage.Role, len(definition.Roles))
 		for roleIndex, roleItem := range definition.Roles {
-			// Shadow the loop variable to avoid aliasing
-			roleItem := roleItem
 			var role storage.Role
 			err := roleItem.AssignProperties_To_Role(&role)
 			if err != nil {
@@ -645,8 +637,6 @@ func (definition *MongodbRoleDefinition_Spec) Initialize_From_MongodbRoleDefinit
 	if source.Privileges != nil {
 		privilegeList := make([]Privilege, len(source.Privileges))
 		for privilegeIndex, privilegeItem := range source.Privileges {
-			// Shadow the loop variable to avoid aliasing
-			privilegeItem := privilegeItem
 			var privilege Privilege
 			err := privilege.Initialize_From_Privilege_STATUS(&privilegeItem)
 			if err != nil {
@@ -666,8 +656,6 @@ func (definition *MongodbRoleDefinition_Spec) Initialize_From_MongodbRoleDefinit
 	if source.Roles != nil {
 		roleList := make([]Role, len(source.Roles))
 		for roleIndex, roleItem := range source.Roles {
-			// Shadow the loop variable to avoid aliasing
-			roleItem := roleItem
 			var role Role
 			err := role.Initialize_From_Role_STATUS(&roleItem)
 			if err != nil {
@@ -873,8 +861,6 @@ func (definition *MongodbRoleDefinition_STATUS) AssignProperties_From_MongodbRol
 	if source.Privileges != nil {
 		privilegeList := make([]Privilege_STATUS, len(source.Privileges))
 		for privilegeIndex, privilegeItem := range source.Privileges {
-			// Shadow the loop variable to avoid aliasing
-			privilegeItem := privilegeItem
 			var privilege Privilege_STATUS
 			err := privilege.AssignProperties_From_Privilege_STATUS(&privilegeItem)
 			if err != nil {
@@ -894,8 +880,6 @@ func (definition *MongodbRoleDefinition_STATUS) AssignProperties_From_MongodbRol
 	if source.Roles != nil {
 		roleList := make([]Role_STATUS, len(source.Roles))
 		for roleIndex, roleItem := range source.Roles {
-			// Shadow the loop variable to avoid aliasing
-			roleItem := roleItem
 			var role Role_STATUS
 			err := role.AssignProperties_From_Role_STATUS(&roleItem)
 			if err != nil {
@@ -936,8 +920,6 @@ func (definition *MongodbRoleDefinition_STATUS) AssignProperties_To_MongodbRoleD
 	if definition.Privileges != nil {
 		privilegeList := make([]storage.Privilege_STATUS, len(definition.Privileges))
 		for privilegeIndex, privilegeItem := range definition.Privileges {
-			// Shadow the loop variable to avoid aliasing
-			privilegeItem := privilegeItem
 			var privilege storage.Privilege_STATUS
 			err := privilegeItem.AssignProperties_To_Privilege_STATUS(&privilege)
 			if err != nil {
@@ -957,8 +939,6 @@ func (definition *MongodbRoleDefinition_STATUS) AssignProperties_To_MongodbRoleD
 	if definition.Roles != nil {
 		roleList := make([]storage.Role_STATUS, len(definition.Roles))
 		for roleIndex, roleItem := range definition.Roles {
-			// Shadow the loop variable to avoid aliasing
-			roleItem := roleItem
 			var role storage.Role_STATUS
 			err := roleItem.AssignProperties_To_Role_STATUS(&role)
 			if err != nil {
@@ -1001,8 +981,6 @@ func (operator *MongodbRoleDefinitionOperatorSpec) AssignProperties_From_Mongodb
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1019,8 +997,6 @@ func (operator *MongodbRoleDefinitionOperatorSpec) AssignProperties_From_Mongodb
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1046,8 +1022,6 @@ func (operator *MongodbRoleDefinitionOperatorSpec) AssignProperties_To_MongodbRo
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1064,8 +1038,6 @@ func (operator *MongodbRoleDefinitionOperatorSpec) AssignProperties_To_MongodbRo
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

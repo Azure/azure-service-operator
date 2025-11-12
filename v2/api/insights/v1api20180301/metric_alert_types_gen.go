@@ -615,8 +615,6 @@ func (alert *MetricAlert_Spec) AssignProperties_From_MetricAlert_Spec(source *st
 	if source.Actions != nil {
 		actionList := make([]MetricAlertAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action MetricAlertAction
 			err := action.AssignProperties_From_MetricAlertAction(&actionItem)
 			if err != nil {
@@ -693,8 +691,6 @@ func (alert *MetricAlert_Spec) AssignProperties_From_MetricAlert_Spec(source *st
 	if source.ScopesReferences != nil {
 		scopesReferenceList := make([]genruntime.ResourceReference, len(source.ScopesReferences))
 		for scopesReferenceIndex, scopesReferenceItem := range source.ScopesReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopesReferenceItem := scopesReferenceItem
 			scopesReferenceList[scopesReferenceIndex] = scopesReferenceItem.Copy()
 		}
 		alert.ScopesReferences = scopesReferenceList
@@ -730,8 +726,6 @@ func (alert *MetricAlert_Spec) AssignProperties_To_MetricAlert_Spec(destination 
 	if alert.Actions != nil {
 		actionList := make([]storage.MetricAlertAction, len(alert.Actions))
 		for actionIndex, actionItem := range alert.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action storage.MetricAlertAction
 			err := actionItem.AssignProperties_To_MetricAlertAction(&action)
 			if err != nil {
@@ -811,8 +805,6 @@ func (alert *MetricAlert_Spec) AssignProperties_To_MetricAlert_Spec(destination 
 	if alert.ScopesReferences != nil {
 		scopesReferenceList := make([]genruntime.ResourceReference, len(alert.ScopesReferences))
 		for scopesReferenceIndex, scopesReferenceItem := range alert.ScopesReferences {
-			// Shadow the loop variable to avoid aliasing
-			scopesReferenceItem := scopesReferenceItem
 			scopesReferenceList[scopesReferenceIndex] = scopesReferenceItem.Copy()
 		}
 		destination.ScopesReferences = scopesReferenceList
@@ -853,8 +845,6 @@ func (alert *MetricAlert_Spec) Initialize_From_MetricAlert_STATUS(source *Metric
 	if source.Actions != nil {
 		actionList := make([]MetricAlertAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action MetricAlertAction
 			err := action.Initialize_From_MetricAlertAction_STATUS(&actionItem)
 			if err != nil {
@@ -1229,8 +1219,6 @@ func (alert *MetricAlert_STATUS) AssignProperties_From_MetricAlert_STATUS(source
 	if source.Actions != nil {
 		actionList := make([]MetricAlertAction_STATUS, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action MetricAlertAction_STATUS
 			err := action.AssignProperties_From_MetricAlertAction_STATUS(&actionItem)
 			if err != nil {
@@ -1334,8 +1322,6 @@ func (alert *MetricAlert_STATUS) AssignProperties_To_MetricAlert_STATUS(destinat
 	if alert.Actions != nil {
 		actionList := make([]storage.MetricAlertAction_STATUS, len(alert.Actions))
 		for actionIndex, actionItem := range alert.Actions {
-			// Shadow the loop variable to avoid aliasing
-			actionItem := actionItem
 			var action storage.MetricAlertAction_STATUS
 			err := actionItem.AssignProperties_To_MetricAlertAction_STATUS(&action)
 			if err != nil {
@@ -1442,6 +1428,9 @@ type MetricAlertAction struct {
 	// ActionGroupId: the id of the action group to use.
 	ActionGroupId *string `json:"actionGroupId,omitempty"`
 
+	// ActionGroupReference: the id of the action group to use.
+	ActionGroupReference *genruntime.ResourceReference `armReference:"ActionGroupId" json:"actionGroupReference,omitempty"`
+
 	// WebHookProperties: This field allows specifying custom properties, which would be appended to the alert payload sent as
 	// input to the webhook.
 	WebHookProperties map[string]string `json:"webHookProperties,omitempty"`
@@ -1457,7 +1446,14 @@ func (action *MetricAlertAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 	result := &arm.MetricAlertAction{}
 
 	// Set property "ActionGroupId":
-	if action.ActionGroupId != nil {
+	if action.ActionGroupReference != nil {
+		actionGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*action.ActionGroupReference)
+		if err != nil {
+			return nil, err
+		}
+		actionGroupReference := actionGroupReferenceARMID
+		result.ActionGroupId = &actionGroupReference
+	} else if action.ActionGroupId != nil {
 		actionGroupId := *action.ActionGroupId
 		result.ActionGroupId = &actionGroupId
 	}
@@ -1490,6 +1486,8 @@ func (action *MetricAlertAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 		action.ActionGroupId = &actionGroupId
 	}
 
+	// no assignment for property "ActionGroupReference"
+
 	// Set property "WebHookProperties":
 	if typedInput.WebHookProperties != nil {
 		action.WebHookProperties = make(map[string]string, len(typedInput.WebHookProperties))
@@ -1508,6 +1506,14 @@ func (action *MetricAlertAction) AssignProperties_From_MetricAlertAction(source 
 	// ActionGroupId
 	action.ActionGroupId = genruntime.ClonePointerToString(source.ActionGroupId)
 
+	// ActionGroupReference
+	if source.ActionGroupReference != nil {
+		actionGroupReference := source.ActionGroupReference.Copy()
+		action.ActionGroupReference = &actionGroupReference
+	} else {
+		action.ActionGroupReference = nil
+	}
+
 	// WebHookProperties
 	action.WebHookProperties = genruntime.CloneMapOfStringToString(source.WebHookProperties)
 
@@ -1522,6 +1528,14 @@ func (action *MetricAlertAction) AssignProperties_To_MetricAlertAction(destinati
 
 	// ActionGroupId
 	destination.ActionGroupId = genruntime.ClonePointerToString(action.ActionGroupId)
+
+	// ActionGroupReference
+	if action.ActionGroupReference != nil {
+		actionGroupReference := action.ActionGroupReference.Copy()
+		destination.ActionGroupReference = &actionGroupReference
+	} else {
+		destination.ActionGroupReference = nil
+	}
 
 	// WebHookProperties
 	destination.WebHookProperties = genruntime.CloneMapOfStringToString(action.WebHookProperties)
@@ -2039,8 +2053,6 @@ func (operator *MetricAlertOperatorSpec) AssignProperties_From_MetricAlertOperat
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2057,8 +2069,6 @@ func (operator *MetricAlertOperatorSpec) AssignProperties_From_MetricAlertOperat
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2084,8 +2094,6 @@ func (operator *MetricAlertOperatorSpec) AssignProperties_To_MetricAlertOperator
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2102,8 +2110,6 @@ func (operator *MetricAlertOperatorSpec) AssignProperties_To_MetricAlertOperator
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2223,8 +2229,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -2236,8 +2240,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 	if source.AllOf != nil {
 		allOfList := make([]MultiMetricCriteria, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf MultiMetricCriteria
 			err := allOf.AssignProperties_From_MultiMetricCriteria(&allOfItem)
 			if err != nil {
@@ -2272,8 +2274,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -2285,8 +2285,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 	if criteria.AllOf != nil {
 		allOfList := make([]storage.MultiMetricCriteria, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf storage.MultiMetricCriteria
 			err := allOfItem.AssignProperties_To_MultiMetricCriteria(&allOf)
 			if err != nil {
@@ -2325,8 +2323,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) Initialize_Fr
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -2338,8 +2334,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) Initialize_Fr
 	if source.AllOf != nil {
 		allOfList := make([]MultiMetricCriteria, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf MultiMetricCriteria
 			err := allOf.Initialize_From_MultiMetricCriteria_STATUS(&allOfItem)
 			if err != nil {
@@ -2424,8 +2418,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -2437,8 +2429,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 	if source.AllOf != nil {
 		allOfList := make([]MultiMetricCriteria_STATUS, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf MultiMetricCriteria_STATUS
 			err := allOf.AssignProperties_From_MultiMetricCriteria_STATUS(&allOfItem)
 			if err != nil {
@@ -2473,8 +2463,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -2486,8 +2474,6 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 	if criteria.AllOf != nil {
 		allOfList := make([]storage.MultiMetricCriteria_STATUS, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf storage.MultiMetricCriteria_STATUS
 			err := allOfItem.AssignProperties_To_MultiMetricCriteria_STATUS(&allOf)
 			if err != nil {
@@ -2615,8 +2601,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -2628,8 +2612,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 	if source.AllOf != nil {
 		allOfList := make([]MetricCriteria, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf MetricCriteria
 			err := allOf.AssignProperties_From_MetricCriteria(&allOfItem)
 			if err != nil {
@@ -2664,8 +2646,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -2677,8 +2657,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 	if criteria.AllOf != nil {
 		allOfList := make([]storage.MetricCriteria, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf storage.MetricCriteria
 			err := allOfItem.AssignProperties_To_MetricCriteria(&allOf)
 			if err != nil {
@@ -2717,8 +2695,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) Initialize_From
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -2730,8 +2706,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) Initialize_From
 	if source.AllOf != nil {
 		allOfList := make([]MetricCriteria, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf MetricCriteria
 			err := allOf.Initialize_From_MetricCriteria_STATUS(&allOfItem)
 			if err != nil {
@@ -2816,8 +2790,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -2829,8 +2801,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 	if source.AllOf != nil {
 		allOfList := make([]MetricCriteria_STATUS, len(source.AllOf))
 		for allOfIndex, allOfItem := range source.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf MetricCriteria_STATUS
 			err := allOf.AssignProperties_From_MetricCriteria_STATUS(&allOfItem)
 			if err != nil {
@@ -2865,8 +2835,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -2878,8 +2846,6 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 	if criteria.AllOf != nil {
 		allOfList := make([]storage.MetricCriteria_STATUS, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
-			// Shadow the loop variable to avoid aliasing
-			allOfItem := allOfItem
 			var allOf storage.MetricCriteria_STATUS
 			err := allOfItem.AssignProperties_To_MetricCriteria_STATUS(&allOf)
 			if err != nil {
@@ -3033,8 +2999,6 @@ func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_From_Webte
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -3083,8 +3047,6 @@ func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_To_Webtest
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -3137,8 +3099,6 @@ func (criteria *WebtestLocationAvailabilityCriteria) Initialize_From_WebtestLoca
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -3251,8 +3211,6 @@ func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_Fro
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -3296,8 +3254,6 @@ func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_To_
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -3591,8 +3547,6 @@ func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *sto
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -3613,8 +3567,6 @@ func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *sto
 	if source.Dimensions != nil {
 		dimensionList := make([]MetricDimension, len(source.Dimensions))
 		for dimensionIndex, dimensionItem := range source.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension MetricDimension
 			err := dimension.AssignProperties_From_MetricDimension(&dimensionItem)
 			if err != nil {
@@ -3683,8 +3635,6 @@ func (criteria *MetricCriteria) AssignProperties_To_MetricCriteria(destination *
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -3704,8 +3654,6 @@ func (criteria *MetricCriteria) AssignProperties_To_MetricCriteria(destination *
 	if criteria.Dimensions != nil {
 		dimensionList := make([]storage.MetricDimension, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension storage.MetricDimension
 			err := dimensionItem.AssignProperties_To_MetricDimension(&dimension)
 			if err != nil {
@@ -3777,8 +3725,6 @@ func (criteria *MetricCriteria) Initialize_From_MetricCriteria_STATUS(source *Me
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -3798,8 +3744,6 @@ func (criteria *MetricCriteria) Initialize_From_MetricCriteria_STATUS(source *Me
 	if source.Dimensions != nil {
 		dimensionList := make([]MetricDimension, len(source.Dimensions))
 		for dimensionIndex, dimensionItem := range source.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension MetricDimension
 			err := dimension.Initialize_From_MetricDimension_STATUS(&dimensionItem)
 			if err != nil {
@@ -3985,8 +3929,6 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STAT
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -4007,8 +3949,6 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STAT
 	if source.Dimensions != nil {
 		dimensionList := make([]MetricDimension_STATUS, len(source.Dimensions))
 		for dimensionIndex, dimensionItem := range source.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension MetricDimension_STATUS
 			err := dimension.AssignProperties_From_MetricDimension_STATUS(&dimensionItem)
 			if err != nil {
@@ -4077,8 +4017,6 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_To_MetricCriteria_STATUS
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -4098,8 +4036,6 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_To_MetricCriteria_STATUS
 	if criteria.Dimensions != nil {
 		dimensionList := make([]storage.MetricDimension_STATUS, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension storage.MetricDimension_STATUS
 			err := dimensionItem.AssignProperties_To_MetricDimension_STATUS(&dimension)
 			if err != nil {
@@ -4743,8 +4679,6 @@ func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriter
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -4774,8 +4708,6 @@ func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriter
 	if source.Dimensions != nil {
 		dimensionList := make([]MetricDimension, len(source.Dimensions))
 		for dimensionIndex, dimensionItem := range source.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension MetricDimension
 			err := dimension.AssignProperties_From_MetricDimension(&dimensionItem)
 			if err != nil {
@@ -4851,8 +4783,6 @@ func (criteria *DynamicMetricCriteria) AssignProperties_To_DynamicMetricCriteria
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -4880,8 +4810,6 @@ func (criteria *DynamicMetricCriteria) AssignProperties_To_DynamicMetricCriteria
 	if criteria.Dimensions != nil {
 		dimensionList := make([]storage.MetricDimension, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension storage.MetricDimension
 			err := dimensionItem.AssignProperties_To_MetricDimension(&dimension)
 			if err != nil {
@@ -4960,8 +4888,6 @@ func (criteria *DynamicMetricCriteria) Initialize_From_DynamicMetricCriteria_STA
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -4989,8 +4915,6 @@ func (criteria *DynamicMetricCriteria) Initialize_From_DynamicMetricCriteria_STA
 	if source.Dimensions != nil {
 		dimensionList := make([]MetricDimension, len(source.Dimensions))
 		for dimensionIndex, dimensionItem := range source.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension MetricDimension
 			err := dimension.Initialize_From_MetricDimension_STATUS(&dimensionItem)
 			if err != nil {
@@ -5211,8 +5135,6 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetri
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		criteria.AdditionalProperties = additionalPropertyMap
@@ -5242,8 +5164,6 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetri
 	if source.Dimensions != nil {
 		dimensionList := make([]MetricDimension_STATUS, len(source.Dimensions))
 		for dimensionIndex, dimensionItem := range source.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension MetricDimension_STATUS
 			err := dimension.AssignProperties_From_MetricDimension_STATUS(&dimensionItem)
 			if err != nil {
@@ -5319,8 +5239,6 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_To_DynamicMetricC
 	if criteria.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(criteria.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range criteria.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -5348,8 +5266,6 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_To_DynamicMetricC
 	if criteria.Dimensions != nil {
 		dimensionList := make([]storage.MetricDimension_STATUS, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
-			// Shadow the loop variable to avoid aliasing
-			dimensionItem := dimensionItem
 			var dimension storage.MetricDimension_STATUS
 			err := dimensionItem.AssignProperties_To_MetricDimension_STATUS(&dimension)
 			if err != nil {

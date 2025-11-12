@@ -1275,8 +1275,6 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 	if source.PrivateLinkScopedResources != nil {
 		privateLinkScopedResourceList := make([]PrivateLinkScopedResource_STATUS, len(source.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
@@ -1406,8 +1404,6 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	if workspace.PrivateLinkScopedResources != nil {
 		privateLinkScopedResourceList := make([]storage.PrivateLinkScopedResource_STATUS, len(workspace.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range workspace.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
@@ -2223,6 +2219,9 @@ type WorkspaceOperatorSpec struct {
 
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_WorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
@@ -2232,8 +2231,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2250,8 +2247,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2262,6 +2257,18 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 		operator.SecretExpressions = secretExpressionList
 	} else {
 		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret WorkspaceOperatorSecrets
+		err := secret.AssignProperties_From_WorkspaceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -2277,8 +2284,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2295,8 +2300,6 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2307,6 +2310,18 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 		destination.SecretExpressions = secretExpressionList
 	} else {
 		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.WorkspaceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_WorkspaceOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -2650,6 +2665,71 @@ var workspaceCapping_DataIngestionStatus_STATUS_Values = map[string]WorkspaceCap
 	"overquota":             WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota,
 	"respectquota":          WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota,
 	"subscriptionsuspended": WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended,
+}
+
+type WorkspaceOperatorSecrets struct {
+	// PrimarySharedKey: indicates where the PrimarySharedKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	PrimarySharedKey *genruntime.SecretDestination `json:"primarySharedKey,omitempty"`
+
+	// SecondarySharedKey: indicates where the SecondarySharedKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	SecondarySharedKey *genruntime.SecretDestination `json:"secondarySharedKey,omitempty"`
+}
+
+// AssignProperties_From_WorkspaceOperatorSecrets populates our WorkspaceOperatorSecrets from the provided source WorkspaceOperatorSecrets
+func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperatorSecrets(source *storage.WorkspaceOperatorSecrets) error {
+
+	// PrimarySharedKey
+	if source.PrimarySharedKey != nil {
+		primarySharedKey := source.PrimarySharedKey.Copy()
+		secrets.PrimarySharedKey = &primarySharedKey
+	} else {
+		secrets.PrimarySharedKey = nil
+	}
+
+	// SecondarySharedKey
+	if source.SecondarySharedKey != nil {
+		secondarySharedKey := source.SecondarySharedKey.Copy()
+		secrets.SecondarySharedKey = &secondarySharedKey
+	} else {
+		secrets.SecondarySharedKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspaceOperatorSecrets populates the provided destination WorkspaceOperatorSecrets from our WorkspaceOperatorSecrets
+func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSecrets(destination *storage.WorkspaceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimarySharedKey
+	if secrets.PrimarySharedKey != nil {
+		primarySharedKey := secrets.PrimarySharedKey.Copy()
+		destination.PrimarySharedKey = &primarySharedKey
+	} else {
+		destination.PrimarySharedKey = nil
+	}
+
+	// SecondarySharedKey
+	if secrets.SecondarySharedKey != nil {
+		secondarySharedKey := secrets.SecondarySharedKey.Copy()
+		destination.SecondarySharedKey = &secondarySharedKey
+	} else {
+		destination.SecondarySharedKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={100,200,300,400,500,1000,2000,5000}

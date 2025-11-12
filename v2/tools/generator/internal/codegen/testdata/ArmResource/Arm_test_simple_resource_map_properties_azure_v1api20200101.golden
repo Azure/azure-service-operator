@@ -569,8 +569,6 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.MapFoo != nil {
 		mapFooMap := make(map[string]Foo, len(source.MapFoo))
 		for mapFooKey, mapFooValue := range source.MapFoo {
-			// Shadow the loop variable to avoid aliasing
-			mapFooValue := mapFooValue
 			var mapFoo Foo
 			err := mapFoo.AssignProperties_From_Foo(&mapFooValue)
 			if err != nil {
@@ -587,13 +585,9 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.MapOfArrays != nil {
 		mapOfArrayMap := make(map[string][]Foo, len(source.MapOfArrays))
 		for mapOfArrayKey, mapOfArrayValue := range source.MapOfArrays {
-			// Shadow the loop variable to avoid aliasing
-			mapOfArrayValue := mapOfArrayValue
 			if mapOfArrayValue != nil {
 				mapOfArrayList := make([]Foo, len(mapOfArrayValue))
 				for mapOfArrayIndex, mapOfArrayItem := range mapOfArrayValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfArrayItem := mapOfArrayItem
 					var mapOfArray Foo
 					err := mapOfArray.AssignProperties_From_Foo(&mapOfArrayItem)
 					if err != nil {
@@ -615,8 +609,6 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.MapOfEnums != nil {
 		mapOfEnumMap := make(map[string]Color, len(source.MapOfEnums))
 		for mapOfEnumKey, mapOfEnumValue := range source.MapOfEnums {
-			// Shadow the loop variable to avoid aliasing
-			mapOfEnumValue := mapOfEnumValue
 			mapOfEnumMap[mapOfEnumKey] = genruntime.ToEnum(mapOfEnumValue, color_Values)
 		}
 		resource.MapOfEnums = mapOfEnumMap
@@ -628,13 +620,9 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.MapOfMaps != nil {
 		mapOfMap := make(map[string]map[string]Foo, len(source.MapOfMaps))
 		for mapOfMapKey, mapOfMapValue := range source.MapOfMaps {
-			// Shadow the loop variable to avoid aliasing
-			mapOfMapValue := mapOfMapValue
 			if mapOfMapValue != nil {
 				mapOfMap1 := make(map[string]Foo, len(mapOfMapValue))
 				for mapOfMapKey1, mapOfMapValue1 := range mapOfMapValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfMapValue1 := mapOfMapValue1
 					var mapOfMapLocal Foo
 					err := mapOfMapLocal.AssignProperties_From_Foo(&mapOfMapValue1)
 					if err != nil {
@@ -656,18 +644,12 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.MapOfMapsOfMaps != nil {
 		mapOfMapsOfMap := make(map[string]map[string]map[string]Foo, len(source.MapOfMapsOfMaps))
 		for mapOfMapsOfMapKey, mapOfMapsOfMapValue := range source.MapOfMapsOfMaps {
-			// Shadow the loop variable to avoid aliasing
-			mapOfMapsOfMapValue := mapOfMapsOfMapValue
 			if mapOfMapsOfMapValue != nil {
 				mapOfMapsOfMap1 := make(map[string]map[string]Foo, len(mapOfMapsOfMapValue))
 				for mapOfMapsOfMapKey1, mapOfMapsOfMapValue1 := range mapOfMapsOfMapValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfMapsOfMapValue1 := mapOfMapsOfMapValue1
 					if mapOfMapsOfMapValue1 != nil {
 						mapOfMapsOfMap2 := make(map[string]Foo, len(mapOfMapsOfMapValue1))
 						for mapOfMapsOfMapKey2, mapOfMapsOfMapValue2 := range mapOfMapsOfMapValue1 {
-							// Shadow the loop variable to avoid aliasing
-							mapOfMapsOfMapValue2 := mapOfMapsOfMapValue2
 							var mapOfMapsOfMapLocal Foo
 							err := mapOfMapsOfMapLocal.AssignProperties_From_Foo(&mapOfMapsOfMapValue2)
 							if err != nil {
@@ -694,13 +676,9 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	if source.MapOfMapsOfMapsOfStrings != nil {
 		mapOfMapsOfMapsOfStringMap := make(map[string]map[string]map[string]string, len(source.MapOfMapsOfMapsOfStrings))
 		for mapOfMapsOfMapsOfStringKey, mapOfMapsOfMapsOfStringValue := range source.MapOfMapsOfMapsOfStrings {
-			// Shadow the loop variable to avoid aliasing
-			mapOfMapsOfMapsOfStringValue := mapOfMapsOfMapsOfStringValue
 			if mapOfMapsOfMapsOfStringValue != nil {
 				mapOfMapsOfMapsOfStringMap1 := make(map[string]map[string]string, len(mapOfMapsOfMapsOfStringValue))
 				for mapOfMapsOfMapsOfStringKey1, mapOfMapsOfMapsOfStringValue1 := range mapOfMapsOfMapsOfStringValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfMapsOfMapsOfStringValue1 := mapOfMapsOfMapsOfStringValue1
 					mapOfMapsOfMapsOfStringMap1[mapOfMapsOfMapsOfStringKey1] = genruntime.CloneMapOfStringToString(mapOfMapsOfMapsOfStringValue1)
 				}
 				mapOfMapsOfMapsOfStringMap[mapOfMapsOfMapsOfStringKey] = mapOfMapsOfMapsOfStringMap1
@@ -764,8 +742,6 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.MapFoo != nil {
 		mapFooMap := make(map[string]storage.Foo, len(resource.MapFoo))
 		for mapFooKey, mapFooValue := range resource.MapFoo {
-			// Shadow the loop variable to avoid aliasing
-			mapFooValue := mapFooValue
 			var mapFoo storage.Foo
 			err := mapFooValue.AssignProperties_To_Foo(&mapFoo)
 			if err != nil {
@@ -782,13 +758,9 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.MapOfArrays != nil {
 		mapOfArrayMap := make(map[string][]storage.Foo, len(resource.MapOfArrays))
 		for mapOfArrayKey, mapOfArrayValue := range resource.MapOfArrays {
-			// Shadow the loop variable to avoid aliasing
-			mapOfArrayValue := mapOfArrayValue
 			if mapOfArrayValue != nil {
 				mapOfArrayList := make([]storage.Foo, len(mapOfArrayValue))
 				for mapOfArrayIndex, mapOfArrayItem := range mapOfArrayValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfArrayItem := mapOfArrayItem
 					var mapOfArray storage.Foo
 					err := mapOfArrayItem.AssignProperties_To_Foo(&mapOfArray)
 					if err != nil {
@@ -810,8 +782,6 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.MapOfEnums != nil {
 		mapOfEnumMap := make(map[string]string, len(resource.MapOfEnums))
 		for mapOfEnumKey, mapOfEnumValue := range resource.MapOfEnums {
-			// Shadow the loop variable to avoid aliasing
-			mapOfEnumValue := mapOfEnumValue
 			mapOfEnumMap[mapOfEnumKey] = string(mapOfEnumValue)
 		}
 		destination.MapOfEnums = mapOfEnumMap
@@ -823,13 +793,9 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.MapOfMaps != nil {
 		mapOfMap := make(map[string]map[string]storage.Foo, len(resource.MapOfMaps))
 		for mapOfMapKey, mapOfMapValue := range resource.MapOfMaps {
-			// Shadow the loop variable to avoid aliasing
-			mapOfMapValue := mapOfMapValue
 			if mapOfMapValue != nil {
 				mapOfMap1 := make(map[string]storage.Foo, len(mapOfMapValue))
 				for mapOfMapKey1, mapOfMapValue1 := range mapOfMapValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfMapValue1 := mapOfMapValue1
 					var mapOfMapLocal storage.Foo
 					err := mapOfMapValue1.AssignProperties_To_Foo(&mapOfMapLocal)
 					if err != nil {
@@ -851,18 +817,12 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.MapOfMapsOfMaps != nil {
 		mapOfMapsOfMap := make(map[string]map[string]map[string]storage.Foo, len(resource.MapOfMapsOfMaps))
 		for mapOfMapsOfMapKey, mapOfMapsOfMapValue := range resource.MapOfMapsOfMaps {
-			// Shadow the loop variable to avoid aliasing
-			mapOfMapsOfMapValue := mapOfMapsOfMapValue
 			if mapOfMapsOfMapValue != nil {
 				mapOfMapsOfMap1 := make(map[string]map[string]storage.Foo, len(mapOfMapsOfMapValue))
 				for mapOfMapsOfMapKey1, mapOfMapsOfMapValue1 := range mapOfMapsOfMapValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfMapsOfMapValue1 := mapOfMapsOfMapValue1
 					if mapOfMapsOfMapValue1 != nil {
 						mapOfMapsOfMap2 := make(map[string]storage.Foo, len(mapOfMapsOfMapValue1))
 						for mapOfMapsOfMapKey2, mapOfMapsOfMapValue2 := range mapOfMapsOfMapValue1 {
-							// Shadow the loop variable to avoid aliasing
-							mapOfMapsOfMapValue2 := mapOfMapsOfMapValue2
 							var mapOfMapsOfMapLocal storage.Foo
 							err := mapOfMapsOfMapValue2.AssignProperties_To_Foo(&mapOfMapsOfMapLocal)
 							if err != nil {
@@ -889,13 +849,9 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 	if resource.MapOfMapsOfMapsOfStrings != nil {
 		mapOfMapsOfMapsOfStringMap := make(map[string]map[string]map[string]string, len(resource.MapOfMapsOfMapsOfStrings))
 		for mapOfMapsOfMapsOfStringKey, mapOfMapsOfMapsOfStringValue := range resource.MapOfMapsOfMapsOfStrings {
-			// Shadow the loop variable to avoid aliasing
-			mapOfMapsOfMapsOfStringValue := mapOfMapsOfMapsOfStringValue
 			if mapOfMapsOfMapsOfStringValue != nil {
 				mapOfMapsOfMapsOfStringMap1 := make(map[string]map[string]string, len(mapOfMapsOfMapsOfStringValue))
 				for mapOfMapsOfMapsOfStringKey1, mapOfMapsOfMapsOfStringValue1 := range mapOfMapsOfMapsOfStringValue {
-					// Shadow the loop variable to avoid aliasing
-					mapOfMapsOfMapsOfStringValue1 := mapOfMapsOfMapsOfStringValue1
 					mapOfMapsOfMapsOfStringMap1[mapOfMapsOfMapsOfStringKey1] = genruntime.CloneMapOfStringToString(mapOfMapsOfMapsOfStringValue1)
 				}
 				mapOfMapsOfMapsOfStringMap[mapOfMapsOfMapsOfStringKey] = mapOfMapsOfMapsOfStringMap1
@@ -1010,8 +966,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOper
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1028,8 +982,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOper
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1055,8 +1007,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperat
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1073,8 +1023,6 @@ func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperat
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

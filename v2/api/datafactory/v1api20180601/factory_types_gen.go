@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/datafactory.json
+// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/datafactory.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}
 type Factory struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (factory *Factory) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/datafactory.json
+// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/datafactory.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}
 type FactoryList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -578,8 +578,6 @@ func (factory *Factory_Spec) AssignProperties_From_Factory_Spec(source *storage.
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		factory.AdditionalProperties = additionalPropertyMap
@@ -606,8 +604,6 @@ func (factory *Factory_Spec) AssignProperties_From_Factory_Spec(source *storage.
 	if source.GlobalParameters != nil {
 		globalParameterMap := make(map[string]GlobalParameterSpecification, len(source.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range source.GlobalParameters {
-			// Shadow the loop variable to avoid aliasing
-			globalParameterValue := globalParameterValue
 			var globalParameter GlobalParameterSpecification
 			err := globalParameter.AssignProperties_From_GlobalParameterSpecification(&globalParameterValue)
 			if err != nil {
@@ -704,8 +700,6 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *stora
 	if factory.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(factory.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range factory.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -732,8 +726,6 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *stora
 	if factory.GlobalParameters != nil {
 		globalParameterMap := make(map[string]storage.GlobalParameterSpecification, len(factory.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range factory.GlobalParameters {
-			// Shadow the loop variable to avoid aliasing
-			globalParameterValue := globalParameterValue
 			var globalParameter storage.GlobalParameterSpecification
 			err := globalParameterValue.AssignProperties_To_GlobalParameterSpecification(&globalParameter)
 			if err != nil {
@@ -837,8 +829,6 @@ func (factory *Factory_Spec) Initialize_From_Factory_STATUS(source *Factory_STAT
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		factory.AdditionalProperties = additionalPropertyMap
@@ -862,8 +852,6 @@ func (factory *Factory_Spec) Initialize_From_Factory_STATUS(source *Factory_STAT
 	if source.GlobalParameters != nil {
 		globalParameterMap := make(map[string]GlobalParameterSpecification, len(source.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range source.GlobalParameters {
-			// Shadow the loop variable to avoid aliasing
-			globalParameterValue := globalParameterValue
 			var globalParameter GlobalParameterSpecification
 			err := globalParameter.Initialize_From_GlobalParameterSpecification_STATUS(&globalParameterValue)
 			if err != nil {
@@ -1221,8 +1209,6 @@ func (factory *Factory_STATUS) AssignProperties_From_Factory_STATUS(source *stor
 	if source.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		factory.AdditionalProperties = additionalPropertyMap
@@ -1255,8 +1241,6 @@ func (factory *Factory_STATUS) AssignProperties_From_Factory_STATUS(source *stor
 	if source.GlobalParameters != nil {
 		globalParameterMap := make(map[string]GlobalParameterSpecification_STATUS, len(source.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range source.GlobalParameters {
-			// Shadow the loop variable to avoid aliasing
-			globalParameterValue := globalParameterValue
 			var globalParameter GlobalParameterSpecification_STATUS
 			err := globalParameter.AssignProperties_From_GlobalParameterSpecification_STATUS(&globalParameterValue)
 			if err != nil {
@@ -1348,8 +1332,6 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *s
 	if factory.AdditionalProperties != nil {
 		additionalPropertyMap := make(map[string]v1.JSON, len(factory.AdditionalProperties))
 		for additionalPropertyKey, additionalPropertyValue := range factory.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
 		}
 		destination.AdditionalProperties = additionalPropertyMap
@@ -1382,8 +1364,6 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *s
 	if factory.GlobalParameters != nil {
 		globalParameterMap := make(map[string]storage.GlobalParameterSpecification_STATUS, len(factory.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range factory.GlobalParameters {
-			// Shadow the loop variable to avoid aliasing
-			globalParameterValue := globalParameterValue
 			var globalParameter storage.GlobalParameterSpecification_STATUS
 			err := globalParameterValue.AssignProperties_To_GlobalParameterSpecification_STATUS(&globalParameter)
 			if err != nil {
@@ -1877,8 +1857,6 @@ func (identity *FactoryIdentity) AssignProperties_From_FactoryIdentity(source *s
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -1912,8 +1890,6 @@ func (identity *FactoryIdentity) AssignProperties_To_FactoryIdentity(destination
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2047,8 +2023,6 @@ func (identity *FactoryIdentity_STATUS) AssignProperties_From_FactoryIdentity_ST
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
 		}
 		identity.UserAssignedIdentities = userAssignedIdentityMap
@@ -2083,8 +2057,6 @@ func (identity *FactoryIdentity_STATUS) AssignProperties_To_FactoryIdentity_STAT
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
 		}
 		destination.UserAssignedIdentities = userAssignedIdentityMap
@@ -2119,8 +2091,6 @@ func (operator *FactoryOperatorSpec) AssignProperties_From_FactoryOperatorSpec(s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2137,8 +2107,6 @@ func (operator *FactoryOperatorSpec) AssignProperties_From_FactoryOperatorSpec(s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2164,8 +2132,6 @@ func (operator *FactoryOperatorSpec) AssignProperties_To_FactoryOperatorSpec(des
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2182,8 +2148,6 @@ func (operator *FactoryOperatorSpec) AssignProperties_To_FactoryOperatorSpec(des
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2618,8 +2582,6 @@ func (specification *GlobalParameterSpecification) AssignProperties_From_GlobalP
 	if source.Value != nil {
 		valueMap := make(map[string]v1.JSON, len(source.Value))
 		for valueKey, value := range source.Value {
-			// Shadow the loop variable to avoid aliasing
-			value := value
 			valueMap[valueKey] = *value.DeepCopy()
 		}
 		specification.Value = valueMap
@@ -2648,8 +2610,6 @@ func (specification *GlobalParameterSpecification) AssignProperties_To_GlobalPar
 	if specification.Value != nil {
 		valueMap := make(map[string]v1.JSON, len(specification.Value))
 		for valueKey, value := range specification.Value {
-			// Shadow the loop variable to avoid aliasing
-			value := value
 			valueMap[valueKey] = *value.DeepCopy()
 		}
 		destination.Value = valueMap
@@ -2683,8 +2643,6 @@ func (specification *GlobalParameterSpecification) Initialize_From_GlobalParamet
 	if source.Value != nil {
 		valueMap := make(map[string]v1.JSON, len(source.Value))
 		for valueKey, value := range source.Value {
-			// Shadow the loop variable to avoid aliasing
-			value := value
 			valueMap[valueKey] = *value.DeepCopy()
 		}
 		specification.Value = valueMap
@@ -2755,8 +2713,6 @@ func (specification *GlobalParameterSpecification_STATUS) AssignProperties_From_
 	if source.Value != nil {
 		valueMap := make(map[string]v1.JSON, len(source.Value))
 		for valueKey, value := range source.Value {
-			// Shadow the loop variable to avoid aliasing
-			value := value
 			valueMap[valueKey] = *value.DeepCopy()
 		}
 		specification.Value = valueMap
@@ -2785,8 +2741,6 @@ func (specification *GlobalParameterSpecification_STATUS) AssignProperties_To_Gl
 	if specification.Value != nil {
 		valueMap := make(map[string]v1.JSON, len(specification.Value))
 		for valueKey, value := range specification.Value {
-			// Shadow the loop variable to avoid aliasing
-			value := value
 			valueMap[valueKey] = *value.DeepCopy()
 		}
 		destination.Value = valueMap

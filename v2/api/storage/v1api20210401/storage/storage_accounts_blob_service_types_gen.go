@@ -1156,8 +1156,6 @@ func (rules *CorsRules) AssignProperties_From_CorsRules(source *storage.CorsRule
 	if source.CorsRules != nil {
 		corsRuleList := make([]CorsRule, len(source.CorsRules))
 		for corsRuleIndex, corsRuleItem := range source.CorsRules {
-			// Shadow the loop variable to avoid aliasing
-			corsRuleItem := corsRuleItem
 			var corsRule CorsRule
 			err := corsRule.AssignProperties_From_CorsRule(&corsRuleItem)
 			if err != nil {
@@ -1199,8 +1197,6 @@ func (rules *CorsRules) AssignProperties_To_CorsRules(destination *storage.CorsR
 	if rules.CorsRules != nil {
 		corsRuleList := make([]storage.CorsRule, len(rules.CorsRules))
 		for corsRuleIndex, corsRuleItem := range rules.CorsRules {
-			// Shadow the loop variable to avoid aliasing
-			corsRuleItem := corsRuleItem
 			var corsRule storage.CorsRule
 			err := corsRuleItem.AssignProperties_To_CorsRule(&corsRule)
 			if err != nil {
@@ -1249,8 +1245,6 @@ func (rules *CorsRules_STATUS) AssignProperties_From_CorsRules_STATUS(source *st
 	if source.CorsRules != nil {
 		corsRuleList := make([]CorsRule_STATUS, len(source.CorsRules))
 		for corsRuleIndex, corsRuleItem := range source.CorsRules {
-			// Shadow the loop variable to avoid aliasing
-			corsRuleItem := corsRuleItem
 			var corsRule CorsRule_STATUS
 			err := corsRule.AssignProperties_From_CorsRule_STATUS(&corsRuleItem)
 			if err != nil {
@@ -1292,8 +1286,6 @@ func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination 
 	if rules.CorsRules != nil {
 		corsRuleList := make([]storage.CorsRule_STATUS, len(rules.CorsRules))
 		for corsRuleIndex, corsRuleItem := range rules.CorsRules {
-			// Shadow the loop variable to avoid aliasing
-			corsRuleItem := corsRuleItem
 			var corsRule storage.CorsRule_STATUS
 			err := corsRuleItem.AssignProperties_To_CorsRule_STATUS(&corsRule)
 			if err != nil {
@@ -1905,8 +1897,6 @@ func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_From_St
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1923,8 +1913,6 @@ func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_From_St
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1966,8 +1954,6 @@ func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_To_Stor
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1984,8 +1970,6 @@ func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_To_Stor
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

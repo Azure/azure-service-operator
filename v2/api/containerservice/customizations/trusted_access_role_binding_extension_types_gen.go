@@ -10,6 +10,8 @@ import (
 	v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
 	v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *TrustedAccessRoleBindingExtension) GetExtendedResources() []gen
 		&v20240402p.TrustedAccessRoleBinding{},
 		&v20240402ps.TrustedAccessRoleBinding{},
 		&v20240901.TrustedAccessRoleBinding{},
-		&v20240901s.TrustedAccessRoleBinding{}}
+		&v20240901s.TrustedAccessRoleBinding{},
+		&v20250801.TrustedAccessRoleBinding{},
+		&v20250801s.TrustedAccessRoleBinding{}}
 }

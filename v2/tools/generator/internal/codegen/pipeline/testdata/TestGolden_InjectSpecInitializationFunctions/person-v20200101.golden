@@ -51,8 +51,6 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 	if source.Addresses != nil {
 		addressList := make([]Address_Spec, len(source.Addresses))
 		for addressIndex, addressItem := range source.Addresses {
-			// Shadow the loop variable to avoid aliasing
-			addressItem := addressItem
 			var address Address_Spec
 			err := address.Initialize_From_Address_STATUS(&addressItem)
 			if err != nil {
@@ -78,8 +76,6 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 	if source.Locations != nil {
 		locationList := make([]Address_Spec, len(source.Locations))
 		for locationIndex, locationItem := range source.Locations {
-			// Shadow the loop variable to avoid aliasing
-			locationItem := locationItem
 			var location Address_Spec
 			err := location.Initialize_From_Location_STATUS(&locationItem)
 			if err != nil {

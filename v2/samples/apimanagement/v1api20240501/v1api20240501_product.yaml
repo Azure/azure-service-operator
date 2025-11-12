@@ -1,0 +1,11 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: Product
+metadata:
+  name: sampleproduct
+  namespace: default
+spec:
+  displayName: "Sample Product"
+  description: "A sample product for demonstration"
+  subscriptionRequired: false
+  owner:
+    name: sampleapimservice

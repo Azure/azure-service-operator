@@ -48,7 +48,7 @@ if __name__ == '__main__':
     regex = re.compile('({}|{})'.format(msftRegex, capiRegex), re.MULTILINE | re.IGNORECASE)
     failed_files = []
 
-    print_colorful('==> Checking copyright headers <==')
+    print_colorful(f'==> Checking copyright headers at {os.getcwd()} <==')
 
     for root, subdirs, files in os.walk('.'):
         for filename in files:

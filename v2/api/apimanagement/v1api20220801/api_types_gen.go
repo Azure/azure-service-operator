@@ -49,22 +49,36 @@ var _ conversion.Convertible = &Api{}
 
 // ConvertFrom populates our Api from the provided hub Api
 func (api *Api) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Api)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Api but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Api
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return api.AssignProperties_From_Api(source)
+	err = api.AssignProperties_From_Api(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to api")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Api from our Api
 func (api *Api) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Api)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Api but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Api
+	err := api.AssignProperties_To_Api(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from api")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return api.AssignProperties_To_Api(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Api{}
@@ -85,17 +99,6 @@ func (api *Api) SecretDestinationExpressions() []*core.DestinationExpression {
 		return nil
 	}
 	return api.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Api{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (api *Api) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Api_STATUS); ok {
-		return api.Spec.Initialize_From_Api_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Api_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Api{}
@@ -1002,8 +1005,6 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 	if source.Protocols != nil {
 		protocolList := make([]ApiCreateOrUpdateProperties_Protocols, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = genruntime.ToEnum(protocolItem, apiCreateOrUpdateProperties_Protocols_Values)
 		}
 		api.Protocols = protocolList
@@ -1218,8 +1219,6 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 	if api.Protocols != nil {
 		protocolList := make([]string, len(api.Protocols))
 		for protocolIndex, protocolItem := range api.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = string(protocolItem)
 		}
 		destination.Protocols = protocolList
@@ -1297,154 +1296,6 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Api_STATUS populates our Api_Spec from the provided source Api_STATUS
-func (api *Api_Spec) Initialize_From_Api_STATUS(source *Api_STATUS) error {
-
-	// APIVersion
-	api.APIVersion = genruntime.ClonePointerToString(source.APIVersion)
-
-	// ApiRevision
-	api.ApiRevision = genruntime.ClonePointerToString(source.ApiRevision)
-
-	// ApiRevisionDescription
-	api.ApiRevisionDescription = genruntime.ClonePointerToString(source.ApiRevisionDescription)
-
-	// ApiVersionDescription
-	api.ApiVersionDescription = genruntime.ClonePointerToString(source.ApiVersionDescription)
-
-	// ApiVersionSet
-	if source.ApiVersionSet != nil {
-		var apiVersionSet ApiVersionSetContractDetails
-		err := apiVersionSet.Initialize_From_ApiVersionSetContractDetails_STATUS(source.ApiVersionSet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiVersionSetContractDetails_STATUS() to populate field ApiVersionSet")
-		}
-		api.ApiVersionSet = &apiVersionSet
-	} else {
-		api.ApiVersionSet = nil
-	}
-
-	// ApiVersionSetReference
-	if source.ApiVersionSetId != nil {
-		apiVersionSetReference := genruntime.CreateResourceReferenceFromARMID(*source.ApiVersionSetId)
-		api.ApiVersionSetReference = &apiVersionSetReference
-	} else {
-		api.ApiVersionSetReference = nil
-	}
-
-	// AuthenticationSettings
-	if source.AuthenticationSettings != nil {
-		var authenticationSetting AuthenticationSettingsContract
-		err := authenticationSetting.Initialize_From_AuthenticationSettingsContract_STATUS(source.AuthenticationSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AuthenticationSettingsContract_STATUS() to populate field AuthenticationSettings")
-		}
-		api.AuthenticationSettings = &authenticationSetting
-	} else {
-		api.AuthenticationSettings = nil
-	}
-
-	// Contact
-	if source.Contact != nil {
-		var contact ApiContactInformation
-		err := contact.Initialize_From_ApiContactInformation_STATUS(source.Contact)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiContactInformation_STATUS() to populate field Contact")
-		}
-		api.Contact = &contact
-	} else {
-		api.Contact = nil
-	}
-
-	// Description
-	api.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisplayName
-	api.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
-
-	// IsCurrent
-	if source.IsCurrent != nil {
-		isCurrent := *source.IsCurrent
-		api.IsCurrent = &isCurrent
-	} else {
-		api.IsCurrent = nil
-	}
-
-	// License
-	if source.License != nil {
-		var license ApiLicenseInformation
-		err := license.Initialize_From_ApiLicenseInformation_STATUS(source.License)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiLicenseInformation_STATUS() to populate field License")
-		}
-		api.License = &license
-	} else {
-		api.License = nil
-	}
-
-	// Path
-	api.Path = genruntime.ClonePointerToString(source.Path)
-
-	// Protocols
-	if source.Protocols != nil {
-		protocolList := make([]ApiCreateOrUpdateProperties_Protocols, len(source.Protocols))
-		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
-			protocol := genruntime.ToEnum(string(protocolItem), apiCreateOrUpdateProperties_Protocols_Values)
-			protocolList[protocolIndex] = protocol
-		}
-		api.Protocols = protocolList
-	} else {
-		api.Protocols = nil
-	}
-
-	// ServiceUrl
-	api.ServiceUrl = genruntime.ClonePointerToString(source.ServiceUrl)
-
-	// SourceApiReference
-	if source.SourceApiId != nil {
-		sourceApiReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceApiId)
-		api.SourceApiReference = &sourceApiReference
-	} else {
-		api.SourceApiReference = nil
-	}
-
-	// SubscriptionKeyParameterNames
-	if source.SubscriptionKeyParameterNames != nil {
-		var subscriptionKeyParameterName SubscriptionKeyParameterNamesContract
-		err := subscriptionKeyParameterName.Initialize_From_SubscriptionKeyParameterNamesContract_STATUS(source.SubscriptionKeyParameterNames)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubscriptionKeyParameterNamesContract_STATUS() to populate field SubscriptionKeyParameterNames")
-		}
-		api.SubscriptionKeyParameterNames = &subscriptionKeyParameterName
-	} else {
-		api.SubscriptionKeyParameterNames = nil
-	}
-
-	// SubscriptionRequired
-	if source.SubscriptionRequired != nil {
-		subscriptionRequired := *source.SubscriptionRequired
-		api.SubscriptionRequired = &subscriptionRequired
-	} else {
-		api.SubscriptionRequired = nil
-	}
-
-	// TermsOfServiceUrl
-	api.TermsOfServiceUrl = genruntime.ClonePointerToString(source.TermsOfServiceUrl)
-
-	// Type
-	if source.PropertiesType != nil {
-		typeVar := genruntime.ToEnum(string(*source.PropertiesType), apiCreateOrUpdateProperties_Type_Values)
-		api.Type = &typeVar
-	} else {
-		api.Type = nil
 	}
 
 	// No error
@@ -1957,8 +1808,6 @@ func (api *Api_STATUS) AssignProperties_From_Api_STATUS(source *storage.Api_STAT
 	if source.Protocols != nil {
 		protocolList := make([]ApiContractProperties_Protocols_STATUS, len(source.Protocols))
 		for protocolIndex, protocolItem := range source.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = genruntime.ToEnum(protocolItem, apiContractProperties_Protocols_STATUS_Values)
 		}
 		api.Protocols = protocolList
@@ -2116,8 +1965,6 @@ func (api *Api_STATUS) AssignProperties_To_Api_STATUS(destination *storage.Api_S
 	if api.Protocols != nil {
 		protocolList := make([]string, len(api.Protocols))
 		for protocolIndex, protocolItem := range api.Protocols {
-			// Shadow the loop variable to avoid aliasing
-			protocolItem := protocolItem
 			protocolList[protocolIndex] = string(protocolItem)
 		}
 		destination.Protocols = protocolList
@@ -2284,22 +2131,6 @@ func (information *ApiContactInformation) AssignProperties_To_ApiContactInformat
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApiContactInformation_STATUS populates our ApiContactInformation from the provided source ApiContactInformation_STATUS
-func (information *ApiContactInformation) Initialize_From_ApiContactInformation_STATUS(source *ApiContactInformation_STATUS) error {
-
-	// Email
-	information.Email = genruntime.ClonePointerToString(source.Email)
-
-	// Name
-	information.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Url
-	information.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -2717,19 +2548,6 @@ func (information *ApiLicenseInformation) AssignProperties_To_ApiLicenseInformat
 	return nil
 }
 
-// Initialize_From_ApiLicenseInformation_STATUS populates our ApiLicenseInformation from the provided source ApiLicenseInformation_STATUS
-func (information *ApiLicenseInformation) Initialize_From_ApiLicenseInformation_STATUS(source *ApiLicenseInformation_STATUS) error {
-
-	// Name
-	information.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Url
-	information.Url = genruntime.ClonePointerToString(source.Url)
-
-	// No error
-	return nil
-}
-
 // API license information
 type ApiLicenseInformation_STATUS struct {
 	// Name: The license name used for the API
@@ -2820,8 +2638,6 @@ func (operator *ApiOperatorSpec) AssignProperties_From_ApiOperatorSpec(source *s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2838,8 +2654,6 @@ func (operator *ApiOperatorSpec) AssignProperties_From_ApiOperatorSpec(source *s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -2865,8 +2679,6 @@ func (operator *ApiOperatorSpec) AssignProperties_To_ApiOperatorSpec(destination
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -2883,8 +2695,6 @@ func (operator *ApiOperatorSpec) AssignProperties_To_ApiOperatorSpec(destination
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3106,41 +2916,6 @@ func (details *ApiVersionSetContractDetails) AssignProperties_To_ApiVersionSetCo
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApiVersionSetContractDetails_STATUS populates our ApiVersionSetContractDetails from the provided source ApiVersionSetContractDetails_STATUS
-func (details *ApiVersionSetContractDetails) Initialize_From_ApiVersionSetContractDetails_STATUS(source *ApiVersionSetContractDetails_STATUS) error {
-
-	// Description
-	details.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Name
-	details.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		details.Reference = &reference
-	} else {
-		details.Reference = nil
-	}
-
-	// VersionHeaderName
-	details.VersionHeaderName = genruntime.ClonePointerToString(source.VersionHeaderName)
-
-	// VersionQueryName
-	details.VersionQueryName = genruntime.ClonePointerToString(source.VersionQueryName)
-
-	// VersioningScheme
-	if source.VersioningScheme != nil {
-		versioningScheme := genruntime.ToEnum(string(*source.VersioningScheme), apiVersionSetContractDetails_VersioningScheme_Values)
-		details.VersioningScheme = &versioningScheme
-	} else {
-		details.VersioningScheme = nil
 	}
 
 	// No error
@@ -3435,8 +3210,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 	if source.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]OAuth2AuthenticationSettingsContract, len(source.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range source.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSetting.AssignProperties_From_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSettingItem)
 			if err != nil {
@@ -3465,8 +3238,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 	if source.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]OpenIdAuthenticationSettingsContract, len(source.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range source.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSetting.AssignProperties_From_OpenIdAuthenticationSettingsContract(&openidAuthenticationSettingItem)
 			if err != nil {
@@ -3504,8 +3275,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 	if contract.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]storage.OAuth2AuthenticationSettingsContract, len(contract.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range contract.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSetting)
 			if err != nil {
@@ -3534,8 +3303,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 	if contract.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]storage.OpenIdAuthenticationSettingsContract, len(contract.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range contract.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract(&openidAuthenticationSetting)
 			if err != nil {
@@ -3553,73 +3320,6 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AuthenticationSettingsContract_STATUS populates our AuthenticationSettingsContract from the provided source AuthenticationSettingsContract_STATUS
-func (contract *AuthenticationSettingsContract) Initialize_From_AuthenticationSettingsContract_STATUS(source *AuthenticationSettingsContract_STATUS) error {
-
-	// OAuth2
-	if source.OAuth2 != nil {
-		var oAuth2 OAuth2AuthenticationSettingsContract
-		err := oAuth2.Initialize_From_OAuth2AuthenticationSettingsContract_STATUS(source.OAuth2)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2")
-		}
-		contract.OAuth2 = &oAuth2
-	} else {
-		contract.OAuth2 = nil
-	}
-
-	// OAuth2AuthenticationSettings
-	if source.OAuth2AuthenticationSettings != nil {
-		oAuth2AuthenticationSettingList := make([]OAuth2AuthenticationSettingsContract, len(source.OAuth2AuthenticationSettings))
-		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range source.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
-			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract
-			err := oAuth2AuthenticationSetting.Initialize_From_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSettingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2AuthenticationSettings")
-			}
-			oAuth2AuthenticationSettingList[oAuth2AuthenticationSettingIndex] = oAuth2AuthenticationSetting
-		}
-		contract.OAuth2AuthenticationSettings = oAuth2AuthenticationSettingList
-	} else {
-		contract.OAuth2AuthenticationSettings = nil
-	}
-
-	// Openid
-	if source.Openid != nil {
-		var openid OpenIdAuthenticationSettingsContract
-		err := openid.Initialize_From_OpenIdAuthenticationSettingsContract_STATUS(source.Openid)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OpenIdAuthenticationSettingsContract_STATUS() to populate field Openid")
-		}
-		contract.Openid = &openid
-	} else {
-		contract.Openid = nil
-	}
-
-	// OpenidAuthenticationSettings
-	if source.OpenidAuthenticationSettings != nil {
-		openidAuthenticationSettingList := make([]OpenIdAuthenticationSettingsContract, len(source.OpenidAuthenticationSettings))
-		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range source.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
-			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract
-			err := openidAuthenticationSetting.Initialize_From_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSettingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_OpenIdAuthenticationSettingsContract_STATUS() to populate field OpenidAuthenticationSettings")
-			}
-			openidAuthenticationSettingList[openidAuthenticationSettingIndex] = openidAuthenticationSetting
-		}
-		contract.OpenidAuthenticationSettings = openidAuthenticationSettingList
-	} else {
-		contract.OpenidAuthenticationSettings = nil
 	}
 
 	// No error
@@ -3720,8 +3420,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 	if source.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]OAuth2AuthenticationSettingsContract_STATUS, len(source.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range source.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSetting.AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSettingItem)
 			if err != nil {
@@ -3750,8 +3448,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 	if source.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]OpenIdAuthenticationSettingsContract_STATUS, len(source.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range source.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSetting.AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSettingItem)
 			if err != nil {
@@ -3789,8 +3485,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 	if contract.OAuth2AuthenticationSettings != nil {
 		oAuth2AuthenticationSettingList := make([]storage.OAuth2AuthenticationSettingsContract_STATUS, len(contract.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range contract.OAuth2AuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
 			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSetting)
 			if err != nil {
@@ -3819,8 +3513,6 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 	if contract.OpenidAuthenticationSettings != nil {
 		openidAuthenticationSettingList := make([]storage.OpenIdAuthenticationSettingsContract_STATUS, len(contract.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range contract.OpenidAuthenticationSettings {
-			// Shadow the loop variable to avoid aliasing
-			openidAuthenticationSettingItem := openidAuthenticationSettingItem
 			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSetting)
 			if err != nil {
@@ -3934,19 +3626,6 @@ func (contract *SubscriptionKeyParameterNamesContract) AssignProperties_To_Subsc
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubscriptionKeyParameterNamesContract_STATUS populates our SubscriptionKeyParameterNamesContract from the provided source SubscriptionKeyParameterNamesContract_STATUS
-func (contract *SubscriptionKeyParameterNamesContract) Initialize_From_SubscriptionKeyParameterNamesContract_STATUS(source *SubscriptionKeyParameterNamesContract_STATUS) error {
-
-	// Header
-	contract.Header = genruntime.ClonePointerToString(source.Header)
-
-	// Query
-	contract.Query = genruntime.ClonePointerToString(source.Query)
 
 	// No error
 	return nil
@@ -4152,19 +3831,6 @@ func (contract *OAuth2AuthenticationSettingsContract) AssignProperties_To_OAuth2
 	return nil
 }
 
-// Initialize_From_OAuth2AuthenticationSettingsContract_STATUS populates our OAuth2AuthenticationSettingsContract from the provided source OAuth2AuthenticationSettingsContract_STATUS
-func (contract *OAuth2AuthenticationSettingsContract) Initialize_From_OAuth2AuthenticationSettingsContract_STATUS(source *OAuth2AuthenticationSettingsContract_STATUS) error {
-
-	// AuthorizationServerId
-	contract.AuthorizationServerId = genruntime.ClonePointerToString(source.AuthorizationServerId)
-
-	// Scope
-	contract.Scope = genruntime.ClonePointerToString(source.Scope)
-
-	// No error
-	return nil
-}
-
 // API OAuth2 Authentication settings details.
 type OAuth2AuthenticationSettingsContract_STATUS struct {
 	// AuthorizationServerId: OAuth authorization server identifier.
@@ -4308,8 +3974,6 @@ func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_From_Open
 	if source.BearerTokenSendingMethods != nil {
 		bearerTokenSendingMethodList := make([]BearerTokenSendingMethodsContract, len(source.BearerTokenSendingMethods))
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range source.BearerTokenSendingMethods {
-			// Shadow the loop variable to avoid aliasing
-			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
 			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = genruntime.ToEnum(bearerTokenSendingMethodItem, bearerTokenSendingMethodsContract_Values)
 		}
 		contract.BearerTokenSendingMethods = bearerTokenSendingMethodList
@@ -4333,8 +3997,6 @@ func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_To_OpenId
 	if contract.BearerTokenSendingMethods != nil {
 		bearerTokenSendingMethodList := make([]string, len(contract.BearerTokenSendingMethods))
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range contract.BearerTokenSendingMethods {
-			// Shadow the loop variable to avoid aliasing
-			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
 			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = string(bearerTokenSendingMethodItem)
 		}
 		destination.BearerTokenSendingMethods = bearerTokenSendingMethodList
@@ -4351,30 +4013,6 @@ func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_To_OpenId
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_OpenIdAuthenticationSettingsContract_STATUS populates our OpenIdAuthenticationSettingsContract from the provided source OpenIdAuthenticationSettingsContract_STATUS
-func (contract *OpenIdAuthenticationSettingsContract) Initialize_From_OpenIdAuthenticationSettingsContract_STATUS(source *OpenIdAuthenticationSettingsContract_STATUS) error {
-
-	// BearerTokenSendingMethods
-	if source.BearerTokenSendingMethods != nil {
-		bearerTokenSendingMethodList := make([]BearerTokenSendingMethodsContract, len(source.BearerTokenSendingMethods))
-		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range source.BearerTokenSendingMethods {
-			// Shadow the loop variable to avoid aliasing
-			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
-			bearerTokenSendingMethod := genruntime.ToEnum(string(bearerTokenSendingMethodItem), bearerTokenSendingMethodsContract_Values)
-			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = bearerTokenSendingMethod
-		}
-		contract.BearerTokenSendingMethods = bearerTokenSendingMethodList
-	} else {
-		contract.BearerTokenSendingMethods = nil
-	}
-
-	// OpenidProviderId
-	contract.OpenidProviderId = genruntime.ClonePointerToString(source.OpenidProviderId)
 
 	// No error
 	return nil
@@ -4427,8 +4065,6 @@ func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_Fr
 	if source.BearerTokenSendingMethods != nil {
 		bearerTokenSendingMethodList := make([]BearerTokenSendingMethodsContract_STATUS, len(source.BearerTokenSendingMethods))
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range source.BearerTokenSendingMethods {
-			// Shadow the loop variable to avoid aliasing
-			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
 			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = genruntime.ToEnum(bearerTokenSendingMethodItem, bearerTokenSendingMethodsContract_STATUS_Values)
 		}
 		contract.BearerTokenSendingMethods = bearerTokenSendingMethodList
@@ -4452,8 +4088,6 @@ func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_To
 	if contract.BearerTokenSendingMethods != nil {
 		bearerTokenSendingMethodList := make([]string, len(contract.BearerTokenSendingMethods))
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range contract.BearerTokenSendingMethods {
-			// Shadow the loop variable to avoid aliasing
-			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
 			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = string(bearerTokenSendingMethodItem)
 		}
 		destination.BearerTokenSendingMethods = bearerTokenSendingMethodList

@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ApiVersionSet{}
 
 // ConvertFrom populates our ApiVersionSet from the provided hub ApiVersionSet
 func (versionSet *ApiVersionSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ApiVersionSet)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ApiVersionSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ApiVersionSet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return versionSet.AssignProperties_From_ApiVersionSet(source)
+	err = versionSet.AssignProperties_From_ApiVersionSet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to versionSet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ApiVersionSet from our ApiVersionSet
 func (versionSet *ApiVersionSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ApiVersionSet)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ApiVersionSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ApiVersionSet
+	err := versionSet.AssignProperties_To_ApiVersionSet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from versionSet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return versionSet.AssignProperties_To_ApiVersionSet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ApiVersionSet{}
@@ -648,8 +661,6 @@ func (operator *ApiVersionSetOperatorSpec) AssignProperties_From_ApiVersionSetOp
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -666,8 +677,6 @@ func (operator *ApiVersionSetOperatorSpec) AssignProperties_From_ApiVersionSetOp
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -709,8 +718,6 @@ func (operator *ApiVersionSetOperatorSpec) AssignProperties_To_ApiVersionSetOper
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -727,8 +734,6 @@ func (operator *ApiVersionSetOperatorSpec) AssignProperties_To_ApiVersionSetOper
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

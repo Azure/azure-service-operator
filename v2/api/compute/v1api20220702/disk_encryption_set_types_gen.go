@@ -1044,8 +1044,6 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 	if source.PreviousKeys != nil {
 		previousKeyList := make([]KeyForDiskEncryptionSet_STATUS, len(source.PreviousKeys))
 		for previousKeyIndex, previousKeyItem := range source.PreviousKeys {
-			// Shadow the loop variable to avoid aliasing
-			previousKeyItem := previousKeyItem
 			var previousKey KeyForDiskEncryptionSet_STATUS
 			err := previousKey.AssignProperties_From_KeyForDiskEncryptionSet_STATUS(&previousKeyItem)
 			if err != nil {
@@ -1150,8 +1148,6 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 	if encryptionSet.PreviousKeys != nil {
 		previousKeyList := make([]storage.KeyForDiskEncryptionSet_STATUS, len(encryptionSet.PreviousKeys))
 		for previousKeyIndex, previousKeyItem := range encryptionSet.PreviousKeys {
-			// Shadow the loop variable to avoid aliasing
-			previousKeyItem := previousKeyItem
 			var previousKey storage.KeyForDiskEncryptionSet_STATUS
 			err := previousKeyItem.AssignProperties_To_KeyForDiskEncryptionSet_STATUS(&previousKey)
 			if err != nil {
@@ -1277,8 +1273,6 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 	if source.Details != nil {
 		detailList := make([]ApiErrorBase_STATUS, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detail ApiErrorBase_STATUS
 			err := detail.AssignProperties_From_ApiErrorBase_STATUS(&detailItem)
 			if err != nil {
@@ -1325,8 +1319,6 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 	if error.Details != nil {
 		detailList := make([]storage.ApiErrorBase_STATUS, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
 			var detail storage.ApiErrorBase_STATUS
 			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {
@@ -1384,8 +1376,6 @@ func (operator *DiskEncryptionSetOperatorSpec) AssignProperties_From_DiskEncrypt
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1402,8 +1392,6 @@ func (operator *DiskEncryptionSetOperatorSpec) AssignProperties_From_DiskEncrypt
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1429,8 +1417,6 @@ func (operator *DiskEncryptionSetOperatorSpec) AssignProperties_To_DiskEncryptio
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -1447,8 +1433,6 @@ func (operator *DiskEncryptionSetOperatorSpec) AssignProperties_To_DiskEncryptio
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -1591,8 +1575,6 @@ func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdenti
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -1626,8 +1608,6 @@ func (identity *EncryptionSetIdentity) AssignProperties_To_EncryptionSetIdentity
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -1746,8 +1726,6 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSe
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentitiesValue_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentitiesValue_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentitiesValue_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -1787,8 +1765,6 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetI
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentitiesValue_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentitiesValue_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentitiesValue_STATUS(&userAssignedIdentity)
 			if err != nil {

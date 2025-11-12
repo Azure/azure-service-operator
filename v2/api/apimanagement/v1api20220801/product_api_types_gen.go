@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ProductApi{}
 
 // ConvertFrom populates our ProductApi from the provided hub ProductApi
 func (productApi *ProductApi) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ProductApi)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ProductApi
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return productApi.AssignProperties_From_ProductApi(source)
+	err = productApi.AssignProperties_From_ProductApi(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to productApi")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ProductApi from our ProductApi
 func (productApi *ProductApi) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ProductApi)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ProductApi
+	err := productApi.AssignProperties_To_ProductApi(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from productApi")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return productApi.AssignProperties_To_ProductApi(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ProductApi{}
@@ -87,17 +101,6 @@ func (productApi *ProductApi) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return productApi.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ProductApi{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (productApi *ProductApi) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ProductApi_STATUS); ok {
-		return productApi.Spec.Initialize_From_ProductApi_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ProductApi_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ProductApi{}
@@ -428,13 +431,6 @@ func (productApi *ProductApi_Spec) AssignProperties_To_ProductApi_Spec(destinati
 	return nil
 }
 
-// Initialize_From_ProductApi_STATUS populates our ProductApi_Spec from the provided source ProductApi_STATUS
-func (productApi *ProductApi_Spec) Initialize_From_ProductApi_STATUS(source *ProductApi_STATUS) error {
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (productApi *ProductApi_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -563,8 +559,6 @@ func (operator *ProductApiOperatorSpec) AssignProperties_From_ProductApiOperator
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -581,8 +575,6 @@ func (operator *ProductApiOperatorSpec) AssignProperties_From_ProductApiOperator
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -608,8 +600,6 @@ func (operator *ProductApiOperatorSpec) AssignProperties_To_ProductApiOperatorSp
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -626,8 +616,6 @@ func (operator *ProductApiOperatorSpec) AssignProperties_To_ProductApiOperatorSp
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression

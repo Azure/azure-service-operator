@@ -719,8 +719,6 @@ func (signalR *SignalR_Spec) AssignProperties_From_SignalR_Spec(source *storage.
 	if source.Features != nil {
 		featureList := make([]SignalRFeature, len(source.Features))
 		for featureIndex, featureItem := range source.Features {
-			// Shadow the loop variable to avoid aliasing
-			featureItem := featureItem
 			var feature SignalRFeature
 			err := feature.AssignProperties_From_SignalRFeature(&featureItem)
 			if err != nil {
@@ -887,8 +885,6 @@ func (signalR *SignalR_Spec) AssignProperties_To_SignalR_Spec(destination *stora
 	if signalR.Features != nil {
 		featureList := make([]storage.SignalRFeature, len(signalR.Features))
 		for featureIndex, featureItem := range signalR.Features {
-			// Shadow the loop variable to avoid aliasing
-			featureItem := featureItem
 			var feature storage.SignalRFeature
 			err := featureItem.AssignProperties_To_SignalRFeature(&feature)
 			if err != nil {
@@ -1513,8 +1509,6 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *stor
 	if source.Features != nil {
 		featureList := make([]SignalRFeature_STATUS, len(source.Features))
 		for featureIndex, featureItem := range source.Features {
-			// Shadow the loop variable to avoid aliasing
-			featureItem := featureItem
 			var feature SignalRFeature_STATUS
 			err := feature.AssignProperties_From_SignalRFeature_STATUS(&featureItem)
 			if err != nil {
@@ -1579,8 +1573,6 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *stor
 	if source.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
@@ -1627,8 +1619,6 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *stor
 	if source.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded, len(source.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded
 			err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(&sharedPrivateLinkResourceItem)
 			if err != nil {
@@ -1745,8 +1735,6 @@ func (signalR *SignalR_STATUS) AssignProperties_To_SignalR_STATUS(destination *s
 	if signalR.Features != nil {
 		featureList := make([]storage.SignalRFeature_STATUS, len(signalR.Features))
 		for featureIndex, featureItem := range signalR.Features {
-			// Shadow the loop variable to avoid aliasing
-			featureItem := featureItem
 			var feature storage.SignalRFeature_STATUS
 			err := featureItem.AssignProperties_To_SignalRFeature_STATUS(&feature)
 			if err != nil {
@@ -1810,8 +1798,6 @@ func (signalR *SignalR_STATUS) AssignProperties_To_SignalR_STATUS(destination *s
 	if signalR.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded, len(signalR.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range signalR.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
@@ -1857,8 +1843,6 @@ func (signalR *SignalR_STATUS) AssignProperties_To_SignalR_STATUS(destination *s
 	if signalR.SharedPrivateLinkResources != nil {
 		sharedPrivateLinkResourceList := make([]storage.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded, len(signalR.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range signalR.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
 			var sharedPrivateLinkResource storage.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(&sharedPrivateLinkResource)
 			if err != nil {
@@ -2020,8 +2004,6 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *s
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
@@ -2055,8 +2037,6 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
@@ -2170,8 +2150,6 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 	if source.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]UserAssignedIdentityProperty_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentityProperty_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityProperty_STATUS(&userAssignedIdentityValue)
 			if err != nil {
@@ -2211,8 +2189,6 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 	if identity.UserAssignedIdentities != nil {
 		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentityProperty_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity storage.UserAssignedIdentityProperty_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentityProperty_STATUS(&userAssignedIdentity)
 			if err != nil {
@@ -2382,8 +2358,6 @@ func (configuration *ResourceLogConfiguration) AssignProperties_From_ResourceLog
 	if source.Categories != nil {
 		categoryList := make([]ResourceLogCategory, len(source.Categories))
 		for categoryIndex, categoryItem := range source.Categories {
-			// Shadow the loop variable to avoid aliasing
-			categoryItem := categoryItem
 			var category ResourceLogCategory
 			err := category.AssignProperties_From_ResourceLogCategory(&categoryItem)
 			if err != nil {
@@ -2409,8 +2383,6 @@ func (configuration *ResourceLogConfiguration) AssignProperties_To_ResourceLogCo
 	if configuration.Categories != nil {
 		categoryList := make([]storage.ResourceLogCategory, len(configuration.Categories))
 		for categoryIndex, categoryItem := range configuration.Categories {
-			// Shadow the loop variable to avoid aliasing
-			categoryItem := categoryItem
 			var category storage.ResourceLogCategory
 			err := categoryItem.AssignProperties_To_ResourceLogCategory(&category)
 			if err != nil {
@@ -2475,8 +2447,6 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_From_Reso
 	if source.Categories != nil {
 		categoryList := make([]ResourceLogCategory_STATUS, len(source.Categories))
 		for categoryIndex, categoryItem := range source.Categories {
-			// Shadow the loop variable to avoid aliasing
-			categoryItem := categoryItem
 			var category ResourceLogCategory_STATUS
 			err := category.AssignProperties_From_ResourceLogCategory_STATUS(&categoryItem)
 			if err != nil {
@@ -2502,8 +2472,6 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_To_Resour
 	if configuration.Categories != nil {
 		categoryList := make([]storage.ResourceLogCategory_STATUS, len(configuration.Categories))
 		for categoryIndex, categoryItem := range configuration.Categories {
-			// Shadow the loop variable to avoid aliasing
-			categoryItem := categoryItem
 			var category storage.ResourceLogCategory_STATUS
 			err := categoryItem.AssignProperties_To_ResourceLogCategory_STATUS(&category)
 			if err != nil {
@@ -2860,8 +2828,6 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_From_ServerlessUpst
 	if source.Templates != nil {
 		templateList := make([]UpstreamTemplate, len(source.Templates))
 		for templateIndex, templateItem := range source.Templates {
-			// Shadow the loop variable to avoid aliasing
-			templateItem := templateItem
 			var template UpstreamTemplate
 			err := template.AssignProperties_From_UpstreamTemplate(&templateItem)
 			if err != nil {
@@ -2887,8 +2853,6 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_To_ServerlessUpstre
 	if settings.Templates != nil {
 		templateList := make([]storage.UpstreamTemplate, len(settings.Templates))
 		for templateIndex, templateItem := range settings.Templates {
-			// Shadow the loop variable to avoid aliasing
-			templateItem := templateItem
 			var template storage.UpstreamTemplate
 			err := templateItem.AssignProperties_To_UpstreamTemplate(&template)
 			if err != nil {
@@ -2953,8 +2917,6 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_From_Serverl
 	if source.Templates != nil {
 		templateList := make([]UpstreamTemplate_STATUS, len(source.Templates))
 		for templateIndex, templateItem := range source.Templates {
-			// Shadow the loop variable to avoid aliasing
-			templateItem := templateItem
 			var template UpstreamTemplate_STATUS
 			err := template.AssignProperties_From_UpstreamTemplate_STATUS(&templateItem)
 			if err != nil {
@@ -2980,8 +2942,6 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_To_Serverles
 	if settings.Templates != nil {
 		templateList := make([]storage.UpstreamTemplate_STATUS, len(settings.Templates))
 		for templateIndex, templateItem := range settings.Templates {
-			// Shadow the loop variable to avoid aliasing
-			templateItem := templateItem
 			var template storage.UpstreamTemplate_STATUS
 			err := templateItem.AssignProperties_To_UpstreamTemplate_STATUS(&template)
 			if err != nil {
@@ -3599,8 +3559,6 @@ func (acLs *SignalRNetworkACLs) AssignProperties_From_SignalRNetworkACLs(source 
 	if source.PrivateEndpoints != nil {
 		privateEndpointList := make([]PrivateEndpointACL, len(source.PrivateEndpoints))
 		for privateEndpointIndex, privateEndpointItem := range source.PrivateEndpoints {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointItem := privateEndpointItem
 			var privateEndpoint PrivateEndpointACL
 			err := privateEndpoint.AssignProperties_From_PrivateEndpointACL(&privateEndpointItem)
 			if err != nil {
@@ -3646,8 +3604,6 @@ func (acLs *SignalRNetworkACLs) AssignProperties_To_SignalRNetworkACLs(destinati
 	if acLs.PrivateEndpoints != nil {
 		privateEndpointList := make([]storage.PrivateEndpointACL, len(acLs.PrivateEndpoints))
 		for privateEndpointIndex, privateEndpointItem := range acLs.PrivateEndpoints {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointItem := privateEndpointItem
 			var privateEndpoint storage.PrivateEndpointACL
 			err := privateEndpointItem.AssignProperties_To_PrivateEndpointACL(&privateEndpoint)
 			if err != nil {
@@ -3758,8 +3714,6 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_From_SignalRNetworkACLs_
 	if source.PrivateEndpoints != nil {
 		privateEndpointList := make([]PrivateEndpointACL_STATUS, len(source.PrivateEndpoints))
 		for privateEndpointIndex, privateEndpointItem := range source.PrivateEndpoints {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointItem := privateEndpointItem
 			var privateEndpoint PrivateEndpointACL_STATUS
 			err := privateEndpoint.AssignProperties_From_PrivateEndpointACL_STATUS(&privateEndpointItem)
 			if err != nil {
@@ -3805,8 +3759,6 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_To_SignalRNetworkACLs_ST
 	if acLs.PrivateEndpoints != nil {
 		privateEndpointList := make([]storage.PrivateEndpointACL_STATUS, len(acLs.PrivateEndpoints))
 		for privateEndpointIndex, privateEndpointItem := range acLs.PrivateEndpoints {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointItem := privateEndpointItem
 			var privateEndpoint storage.PrivateEndpointACL_STATUS
 			err := privateEndpointItem.AssignProperties_To_PrivateEndpointACL_STATUS(&privateEndpoint)
 			if err != nil {
@@ -3861,8 +3813,6 @@ func (operator *SignalROperatorSpec) AssignProperties_From_SignalROperatorSpec(s
 	if source.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3879,8 +3829,6 @@ func (operator *SignalROperatorSpec) AssignProperties_From_SignalROperatorSpec(s
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -3918,8 +3866,6 @@ func (operator *SignalROperatorSpec) AssignProperties_To_SignalROperatorSpec(des
 	if operator.ConfigMapExpressions != nil {
 		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
 		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			// Shadow the loop variable to avoid aliasing
-			configMapExpressionItem := configMapExpressionItem
 			if configMapExpressionItem != nil {
 				configMapExpression := *configMapExpressionItem.DeepCopy()
 				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
@@ -3936,8 +3882,6 @@ func (operator *SignalROperatorSpec) AssignProperties_To_SignalROperatorSpec(des
 	if operator.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
 		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			// Shadow the loop variable to avoid aliasing
-			secretExpressionItem := secretExpressionItem
 			if secretExpressionItem != nil {
 				secretExpression := *secretExpressionItem.DeepCopy()
 				secretExpressionList[secretExpressionIndex] = &secretExpression
@@ -4480,8 +4424,6 @@ func (networkACL *NetworkACL) AssignProperties_From_NetworkACL(source *storage.N
 	if source.Allow != nil {
 		allowList := make([]SignalRRequestType, len(source.Allow))
 		for allowIndex, allowItem := range source.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_Values)
 		}
 		networkACL.Allow = allowList
@@ -4493,8 +4435,6 @@ func (networkACL *NetworkACL) AssignProperties_From_NetworkACL(source *storage.N
 	if source.Deny != nil {
 		denyList := make([]SignalRRequestType, len(source.Deny))
 		for denyIndex, denyItem := range source.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_Values)
 		}
 		networkACL.Deny = denyList
@@ -4515,8 +4455,6 @@ func (networkACL *NetworkACL) AssignProperties_To_NetworkACL(destination *storag
 	if networkACL.Allow != nil {
 		allowList := make([]string, len(networkACL.Allow))
 		for allowIndex, allowItem := range networkACL.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = string(allowItem)
 		}
 		destination.Allow = allowList
@@ -4528,8 +4466,6 @@ func (networkACL *NetworkACL) AssignProperties_To_NetworkACL(destination *storag
 	if networkACL.Deny != nil {
 		denyList := make([]string, len(networkACL.Deny))
 		for denyIndex, denyItem := range networkACL.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = string(denyItem)
 		}
 		destination.Deny = denyList
@@ -4596,8 +4532,6 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_From_NetworkACL_STATUS(sou
 	if source.Allow != nil {
 		allowList := make([]SignalRRequestType_STATUS, len(source.Allow))
 		for allowIndex, allowItem := range source.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_STATUS_Values)
 		}
 		networkACL.Allow = allowList
@@ -4609,8 +4543,6 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_From_NetworkACL_STATUS(sou
 	if source.Deny != nil {
 		denyList := make([]SignalRRequestType_STATUS, len(source.Deny))
 		for denyIndex, denyItem := range source.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_STATUS_Values)
 		}
 		networkACL.Deny = denyList
@@ -4631,8 +4563,6 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_To_NetworkACL_STATUS(desti
 	if networkACL.Allow != nil {
 		allowList := make([]string, len(networkACL.Allow))
 		for allowIndex, allowItem := range networkACL.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = string(allowItem)
 		}
 		destination.Allow = allowList
@@ -4644,8 +4574,6 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_To_NetworkACL_STATUS(desti
 	if networkACL.Deny != nil {
 		denyList := make([]string, len(networkACL.Deny))
 		for denyIndex, denyItem := range networkACL.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = string(denyItem)
 		}
 		destination.Deny = denyList
@@ -4751,8 +4679,6 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_From_PrivateEndpointACL(
 	if source.Allow != nil {
 		allowList := make([]SignalRRequestType, len(source.Allow))
 		for allowIndex, allowItem := range source.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_Values)
 		}
 		endpointACL.Allow = allowList
@@ -4764,8 +4690,6 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_From_PrivateEndpointACL(
 	if source.Deny != nil {
 		denyList := make([]SignalRRequestType, len(source.Deny))
 		for denyIndex, denyItem := range source.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_Values)
 		}
 		endpointACL.Deny = denyList
@@ -4789,8 +4713,6 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_To_PrivateEndpointACL(de
 	if endpointACL.Allow != nil {
 		allowList := make([]string, len(endpointACL.Allow))
 		for allowIndex, allowItem := range endpointACL.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = string(allowItem)
 		}
 		destination.Allow = allowList
@@ -4802,8 +4724,6 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_To_PrivateEndpointACL(de
 	if endpointACL.Deny != nil {
 		denyList := make([]string, len(endpointACL.Deny))
 		for denyIndex, denyItem := range endpointACL.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = string(denyItem)
 		}
 		destination.Deny = denyList
@@ -4882,8 +4802,6 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_From_PrivateEndpo
 	if source.Allow != nil {
 		allowList := make([]SignalRRequestType_STATUS, len(source.Allow))
 		for allowIndex, allowItem := range source.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_STATUS_Values)
 		}
 		endpointACL.Allow = allowList
@@ -4895,8 +4813,6 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_From_PrivateEndpo
 	if source.Deny != nil {
 		denyList := make([]SignalRRequestType_STATUS, len(source.Deny))
 		for denyIndex, denyItem := range source.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_STATUS_Values)
 		}
 		endpointACL.Deny = denyList
@@ -4920,8 +4836,6 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_To_PrivateEndpoin
 	if endpointACL.Allow != nil {
 		allowList := make([]string, len(endpointACL.Allow))
 		for allowIndex, allowItem := range endpointACL.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
 			allowList[allowIndex] = string(allowItem)
 		}
 		destination.Allow = allowList
@@ -4933,8 +4847,6 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_To_PrivateEndpoin
 	if endpointACL.Deny != nil {
 		denyList := make([]string, len(endpointACL.Deny))
 		for denyIndex, denyItem := range endpointACL.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
 			denyList[denyIndex] = string(denyItem)
 		}
 		destination.Deny = denyList
