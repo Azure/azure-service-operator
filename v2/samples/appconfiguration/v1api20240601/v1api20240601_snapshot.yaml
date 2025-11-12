@@ -13,7 +13,7 @@ spec:
     label: "production"
   - key: "MyApp:Features:*" 
     label: "production"
-  retentionPeriod: "P30D"
+  retentionPeriod: 2592000 # 30 days in seconds
   tags:
     Environment: "Production"
     Version: "v1.0.0"
