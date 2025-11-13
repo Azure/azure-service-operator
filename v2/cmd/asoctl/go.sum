@@ -220,6 +220,8 @@ github.com/microsoftgraph/msgraph-sdk-go v1.86.0 h1:kZSIJuRoP9BUD8xsWL6sk82ThsGh
 github.com/microsoftgraph/msgraph-sdk-go v1.86.0/go.mod h1:h2fx0PGMpIfVX8u5nWTVXmTKTYzIR/uOwZQnX4ixwcM=
 github.com/microsoftgraph/msgraph-sdk-go v1.87.0 h1:N+BSwQggS4aC/WsImtwJ+FijMUm4RisOvYQx7j5PGtk=
 github.com/microsoftgraph/msgraph-sdk-go v1.87.0/go.mod h1:UdZWxbZiFvjPug9DYayD90JNiHjXyNRA39lEpcy3Kms=
+github.com/microsoftgraph/msgraph-sdk-go v1.88.0 h1:X/QGbaWopnz+BNi2loQedf6A5RP6xFadyNOl6GYA41E=
+github.com/microsoftgraph/msgraph-sdk-go v1.88.0/go.mod h1:UdZWxbZiFvjPug9DYayD90JNiHjXyNRA39lEpcy3Kms=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.4.0 h1:0SrIoFl7TQnMRrsi5TFaeNe0q8KO5lRzRp4GSCCL2So=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.4.0/go.mod h1:A1iXs+vjsRjzANxF6UeKv2ACExG7fqTwHHbwh1FL+EE=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
