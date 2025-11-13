@@ -18,17 +18,22 @@ import (
 )
 
 // PreReconciliationChecker is implemented by resources that want to do extra checks before proceeding with
-// a full ARM reconcile.
+// a full ARM reconcile. This extension is invoked before sending any requests to Azure, giving resources
+// the ability to block reconciliation until prerequisites are met.
+// Implement this extension when:
+// - Parent/owner resources must reach certain states before child creation
+// - External dependencies must be satisfied before reconciling
+// - Reconciliation would fail due to known prerequisites not being met
 type PreReconciliationChecker interface {
 	// PreReconcileCheck does a pre-reconcile check to see if the resource is in a state that can be reconciled.
 	// ARM resources should implement this to avoid reconciliation attempts that cannot possibly succeed.
 	// Returns ProceedWithReconcile if the reconciliation should go ahead.
 	// Returns BlockReconcile and a human-readable reason if the reconciliation should be skipped.
 	// ctx is the current operation context.
-	// obj is the resource about to be reconciled. The resource's State will be freshly updated.
-	// owner is the owner of the resource about to be reconciled. The owner's State will be freshly updated. May be nil
+	// obj is the resource about to be reconciled. The resource's status will be freshly updated.
+	// owner is the owner of the resource about to be reconciled. The owner's status will be freshly updated. May be nil
 	// if the resource has no owner, or if it has been referenced via ARMID directly.
-	// kubeClient allows access to the cluster for any required queries.
+	// resourceResolver helps resolve resource references.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
 	// next is the next (nested) implementation to call.
