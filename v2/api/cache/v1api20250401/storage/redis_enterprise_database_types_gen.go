@@ -308,9 +308,10 @@ type Persistence_STATUS struct {
 // Storage version of v1api20250401.RedisEnterpriseDatabaseOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisEnterpriseDatabaseOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression           `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression           `json:"secretExpressions,omitempty"`
+	Secrets              *RedisEnterpriseDatabaseOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20250401.SystemData_STATUS
@@ -340,6 +341,13 @@ type LinkedDatabase_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State       *string                `json:"state,omitempty"`
+}
+
+// Storage version of v1api20250401.RedisEnterpriseDatabaseOperatorSecrets
+type RedisEnterpriseDatabaseOperatorSecrets struct {
+	PrimaryKey   *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {

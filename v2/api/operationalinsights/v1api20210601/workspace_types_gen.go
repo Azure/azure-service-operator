@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json
+// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2021-06-01/Workspaces.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json
+// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2021-06-01/Workspaces.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -2219,6 +2219,9 @@ type WorkspaceOperatorSpec struct {
 
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_WorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
@@ -2254,6 +2257,18 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 		operator.SecretExpressions = secretExpressionList
 	} else {
 		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret WorkspaceOperatorSecrets
+		err := secret.AssignProperties_From_WorkspaceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -2295,6 +2310,18 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 		destination.SecretExpressions = secretExpressionList
 	} else {
 		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.WorkspaceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_WorkspaceOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -2638,6 +2665,71 @@ var workspaceCapping_DataIngestionStatus_STATUS_Values = map[string]WorkspaceCap
 	"overquota":             WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota,
 	"respectquota":          WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota,
 	"subscriptionsuspended": WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended,
+}
+
+type WorkspaceOperatorSecrets struct {
+	// PrimarySharedKey: indicates where the PrimarySharedKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	PrimarySharedKey *genruntime.SecretDestination `json:"primarySharedKey,omitempty"`
+
+	// SecondarySharedKey: indicates where the SecondarySharedKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	SecondarySharedKey *genruntime.SecretDestination `json:"secondarySharedKey,omitempty"`
+}
+
+// AssignProperties_From_WorkspaceOperatorSecrets populates our WorkspaceOperatorSecrets from the provided source WorkspaceOperatorSecrets
+func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperatorSecrets(source *storage.WorkspaceOperatorSecrets) error {
+
+	// PrimarySharedKey
+	if source.PrimarySharedKey != nil {
+		primarySharedKey := source.PrimarySharedKey.Copy()
+		secrets.PrimarySharedKey = &primarySharedKey
+	} else {
+		secrets.PrimarySharedKey = nil
+	}
+
+	// SecondarySharedKey
+	if source.SecondarySharedKey != nil {
+		secondarySharedKey := source.SecondarySharedKey.Copy()
+		secrets.SecondarySharedKey = &secondarySharedKey
+	} else {
+		secrets.SecondarySharedKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspaceOperatorSecrets populates the provided destination WorkspaceOperatorSecrets from our WorkspaceOperatorSecrets
+func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSecrets(destination *storage.WorkspaceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimarySharedKey
+	if secrets.PrimarySharedKey != nil {
+		primarySharedKey := secrets.PrimarySharedKey.Copy()
+		destination.PrimarySharedKey = &primarySharedKey
+	} else {
+		destination.PrimarySharedKey = nil
+	}
+
+	// SecondarySharedKey
+	if secrets.SecondarySharedKey != nil {
+		secondarySharedKey := secrets.SecondarySharedKey.Copy()
+		destination.SecondarySharedKey = &secondarySharedKey
+	} else {
+		destination.SecondarySharedKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={100,200,300,400,500,1000,2000,5000}
