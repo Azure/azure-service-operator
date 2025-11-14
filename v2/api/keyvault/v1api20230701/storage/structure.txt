@@ -132,3 +132,89 @@ Vault: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+VaultsKey: Resource
+├── Owner: keyvault/v1api20230701.Vault
+├── Spec: Object (7 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Properties: *Object (8 properties)
+│   │   ├── Attributes: *Object (5 properties)
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Exp: *int
+│   │   │   ├── Exportable: *bool
+│   │   │   ├── Nbf: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── CurveName: *string
+│   │   ├── KeyOps: string[]
+│   │   ├── KeySize: *int
+│   │   ├── Kty: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Release_Policy: *Object (3 properties)
+│   │   │   ├── ContentType: *string
+│   │   │   ├── Data: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── RotationPolicy: *Object (3 properties)
+│   │       ├── Attributes: *Object (2 properties)
+│   │       │   ├── ExpiryTime: *string
+│   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │       ├── LifetimeActions: Object (3 properties)[]
+│   │       │   ├── Action: *Object (2 properties)
+│   │       │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │       │   │   └── Type: *string
+│   │       │   ├── PropertyBag: genruntime.PropertyBag
+│   │       │   └── Trigger: *Object (3 properties)
+│   │       │       ├── PropertyBag: genruntime.PropertyBag
+│   │       │       ├── TimeAfterCreate: *string
+│   │       │       └── TimeBeforeExpiry: *string
+│   │       └── PropertyBag: genruntime.PropertyBag
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── Tags: map[string]string
+└── Status: Object (16 properties)
+    ├── Attributes: *Object (8 properties)
+    │   ├── Created: *int
+    │   ├── Enabled: *bool
+    │   ├── Exp: *int
+    │   ├── Exportable: *bool
+    │   ├── Nbf: *int
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── RecoveryLevel: *string
+    │   └── Updated: *int
+    ├── Conditions: conditions.Condition[]
+    ├── CurveName: *string
+    ├── Id: *string
+    ├── KeyOps: string[]
+    ├── KeySize: *int
+    ├── KeyUri: *string
+    ├── KeyUriWithVersion: *string
+    ├── Kty: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── Release_Policy: *Object (3 properties)
+    │   ├── ContentType: *string
+    │   ├── Data: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── RotationPolicy: *Object (3 properties)
+    │   ├── Attributes: *Object (4 properties)
+    │   │   ├── Created: *int
+    │   │   ├── ExpiryTime: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Updated: *int
+    │   ├── LifetimeActions: Object (3 properties)[]
+    │   │   ├── Action: *Object (2 properties)
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Type: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Trigger: *Object (3 properties)
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       ├── TimeAfterCreate: *string
+    │   │       └── TimeBeforeExpiry: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    └── Type: *string
+

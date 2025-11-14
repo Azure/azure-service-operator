@@ -267,3 +267,105 @@ Vault_Spec: Object (4 properties)
 │   └── VaultUri: *string
 └── Tags: map[string]string
 
+VaultsKey_STATUS: Object (6 properties)
+├── Id: *string
+├── Location: *string
+├── Name: *string
+├── Properties: *Object (9 properties)
+│   ├── Attributes: *Object (7 properties)
+│   │   ├── Created: *int
+│   │   ├── Enabled: *bool
+│   │   ├── Exp: *int
+│   │   ├── Exportable: *bool
+│   │   ├── Nbf: *int
+│   │   ├── RecoveryLevel: *Enum (4 values)
+│   │   │   ├── "Purgeable"
+│   │   │   ├── "Recoverable"
+│   │   │   ├── "Recoverable+ProtectedSubscription"
+│   │   │   └── "Recoverable+Purgeable"
+│   │   └── Updated: *int
+│   ├── CurveName: *Enum (4 values)
+│   │   ├── "P-256"
+│   │   ├── "P-256K"
+│   │   ├── "P-384"
+│   │   └── "P-521"
+│   ├── KeyOps: Enum (8 values)[]
+│   │   ├── "decrypt"
+│   │   ├── "encrypt"
+│   │   ├── "import"
+│   │   ├── "release"
+│   │   ├── "sign"
+│   │   ├── "unwrapKey"
+│   │   ├── "verify"
+│   │   └── "wrapKey"
+│   ├── KeySize: *int
+│   ├── KeyUri: *string
+│   ├── KeyUriWithVersion: *string
+│   ├── Kty: *Enum (4 values)
+│   │   ├── "EC"
+│   │   ├── "EC-HSM"
+│   │   ├── "RSA"
+│   │   └── "RSA-HSM"
+│   ├── Release_Policy: *Object (2 properties)
+│   │   ├── ContentType: *string
+│   │   └── Data: *string
+│   └── RotationPolicy: *Object (2 properties)
+│       ├── Attributes: *Object (3 properties)
+│       │   ├── Created: *int
+│       │   ├── ExpiryTime: *string
+│       │   └── Updated: *int
+│       └── LifetimeActions: Object (2 properties)[]
+│           ├── Action: *Object (1 property)
+│           │   └── Type: *Enum (2 values)
+│           │       ├── "notify"
+│           │       └── "rotate"
+│           └── Trigger: *Object (2 properties)
+│               ├── TimeAfterCreate: *string
+│               └── TimeBeforeExpiry: *string
+├── Tags: map[string]string
+└── Type: *string
+
+VaultsKey_Spec: Object (3 properties)
+├── Name: string
+├── Properties: *Object (7 properties)
+│   ├── Attributes: *Object (4 properties)
+│   │   ├── Enabled: *bool
+│   │   ├── Exp: *int
+│   │   ├── Exportable: *bool
+│   │   └── Nbf: *int
+│   ├── CurveName: *Enum (4 values)
+│   │   ├── "P-256"
+│   │   ├── "P-256K"
+│   │   ├── "P-384"
+│   │   └── "P-521"
+│   ├── KeyOps: Enum (8 values)[]
+│   │   ├── "decrypt"
+│   │   ├── "encrypt"
+│   │   ├── "import"
+│   │   ├── "release"
+│   │   ├── "sign"
+│   │   ├── "unwrapKey"
+│   │   ├── "verify"
+│   │   └── "wrapKey"
+│   ├── KeySize: *int
+│   ├── Kty: *Enum (4 values)
+│   │   ├── "EC"
+│   │   ├── "EC-HSM"
+│   │   ├── "RSA"
+│   │   └── "RSA-HSM"
+│   ├── Release_Policy: *Object (2 properties)
+│   │   ├── ContentType: *string
+│   │   └── Data: *string
+│   └── RotationPolicy: *Object (2 properties)
+│       ├── Attributes: *Object (1 property)
+│       │   └── ExpiryTime: *string
+│       └── LifetimeActions: Object (2 properties)[]
+│           ├── Action: *Object (1 property)
+│           │   └── Type: *Enum (2 values)
+│           │       ├── "notify"
+│           │       └── "rotate"
+│           └── Trigger: *Object (2 properties)
+│               ├── TimeAfterCreate: *string
+│               └── TimeBeforeExpiry: *string
+└── Tags: map[string]string
+

@@ -1,0 +1,14 @@
+apiVersion: keyvault.azure.com/v1api20230701
+kind: VaultsKey
+metadata:
+  name: simple-rsa-key
+  namespace: default
+spec:
+  # Owner references the parent Vault resource
+  owner:
+    name: samplevault
+  
+  # Minimal key configuration - RSA 2048-bit encryption key
+  properties:
+    kty: RSA
+    keySize: 2048

@@ -1,0 +1,53 @@
+apiVersion: keyvault.azure.com/v1api20230701
+kind: VaultsKey
+metadata:
+  name: samplekey
+  namespace: default
+spec:
+  # The AzureName is the name of the key in Azure Key Vault
+  azureName: sample-encryption-key
+  
+  # Owner references the parent Vault resource
+  owner:
+    name: samplevault
+  
+  # Key properties
+  properties:
+    # Key type: EC (Elliptic Curve), EC-HSM, RSA, or RSA-HSM
+    kty: RSA
+    
+    # Key size in bits (2048, 3072, or 4096 for RSA)
+    keySize: 2048
+    
+    # Key operations this key can perform
+    keyOps:
+      - encrypt
+      - decrypt
+      - sign
+      - verify
+      - wrapKey
+      - unwrapKey
+    
+    # Key attributes
+    attributes:
+      enabled: true
+      exportable: false
+    
+    # Optional: Rotation policy
+    rotationPolicy:
+      lifetimeActions:
+        - trigger:
+            timeBeforeExpiry: P30D  # 30 days before expiry
+          action:
+            type: notify
+        - trigger:
+            timeAfterCreate: P90D  # Rotate 90 days after creation
+          action:
+            type: rotate
+      attributes:
+        expiryTime: P2Y  # Key expires in 2 years
+  
+  # Optional tags
+  tags:
+    environment: sample
+    purpose: encryption

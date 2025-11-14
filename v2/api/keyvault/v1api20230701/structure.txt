@@ -283,3 +283,112 @@ Vault: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+VaultsKey: Resource
+├── Owner: Vault
+├── Spec: Object (5 properties)
+│   ├── AzureName: Validated<string> (1 rule)
+│   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Properties: *Object (7 properties)
+│   │   ├── Attributes: *Object (4 properties)
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Exp: *int
+│   │   │   ├── Exportable: *bool
+│   │   │   └── Nbf: *int
+│   │   ├── CurveName: *Enum (4 values)
+│   │   │   ├── "P-256"
+│   │   │   ├── "P-256K"
+│   │   │   ├── "P-384"
+│   │   │   └── "P-521"
+│   │   ├── KeyOps: Enum (8 values)[]
+│   │   │   ├── "decrypt"
+│   │   │   ├── "encrypt"
+│   │   │   ├── "import"
+│   │   │   ├── "release"
+│   │   │   ├── "sign"
+│   │   │   ├── "unwrapKey"
+│   │   │   ├── "verify"
+│   │   │   └── "wrapKey"
+│   │   ├── KeySize: *int
+│   │   ├── Kty: *Enum (4 values)
+│   │   │   ├── "EC"
+│   │   │   ├── "EC-HSM"
+│   │   │   ├── "RSA"
+│   │   │   └── "RSA-HSM"
+│   │   ├── Release_Policy: *Object (2 properties)
+│   │   │   ├── ContentType: *string
+│   │   │   └── Data: Validated<*string> (1 rule)
+│   │   │       └── Rule 0: Pattern: "^[-A-Za-z0-9_]$"
+│   │   └── RotationPolicy: *Object (2 properties)
+│   │       ├── Attributes: *Object (1 property)
+│   │       │   └── ExpiryTime: *string
+│   │       └── LifetimeActions: Object (2 properties)[]
+│   │           ├── Action: *Object (1 property)
+│   │           │   └── Type: *Enum (2 values)
+│   │           │       ├── "notify"
+│   │           │       └── "rotate"
+│   │           └── Trigger: *Object (2 properties)
+│   │               ├── TimeAfterCreate: *string
+│   │               └── TimeBeforeExpiry: *string
+│   └── Tags: map[string]string
+└── Status: Object (15 properties)
+    ├── Attributes: *Object (7 properties)
+    │   ├── Created: *int
+    │   ├── Enabled: *bool
+    │   ├── Exp: *int
+    │   ├── Exportable: *bool
+    │   ├── Nbf: *int
+    │   ├── RecoveryLevel: *Enum (4 values)
+    │   │   ├── "Purgeable"
+    │   │   ├── "Recoverable"
+    │   │   ├── "Recoverable+ProtectedSubscription"
+    │   │   └── "Recoverable+Purgeable"
+    │   └── Updated: *int
+    ├── Conditions: conditions.Condition[]
+    ├── CurveName: *Enum (4 values)
+    │   ├── "P-256"
+    │   ├── "P-256K"
+    │   ├── "P-384"
+    │   └── "P-521"
+    ├── Id: *string
+    ├── KeyOps: Enum (8 values)[]
+    │   ├── "decrypt"
+    │   ├── "encrypt"
+    │   ├── "import"
+    │   ├── "release"
+    │   ├── "sign"
+    │   ├── "unwrapKey"
+    │   ├── "verify"
+    │   └── "wrapKey"
+    ├── KeySize: *int
+    ├── KeyUri: *string
+    ├── KeyUriWithVersion: *string
+    ├── Kty: *Enum (4 values)
+    │   ├── "EC"
+    │   ├── "EC-HSM"
+    │   ├── "RSA"
+    │   └── "RSA-HSM"
+    ├── Location: *string
+    ├── Name: *string
+    ├── Release_Policy: *Object (2 properties)
+    │   ├── ContentType: *string
+    │   └── Data: *string
+    ├── RotationPolicy: *Object (2 properties)
+    │   ├── Attributes: *Object (3 properties)
+    │   │   ├── Created: *int
+    │   │   ├── ExpiryTime: *string
+    │   │   └── Updated: *int
+    │   └── LifetimeActions: Object (2 properties)[]
+    │       ├── Action: *Object (1 property)
+    │       │   └── Type: *Enum (2 values)
+    │       │       ├── "notify"
+    │       │       └── "rotate"
+    │       └── Trigger: *Object (2 properties)
+    │           ├── TimeAfterCreate: *string
+    │           └── TimeBeforeExpiry: *string
+    ├── Tags: map[string]string
+    └── Type: *string
+

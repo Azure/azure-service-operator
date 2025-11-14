@@ -3362,6 +3362,9 @@ objectModelConfiguration:
       Vault:
         $exportAs: Vault
         $supportedFrom: v2.5.0
+      Vaults_Key:
+        $exportAs: VaultsKey
+        $supportedFrom: v2.17.0
       VaultProperties:
         TenantId:
           $importConfigMapMode: optional

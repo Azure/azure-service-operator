@@ -3,3 +3,5 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/webhook
 -----------------------------------------------------------------------------
 Vault: Object (0 properties)
 
+VaultsKey: Object (0 properties)
+
