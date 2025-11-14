@@ -12,8 +12,8 @@ import (
 	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batchstorage "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
 	dbforpostgresqlpreview "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
-	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
-	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
+	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resourcesstorage "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 )

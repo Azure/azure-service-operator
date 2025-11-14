@@ -11,8 +11,8 @@ import (
 
 	"github.com/go-logr/logr"
 
-	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
-	hub "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
+	hub "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

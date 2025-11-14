@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FlexibleServersDatabase{}
 
 // ConvertFrom populates our FlexibleServersDatabase from the provided hub FlexibleServersDatabase
 func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_FlexibleServersDatabase(source)
+	err = database.AssignProperties_From_FlexibleServersDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersDatabase from our FlexibleServersDatabase
 func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersDatabase
+	err := database.AssignProperties_To_FlexibleServersDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_FlexibleServersDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersDatabase{}
@@ -87,17 +101,6 @@ func (database *FlexibleServersDatabase) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return database.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServersDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *FlexibleServersDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServersDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_FlexibleServersDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServersDatabase_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersDatabase{}
@@ -473,19 +476,6 @@ func (database *FlexibleServersDatabase_Spec) AssignProperties_To_FlexibleServer
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServersDatabase_STATUS populates our FlexibleServersDatabase_Spec from the provided source FlexibleServersDatabase_STATUS
-func (database *FlexibleServersDatabase_Spec) Initialize_From_FlexibleServersDatabase_STATUS(source *FlexibleServersDatabase_STATUS) error {
-
-	// Charset
-	database.Charset = genruntime.ClonePointerToString(source.Charset)
-
-	// Collation
-	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// No error
 	return nil

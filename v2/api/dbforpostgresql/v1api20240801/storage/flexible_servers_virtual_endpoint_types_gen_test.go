@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_FlexibleServersVirtualEndpoint_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersVirtualEndpoint to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFlexibleServersVirtualEndpoint, FlexibleServersVirtualEndpointGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFlexibleServersVirtualEndpoint tests if a specific instance of FlexibleServersVirtualEndpoint round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFlexibleServersVirtualEndpoint(subject FlexibleServersVirtualEndpoint) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.FlexibleServersVirtualEndpoint
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual FlexibleServersVirtualEndpoint
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServersVirtualEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersVirtualEndpoint to FlexibleServersVirtualEndpoint via AssignProperties_To_FlexibleServersVirtualEndpoint & AssignProperties_From_FlexibleServersVirtualEndpoint returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint, FlexibleServersVirtualEndpointGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint tests if a specific instance of FlexibleServersVirtualEndpoint can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint(subject FlexibleServersVirtualEndpoint) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersVirtualEndpoint
+	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersVirtualEndpoint
+	err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_FlexibleServersVirtualEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +165,48 @@ func AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint(gens map[stri
 	gens["Status"] = FlexibleServersVirtualEndpoint_STATUSGenerator()
 }
 
+func Test_FlexibleServersVirtualEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersVirtualEndpointOperatorSpec to FlexibleServersVirtualEndpointOperatorSpec via AssignProperties_To_FlexibleServersVirtualEndpointOperatorSpec & AssignProperties_From_FlexibleServersVirtualEndpointOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec, FlexibleServersVirtualEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec tests if a specific instance of FlexibleServersVirtualEndpointOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec(subject FlexibleServersVirtualEndpointOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersVirtualEndpointOperatorSpec
+	err := copied.AssignProperties_To_FlexibleServersVirtualEndpointOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersVirtualEndpointOperatorSpec
+	err = actual.AssignProperties_From_FlexibleServersVirtualEndpointOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FlexibleServersVirtualEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -132,6 +260,48 @@ func FlexibleServersVirtualEndpointOperatorSpecGenerator() gopter.Gen {
 	flexibleServersVirtualEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpointOperatorSpec{}), generators)
 
 	return flexibleServersVirtualEndpointOperatorSpecGenerator
+}
+
+func Test_FlexibleServersVirtualEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersVirtualEndpoint_STATUS to FlexibleServersVirtualEndpoint_STATUS via AssignProperties_To_FlexibleServersVirtualEndpoint_STATUS & AssignProperties_From_FlexibleServersVirtualEndpoint_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS, FlexibleServersVirtualEndpoint_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS tests if a specific instance of FlexibleServersVirtualEndpoint_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS(subject FlexibleServersVirtualEndpoint_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersVirtualEndpoint_STATUS
+	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersVirtualEndpoint_STATUS
+	err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServersVirtualEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -212,6 +382,48 @@ func AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(ge
 // AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_FlexibleServersVirtualEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersVirtualEndpoint_Spec to FlexibleServersVirtualEndpoint_Spec via AssignProperties_To_FlexibleServersVirtualEndpoint_Spec & AssignProperties_From_FlexibleServersVirtualEndpoint_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec, FlexibleServersVirtualEndpoint_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec tests if a specific instance of FlexibleServersVirtualEndpoint_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec(subject FlexibleServersVirtualEndpoint_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersVirtualEndpoint_Spec
+	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersVirtualEndpoint_Spec
+	err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServersVirtualEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

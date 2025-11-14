@@ -55,22 +55,36 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_FlexibleServer(source)
+	err = server.AssignProperties_From_FlexibleServer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServer
+	err := server.AssignProperties_To_FlexibleServer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_FlexibleServer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServer{}
@@ -91,17 +105,6 @@ func (server *FlexibleServer) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return server.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *FlexibleServer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServer_STATUS); ok {
-		return server.Spec.Initialize_From_FlexibleServer_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServer_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &FlexibleServer{}
@@ -1252,180 +1255,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	return nil
 }
 
-// Initialize_From_FlexibleServer_STATUS populates our FlexibleServer_Spec from the provided source FlexibleServer_STATUS
-func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source *FlexibleServer_STATUS) error {
-
-	// AdministratorLogin
-	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
-
-	// AuthConfig
-	if source.AuthConfig != nil {
-		var authConfig AuthConfig
-		err := authConfig.Initialize_From_AuthConfig_STATUS(source.AuthConfig)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AuthConfig_STATUS() to populate field AuthConfig")
-		}
-		server.AuthConfig = &authConfig
-	} else {
-		server.AuthConfig = nil
-	}
-
-	// AvailabilityZone
-	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
-
-	// Backup
-	if source.Backup != nil {
-		var backup Backup
-		err := backup.Initialize_From_Backup_STATUS(source.Backup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Backup_STATUS() to populate field Backup")
-		}
-		server.Backup = &backup
-	} else {
-		server.Backup = nil
-	}
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := genruntime.ToEnum(string(*source.CreateMode), serverProperties_CreateMode_Values)
-		server.CreateMode = &createMode
-	} else {
-		server.CreateMode = nil
-	}
-
-	// DataEncryption
-	if source.DataEncryption != nil {
-		var dataEncryption DataEncryption
-		err := dataEncryption.Initialize_From_DataEncryption_STATUS(source.DataEncryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DataEncryption_STATUS() to populate field DataEncryption")
-		}
-		server.DataEncryption = &dataEncryption
-	} else {
-		server.DataEncryption = nil
-	}
-
-	// HighAvailability
-	if source.HighAvailability != nil {
-		var highAvailability HighAvailability
-		err := highAvailability.Initialize_From_HighAvailability_STATUS(source.HighAvailability)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HighAvailability_STATUS() to populate field HighAvailability")
-		}
-		server.HighAvailability = &highAvailability
-	} else {
-		server.HighAvailability = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity UserAssignedIdentity
-		err := identity.Initialize_From_UserAssignedIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserAssignedIdentity_STATUS() to populate field Identity")
-		}
-		server.Identity = &identity
-	} else {
-		server.Identity = nil
-	}
-
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaintenanceWindow
-	if source.MaintenanceWindow != nil {
-		var maintenanceWindow MaintenanceWindow
-		err := maintenanceWindow.Initialize_From_MaintenanceWindow_STATUS(source.MaintenanceWindow)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MaintenanceWindow_STATUS() to populate field MaintenanceWindow")
-		}
-		server.MaintenanceWindow = &maintenanceWindow
-	} else {
-		server.MaintenanceWindow = nil
-	}
-
-	// Network
-	if source.Network != nil {
-		var network Network
-		err := network.Initialize_From_Network_STATUS(source.Network)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Network_STATUS() to populate field Network")
-		}
-		server.Network = &network
-	} else {
-		server.Network = nil
-	}
-
-	// PointInTimeUTC
-	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
-
-	// Replica
-	if source.Replica != nil {
-		var replica Replica
-		err := replica.Initialize_From_Replica_STATUS(source.Replica)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Replica_STATUS() to populate field Replica")
-		}
-		server.Replica = &replica
-	} else {
-		server.Replica = nil
-	}
-
-	// ReplicationRole
-	if source.ReplicationRole != nil {
-		replicationRole := genruntime.ToEnum(string(*source.ReplicationRole), replicationRole_Values)
-		server.ReplicationRole = &replicationRole
-	} else {
-		server.ReplicationRole = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		server.Sku = &sku
-	} else {
-		server.Sku = nil
-	}
-
-	// SourceServerResourceReference
-	if source.SourceServerResourceId != nil {
-		sourceServerResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceServerResourceId)
-		server.SourceServerResourceReference = &sourceServerResourceReference
-	} else {
-		server.SourceServerResourceReference = nil
-	}
-
-	// Storage
-	if source.Storage != nil {
-		var storage Storage
-		err := storage.Initialize_From_Storage_STATUS(source.Storage)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Storage_STATUS() to populate field Storage")
-		}
-		server.Storage = &storage
-	} else {
-		server.Storage = nil
-	}
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Version
-	if source.Version != nil {
-		version := genruntime.ToEnum(string(*source.Version), serverVersion_Values)
-		server.Version = &version
-	} else {
-		server.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (server *FlexibleServer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2509,32 +2338,6 @@ func (config *AuthConfig) AssignProperties_To_AuthConfig(destination *storage.Au
 	return nil
 }
 
-// Initialize_From_AuthConfig_STATUS populates our AuthConfig from the provided source AuthConfig_STATUS
-func (config *AuthConfig) Initialize_From_AuthConfig_STATUS(source *AuthConfig_STATUS) error {
-
-	// ActiveDirectoryAuth
-	if source.ActiveDirectoryAuth != nil {
-		activeDirectoryAuth := genruntime.ToEnum(string(*source.ActiveDirectoryAuth), authConfig_ActiveDirectoryAuth_Values)
-		config.ActiveDirectoryAuth = &activeDirectoryAuth
-	} else {
-		config.ActiveDirectoryAuth = nil
-	}
-
-	// PasswordAuth
-	if source.PasswordAuth != nil {
-		passwordAuth := genruntime.ToEnum(string(*source.PasswordAuth), authConfig_PasswordAuth_Values)
-		config.PasswordAuth = &passwordAuth
-	} else {
-		config.PasswordAuth = nil
-	}
-
-	// TenantId
-	config.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// No error
-	return nil
-}
-
 // Authentication configuration properties of a flexible server.
 type AuthConfig_STATUS struct {
 	// ActiveDirectoryAuth: Indicates if the server supports Microsoft Entra authentication.
@@ -2754,24 +2557,6 @@ func (backup *Backup) AssignProperties_To_Backup(destination *storage.Backup) er
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Backup_STATUS populates our Backup from the provided source Backup_STATUS
-func (backup *Backup) Initialize_From_Backup_STATUS(source *Backup_STATUS) error {
-
-	// BackupRetentionDays
-	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
-
-	// GeoRedundantBackup
-	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := genruntime.ToEnum(string(*source.GeoRedundantBackup), backup_GeoRedundantBackup_Values)
-		backup.GeoRedundantBackup = &geoRedundantBackup
-	} else {
-		backup.GeoRedundantBackup = nil
 	}
 
 	// No error
@@ -3209,59 +2994,6 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataEncryption_STATUS populates our DataEncryption from the provided source DataEncryption_STATUS
-func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *DataEncryption_STATUS) error {
-
-	// GeoBackupEncryptionKeyStatus
-	if source.GeoBackupEncryptionKeyStatus != nil {
-		geoBackupEncryptionKeyStatus := genruntime.ToEnum(string(*source.GeoBackupEncryptionKeyStatus), dataEncryption_GeoBackupEncryptionKeyStatus_Values)
-		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	} else {
-		encryption.GeoBackupEncryptionKeyStatus = nil
-	}
-
-	// GeoBackupKeyURI
-	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
-
-	// GeoBackupUserAssignedIdentityReference
-	if source.GeoBackupUserAssignedIdentityId != nil {
-		geoBackupUserAssignedIdentityReference := genruntime.CreateResourceReferenceFromARMID(*source.GeoBackupUserAssignedIdentityId)
-		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
-	} else {
-		encryption.GeoBackupUserAssignedIdentityReference = nil
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if source.PrimaryEncryptionKeyStatus != nil {
-		primaryEncryptionKeyStatus := genruntime.ToEnum(string(*source.PrimaryEncryptionKeyStatus), dataEncryption_PrimaryEncryptionKeyStatus_Values)
-		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	} else {
-		encryption.PrimaryEncryptionKeyStatus = nil
-	}
-
-	// PrimaryKeyURI
-	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
-
-	// PrimaryUserAssignedIdentityReference
-	if source.PrimaryUserAssignedIdentityId != nil {
-		primaryUserAssignedIdentityReference := genruntime.CreateResourceReferenceFromARMID(*source.PrimaryUserAssignedIdentityId)
-		encryption.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
-	} else {
-		encryption.PrimaryUserAssignedIdentityReference = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), dataEncryption_Type_Values)
-		encryption.Type = &typeVar
-	} else {
-		encryption.Type = nil
 	}
 
 	// No error
@@ -3726,24 +3458,6 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 	return nil
 }
 
-// Initialize_From_HighAvailability_STATUS populates our HighAvailability from the provided source HighAvailability_STATUS
-func (availability *HighAvailability) Initialize_From_HighAvailability_STATUS(source *HighAvailability_STATUS) error {
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), highAvailability_Mode_Values)
-		availability.Mode = &mode
-	} else {
-		availability.Mode = nil
-	}
-
-	// StandbyAvailabilityZone
-	availability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
-
-	// No error
-	return nil
-}
-
 // High availability properties of a flexible server.
 type HighAvailability_STATUS struct {
 	// Mode: High availability mode for a flexible server.
@@ -3992,25 +3706,6 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MaintenanceWindow_STATUS populates our MaintenanceWindow from the provided source MaintenanceWindow_STATUS
-func (window *MaintenanceWindow) Initialize_From_MaintenanceWindow_STATUS(source *MaintenanceWindow_STATUS) error {
-
-	// CustomWindow
-	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
-
-	// DayOfWeek
-	window.DayOfWeek = genruntime.ClonePointerToInt(source.DayOfWeek)
-
-	// StartHour
-	window.StartHour = genruntime.ClonePointerToInt(source.StartHour)
-
-	// StartMinute
-	window.StartMinute = genruntime.ClonePointerToInt(source.StartMinute)
 
 	// No error
 	return nil
@@ -4269,37 +3964,6 @@ func (network *Network) AssignProperties_To_Network(destination *storage.Network
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Network_STATUS populates our Network from the provided source Network_STATUS
-func (network *Network) Initialize_From_Network_STATUS(source *Network_STATUS) error {
-
-	// DelegatedSubnetResourceReference
-	if source.DelegatedSubnetResourceId != nil {
-		delegatedSubnetResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedSubnetResourceId)
-		network.DelegatedSubnetResourceReference = &delegatedSubnetResourceReference
-	} else {
-		network.DelegatedSubnetResourceReference = nil
-	}
-
-	// PrivateDnsZoneArmResourceReference
-	if source.PrivateDnsZoneArmResourceId != nil {
-		privateDnsZoneArmResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateDnsZoneArmResourceId)
-		network.PrivateDnsZoneArmResourceReference = &privateDnsZoneArmResourceReference
-	} else {
-		network.PrivateDnsZoneArmResourceReference = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), network_PublicNetworkAccess_Values)
-		network.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		network.PublicNetworkAccess = nil
 	}
 
 	// No error
@@ -4632,37 +4296,6 @@ func (replica *Replica) AssignProperties_To_Replica(destination *storage.Replica
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Replica_STATUS populates our Replica from the provided source Replica_STATUS
-func (replica *Replica) Initialize_From_Replica_STATUS(source *Replica_STATUS) error {
-
-	// PromoteMode
-	if source.PromoteMode != nil {
-		promoteMode := genruntime.ToEnum(string(*source.PromoteMode), replica_PromoteMode_Values)
-		replica.PromoteMode = &promoteMode
-	} else {
-		replica.PromoteMode = nil
-	}
-
-	// PromoteOption
-	if source.PromoteOption != nil {
-		promoteOption := genruntime.ToEnum(string(*source.PromoteOption), replica_PromoteOption_Values)
-		replica.PromoteOption = &promoteOption
-	} else {
-		replica.PromoteOption = nil
-	}
-
-	// Role
-	if source.Role != nil {
-		role := genruntime.ToEnum(string(*source.Role), replicationRole_Values)
-		replica.Role = &role
-	} else {
-		replica.Role = nil
 	}
 
 	// No error
@@ -5111,24 +4744,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), sku_Tier_Values)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Compute information of a flexible server.
 type Sku_STATUS struct {
 	// Name: Name by which is known a given compute size assigned to a flexible server.
@@ -5436,46 +5051,6 @@ func (storage *Storage) AssignProperties_To_Storage(destination *storage.Storage
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Storage_STATUS populates our Storage from the provided source Storage_STATUS
-func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) error {
-
-	// AutoGrow
-	if source.AutoGrow != nil {
-		autoGrow := genruntime.ToEnum(string(*source.AutoGrow), storage_AutoGrow_Values)
-		storage.AutoGrow = &autoGrow
-	} else {
-		storage.AutoGrow = nil
-	}
-
-	// Iops
-	storage.Iops = genruntime.ClonePointerToInt(source.Iops)
-
-	// StorageSizeGB
-	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
-
-	// Throughput
-	storage.Throughput = genruntime.ClonePointerToInt(source.Throughput)
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), storage_Tier_Values)
-		storage.Tier = &tier
-	} else {
-		storage.Tier = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), storage_Type_Values)
-		storage.Type = &typeVar
-	} else {
-		storage.Type = nil
 	}
 
 	// No error
@@ -5970,36 +5545,6 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity) Initialize_From_UserAssignedIdentity_STATUS(source *UserAssignedIdentity_STATUS) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), userAssignedIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error

@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FlexibleServersFirewallRule{}
 
 // ConvertFrom populates our FlexibleServersFirewallRule from the provided hub FlexibleServersFirewallRule
 func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_FlexibleServersFirewallRule(source)
+	err = rule.AssignProperties_From_FlexibleServersFirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersFirewallRule from our FlexibleServersFirewallRule
 func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersFirewallRule
+	err := rule.AssignProperties_To_FlexibleServersFirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_FlexibleServersFirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersFirewallRule{}
@@ -87,17 +101,6 @@ func (rule *FlexibleServersFirewallRule) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServersFirewallRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *FlexibleServersFirewallRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServersFirewallRule_STATUS); ok {
-		return rule.Spec.Initialize_From_FlexibleServersFirewallRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServersFirewallRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersFirewallRule{}
@@ -476,19 +479,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_To_FlexibleServer
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServersFirewallRule_STATUS populates our FlexibleServersFirewallRule_Spec from the provided source FlexibleServersFirewallRule_STATUS
-func (rule *FlexibleServersFirewallRule_Spec) Initialize_From_FlexibleServersFirewallRule_STATUS(source *FlexibleServersFirewallRule_STATUS) error {
-
-	// EndIpAddress
-	rule.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
-
-	// StartIpAddress
-	rule.StartIpAddress = genruntime.ClonePointerToString(source.StartIpAddress)
 
 	// No error
 	return nil

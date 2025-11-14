@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FlexibleServersAdvancedThreatProtectionSettings{
 
 // ConvertFrom populates our FlexibleServersAdvancedThreatProtectionSettings from the provided hub FlexibleServersAdvancedThreatProtectionSettings
 func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersAdvancedThreatProtectionSettings)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersAdvancedThreatProtectionSettings
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return settings.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings(source)
+	err = settings.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to settings")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersAdvancedThreatProtectionSettings from our FlexibleServersAdvancedThreatProtectionSettings
 func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersAdvancedThreatProtectionSettings)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersAdvancedThreatProtectionSettings
+	err := settings.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from settings")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return settings.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersAdvancedThreatProtectionSettings{}
@@ -87,17 +101,6 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings) SecretDestinati
 		return nil
 	}
 	return settings.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServersAdvancedThreatProtectionSettings{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (settings *FlexibleServersAdvancedThreatProtectionSettings) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServersAdvancedThreatProtectionSettings_STATUS); ok {
-		return settings.Spec.Initialize_From_FlexibleServersAdvancedThreatProtectionSettings_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServersAdvancedThreatProtectionSettings_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdvancedThreatProtectionSettings{}
@@ -449,21 +452,6 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) AssignProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServersAdvancedThreatProtectionSettings_STATUS populates our FlexibleServersAdvancedThreatProtectionSettings_Spec from the provided source FlexibleServersAdvancedThreatProtectionSettings_STATUS
-func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) Initialize_From_FlexibleServersAdvancedThreatProtectionSettings_STATUS(source *FlexibleServersAdvancedThreatProtectionSettings_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), serverThreatProtectionProperties_State_Values)
-		settings.State = &state
-	} else {
-		settings.State = nil
 	}
 
 	// No error
