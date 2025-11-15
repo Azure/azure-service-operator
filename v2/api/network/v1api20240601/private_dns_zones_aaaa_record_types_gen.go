@@ -1742,7 +1742,10 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) AssignProperties_To_PrivateDnsZo
 // An AAAA record.
 type AaaaRecord struct {
 	// Ipv6Address: The IPv6 address of this AAAA record.
-	Ipv6Address *string `json:"ipv6Address,omitempty"`
+	Ipv6Address *string `json:"ipv6Address,omitempty" optionalConfigMapPair:"Ipv6Address"`
+
+	// Ipv6AddressFromConfig: The IPv6 address of this AAAA record.
+	Ipv6AddressFromConfig *genruntime.ConfigMapReference `json:"ipv6AddressFromConfig,omitempty" optionalConfigMapPair:"Ipv6Address"`
 }
 
 var _ genruntime.ARMTransformer = &AaaaRecord{}
@@ -1757,6 +1760,14 @@ func (record *AaaaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	// Set property "Ipv6Address":
 	if record.Ipv6Address != nil {
 		ipv6Address := *record.Ipv6Address
+		result.Ipv6Address = &ipv6Address
+	}
+	if record.Ipv6AddressFromConfig != nil {
+		ipv6AddressValue, err := resolved.ResolvedConfigMaps.Lookup(*record.Ipv6AddressFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Ipv6Address")
+		}
+		ipv6Address := ipv6AddressValue
 		result.Ipv6Address = &ipv6Address
 	}
 	return result, nil
@@ -1780,6 +1791,8 @@ func (record *AaaaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		record.Ipv6Address = &ipv6Address
 	}
 
+	// no assignment for property "Ipv6AddressFromConfig"
+
 	// No error
 	return nil
 }
@@ -1789,6 +1802,14 @@ func (record *AaaaRecord) AssignProperties_From_AaaaRecord(source *storage.AaaaR
 
 	// Ipv6Address
 	record.Ipv6Address = genruntime.ClonePointerToString(source.Ipv6Address)
+
+	// Ipv6AddressFromConfig
+	if source.Ipv6AddressFromConfig != nil {
+		ipv6AddressFromConfig := source.Ipv6AddressFromConfig.Copy()
+		record.Ipv6AddressFromConfig = &ipv6AddressFromConfig
+	} else {
+		record.Ipv6AddressFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -1801,6 +1822,14 @@ func (record *AaaaRecord) AssignProperties_To_AaaaRecord(destination *storage.Aa
 
 	// Ipv6Address
 	destination.Ipv6Address = genruntime.ClonePointerToString(record.Ipv6Address)
+
+	// Ipv6AddressFromConfig
+	if record.Ipv6AddressFromConfig != nil {
+		ipv6AddressFromConfig := record.Ipv6AddressFromConfig.Copy()
+		destination.Ipv6AddressFromConfig = &ipv6AddressFromConfig
+	} else {
+		destination.Ipv6AddressFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1885,7 +1914,10 @@ func (record *AaaaRecord_STATUS) AssignProperties_To_AaaaRecord_STATUS(destinati
 // An A record.
 type ARecord struct {
 	// Ipv4Address: The IPv4 address of this A record.
-	Ipv4Address *string `json:"ipv4Address,omitempty"`
+	Ipv4Address *string `json:"ipv4Address,omitempty" optionalConfigMapPair:"Ipv4Address"`
+
+	// Ipv4AddressFromConfig: The IPv4 address of this A record.
+	Ipv4AddressFromConfig *genruntime.ConfigMapReference `json:"ipv4AddressFromConfig,omitempty" optionalConfigMapPair:"Ipv4Address"`
 }
 
 var _ genruntime.ARMTransformer = &ARecord{}
@@ -1900,6 +1932,14 @@ func (record *ARecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	// Set property "Ipv4Address":
 	if record.Ipv4Address != nil {
 		ipv4Address := *record.Ipv4Address
+		result.Ipv4Address = &ipv4Address
+	}
+	if record.Ipv4AddressFromConfig != nil {
+		ipv4AddressValue, err := resolved.ResolvedConfigMaps.Lookup(*record.Ipv4AddressFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Ipv4Address")
+		}
+		ipv4Address := ipv4AddressValue
 		result.Ipv4Address = &ipv4Address
 	}
 	return result, nil
@@ -1923,6 +1963,8 @@ func (record *ARecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		record.Ipv4Address = &ipv4Address
 	}
 
+	// no assignment for property "Ipv4AddressFromConfig"
+
 	// No error
 	return nil
 }
@@ -1932,6 +1974,14 @@ func (record *ARecord) AssignProperties_From_ARecord(source *storage.ARecord) er
 
 	// Ipv4Address
 	record.Ipv4Address = genruntime.ClonePointerToString(source.Ipv4Address)
+
+	// Ipv4AddressFromConfig
+	if source.Ipv4AddressFromConfig != nil {
+		ipv4AddressFromConfig := source.Ipv4AddressFromConfig.Copy()
+		record.Ipv4AddressFromConfig = &ipv4AddressFromConfig
+	} else {
+		record.Ipv4AddressFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -1944,6 +1994,14 @@ func (record *ARecord) AssignProperties_To_ARecord(destination *storage.ARecord)
 
 	// Ipv4Address
 	destination.Ipv4Address = genruntime.ClonePointerToString(record.Ipv4Address)
+
+	// Ipv4AddressFromConfig
+	if record.Ipv4AddressFromConfig != nil {
+		ipv4AddressFromConfig := record.Ipv4AddressFromConfig.Copy()
+		destination.Ipv4AddressFromConfig = &ipv4AddressFromConfig
+	} else {
+		destination.Ipv4AddressFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

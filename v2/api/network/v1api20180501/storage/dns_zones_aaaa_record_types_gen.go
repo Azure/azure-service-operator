@@ -277,6 +277,13 @@ func (record *AaaaRecord) AssignProperties_From_AaaaRecord(source *storage.AaaaR
 	// Ipv6Address
 	record.Ipv6Address = genruntime.ClonePointerToString(source.Ipv6Address)
 
+	// Ipv6AddressFromConfig
+	if source.Ipv6AddressFromConfig != nil {
+		propertyBag.Add("Ipv6AddressFromConfig", *source.Ipv6AddressFromConfig)
+	} else {
+		propertyBag.Remove("Ipv6AddressFromConfig")
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		record.PropertyBag = propertyBag
@@ -304,6 +311,19 @@ func (record *AaaaRecord) AssignProperties_To_AaaaRecord(destination *storage.Aa
 
 	// Ipv6Address
 	destination.Ipv6Address = genruntime.ClonePointerToString(record.Ipv6Address)
+
+	// Ipv6AddressFromConfig
+	if propertyBag.Contains("Ipv6AddressFromConfig") {
+		var ipv6AddressFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("Ipv6AddressFromConfig", &ipv6AddressFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Ipv6AddressFromConfig' from propertyBag")
+		}
+
+		destination.Ipv6AddressFromConfig = &ipv6AddressFromConfig
+	} else {
+		destination.Ipv6AddressFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -403,6 +423,13 @@ func (record *ARecord) AssignProperties_From_ARecord(source *storage.ARecord) er
 	// Ipv4Address
 	record.Ipv4Address = genruntime.ClonePointerToString(source.Ipv4Address)
 
+	// Ipv4AddressFromConfig
+	if source.Ipv4AddressFromConfig != nil {
+		propertyBag.Add("Ipv4AddressFromConfig", *source.Ipv4AddressFromConfig)
+	} else {
+		propertyBag.Remove("Ipv4AddressFromConfig")
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		record.PropertyBag = propertyBag
@@ -430,6 +457,19 @@ func (record *ARecord) AssignProperties_To_ARecord(destination *storage.ARecord)
 
 	// Ipv4Address
 	destination.Ipv4Address = genruntime.ClonePointerToString(record.Ipv4Address)
+
+	// Ipv4AddressFromConfig
+	if propertyBag.Contains("Ipv4AddressFromConfig") {
+		var ipv4AddressFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("Ipv4AddressFromConfig", &ipv4AddressFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Ipv4AddressFromConfig' from propertyBag")
+		}
+
+		destination.Ipv4AddressFromConfig = &ipv4AddressFromConfig
+	} else {
+		destination.Ipv4AddressFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

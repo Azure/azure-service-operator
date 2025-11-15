@@ -3919,6 +3919,12 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.0.0
+      ARecord:
+        Ipv4Address:
+          $importConfigMapMode: optional
+      AaaaRecord:
+        Ipv6Address:
+          $importConfigMapMode: optional
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
@@ -4401,6 +4407,12 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.11.0
+      ARecord:
+        Ipv4Address:
+          $importConfigMapMode: optional
+      AaaaRecord:
+        Ipv6Address:
+          $importConfigMapMode: optional
       SubResource:
         Id:
           $referenceType: arm
