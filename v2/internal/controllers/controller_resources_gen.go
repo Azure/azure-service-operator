@@ -1916,6 +1916,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesAAAARecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1923,6 +1927,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesAAAARecordList{}),
 			},
@@ -1935,6 +1940,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesARecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1942,6 +1951,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesARecordList{}),
 			},
@@ -1954,6 +1964,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesCNAMERecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1961,6 +1975,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesCNAMERecordList{}),
 			},
@@ -1973,6 +1988,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesMXRecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1980,6 +1999,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesMXRecordList{}),
 			},
@@ -1992,6 +2012,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesPTRRecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1999,6 +2023,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesPTRRecordList{}),
 			},
@@ -2011,6 +2036,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesSRVRecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -2018,6 +2047,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesSRVRecordList{}),
 			},
@@ -2030,6 +2060,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aRecords.ipv4AddressFromConfig",
 				Func: indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig,
 			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -2037,6 +2071,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
 					},
 					&network_v20240601s.PrivateDnsZonesTXTRecordList{}),
 			},
@@ -8761,6 +8796,22 @@ func indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig(rawObj client.Ob
 	return result
 }
 
+// indexNetworkPrivateDnsZonesAAAARecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesAAAARecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesAAAARecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesAAAARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
 // indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesARecord .spec.aRecords.ipv4AddressFromConfig
 func indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesARecord)
@@ -8773,6 +8824,22 @@ func indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig(rawObj client.Objec
 			continue
 		}
 		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesARecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesARecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesARecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
 	}
 	return result
 }
@@ -8793,6 +8860,22 @@ func indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig(rawObj client.O
 	return result
 }
 
+// indexNetworkPrivateDnsZonesCNAMERecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesCNAMERecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesCNAMERecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesCNAMERecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
 // indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesMXRecord .spec.aRecords.ipv4AddressFromConfig
 func indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesMXRecord)
@@ -8805,6 +8888,22 @@ func indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig(rawObj client.Obje
 			continue
 		}
 		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesMXRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesMXRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesMXRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesMXRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
 	}
 	return result
 }
@@ -8825,6 +8924,22 @@ func indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig(rawObj client.Obj
 	return result
 }
 
+// indexNetworkPrivateDnsZonesPTRRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesPTRRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesPTRRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesPTRRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
 // indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesSRVRecord .spec.aRecords.ipv4AddressFromConfig
 func indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesSRVRecord)
@@ -8841,6 +8956,22 @@ func indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig(rawObj client.Obj
 	return result
 }
 
+// indexNetworkPrivateDnsZonesSRVRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesSRVRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesSRVRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesSRVRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
 // indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesTXTRecord .spec.aRecords.ipv4AddressFromConfig
 func indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesTXTRecord)
@@ -8853,6 +8984,22 @@ func indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig(rawObj client.Obj
 			continue
 		}
 		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesTXTRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesTXTRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
 	}
 	return result
 }

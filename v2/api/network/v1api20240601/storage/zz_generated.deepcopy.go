@@ -83,6 +83,11 @@ func (in *AaaaRecord) DeepCopyInto(out *AaaaRecord) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Ipv6AddressFromConfig != nil {
+		in, out := &in.Ipv6AddressFromConfig, &out.Ipv6AddressFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

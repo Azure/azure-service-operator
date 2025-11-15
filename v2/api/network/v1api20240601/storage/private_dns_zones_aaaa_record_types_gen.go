@@ -260,8 +260,9 @@ func (record *PrivateDnsZonesAAAARecord_STATUS) ConvertStatusTo(destination genr
 // Storage version of v1api20240601.AaaaRecord
 // An AAAA record.
 type AaaaRecord struct {
-	Ipv6Address *string                `json:"ipv6Address,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Ipv6Address           *string                        `json:"ipv6Address,omitempty" optionalConfigMapPair:"Ipv6Address"`
+	Ipv6AddressFromConfig *genruntime.ConfigMapReference `json:"ipv6AddressFromConfig,omitempty" optionalConfigMapPair:"Ipv6Address"`
+	PropertyBag           genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240601.AaaaRecord_STATUS

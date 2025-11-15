@@ -67,7 +67,7 @@ type RecordSetProperties struct {
 // An AAAA record.
 type AaaaRecord struct {
 	// Ipv6Address: The IPv6 address of this AAAA record.
-	Ipv6Address *string `json:"ipv6Address,omitempty"`
+	Ipv6Address *string `json:"ipv6Address,omitempty" optionalConfigMapPair:"Ipv6Address"`
 }
 
 // An A record.
