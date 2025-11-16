@@ -31,7 +31,7 @@ var (
 
 const GeneratorVersion string = "v1api"
 
-// MakeVersionedLocalPackageReference Creates a new local package reference from a group and version
+// MakeVersionedLocalPackageReference creates a new local package reference from a group and version
 func MakeVersionedLocalPackageReference(prefix string, group string, version string) LocalPackageReference {
 	gv := VersionPrefixForGroup(group)
 	return LocalPackageReference{
@@ -43,7 +43,7 @@ func MakeVersionedLocalPackageReference(prefix string, group string, version str
 	}
 }
 
-// MakeLocalPackageReference Creates a new local package reference from a group and name.
+// MakeLocalPackageReference creates a new local package reference from a group and name.
 // This is used for non-versioned packages, such as "customizations"
 func MakeNamedLocalPackageReference(prefix string, group string, name string) LocalPackageReference {
 	return LocalPackageReference{

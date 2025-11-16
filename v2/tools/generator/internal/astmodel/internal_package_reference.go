@@ -38,6 +38,6 @@ type InternalPackageReference interface {
 	// HasAPIVersion returns true if this package reference has the specified API version
 	HasAPIVersion(ver string) bool
 
-	// HasVersionPrefix returns true if we have the specified version prefix, false otherwise.
+	// HasVersionPrefix returns true if the package has the specified version prefix, false otherwise.
 	HasVersionPrefix(prefix string) bool
 }

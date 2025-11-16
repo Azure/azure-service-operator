@@ -81,7 +81,7 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 	return result, nil
 }
 
-// compatibilityReferencesConvertToOriginalPackage linkes any compatibility references to the original if present
+// compatibilityReferencesConvertToOriginalPackage links any compatibility references to the original if present
 func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertToOriginalPackage(names []astmodel.InternalTypeName) {
 	for i, name := range names {
 		// Last package can't be linked forward
