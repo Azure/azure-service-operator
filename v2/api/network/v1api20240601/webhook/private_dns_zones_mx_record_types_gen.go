@@ -121,6 +121,7 @@ func (record *PrivateDnsZonesMXRecord) createValidations() []func(ctx context.Co
 		record.validateOwnerReference,
 		record.validateSecretDestinations,
 		record.validateConfigMapDestinations,
+		record.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (record *PrivateDnsZonesMXRecord) updateValidations() []func(ctx context.Co
 		func(ctx context.Context, oldObj *v20240601.PrivateDnsZonesMXRecord, newObj *v20240601.PrivateDnsZonesMXRecord) (admission.Warnings, error) {
 			return record.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20240601.PrivateDnsZonesMXRecord, newObj *v20240601.PrivateDnsZonesMXRecord) (admission.Warnings, error) {
+			return record.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -154,6 +158,15 @@ func (record *PrivateDnsZonesMXRecord) validateConfigMapDestinations(ctx context
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (record *PrivateDnsZonesMXRecord) validateOptionalConfigMapReferences(ctx context.Context, obj *v20240601.PrivateDnsZonesMXRecord) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
