@@ -5,6 +5,8 @@
 
 package astmodel
 
+import "strings"
+
 // VersionMigrationMode indicates how version migration should be handled
 type VersionMigrationMode string
 
@@ -40,6 +42,7 @@ const (
 )
 
 // versionMigrationModes contains a mapping of group names to their version migration modes.
+// Keys are group names in lower case.
 // We'll start by configuring all existing groups to use the Legacy mode, with no migration required for new groups.
 // As we move groups to the new versioning scheme, we'll move them to hybrid mode (giving users a migration path forward).
 // Once all groups have been fully migrated, we will delete this file.
@@ -64,7 +67,6 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"dbforpostgresql":         VersionMigrationModeLegacy,
 	"devices":                 VersionMigrationModeLegacy,
 	"documentdb":              VersionMigrationModeLegacy,
-	"entra":                   VersionMigrationModeLegacy,
 	"eventgrid":               VersionMigrationModeLegacy,
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
@@ -81,8 +83,6 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"quota":                   VersionMigrationModeLegacy,
 	"redhatopenshift":         VersionMigrationModeLegacy,
 	"resources":               VersionMigrationModeLegacy,
-	"resources.m":             VersionMigrationModeLegacy,
-	"scheme.g":                VersionMigrationModeLegacy,
 	"search":                  VersionMigrationModeLegacy,
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
@@ -95,7 +95,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.
 func VersionPrefixForGroup(group string) string {
-	if m, ok := versionMigrationModes[group]; ok {
+	if m, ok := versionMigrationModes[strings.ToLower(group)]; ok {
 		if m == VersionMigrationModeLegacy {
 			return "v1api"
 		}
@@ -108,9 +108,20 @@ func VersionPrefixForGroup(group string) string {
 func VersionMigrationModeForGroup(
 	group string,
 ) VersionMigrationMode {
-	if m, ok := versionMigrationModes[group]; ok {
+	if m, ok := versionMigrationModes[strings.ToLower(group)]; ok {
 		return m
 	}
 
 	return VersionMigrationModeNone
+}
+
+func FindGroupsByMode(mode VersionMigrationMode) []string {
+	var result []string
+	for g, m := range versionMigrationModes {
+		if m == mode {
+			result = append(result, g)
+		}
+	}
+
+	return result
 }

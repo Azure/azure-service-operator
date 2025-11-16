@@ -8,9 +8,11 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/rotisserie/eris"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
@@ -54,14 +56,17 @@ func newVersionMigrationFactory(
 	return &versionMigrationFactory{
 		configuration:     configuration,
 		definitions:       definitions,
-		lastLegacyVersion: "v2.16.0", //!! Change to v2.16.0 once hybrid mode is in place
+		lastLegacyVersion: "v2.16.0",
 	}
 }
 
 func (p *versionMigrationFactory) Process(ctx context.Context) (astmodel.TypeDefinitionSet, error) {
 	// Find all the resources currently using legacy mode
 	// versioning that need to be moved to use new style versioning
-	toMove := p.findLegacyModeResourcesToMove()
+	toMove, err := p.findLegacyModeResourcesToMove()
+	if err != nil {
+		return nil, eris.Wrap(err, "finding resources for version migration")
+	}
 
 	moved, err := p.moveResources(toMove, "v")
 	if err != nil {
@@ -83,8 +88,12 @@ func (p *versionMigrationFactory) Process(ctx context.Context) (astmodel.TypeDef
 // moved to new packages using new (simpler) versioning.
 // We scan all definitions looking for resources in groups configured for Legacy mode versioning
 // that are noted in configuration as being introduced in ASO version 2.17 or later.
-func (p *versionMigrationFactory) findLegacyModeResourcesToMove() astmodel.TypeDefinitionSet {
+func (p *versionMigrationFactory) findLegacyModeResourcesToMove() (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
+
+	// A set of all groups using legacy mode versioning. We expect to see at least 1 resource
+	// introduced prior to v2.17 in each of these groups, and it's an error if we don't
+	legacyGroups := set.Make(astmodel.FindGroupsByMode(astmodel.VersionMigrationModeLegacy)...)
 
 	for _, def := range p.definitions {
 		_, ok := astmodel.AsResourceType(def.Type())
@@ -106,11 +115,21 @@ func (p *versionMigrationFactory) findLegacyModeResourcesToMove() astmodel.TypeD
 		}
 
 		if astmodel.ComparePathAndVersion(introducedIn, p.lastLegacyVersion) > 0 {
+			// This resource was introduced after the last legacy version, it needs to be moved
 			result.Add(def)
+		} else {
+			// Found at least one resource introduced prior to v2.17 in this group
+			legacyGroups.Remove(group)
 		}
 	}
 
-	return result
+	if len(legacyGroups) > 0 {
+		return nil, eris.Errorf(
+			"expected to find resources introduced prior to ASO version 2.17 in group(s) %s but none were found",
+			strings.Join(set.AsSortedSlice(legacyGroups), ", "))
+	}
+
+	return result, nil
 }
 
 // findHybridModeResourcesToCopy identifies resources using hybrid mode versioning that need to be
