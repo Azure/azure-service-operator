@@ -1,0 +1,9 @@
+apiVersion: dbforpostgresql.azure.com/v1api20250801
+kind: FlexibleServersDatabase
+metadata:
+  name: sampledb
+  namespace: default
+spec:
+  owner:
+    name: asosampleserver20250801
+  charset: utf8
