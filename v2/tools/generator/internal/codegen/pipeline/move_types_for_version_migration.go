@@ -91,9 +91,15 @@ func (p *versionMigrationFactory) Process(ctx context.Context) (astmodel.TypeDef
 func (p *versionMigrationFactory) findLegacyModeResourcesToMove() (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
-	// A set of all groups using legacy mode versioning. We expect to see at least 1 resource
-	// introduced prior to v2.17 in each of these groups, and it's an error if we don't
-	legacyGroups := set.Make(astmodel.FindGroupsByMode(astmodel.VersionMigrationModeLegacy)...)
+	// For legacy mode groups, we need to ensure that we find at least one resource introduced
+	// prior to v2.17 - this is to catch cases where someone incorrectly configures legacy mode
+	// for a new group. We can't just look for all legacy mode groups, because unit tests focus
+	// on just selected groups.
+	// Instead, we track which legacy mode groups we encounter during our search, and verify
+	// that the set of groups used by newer types is a strict subset of the groups used by
+	// older types.
+	legacyModeGroupsContainingOlderResources := set.Make[string]()
+	legacyModeGroupsContainingNewerResources := set.Make[string]()
 
 	for _, def := range p.definitions {
 		_, ok := astmodel.AsResourceType(def.Type())
@@ -104,11 +110,14 @@ func (p *versionMigrationFactory) findLegacyModeResourcesToMove() (astmodel.Type
 		pkg := def.Name().InternalPackageReference()
 		group := pkg.Group()
 
+		// If the group is not using legacy mode versioning, skip it
 		mode := astmodel.VersionMigrationModeForGroup(group)
 		if mode != astmodel.VersionMigrationModeLegacy {
 			continue
 		}
 
+		// Look up which version of ASO this resource was introduced in.
+		// (This might be missing during testing, so it's not an error if we don't find it)
 		introducedIn, ok := p.configuration.SupportedFrom.Lookup(def.Name())
 		if !ok {
 			continue
@@ -117,12 +126,15 @@ func (p *versionMigrationFactory) findLegacyModeResourcesToMove() (astmodel.Type
 		if astmodel.ComparePathAndVersion(introducedIn, p.lastLegacyVersion) > 0 {
 			// This resource was introduced after the last legacy version, it needs to be moved
 			result.Add(def)
+			legacyModeGroupsContainingNewerResources.Add(group)
 		} else {
 			// Found at least one resource introduced prior to v2.17 in this group
-			legacyGroups.Remove(group)
+			legacyModeGroupsContainingOlderResources.Add(group)
 		}
 	}
 
+	// Check to see if any of the legacy mode groups failed to contain older resources
+	legacyGroups := legacyModeGroupsContainingNewerResources.Except(legacyModeGroupsContainingOlderResources)
 	if len(legacyGroups) > 0 {
 		return nil, eris.Errorf(
 			"expected to find resources introduced prior to ASO version 2.17 in group(s) %s but none were found",
