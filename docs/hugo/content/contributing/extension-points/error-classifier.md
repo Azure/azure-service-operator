@@ -12,36 +12,8 @@ The interface is called in the error handling path of all ARM operations (GET, P
 
 ## Interface Definition
 
-```go
-type ErrorClassifier interface {
-    ClassifyError(
-        cloudError *genericarmclient.CloudError,
-        apiVersion string,
-        log logr.Logger,
-        next ErrorClassifierFunc,
-    ) (core.CloudErrorDetails, error)
-}
+See the [ErrorClassifier interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/error_classifier.go) in the source code.
 
-type ErrorClassifierFunc func(
-    cloudError *genericarmclient.CloudError,
-) (core.CloudErrorDetails, error)
-```
-
-**Parameters:**
-- `cloudError`: The error returned from ARM, including HTTP status, code, and message
-- `apiVersion`: The ARM API version used for the request
-- `log`: Logger for the current operation
-- `next`: The default error classification function
-
-**Returns:**
-- `core.CloudErrorDetails`: Structured error information including classification
-- `error`: Error if classification itself fails
-
-The `CloudErrorDetails` structure includes:
-- `Classification`: Fatal, Retryable, or other classifications
-- `Code`: Error code from Azure
-- `Message`: Human-readable error message
-- `Retry`: Whether the operation should be retried
 
 ## Motivation
 
@@ -79,54 +51,16 @@ Do **not** use `ErrorClassifier` when:
 
 ## Example: DNS Zone Record Error Classification
 
-DNS Zone records can encounter specific transient errors during provisioning that should be retried:
+See the [full implementation in dns_zones_a_record_extension.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/network/customizations/dns_zones_a_record_extension.go).
 
-```go
-var _ extensions.ErrorClassifier = &DnsZonesARecordExtension{}
-
-func (extension *DnsZonesARecordExtension) ClassifyError(
-    cloudError *genericarmclient.CloudError,
-    apiVersion string,
-    log logr.Logger,
-    next extensions.ErrorClassifierFunc,
-) (core.CloudErrorDetails, error) {
-    // First, call the default classifier
-    details, err := next(cloudError)
-    if err != nil {
-        return core.CloudErrorDetails{}, err
-    }
-
-    // Check for DNS-specific retryable errors
-    if isRetryableDNSZoneRecordError(cloudError) {
-        log.V(Status).Info(
-            "Classifying DNS zone record error as retryable",
-            "Code", cloudError.Code(),
-            "Message", cloudError.Message())
-        
-        // Override the classification to make it retryable
-        details.Classification = core.ErrorRetryable
-    }
-
-    return details, nil
-}
-
-// Helper function to identify retryable DNS errors
-func isRetryableDNSZoneRecordError(cloudError *genericarmclient.CloudError) bool {
-    // DNS zones may temporarily fail during propagation
-    code := cloudError.Code()
-    return code == "DnsRecordInGracePeriod" ||
-           code == "DnsZoneNotReady" ||
-           code == "NameServerNotReady"
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Delegation to default**: Calls `next()` first to get standard classification
 2. **Selective override**: Only modifies classification for specific errors
 3. **Logging**: Records the classification decision for debugging
 4. **Helper function**: Encapsulates the error detection logic
 5. **Error propagation**: Returns errors from `next()` without modification
+
 
 ## Common Patterns
 
@@ -238,40 +172,6 @@ func (ex *ResourceExtension) ClassifyError(
 }
 ```
 
-### Pattern 5: Multiple Error Conditions
-
-```go
-func (ex *ResourceExtension) ClassifyError(
-    cloudError *genericarmclient.CloudError,
-    apiVersion string,
-    log logr.Logger,
-    next extensions.ErrorClassifierFunc,
-) (core.CloudErrorDetails, error) {
-    details, err := next(cloudError)
-    if err != nil {
-        return core.CloudErrorDetails{}, err
-    }
-
-    code := cloudError.Code()
-    
-    switch {
-    case isTransientNetworkError(code):
-        details.Classification = core.ErrorRetryable
-        details.Retry = true
-    case isQuotaError(code):
-        details.Classification = core.ErrorFatal
-        details.Message = "Quota exceeded. Please request a quota increase."
-    case isAuthorizationError(code):
-        details.Classification = core.ErrorFatal
-        details.Message = "Insufficient permissions. Check service principal roles."
-    default:
-        // Keep default classification
-    }
-
-    return details, nil
-}
-```
-
 ## Error Classifications
 
 The `core` package defines several error classifications:
@@ -296,64 +196,6 @@ When testing `ErrorClassifier` extensions:
 4. **Test error message enhancement**: Verify improved user messages
 5. **Test classification changes**: Assert correct classification results
 
-Example test structure:
-
-```go
-func TestMyResourceExtension_ClassifyError(t *testing.T) {
-    t.Run("default classification unchanged", func(t *testing.T) {
-        // Test that unrecognized errors pass through
-    })
-
-    t.Run("transient error marked retryable", func(t *testing.T) {
-        // Test custom retryable classification
-    })
-
-    t.Run("quota error marked fatal", func(t *testing.T) {
-        // Test fatal classification
-    })
-
-    t.Run("enhanced error message", func(t *testing.T) {
-        // Test message improvements
-    })
-
-    t.Run("api version specific handling", func(t *testing.T) {
-        // Test version-specific logic
-    })
-}
-```
-
-Example test implementation:
-
-```go
-func TestDnsZonesARecordExtension_ClassifyError(t *testing.T) {
-    extension := &DnsZonesARecordExtension{}
-    
-    // Create a mock default classifier
-    defaultClassifier := func(err *genericarmclient.CloudError) (core.CloudErrorDetails, error) {
-        return core.CloudErrorDetails{
-            Classification: core.ErrorFatal,
-            Code: err.Code(),
-            Message: err.Message(),
-        }, nil
-    }
-
-    t.Run("DnsRecordInGracePeriod is retryable", func(t *testing.T) {
-        cloudError := &genericarmclient.CloudError{
-            Code: "DnsRecordInGracePeriod",
-            Message: "DNS record is in grace period",
-        }
-
-        details, err := extension.ClassifyError(
-            cloudError,
-            "2023-01-01",
-            logr.Discard(),
-            defaultClassifier)
-
-        assert.NoError(t, err)
-        assert.Equal(t, core.ErrorRetryable, details.Classification)
-    })
-}
-```
 
 ## Important Notes
 

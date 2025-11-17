@@ -12,19 +12,8 @@ The interface is called after the resource exists in Azure and has been assigned
 
 ## Interface Definition
 
-```go
-type SuccessfulCreationHandler interface {
-    Success(obj genruntime.ARMMetaObject) error
-}
+See the [SuccessfulCreationHandler interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/successful_resource_modifier.go) in the source code.
 
-type SuccessFunc = func(obj genruntime.ARMMetaObject) error
-```
-
-**Parameters:**
-- `obj`: The resource that was just created, with populated status including the Azure resource ID
-
-**Returns:**
-- `error`: Error if the success handling fails (will prevent the Ready condition)
 
 ## Motivation
 
@@ -61,57 +50,16 @@ Do **not** use `SuccessfulCreationHandler` when:
 
 ## Example: Subscription Alias ID Override
 
-The Subscription Alias resource uses `SuccessfulCreationHandler` to override the child resource ID to point to the subscription itself rather than the alias:
+See the [full implementation in alias_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/subscription/customizations/alias_extensions.go).
 
-```go
-var _ extensions.SuccessfulCreationHandler = &AliasExtension{}
-
-func (extension *AliasExtension) Success(obj genruntime.ARMMetaObject) error {
-    // Type assert to the specific resource type
-    typedObj, ok := obj.(*storage.Alias)
-    if !ok {
-        return eris.Errorf(
-            "cannot run on unknown resource type %T, expected *subscription.Alias",
-            obj)
-    }
-
-    // Type assert hub version to catch breaking changes
-    var _ conversion.Hub = typedObj
-
-    // Get the subscription ID from the alias status
-    subscriptionID, ok := getSubscriptionID(typedObj)
-    if !ok {
-        // SubscriptionID isn't populated. That's a problem
-        return eris.Errorf("SubscriptionID field not populated")
-    }
-
-    // Override the child resource ID to point to the subscription
-    // This allows child resources to reference the subscription directly
-    genruntime.SetChildResourceIDOverride(
-        typedObj,
-        genericarmclient.MakeSubscriptionID(subscriptionID))
-
-    return nil
-}
-
-func getSubscriptionID(typedObj *storage.Alias) (string, bool) {
-    if typedObj.Status.Properties == nil || 
-       typedObj.Status.Properties.SubscriptionId == nil || 
-       *typedObj.Status.Properties.SubscriptionId == "" {
-        return "", false
-    }
-
-    return *typedObj.Status.Properties.SubscriptionId, true
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Type assertions**: For both resource type and hub version
 2. **Status access**: Retrieves information from the populated status
 3. **ID override**: Sets a custom child resource ID reference
 4. **Validation**: Checks that required status fields are present
 5. **Error handling**: Returns error if required data missing
+
 
 ## Common Patterns
 
@@ -269,62 +217,6 @@ When testing `SuccessfulCreationHandler` extensions:
 4. **Test idempotency**: Verify multiple calls are safe
 5. **Test status modifications**: Verify status fields set correctly
 
-Example test structure:
-
-```go
-func TestAliasExtension_Success(t *testing.T) {
-    t.Run("sets child resource ID override", func(t *testing.T) {
-        // Test successful ID override
-    })
-
-    t.Run("returns error when subscription ID missing", func(t *testing.T) {
-        // Test error when required status field missing
-    })
-
-    t.Run("idempotent when called multiple times", func(t *testing.T) {
-        // Test multiple calls produce same result
-    })
-}
-```
-
-Example test implementation:
-
-```go
-func TestAliasExtension_Success(t *testing.T) {
-    extension := &AliasExtension{}
-
-    t.Run("sets child resource ID", func(t *testing.T) {
-        subscriptionID := "12345678-1234-1234-1234-123456789012"
-        alias := &storage.Alias{
-            Status: storage.Alias_STATUS{
-                Properties: &storage.SubscriptionAliasResponseProperties_STATUS{
-                    SubscriptionId: &subscriptionID,
-                },
-            },
-        }
-
-        err := extension.Success(alias)
-
-        assert.NoError(t, err)
-        override := genruntime.GetChildResourceIDOverride(alias)
-        assert.NotNil(t, override)
-        assert.Contains(t, *override, subscriptionID)
-    })
-
-    t.Run("errors when subscription ID missing", func(t *testing.T) {
-        alias := &storage.Alias{
-            Status: storage.Alias_STATUS{
-                Properties: &storage.SubscriptionAliasResponseProperties_STATUS{},
-            },
-        }
-
-        err := extension.Success(alias)
-
-        assert.Error(t, err)
-        assert.Contains(t, err.Error(), "SubscriptionID")
-    })
-}
-```
 
 ## Common Scenarios
 

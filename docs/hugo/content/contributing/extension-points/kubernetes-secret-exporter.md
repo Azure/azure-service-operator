@@ -12,36 +12,8 @@ The interface is called during the reconciliation process, after ARM operations 
 
 ## Interface Definition
 
-```go
-type KubernetesSecretExporter interface {
-    ExportKubernetesSecrets(
-        ctx context.Context,
-        obj MetaObject,
-        additionalSecrets set.Set[string],
-        armClient *genericarmclient.GenericClient,
-        log logr.Logger,
-    ) (*KubernetesSecretExportResult, error)
-}
+See the [KubernetesSecretExporter interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/kubernetes_secret_exporter.go) in the source code.
 
-type KubernetesSecretExportResult struct {
-    // Objs is the set of Secret objects to create/update in Kubernetes
-    Objs []client.Object
-    
-    // RawSecrets contains raw secret values for use in secret expressions
-    RawSecrets map[string]string
-}
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `obj`: The Kubernetes resource that owns the secrets
-- `additionalSecrets`: Set of secret names to retrieve (for secret expressions)
-- `armClient`: Client for making ARM API calls to retrieve secrets
-- `log`: Logger for the current operation
-
-**Returns:**
-- `KubernetesSecretExportResult`: Contains Secret objects to create and raw secret values
-- `error`: Error if secret export fails (will set condition on resource)
 
 ## Motivation
 
@@ -78,77 +50,9 @@ Do **not** use `KubernetesSecretExporter` when:
 
 ## Example: User Assigned Identity Secret Export
 
-The UserAssignedIdentity resource exports identity IDs as secrets:
+See the [full implementation in user_assigned_identity_extention_authorization.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/managedidentity/customizations/user_assigned_identity_extention_authorization.go).
 
-```go
-var _ genruntime.KubernetesSecretExporter = &UserAssignedIdentityExtension{}
-
-func (ext *UserAssignedIdentityExtension) ExportKubernetesSecrets(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    _ set.Set[string],
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-) (*genruntime.KubernetesSecretExportResult, error) {
-    // Type assert to the specific resource type
-    typedObj, ok := obj.(*v20230131s.UserAssignedIdentity)
-    if !ok {
-        return nil, fmt.Errorf(
-            "cannot run on unknown resource type %T, expected *v20230131s.UserAssignedIdentity",
-            obj)
-    }
-
-    // Type assert hub version to catch breaking changes
-    var _ conversion.Hub = typedObj
-
-    // Check if user requested any secrets
-    hasSecrets := secretsSpecified(typedObj)
-    if !hasSecrets {
-        log.V(Debug).Info("No secrets retrieval to perform as operatorSpec.Secrets is empty")
-        return nil, nil
-    }
-
-    // Create a collector to gather secret values
-    collector := secrets.NewCollector(typedObj.Namespace)
-    
-    // Add each requested secret from status
-    if typedObj.Spec.OperatorSpec != nil && typedObj.Spec.OperatorSpec.Secrets != nil {
-        collector.AddValue(
-            typedObj.Spec.OperatorSpec.Secrets.ClientId,
-            to.Value(typedObj.Status.ClientId))
-        collector.AddValue(
-            typedObj.Spec.OperatorSpec.Secrets.PrincipalId,
-            to.Value(typedObj.Status.PrincipalId))
-        collector.AddValue(
-            typedObj.Spec.OperatorSpec.Secrets.TenantId,
-            to.Value(typedObj.Status.TenantId))
-    }
-
-    // Convert collected values to Secret objects
-    result, err := collector.Values()
-    if err != nil {
-        return nil, err
-    }
-
-    return &genruntime.KubernetesSecretExportResult{
-        Objs: secrets.SliceToClientObjectSlice(result),
-    }, nil
-}
-
-// Helper function to check if secrets were requested
-func secretsSpecified(obj *v20230131s.UserAssignedIdentity) bool {
-    if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
-        return false
-    }
-
-    specSecrets := obj.Spec.OperatorSpec.Secrets
-    return specSecrets.ClientId != nil ||
-           specSecrets.PrincipalId != nil ||
-           specSecrets.TenantId != nil
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Early exit**: Returns nil if no secrets were requested
 2. **Type safety**: Type assertions for resource and hub version
@@ -156,6 +60,7 @@ func secretsSpecified(obj *v20230131s.UserAssignedIdentity) bool {
 4. **Status values**: Retrieves values from resource status
 5. **User control**: Only exports secrets the user specified in operatorSpec
 6. **Namespace scoping**: Secrets created in the same namespace as the resource
+
 
 ## Common Patterns
 
@@ -415,23 +320,6 @@ When testing `KubernetesSecretExporter` extensions:
 5. **Test secret updates**: Verify secrets update when values change
 6. **Test secret references**: Verify correct names and keys
 
-Example test structure:
-
-```go
-func TestUserAssignedIdentityExtension_ExportKubernetesSecrets(t *testing.T) {
-    t.Run("no secrets when not specified", func(t *testing.T) {
-        // Test nil result when operatorSpec.secrets is nil
-    })
-
-    t.Run("exports requested secrets", func(t *testing.T) {
-        // Test secret creation with values
-    })
-
-    t.Run("handles missing status values", func(t *testing.T) {
-        // Test behavior when status fields are nil
-    })
-}
-```
 
 ## Security Considerations
 

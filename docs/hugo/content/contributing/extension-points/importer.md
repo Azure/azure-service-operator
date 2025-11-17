@@ -12,44 +12,8 @@ The interface is called during the import workflow, after retrieving the resourc
 
 ## Interface Definition
 
-```go
-type Importer interface {
-    Import(
-        ctx context.Context,
-        rsrc genruntime.ImportableResource,
-        owner *genruntime.ResourceReference,
-        next ImporterFunc,
-    ) (ImportResult, error)
-}
+See the [Importer interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/importer.go) in the source code.
 
-type ImporterFunc func(
-    ctx context.Context,
-    resource genruntime.ImportableResource,
-    owner *genruntime.ResourceReference,
-) (ImportResult, error)
-
-type ImportResult struct {
-    because string
-}
-
-// Helper functions for creating results
-func ImportSucceeded() ImportResult
-func ImportSkipped(because string) ImportResult
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `rsrc`: The resource being imported
-- `owner`: Optional owner reference for the resource
-- `next`: The default import implementation
-
-**Returns:**
-- `ImportResult`: Indicates success or skip with optional reason
-- `error`: Error if import fails
-
-The `ImportResult` can indicate:
-- **Success**: Resource should be imported (`ImportSucceeded()`)
-- **Skipped**: Resource should not be imported (`ImportSkipped(reason)`)
 
 ## Motivation
 
@@ -89,61 +53,16 @@ Do **not** use `Importer` when:
 
 ## Example: MySQL Configuration Import Filtering
 
-The MySQL FlexibleServersConfiguration resource uses `Importer` to skip system-managed configurations:
+See the [full implementation in flexible_servers_configuration_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/dbformysql/customizations/flexible_servers_configuration_extensions.go).
 
-```go
-var _ extensions.Importer = &FlexibleServersConfigurationExtension{}
-
-func (extension *FlexibleServersConfigurationExtension) Import(
-    ctx context.Context,
-    rsrc genruntime.ImportableResource,
-    owner *genruntime.ResourceReference,
-    next extensions.ImporterFunc,
-) (extensions.ImportResult, error) {
-    // Call the default import logic first
-    result, err := next(ctx, rsrc, owner)
-    if err != nil {
-        return extensions.ImportResult{}, err
-    }
-
-    // Type assert to the specific resource type
-    config, ok := rsrc.(*api.FlexibleServersConfiguration)
-    if !ok {
-        // If it's not our type, just return the default result
-        return result, nil
-    }
-
-    // Skip system-managed default configurations
-    if config.Spec.Source != nil &&
-        *config.Spec.Source == "system-default" {
-        return extensions.ImportSkipped("system-defaults don't need to be imported"), nil
-    }
-
-    // Skip read-only configurations that can't be modified
-    if config.Status.IsReadOnly != nil &&
-        *config.Status.IsReadOnly == api.ConfigurationProperties_IsReadOnly_STATUS_True {
-        return extensions.ImportSkipped("readonly configuration can't be set"), nil
-    }
-
-    // Skip configurations that match default values
-    if config.Status.DefaultValue != nil &&
-        config.Status.Value != nil &&
-        *config.Status.DefaultValue == *config.Status.Value {
-        return extensions.ImportSkipped("default value is the same as the current value"), nil
-    }
-
-    // Import this configuration
-    return result, nil
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Chain pattern**: Calls `next()` first to get the imported resource
 2. **Type checking**: Safely handles being called on wrong resource type
 3. **Multiple filters**: Several conditions that trigger skip
 4. **Clear reasons**: Each skip includes explanation for user feedback
 5. **Default behavior**: Returns original result when no filters apply
+
 
 ## Common Patterns
 
@@ -307,56 +226,6 @@ When testing `Importer` extensions:
 4. **Test transformation**: If modifying resources, verify changes
 5. **Test type safety**: Ensure handling of unexpected types
 
-Example test structure:
-
-```go
-func TestFlexibleServersConfigurationExtension_Import(t *testing.T) {
-    t.Run("imports user-defined configuration", func(t *testing.T) {
-        // Test normal import succeeds
-    })
-
-    t.Run("skips system-default configuration", func(t *testing.T) {
-        // Test system-default is skipped
-    })
-
-    t.Run("skips readonly configuration", func(t *testing.T) {
-        // Test readonly is skipped
-    })
-
-    t.Run("skips default value configuration", func(t *testing.T) {
-        // Test default values are skipped
-    })
-}
-```
-
-Example test implementation:
-
-```go
-func TestFlexibleServersConfigurationExtension_Import(t *testing.T) {
-    extension := &FlexibleServersConfigurationExtension{}
-    
-    // Create a mock next function that returns success
-    next := func(ctx context.Context, rsrc genruntime.ImportableResource, owner *genruntime.ResourceReference) (extensions.ImportResult, error) {
-        return extensions.ImportSucceeded(), nil
-    }
-
-    t.Run("skips system-default", func(t *testing.T) {
-        source := "system-default"
-        config := &api.FlexibleServersConfiguration{
-            Spec: api.FlexibleServersConfiguration_Spec{
-                Source: &source,
-            },
-        }
-
-        result, err := extension.Import(context.Background(), config, nil, next)
-
-        assert.NoError(t, err)
-        reason, skipped := result.Skipped()
-        assert.True(t, skipped)
-        assert.Contains(t, reason, "system-default")
-    })
-}
-```
 
 ## User Experience
 

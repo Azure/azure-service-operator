@@ -12,45 +12,8 @@ The interface is called early in the reconciliation process, after basic claim/v
 
 ## Interface Definition
 
-```go
-type PreReconciliationChecker interface {
-    PreReconcileCheck(
-        ctx context.Context,
-        obj MetaObject,
-        owner MetaObject,
-        resourceResolver *resolver.Resolver,
-        armClient *genericarmclient.GenericClient,
-        log logr.Logger,
-        next PreReconcileCheckFunc,
-    ) (PreReconcileCheckResult, error)
-}
+See the [PreReconciliationChecker interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/prereconciliation_checker.go) in the source code.
 
-type PreReconcileCheckFunc func(
-    ctx context.Context,
-    obj MetaObject,
-    owner MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-) (PreReconcileCheckResult, error)
-
-// Helper functions for creating results
-func ProceedWithReconcile() PreReconcileCheckResult
-func BlockReconcile(reason string) PreReconcileCheckResult
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `obj`: The resource about to be reconciled (with fresh status)
-- `owner`: The parent resource (can be nil for root resources)
-- `resourceResolver`: Helper for resolving resource references
-- `armClient`: Client for making ARM API calls if needed
-- `log`: Logger for the current operation
-- `next`: The default check implementation (usually proceeds)
-
-**Returns:**
-- `PreReconcileCheckResult`: Indicates proceed or block with optional reason
-- `error`: Error if the check itself fails
 
 ## Motivation
 
@@ -93,49 +56,31 @@ Do **not** use `PreReconciliationChecker` when:
 A common pattern is waiting for the parent resource to be ready:
 
 ```go
-var _ extensions.PreReconciliationChecker = &MyResourceExtension{}
-
+// Simplified example
 func (ex *MyResourceExtension) PreReconcileCheck(
     ctx context.Context,
     obj genruntime.MetaObject,
     owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileCheckFunc,
+    ...
 ) (extensions.PreReconcileCheckResult, error) {
-    // Type assert to specific resource type
-    resource, ok := obj.(*myservice.MyResource)
-    if !ok {
-        return extensions.PreReconcileCheckResult{},
-            eris.Errorf("cannot run on unknown resource type %T", obj)
-    }
-
-    // Type assert hub version to catch breaking changes
-    var _ conversion.Hub = resource
-
-    // Check if owner is provided and ready
     if owner != nil {
         ready := conditions.IsReady(owner)
         if !ready {
-            ownerName := owner.GetName()
             return extensions.BlockReconcile(
-                fmt.Sprintf("waiting for owner %s to be ready", ownerName)), nil
+                fmt.Sprintf("waiting for owner %s to be ready", owner.GetName())), nil
         }
     }
-
-    // Owner is ready (or not required), proceed with reconciliation
     return extensions.ProceedWithReconcile(), nil
 }
 ```
 
-**Key aspects of this example:**
-
+**Key aspects:**
 1. **Type assertions**: For both resource type and hub version
 2. **Owner check**: Validates owner state before proceeding
 3. **Clear blocking messages**: Provides reason for blocking
 4. **No error**: Check succeeded, but reconciliation should wait
 5. **Proceeds when ready**: Returns proceed result when checks pass
+
 
 ## Common Patterns
 
@@ -374,27 +319,6 @@ When testing `PreReconciliationChecker` extensions:
 4. **Test with nil owner**: Handle cases with no owner
 5. **Test check chain**: Verify calling next() works correctly
 
-Example test structure:
-
-```go
-func TestMyResourceExtension_PreReconcileCheck(t *testing.T) {
-    t.Run("proceeds when owner ready", func(t *testing.T) {
-        // Test success case
-    })
-
-    t.Run("blocks when owner not ready", func(t *testing.T) {
-        // Test blocking when owner not ready
-    })
-
-    t.Run("blocks when owner missing", func(t *testing.T) {
-        // Test blocking when owner is nil
-    })
-
-    t.Run("proceeds when no owner required", func(t *testing.T) {
-        // Test for resources without owners
-    })
-}
-```
 
 ## Performance Considerations
 

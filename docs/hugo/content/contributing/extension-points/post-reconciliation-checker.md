@@ -12,45 +12,8 @@ The interface is called at the end of the reconciliation process, after the reso
 
 ## Interface Definition
 
-```go
-type PostReconciliationChecker interface {
-    PostReconcileCheck(
-        ctx context.Context,
-        obj MetaObject,
-        owner MetaObject,
-        resourceResolver *resolver.Resolver,
-        armClient *genericarmclient.GenericClient,
-        log logr.Logger,
-        next PostReconcileCheckFunc,
-    ) (PostReconcileCheckResult, error)
-}
+See the [PostReconciliationChecker interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/postreconciliation_checker.go) in the source code.
 
-type PostReconcileCheckFunc func(
-    ctx context.Context,
-    obj MetaObject,
-    owner MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-) (PostReconcileCheckResult, error)
-
-// Helper functions for creating results
-func PostReconcileCheckResultSuccess() PostReconcileCheckResult
-func PostReconcileCheckResultFailure(reason string) PostReconcileCheckResult
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `obj`: The resource that was reconciled (with fresh status)
-- `owner`: The parent resource (can be nil for root resources)
-- `resourceResolver`: Helper for resolving resource references
-- `armClient`: Client for making additional ARM API calls if needed
-- `log`: Logger for the current operation
-- `next`: The default check implementation (usually returns success)
-
-**Returns:**
-- `PostReconcileCheckResult`: Indicates success or failure with optional reason
-- `error`: Error if the check itself fails (not the same as check failure)
 
 ## Motivation
 
@@ -90,54 +53,9 @@ Do **not** use `PostReconciliationChecker` when:
 
 ## Example: Private Endpoint Approval Check
 
-The PrivateEndpoint resource uses `PostReconciliationChecker` to wait for manual connection approval:
+See the [full implementation in private_endpoints_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/network/customizations/private_endpoints_extensions.go).
 
-```go
-var _ extensions.PostReconciliationChecker = &PrivateEndpointExtension{}
-
-func (extension *PrivateEndpointExtension) PostReconcileCheck(
-    _ context.Context,
-    obj genruntime.MetaObject,
-    _ genruntime.MetaObject,
-    _ *resolver.Resolver,
-    _ *genericarmclient.GenericClient,
-    _ logr.Logger,
-    _ extensions.PostReconcileCheckFunc,
-) (extensions.PostReconcileCheckResult, error) {
-    // Type assert to the specific resource type
-    endpoint, ok := obj.(*network.PrivateEndpoint)
-    if !ok {
-        return extensions.PostReconcileCheckResult{},
-            eris.Errorf("cannot run on unknown resource type %T, expected *network.PrivateEndpoint", obj)
-    }
-
-    // Type assert hub version to catch breaking changes
-    var _ conversion.Hub = endpoint
-
-    // Check if any manual connections are pending approval
-    var reqApprovals []string
-    if connections := endpoint.Status.ManualPrivateLinkServiceConnections; connections != nil {
-        for _, connection := range connections {
-            if *connection.PrivateLinkServiceConnectionState.Status != "Approved" {
-                reqApprovals = append(reqApprovals, *connection.Id)
-            }
-        }
-    }
-
-    // If approvals are needed, fail the check with a helpful message
-    if len(reqApprovals) > 0 {
-        return extensions.PostReconcileCheckResultFailure(
-            fmt.Sprintf(
-                "Private connection(s) '%q' to the PrivateEndpoint requires approval",
-                reqApprovals)), nil
-    }
-
-    // All connections approved, resource is ready
-    return extensions.PostReconcileCheckResultSuccess(), nil
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Type assertions**: For both resource type and hub version
 2. **Status inspection**: Examines resource status to determine readiness
@@ -145,6 +63,7 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 4. **No ARM calls**: Uses existing status data
 5. **Conditional result**: Returns success or failure based on state
 6. **No error return**: Check itself succeeded, but resource not ready yet
+
 
 ## Common Patterns
 
@@ -370,27 +289,6 @@ When testing `PostReconciliationChecker` extensions:
 4. **Test with real status**: Use realistic status values
 5. **Test retry behavior**: Verify requeue happens correctly
 
-Example test structure:
-
-```go
-func TestPrivateEndpointExtension_PostReconcileCheck(t *testing.T) {
-    t.Run("success when all connections approved", func(t *testing.T) {
-        // Test success path
-    })
-
-    t.Run("failure when approval pending", func(t *testing.T) {
-        // Test failure with pending approval
-    })
-
-    t.Run("failure with multiple pending approvals", func(t *testing.T) {
-        // Test multiple pending approvals
-    })
-
-    t.Run("success with no manual connections", func(t *testing.T) {
-        // Test when no manual connections exist
-    })
-}
-```
 
 ## Important Notes
 

@@ -12,38 +12,8 @@ The interface is called after Kubernetes marks the resource for deletion but bef
 
 ## Interface Definition
 
-```go
-type Deleter interface {
-    Delete(
-        ctx context.Context,
-        log logr.Logger,
-        resolver *resolver.Resolver,
-        armClient *genericarmclient.GenericClient,
-        obj genruntime.ARMMetaObject,
-        next DeleteFunc,
-    ) (ctrl.Result, error)
-}
+See the [Deleter interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/deleter.go) in the source code.
 
-type DeleteFunc = func(
-    ctx context.Context,
-    log logr.Logger,
-    resolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    obj genruntime.ARMMetaObject,
-) (ctrl.Result, error)
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `log`: Logger for the current operation
-- `resolver`: Helper for resolving resource references
-- `armClient`: Client for making ARM API calls
-- `obj`: The Kubernetes resource being deleted
-- `next`: The default deletion implementation to call
-
-**Returns:**
-- `ctrl.Result`: Reconciliation result (e.g., requeue timing)
-- `error`: Error if deletion fails (will prevent finalizer removal)
 
 ## Motivation
 
@@ -81,61 +51,9 @@ Do **not** use `Deleter` when:
 
 ## Example: Subscription Alias Deletion
 
-The Subscription Alias resource uses `Deleter` to cancel the subscription before deleting the alias:
+See the [full implementation in alias_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/subscription/customizations/alias_extensions.go).
 
-```go
-var _ extensions.Deleter = &AliasExtension{}
-
-func (extension *AliasExtension) Delete(
-    ctx context.Context,
-    log logr.Logger,
-    resolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    obj genruntime.ARMMetaObject,
-    next extensions.DeleteFunc,
-) (ctrl.Result, error) {
-    // Type assert to the specific resource type
-    typedObj, ok := obj.(*storage.Alias)
-    if !ok {
-        return ctrl.Result{}, eris.Errorf(
-            "cannot run on unknown resource type %T, expected *subscription.Alias",
-            obj)
-    }
-
-    // Type assert hub version to catch breaking changes
-    var _ conversion.Hub = typedObj
-
-    // Get the subscription ID from the alias status
-    subscriptionID, ok := getSubscriptionID(typedObj)
-    if !ok {
-        // SubscriptionID isn't populated, skip cancellation and proceed with deletion
-        log.V(Status).Info("No subscription ID found, proceeding with alias deletion")
-        return next(ctx, log, resolver, armClient, obj)
-    }
-
-    // Create Azure SDK client for subscription operations
-    subscriptionClient, err := armsubscription.NewClient(
-        armClient.Creds(),
-        armClient.ClientOptions())
-    if err != nil {
-        return ctrl.Result{}, eris.Wrapf(err, "failed to create subscription client")
-    }
-
-    // Cancel the subscription before deleting the alias
-    log.V(Status).Info("Canceling subscription", "subscriptionId", subscriptionID)
-    _, err = subscriptionClient.Cancel(ctx, subscriptionID, nil)
-    if err != nil {
-        return ctrl.Result{}, eris.Wrapf(err, "failed to cancel subscription %q", subscriptionID)
-    }
-
-    log.V(Status).Info("Subscription canceled, proceeding with alias deletion")
-
-    // Now perform the standard deletion of the alias
-    return next(ctx, log, resolver, armClient, obj)
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Type assertions**: For both resource type and hub version
 2. **Conditional logic**: Checks if subscription ID is available
@@ -143,6 +61,7 @@ func (extension *AliasExtension) Delete(
 4. **Error handling**: Returns errors that prevent finalizer removal
 5. **Chain pattern**: Calls `next()` to perform standard deletion
 6. **Logging**: Clear logging of each step for debugging
+
 
 ## Common Patterns
 
@@ -307,27 +226,6 @@ When testing `Deleter` extensions:
 5. **Test conditional paths**: Cover all branching logic
 6. **Test requeue behavior**: Verify multi-step deletions requeue correctly
 
-Example test structure:
-
-```go
-func TestMyResourceExtension_Delete(t *testing.T) {
-    t.Run("successful deletion with cleanup", func(t *testing.T) {
-        // Test full deletion flow
-    })
-
-    t.Run("cleanup fails blocks deletion", func(t *testing.T) {
-        // Test error handling
-    })
-
-    t.Run("conditional preservation", func(t *testing.T) {
-        // Test skip deletion logic
-    })
-
-    t.Run("multi-step deletion", func(t *testing.T) {
-        // Test requeue behavior
-    })
-}
-```
 
 ## Important Notes
 

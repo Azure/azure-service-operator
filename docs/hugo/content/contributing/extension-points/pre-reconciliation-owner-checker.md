@@ -12,44 +12,8 @@ The key difference from `PreReconciliationChecker` is that this extension **avoi
 
 ## Interface Definition
 
-```go
-type PreReconciliationOwnerChecker interface {
-    PreReconcileOwnerCheck(
-        ctx context.Context,
-        owner genruntime.MetaObject,
-        resourceResolver *resolver.Resolver,
-        armClient *genericarmclient.GenericClient,
-        log logr.Logger,
-        next PreReconcileOwnerCheckFunc,
-    ) (PreReconcileCheckResult, error)
-}
+See the [PreReconciliationOwnerChecker interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/prereconciliation_owner_checker.go) in the source code.
 
-type PreReconcileOwnerCheckFunc func(
-    ctx context.Context,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-) (PreReconcileCheckResult, error)
-
-// Helper functions for creating results
-func ProceedWithReconcile() PreReconcileCheckResult
-func BlockReconcile(reason string) PreReconcileCheckResult
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `owner`: The parent resource (can be nil for root resources or ARM ID references)
-- `resourceResolver`: Helper for resolving resource references
-- `armClient`: Client for making ARM API calls if needed
-- `log`: Logger for the current operation
-- `next`: The default check implementation (usually proceeds)
-
-**Returns:**
-- `PreReconcileCheckResult`: Indicates proceed or block with optional reason
-- `error`: Error if the check itself fails
-
-**Note:** Unlike `PreReconciliationChecker`, this interface does **not** receive the resource being reconciled (`obj`). It only has access to the owner.
 
 ## Motivation
 
@@ -98,74 +62,9 @@ Understanding the difference is critical:
 
 ## Example: Kusto Database Owner State Check
 
-The Kusto Database resource uses `PreReconciliationOwnerChecker` because databases cannot be accessed when the cluster is in certain states:
+See the [full implementation in database_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/kusto/customizations/database_extensions.go).
 
-```go
-var _ extensions.PreReconciliationOwnerChecker = &DatabaseExtension{}
-
-// Ensure we're dealing with the hub version of Cluster
-var _ conversion.Hub = &kusto.Cluster{}
-
-func (ext *DatabaseExtension) PreReconcileOwnerCheck(
-    ctx context.Context,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileOwnerCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    // Check to see if the owning cluster is in a state that will block us
-    // Owner can be nil if referenced by ARM ID
-    if owner != nil {
-        if cluster, ok := owner.(*kusto.Cluster); ok {
-            // If our owning cluster is in a state that will reject any operation,
-            // we should skip reconciliation entirely.
-            //
-            // When we reconcile the cluster, it enters an `Updating` state.
-            // During this time, we can't even try to reconcile the database -
-            // the operation will fail with a `Conflict` error.
-            //
-            // Checking the cluster state allows us to "play nice" and not use up
-            // request quota attempting operations we know will fail.
-            state := cluster.Status.ProvisioningState
-            if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
-                return extensions.BlockReconcile(
-                    fmt.Sprintf("Owning cluster is in provisioning state %q", *state)),
-                    nil
-            }
-        }
-    }
-
-    // Owner is in acceptable state, proceed
-    return next(ctx, owner, resourceResolver, armClient, log)
-}
-
-// Helper function to determine if cluster state blocks database access
-func clusterProvisioningStateBlocksReconciliation(state *string) bool {
-    if state == nil {
-        return false
-    }
-    
-    // These states prevent all database operations
-    blocked := []string{
-        "Creating",
-        "Updating", 
-        "Deleting",
-        "Stopped",
-        "Stopping",
-    }
-    
-    for _, blockedState := range blocked {
-        if *state == blockedState {
-            return true
-        }
-    }
-    
-    return false
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Owner type assertion**: Checks if owner is a Kusto Cluster
 2. **Nil handling**: Gracefully handles nil owner (ARM ID references)
@@ -173,6 +72,7 @@ func clusterProvisioningStateBlocksReconciliation(state *string) bool {
 4. **Clear blocking messages**: Provides specific reason for blocking
 5. **Helper function**: Encapsulates state-checking logic
 6. **Calls next**: Proceeds when cluster is in acceptable state
+
 
 ## Common Patterns
 
@@ -387,31 +287,6 @@ When testing `PreReconciliationOwnerChecker` extensions:
 4. **Test proceed states**: Verify reconciliation proceeds when appropriate
 5. **Test error handling**: Verify proper error returns
 
-Example test structure:
-
-```go
-func TestDatabaseExtension_PreReconcileOwnerCheck(t *testing.T) {
-    t.Run("proceeds when owner is nil", func(t *testing.T) {
-        // Test nil owner handling
-    })
-
-    t.Run("proceeds when cluster is running", func(t *testing.T) {
-        // Test with cluster in Running state
-    })
-
-    t.Run("blocks when cluster is updating", func(t *testing.T) {
-        // Test blocking on Updating state
-    })
-
-    t.Run("blocks when cluster is stopped", func(t *testing.T) {
-        // Test blocking on Stopped state
-    })
-
-    t.Run("proceeds with non-cluster owner", func(t *testing.T) {
-        // Test when owner is different type
-    })
-}
-```
 
 ## Performance Considerations
 
