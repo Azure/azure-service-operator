@@ -2,6 +2,7 @@
 title: "ASO v2.16 Release Notes"
 date: 2025-10-29
 description: "Release notes for Azure Service Operator v2.16.0"
+type: blog
 ---
 
 We're excited to announce the release of Azure Service Operator v2.16.0! This release comes with a host of improvements and fixes, along with support being added for some oft-requested resources. 
