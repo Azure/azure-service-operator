@@ -1,7 +1,6 @@
 ---
 title: Extension Points
 linktitle: Extension Points
-weight: 100
 menu:
   main:
     parent: Contributing
@@ -31,17 +30,27 @@ Extensions are typically implemented in resource-specific files under `v2/api/<s
 
 The following extension points are available for customizing resource behavior:
 
-| Extension Point | Purpose | When Invoked |
-|-----------------|---------|--------------|
-| [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}) | Modify the ARM payload before sending to Azure | Just before PUT/PATCH to ARM |
-| [Deleter]({{< relref "deleter" >}}) | Customize resource deletion behavior | When resource is being deleted |
-| [ErrorClassifier]({{< relref "error-classifier" >}}) | Classify ARM errors as retryable or fatal | When ARM returns an error |
-| [Importer]({{< relref "importer" >}}) | Customize resource import behavior | During `asoctl import` operations |
-| [KubernetesSecretExporter]({{< relref "kubernetes-secret-exporter" >}}) | Export secrets to Kubernetes | After successful reconciliation |
-| [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}) | Perform post-reconciliation validation | After ARM reconciliation succeeds |
-| [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}) | Validate before reconciling | Before sending requests to ARM |
-| [PreReconciliationOwnerChecker]({{< relref "pre-reconciliation-owner-checker" >}}) | Validate owner state before reconciling | Before any ARM operations (including GET) |
-| [SuccessfulCreationHandler]({{< relref "successful-creation-handler" >}}) | Handle successful resource creation | After initial resource creation |
+| Extension Point                | Purpose                                          | When Invoked                               |
+|--------------------------------|--------------------------------------------------|--------------------------------------------|
+| [ARMResourceModifier]          | Modify the ARM payload before sending to Azure  | Just before PUT/PATCH to ARM               |
+| [Deleter]                      | Customize resource deletion behavior             | When resource is being deleted             |
+| [ErrorClassifier]              | Classify ARM errors as retryable or fatal        | When ARM returns an error                  |
+| [Importer]                     | Customize resource import behavior               | During `asoctl import` operations          |
+| [KubernetesSecretExporter]     | Export secrets to Kubernetes                     | After successful reconciliation            |
+| [PostReconciliationChecker]    | Perform post-reconciliation validation           | After ARM reconciliation succeeds          |
+| [PreReconciliationChecker]     | Validate before reconciling                      | Before sending requests to ARM             |
+| [PreReconciliationOwnerChecker]| Validate owner state before reconciling          | Before any ARM operations (including GET)  |
+| [SuccessfulCreationHandler]    | Handle successful resource creation              | After initial resource creation            |
+
+[ARMResourceModifier]: {{< relref "arm-resource-modifier" >}}
+[Deleter]: {{< relref "deleter" >}}
+[ErrorClassifier]: {{< relref "error-classifier" >}}
+[Importer]: {{< relref "importer" >}}
+[KubernetesSecretExporter]: {{< relref "kubernetes-secret-exporter" >}}
+[PostReconciliationChecker]: {{< relref "post-reconciliation-checker" >}}
+[PreReconciliationChecker]: {{< relref "pre-reconciliation-checker" >}}
+[PreReconciliationOwnerChecker]: {{< relref "pre-reconciliation-owner-checker" >}}
+[SuccessfulCreationHandler]: {{< relref "successful-creation-handler" >}}
 
 ## When to Use Extensions
 
@@ -67,6 +76,28 @@ Extensions should **not** be used for:
 4. **Handle errors gracefully**: Return appropriate error types and messages
 5. **Test thoroughly**: Add unit tests for extension logic
 6. **Call next**: Most extensions use a chain pattern - remember to call the `next` function
+   ```go
+   // Example: calling next in an ErrorClassifier
+   func (ex *MyExtension) ClassifyError(
+       cloudError *genericarmclient.CloudError,
+       apiVersion string,
+       log logr.Logger,
+       next extensions.ErrorClassifierFunc,
+   ) (core.CloudErrorDetails, error) {
+       // First call the default classifier
+       details, err := next(cloudError)
+       if err != nil {
+           return core.CloudErrorDetails{}, err
+       }
+       
+       // Then apply custom logic
+       if isMySpecialCase(cloudError) {
+           details.Classification = core.ErrorRetryable
+       }
+       
+       return details, nil
+   }
+   ```
 
 ## Related Resources
 

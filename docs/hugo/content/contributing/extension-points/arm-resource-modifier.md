@@ -12,32 +12,7 @@ The interface is invoked during PUT and PATCH operations to ARM, giving the reso
 
 ## Interface Definition
 
-```go
-type ARMResourceModifier interface {
-    ModifyARMResource(
-        ctx context.Context,
-        armClient *genericarmclient.GenericClient,
-        armObj genruntime.ARMResource,
-        obj genruntime.ARMMetaObject,
-        kubeClient kubeclient.Client,
-        resolver *resolver.Resolver,
-        log logr.Logger,
-    ) (genruntime.ARMResource, error)
-}
-```
-
-**Parameters:**
-- `ctx`: The current operation context
-- `armClient`: Client for making additional ARM API calls if needed
-- `armObj`: The ARM resource representation about to be sent to Azure
-- `obj`: The Kubernetes resource being reconciled
-- `kubeClient`: Client for accessing the Kubernetes cluster
-- `resolver`: Helper for resolving resource references
-- `log`: Logger for the current operation
-
-**Returns:**
-- Modified `genruntime.ARMResource` that will be sent to ARM
-- Error if modification fails (will block the ARM request)
+See the [ARMResourceModifier interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/arm_resource_modifier.go) in the source code.
 
 ## Motivation
 
@@ -72,79 +47,11 @@ Do **not** use `ARMResourceModifier` when:
 
 ## Example: Key Vault CreateMode Handling
 
-The Key Vault resource uses `ARMResourceModifier` to handle different creation modes based on whether a soft-deleted vault exists:
+The Key Vault resource uses `ARMResourceModifier` to handle different creation modes based on whether a soft-deleted vault exists.
 
-```go
-var _ extensions.ARMResourceModifier = &VaultExtension{}
+See the [full implementation in vault_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/keyvault/customizations/vault_extensions.go).
 
-func (ex *VaultExtension) ModifyARMResource(
-    ctx context.Context,
-    armClient *genericarmclient.GenericClient,
-    armObj genruntime.ARMResource,
-    obj genruntime.ARMMetaObject,
-    kubeClient kubeclient.Client,
-    resolver *resolver.Resolver,
-    log logr.Logger,
-) (genruntime.ARMResource, error) {
-    // Type assert to the specific resource type
-    kv, ok := obj.(*keyvault.Vault)
-    if !ok {
-        return nil, eris.Errorf(
-            "Cannot run VaultExtension.ModifyARMResource() with unexpected resource type %T",
-            obj)
-    }
-
-    // Type assert hub version to catch breaking changes
-    var _ conversion.Hub = kv
-
-    // Exit early if no special handling needed
-    if kv.Spec.Properties == nil || kv.Spec.Properties.CreateMode == nil {
-        return armObj, nil
-    }
-
-    // Get resource context
-    id, err := ex.getOwner(ctx, kv, resolver)
-    if err != nil {
-        return nil, eris.Wrap(err, "failed to get and parse resource ID from KeyVault owner")
-    }
-
-    // Create Azure SDK client to check for soft-deleted vaults
-    vc, err := armkeyvault.NewVaultsClient(id.SubscriptionID, armClient.Creds(), armClient.ClientOptions())
-    if err != nil {
-        return nil, eris.Wrap(err, "failed to create new VaultsClient")
-    }
-
-    // Determine the correct create mode based on Azure state
-    createMode := *kv.Spec.Properties.CreateMode
-    if createMode == CreateMode_CreateOrRecover {
-        // Check if soft-deleted vault exists and adjust createMode accordingly
-        createMode, err = ex.handleCreateOrRecover(ctx, kv, vc, id, log)
-        if err != nil {
-            return nil, eris.Wrapf(err, "error checking for existence of soft-deleted KeyVault")
-        }
-    }
-
-    if createMode == CreateMode_PurgeThenCreate {
-        // Purge the soft-deleted vault before creating
-        err = ex.handlePurgeThenCreate(ctx, kv, vc, log)
-        if err != nil {
-            return nil, eris.Wrapf(err, "error purging soft-deleted KeyVault")
-        }
-        createMode = CreateMode_Default
-    }
-
-    // Modify the ARM payload with the determined createMode
-    spec := armObj.Spec()
-    err = reflecthelpers.SetProperty(spec, "Properties.CreateMode", &createMode)
-    if err != nil {
-        return nil, eris.Wrapf(err, "error setting CreateMode to %s", createMode)
-    }
-
-    return armObj, nil
-}
-```
-
-**Key aspects of this example:**
+**Key aspects of this implementation:**
 
 1. **Type assertions**: Both for the resource type and hub version
 2. **Early exit**: Returns original payload if no modification needed
@@ -156,6 +63,8 @@ func (ex *VaultExtension) ModifyARMResource(
 ## Common Patterns
 
 ### Pattern 1: Querying Current Azure State
+
+See implementation in [virtual_network_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/network/customizations/virtual_network_extensions.go).
 
 ```go
 func (ex *ResourceExtension) ModifyARMResource(...) (genruntime.ARMResource, error) {
@@ -186,6 +95,8 @@ func (ex *ResourceExtension) ModifyARMResource(...) (genruntime.ARMResource, err
 ```
 
 ### Pattern 2: Including Child Resources
+
+See implementation in [virtual_network_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/network/customizations/virtual_network_extensions.go).
 
 ```go
 func (ex *ResourceExtension) ModifyARMResource(...) (genruntime.ARMResource, error) {
