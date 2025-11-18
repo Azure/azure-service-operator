@@ -866,6 +866,14 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		return ctrl.Result{}, err
 	}
 
+	// Check to see if the resource has already been deleted from Azure - if so, we're done
+	if _, _, err := r.getStatus(ctx, resourceID); err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			// Resource no longer exists
+			return ctrl.Result{}, nil
+		}
+	}
+
 	// Optimizations or complications of this delete path should be undertaken with care.
 	// Be especially cautious of relying on the controller-runtime SharedInformer cache
 	// as a source of truth about if this resource or its parents have already been deleted, as
