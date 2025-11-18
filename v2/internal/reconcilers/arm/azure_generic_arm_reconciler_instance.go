@@ -211,8 +211,22 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
-// DeleteNotPossibleInAzure is used when the underlying Azure resource doesn't support direct deletion, so we return an error.
+// DeleteNotPossibleInAzure is used when the underlying Azure resource doesn't support direct
+// deletion, so we return an error unless the resource has already gone.
 func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context.Context) (ctrl.Result, error) {
+	resourceID, hasResourceID := genruntime.GetResourceID(r.Obj)
+	if !hasResourceID {
+		// No resource ID means nothing to delete
+		return ctrl.Result{}, nil
+	}
+
+	if _, _, err := r.getStatus(ctx, resourceID); err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			// Resource no longer exists
+			return ctrl.Result{}, nil
+		}
+	}
+
 	msg := fmt.Sprintf(
 		"Resource does not support deletion in Azure; set annotation %s: %s to permit deletion in Kubernetes",
 		annotations.ReconcilePolicy,
@@ -224,7 +238,7 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 	return ctrl.Result{},
 		conditions.NewReadyConditionImpactingError(
 			eris.New(msg),
-			conditions.ConditionSeverityError,
+			conditions.ConditionSeverityWarning,
 			conditions.ReasonDeletionNotSupported)
 }
 
