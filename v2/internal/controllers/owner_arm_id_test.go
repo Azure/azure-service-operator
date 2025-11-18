@@ -73,6 +73,7 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 	tc.CreateResourceAndWait(blobService)
 
 	tc.Expect(blobService.Status.Id).ToNot(BeNil())

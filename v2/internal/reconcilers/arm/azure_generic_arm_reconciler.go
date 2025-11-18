@@ -38,8 +38,9 @@ const (
 type DeleteAction string
 
 const (
-	DeleteActionBeginDelete   = DeleteAction("BeginDelete")
-	DeleteActionMonitorDelete = DeleteAction("MonitorDelete")
+	DeleteActionBeginDelete        = DeleteAction("BeginDelete")
+	DeleteActionMonitorDelete      = DeleteAction("MonitorDelete")
+	DeleteActionNotPossibleInAzure = DeleteAction("NotPossibleInAzure")
 )
 
 type (
