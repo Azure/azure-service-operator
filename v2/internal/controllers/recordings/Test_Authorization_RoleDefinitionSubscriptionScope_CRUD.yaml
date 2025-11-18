@@ -33,7 +33,7 @@ interactions:
         trailer: {}
         content_length: 700
         uncompressed: false
-        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
+        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -45,19 +45,21 @@ interactions:
                 - "-1"
             Pragma:
                 - no-cache
-            Set-Cookie:
-                - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
             Strict-Transport-Security:
                 - max-age=31536000; includeSubDomains
             X-Cache:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/acee78d7-a934-49d8-8413-2daead8c82cf
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: A7CDF03F5F4E4C83A8F0867E40AF107F Ref B: CO6AA3150217039 Ref C: 2024-06-11T22:23:59Z'
+                - 'Ref A: 30E98B4D9A1D4610B9D3F44016EA9369 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:36:08Z'
         status: 201 Created
         code: 201
-        duration: 1.933728318s
+        duration: 7.23278421s
     - id: 1
       request:
         proto: HTTP/1.1
@@ -84,7 +86,7 @@ interactions:
         trailer: {}
         content_length: 734
         uncompressed: false
-        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb","updatedBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
+        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"1ae5915d-78fe-468d-affb-c275790fa149","updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -96,19 +98,21 @@ interactions:
                 - "-1"
             Pragma:
                 - no-cache
-            Set-Cookie:
-                - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
             Strict-Transport-Security:
                 - max-age=31536000; includeSubDomains
             X-Cache:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/28a41093-97d3-4d8d-96b2-7a2033116058
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 282001D51BB64928A372CB6831E4CDD7 Ref B: CO6AA3150217039 Ref C: 2024-06-11T22:24:05Z'
+                - 'Ref A: F75F50253BAE443189A8B4A859B7C654 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:36:25Z'
         status: 200 OK
         code: 200
-        duration: 34.009339ms
+        duration: 161.912551ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -137,7 +141,7 @@ interactions:
         trailer: {}
         content_length: 734
         uncompressed: false
-        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb","updatedBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
+        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"1ae5915d-78fe-468d-affb-c275790fa149","updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -149,20 +153,77 @@ interactions:
                 - "-1"
             Pragma:
                 - no-cache
-            Set-Cookie:
-                - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
             Strict-Transport-Security:
                 - max-age=31536000; includeSubDomains
             X-Cache:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/3f8febe2-fdde-41b5-857f-0f8608e7d320
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 13F90684ED61410097AFEB890E324B10 Ref B: CO6AA3150217039 Ref C: 2024-06-11T22:24:05Z'
+                - 'Ref A: F83B7AA2F92A4BC2BA0F2F9E5708DA76 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:36:25Z'
         status: 200 OK
         code: 200
-        duration: 33.589838ms
+        duration: 167.148586ms
     - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6?api-version=2022-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 734
+        uncompressed: false
+        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"1ae5915d-78fe-468d-affb-c275790fa149","updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "734"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/uksouth/70c8c016-7392-4aba-87ed-a8f0ae1ece47
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: DFE9AA8DE74040309A664C5D4B782675 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:36:27Z'
+        status: 200 OK
+        code: 200
+        duration: 380.364081ms
+    - id: 4
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -190,7 +251,7 @@ interactions:
         trailer: {}
         content_length: 734
         uncompressed: false
-        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb","updatedBy":"f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
+        body: '{"properties":{"roleName":"asotest-roledef-uqdpfg","type":"CustomRole","description":null,"assignableScopes":["/subscriptions/00000000-0000-0000-0000-000000000000"],"permissions":[{"actions":["Microsoft.Resources/subscriptions/resourceGroups/read"],"notActions":[],"dataActions":[],"notDataActions":[]}],"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"1ae5915d-78fe-468d-affb-c275790fa149","updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6","type":"Microsoft.Authorization/roleDefinitions","name":"63f8a463-35f8-44ec-971a-d76c2aa711e6"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -202,20 +263,22 @@ interactions:
                 - "-1"
             Pragma:
                 - no-cache
-            Set-Cookie:
-                - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
             Strict-Transport-Security:
                 - max-age=31536000; includeSubDomains
             X-Cache:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/malaysiasouth/bd306d74-d2e9-4ac9-b43b-e59314cac77a
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "12000"
             X-Msedge-Ref:
-                - 'Ref A: 99D37A3B7DD240CA8491846657797CFD Ref B: CO6AA3150217039 Ref C: 2024-06-11T22:24:05Z'
+                - 'Ref A: 639EC8B5625B4D11B7D14EAFBC70B05D Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:36:27Z'
         status: 200 OK
         code: 200
-        duration: 2.386672575s
-    - id: 4
+        duration: 6.423772305s
+    - id: 5
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -232,7 +295,7 @@ interactions:
             Accept:
                 - application/json
             Test-Request-Attempt:
-                - "2"
+                - "3"
         url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/63f8a463-35f8-44ec-971a-d76c2aa711e6?api-version=2022-04-01
         method: GET
       response:
@@ -255,16 +318,18 @@ interactions:
                 - "-1"
             Pragma:
                 - no-cache
-            Set-Cookie:
-                - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
             Strict-Transport-Security:
                 - max-age=31536000; includeSubDomains
             X-Cache:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/691bdc70-0b32-49f7-8657-d3ea4718298a
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 6987AE8FF72748A6875ECB84546165E8 Ref B: CO6AA3150217039 Ref C: 2024-06-11T22:24:11Z'
+                - 'Ref A: FE7B50EEA6BC4A1AB8BC4C3DB0888EB6 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:36:42Z'
         status: 404 Not Found
         code: 404
-        duration: 35.853247ms
+        duration: 216.786125ms
