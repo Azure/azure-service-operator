@@ -238,9 +238,19 @@ func (rule *TopicAuthorizationRule_STATUS) ConvertStatusTo(destination genruntim
 // Storage version of v1api20240101.TopicAuthorizationRuleOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TopicAuthorizationRuleOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression          `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression          `json:"secretExpressions,omitempty"`
+	Secrets              *TopicAuthorizationRuleOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// Storage version of v1api20240101.TopicAuthorizationRuleOperatorSecrets
+type TopicAuthorizationRuleOperatorSecrets struct {
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {
