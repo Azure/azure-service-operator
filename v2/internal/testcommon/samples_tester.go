@@ -92,6 +92,9 @@ var exclusions = []*regexp.Regexp{
 
 	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
 	regexp.MustCompile(`quota/.*_quota.yaml`),
+
+	// Excluding flexible servers administrator as we don't currently support AzureNameFromConfig and it is required for the sample
+	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 }
 
 type SamplesTester struct {

@@ -316,6 +316,46 @@ FlexibleServer_Spec: Object (6 properties)
 │       └── "MemoryOptimized"
 └── Tags: map[string]string
 
+FlexibleServersAdministrator_STATUS: Object (5 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (4 properties)
+│   ├── ObjectId: *string
+│   ├── PrincipalName: *string
+│   ├── PrincipalType: *Enum (4 values)
+│   │   ├── "Group"
+│   │   ├── "ServicePrincipal"
+│   │   ├── "Unknown"
+│   │   └── "User"
+│   └── TenantId: *string
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+
+FlexibleServersAdministrator_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (3 properties)
+    ├── PrincipalName: *string
+    ├── PrincipalType: *Enum (4 values)
+    │   ├── "Group"
+    │   ├── "ServicePrincipal"
+    │   ├── "Unknown"
+    │   └── "User"
+    └── TenantId: *string
+
 FlexibleServersAdvancedThreatProtectionSettings_STATUS: Object (5 properties)
 ├── Id: *string
 ├── Name: *string

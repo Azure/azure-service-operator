@@ -1,0 +1,16 @@
+apiVersion: dbforpostgresql.azure.com/v1api20250801
+kind: FlexibleServersAdministrator
+metadata:
+  name: my-admin
+  namespace: default
+spec:
+  azureName: TODO:REPLACE_WITH_PRINCIPAL_ID
+  owner:
+    name: asosampleserver20250801
+  principalNameFromConfig:
+    name: admin-settings
+    key: principalName
+  tenantIdFromConfig:
+    name: admin-settings
+    key: tenantId
+  principalType: ServicePrincipal

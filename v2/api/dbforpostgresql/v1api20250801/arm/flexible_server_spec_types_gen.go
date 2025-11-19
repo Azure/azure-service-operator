@@ -130,7 +130,7 @@ type AuthConfig struct {
 	PasswordAuth *AuthConfig_PasswordAuth `json:"passwordAuth,omitempty"`
 
 	// TenantId: Identifier of the tenant of the delegated resource.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // Backup properties of a server.
