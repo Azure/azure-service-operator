@@ -408,7 +408,13 @@ func (gr *GenericReconciler) mergeReconcilePolicy(ctx context.Context, log logr.
 		source = "object" // used to track where the policy was taken from for logging purposes
 	}
 
-	reconcilePolicy, err := reconcilers.ParseReconcilePolicy(policyStr, gr.Config.DefaultReconcilePolicy)
+	// If no configured default policy, we set it to 'manage'
+	defaultReconcilePolicy := gr.Config.DefaultReconcilePolicy
+	if defaultReconcilePolicy == "" {
+		defaultReconcilePolicy = annotations.ReconcilePolicyManage
+	}
+
+	reconcilePolicy, err := reconcilers.ParseReconcilePolicy(policyStr, defaultReconcilePolicy)
 	if err != nil {
 		log.Error(
 			err,
