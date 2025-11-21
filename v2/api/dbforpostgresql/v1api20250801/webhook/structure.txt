@@ -3,6 +3,8 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/web
 ------------------------------------------------------------------------------------
 FlexibleServer: Object (0 properties)
 
+FlexibleServersAdministrator: Object (0 properties)
+
 FlexibleServersAdvancedThreatProtectionSettings: Object (0 properties)
 
 FlexibleServersBackup: Object (0 properties)

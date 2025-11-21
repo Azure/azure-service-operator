@@ -38,7 +38,7 @@ func (extension *FlexibleServersDatabaseExtension) PreReconcileCheck(
 			if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
 				return extensions.BlockReconcile(
 					fmt.Sprintf(
-						"Owning FlexibleServer is in provisioning state %q",
+						"Owning FlexibleServer is in state %q",
 						*serverState)), nil
 			}
 		}

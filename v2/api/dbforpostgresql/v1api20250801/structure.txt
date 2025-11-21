@@ -9,14 +9,15 @@ FlexibleServer: Resource
 ├── Spec: Object (24 properties)
 │   ├── AdministratorLogin: *string
 │   ├── AdministratorLoginPassword: *genruntime.SecretReference
-│   ├── AuthConfig: *Object (3 properties)
+│   ├── AuthConfig: *Object (4 properties)
 │   │   ├── ActiveDirectoryAuth: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── PasswordAuth: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   └── TenantId: *string
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   ├── AvailabilityZone: *string
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 63
@@ -332,6 +333,52 @@ FlexibleServer: Resource
         ├── "16"
         ├── "17"
         └── "18"
+
+FlexibleServersAdministrator: Resource
+├── Owner: FlexibleServer
+├── Spec: Object (8 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PrincipalName: *string
+│   ├── PrincipalNameFromConfig: *genruntime.ConfigMapReference
+│   ├── PrincipalType: *Enum (4 values)
+│   │   ├── "Group"
+│   │   ├── "ServicePrincipal"
+│   │   ├── "Unknown"
+│   │   └── "User"
+│   ├── TenantId: *string
+│   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── ObjectId: *string
+    ├── PrincipalName: *string
+    ├── PrincipalType: *Enum (4 values)
+    │   ├── "Group"
+    │   ├── "ServicePrincipal"
+    │   ├── "Unknown"
+    │   └── "User"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── TenantId: *string
+    └── Type: *string
 
 FlexibleServersAdvancedThreatProtectionSettings: Resource
 ├── Owner: FlexibleServer

@@ -123,7 +123,7 @@ func (ext *FlexibleServerExtension) PreReconcileCheck(
 	if state != nil && flexibleServerStateBlocksReconciliation(*state) {
 		return extensions.BlockReconcile(
 			fmt.Sprintf(
-				"Flexible Server is in provisioning state %q",
+				"Flexible Server is in state %q",
 				*state)), nil
 	}
 

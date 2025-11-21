@@ -15,12 +15,16 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD(t *testing.T) {
+// Name slightly different here because running into name collision issues
+func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD_2(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {
@@ -67,6 +71,11 @@ func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD(t *testing.T) {
 			AdministratorLoginPassword: &secretRef,
 			Storage: &postgresql.Storage{
 				StorageSizeGB: to.Ptr(128),
+			},
+			AuthConfig: &postgresql.AuthConfig{
+				ActiveDirectoryAuth: to.Ptr(postgresql.AuthConfig_ActiveDirectoryAuth_Enabled),
+				PasswordAuth:        to.Ptr(postgresql.AuthConfig_PasswordAuth_Enabled),
+				TenantId:            &tc.AzureTenant,
 			},
 			OperatorSpec: &postgresql.FlexibleServerOperatorSpec{
 				ConfigMaps: &postgresql.FlexibleServerOperatorConfigMaps{
@@ -134,6 +143,12 @@ func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD(t *testing.T) {
 			Name: "Flexible servers advanced threat protection CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				FlexibleServer_AdvancedThreatProtection_20250801_CRUD(tc, flexibleServer)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Flexible servers administrator CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_Administrator_20250801_CRUD(tc, rg, flexibleServer)
 			},
 		},
 	)
@@ -280,4 +295,58 @@ func FlexibleServer_Backup_20250801_CRUD(tc *testcommon.KubePerTestContext, flex
 	defer tc.DeleteResourceAndWait(backup)
 
 	tc.Expect(backup.Status.Id).ToNot(BeNil())
+}
+
+// TODO: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/security-entra-concepts
+// TODO: https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.dbforpostgresql/flexible-postgresql-with-aad
+// TODO: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/security-entra-configure
+func FlexibleServer_Administrator_20250801_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, flexibleServer *postgresql.FlexibleServer) {
+	// Create a managed identity to serve as aad admin
+	configMapName := "my-configmap"
+	// clientIDKey := "clientId"
+	tenantIDKey := "tenantId"
+
+	// Create a managed identity to use as the AAD administrator
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMapExpressions: []*core.DestinationExpression{
+					// {
+					// 	Name:  configMapName,
+					// 	Key:   clientIDKey,
+					// 	Value: "self.status.clientId",
+					// },
+					{
+						Name:  configMapName,
+						Key:   tenantIDKey,
+						Value: "self.status.tenantId",
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	administrator := &postgresql.FlexibleServersAdministrator{
+		ObjectMeta: tc.MakeObjectMeta("admin"),
+		Spec: postgresql.FlexibleServersAdministrator_Spec{
+			Owner:         testcommon.AsOwner(flexibleServer),
+			AzureName:     to.Value(mi.Status.PrincipalId),
+			PrincipalName: mi.Status.Name,
+			TenantIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  tenantIDKey,
+			},
+			PrincipalType: to.Ptr(postgresql.AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal),
+		},
+	}
+
+	tc.CreateResourceAndWait(administrator)
+	defer tc.DeleteResourceAndWait(administrator)
+
+	tc.Expect(administrator.Status.Id).ToNot(BeNil())
 }
