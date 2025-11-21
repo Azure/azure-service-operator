@@ -1,7 +1,7 @@
 apiVersion: operationalinsights.azure.com/v1api20210601
 kind: Workspace
 metadata:
-  name: sampleworkspace
+  name: sampleworkspace2021
   namespace: default
 spec:
   location: westcentralus
