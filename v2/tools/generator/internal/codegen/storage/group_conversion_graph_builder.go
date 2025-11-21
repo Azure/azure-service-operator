@@ -16,9 +16,8 @@ import (
 // GroupConversionGraphBuilder is used to construct a conversion graph with all the required conversions to/from/between
 // the storage variants of the packages. It uses a separate ResourceConversionGraphBuilder for each distinct resource/type
 type GroupConversionGraphBuilder struct {
-	group           string                           // Common group of the resources needing conversions
-	configuration   *config.ObjectModelConfiguration // Configuration used to look up renames
-	versionPrefix   string
+	group           string                                     // Common group of the resources needing conversions
+	configuration   *config.ObjectModelConfiguration           // Configuration used to look up renames
 	subBuilders     map[string]*ResourceConversionGraphBuilder // Nested builders, one for each resource, keyed by resource name
 	storagePackages *astmodel.PackageReferenceSet              // Set of all storage packages in this group
 }
@@ -27,12 +26,10 @@ type GroupConversionGraphBuilder struct {
 func NewGroupConversionGraphBuilder(
 	group string,
 	configuration *config.ObjectModelConfiguration,
-	versionPrefix string,
 ) *GroupConversionGraphBuilder {
 	return &GroupConversionGraphBuilder{
 		group:           group,
 		configuration:   configuration,
-		versionPrefix:   versionPrefix,
 		subBuilders:     make(map[string]*ResourceConversionGraphBuilder),
 		storagePackages: astmodel.NewPackageReferenceSet(),
 	}
@@ -96,7 +93,7 @@ func (b *GroupConversionGraphBuilder) getSubBuilder(name astmodel.TypeName) *Res
 	n := name.Name()
 	subBuilder, ok := b.subBuilders[n]
 	if !ok {
-		subBuilder = NewResourceConversionGraphBuilder(n, b.versionPrefix)
+		subBuilder = NewResourceConversionGraphBuilder(n)
 		b.subBuilders[n] = subBuilder
 	}
 

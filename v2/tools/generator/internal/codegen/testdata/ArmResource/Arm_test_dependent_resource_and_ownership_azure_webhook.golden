@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20200101 "github.com/Azure/azure-service-operator/testing/test/v1api20200101"
+	v20200101 "github.com/Azure/azure-service-operator/testing/test/v20200101"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type A struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1api20200101,name=default.v1api20200101.as.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v20200101,name=default.v20200101.as.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &A{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &A{}
 func (a *A) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20200101.A)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/A, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/A, but got %T", obj)
 	}
 	err := a.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (a *A) defaultImpl(ctx context.Context, obj *v20200101.A) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.as.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v20200101,name=validate.v20200101.as.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &A{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &A{}
 func (a *A) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.A)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/A, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/A, but got %T", resource)
 	}
 	validations := a.createValidations()
 	var temp any = a
@@ -82,7 +82,7 @@ func (a *A) ValidateCreate(ctx context.Context, resource runtime.Object) (admiss
 func (a *A) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.A)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/A, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/A, but got %T", resource)
 	}
 	validations := a.deleteValidations()
 	var temp any = a
@@ -96,11 +96,11 @@ func (a *A) ValidateDelete(ctx context.Context, resource runtime.Object) (admiss
 func (a *A) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20200101.A)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/A, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/A, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20200101.A)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/A, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/A, but got %T", oldResource)
 	}
 	validations := a.updateValidations()
 	var temp any = a
@@ -186,7 +186,7 @@ func (a *A) validateWriteOnceProperties(ctx context.Context, oldObj *v20200101.A
 type B struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1api20200101,name=default.v1api20200101.bs.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v20200101,name=default.v20200101.bs.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &B{}
 
@@ -194,7 +194,7 @@ var _ webhook.CustomDefaulter = &B{}
 func (b *B) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20200101.B)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/B, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/B, but got %T", obj)
 	}
 	err := b.defaultImpl(ctx, resource)
 	if err != nil {
@@ -227,7 +227,7 @@ func (b *B) defaultImpl(ctx context.Context, obj *v20200101.B) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.bs.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v20200101,name=validate.v20200101.bs.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &B{}
 
@@ -235,7 +235,7 @@ var _ webhook.CustomValidator = &B{}
 func (b *B) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.B)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/B, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/B, but got %T", resource)
 	}
 	validations := b.createValidations()
 	var temp any = b
@@ -249,7 +249,7 @@ func (b *B) ValidateCreate(ctx context.Context, resource runtime.Object) (admiss
 func (b *B) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.B)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/B, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/B, but got %T", resource)
 	}
 	validations := b.deleteValidations()
 	var temp any = b
@@ -263,11 +263,11 @@ func (b *B) ValidateDelete(ctx context.Context, resource runtime.Object) (admiss
 func (b *B) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20200101.B)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/B, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/B, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20200101.B)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/B, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/B, but got %T", oldResource)
 	}
 	validations := b.updateValidations()
 	var temp any = b
@@ -353,7 +353,7 @@ func (b *B) validateWriteOnceProperties(ctx context.Context, oldObj *v20200101.B
 type C struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1api20200101,name=default.v1api20200101.cs.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v20200101,name=default.v20200101.cs.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &C{}
 
@@ -361,7 +361,7 @@ var _ webhook.CustomDefaulter = &C{}
 func (c *C) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20200101.C)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/C, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/C, but got %T", obj)
 	}
 	err := c.defaultImpl(ctx, resource)
 	if err != nil {
@@ -394,7 +394,7 @@ func (c *C) defaultImpl(ctx context.Context, obj *v20200101.C) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.cs.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v20200101,name=validate.v20200101.cs.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &C{}
 
@@ -402,7 +402,7 @@ var _ webhook.CustomValidator = &C{}
 func (c *C) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.C)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/C, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/C, but got %T", resource)
 	}
 	validations := c.createValidations()
 	var temp any = c
@@ -416,7 +416,7 @@ func (c *C) ValidateCreate(ctx context.Context, resource runtime.Object) (admiss
 func (c *C) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.C)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/C, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/C, but got %T", resource)
 	}
 	validations := c.deleteValidations()
 	var temp any = c
@@ -430,11 +430,11 @@ func (c *C) ValidateDelete(ctx context.Context, resource runtime.Object) (admiss
 func (c *C) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20200101.C)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/C, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/C, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20200101.C)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/C, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/C, but got %T", oldResource)
 	}
 	validations := c.updateValidations()
 	var temp any = c
@@ -520,7 +520,7 @@ func (c *C) validateWriteOnceProperties(ctx context.Context, oldObj *v20200101.C
 type D struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1api20200101-d,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v1api20200101,name=default.v1api20200101.ds.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v20200101-d,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v20200101,name=default.v20200101.ds.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &D{}
 
@@ -528,7 +528,7 @@ var _ webhook.CustomDefaulter = &D{}
 func (d *D) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20200101.D)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/D, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/D, but got %T", obj)
 	}
 	err := d.defaultImpl(ctx, resource)
 	if err != nil {
@@ -561,7 +561,7 @@ func (d *D) defaultImpl(ctx context.Context, obj *v20200101.D) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-d,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.ds.test.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v20200101-d,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v20200101,name=validate.v20200101.ds.test.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &D{}
 
@@ -569,7 +569,7 @@ var _ webhook.CustomValidator = &D{}
 func (d *D) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.D)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/D, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/D, but got %T", resource)
 	}
 	validations := d.createValidations()
 	var temp any = d
@@ -583,7 +583,7 @@ func (d *D) ValidateCreate(ctx context.Context, resource runtime.Object) (admiss
 func (d *D) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20200101.D)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/D, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/D, but got %T", resource)
 	}
 	validations := d.deleteValidations()
 	var temp any = d
@@ -597,11 +597,11 @@ func (d *D) ValidateDelete(ctx context.Context, resource runtime.Object) (admiss
 func (d *D) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20200101.D)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/D, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/D, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20200101.D)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v1api20200101/D, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/D, but got %T", oldResource)
 	}
 	validations := d.updateValidations()
 	var temp any = d

@@ -34,7 +34,7 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	account2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Account")
 
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020, person2020s)
 	builder.Add(account2020, account2020s)
 	graph, err := builder.Build()
@@ -87,7 +87,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 
 	// Create a builder, and use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020.Name(), person2020s.Name(), person2021.Name(), person2021s.Name(), person2022.Name(), person2022s.Name())
 	builder.Add(address2020.Name(), address2020s.Name(), address2021.Name(), address2021s.Name())
 	builder.Add(student2020.Name(), student2020s.Name(), student2022.Name(), student2022s.Name())
@@ -164,7 +164,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020.Name(), person2020s.Name())
 	builder.Add(party2021.Name(), party2021s.Name())
 
@@ -205,7 +205,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020.Name(), person2020s.Name())
 	builder.Add(party2021.Name(), party2021s.Name())
 
@@ -249,7 +249,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020.Name(), person2020s.Name())
 	builder.Add(person2021.Name(), person2021s.Name())
 	builder.Add(party2021.Name(), party2021s.Name())
@@ -291,7 +291,7 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	address2021ps := astmodel.MakeInternalTypeName(pkg2021ps, "Address")
 
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020, person2020s)
 	builder.Add(person2021, person2021s)
 	builder.Add(address2020p, address2020ps)
@@ -367,7 +367,7 @@ func TestGolden_ConversionGraph_WhenCompatPackagePresent_HasExpectedTransitions(
 	// Act - Create the graph
 
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(address2020, address2020s)
 	builder.Add(address2021sc)
 	builder.Add(address2022, address2022s)
@@ -406,7 +406,7 @@ func Test_ConversionGraph_FindInPath_ReturnsExpectedResult(t *testing.T) {
 
 	// Create a builder, and use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc, "v")
+	builder := NewConversionGraphBuilder(omc)
 	builder.Add(person2020.Name(), person2020s.Name(), person2021.Name(), person2021s.Name(), person2022.Name(), person2022s.Name())
 
 	graph, err := builder.Build()

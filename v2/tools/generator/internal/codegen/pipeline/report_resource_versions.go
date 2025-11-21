@@ -458,7 +458,8 @@ func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersions
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
 func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportResourceItem) bool {
-	_, ver := item.name.InternalPackageReference().GroupVersion()
+	pkg := item.name.InternalPackageReference()
+	grp, ver := pkg.GroupVersion()
 
 	// Handcrafted versions are never deprecated
 	// (reusing the regex from config to ensure consistency)
@@ -466,8 +467,12 @@ func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersions
 		return false
 	}
 
-	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion) && len(ver) > 3
-	return result
+	// v1api style versions are deprecated unless the group is using VersionMigrationMode Legacy
+	if astmodel.VersionMigrationModeForGroup(grp) == astmodel.VersionMigrationModeLegacy {
+		return false
+	}
+
+	return strings.HasPrefix(ver, astmodel.GeneratorVersion)
 }
 
 // findRecommendedReleases selects a single version of each resource to recommend.

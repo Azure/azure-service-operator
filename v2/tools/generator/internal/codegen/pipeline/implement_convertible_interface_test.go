@@ -43,8 +43,8 @@ func TestGolden_InjectConvertibleInterface(t *testing.T) {
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()), // After which we inject property assignment functions
 	)
 	g.Expect(err).To(Succeed())

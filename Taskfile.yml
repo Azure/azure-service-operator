@@ -718,7 +718,7 @@ tasks:
       - generator:build
     sources:
       - ./bin/{{.GENERATOR_APP}}
-      - v2/azure-arm.yaml
+      - azure-arm.yaml
       - ../docs/hugo/content/reference
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml

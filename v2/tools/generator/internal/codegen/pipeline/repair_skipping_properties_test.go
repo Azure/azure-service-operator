@@ -37,7 +37,7 @@ func TestSkippingPropertyRepairer_AddProperty_CreatesExpectedChain(t *testing.T)
 	defs.AddAll(person2020s, person2021s, person2022s)
 
 	cfg := config.NewObjectModelConfiguration()
-	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder := storage.NewConversionGraphBuilder(cfg)
 	builder.Add(person2020.Name(), person2020s.Name())
 	builder.Add(person2021.Name(), person2021s.Name())
 	builder.Add(person2022.Name(), person2022s.Name())
@@ -77,7 +77,7 @@ func TestSkippingPropertyRepairer_findBreak_returnsExpectedResults(t *testing.T)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
-	graph, _ := storage.NewConversionGraphBuilder(cfg, "v").Build()
+	graph, _ := storage.NewConversionGraphBuilder(cfg).Build()
 	repairer := newSkippingPropertyRepairer(defs, graph, cfg, logr.Discard())
 
 	repairer.addLink(alphaSeen, betaSeen)
@@ -141,8 +141,8 @@ func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_DoesNotChangeDefin
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
@@ -180,8 +180,8 @@ func Test_RepairSkippingProperties_WhenPropertyStructurlyIdentical_DoesNotChange
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
@@ -220,8 +220,8 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditi
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 

@@ -25,7 +25,7 @@ func TestResourceConversionGraph_WithSingleReference_HasExpectedTransition(t *te
 	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
 
-	builder := NewResourceConversionGraphBuilder("demo", "v")
+	builder := NewResourceConversionGraphBuilder("demo")
 	builder.Add(person2020, person2020s)
 	graph, err := builder.Build()
 
@@ -53,7 +53,7 @@ func TestResourceConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *t
 	person2021 := astmodel.MakeInternalTypeName(test.Pkg2021, "Person")
 	person2021s := astmodel.MakeInternalTypeName(test.Pkg2021s, "Person")
 
-	builder := NewResourceConversionGraphBuilder("demo", "v")
+	builder := NewResourceConversionGraphBuilder("demo")
 	builder.Add(person2020, person2020s)
 	builder.Add(person2021, person2021s)
 	graph, err := builder.Build()
@@ -92,7 +92,7 @@ func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitio
 	person2021p := astmodel.MakeInternalTypeName(test.Pkg2021Preview, "Person")
 	person2021ps := astmodel.MakeInternalTypeName(test.Pkg2021PreviewStorage, "Person")
 
-	builder := NewResourceConversionGraphBuilder("demo", "v")
+	builder := NewResourceConversionGraphBuilder("demo")
 	builder.Add(person2020, person2020s)
 	builder.Add(person2021, person2021s)
 	builder.Add(person2021p, person2021ps)
@@ -136,7 +136,7 @@ func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransiti
 	person2020a := astmodel.MakeInternalTypeName(compatAPI, "Person")
 	person2020as := astmodel.MakeInternalTypeName(compatStorage, "Person")
 
-	builder := NewResourceConversionGraphBuilder("demo", "v")
+	builder := NewResourceConversionGraphBuilder("demo")
 	builder.Add(person2020a, person2020as)
 	builder.Add(person2020, person2020s)
 	builder.Add(person2021, person2021s)
