@@ -27,7 +27,7 @@ func Test_selectVersionFromGK_givenGK_returnsExpectedVersion(t *testing.T) {
 		"Batch Account": {
 			group:           "batch.azure.com",
 			kind:            "BatchAccount",
-			expectedVersion: "v1api20210101",
+			expectedVersion: "v20240701",
 		},
 		"Managed Cluster": {
 			group:           "containerservice.azure.com",
