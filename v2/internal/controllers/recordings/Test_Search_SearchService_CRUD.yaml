@@ -54,10 +54,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 08B734FBCC9A43B6B72057175347A260 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:03:01Z'
+                - 'Ref A: B2961AEB8D5C478EBF7296E7B7BAC055 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:46:31Z'
         status: 201 Created
         code: 201
-        duration: 2.002000558s
+        duration: 2.867143478s
     - id: 1
       request:
         proto: HTTP/1.1
@@ -107,10 +107,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 4FED45226BAA4B0AA65673525AB35F65 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:03:05Z'
+                - 'Ref A: F924D246F7A940CA8B436358D73EAC52 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:46:36Z'
         status: 200 OK
         code: 200
-        duration: 220.45086ms
+        duration: 335.919677ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -143,7 +143,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -152,9 +152,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "8169"
+                - "6962"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -166,14 +166,14 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/c4a9bec1-ee85-41c5-8e04-66830a428699
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/8972bb1e-ba6a-48d3-aaf5-2d517fe60c71
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "12000"
             X-Msedge-Ref:
-                - 'Ref A: E5E4801C4FFA4BA790864F945E5850F3 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:03:11Z'
+                - 'Ref A: C61CB1C13AD34A819B35C7BAD85D62D9 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:46:40Z'
         status: 201 Created
         code: 201
-        duration: 12.295444821s
+        duration: 8.30103646s
     - id: 3
       request:
         proto: HTTP/1.1
@@ -200,7 +200,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -209,9 +209,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "67"
+                - "80"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -225,10 +225,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: D07A9F0FE2A848E69C895EA2DBD182AF Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:03:39Z'
+                - 'Ref A: 48D2D93A47874A8DACE25543649836B1 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:46:59Z'
         status: 200 OK
         code: 200
-        duration: 442.396053ms
+        duration: 435.833351ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -255,7 +255,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -264,9 +264,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "67"
+                - "70"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -280,10 +280,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 946DB1454DAA40B9829809981C1B4722 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:03:44Z'
+                - 'Ref A: 79C1FA1C8D9C4DD895EA0351B18BBEAD Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:47:04Z'
         status: 200 OK
         code: 200
-        duration: 932.271146ms
+        duration: 1.179129953s
     - id: 5
       request:
         proto: HTTP/1.1
@@ -310,7 +310,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -319,9 +319,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "102"
+                - "64"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -335,10 +335,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 804E72D00116455381E86FF27D5C6B23 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:03:55Z'
+                - 'Ref A: 05C4C415B0F04698BFD26EB49B31BDA4 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:47:14Z'
         status: 200 OK
         code: 200
-        duration: 972.354172ms
+        duration: 426.002497ms
     - id: 6
       request:
         proto: HTTP/1.1
@@ -365,7 +365,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -374,9 +374,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "69"
+                - "73"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -388,12 +388,12 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
+                - "16498"
             X-Msedge-Ref:
-                - 'Ref A: A5C5EFA0A7E4417E8E475BF41425E055 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:04:13Z'
+                - 'Ref A: EF403EA605724A4E991B4E371BE2C446 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:47:31Z'
         status: 200 OK
         code: 200
-        duration: 1.092693635s
+        duration: 500.641984ms
     - id: 7
       request:
         proto: HTTP/1.1
@@ -420,7 +420,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -429,9 +429,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "68"
+                - "65"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -445,10 +445,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 2BD5ED86D01E4DB89363C6E55EDE7B8F Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:04:49Z'
+                - 'Ref A: 8133677AA60443ADA43B3F72F7BEDA8B Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:48:04Z'
         status: 200 OK
         code: 200
-        duration: 876.438536ms
+        duration: 1.122931334s
     - id: 8
       request:
         proto: HTTP/1.1
@@ -475,7 +475,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -484,9 +484,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "66"
+                - "86"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -498,12 +498,12 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
+                - "16498"
             X-Msedge-Ref:
-                - 'Ref A: 459B1A02C9604F1FA9A0CE3835D41855 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:05:54Z'
+                - 'Ref A: 1BA82579721342FB962E7761F6B6521A Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:49:06Z'
         status: 200 OK
         code: 200
-        duration: 893.622287ms
+        duration: 437.856246ms
     - id: 9
       request:
         proto: HTTP/1.1
@@ -530,7 +530,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -541,7 +541,7 @@ interactions:
             Elapsed-Time:
                 - "66"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -555,10 +555,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: CA004F77629C4A39A7D8D2242E197C32 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:07:00Z'
+                - 'Ref A: 62B9C9F1689E4114867E345242F49A44 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:50:07Z'
         status: 200 OK
         code: 200
-        duration: 930.098368ms
+        duration: 760.132775ms
     - id: 10
       request:
         proto: HTTP/1.1
@@ -585,7 +585,7 @@ interactions:
         trailer: {}
         content_length: 871
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -596,7 +596,7 @@ interactions:
             Elapsed-Time:
                 - "71"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -610,10 +610,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 67FC02714D564968BA42F26F2F314C9F Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:08:05Z'
+                - 'Ref A: 5F237ADB1F2349059DCD378E6A0B5CEF Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:51:09Z'
         status: 200 OK
         code: 200
-        duration: 999.690873ms
+        duration: 420.040993ms
     - id: 11
       request:
         proto: HTTP/1.1
@@ -640,7 +640,7 @@ interactions:
         trailer: {}
         content_length: 863
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -649,9 +649,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "68"
+                - "94"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -665,10 +665,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 7A6C3C678D2C4871B1F713148F3EB179 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:11Z'
+                - 'Ref A: E2DA52EFC3654936A39E89E80E045CE8 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:10Z'
         status: 200 OK
         code: 200
-        duration: 944.914451ms
+        duration: 452.812433ms
     - id: 12
       request:
         proto: HTTP/1.1
@@ -697,7 +697,7 @@ interactions:
         trailer: {}
         content_length: 863
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -706,9 +706,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "64"
+                - "71"
             Etag:
-                - W/"datetime'2025-08-12T00%3A03%3A23.9346917Z'"
+                - W/"datetime'2025-11-18T21%3A46%3A48.8014442Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -722,10 +722,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 9AEE3B05288944B193A5CF98382F6655 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:13Z'
+                - 'Ref A: 0C42350361614D7D8F97643D987568F8 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:11Z'
         status: 200 OK
         code: 200
-        duration: 901.745257ms
+        duration: 422.368101ms
     - id: 13
       request:
         proto: HTTP/1.1
@@ -758,7 +758,7 @@ interactions:
         trailer: {}
         content_length: 863
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -767,9 +767,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "178"
+                - "353"
             Etag:
-                - W/"datetime'2025-08-12T00%3A09%3A23.1728779Z'"
+                - W/"datetime'2025-11-18T21%3A52%3A19.0071532Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -781,14 +781,14 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/16d6ecc8-1766-4f47-b26f-c3f82124c217
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/b53faf3f-cdf7-434c-97c6-dd47a22a525a
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 1E8459F380B245E7934A1B33753FF1BF Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:19Z'
+                - 'Ref A: BD9A18972AF04ED4866D25F3231251D6 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:14Z'
         status: 200 OK
         code: 200
-        duration: 3.553081329s
+        duration: 4.742781421s
     - id: 14
       request:
         proto: HTTP/1.1
@@ -817,7 +817,7 @@ interactions:
         trailer: {}
         content_length: 863
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -826,9 +826,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "64"
+                - "67"
             Etag:
-                - W/"datetime'2025-08-12T00%3A09%3A23.1728779Z'"
+                - W/"datetime'2025-11-18T21%3A52%3A19.0071532Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -842,10 +842,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 6DD00CEBA0E14A4C83059681BFF3595C Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:27Z'
+                - 'Ref A: 03E7E6F974F4456989F4589A7E97B295 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:24Z'
         status: 200 OK
         code: 200
-        duration: 936.201664ms
+        duration: 1.06103007s
     - id: 15
       request:
         proto: HTTP/1.1
@@ -883,7 +883,7 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "216"
+                - "59"
             Expires:
                 - "-1"
             Pragma:
@@ -895,14 +895,14 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/1e2afb14-2556-444d-b42c-433e384dbba0
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/8afdaf78-4ae1-44f7-833e-01293700b03a
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: DD2A927245C5424AA7CB0E1EC087751F Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:29Z'
+                - 'Ref A: 938237A7508F4DEB933869CC34908A9B Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:26Z'
         status: 200 OK
         code: 200
-        duration: 1.292734819s
+        duration: 544.431619ms
     - id: 16
       request:
         proto: HTTP/1.1
@@ -940,7 +940,7 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "51"
+                - "100"
             Expires:
                 - "-1"
             Pragma:
@@ -952,14 +952,14 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/693fc4c5-9ffc-4bec-bcb9-4dba7d17cba1
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/cec50bed-8a2e-4b9b-8566-bd8bf0d0de84
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
-                - "11999"
+                - "11998"
             X-Msedge-Ref:
-                - 'Ref A: 76B151DDB83949EEB57A23CCA8B1B079 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:32Z'
+                - 'Ref A: 861C5C7B1D0A4FE19997A166B5C5E56E Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:28Z'
         status: 200 OK
         code: 200
-        duration: 972.818768ms
+        duration: 548.529206ms
     - id: 17
       request:
         proto: HTTP/1.1
@@ -992,7 +992,7 @@ interactions:
         trailer: {}
         content_length: 874
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -1001,9 +1001,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "170"
+                - "208"
             Etag:
-                - W/"datetime'2025-08-12T00%3A09%3A40.3921087Z'"
+                - W/"datetime'2025-11-18T21%3A52%3A30.4844957Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -1015,14 +1015,14 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/d476107b-2428-41a0-b5be-1d58d6df73a2
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/24fb6ce0-483f-483a-8960-5accdf265e89
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
-                - "11999"
+                - "11997"
             X-Msedge-Ref:
-                - 'Ref A: A5ED565E4DB84565A8B221C8DB8FC2A3 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:35Z'
+                - 'Ref A: ED4BD6E5723B4786A5472E78324AD2BD Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:30Z'
         status: 200 OK
         code: 200
-        duration: 5.920143691s
+        duration: 858.163293ms
     - id: 18
       request:
         proto: HTTP/1.1
@@ -1051,7 +1051,7 @@ interactions:
         trailer: {}
         content_length: 874
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b3160eca-6830-415b-acac-4532b2dc7272","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -1060,9 +1060,9 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "63"
+                - "79"
             Etag:
-                - W/"datetime'2025-08-12T00%3A09%3A40.3921087Z'"
+                - W/"datetime'2025-11-18T21%3A52%3A30.4844957Z'"
             Expires:
                 - "-1"
             Pragma:
@@ -1076,10 +1076,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: DAEA0120E96846C59AA24C09C86D5660 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:48Z'
+                - 'Ref A: DB98449DA9194DE898DD442A9B66555D Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:31Z'
         status: 200 OK
         code: 200
-        duration: 917.165349ms
+        duration: 1.107281691s
     - id: 19
       request:
         proto: HTTP/1.1
@@ -1117,7 +1117,7 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "50"
+                - "47"
             Expires:
                 - "-1"
             Pragma:
@@ -1129,14 +1129,14 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/aa1b6c73-f9a3-46c6-aeec-1ea3975bfaf0
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/21ea20ec-535c-44c9-b869-bcb3b3f9ed2f
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: D7B5CBF49FE844A4A34FB4182E2CB2F5 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:50Z'
+                - 'Ref A: 6AFA44685953494C8BEC49F394DEE0FE Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:34Z'
         status: 200 OK
         code: 200
-        duration: 1.132519402s
+        duration: 1.117229581s
     - id: 20
       request:
         proto: HTTP/1.1
@@ -1174,7 +1174,7 @@ interactions:
             Content-Type:
                 - application/json; charset=utf-8
             Elapsed-Time:
-                - "41"
+                - "50"
             Expires:
                 - "-1"
             Pragma:
@@ -1186,15 +1186,72 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/6973397f-3d08-45a4-bd9f-b12411d167dd
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/1bfa8bf7-661b-472f-97d6-cdb30eddf0e5
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 243CF5137DF444A4B1F77A77864FF997 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:53Z'
+                - 'Ref A: 8074DA24F18D4619A4D48BDCE2337CDE Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:37Z'
         status: 200 OK
         code: 200
-        duration: 977.61436ms
+        duration: 447.397084ms
     - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "12"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 874
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"b6b45567-2255-4617-854c-44afa97a3f17","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "874"
+            Content-Type:
+                - application/json; charset=utf-8
+            Elapsed-Time:
+                - "65"
+            Etag:
+                - W/"datetime'2025-11-18T21%3A52%3A30.4844957Z'"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 94EB712D83A042D4A91DEA2534E6FB2F Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:40Z'
+        status: 200 OK
+        code: 200
+        duration: 1.09537719s
+    - id: 22
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -1229,7 +1286,7 @@ interactions:
             Content-Length:
                 - "0"
             Elapsed-Time:
-                - "3009"
+                - "3029"
             Expires:
                 - "-1"
             Pragma:
@@ -1241,15 +1298,15 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/6435d9c9-01b7-493e-b454-107de45cf395
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/01d88da5-9d26-4057-bd19-6704ad218058
             X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 23FDDCAC26884E25831C20CA095F13C3 Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:09:56Z'
+                - 'Ref A: C7A58FAADB9846F88FFE6F8682774018 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:42Z'
         status: 200 OK
         code: 200
-        duration: 7.163852801s
-    - id: 22
+        duration: 3.536461437s
+    - id: 23
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -1266,7 +1323,7 @@ interactions:
             Accept:
                 - application/json
             Test-Request-Attempt:
-                - "12"
+                - "13"
         url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
         method: GET
       response:
@@ -1298,11 +1355,64 @@ interactions:
             X-Ms-Failure-Cause:
                 - gateway
             X-Msedge-Ref:
-                - 'Ref A: 11026EBE4D3640A08181D28C4C222B7B Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:10:12Z'
+                - 'Ref A: 22DDC109910F4484BE9D6CAFA99657F0 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:50Z'
         status: 404 Not Found
         code: 404
-        duration: 383.518081ms
-    - id: 23
+        duration: 409.652856ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw","name":"asotest-rg-zadzmw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: D6E17E583EB6421C8B6E9363C90F47FA Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:51Z'
+        status: 200 OK
+        code: 200
+        duration: 336.986302ms
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -1339,7 +1449,7 @@ interactions:
             Expires:
                 - "-1"
             Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaQURaTVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638905542166532951&c=MIIHhzCCBm-gAwIBAgITfAiEqRZrgLhPwkUvfgAACISpFjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNzE5MTUxNTU3WhcNMjYwMTE1MTUxNTU3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANo8JkuCSyYzxbK-6GTWYze3gfPX3W0gGXDNABI0DpWEhe9om3se5tziu1JvncajCytpTguwrHlK0rcquzbDXXvHhbsY73edSvO92c2ADuvWEnNdsmm_eToLFsXFZjZMhgj9jD_wnJ6L9KtxBHW6hwaA6YgFKE3lyA5TXmiyo15CLkHFj02CX4NB1cTIN15yGoCxLyB-Zr3jEH0xfMCQPYlmSTwuQvC4UWEndUzZd_Y-HLo959DU-Ug61g41JksM4dzdEHw2_Yew_EDtac3ERKzqVKC1GxTNXLELU_LFkPdkKBi-JGTX5MxlXWEAVL1gSKy4C0lslOvMVICJ0D5ZPTECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTHBRf8ZL9wY__HzSsEXGXuVL8aEDAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIsWwSMOlrjb5kZTgKGXSVnDyLsC7qm2NFBdhoNUtOxSB-TF88cKGPhwNx59_1_GhsNjXldjQVJ1seRL3Dxf55jqzfXeFBQAIHIRsR8-WJPTpZ3VtWewO_Qvh9h7Bd-gfA0pRXw3Hq4eRpBmAf7gfOki1W-7-m3cozATlPCkEWnBM4qRujLuiQX_Q3tfok25Wmnyq_KkG_0VC3JVUvJnkKpv1qRHWahwVo1wzWyJIoaxA7T0oOonf6ZN3j8AyT_VGFDRmvLuvakI8huZgSbjWvWFT6bx7NRTo6YHkHb5COr1PJTbhpDS-PSv5Ud3SFTnLAZyd3oRW-Lp3Fo6RFoNgBs&s=ntHZg6_2ZxMpoZcdQtPDQuAfuL9azdGQxOTQW9Y-rKPbaZSZIB6bEIk1_TYFB_9b215jPCpqSzioLIVLwnW95buy_HAQR5BMeruDOQTjFND5g9it9VesEnJJXIL3msDoB5KDk-PtWLj_CQQykE9TM-bubbM6FocpurIsFORitdK3mySm6VGlFGWWoOticwKE637A0vckrrXL5p0Dj1OwWQ05Xv9Hv7Y5WreNOsABlXY7BkzyxXk5Bg-sHMLEIjjAUk6J_BbETBDXQMYXLSMdrRxvSgfwc6QIFBqzSswjwFpO_kRoMQA8EJKpk0l5YJaWQRZuKeLPKbFUpi9U9WO_4A&h=q9wZiWvEZCL3ZG_XLlH0sKXrF4M-JFDuLI3k78dbg9g
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaQURaTVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638990995721546815&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=acMoGRkgKTcAYdwmn0jCdUZ9O4uuM-qtXpTm66n_EKwTBpdsiyPb6NLfqPOJQPrw9vCFXByKxHum-p6ZindKcQ_Q86KYmgBvv5wxptT1XNsVbsLQMv_R1W02-BbPWOOD_DdDzGSSejeu0id_6PwmqxTUZIfcHJpJHAh98m89DDIvr0wpB1H6VAs7jSJxEZgIv1sggRmKeQbiR5bpUXqGsTf8cbrJudMGLBKIQ4_FmMzzRp34XauBIFNF-_u-ZvFJpcAZ0jI3yHmCvMDyyCWejxs_a1yrJ6pwIs9GTquUzO14Zz5up0oV9eo8mbd9xjXuah8MPzF6y6cjSmtHgN5DhQ&h=yAknWWBENcIRp7QpeVetdSzEjk2XOT114XlKb_YDMOA
             Pragma:
                 - no-cache
             Retry-After:
@@ -1353,11 +1463,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 1504377DBEC94F7FA946FCDDF61D2E6F Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:10:13Z'
+                - 'Ref A: 549428C454884E2BB2E4653B99760F88 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:52:51Z'
         status: 202 Accepted
         code: 202
-        duration: 2.752857497s
-    - id: 24
+        duration: 618.218002ms
+    - id: 26
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -1373,7 +1483,7 @@ interactions:
         headers:
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaQURaTVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638905542166532951&c=MIIHhzCCBm-gAwIBAgITfAiEqRZrgLhPwkUvfgAACISpFjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNzE5MTUxNTU3WhcNMjYwMTE1MTUxNTU3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANo8JkuCSyYzxbK-6GTWYze3gfPX3W0gGXDNABI0DpWEhe9om3se5tziu1JvncajCytpTguwrHlK0rcquzbDXXvHhbsY73edSvO92c2ADuvWEnNdsmm_eToLFsXFZjZMhgj9jD_wnJ6L9KtxBHW6hwaA6YgFKE3lyA5TXmiyo15CLkHFj02CX4NB1cTIN15yGoCxLyB-Zr3jEH0xfMCQPYlmSTwuQvC4UWEndUzZd_Y-HLo959DU-Ug61g41JksM4dzdEHw2_Yew_EDtac3ERKzqVKC1GxTNXLELU_LFkPdkKBi-JGTX5MxlXWEAVL1gSKy4C0lslOvMVICJ0D5ZPTECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTHBRf8ZL9wY__HzSsEXGXuVL8aEDAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIsWwSMOlrjb5kZTgKGXSVnDyLsC7qm2NFBdhoNUtOxSB-TF88cKGPhwNx59_1_GhsNjXldjQVJ1seRL3Dxf55jqzfXeFBQAIHIRsR8-WJPTpZ3VtWewO_Qvh9h7Bd-gfA0pRXw3Hq4eRpBmAf7gfOki1W-7-m3cozATlPCkEWnBM4qRujLuiQX_Q3tfok25Wmnyq_KkG_0VC3JVUvJnkKpv1qRHWahwVo1wzWyJIoaxA7T0oOonf6ZN3j8AyT_VGFDRmvLuvakI8huZgSbjWvWFT6bx7NRTo6YHkHb5COr1PJTbhpDS-PSv5Ud3SFTnLAZyd3oRW-Lp3Fo6RFoNgBs&s=ntHZg6_2ZxMpoZcdQtPDQuAfuL9azdGQxOTQW9Y-rKPbaZSZIB6bEIk1_TYFB_9b215jPCpqSzioLIVLwnW95buy_HAQR5BMeruDOQTjFND5g9it9VesEnJJXIL3msDoB5KDk-PtWLj_CQQykE9TM-bubbM6FocpurIsFORitdK3mySm6VGlFGWWoOticwKE637A0vckrrXL5p0Dj1OwWQ05Xv9Hv7Y5WreNOsABlXY7BkzyxXk5Bg-sHMLEIjjAUk6J_BbETBDXQMYXLSMdrRxvSgfwc6QIFBqzSswjwFpO_kRoMQA8EJKpk0l5YJaWQRZuKeLPKbFUpi9U9WO_4A&h=q9wZiWvEZCL3ZG_XLlH0sKXrF4M-JFDuLI3k78dbg9g
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaQURaTVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638990995721546815&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=acMoGRkgKTcAYdwmn0jCdUZ9O4uuM-qtXpTm66n_EKwTBpdsiyPb6NLfqPOJQPrw9vCFXByKxHum-p6ZindKcQ_Q86KYmgBvv5wxptT1XNsVbsLQMv_R1W02-BbPWOOD_DdDzGSSejeu0id_6PwmqxTUZIfcHJpJHAh98m89DDIvr0wpB1H6VAs7jSJxEZgIv1sggRmKeQbiR5bpUXqGsTf8cbrJudMGLBKIQ4_FmMzzRp34XauBIFNF-_u-ZvFJpcAZ0jI3yHmCvMDyyCWejxs_a1yrJ6pwIs9GTquUzO14Zz5up0oV9eo8mbd9xjXuah8MPzF6y6cjSmtHgN5DhQ&h=yAknWWBENcIRp7QpeVetdSzEjk2XOT114XlKb_YDMOA
         method: GET
       response:
         proto: HTTP/2.0
@@ -1402,7 +1512,7 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 126EFDEF7A604E938E8D67CC9026452F Ref B: SYD03EDGE1108 Ref C: 2025-08-12T00:10:35Z'
+                - 'Ref A: FC4C8E64D8224D698511BA0DF115E774 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:53:08Z'
         status: 200 OK
         code: 200
-        duration: 940.31749ms
+        duration: 1.062184345s
