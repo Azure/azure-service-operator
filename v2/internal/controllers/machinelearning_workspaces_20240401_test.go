@@ -138,8 +138,7 @@ func WorkspaceCompute_20240401_CRUD(tc *testcommon.KubePerTestContext, owner *ge
 	nsg := newNetworkSecurityGroup(tc, testcommon.AsOwner(rg))
 	rule := newNetworkSecurityGroupRule(tc, testcommon.AsOwner(nsg))
 
-	tc.CreateResourceAndWait(nsg)
-	tc.CreateResourceAndWait(rule)
+	tc.CreateResourcesAndWait(nsg, rule)
 
 	networkInterface := newVMNetworkInterfaceWithPublicIP(tc, testcommon.AsOwner(rg), subnet, publicIP, nsg)
 	tc.CreateResourcesAndWait(subnet, publicIP, networkInterface)
