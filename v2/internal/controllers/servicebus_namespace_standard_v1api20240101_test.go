@@ -222,4 +222,24 @@ func ServiceBus_Topic_AuthorizationRule_v1api20240101_CRUD(tc *testcommon.KubePe
 	defer tc.DeleteResourceAndWait(rule)
 
 	tc.Expect(rule.Status.Rights).To(HaveLen(2))
+
+	// Test secret export
+	old := rule.DeepCopy()
+	ruleKeysSecret := "rulekeyssecret"
+	rule.Spec.OperatorSpec = &servicebus.TopicAuthorizationRuleOperatorSpec{
+		Secrets: &servicebus.TopicAuthorizationRuleOperatorSecrets{
+			PrimaryKey:                &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "primaryKey"},
+			SecondaryKey:              &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "secondaryKey"},
+			PrimaryConnectionString:   &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "primaryConnectionString"},
+			SecondaryConnectionString: &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "secondaryConnectionString"},
+		},
+	}
+	tc.PatchResourceAndWait(old, rule)
+
+	tc.ExpectSecretHasKeys(
+		ruleKeysSecret,
+		"primaryKey",
+		"secondaryKey",
+		"primaryConnectionString",
+		"secondaryConnectionString")
 }
