@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForTopicAuthorizationRule(gens map[string]gopte
 	gens["Status"] = TopicAuthorizationRule_STATUSGenerator()
 }
 
+func Test_TopicAuthorizationRuleOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TopicAuthorizationRuleOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicAuthorizationRuleOperatorSecrets, TopicAuthorizationRuleOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopicAuthorizationRuleOperatorSecrets runs a test to see if a specific instance of TopicAuthorizationRuleOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicAuthorizationRuleOperatorSecrets(subject TopicAuthorizationRuleOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TopicAuthorizationRuleOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TopicAuthorizationRuleOperatorSecrets instances for property testing - lazily instantiated by
+// TopicAuthorizationRuleOperatorSecretsGenerator()
+var topicAuthorizationRuleOperatorSecretsGenerator gopter.Gen
+
+// TopicAuthorizationRuleOperatorSecretsGenerator returns a generator of TopicAuthorizationRuleOperatorSecrets instances for property testing.
+func TopicAuthorizationRuleOperatorSecretsGenerator() gopter.Gen {
+	if topicAuthorizationRuleOperatorSecretsGenerator != nil {
+		return topicAuthorizationRuleOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	topicAuthorizationRuleOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(TopicAuthorizationRuleOperatorSecrets{}), generators)
+
+	return topicAuthorizationRuleOperatorSecretsGenerator
+}
+
 func Test_TopicAuthorizationRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -129,9 +184,15 @@ func TopicAuthorizationRuleOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForTopicAuthorizationRuleOperatorSpec(generators)
 	topicAuthorizationRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(TopicAuthorizationRuleOperatorSpec{}), generators)
 
 	return topicAuthorizationRuleOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForTopicAuthorizationRuleOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTopicAuthorizationRuleOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(TopicAuthorizationRuleOperatorSecretsGenerator())
 }
 
 func Test_TopicAuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -4730,6 +4730,11 @@ objectModelConfiguration:
       Namespaces_Topics_AuthorizationRule:
         $exportAs: TopicAuthorizationRule
         $supportedFrom: v2.13.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
       Namespaces_Topics_AuthorizationRule_Properties_Rights_Spec:
         $renameTo: TopicAuthorizationRuleRights_Spec
       Namespaces_Topics_AuthorizationRule_Properties_Rights_STATUS:
