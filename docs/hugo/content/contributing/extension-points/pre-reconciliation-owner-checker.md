@@ -21,7 +21,7 @@ The `PreReconciliationOwnerChecker` extension exists to handle a specific class 
 1. **Owner state blocks all access**: The parent resource's state can prevent any operations on child resources, including GET
 2. **Cannot determine child state**: You cannot query the child resource to check its state when the owner is in certain states
 3. **Avoid wasted API calls**: Attempting to GET or PUT a child when the owner blocks access wastes API quota and generates errors
-4. **Owner-dependent access**: Some Azure services completely lock down child resources when the parent is in maintenance, updating, or powered-off states
+4. **Owner-dependent access**: Some Azure services completely shut down child resources when the parent is in maintenance, updating, or powered-off states
 
 The most notable example is **Azure Data Explorer (Kusto)**, where you cannot even GET a database when the cluster is powered off or updating. Without this extension, the controller would repeatedly attempt to access the database, failing each time and consuming request quota.
 
@@ -46,17 +46,26 @@ Do **not** use `PreReconciliationOwnerChecker` when:
 
 Understanding the difference is critical:
 
-| Aspect              | PreReconciliationOwnerChecker       | PreReconciliationChecker          |
-| ------------------- | ----------------------------------- | --------------------------------- |
-| **When invoked**    | Before any ARM calls, including GET | After GET, before PUT/PATCH       |
-| **Resource access** | No - only owner checked             | Yes - resource status available   |
-| **Use case**        | Owner blocks all access             | Validation based on current state |
-| **GET avoidance**   | Yes - no GET performed              | No - GET already performed        |
-| **Parameters**      | Only `owner`                        | Both `obj` and `owner`            |
+| Aspect              | PreReconciliationOwnerChecker       | PreReconciliationChecker              |
+| ------------------- | ----------------------------------- | ------------------------------------- |
+| **When invoked**    | Before any ARM calls, including GET | After GET, before PUT/PATCH           |
+| **Resource access** | No - only owner checked             | Yes - fresh resource status available |
+| **Use case**        | Owner blocks all access             | Validation based on current state     |
+| **GET avoidance**   | Yes - no GET performed              | No - GET already performed            |
+| **Parameters**      | Only `owner`                        | Both `obj` and `owner`                |
 
 **Rule of thumb:** If you can GET the resource to check its state, use `PreReconciliationChecker`. If even GET fails when the owner is in certain states, use `PreReconciliationOwnerChecker`.
 
 ## Example: Kusto Database Owner State Check
+
+**Problem:** Kusto databases cannot be accessed *at all* when the cluster is stopped or updating.
+
+**Solution:** Check cluster state before attempting any database operations.
+
+```go
+// Block on: Creating, Updating, Deleting, Stopped, Stopping
+// Allow on: Running, Succeeded
+```
 
 See the [full implementation in database_extensions.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/kusto/customizations/database_extensions.go).
 
@@ -69,169 +78,9 @@ See the [full implementation in database_extensions.go](https://github.com/Azure
 5. **Helper function**: Encapsulates state-checking logic
 6. **Calls next**: Proceeds when cluster is in acceptable state
 
-## Common Patterns
-
-### Pattern 1: Block on Owner State
-
-```go
-func (ex *ResourceExtension) PreReconcileOwnerCheck(
-    ctx context.Context,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileOwnerCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    // Handle nil owner
-    if owner == nil {
-        // No owner to check, proceed
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    // Type assert to specific owner type
-    parent, ok := owner.(*parentservice.ParentResource)
-    if !ok {
-        // Not the expected owner type, proceed
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    // Check owner state
-    if parent.Status.State != nil && *parent.Status.State == "PoweredOff" {
-        return extensions.BlockReconcile("parent is powered off"), nil
-    }
-
-    if parent.Status.State != nil && *parent.Status.State == "Updating" {
-        return extensions.BlockReconcile("parent is updating"), nil
-    }
-
-    // Owner in acceptable state
-    return next(ctx, owner, resourceResolver, armClient, log)
-}
-```
-
-### Pattern 2: Multiple Blocking States
-
-```go
-func (ex *ResourceExtension) PreReconcileOwnerCheck(
-    ctx context.Context,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileOwnerCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    if owner == nil {
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    parent, ok := owner.(*parentservice.ParentResource)
-    if !ok {
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    // Check multiple conditions that block access
-    if parent.Status.State != nil {
-        state := *parent.Status.State
-        
-        blockedStates := map[string]string{
-            "Stopped":   "parent is stopped and children cannot be accessed",
-            "Stopping":  "parent is stopping, wait for it to complete",
-            "Deleting":  "parent is being deleted",
-            "Updating":  "parent is updating, operations will conflict",
-            "Migrating": "parent is migrating, children unavailable",
-        }
-        
-        if reason, isBlocked := blockedStates[state]; isBlocked {
-            return extensions.BlockReconcile(reason), nil
-        }
-    }
-
-    return next(ctx, owner, resourceResolver, armClient, log)
-}
-```
-
-### Pattern 3: Conditional Blocking Based on Multiple Factors
-
-```go
-func (ex *ResourceExtension) PreReconcileOwnerCheck(
-    ctx context.Context,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileOwnerCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    if owner == nil {
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    parent, ok := owner.(*parentservice.ParentResource)
-    if !ok {
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    // Check both state and SKU
-    // Some SKUs allow operations even during certain states
-    if parent.Status.State != nil && *parent.Status.State == "Updating" {
-        // Premium SKU allows limited operations during updates
-        if parent.Spec.SKU != nil && *parent.Spec.SKU.Name != "Premium" {
-            return extensions.BlockReconcile(
-                "parent is updating and SKU does not support concurrent operations"), nil
-        }
-    }
-
-    // Check for maintenance mode
-    if parent.Status.InMaintenanceMode != nil && *parent.Status.InMaintenanceMode {
-        return extensions.BlockReconcile("parent is in maintenance mode"), nil
-    }
-
-    return next(ctx, owner, resourceResolver, armClient, log)
-}
-```
-
-### Pattern 4: Logging for Debugging
-
-```go
-func (ex *ResourceExtension) PreReconcileOwnerCheck(
-    ctx context.Context,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileOwnerCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    if owner == nil {
-        log.V(Debug).Info("No owner to check, proceeding with reconciliation")
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    parent, ok := owner.(*parentservice.ParentResource)
-    if !ok {
-        log.V(Debug).Info("Owner is not expected type, proceeding")
-        return next(ctx, owner, resourceResolver, armClient, log)
-    }
-
-    state := parent.Status.State
-    log.V(Debug).Info("Checking parent state", 
-        "parentName", parent.Name,
-        "state", state)
-
-    if state != nil && *state == "Updating" {
-        log.V(Info).Info("Blocking reconciliation due to parent state",
-            "parentName", parent.Name,
-            "state", *state)
-        return extensions.BlockReconcile(
-            fmt.Sprintf("parent %s is updating", parent.Name)), nil
-    }
-
-    log.V(Debug).Info("Parent state allows reconciliation", "state", state)
-    return next(ctx, owner, resourceResolver, armClient, log)
-}
-```
-
 ## Check Results
 
-The extension returns one of two results:
+The extension returns one of two results, or an error:
 
 ### Proceed
 
@@ -288,21 +137,6 @@ When testing `PreReconciliationOwnerChecker` extensions:
 4. **Test proceed states**: Verify reconciliation proceeds when appropriate
 5. **Test error handling**: Verify proper error returns
 
-## Performance Considerations
-
-This extension is more efficient than `PreReconciliationChecker` when:
-
-- Owner checks are sufficient to make the decision
-- Avoiding GET saves API quota
-- Owner state changes less frequently than resource state
-- Multiple child resources share the same owner (check once, benefit many times)
-
-However, it's less flexible because:
-
-- You cannot examine the resource's current state
-- You must make decisions based only on owner information
-- You cannot access resource-specific fields or status
-
 ## Important Notes
 
 - **No resource access**: You do **not** receive the resource being reconciled
@@ -314,46 +148,10 @@ However, it's less flexible because:
 - **Clear reasons**: Provide helpful blocking messages for users
 - **Logging**: Log decisions to help debugging
 
-## Real-World Scenarios
-
-### Scenario 1: Kusto (Azure Data Explorer)
-
-**Problem:** Kusto databases cannot be accessed at all when the cluster is stopped or updating.
-
-**Solution:** Check cluster state before attempting any database operations.
-
-```go
-// Block on: Creating, Updating, Deleting, Stopped, Stopping
-// Allow on: Running, Succeeded
-```
-
-### Scenario 2: Virtual Machine Scale Set Instances
-
-**Problem:** Cannot manage individual VMSS instances when the scale set is updating or deleting.
-
-**Solution:** Check VMSS state before attempting instance operations.
-
-```go
-// Block on: Updating, Deallocating, Deleting
-// Allow on: Running, Succeeded
-```
-
-### Scenario 3: Container Service Agent Pools
-
-**Problem:** Agent pools cannot be modified when the cluster is upgrading.
-
-**Solution:** Check AKS cluster upgrade state before pool operations.
-
-```go
-// Block on: Upgrading, Updating
-// Allow on: Succeeded, Running
-```
-
 ## Related Extension Points
 
 - [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): Check resource state (use this unless you need owner-only checks)
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Validate after reconciliation
-- [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Modify payloads (runs after checks pass)
 
 ## Best Practices
 

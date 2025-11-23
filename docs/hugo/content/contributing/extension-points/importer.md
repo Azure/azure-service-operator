@@ -8,7 +8,7 @@ weight: 50
 
 `Importer` allows resources to customize their behavior during the import process when using `asoctl import`. This extension is invoked when importing existing Azure resources into Kubernetes as ASO resources, giving resources the ability to skip import, modify the imported resource, or perform additional validation.
 
-The interface is called during the import workflow, after retrieving the resource from Azure but before writing it to Kubernetes. This allows resources to filter out unwanted resources or adjust the imported representation.
+The interface is called during the import workflow, after retrieving the resource from Azure but before writing it to a file. This allows resources to filter out unwanted resources or adjust the imported representation.
 
 ## Interface Definition
 
@@ -18,9 +18,9 @@ See the [Importer interface definition](https://github.com/Azure/azure-service-o
 
 The `Importer` extension exists to handle cases where:
 
-1. **System-managed resources**: Resources that are created/managed by Azure and shouldn't be imported
+1. **System-managed resources**: Resources that are created/managed by Azure and shouldn't be user created
 2. **Default values**: Resources that only have default settings and don't need to be managed
-3. **Read-only resources**: Resources that can't be modified after creation
+3. **Read-only resources**: Resources that can't be created or modified by users
 4. **Filtering criteria**: Resources that don't meet certain criteria for management
 5. **Import validation**: Resources that need validation before allowing import
 6. **Resource transformation**: Adjusting the imported resource to fit Kubernetes conventions
@@ -84,58 +84,7 @@ func (ex *ResourceExtension) Import(
 }
 ```
 
-### Pattern 2: Validate Before Import
-
-```go
-func (ex *ResourceExtension) Import(
-    ctx context.Context,
-    rsrc genruntime.ImportableResource,
-    owner *genruntime.ResourceReference,
-    next extensions.ImporterFunc,
-) (extensions.ImportResult, error) {
-    resource := rsrc.(*myservice.MyResource)
-
-    // Validate resource before importing
-    if err := ex.validateForImport(resource); err != nil {
-        return extensions.ImportResult{}, eris.Wrapf(err,
-            "resource %s failed import validation", resource.Name)
-    }
-
-    // Proceed with import
-    return next(ctx, rsrc, owner)
-}
-```
-
-### Pattern 3: Skip Based on Property Values
-
-```go
-func (ex *ResourceExtension) Import(
-    ctx context.Context,
-    rsrc genruntime.ImportableResource,
-    owner *genruntime.ResourceReference,
-    next extensions.ImporterFunc,
-) (extensions.ImportResult, error) {
-    result, err := next(ctx, rsrc, owner)
-    if err != nil {
-        return extensions.ImportResult{}, err
-    }
-
-    resource := rsrc.(*myservice.MyResource)
-
-    // Skip resources in certain states
-    if resource.Status.ProvisioningState != nil {
-        state := *resource.Status.ProvisioningState
-        if state == "Deleting" || state == "Failed" {
-            return extensions.ImportSkipped(
-                fmt.Sprintf("resource in %s state shouldn't be imported", state)), nil
-        }
-    }
-
-    return result, nil
-}
-```
-
-### Pattern 4: Transform Before Import
+### Pattern 2: Transform Before Import
 
 ```go
 func (ex *ResourceExtension) Import(
@@ -154,33 +103,6 @@ func (ex *ResourceExtension) Import(
 
     // Proceed with import of modified resource
     return next(ctx, rsrc, owner)
-}
-```
-
-### Pattern 5: Conditional Import Based on Tags
-
-```go
-func (ex *ResourceExtension) Import(
-    ctx context.Context,
-    rsrc genruntime.ImportableResource,
-    owner *genruntime.ResourceReference,
-    next extensions.ImporterFunc,
-) (extensions.ImportResult, error) {
-    result, err := next(ctx, rsrc, owner)
-    if err != nil {
-        return extensions.ImportResult{}, err
-    }
-
-    resource := rsrc.(*myservice.MyResource)
-
-    // Skip resources with specific tags
-    if resource.Spec.Tags != nil {
-        if managed, ok := resource.Spec.Tags["managedBy"]; ok && managed == "external" {
-            return extensions.ImportSkipped("resource tagged as externally managed"), nil
-        }
-    }
-
-    return result, nil
 }
 ```
 
@@ -237,18 +159,12 @@ Clear, informative skip reasons help users understand why certain resources were
 
 ## Important Notes
 
-- **Call `next()` first**: Allows default import logic to run
+- **Call `next()`**: Allows default import logic to run
 - **Provide clear reasons**: Skip reasons are shown to users
 - **Be consistent**: Similar resources should skip for similar reasons
 - **Don't skip too broadly**: Only skip resources that truly shouldn't be managed
 - **Document skip logic**: Comment why specific conditions trigger skips
 - **Test with real imports**: Verify skips work in practice with `asoctl import`
-
-## Related Extension Points
-
-- [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): Validate before reconciliation
-- [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Validate after reconciliation
-- [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Modify before sending to Azure
 
 ## Related Tools
 

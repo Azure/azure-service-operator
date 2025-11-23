@@ -107,42 +107,7 @@ func (ex *ResourceExtension) Delete(
 }
 ```
 
-### Pattern 3: Multi-step Deletion with Retry
-
-```go
-func (ex *ResourceExtension) Delete(
-    ctx context.Context,
-    log logr.Logger,
-    resolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    obj genruntime.ARMMetaObject,
-    next extensions.DeleteFunc,
-) (ctrl.Result, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Step 1: Disable the resource
-    if !ex.isDisabled(resource) {
-        log.V(Status).Info("Disabling resource before deletion")
-        if err := ex.disableResource(ctx, resource, armClient); err != nil {
-            return ctrl.Result{}, eris.Wrap(err, "failed to disable resource")
-        }
-        // Requeue to wait for disable to complete
-        return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
-    }
-
-    // Step 2: Wait for dependent resources to be cleaned up
-    if ex.hasDependents(ctx, resource) {
-        log.V(Status).Info("Waiting for dependent resources to be deleted")
-        return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
-    }
-
-    // Step 3: Proceed with deletion
-    log.V(Status).Info("All prerequisites met, proceeding with deletion")
-    return next(ctx, log, resolver, armClient, obj)
-}
-```
-
-### Pattern 4: Soft Delete with Purge Option
+### Pattern 3: Soft Delete with Purge Option
 
 ```go
 func (ex *ResourceExtension) Delete(

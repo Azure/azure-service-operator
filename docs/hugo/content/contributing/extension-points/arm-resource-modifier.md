@@ -18,9 +18,9 @@ See the [ARMResourceModifier interface definition](https://github.com/Azure/azur
 
 The `ARMResourceModifier` extension exists to handle cases where:
 
-1. **Azure resource state affects the payload**: Some Azure resources require different payloads based on their current state in Azure (e.g., creation vs. update)
+1. **Azure resource state affects the payload**: Some Azure resources require different payloads based on their current state in Azure (e.g., creation vs. update vs. soft-deleted)
 2. **Complex conditional logic**: Business logic that depends on multiple factors and cannot be expressed declaratively in the resource schema
-3. **Azure-specific quirks**: Handling special cases or undocumented Azure behavior that varies by resource type
+3. **Azure-specific quirks**: Handling special cases or unusual Azure behavior that varies by resource type
 4. **Dynamic payload construction**: Building parts of the payload at runtime based on information retrieved from Azure or Kubernetes
 5. **Soft-delete scenarios**: Resources with soft-delete capabilities (like Key Vault) may need special handling to recover or purge existing resources
 
@@ -112,27 +112,6 @@ func (ex *ResourceExtension) ModifyARMResource(...) (genruntime.ARMResource, err
 }
 ```
 
-### Pattern 3: Conditional Field Population
-
-```go
-func (ex *ResourceExtension) ModifyARMResource(...) (genruntime.ARMResource, error) {
-    // Determine value based on runtime conditions
-    value, err := ex.computeValue(ctx, obj, armClient)
-    if err != nil {
-        return nil, err
-    }
-
-    // Set the computed value on the ARM resource
-    spec := armObj.Spec()
-    err = reflecthelpers.SetProperty(spec, "Properties.FieldName", value)
-    if err != nil {
-        return nil, err
-    }
-
-    return armObj, nil
-}
-```
-
 ## Testing
 
 When testing `ARMResourceModifier` extensions:
@@ -146,5 +125,5 @@ When testing `ARMResourceModifier` extensions:
 ## Related Extension Points
 
 - [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): For validation before ARM operations
+- [PreReconciliationOwnerChecker]({{< relref "pre-reconciliation-owner-checker" >}}): For owner-specific checks before reconciliation
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): For validation after ARM operations
-- [ErrorClassifier]({{< relref "error-classifier" >}}): For handling errors from modified requests

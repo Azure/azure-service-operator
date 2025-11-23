@@ -52,13 +52,11 @@ See the [full implementation in dns_zones_a_record_extension.go](https://github.
 
 1. **Delegation to default**: Calls `next()` first to get standard classification
 2. **Selective override**: Only modifies classification for specific errors
-3. **Logging**: Records the classification decision for debugging
+3. **Logging**: Reports the classification decision for debugging
 4. **Helper function**: Encapsulates the error detection logic
 5. **Error propagation**: Returns errors from `next()` without modification
 
-## Common Patterns
-
-### Pattern 1: Marking Specific Errors as Retryable
+## Example: Marking Specific Errors as Retryable
 
 ```go
 func (ex *ResourceExtension) ClassifyError(
@@ -78,88 +76,6 @@ func (ex *ResourceExtension) ClassifyError(
         details.Classification = core.ErrorRetryable
         details.Retry = true
         log.V(Status).Info("Marking error as retryable", "code", cloudError.Code())
-    }
-
-    return details, nil
-}
-```
-
-### Pattern 2: API Version-Specific Classification
-
-```go
-func (ex *ResourceExtension) ClassifyError(
-    cloudError *genericarmclient.CloudError,
-    apiVersion string,
-    log logr.Logger,
-    next extensions.ErrorClassifierFunc,
-) (core.CloudErrorDetails, error) {
-    details, err := next(cloudError)
-    if err != nil {
-        return core.CloudErrorDetails{}, err
-    }
-
-    // Certain errors behave differently in older API versions
-    if apiVersion == "2021-01-01" && cloudError.Code() == "ResourceQuotaExceeded" {
-        // In this API version, quota errors are temporary during provisioning
-        details.Classification = core.ErrorRetryable
-        details.Message = "Resource quota temporarily exceeded during provisioning, will retry"
-    }
-
-    return details, nil
-}
-```
-
-### Pattern 3: Enhanced Error Messages
-
-```go
-func (ex *ResourceExtension) ClassifyError(
-    cloudError *genericarmclient.CloudError,
-    apiVersion string,
-    log logr.Logger,
-    next extensions.ErrorClassifierFunc,
-) (core.CloudErrorDetails, error) {
-    details, err := next(cloudError)
-    if err != nil {
-        return core.CloudErrorDetails{}, err
-    }
-
-    // Provide more context for common user errors
-    if cloudError.Code() == "InvalidParameterValue" {
-        if strings.Contains(cloudError.Message(), "sku") {
-            details.Message = fmt.Sprintf(
-                "Invalid SKU specified: %s. "+
-                "Available SKUs for this resource: %s. "+
-                "See documentation: https://docs.microsoft.com/...",
-                extractSKU(cloudError.Message()),
-                strings.Join(ex.getValidSKUs(), ", "))
-        }
-    }
-
-    return details, nil
-}
-```
-
-### Pattern 4: Conditional Fatal Classification
-
-```go
-func (ex *ResourceExtension) ClassifyError(
-    cloudError *genericarmclient.CloudError,
-    apiVersion string,
-    log logr.Logger,
-    next extensions.ErrorClassifierFunc,
-) (core.CloudErrorDetails, error) {
-    details, err := next(cloudError)
-    if err != nil {
-        return core.CloudErrorDetails{}, err
-    }
-
-    // Some configuration errors are unrecoverable
-    if cloudError.Code() == "InvalidConfiguration" {
-        details.Classification = core.ErrorFatal
-        details.Retry = false
-        details.Message = fmt.Sprintf(
-            "Configuration error: %s. This requires manual intervention.",
-            cloudError.Message())
     }
 
     return details, nil
@@ -199,18 +115,6 @@ When testing `ErrorClassifier` extensions:
 - **Log decisions**: Help debugging by logging classification changes
 - **Consider idempotency**: Retryable errors will cause repeated operations
 - **Test thoroughly**: Incorrect classification can cause user frustration
-
-## Common Azure Error Codes
-
-Some error codes you might encounter:
-
-- `ResourceNotFound`: Resource doesn't exist (usually retryable for dependencies)
-- `ResourceGroupNotFound`: Parent resource group missing
-- `InvalidParameterValue`: Configuration error (usually fatal)
-- `QuotaExceeded`: Subscription limits reached (fatal)
-- `InternalServerError`: Azure service issue (retryable)
-- `TooManyRequests`: Rate limiting (retryable with backoff)
-- `Conflict`: Concurrent operation conflict (retryable)
 
 ## Related Extension Points
 

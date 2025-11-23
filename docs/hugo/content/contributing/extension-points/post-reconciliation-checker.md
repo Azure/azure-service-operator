@@ -54,9 +54,10 @@ See the [full implementation in private_endpoints_extensions.go](https://github.
 1. **Type assertions**: For both resource type and hub version
 2. **Status inspection**: Examines resource status to determine readiness
 3. **Clear failure messages**: Provides actionable information to users
-4. **No ARM calls**: Uses existing status data
-5. **Conditional result**: Returns success or failure based on state
-6. **No error return**: Check itself succeeded, but resource not ready yet
+4. **Uses factory methods**: Always uses the factory methods for `PostReconcileCheckResult` to ensure consistency
+5. **No ARM calls**: Uses existing status data
+6. **Conditional result**: Returns success or failure based on state
+7. **No error return**: Check itself succeeded, but resource not ready yet
 
 ## Common Patterns
 
@@ -158,71 +159,9 @@ func (ex *ResourceExtension) PostReconcileCheck(
 }
 ```
 
-### Pattern 4: Timeout After Extended Wait
-
-```go
-func (ex *ResourceExtension) PostReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PostReconcileCheckFunc,
-) (extensions.PostReconcileCheckResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Check how long we've been waiting
-    if resource.Status.CreationTime != nil {
-        waitTime := time.Since(resource.Status.CreationTime.Time)
-        if waitTime > 30*time.Minute {
-            // Give up waiting, but don't fail permanently
-            log.V(Warning).Info(
-                "Resource taking longer than expected to be ready",
-                "waitTime", waitTime)
-            // Could return success here to stop blocking, or keep waiting
-        }
-    }
-
-    // Perform the actual readiness check
-    if !ex.isReady(resource) {
-        return extensions.PostReconcileCheckResultFailure(
-            "resource initialization in progress"), nil
-    }
-
-    return extensions.PostReconcileCheckResultSuccess(), nil
-}
-```
-
-### Pattern 5: Call Next for Chain
-
-```go
-func (ex *ResourceExtension) PostReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PostReconcileCheckFunc,
-) (extensions.PostReconcileCheckResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Perform custom check first
-    if !ex.customReadinessCheck(resource) {
-        return extensions.PostReconcileCheckResultFailure(
-            "custom readiness check failed"), nil
-    }
-
-    // Call next checker in the chain (if any)
-    // The default implementation always returns success
-    return next(ctx, obj, owner, resourceResolver, armClient, log)
-}
-```
-
 ## Check Results
 
-The extension returns one of two results:
+The extension returns one of two results, or an error.
 
 ### Success
 
@@ -293,6 +232,7 @@ When testing `PostReconciliationChecker` extensions:
 - **Call `next()` if appropriate**: Allows for check chaining (rarely needed)
 - **Don't modify the resource**: This is for validation only
 - **Be patient**: Checks may run many times before succeeding
+- **Use factory methods**: Always uses the factory methods for `PostReconcileCheckResult` to ensure consistency
 - **Provide clear reasons**: Failure messages shown to users
 - **Log appropriately**: Help debugging without noise
 - **Handle nil values**: Status fields may not be populated yet
@@ -303,7 +243,7 @@ When testing `PostReconciliationChecker` extensions:
 Here are typical reasons to use post-reconciliation checks:
 
 1. **Async provisioning**: Azure resource created but still initializing
-2. **Manual approval**: External human approval required
+2. **Manual approval**: External human approval required (you can check whether this has been done and provide a better message to the user than "not ready")
 3. **Deployment rollout**: Waiting for deployment to all regions/instances
 4. **Certificate generation**: Waiting for certs to be issued
 5. **DNS propagation**: Waiting for DNS changes to propagate
@@ -312,9 +252,6 @@ Here are typical reasons to use post-reconciliation checks:
 ## Related Extension Points
 
 - [PreReconciliationChecker]({{< relref "pre-reconciliation-checker" >}}): Check before reconciliation
-- [KubernetesSecretExporter]({{< relref "kubernetes-secret-exporter" >}}): Runs at similar time
-- [SuccessfulCreationHandler]({{< relref "successful-creation-handler" >}}): Runs after initial creation
-- [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Modify before reconciliation
 
 ## Best Practices
 

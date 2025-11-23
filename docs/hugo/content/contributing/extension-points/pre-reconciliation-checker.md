@@ -108,6 +108,28 @@ func (ex *ResourceExtension) PreReconcileCheck(
 }
 ```
 
+#### Example 1: Virtual Machine Scale Set Instances
+
+**Problem:** Cannot manage individual VMSS instances when the scale set is updating or deleting.
+
+**Solution:** Check VMSS state before attempting instance operations.
+
+```go
+// Block on: Updating, Deallocating, Deleting
+// Allow on: Running, Succeeded
+```
+
+#### Example 2: Container Service Agent Pools
+
+**Problem:** Agent pools cannot be modified when the cluster is upgrading.
+
+**Solution:** Check AKS cluster upgrade state before pool operations.
+
+```go
+// Block on: Upgrading, Updating
+// Allow on: Succeeded, Running
+```
+
 ### Pattern 2: Validate Required References
 
 ```go
@@ -214,43 +236,9 @@ func (ex *ResourceExtension) PreReconcileCheck(
 }
 ```
 
-### Pattern 5: Rate Limiting or Throttling
+## Check Result
 
-```go
-func (ex *ResourceExtension) PreReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Check if we're being rate limited
-    if ex.shouldThrottle(resource) {
-        return extensions.BlockReconcile(
-            "rate limit reached, waiting before retry"), nil
-    }
-
-    // Check quota
-    quotaOK, err := ex.checkQuota(ctx, resource, armClient)
-    if err != nil {
-        return extensions.PreReconcileCheckResult{}, err
-    }
-
-    if !quotaOK {
-        return extensions.BlockReconcile("quota exceeded"), nil
-    }
-
-    return extensions.ProceedWithReconcile(), nil
-}
-```
-
-## Check Results
-
-The extension returns one of two results:
+The extension returns one of two results, or an error.
 
 ### Proceed
 
@@ -344,29 +332,15 @@ Pre-reconciliation checks run on **every** reconciliation attempt, so:
 - **Don't modify the resource**: This is for validation only
 - **Provide clear reasons**: Blocking messages shown to users
 - **Be idempotent**: Checks may run many times
+- **Use factory methods**: Always uses the factory methods for `PreReconcileCheckResult` to ensure consistency
 - **Handle nil owner**: Owner can be nil for root resources
 - **Use conditions package**: For setting appropriate conditions
 - **Log decisions**: Help debugging by explaining why checks block
 
-## Relationship to Other Validation
-
-Pre-reconciliation checks complement other validation mechanisms:
-
-- **Admission Webhooks**: Validate at create/update time (prefer for simple validation)
-- **PreReconciliationChecker**: Validate at reconciliation time (for complex/runtime checks)
-- **PostReconciliationChecker**: Validate after reconciliation (for readiness checks)
-
-Use the right tool for the right job:
-
-- Simple field validation → Admission webhook
-- Runtime dependency checks → PreReconciliationChecker
-- Async readiness validation → PostReconciliationChecker
-
 ## Related Extension Points
 
+- [PreReconciliationOwnerChecker]({{< relref "pre-reconciliation-owner-checker" >}}): Specialized owner checks
 - [PostReconciliationChecker]({{< relref "post-reconciliation-checker" >}}): Check after reconciliation
-- [ARMResourceModifier]({{< relref "arm-resource-modifier" >}}): Runs after pre-reconciliation check
-- [ErrorClassifier]({{< relref "error-classifier" >}}): Handles errors that could have been prevented
 
 ## Best Practices
 
