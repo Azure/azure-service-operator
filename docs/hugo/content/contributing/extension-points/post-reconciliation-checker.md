@@ -14,7 +14,6 @@ The interface is called at the end of the reconciliation process, after the reso
 
 See the [PostReconciliationChecker interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/postreconciliation_checker.go) in the source code.
 
-
 ## Motivation
 
 The `PostReconciliationChecker` extension exists to handle cases where:
@@ -58,7 +57,6 @@ See the [full implementation in private_endpoints_extensions.go](https://github.
 4. **No ARM calls**: Uses existing status data
 5. **Conditional result**: Returns success or failure based on state
 6. **No error return**: Check itself succeeded, but resource not ready yet
-
 
 ## Common Patterns
 
@@ -227,26 +225,32 @@ func (ex *ResourceExtension) PostReconcileCheck(
 The extension returns one of two results:
 
 ### Success
+
 ```go
 return extensions.PostReconcileCheckResultSuccess(), nil
 ```
+
 - Resource is ready
 - Ready condition will be marked True
 - Reconciliation completes successfully
 
 ### Failure
+
 ```go
 return extensions.PostReconcileCheckResultFailure("reason for not ready"), nil
 ```
+
 - Resource is not yet ready
 - Warning condition set with the provided reason
 - Reconciliation will retry later
 - Resource requeued for another check
 
 ### Error
+
 ```go
 return extensions.PostReconcileCheckResult{}, fmt.Errorf("check failed: %w", err)
 ```
+
 - The check itself failed (couldn't determine readiness)
 - Error condition set on resource
 - Reconciliation will retry later
@@ -283,7 +287,6 @@ When testing `PostReconciliationChecker` extensions:
 3. **Test error handling**: Verify proper error returns
 4. **Test with real status**: Use realistic status values
 5. **Test retry behavior**: Verify requeue happens correctly
-
 
 ## Important Notes
 

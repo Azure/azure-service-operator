@@ -14,7 +14,6 @@ The interface is called after Kubernetes marks the resource for deletion but bef
 
 See the [Deleter interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/deleter.go) in the source code.
 
-
 ## Motivation
 
 The `Deleter` extension exists to handle cases where:
@@ -56,7 +55,6 @@ See the [full implementation in alias_extensions.go](https://github.com/Azure/az
 4. **Error handling**: Returns errors that prevent finalizer removal
 5. **Chain pattern**: Calls `next()` to perform standard deletion
 6. **Logging**: Clear logging of each step for debugging
-
 
 ## Common Patterns
 
@@ -220,7 +218,6 @@ When testing `Deleter` extensions:
 4. **Test idempotency**: Multiple calls should be safe
 5. **Test conditional paths**: Cover all branching logic
 6. **Test requeue behavior**: Verify multi-step deletions requeue correctly
-
 
 ## Important Notes
 

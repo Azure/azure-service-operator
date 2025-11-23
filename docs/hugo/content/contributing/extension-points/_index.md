@@ -18,6 +18,7 @@ Extension points are Go interfaces defined in `v2/pkg/genruntime/extensions/` th
 Extensions are typically implemented in resource-specific files under `v2/api/<service>/customizations/<resource>_extensions.go`. The general pattern is:
 
 1. Declare that your extension type implements the interface:
+
    ```go
    var _ extensions.ARMResourceModifier = &MyResourceExtension{}
    ```
@@ -30,17 +31,17 @@ Extensions are typically implemented in resource-specific files under `v2/api/<s
 
 The following extension points are available for customizing resource behavior:
 
-| Extension Point                | Purpose                                          | When Invoked                               |
-|--------------------------------|--------------------------------------------------|--------------------------------------------|
-| [ARMResourceModifier]          | Modify the ARM payload before sending to Azure  | Just before PUT/PATCH to ARM               |
-| [Deleter]                      | Customize resource deletion behavior             | When resource is being deleted             |
-| [ErrorClassifier]              | Classify ARM errors as retryable or fatal        | When ARM returns an error                  |
-| [Importer]                     | Customize resource import behavior               | During `asoctl import` operations          |
-| [KubernetesSecretExporter]     | Export secrets to Kubernetes                     | After successful reconciliation            |
-| [PostReconciliationChecker]    | Perform post-reconciliation validation           | After ARM reconciliation succeeds          |
-| [PreReconciliationChecker]     | Validate before reconciling                      | Before sending requests to ARM             |
-| [PreReconciliationOwnerChecker]| Validate owner state before reconciling          | Before any ARM operations (including GET)  |
-| [SuccessfulCreationHandler]    | Handle successful resource creation              | After initial resource creation            |
+| Extension Point                 | Purpose                                        | When Invoked                              |
+| ------------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| [ARMResourceModifier]           | Modify the ARM payload before sending to Azure | Just before PUT/PATCH to ARM              |
+| [Deleter]                       | Customize resource deletion behavior           | When resource is being deleted            |
+| [ErrorClassifier]               | Classify ARM errors as retryable or fatal      | When ARM returns an error                 |
+| [Importer]                      | Customize resource import behavior             | During `asoctl import` operations         |
+| [KubernetesSecretExporter]      | Export secrets to Kubernetes                   | After successful reconciliation           |
+| [PostReconciliationChecker]     | Perform post-reconciliation validation         | After ARM reconciliation succeeds         |
+| [PreReconciliationChecker]      | Validate before reconciling                    | Before sending requests to ARM            |
+| [PreReconciliationOwnerChecker] | Validate owner state before reconciling        | Before any ARM operations (including GET) |
+| [SuccessfulCreationHandler]     | Handle successful resource creation            | After initial resource creation           |
 
 [ARMResourceModifier]: {{< relref "arm-resource-modifier" >}}
 [Deleter]: {{< relref "deleter" >}}
@@ -76,6 +77,7 @@ Extensions should **not** be used for:
 4. **Handle errors gracefully**: Return appropriate error types and messages
 5. **Test thoroughly**: Add unit tests for extension logic
 6. **Call next**: Most extensions use a chain pattern - remember to call the `next` function
+
    ```go
    // Example: calling next in an ErrorClassifier
    func (ex *MyExtension) ClassifyError(

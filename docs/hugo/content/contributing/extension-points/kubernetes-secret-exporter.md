@@ -14,7 +14,6 @@ The interface is called during the reconciliation process, after ARM operations 
 
 See the [KubernetesSecretExporter interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/kubernetes_secret_exporter.go) in the source code.
 
-
 ## Motivation
 
 The `KubernetesSecretExporter` extension exists to handle cases where:
@@ -56,7 +55,6 @@ See the [full implementation in user_assigned_identity_extention_authorization.g
 4. **Status values**: Retrieves values from resource status
 5. **User control**: Only exports secrets the user specified in operatorSpec
 6. **Namespace scoping**: Secrets created in the same namespace as the resource
-
 
 ## Common Patterns
 
@@ -315,7 +313,6 @@ When testing `KubernetesSecretExporter` extensions:
 4. **Test API failures**: Verify error handling for ARM call failures
 5. **Test secret updates**: Verify secrets update when values change
 6. **Test secret references**: Verify correct names and keys
-
 
 ## Security Considerations
 

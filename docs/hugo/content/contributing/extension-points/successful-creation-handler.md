@@ -14,7 +14,6 @@ The interface is called after the resource exists in Azure and has been assigned
 
 See the [SuccessfulCreationHandler interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/successful_resource_modifier.go) in the source code.
 
-
 ## Motivation
 
 The `SuccessfulCreationHandler` extension exists to handle cases where:
@@ -55,7 +54,6 @@ See the [full implementation in alias_extensions.go](https://github.com/Azure/az
 3. **ID override**: Sets a custom child resource ID reference
 4. **Validation**: Checks that required status fields are present
 5. **Error handling**: Returns error if required data missing
-
 
 ## Common Patterns
 
@@ -182,6 +180,7 @@ Subsequent reconciliations do **not** trigger this extension again.
 ## Success vs. Update
 
 It's important to note:
+
 - **Success handler**: Runs once after initial creation
 - **Updates**: Do not trigger the success handler
 - **Recreation**: If a resource is deleted and recreated, the handler runs again
@@ -196,6 +195,7 @@ return fmt.Errorf("failed to initialize: %w", err)
 ```
 
 If the success handler returns an error:
+
 1. The error is recorded in conditions
 2. The Ready condition is not set
 3. Reconciliation will retry
@@ -212,7 +212,6 @@ When testing `SuccessfulCreationHandler` extensions:
 3. **Test ID override**: Verify child resource IDs set correctly
 4. **Test idempotency**: Verify multiple calls are safe
 5. **Test status modifications**: Verify status fields set correctly
-
 
 ## Common Scenarios
 
@@ -271,6 +270,7 @@ Before implementing a success handler, consider:
 4. **ARMResourceModifier**: Would modifying the request work better?
 
 Use `SuccessfulCreationHandler` when the logic truly requires:
+
 - The resource to exist in Azure first
 - One-time execution after creation
 - Custom ID handling that can't be generated

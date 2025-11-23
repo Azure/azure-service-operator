@@ -14,7 +14,6 @@ The interface is called in the error handling path of all ARM operations (GET, P
 
 See the [ErrorClassifier interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/error_classifier.go) in the source code.
 
-
 ## Motivation
 
 The `ErrorClassifier` extension exists to handle cases where:
@@ -56,7 +55,6 @@ See the [full implementation in dns_zones_a_record_extension.go](https://github.
 3. **Logging**: Records the classification decision for debugging
 4. **Helper function**: Encapsulates the error detection logic
 5. **Error propagation**: Returns errors from `next()` without modification
-
 
 ## Common Patterns
 
@@ -177,6 +175,7 @@ The `core` package defines several error classifications:
 - **`ErrorUnknown`**: Classification uncertain, treated conservatively
 
 The controller uses these classifications to determine:
+
 - Whether to requeue the reconciliation
 - What condition to set on the resource
 - How long to wait before retrying
@@ -191,7 +190,6 @@ When testing `ErrorClassifier` extensions:
 3. **Test API version variations**: If version-specific, test all versions
 4. **Test error message enhancement**: Verify improved user messages
 5. **Test classification changes**: Assert correct classification results
-
 
 ## Important Notes
 

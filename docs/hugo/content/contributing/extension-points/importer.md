@@ -14,7 +14,6 @@ The interface is called during the import workflow, after retrieving the resourc
 
 See the [Importer interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/importer.go) in the source code.
 
-
 ## Motivation
 
 The `Importer` extension exists to handle cases where:
@@ -57,7 +56,6 @@ See the [full implementation in flexible_servers_configuration_extensions.go](ht
 3. **Multiple filters**: Several conditions that trigger skip
 4. **Clear reasons**: Each skip includes explanation for user feedback
 5. **Default behavior**: Returns original result when no filters apply
-
 
 ## Common Patterns
 
@@ -220,7 +218,6 @@ When testing `Importer` extensions:
 3. **Test error cases**: Verify proper error handling
 4. **Test transformation**: If modifying resources, verify changes
 5. **Test type safety**: Ensure handling of unexpected types
-
 
 ## User Experience
 

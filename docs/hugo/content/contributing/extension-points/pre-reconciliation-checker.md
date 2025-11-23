@@ -14,7 +14,6 @@ The interface is called early in the reconciliation process, after basic claim/v
 
 See the [PreReconciliationChecker interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/prereconciliation_checker.go) in the source code.
 
-
 ## Motivation
 
 The `PreReconciliationChecker` extension exists to handle cases where:
@@ -70,12 +69,12 @@ func (ex *MyResourceExtension) PreReconcileCheck(
 ```
 
 **Key aspects:**
+
 1. **Type assertions**: For both resource type and hub version
 2. **Owner check**: Validates owner state before proceeding
 3. **Clear blocking messages**: Provides reason for blocking
 4. **No error**: Check succeeded, but reconciliation should wait
 5. **Proceeds when ready**: Returns proceed result when checks pass
-
 
 ## Common Patterns
 
@@ -254,26 +253,32 @@ func (ex *ResourceExtension) PreReconcileCheck(
 The extension returns one of two results:
 
 ### Proceed
+
 ```go
 return extensions.ProceedWithReconcile(), nil
 ```
+
 - Prerequisites are satisfied
 - Reconciliation will continue normally
 - ARM operations will be attempted
 
 ### Block
+
 ```go
 return extensions.BlockReconcile("reason for blocking"), nil
 ```
+
 - Prerequisites not met
 - Reconciliation skipped for now
 - Resource will be requeued to try again later
 - Condition set with the blocking reason
 
 ### Error
+
 ```go
 return extensions.PreReconcileCheckResult{}, fmt.Errorf("check failed: %w", err)
 ```
+
 - The check itself failed
 - Error condition set on resource
 - Reconciliation blocked until error resolved
@@ -314,7 +319,6 @@ When testing `PreReconciliationChecker` extensions:
 4. **Test with nil owner**: Handle cases with no owner
 5. **Test check chain**: Verify calling next() works correctly
 
-
 ## Performance Considerations
 
 Pre-reconciliation checks run on **every** reconciliation attempt, so:
@@ -353,6 +357,7 @@ Pre-reconciliation checks complement other validation mechanisms:
 - **PostReconciliationChecker**: Validate after reconciliation (for readiness checks)
 
 Use the right tool for the right job:
+
 - Simple field validation → Admission webhook
 - Runtime dependency checks → PreReconciliationChecker
 - Async readiness validation → PostReconciliationChecker

@@ -14,7 +14,6 @@ The key difference from `PreReconciliationChecker` is that this extension **avoi
 
 See the [PreReconciliationOwnerChecker interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/prereconciliation_owner_checker.go) in the source code.
 
-
 ## Motivation
 
 The `PreReconciliationOwnerChecker` extension exists to handle a specific class of Azure resources where:
@@ -47,13 +46,13 @@ Do **not** use `PreReconciliationOwnerChecker` when:
 
 Understanding the difference is critical:
 
-| Aspect | PreReconciliationOwnerChecker | PreReconciliationChecker |
-|--------|------------------------------|--------------------------|
-| **When invoked** | Before any ARM calls, including GET | After GET, before PUT/PATCH |
-| **Resource access** | No - only owner checked | Yes - resource status available |
-| **Use case** | Owner blocks all access | Validation based on current state |
-| **GET avoidance** | Yes - no GET performed | No - GET already performed |
-| **Parameters** | Only `owner` | Both `obj` and `owner` |
+| Aspect              | PreReconciliationOwnerChecker       | PreReconciliationChecker          |
+| ------------------- | ----------------------------------- | --------------------------------- |
+| **When invoked**    | Before any ARM calls, including GET | After GET, before PUT/PATCH       |
+| **Resource access** | No - only owner checked             | Yes - resource status available   |
+| **Use case**        | Owner blocks all access             | Validation based on current state |
+| **GET avoidance**   | Yes - no GET performed              | No - GET already performed        |
+| **Parameters**      | Only `owner`                        | Both `obj` and `owner`            |
 
 **Rule of thumb:** If you can GET the resource to check its state, use `PreReconciliationChecker`. If even GET fails when the owner is in certain states, use `PreReconciliationOwnerChecker`.
 
@@ -69,7 +68,6 @@ See the [full implementation in database_extensions.go](https://github.com/Azure
 4. **Clear blocking messages**: Provides specific reason for blocking
 5. **Helper function**: Encapsulates state-checking logic
 6. **Calls next**: Proceeds when cluster is in acceptable state
-
 
 ## Common Patterns
 
@@ -236,26 +234,32 @@ func (ex *ResourceExtension) PreReconcileOwnerCheck(
 The extension returns one of two results:
 
 ### Proceed
+
 ```go
 return extensions.ProceedWithReconcile(), nil
 ```
+
 - Owner state permits reconciliation
 - Reconciliation will continue (GET will be attempted)
 - Normal reconciliation flow proceeds
 
 ### Block
+
 ```go
 return extensions.BlockReconcile("parent is updating"), nil
 ```
+
 - Owner state blocks reconciliation
 - No GET or other operations attempted on the resource
 - Resource requeued to try again later
 - Condition set with the blocking reason
 
 ### Error
+
 ```go
 return extensions.PreReconcileCheckResult{}, fmt.Errorf("check failed: %w", err)
 ```
+
 - The check itself failed
 - Error condition set on resource
 - Reconciliation blocked until error resolved
@@ -283,7 +287,6 @@ When testing `PreReconciliationOwnerChecker` extensions:
 3. **Test blocking states**: Cover all states that should block
 4. **Test proceed states**: Verify reconciliation proceeds when appropriate
 5. **Test error handling**: Verify proper error returns
-
 
 ## Performance Considerations
 
