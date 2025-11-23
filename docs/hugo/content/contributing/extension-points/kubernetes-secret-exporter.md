@@ -8,7 +8,7 @@ weight: 60
 
 `KubernetesSecretExporter` allows resources to export secrets from Azure into Kubernetes Secret objects. This extension is invoked after a resource has been successfully created or updated in Azure, giving the resource the ability to retrieve sensitive data (like connection strings, keys, passwords) and make them available in Kubernetes.
 
-The interface is called during the reconciliation process, after ARM operations succeed but before the Ready condition is marked successful. This ensures secrets are available before dependent resources can use them.
+The interface is called during the reconciliation process, after ARM operations succeed but before the Ready condition is marked successful. This ensures secrets are available before dependent resources try to use them.
 
 ## Interface Definition
 
@@ -19,10 +19,9 @@ See the [KubernetesSecretExporter interface definition](https://github.com/Azure
 The `KubernetesSecretExporter` extension exists to handle cases where:
 
 1. **Azure-generated secrets**: Resources that generate secrets in Azure (keys, connection strings, passwords) that need to be accessible in Kubernetes
-2. **Status-based secrets**: Secret values that are part of the resource's status and should be exported to Secrets
-3. **API-retrieved secrets**: Secrets that require separate API calls to retrieve (not in the resource response)
-4. **Derived secrets**: Secret values that need to be computed or combined from Azure data
-5. **User-controlled export**: Users can specify which secrets they want exported via `operatorSpec.secrets`
+2. **API-retrieved secrets**: Secrets that require separate API calls to retrieve (not in the resource response)
+3. **Derived secrets**: Secret values that need to be computed or combined from Azure data
+4. **User-controlled export**: Users can specify which secrets they want exported via `operatorSpec.secrets`
 
 Many Azure resources generate credentials, keys, or connection strings that applications need. Rather than requiring users to manually retrieve these from Azure, ASO can export them directly to Kubernetes Secrets.
 
@@ -31,7 +30,6 @@ Many Azure resources generate credentials, keys, or connection strings that appl
 Implement `KubernetesSecretExporter` when:
 
 - ✅ The resource generates secrets in Azure (keys, passwords, tokens)
-- ✅ Secret values are available in the resource status
 - ✅ Additional ARM API calls are needed to retrieve secrets
 - ✅ Users need programmatic access to resource credentials
 - ✅ Secrets need to be made available to other Kubernetes resources
@@ -58,46 +56,7 @@ See the [full implementation in user_assigned_identity_extention_authorization.g
 
 ## Common Patterns
 
-### Pattern 1: Export Status-Based Secrets
-
-```go
-func (ex *ResourceExtension) ExportKubernetesSecrets(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    additionalSecrets set.Set[string],
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-) (*genruntime.KubernetesSecretExportResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Check if secrets were requested
-    if resource.Spec.OperatorSpec == nil || 
-       resource.Spec.OperatorSpec.Secrets == nil {
-        return nil, nil
-    }
-
-    // Create collector
-    collector := secrets.NewCollector(resource.Namespace)
-
-    // Add secrets from status
-    secrets := resource.Spec.OperatorSpec.Secrets
-    collector.AddValue(secrets.ConnectionString, resource.Status.ConnectionString)
-    collector.AddValue(secrets.PrimaryKey, resource.Status.PrimaryKey)
-    collector.AddValue(secrets.SecondaryKey, resource.Status.SecondaryKey)
-
-    // Build Secret objects
-    result, err := collector.Values()
-    if err != nil {
-        return nil, err
-    }
-
-    return &genruntime.KubernetesSecretExportResult{
-        Objs: secrets.SliceToClientObjectSlice(result),
-    }, nil
-}
-```
-
-### Pattern 2: Retrieve Secrets via ARM API
+### Pattern 1: Retrieve Secrets via ARM API
 
 Some secrets require additional API calls:
 
@@ -154,7 +113,7 @@ func (ex *ResourceExtension) ExportKubernetesSecrets(
 }
 ```
 
-### Pattern 3: Combine Multiple Sources
+### Pattern 2: Combine Multiple Sources
 
 ```go
 func (ex *ResourceExtension) ExportKubernetesSecrets(
@@ -202,50 +161,12 @@ func (ex *ResourceExtension) ExportKubernetesSecrets(
 }
 ```
 
-### Pattern 4: Using RawSecrets for Secret Expressions
+### Antipattern 1: Export Status-Based Secrets
 
-For advanced scenarios with secret expressions:
+Properties in a resource's status are clear text by definition and are likely not secrets. If a user really wants to do this, they can use a CEL expression in OperatorSpec to do that, we don't need to provide an extension for it.
 
-```go
-func (ex *ResourceExtension) ExportKubernetesSecrets(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    additionalSecrets set.Set[string],
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-) (*genruntime.KubernetesSecretExportResult, error) {
-    resource := obj.(*myservice.MyResource)
+There are some resources that already do this; they predate the introduction of CEL and we retain that behaviour for backward compatibility; however, new resources should not implement this pattern.
 
-    // Regular secret export
-    collector := secrets.NewCollector(resource.Namespace)
-    if resource.Spec.OperatorSpec != nil && 
-       resource.Spec.OperatorSpec.Secrets != nil {
-        collector.AddValue(
-            resource.Spec.OperatorSpec.Secrets.PrimaryKey,
-            resource.Status.PrimaryKey)
-    }
-
-    secretObjs, err := collector.Values()
-    if err != nil {
-        return nil, err
-    }
-
-    // Raw secrets for expressions (if requested)
-    rawSecrets := make(map[string]string)
-    if additionalSecrets.Contains("adminCredentials") {
-        creds, err := ex.getAdminCredentials(ctx, resource, armClient)
-        if err != nil {
-            return nil, err
-        }
-        rawSecrets["adminCredentials"] = creds
-    }
-
-    return &genruntime.KubernetesSecretExportResult{
-        Objs:       secrets.SliceToClientObjectSlice(secretObjs),
-        RawSecrets: rawSecrets,
-    }, nil
-}
-```
 
 ## User Specification of Secrets
 
