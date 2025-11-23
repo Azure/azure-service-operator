@@ -20,15 +20,10 @@ See the [PostReconciliationChecker interface definition](https://github.com/Azur
 The `PostReconciliationChecker` extension exists to handle cases where:
 
 1. **Async operations**: Azure resource is created but still initializing or provisioning
-
 2. **Manual approval required**: Resources that require external approval before being considered ready
-
 3. **Dependent state**: Resource readiness depends on the state of other Azure resources
-
 4. **Complex readiness criteria**: Determining if a resource is "ready" requires more than just ARM success
-
 5. **Validation**: Additional checks needed to ensure resource is in expected state
-
 6. **Gradual rollout**: Resource created but waiting for deployment to complete
 
 The default behavior marks resources as Ready immediately after successful ARM operations. Some resources need to wait for additional conditions before being truly ready.

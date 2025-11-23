@@ -20,13 +20,9 @@ See the [ErrorClassifier interface definition](https://github.com/Azure/azure-se
 The `ErrorClassifier` extension exists to handle cases where:
 
 1. **Resource-specific errors**: Some Azure resources return unique error codes that require special handling
-
 2. **Retryable conditions**: Certain errors that appear permanent are actually transient for specific resources
-
 3. **Better user feedback**: Providing more context or clearer messages for resource-specific errors
-
 4. **API version differences**: Error behavior may vary across API versions for the same resource
-
 5. **Conditional retry logic**: Some errors are retryable under certain conditions but fatal under others
 
 The default error classifier handles common patterns, but some resources have unique error behaviors that need custom classification.

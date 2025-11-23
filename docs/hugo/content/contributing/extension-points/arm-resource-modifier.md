@@ -19,13 +19,9 @@ See the [ARMResourceModifier interface definition](https://github.com/Azure/azur
 The `ARMResourceModifier` extension exists to handle cases where:
 
 1. **Azure resource state affects the payload**: Some Azure resources require different payloads based on their current state in Azure (e.g., creation vs. update)
-
 2. **Complex conditional logic**: Business logic that depends on multiple factors and cannot be expressed declaratively in the resource schema
-
 3. **Azure-specific quirks**: Handling special cases or undocumented Azure behavior that varies by resource type
-
 4. **Dynamic payload construction**: Building parts of the payload at runtime based on information retrieved from Azure or Kubernetes
-
 5. **Soft-delete scenarios**: Resources with soft-delete capabilities (like Key Vault) may need special handling to recover or purge existing resources
 
 ## When to Use

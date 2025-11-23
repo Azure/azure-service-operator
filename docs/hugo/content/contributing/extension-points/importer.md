@@ -20,15 +20,10 @@ See the [Importer interface definition](https://github.com/Azure/azure-service-o
 The `Importer` extension exists to handle cases where:
 
 1. **System-managed resources**: Resources that are created/managed by Azure and shouldn't be imported
-
 2. **Default values**: Resources that only have default settings and don't need to be managed
-
 3. **Read-only resources**: Resources that can't be modified after creation
-
 4. **Filtering criteria**: Resources that don't meet certain criteria for management
-
 5. **Import validation**: Resources that need validation before allowing import
-
 6. **Resource transformation**: Adjusting the imported resource to fit Kubernetes conventions
 
 Many Azure services automatically create child resources or configurations. These often shouldn't be managed by the operator as they're managed by Azure.

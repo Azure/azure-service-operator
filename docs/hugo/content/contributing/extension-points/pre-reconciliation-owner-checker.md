@@ -20,11 +20,8 @@ See the [PreReconciliationOwnerChecker interface definition](https://github.com/
 The `PreReconciliationOwnerChecker` extension exists to handle a specific class of Azure resources where:
 
 1. **Owner state blocks all access**: The parent resource's state can prevent any operations on child resources, including GET
-
 2. **Cannot determine child state**: You cannot query the child resource to check its state when the owner is in certain states
-
 3. **Avoid wasted API calls**: Attempting to GET or PUT a child when the owner blocks access wastes API quota and generates errors
-
 4. **Owner-dependent access**: Some Azure services completely lock down child resources when the parent is in maintenance, updating, or powered-off states
 
 The most notable example is **Azure Data Explorer (Kusto)**, where you cannot even GET a database when the cluster is powered off or updating. Without this extension, the controller would repeatedly attempt to access the database, failing each time and consuming request quota.

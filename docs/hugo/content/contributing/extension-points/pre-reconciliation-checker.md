@@ -20,15 +20,10 @@ See the [PreReconciliationChecker interface definition](https://github.com/Azure
 The `PreReconciliationChecker` extension exists to handle cases where:
 
 1. **Prerequisite validation**: Ensuring required conditions are met before attempting ARM operations
-
 2. **Owner readiness**: Verifying that parent resources are in a state suitable for child creation
-
 3. **Quota checking**: Validating that operation won't exceed limits
-
 4. **Preventing futile operations**: Blocking reconciliation attempts that cannot possibly succeed
-
 5. **External dependencies**: Waiting for external systems or resources to be ready
-
 6. **Resource state validation**: Ensuring the resource is in an appropriate state for reconciliation
 
 The default behavior attempts reconciliation immediately. Some resources need to verify prerequisites first to avoid unnecessary ARM calls, rate limiting, or error conditions.

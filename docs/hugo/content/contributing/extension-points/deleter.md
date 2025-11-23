@@ -20,15 +20,10 @@ See the [Deleter interface definition](https://github.com/Azure/azure-service-op
 The `Deleter` extension exists to handle cases where:
 
 1. **Pre-deletion operations**: Resources that need to perform cleanup before being deleted from Azure (e.g., canceling subscriptions, disabling features)
-
 2. **Multi-step deletion**: Resources requiring multiple API calls in a specific order to delete properly
-
 3. **Dependent resource cleanup**: Resources that need to ensure dependent resources are handled before deletion
-
 4. **Soft-delete handling**: Resources with soft-delete capabilities that may need special deletion modes
-
 5. **Conditional deletion**: Resources that should skip Azure deletion under certain circumstances (e.g., externally managed resources)
-
 6. **Coordinated deletion**: Resources that need to coordinate with other Azure services during deletion
 
 ## When to Use

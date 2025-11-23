@@ -20,13 +20,9 @@ See the [KubernetesSecretExporter interface definition](https://github.com/Azure
 The `KubernetesSecretExporter` extension exists to handle cases where:
 
 1. **Azure-generated secrets**: Resources that generate secrets in Azure (keys, connection strings, passwords) that need to be accessible in Kubernetes
-
 2. **Status-based secrets**: Secret values that are part of the resource's status and should be exported to Secrets
-
 3. **API-retrieved secrets**: Secrets that require separate API calls to retrieve (not in the resource response)
-
 4. **Derived secrets**: Secret values that need to be computed or combined from Azure data
-
 5. **User-controlled export**: Users can specify which secrets they want exported via `operatorSpec.secrets`
 
 Many Azure resources generate credentials, keys, or connection strings that applications need. Rather than requiring users to manually retrieve these from Azure, ASO can export them directly to Kubernetes Secrets.

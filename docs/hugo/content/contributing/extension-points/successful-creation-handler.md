@@ -20,13 +20,9 @@ See the [SuccessfulCreationHandler interface definition](https://github.com/Azur
 The `SuccessfulCreationHandler` extension exists to handle cases where:
 
 1. **Derived IDs**: Some resources need to compute or override their resource ID based on Azure's response
-
 2. **Child resource IDs**: Parent resources may need to set special IDs for child resources to reference
-
 3. **Post-creation initialization**: One-time setup that can only happen after the resource exists in Azure
-
 4. **Status field initialization**: Setting status fields that depend on the Azure resource ID
-
 5. **Special ARM ID handling**: Resources with non-standard ARM ID structures that need custom handling
 
 Most resources receive their ARM ID through the standard process. Some resources have special requirements that need custom handling when the resource is first created.
