@@ -17,6 +17,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -845,6 +846,25 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 	return genruntime.GetAPIVersion(metaObject, scheme)
 }
 
+var skipDeletionPrecheck = sets.NewString(
+	"cdn",
+	"cognitiveservices",
+	"compute",
+	"containerregistry",
+	"containerservice",
+	"dbformariadb",
+	"dbforpostgresql",
+	"dataprotection",
+	"documentdb",
+	"insights",
+	"keyvault",
+	"kubernetesconfiguration",
+	"machinelearningservices",
+	"managedidentity",
+	"redhatopenshift",
+	"subscription",
+)
+
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
 // have its behavior modified by resources implementing the genruntime.Deleter extension
 func (r *azureDeploymentReconcilerInstance) deleteResource(
@@ -866,11 +886,16 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		return ctrl.Result{}, err
 	}
 
-	// Check to see if the resource has already been deleted from Azure - if so, we're done
-	if _, _, err := r.getStatus(ctx, resourceID); err != nil {
-		if genericarmclient.IsNotFoundError(err) {
-			// Resource no longer exists
-			return ctrl.Result{}, nil
+	// Check to see if the resource has already been deleted from Azure - if so, we're done.
+	// But, first check to see if this resource is in a deny group, and skip the check if so.
+	// This is to allow us to fix up remaining issues one by one instead of all at once.
+	group := obj.GetObjectKind().GroupVersionKind().Group
+	if !skipDeletionPrecheck.Has(group) {
+		if _, _, err := r.getStatus(ctx, resourceID); err != nil {
+			if genericarmclient.IsNotFoundError(err) {
+				// Resource no longer exists
+				return ctrl.Result{}, nil
+			}
 		}
 	}
 
