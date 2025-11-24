@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.15.0
+  currentRelease: v2.16.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -1575,6 +1575,9 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
     2023-04-01:
       Redis:
         $exportAs: Redis
@@ -1605,6 +1608,9 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
     2023-08-01:
       Redis:
         $exportAs: Redis
@@ -1682,6 +1688,9 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.15.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
@@ -2760,6 +2769,62 @@ objectModelConfiguration:
       FlexibleServers_VirtualEndpoint:  # TODO: net new
         $exportAs: FlexibleServersVirtualEndpoint
         $supportedFrom: v2.13.0
+      ServerProperties:
+        SourceServerResourceId:
+          $referenceType: arm
+      Network:
+        DelegatedSubnetResourceId:
+          $referenceType: arm
+        PrivateDnsZoneArmResourceId:
+          $referenceType: arm
+    2025-08-01:
+      DataEncryption:
+        GeoBackupKeyURI:
+          $importConfigMapMode: optional
+        GeoBackupUserAssignedIdentityId:
+          $referenceType: arm
+        PrimaryKeyURI:
+          $importConfigMapMode: optional
+        PrimaryUserAssignedIdentityId:
+          $referenceType: arm
+      FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $exportAs: FlexibleServer
+        $supportedFrom: v2.17.0
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Administrator:
+        $exportAs: FlexibleServersAdministrator
+        $supportedFrom: v2.17.0
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.17.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.17.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.17.0
+      FlexibleServers_Backup:
+        $exportAs: FlexibleServersBackup
+        $supportedFrom: v2.17.0
+      FlexibleServers_AdvancedThreatProtectionSetting:
+        $exportAs: FlexibleServersAdvancedThreatProtectionSettings
+        $supportedFrom: v2.17.0
+      FlexibleServers_VirtualEndpoint:
+        $exportAs: FlexibleServersVirtualEndpoint
+        $supportedFrom: v2.17.0
+      AdministratorMicrosoftEntraPropertiesForAdd:
+        PrincipalName:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      AuthConfig:
+        TenantId:
+          $importConfigMapMode: optional
+        # AzureName:  # TODO: Does this work? Nope.
+        #   $importConfigMapMode: optional
       ServerProperties:
         SourceServerResourceId:
           $referenceType: arm
@@ -3910,6 +3975,12 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.0.0
+      ARecord:
+        Ipv4Address:
+          $importConfigMapMode: optional
+      AaaaRecord:
+        Ipv6Address:
+          $importConfigMapMode: optional
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
@@ -4392,6 +4463,12 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.11.0
+      ARecord:
+        Ipv4Address:
+          $importConfigMapMode: optional
+      AaaaRecord:
+        Ipv6Address:
+          $importConfigMapMode: optional
       SubResource:
         Id:
           $referenceType: arm
@@ -4449,9 +4526,17 @@ objectModelConfiguration:
       Workspace:
         $exportAs: Workspace
         $supportedFrom: v2.0.0-alpha.4
+        $azureGeneratedSecrets:
+          - PrimarySharedKey
+          - SecondarySharedKey
       WorkspaceFeatures:
         ClusterResourceId:
           $referenceType: arm
+  quota:
+    2025-09-01:
+      Quota:
+        $exportAs: Quota
+        $supportedFrom: v2.16.0
   resources:
     2020-06-01:
       ResourceGroup:

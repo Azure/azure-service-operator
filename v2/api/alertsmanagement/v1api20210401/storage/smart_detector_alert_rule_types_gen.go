@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210401.SmartDetectorAlertRule
 // Generator information:
-// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-04-01/SmartDetectorAlertRulesApi.json
+// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/AlertsManagement/stable/2021-04-01/SmartDetectorAlertRulesApi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.alertsManagement/smartDetectorAlertRules/{alertRuleName}
 type SmartDetectorAlertRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (rule *SmartDetectorAlertRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210401.SmartDetectorAlertRule
 // Generator information:
-// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-04-01/SmartDetectorAlertRulesApi.json
+// - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/AlertsManagement/stable/2021-04-01/SmartDetectorAlertRulesApi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.alertsManagement/smartDetectorAlertRules/{alertRuleName}
 type SmartDetectorAlertRuleList struct {
 	metav1.TypeMeta `json:",inline"`

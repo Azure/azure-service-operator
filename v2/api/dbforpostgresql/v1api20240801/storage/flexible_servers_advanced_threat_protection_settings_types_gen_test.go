@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_FlexibleServersAdvancedThreatProtectionSettings_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdvancedThreatProtectionSettings to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFlexibleServersAdvancedThreatProtectionSettings, FlexibleServersAdvancedThreatProtectionSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFlexibleServersAdvancedThreatProtectionSettings tests if a specific instance of FlexibleServersAdvancedThreatProtectionSettings round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFlexibleServersAdvancedThreatProtectionSettings(subject FlexibleServersAdvancedThreatProtectionSettings) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.FlexibleServersAdvancedThreatProtectionSettings
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual FlexibleServersAdvancedThreatProtectionSettings
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServersAdvancedThreatProtectionSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdvancedThreatProtectionSettings to FlexibleServersAdvancedThreatProtectionSettings via AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings & AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings, FlexibleServersAdvancedThreatProtectionSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings tests if a specific instance of FlexibleServersAdvancedThreatProtectionSettings can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings(subject FlexibleServersAdvancedThreatProtectionSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdvancedThreatProtectionSettings
+	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdvancedThreatProtectionSettings
+	err = actual.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_FlexibleServersAdvancedThreatProtectionSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +165,48 @@ func AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSetti
 	gens["Status"] = FlexibleServersAdvancedThreatProtectionSettings_STATUSGenerator()
 }
 
+func Test_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec to FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec via AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec & AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettingsOperatorSpec, FlexibleServersAdvancedThreatProtectionSettingsOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettingsOperatorSpec tests if a specific instance of FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettingsOperatorSpec(subject FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec
+	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec
+	err = actual.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -132,6 +260,48 @@ func FlexibleServersAdvancedThreatProtectionSettingsOperatorSpecGenerator() gopt
 	flexibleServersAdvancedThreatProtectionSettingsOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec{}), generators)
 
 	return flexibleServersAdvancedThreatProtectionSettingsOperatorSpecGenerator
+}
+
+func Test_FlexibleServersAdvancedThreatProtectionSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdvancedThreatProtectionSettings_STATUS to FlexibleServersAdvancedThreatProtectionSettings_STATUS via AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings_STATUS & AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings_STATUS, FlexibleServersAdvancedThreatProtectionSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings_STATUS tests if a specific instance of FlexibleServersAdvancedThreatProtectionSettings_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings_STATUS(subject FlexibleServersAdvancedThreatProtectionSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdvancedThreatProtectionSettings_STATUS
+	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdvancedThreatProtectionSettings_STATUS
+	err = actual.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServersAdvancedThreatProtectionSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -211,6 +381,48 @@ func AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionS
 // AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_FlexibleServersAdvancedThreatProtectionSettings_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdvancedThreatProtectionSettings_Spec to FlexibleServersAdvancedThreatProtectionSettings_Spec via AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings_Spec & AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings_Spec, FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings_Spec tests if a specific instance of FlexibleServersAdvancedThreatProtectionSettings_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings_Spec(subject FlexibleServersAdvancedThreatProtectionSettings_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdvancedThreatProtectionSettings_Spec
+	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdvancedThreatProtectionSettings_Spec
+	err = actual.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServersAdvancedThreatProtectionSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

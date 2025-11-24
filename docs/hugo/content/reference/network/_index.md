@@ -5,15 +5,6 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                       |
-|----------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| [NetworkWatcher]({{< relref "/reference/network/v1api20241001#NetworkWatcher" >}})                 | 2024-10-01  | v1api20241001 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20241001/v1api20241001_networkwatcher.yaml)         |
-| [NetworkWatchersFlowLog]({{< relref "/reference/network/v1api20241001#NetworkWatchersFlowLog" >}}) | 2024-10-01  | v1api20241001 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20241001/v1api20241001_networkwatchersflowlog.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -47,6 +38,8 @@ These resource(s) are the latest versions available for use in the current relea
 | [NetworkInterface]({{< relref "/reference/network/v1api20240301#NetworkInterface" >}})                                               | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networkinterface.yaml)                        |
 | [NetworkSecurityGroup]({{< relref "/reference/network/v1api20240301#NetworkSecurityGroup" >}})                                       | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroup.yaml)                    |
 | [NetworkSecurityGroupsSecurityRule]({{< relref "/reference/network/v1api20240301#NetworkSecurityGroupsSecurityRule" >}})             | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroupssecurityrule.yaml)       |
+| [NetworkWatcher]({{< relref "/reference/network/v1api20241001#NetworkWatcher" >}})                                                   | 2024-10-01  | v1api20241001 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20241001/v1api20241001_networkwatcher.yaml)                          |
+| [NetworkWatchersFlowLog]({{< relref "/reference/network/v1api20241001#NetworkWatchersFlowLog" >}})                                   | 2024-10-01  | v1api20241001 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20241001/v1api20241001_networkwatchersflowlog.yaml)                  |
 | [PrivateDnsZone]({{< relref "/reference/network/v1api20240601#PrivateDnsZone" >}})                                                   | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszone.yaml)                          |
 | [PrivateDnsZonesAAAARecord]({{< relref "/reference/network/v1api20240601#PrivateDnsZonesAAAARecord" >}})                             | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesaaaarecord.yaml)               |
 | [PrivateDnsZonesARecord]({{< relref "/reference/network/v1api20240601#PrivateDnsZonesARecord" >}})                                   | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesarecord.yaml)                  |

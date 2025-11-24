@@ -1,5 +1,10 @@
 # Azure Service Operator (for Kubernetes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Azure/azure-service-operator)](https://goreportcard.com/report/github.com/Azure/azure-service-operator)
+[![Generate CRD docs](https://github.com/Azure/azure-service-operator/actions/workflows/api-docs-repo.yaml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/api-docs-repo.yaml)
+[![Publish docs site](https://github.com/Azure/azure-service-operator/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/deploy-site.yml)
+[![Scan controller image](https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml)
+[![Pre Release tests](https://github.com/Azure/azure-service-operator/actions/workflows/pre-release-tests.yaml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/pre-release-tests.yaml)
+
 <!-- ![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/live-validation.yml/badge.svg?branch=main) -->
 
 ## What is it?
@@ -20,7 +25,7 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 > Note: ASO v1 and v2 are two totally independent operators. Each has its own unique set of CRDs and controllers. They can be deployed side by side in the same cluster.
 
 | ASO Version | Lifecycle stage | Development status        | Installation options                                                                                                                                                                                    |
-| ----------- | --------------- |---------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ----------- | --------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | v2          | Stable          | Under active development. | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example. |
 | v1          | Deprecated      | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
 

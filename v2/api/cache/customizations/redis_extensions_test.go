@@ -29,7 +29,7 @@ func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
 			},
 		},
 	}
-	secretNames, _ := secretsSpecified(obj)
+	secretNames, _ := redisSecretsSpecified(obj)
 	expectedTags := set.Set[string]{
 		primaryKey:   {},
 		secondaryKey: {},

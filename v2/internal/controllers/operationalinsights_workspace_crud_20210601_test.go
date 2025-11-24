@@ -13,9 +13,10 @@ import (
 	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
+func Test_OperationalInsights_Workspace_v1api20210601_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -43,9 +44,23 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 
 	// Perform a simple patch.
 	old := workspace.DeepCopy()
+	sharedKeysSecret := "sharedkeys"
 	workspace.Spec.RetentionInDays = to.Ptr(36)
+	workspace.Spec.OperatorSpec = &operationalinsights.WorkspaceOperatorSpec{
+		Secrets: &operationalinsights.WorkspaceOperatorSecrets{
+			PrimarySharedKey: &genruntime.SecretDestination{
+				Name: sharedKeysSecret,
+				Key:  "primarySharedKey",
+			},
+			SecondarySharedKey: &genruntime.SecretDestination{
+				Name: sharedKeysSecret,
+				Key:  "secondarySharedKey",
+			},
+		},
+	}
 	tc.PatchResourceAndWait(old, workspace)
 	tc.Expect(workspace.Status.RetentionInDays).To(Equal(to.Ptr(36)))
+	tc.ExpectSecretHasKeys(sharedKeysSecret, "primarySharedKey", "secondarySharedKey")
 
 	tc.DeleteResourceAndWait(workspace)
 

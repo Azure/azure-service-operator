@@ -17,7 +17,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -123,7 +123,7 @@ func (ext *FlexibleServerExtension) PreReconcileCheck(
 	if state != nil && flexibleServerStateBlocksReconciliation(*state) {
 		return extensions.BlockReconcile(
 			fmt.Sprintf(
-				"Flexible Server is in provisioning state %q",
+				"Flexible Server is in state %q",
 				*state)), nil
 	}
 

@@ -5,21 +5,14 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `compute.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
-|--------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| CapacityReservation      | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservation.yaml)      |
-| CapacityReservationGroup | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservationgroup.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
 |------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | [AvailabilitySet]({{< relref "/reference/compute/v1api20241101#AvailabilitySet" >}})                                   | 2024-11-01  | v1api20241101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20241101/v1api20241101_availabilityset.yaml)          |
+| [CapacityReservation]({{< relref "/reference/compute/v1api20250401#CapacityReservation" >}})                           | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservation.yaml)      |
+| [CapacityReservationGroup]({{< relref "/reference/compute/v1api20250401#CapacityReservationGroup" >}})                 | 2025-04-01  | v1api20250401 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservationgroup.yaml) |
 | [Disk]({{< relref "/reference/compute/v1api20240302#Disk" >}})                                                         | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml)                             |
 | [DiskAccess]({{< relref "/reference/compute/v1api20240302#DiskAccess" >}})                                             | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml)                       |
 | [DiskEncryptionSet]({{< relref "/reference/compute/v1api20240302#DiskEncryptionSet" >}})                               | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml)                |

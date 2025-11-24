@@ -18,9 +18,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
-	dbforpostgresqlarm "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/arm"
-	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
+	dbforpostgresqlarm "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/arm"
+	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -143,7 +143,7 @@ func Test_Conversion_DiscoversConfigMapsNotOnStorageVersion(t *testing.T) {
 	g.Expect(ok).To(BeTrue(), "Expected resource.Spec() to be of type FlexibleServer_Spec_ARM")
 
 	g.Expect(resource.Spec().GetName()).To(Equal("mydb"))
-	g.Expect(resource.Spec().GetAPIVersion()).To(Equal("2023-06-01-preview"))
+	g.Expect(resource.Spec().GetAPIVersion()).To(Equal("2025-08-01"))
 	g.Expect(resource.Spec().GetType()).To(Equal("Microsoft.DBforPostgreSQL/flexibleServers"))
 
 	// Ensure that the property that exists only in the preview API but not in the storage version was found

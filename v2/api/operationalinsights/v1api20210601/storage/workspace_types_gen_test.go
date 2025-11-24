@@ -391,6 +391,61 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeatures_STATUS(gens map[string
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_WorkspaceOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WorkspaceOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceOperatorSecrets, WorkspaceOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspaceOperatorSecrets runs a test to see if a specific instance of WorkspaceOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceOperatorSecrets(subject WorkspaceOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WorkspaceOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WorkspaceOperatorSecrets instances for property testing - lazily instantiated by
+// WorkspaceOperatorSecretsGenerator()
+var workspaceOperatorSecretsGenerator gopter.Gen
+
+// WorkspaceOperatorSecretsGenerator returns a generator of WorkspaceOperatorSecrets instances for property testing.
+func WorkspaceOperatorSecretsGenerator() gopter.Gen {
+	if workspaceOperatorSecretsGenerator != nil {
+		return workspaceOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	workspaceOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(WorkspaceOperatorSecrets{}), generators)
+
+	return workspaceOperatorSecretsGenerator
+}
+
 func Test_WorkspaceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -441,9 +496,15 @@ func WorkspaceOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec(generators)
 	workspaceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WorkspaceOperatorSpec{}), generators)
 
 	return workspaceOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(WorkspaceOperatorSecretsGenerator())
 }
 
 func Test_WorkspaceSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
