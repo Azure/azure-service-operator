@@ -2475,7 +2475,10 @@ type AuthConfig struct {
 	PasswordAuth *AuthConfig_PasswordAuth `json:"passwordAuth,omitempty"`
 
 	// TenantId: Identifier of the tenant of the delegated resource.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: Identifier of the tenant of the delegated resource.
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &AuthConfig{}
@@ -2506,6 +2509,14 @@ func (config *AuthConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	// Set property "TenantId":
 	if config.TenantId != nil {
 		tenantId := *config.TenantId
+		result.TenantId = &tenantId
+	}
+	if config.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*config.TenantIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 	return result, nil
@@ -2545,6 +2556,8 @@ func (config *AuthConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		config.TenantId = &tenantId
 	}
 
+	// no assignment for property "TenantIdFromConfig"
+
 	// No error
 	return nil
 }
@@ -2573,6 +2586,14 @@ func (config *AuthConfig) AssignProperties_From_AuthConfig(source *storage.AuthC
 	// TenantId
 	config.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		config.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		config.TenantIdFromConfig = nil
+	}
+
 	// No error
 	return nil
 }
@@ -2600,6 +2621,14 @@ func (config *AuthConfig) AssignProperties_To_AuthConfig(destination *storage.Au
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(config.TenantId)
+
+	// TenantIdFromConfig
+	if config.TenantIdFromConfig != nil {
+		tenantIdFromConfig := config.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

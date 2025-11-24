@@ -2794,6 +2794,9 @@ objectModelConfiguration:
         $supportedFrom: v2.17.0
         $generatedConfigs:
           FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Administrator:
+        $exportAs: FlexibleServersAdministrator
+        $supportedFrom: v2.17.0
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.17.0
@@ -2812,6 +2815,16 @@ objectModelConfiguration:
       FlexibleServers_VirtualEndpoint:
         $exportAs: FlexibleServersVirtualEndpoint
         $supportedFrom: v2.17.0
+      AdministratorMicrosoftEntraPropertiesForAdd:
+        PrincipalName:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      AuthConfig:
+        TenantId:
+          $importConfigMapMode: optional
+        # AzureName:  # TODO: Does this work? Nope.
+        #   $importConfigMapMode: optional
       ServerProperties:
         SourceServerResourceId:
           $referenceType: arm

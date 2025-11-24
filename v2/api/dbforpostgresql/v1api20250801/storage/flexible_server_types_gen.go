@@ -313,10 +313,11 @@ func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.Conv
 // Storage version of v1api20250801.AuthConfig
 // Authentication configuration properties of a server.
 type AuthConfig struct {
-	ActiveDirectoryAuth *string                `json:"activeDirectoryAuth,omitempty"`
-	PasswordAuth        *string                `json:"passwordAuth,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId            *string                `json:"tenantId,omitempty"`
+	ActiveDirectoryAuth *string                        `json:"activeDirectoryAuth,omitempty"`
+	PasswordAuth        *string                        `json:"passwordAuth,omitempty"`
+	PropertyBag         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	TenantId            *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig  *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // Storage version of v1api20250801.AuthConfig_STATUS

@@ -1404,6 +1404,13 @@ func (config *AuthConfig) AssignProperties_From_AuthConfig(source *storage.AuthC
 	// TenantId
 	config.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		propertyBag.Add("TenantIdFromConfig", *source.TenantIdFromConfig)
+	} else {
+		propertyBag.Remove("TenantIdFromConfig")
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		config.PropertyBag = propertyBag
@@ -1437,6 +1444,19 @@ func (config *AuthConfig) AssignProperties_To_AuthConfig(destination *storage.Au
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(config.TenantId)
+
+	// TenantIdFromConfig
+	if propertyBag.Contains("TenantIdFromConfig") {
+		var tenantIdFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("TenantIdFromConfig", &tenantIdFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'TenantIdFromConfig' from propertyBag")
+		}
+
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

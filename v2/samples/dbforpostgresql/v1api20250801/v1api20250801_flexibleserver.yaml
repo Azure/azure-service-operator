@@ -17,3 +17,11 @@ spec:
     key: password
   storage:
     storageSizeGB: 128
+  # Needed if you want to use FlexibleServers Administrator with AAD
+  # authConfig:
+  #   activeDirectoryAuth: Enabled
+  #   passwordAuth: Enabled
+  #   tenantId: <your tenant here>
+  #   tenantIdFromConfig:
+  #     name: admin-settings
+  #     key: tenantId

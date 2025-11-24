@@ -9,11 +9,12 @@ FlexibleServer: Resource
 ├── Spec: Object (26 properties)
 │   ├── AdministratorLogin: *string
 │   ├── AdministratorLoginPassword: *genruntime.SecretReference
-│   ├── AuthConfig: *Object (4 properties)
+│   ├── AuthConfig: *Object (5 properties)
 │   │   ├── ActiveDirectoryAuth: *string
 │   │   ├── PasswordAuth: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── TenantId: *string
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   ├── AvailabilityZone: *string
 │   ├── AzureName: string
 │   ├── Backup: *Object (3 properties)
@@ -191,6 +192,41 @@ FlexibleServer: Resource
     ├── Tags: map[string]string
     ├── Type: *string
     └── Version: *string
+
+FlexibleServersAdministrator: Resource
+├── Owner: dbforpostgresql/v1api20250801.FlexibleServer
+├── Spec: Object (10 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PrincipalName: *string
+│   ├── PrincipalNameFromConfig: *genruntime.ConfigMapReference
+│   ├── PrincipalType: *string
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── TenantId: *string
+│   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+└── Status: Object (10 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── ObjectId: *string
+    ├── PrincipalName: *string
+    ├── PrincipalType: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── TenantId: *string
+    └── Type: *string
 
 FlexibleServersAdvancedThreatProtectionSettings: Resource
 ├── Owner: dbforpostgresql/v1api20250801.FlexibleServer

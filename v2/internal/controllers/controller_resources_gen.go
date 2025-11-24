@@ -1192,6 +1192,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.dataEncryption.primaryKeyURIFromConfig",
 				Func: indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig,
 			},
+			{
+				Key:  ".spec.authConfig.tenantIdFromConfig",
+				Func: indexDbforpostgresqlFlexibleServerTenantIdFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1206,10 +1210,35 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.authConfig.tenantIdFromConfig",
 						".spec.dataEncryption.geoBackupKeyURIFromConfig",
 						".spec.dataEncryption.primaryKeyURIFromConfig",
 					},
 					&dbforpostgresql_v20250801s.FlexibleServerList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdministrator),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalNameFromConfig",
+				Func: indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig,
+			},
+			{
+				Key:  ".spec.tenantIdFromConfig",
+				Func: indexDbforpostgresqlFlexibleServersAdministratorTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalNameFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&dbforpostgresql_v20250801s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
@@ -4024,6 +4053,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &dbforpostgresql_v20250801w.FlexibleServer{},
 		},
 		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersAdministrator),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersAdministrator{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
 			Obj:       new(dbforpostgresql_v20250801.FlexibleServersAdvancedThreatProtectionSettings),
 			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersAdvancedThreatProtectionSettings{},
 			Validator: &dbforpostgresql_v20250801w.FlexibleServersAdvancedThreatProtectionSettings{},
@@ -4056,6 +4090,7 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdministrator)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdvancedThreatProtectionSettings)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersBackup)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersConfiguration)},
@@ -6139,6 +6174,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServerExtension{})
+	result = append(result, &dbforpostgresql_customizations.FlexibleServersAdministratorExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersAdvancedThreatProtectionSettingsExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersBackupExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersConfigurationExtension{})
@@ -7420,6 +7456,45 @@ func indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig(rawObj client.Obj
 		return nil
 	}
 	return obj.Spec.DataEncryption.PrimaryKeyURIFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServerTenantIdFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServer .spec.authConfig.tenantIdFromConfig
+func indexDbforpostgresqlFlexibleServerTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthConfig == nil {
+		return nil
+	}
+	if obj.Spec.AuthConfig.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthConfig.TenantIdFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.principalNameFromConfig
+func indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServersAdministrator)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalNameFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.tenantIdFromConfig
+func indexDbforpostgresqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServersAdministrator)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.TenantIdFromConfig.Index()
 }
 
 // indexDevicesIotHubEventHubsConnectionString an index function for devices_v20210702s.IotHub .spec.properties.routing.endpoints.eventHubs.connectionString
