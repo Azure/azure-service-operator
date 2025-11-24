@@ -138,6 +138,40 @@ func TestReconcileCRDs(t *testing.T) {
 	}
 }
 
+func TestReconcileCRDs_WithRealDeprecatedVersions(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	testData := testSetup(t)
+	crds := &apiextensions.CustomResourceDefinitionList{}
+	g.Expect(testData.kubeClient.List(t.Context(), crds)).To(Succeed())
+
+	crdMap := crdmanagement.MakeCRDMap(crds.Items)
+	deprecatedCRDVersions := crdmanagement.GetAllDeprecatedStorageVersions(crdMap)
+
+	// Sanity check - we should have some deprecated versions
+	g.Expect(len(deprecatedCRDVersions)).To(BeNumerically(">", 10))
+	options := crd.Options{
+		VersionProvider: func() string {
+			return "v1.0.0" // use a single fixed version for testing
+		},
+	}
+
+	reconciler := crd.NewReconciler(testData.kubeClient, nil, deprecatedCRDVersions, options)
+	result, err := reconciler.Reconcile(t.Context())
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 1 * time.Hour}))
+
+	modifiedCRDs := &apiextensions.CustomResourceDefinitionList{}
+	g.Expect(testData.kubeClient.List(t.Context(), modifiedCRDs)).To(Succeed())
+
+	for _, crd := range modifiedCRDs.Items {
+		// There should be a single remaining storage version for every CRD
+		g.Expect(len(crd.Status.StoredVersions)).To(Equal(1), "CRD %s should have exactly one stored version", crd.Name)
+	}
+}
+
 func NewFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
 	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
 	return kubeclient.NewClient(fakeClient)
@@ -179,7 +213,7 @@ func testSetup(t *testing.T) *testData {
 		// We mark all storage versions as "storedVersions" for testing purposes
 		crd.Status.StoredVersions = []string{}
 		for _, version := range crd.Spec.Versions {
-			if strings.HasSuffix(version.Name, "storage") {
+			if version.Storage || strings.HasSuffix(version.Name, "storage") {
 				crd.Status.StoredVersions = append(crd.Status.StoredVersions, version.Name)
 			}
 		}

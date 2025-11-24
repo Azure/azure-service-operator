@@ -7,33 +7,12 @@ package crdmanagement
 
 import (
 	"regexp"
+	"slices"
 
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-var deprecatedVersionRegexp = regexp.MustCompile(`((v1alpha1api|v1beta)\d{8}(preview)?(storage)?|v1beta1)`) // handcrafted (non-ARM) resources have v1beta1 version
-
-// deprecatedVersionsMap is a map of crd name to a collection of deprecated versions
-var deprecatedVersionsMap = map[string][]string{
-	"trustedaccessrolebindings.containerservice.azure.com": {"v1api20230202previewstorage"},
-	"managedclusters.containerservice.azure.com":           {"v1api20210501storage", "v1api20231102previewstorage"},
-	"managedclustersagentpools.containerservice.azure.com": {"v1api20210501storage", "v1api20231102previewstorage"},
-}
-
-// IsVersionDeprecated checks if a given version of a CRD is deprecated.
-func IsVersionDeprecated(crd apiextensions.CustomResourceDefinition, version string) bool {
-	if deprecatedVersionRegexp.MatchString(version) {
-		return true
-	}
-
-	for _, deprecatedVersion := range deprecatedVersionsMap[crd.Name] {
-		if deprecatedVersion == version {
-			return true
-		}
-	}
-
-	return false
-}
+var versionRegexp = regexp.MustCompile(`^v(1api)?(\d{8})(preview)?(storage)?$`)
 
 // GetDeprecatedStorageVersions returns a new list of storedVersions by removing the deprecated versions
 // The first return value is the list of versions that are NOT deprecated.
@@ -41,15 +20,20 @@ func IsVersionDeprecated(crd apiextensions.CustomResourceDefinition, version str
 func GetDeprecatedStorageVersions(crd apiextensions.CustomResourceDefinition) ([]string, []string) {
 	storedVersions := crd.Status.StoredVersions
 
+	if len(storedVersions) <= 1 {
+		// No versions to remove
+		return storedVersions, nil
+	}
+
+	maxVersion := slices.MaxFunc(storedVersions, CompareVersions)
 	newStoredVersions := make([]string, 0, len(storedVersions))
 	var removedVersions []string
 	for _, version := range storedVersions {
-		if IsVersionDeprecated(crd, version) {
+		if version == maxVersion {
+			newStoredVersions = append(newStoredVersions, version)
+		} else {
 			removedVersions = append(removedVersions, version)
-			continue
 		}
-
-		newStoredVersions = append(newStoredVersions, version)
 	}
 
 	return newStoredVersions, removedVersions
@@ -65,4 +49,55 @@ func GetAllDeprecatedStorageVersions(crds map[string]apiextensions.CustomResourc
 		}
 	}
 	return result
+}
+
+// CompareVersions compares two group version strings, for example: v1api20230101preview, v1api20220101, v20220101, v1api20220101storage, and v20220101storage
+// and returns -1 if a < b, 0 if a == b, and 1 if a > b. The storage suffix is ignored in the comparison.
+// Preview versions are considered less than non-preview versions.
+func CompareVersions(a string, b string) int {
+	matchA := versionRegexp.FindStringSubmatch(a)
+	matchB := versionRegexp.FindStringSubmatch(b)
+
+	if matchA == nil || matchB == nil {
+		// If either version doesn't match the expected pattern, fall back to string comparison
+		// TODO: Do we actually want to do this?
+		if a < b {
+			return -1
+		} else if a > b {
+			return 1
+		}
+		return 0
+	}
+
+	// Prefer non-preview over preview
+	isAPreview := matchA[3] == "preview"
+	isBPreview := matchB[3] == "preview"
+
+	if isAPreview && !isBPreview {
+		return -1
+	} else if !isAPreview && isBPreview {
+		return 1
+	}
+
+	// Prefer newer date over older date
+	dateA := matchA[2]
+	dateB := matchB[2]
+
+	if dateA < dateB {
+		return -1
+	} else if dateA > dateB {
+		return 1
+	}
+
+	// Prefer vYYYYMMDD over v1apiYYYYMMDD
+	hasV1apiA := matchA[1] == "1api"
+	hasV1apiB := matchB[1] == "1api"
+
+	if hasV1apiA && !hasV1apiB {
+		return -1
+	} else if !hasV1apiA && hasV1apiB {
+		return 1
+	}
+
+	return 0
 }
