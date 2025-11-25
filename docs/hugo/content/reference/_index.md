@@ -424,16 +424,16 @@ To install the CRDs for these resources, your ASO configuration must include `db
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                        | ARM Version | CRD Version | Supported From | Sample |
-|-------------------------------------------------|-------------|-------------|----------------|--------|
-| FlexibleServer                                  | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersAdministrator                    | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersAdvancedThreatProtectionSettings | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersBackup                           | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersConfiguration                    | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersDatabase                         | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersFirewallRule                     | 2025-08-01  | v20250801   | v2.17.0        | -      |
-| FlexibleServersVirtualEndpoint                  | 2025-08-01  | v20250801   | v2.17.0        | -      |
+| Resource                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                                |
+|-------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer                                  | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserver.yaml)                                  |
+| FlexibleServersAdministrator                    | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversadministrator.yaml)                    |
+| FlexibleServersAdvancedThreatProtectionSettings | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversadvancedthreatprotectionsettings.yaml) |
+| FlexibleServersBackup                           | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversbackup.yaml)                           |
+| FlexibleServersConfiguration                    | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversconfiguration.yaml)                    |
+| FlexibleServersDatabase                         | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversdatabase.yaml)                         |
+| FlexibleServersFirewallRule                     | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversfirewallrule.yaml)                     |
+| FlexibleServersVirtualEndpoint                  | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversvirtualendpoint.yaml)                  |
 
 ### Latest Released Versions
 
