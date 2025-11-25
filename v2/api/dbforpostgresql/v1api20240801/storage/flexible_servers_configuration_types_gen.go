@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &FlexibleServersConfiguration{}
 func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.FlexibleServersConfiguration)
 	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20250801/storage/FlexibleServersConfiguration but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersConfiguration but received %T instead", hub)
 	}
 
 	return configuration.AssignProperties_From_FlexibleServersConfiguration(source)
@@ -63,7 +63,7 @@ func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hu
 func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.FlexibleServersConfiguration)
 	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20250801/storage/FlexibleServersConfiguration but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersConfiguration but received %T instead", hub)
 	}
 
 	return configuration.AssignProperties_To_FlexibleServersConfiguration(destination)

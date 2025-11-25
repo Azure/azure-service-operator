@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
 	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"

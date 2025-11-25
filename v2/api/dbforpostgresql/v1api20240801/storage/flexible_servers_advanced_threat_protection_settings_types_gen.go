@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &FlexibleServersAdvancedThreatProtectionSettings{
 func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.FlexibleServersAdvancedThreatProtectionSettings)
 	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20250801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
 	}
 
 	return settings.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings(source)
@@ -63,7 +63,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertFrom(hub
 func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.FlexibleServersAdvancedThreatProtectionSettings)
 	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20250801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
 	}
 
 	return settings.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(destination)
