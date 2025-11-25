@@ -41,7 +41,7 @@ var randomNameExclusions = []string{
 	"/web/",
 	"/app/",
 	"/dbforpostgresql/v1api20240801", // Only required starting when we added virtualendpoints support
-	"/dbforpostgresql/v1api20250801", // Only required starting when we added virtualendpoints support
+	"/dbforpostgresql/v20250801",     // Only required starting when we added virtualendpoints support
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
