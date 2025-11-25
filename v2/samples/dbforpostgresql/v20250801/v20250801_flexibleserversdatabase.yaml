@@ -1,4 +1,4 @@
-apiVersion: dbforpostgresql.azure.com/v1api20250801
+apiVersion: dbforpostgresql.azure.com/v20250801
 kind: FlexibleServersDatabase
 metadata:
   name: sampledb
