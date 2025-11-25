@@ -26,7 +26,6 @@ const CreateConversionGraphStageID = "createConversionGraph"
 // convert resources to/from the designated storage (or hub) version
 func CreateConversionGraph(
 	configuration *config.Configuration,
-	generatorPrefix string,
 ) *Stage {
 	stage := NewStage(
 		CreateConversionGraphStageID,
@@ -48,8 +47,7 @@ func CreateConversionGraph(
 				allNames.Add(def.Name())
 			}
 
-			builder := storage.NewConversionGraphBuilder(
-				configuration.ObjectModelConfiguration, generatorPrefix)
+			builder := storage.NewConversionGraphBuilder(configuration.ObjectModelConfiguration)
 			builder.AddAll(allNames)
 			graph, err := builder.Build()
 			if err != nil {
