@@ -12,12 +12,17 @@ title: Supported Resources
 
 ## Person
 
-### Deprecated
+### Latest Released Versions
 
 | Resource | ARM Version | CRD Version | Supported From | Sample |
 |----------|-------------|-------------|----------------|--------|
 | Address  | v20211231   | v20211231   | beta.2         | -      |
-| Address  | v20200101   | v20200101   | beta.0         | -      |
 | Person   | v20211231   | v20211231   | beta.2         | -      |
+
+### Other Supported Versions
+
+| Resource | ARM Version | CRD Version | Supported From | Sample |
+|----------|-------------|-------------|----------------|--------|
+| Address  | v20200101   | v20200101   | beta.0         | -      |
 | Person   | v20200101   | v20200101   | beta.0         | -      |
 
