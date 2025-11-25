@@ -17,19 +17,17 @@ import (
 // ResourceConversionGraphBuilder is used to construct a group conversion graph with all the required conversions
 // to/from/between storage variants of the packages
 type ResourceConversionGraphBuilder struct {
-	name          string                       // Name of the resources needing conversions
-	versionPrefix string                       // Prefix expected on core LocalPackageReferences
-	references    astmodel.InternalTypeNameSet // Set of all Type Names that make up this group
-	links         astmodel.TypeAssociation     // A collection of links that make up the graph
+	name       string                       // Name of the resources needing conversions
+	references astmodel.InternalTypeNameSet // Set of all Type Names that make up this group
+	links      astmodel.TypeAssociation     // A collection of links that make up the graph
 }
 
 // NewResourceConversionGraphBuilder creates a new builder for a specific resource/type
-func NewResourceConversionGraphBuilder(name string, versionPrefix string) *ResourceConversionGraphBuilder {
+func NewResourceConversionGraphBuilder(name string) *ResourceConversionGraphBuilder {
 	return &ResourceConversionGraphBuilder{
-		name:          name,
-		versionPrefix: versionPrefix,
-		references:    astmodel.NewInternalTypeNameSet(),
-		links:         make(astmodel.TypeAssociation),
+		name:       name,
+		references: astmodel.NewInternalTypeNameSet(),
+		links:      make(astmodel.TypeAssociation),
 	}
 }
 
@@ -44,7 +42,7 @@ func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.InternalTypeName)
 func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, error) {
 	stages := []func([]astmodel.InternalTypeName){
 		b.apiReferencesConvertToStorage,
-		b.compatibilityReferencesConvertForward,
+		b.compatibilityReferencesConvertToOriginalPackage,
 		b.previewReferencesConvertBackward,
 		b.nonPreviewReferencesConvertForward,
 	}
@@ -83,16 +81,22 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 	return result, nil
 }
 
-// compatibilityReferencesConvertForward links any compatibility references forward to the following version
-func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(names []astmodel.InternalTypeName) {
+// compatibilityReferencesConvertToOriginalPackage links any compatibility references to the original if present
+func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertToOriginalPackage(names []astmodel.InternalTypeName) {
 	for i, name := range names {
-		if !b.isCompatibilityPackage(name.PackageReference()) {
+		// Last package can't be linked forward
+		if i+1 >= len(names) {
+			break
+		}
+
+		if !b.isCompatibilityPackage(name.InternalPackageReference()) {
 			continue
 		}
 
-		// Safe to use i+1 because compatibility references will always be preceded by a reference to the original
-		// storage package reference
-		b.links[name] = names[i+1]
+		next := names[i+1]
+		if next.InternalPackageReference().HasAPIVersion(name.InternalPackageReference().APIVersion()) {
+			b.links[name] = next
+		}
 	}
 }
 
@@ -151,7 +155,7 @@ func (b *ResourceConversionGraphBuilder) isCompatibilityPackage(ref astmodel.Pac
 	case astmodel.ExternalPackageReference:
 		return false
 	case astmodel.LocalPackageReference:
-		return !r.HasVersionPrefix(b.versionPrefix)
+		return r.HasVersionPrefix("v1api")
 	case astmodel.SubPackageReference:
 		return b.isCompatibilityPackage(r.Parent())
 	default:
