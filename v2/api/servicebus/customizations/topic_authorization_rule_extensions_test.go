@@ -11,27 +11,27 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	machinelearning "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
 
-func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
+func Test_TopicAuthorizationRuleSecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	secrets := &machinelearning.WorkspaceOperatorSecrets{}
+	secrets := &servicebus.TopicAuthorizationRuleOperatorSecrets{}
 	testreflect.PopulateStruct(secrets)
 
-	obj := &machinelearning.Workspace{
-		Spec: machinelearning.Workspace_Spec{
-			OperatorSpec: &machinelearning.WorkspaceOperatorSpec{
+	obj := &servicebus.TopicAuthorizationRule{
+		Spec: servicebus.TopicAuthorizationRule_Spec{
+			OperatorSpec: &servicebus.TopicAuthorizationRuleOperatorSpec{
 				Secrets: secrets,
 			},
 		},
 	}
-	secretNames := secretsSpecified(obj)
-	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(machinelearning.WorkspaceOperatorSecrets{}))
+	secretNames := topicAuthorizationRuleSecretsSpecified(obj)
+	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(servicebus.TopicAuthorizationRuleOperatorSecrets{}))
 	// We expect every property in the secrets struct to be considered a secret except for the $propertyBag one
 	// (that property exists because this is the storage version)
 	expectedTags.Remove("$propertyBag")
