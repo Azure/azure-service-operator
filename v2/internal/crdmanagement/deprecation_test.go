@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
@@ -287,19 +288,19 @@ func Test_CompareVersions(t *testing.T) {
 		{
 			name:     "One invalid pattern (a < b)",
 			a:        "v1api20240101",
-			b:        "v1beta1",
+			b:        "v1betazzz1",
 			expected: -1,
 		},
 		{
 			name:     "One invalid pattern (a > b)",
-			a:        "v1beta1",
+			a:        "v1betazzz1",
 			b:        "v1api20240101",
 			expected: 1,
 		},
 		{
 			name:     "Equal invalid patterns",
-			a:        "v1beta1",
-			b:        "v1beta1",
+			a:        "v1betazzz1",
+			b:        "v1betazzz1",
 			expected: 0,
 		},
 		{
@@ -330,6 +331,110 @@ func Test_CompareVersions(t *testing.T) {
 			name:     "Preview and storage mixed (a < b)",
 			a:        "v1api20250101previewstorage",
 			b:        "v1api20240101storage",
+			expected: -1,
+		},
+		// v1alpha1api tests
+		{
+			name:     "v1alpha1api vs v1api same date (a < b)",
+			a:        "v1alpha1api20240101",
+			b:        "v1api20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1alpha1api vs v1api same date (a > b)",
+			a:        "v1api20240101",
+			b:        "v1alpha1api20240101",
+			expected: 1,
+		},
+		{
+			name:     "v1alpha1api vs v same date (a < b)",
+			a:        "v1alpha1api20240101",
+			b:        "v20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1alpha1api vs v same date (a > b)",
+			a:        "v20240101",
+			b:        "v1alpha1api20240101",
+			expected: 1,
+		},
+		{
+			name:     "v1alpha1api newer date vs v1api older date (a < b)",
+			a:        "v1alpha1api20250101",
+			b:        "v1api20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1alpha1api newer date vs v older date (a < b)",
+			a:        "v1alpha1api20250101",
+			b:        "v20240101",
+			expected: -1,
+		},
+		// v1beta tests
+		{
+			name:     "v1beta vs v1api same date (a < b)",
+			a:        "v1beta20240101",
+			b:        "v1api20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1beta vs v1api same date (a > b)",
+			a:        "v1api20240101",
+			b:        "v1beta20240101",
+			expected: 1,
+		},
+		{
+			name:     "v1beta vs v same date (a < b)",
+			a:        "v1beta20240101",
+			b:        "v20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1beta vs v same date (a > b)",
+			a:        "v20240101",
+			b:        "v1beta20240101",
+			expected: 1,
+		},
+		{
+			name:     "v1beta newer date vs v1api older date (a < b)",
+			a:        "v1beta20250101",
+			b:        "v1api20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1beta newer date vs v older date (a < b)",
+			a:        "v1beta20250101",
+			b:        "v20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1beta vs v1alpha1api same date (a > b)",
+			a:        "v1beta20240101",
+			b:        "v1alpha1api20240101",
+			expected: 1,
+		},
+		{
+			name:     "v1beta vs v1alpha1api same date (a < b)",
+			a:        "v1alpha1api20240101",
+			b:        "v1beta20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1beta with preview vs non-preview v1api (a < b)",
+			a:        "v1beta20240101preview",
+			b:        "v1api20240101",
+			expected: -1,
+		},
+		{
+			name:     "v1beta with storage vs v1api with storage same date (a < b)",
+			a:        "v1beta20240101storage",
+			b:        "v1api20240101storage",
+			expected: -1,
+		},
+		{
+			name:     "v1beta vs v1 (a < b)",
+			a:        "v1beta1",
+			b:        "v1",
 			expected: -1,
 		},
 	}

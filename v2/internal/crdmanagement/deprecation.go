@@ -12,7 +12,7 @@ import (
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-var versionRegexp = regexp.MustCompile(`^v(1api)?(\d{8})(preview)?(storage)?$`)
+var versionRegexp = regexp.MustCompile(`^v(1api|1alpha1api|1beta)?(\d{8}|\d)(preview)?(storage)?$`)
 
 // GetDeprecatedStorageVersions returns a new list of storedVersions by removing the deprecated versions
 // The first return value is the list of versions that are NOT deprecated.
@@ -79,6 +79,26 @@ func CompareVersions(a string, b string) int {
 		return 1
 	}
 
+	// Prefer everything over v1alpha1apiYYYYMMDD
+	hasV1Alpha1A := matchA[1] == "1alpha1api"
+	hasV1Alpha1B := matchB[1] == "1alpha1api"
+
+	if hasV1Alpha1A && !hasV1Alpha1B {
+		return -1
+	} else if !hasV1Alpha1A && hasV1Alpha1B {
+		return 1
+	}
+
+	// Prefer everything over v1betaYYYYMMDD
+	hasV1BetaA := matchA[1] == "1beta"
+	hasV1BetaB := matchB[1] == "1beta"
+
+	if hasV1BetaA && !hasV1BetaB {
+		return -1
+	} else if !hasV1BetaA && hasV1BetaB {
+		return 1
+	}
+
 	// Prefer newer date over older date
 	dateA := matchA[2]
 	dateB := matchB[2]
@@ -90,12 +110,12 @@ func CompareVersions(a string, b string) int {
 	}
 
 	// Prefer vYYYYMMDD over v1apiYYYYMMDD
-	hasV1apiA := matchA[1] == "1api"
-	hasV1apiB := matchB[1] == "1api"
+	hasV1ApiA := matchA[1] == "1api"
+	hasV1ApiB := matchB[1] == "1api"
 
-	if hasV1apiA && !hasV1apiB {
+	if hasV1ApiA && !hasV1ApiB {
 		return -1
-	} else if !hasV1apiA && hasV1apiB {
+	} else if !hasV1ApiA && hasV1ApiB {
 		return 1
 	}
 
