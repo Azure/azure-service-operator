@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Web_ServerFarm_CRUD(t *testing.T) {
+func Test_Web_ServerFarm_v20220301_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -25,8 +25,8 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 
 	// Our default region (West US 2) is capacity constrained for web at the moment.
 	// location := tc.AzureRegion
-	location := "westus"
-	serverFarm := newServerFarm(tc, rg, location)
+	tc.AzureRegion = to.Ptr("westus3")
+	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 
 	tc.CreateResourceAndWait(serverFarm)
 

@@ -1,1330 +1,2148 @@
 ---
-version: 1
+version: 2
 interactions:
-- request:
-    body: '{"location":"westus2","name":"asotest-rg-emkabl","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "93"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl","name":"asotest-rg-emkabl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "276"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl","name":"asotest-rg-emkabl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"location":"global","name":"aso-sample-dz.com"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "48"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com","name":"aso-sample-dz.com","type":"Microsoft.Network\/dnszones","etag":"05536831-7f54-46b6-8537-d28d7ba112b1","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-03.azure-dns.com.","ns2-03.azure-dns.net.","ns3-03.azure-dns.org.","ns4-03.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "535"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 05536831-7f54-46b6-8537-d28d7ba112b1
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com","name":"aso-sample-dz.com","type":"Microsoft.Network\/dnszones","etag":"05536831-7f54-46b6-8537-d28d7ba112b1","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-03.azure-dns.com.","ns2-03.azure-dns.net.","ns3-03.azure-dns.org.","ns4-03.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 05536831-7f54-46b6-8537-d28d7ba112b1
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com","name":"aso-sample-dz.com","type":"Microsoft.Network\/dnszones","etag":"05536831-7f54-46b6-8537-d28d7ba112b1","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-03.azure-dns.com.","ns2-03.azure-dns.net.","ns3-03.azure-dns.org.","ns4-03.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 05536831-7f54-46b6-8537-d28d7ba112b1
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "498"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-mx","properties":{"MXRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "121"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/MX/aso-sample-record-mx?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/MX\/aso-sample-record-mx","name":"aso-sample-record-mx","type":"Microsoft.Network\/dnszones\/MX","etag":"f7e7c4c9-9a98-415e-8c19-12e2388fbd2a","properties":{"fqdn":"aso-sample-record-mx.aso-sample-dz.com.","TTL":3600,"MXRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "490"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - f7e7c4c9-9a98-415e-8c19-12e2388fbd2a
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-ns","properties":{"NSRecords":[{"nsdname":"ns.asotest.com"}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "100"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/NS/aso-sample-record-ns?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/NS\/aso-sample-record-ns","name":"aso-sample-record-ns","type":"Microsoft.Network\/dnszones\/NS","etag":"810751b1-fbba-4da5-8871-3ff218c5c9d9","properties":{"fqdn":"aso-sample-record-ns.aso-sample-dz.com.","TTL":3600,"NSRecords":[{"nsdname":"ns.asotest.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "469"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 810751b1-fbba-4da5-8871-3ff218c5c9d9
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-txt","properties":{"TTL":3600,"TXTRecords":[{"value":["ASO
-      sample value"]}]}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "104"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/TXT/aso-sample-record-txt?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/TXT\/aso-sample-record-txt","name":"aso-sample-record-txt","type":"Microsoft.Network\/dnszones\/TXT","etag":"1b0d3131-e352-49cd-8b1f-f26b2ef9b757","properties":{"fqdn":"aso-sample-record-txt.aso-sample-dz.com.","TTL":3600,"TXTRecords":[{"value":["ASO
-      sample value"]}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "477"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 1b0d3131-e352-49cd-8b1f-f26b2ef9b757
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-a","properties":{"ARecords":[{"ipv4Address":"10.0.1.9"}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "96"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/A/aso-sample-record-a?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/A\/aso-sample-record-a","name":"aso-sample-record-a","type":"Microsoft.Network\/dnszones\/A","etag":"7a9ffffd-ee05-45d4-9eab-0186177933e7","properties":{"fqdn":"aso-sample-record-a.aso-sample-dz.com.","TTL":3600,"ARecords":[{"ipv4Address":"10.0.1.9"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "461"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 7a9ffffd-ee05-45d4-9eab-0186177933e7
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-cname","properties":{"CNAMERecord":{"cname":"asosample.com"},"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "100"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CNAME/aso-sample-record-cname?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CNAME\/aso-sample-record-cname","name":"aso-sample-record-cname","type":"Microsoft.Network\/dnszones\/CNAME","etag":"bdb92574-2a33-44df-af67-a6778926c1c3","properties":{"fqdn":"aso-sample-record-cname.aso-sample-dz.com.","TTL":3600,"CNAMERecord":{"cname":"asosample.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "481"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - bdb92574-2a33-44df-af67-a6778926c1c3
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-aaaa","properties":{"AAAARecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "133"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/AAAA/aso-sample-record-aaaa?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/AAAA\/aso-sample-record-aaaa","name":"aso-sample-record-aaaa","type":"Microsoft.Network\/dnszones\/AAAA","etag":"40d46323-520d-450a-82dd-559ef4bddc78","properties":{"fqdn":"aso-sample-record-aaaa.aso-sample-dz.com.","TTL":3600,"AAAARecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "510"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 40d46323-520d-450a-82dd-559ef4bddc78
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-srv","properties":{"SRVRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "142"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/SRV/aso-sample-record-srv?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/SRV\/aso-sample-record-srv","name":"aso-sample-record-srv","type":"Microsoft.Network\/dnszones\/SRV","etag":"7a18b747-0e60-46c8-a547-cbda3e4a2140","properties":{"fqdn":"aso-sample-record-srv.aso-sample-dz.com.","TTL":3600,"SRVRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "515"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 7a18b747-0e60-46c8-a547-cbda3e4a2140
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-ptr","properties":{"PTRRecords":[{"ptrdname":"asosample.com"}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "102"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/PTR/aso-sample-record-ptr?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/PTR\/aso-sample-record-ptr","name":"aso-sample-record-ptr","type":"Microsoft.Network\/dnszones\/PTR","etag":"c5690324-3ce6-41d5-9cfb-ea3d23209443","properties":{"fqdn":"aso-sample-record-ptr.aso-sample-dz.com.","TTL":3600,"PTRRecords":[{"ptrdname":"asosample.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "475"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - c5690324-3ce6-41d5-9cfb-ea3d23209443
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/NS/aso-sample-record-ns?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/NS\/aso-sample-record-ns","name":"aso-sample-record-ns","type":"Microsoft.Network\/dnszones\/NS","etag":"810751b1-fbba-4da5-8871-3ff218c5c9d9","properties":{"fqdn":"aso-sample-record-ns.aso-sample-dz.com.","TTL":3600,"NSRecords":[{"nsdname":"ns.asotest.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 810751b1-fbba-4da5-8871-3ff218c5c9d9
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"aso-sample-record-caa","properties":{"caaRecords":[{"flags":0,"tag":"aso","value":"test"}],"TTL":3600}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "112"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CAA/aso-sample-record-caa?api-version=2018-05-01
-    method: PUT
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CAA\/aso-sample-record-caa","name":"aso-sample-record-caa","type":"Microsoft.Network\/dnszones\/CAA","etag":"216e247c-0549-426a-8cf5-c09aa19bda7f","properties":{"fqdn":"aso-sample-record-caa.aso-sample-dz.com.","TTL":3600,"caaRecords":[{"flags":0,"tag":"aso","value":"test"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Length:
-      - "485"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 216e247c-0549-426a-8cf5-c09aa19bda7f
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
-      X-Powered-By:
-      - ASP.NET
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/MX/aso-sample-record-mx?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/MX\/aso-sample-record-mx","name":"aso-sample-record-mx","type":"Microsoft.Network\/dnszones\/MX","etag":"f7e7c4c9-9a98-415e-8c19-12e2388fbd2a","properties":{"fqdn":"aso-sample-record-mx.aso-sample-dz.com.","TTL":3600,"MXRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - f7e7c4c9-9a98-415e-8c19-12e2388fbd2a
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/TXT/aso-sample-record-txt?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/TXT\/aso-sample-record-txt","name":"aso-sample-record-txt","type":"Microsoft.Network\/dnszones\/TXT","etag":"1b0d3131-e352-49cd-8b1f-f26b2ef9b757","properties":{"fqdn":"aso-sample-record-txt.aso-sample-dz.com.","TTL":3600,"TXTRecords":[{"value":["ASO
-      sample value"]}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 1b0d3131-e352-49cd-8b1f-f26b2ef9b757
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/A/aso-sample-record-a?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/A\/aso-sample-record-a","name":"aso-sample-record-a","type":"Microsoft.Network\/dnszones\/A","etag":"7a9ffffd-ee05-45d4-9eab-0186177933e7","properties":{"fqdn":"aso-sample-record-a.aso-sample-dz.com.","TTL":3600,"ARecords":[{"ipv4Address":"10.0.1.9"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 7a9ffffd-ee05-45d4-9eab-0186177933e7
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CNAME/aso-sample-record-cname?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CNAME\/aso-sample-record-cname","name":"aso-sample-record-cname","type":"Microsoft.Network\/dnszones\/CNAME","etag":"bdb92574-2a33-44df-af67-a6778926c1c3","properties":{"fqdn":"aso-sample-record-cname.aso-sample-dz.com.","TTL":3600,"CNAMERecord":{"cname":"asosample.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - bdb92574-2a33-44df-af67-a6778926c1c3
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/AAAA/aso-sample-record-aaaa?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/AAAA\/aso-sample-record-aaaa","name":"aso-sample-record-aaaa","type":"Microsoft.Network\/dnszones\/AAAA","etag":"40d46323-520d-450a-82dd-559ef4bddc78","properties":{"fqdn":"aso-sample-record-aaaa.aso-sample-dz.com.","TTL":3600,"AAAARecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 40d46323-520d-450a-82dd-559ef4bddc78
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/SRV/aso-sample-record-srv?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/SRV\/aso-sample-record-srv","name":"aso-sample-record-srv","type":"Microsoft.Network\/dnszones\/SRV","etag":"7a18b747-0e60-46c8-a547-cbda3e4a2140","properties":{"fqdn":"aso-sample-record-srv.aso-sample-dz.com.","TTL":3600,"SRVRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 7a18b747-0e60-46c8-a547-cbda3e4a2140
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/PTR/aso-sample-record-ptr?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/PTR\/aso-sample-record-ptr","name":"aso-sample-record-ptr","type":"Microsoft.Network\/dnszones\/PTR","etag":"c5690324-3ce6-41d5-9cfb-ea3d23209443","properties":{"fqdn":"aso-sample-record-ptr.aso-sample-dz.com.","TTL":3600,"PTRRecords":[{"ptrdname":"asosample.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - c5690324-3ce6-41d5-9cfb-ea3d23209443
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CAA/aso-sample-record-caa?api-version=2018-05-01
-    method: GET
-  response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CAA\/aso-sample-record-caa","name":"aso-sample-record-caa","type":"Microsoft.Network\/dnszones\/CAA","etag":"216e247c-0549-426a-8cf5-c09aa19bda7f","properties":{"fqdn":"aso-sample-record-caa.aso-sample-dz.com.","TTL":3600,"caaRecords":[{"flags":0,"tag":"aso","value":"test"}],"targetResource":{},"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - private
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - 216e247c-0549-426a-8cf5-c09aa19bda7f
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/AAAA/aso-sample-record-aaaa?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/MX/aso-sample-record-mx?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/A/aso-sample-record-a?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/NS/aso-sample-record-ns?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CAA/aso-sample-record-caa?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/SRV/aso-sample-record-srv?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/PTR/aso-sample-record-ptr?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CNAME/aso-sample-record-cname?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/TXT/aso-sample-record-txt?api-version=2018-05-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''aso-sample-dz.com'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-emkabl","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 0970242f0f3d3e7b59f1a678d450eed4c73a035f3aebb5e810052ac9256adc24
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl","name":"asotest-rg-emkabl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: FD6ADFB7913747789DCCBBED0453E2B0 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:29Z'
+        status: 201 Created
+        code: 201
+        duration: 2.200168095s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl","name":"asotest-rg-emkabl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: B0B7B766EAB54301B9C0804510C8A764 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:34Z'
+        status: 200 OK
+        code: 200
+        duration: 1.050134437s
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 48
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"global","name":"aso-sample-dz.com"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "48"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 55389c8ecaff58dd91752da025876b47e9ac793bb2061a31e6779b19b154f237
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 535
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com","name":"aso-sample-dz.com","type":"Microsoft.Network\/dnszones","etag":"81b064df-9ae5-4e5e-8137-1294b7ac044a","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-03.azure-dns.com.","ns2-03.azure-dns.net.","ns3-03.azure-dns.org.","ns4-03.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "535"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 81b064df-9ae5-4e5e-8137-1294b7ac044a
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/4c796f2f-3108-4f41-b17e-b8d6c20a8c76
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: F4B60D6621534AA5A3E1E7895BF6E024 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:40Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 3.959758624s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 535
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com","name":"aso-sample-dz.com","type":"Microsoft.Network\/dnszones","etag":"81b064df-9ae5-4e5e-8137-1294b7ac044a","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-03.azure-dns.com.","ns2-03.azure-dns.net.","ns3-03.azure-dns.org.","ns4-03.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "535"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 81b064df-9ae5-4e5e-8137-1294b7ac044a
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 79466A09ED5D42A9B127905C34781520 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:51Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 520.950748ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 535
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com","name":"aso-sample-dz.com","type":"Microsoft.Network\/dnszones","etag":"81b064df-9ae5-4e5e-8137-1294b7ac044a","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-03.azure-dns.com.","ns2-03.azure-dns.net.","ns3-03.azure-dns.org.","ns4-03.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "535"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 81b064df-9ae5-4e5e-8137-1294b7ac044a
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 812204B395E647BCB39B4136BFF31D03 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:52Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 1.121785806s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 100
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-ns","properties":{"NSRecords":[{"nsdname":"ns.asotest.com"}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "100"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - be7554ec3181565a4aeefa9075d6ee549f20ad84f672080272d2efc2665b05ec
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/NS/aso-sample-record-ns?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 469
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/NS\/aso-sample-record-ns","name":"aso-sample-record-ns","type":"Microsoft.Network\/dnszones\/NS","etag":"6d362e78-2560-4d3d-9716-0df3ad35b86e","properties":{"fqdn":"aso-sample-record-ns.aso-sample-dz.com.","TTL":3600,"NSRecords":[{"nsdname":"ns.asotest.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "469"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 6d362e78-2560-4d3d-9716-0df3ad35b86e
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/7ca4b77d-53a4-4eb9-b589-345c66f33b99
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: 9F84EDB281D1487E89C18E3710FE8C54 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 1.528174063s
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 133
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-aaaa","properties":{"AAAARecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "133"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - e49f42ba91702e91644c8a5296ae1b974d51badeb390df3a70741c8917dd8c13
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/AAAA/aso-sample-record-aaaa?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 510
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/AAAA\/aso-sample-record-aaaa","name":"aso-sample-record-aaaa","type":"Microsoft.Network\/dnszones\/AAAA","etag":"ed2477e7-d16a-418b-8aa6-cf76e5a8c72c","properties":{"fqdn":"aso-sample-record-aaaa.aso-sample-dz.com.","TTL":3600,"AAAARecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "510"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - ed2477e7-d16a-418b-8aa6-cf76e5a8c72c
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/15433d35-6a1c-4caf-9846-c0767011c136
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: 77462AFEBF4B45B6B34EA68CE5C61622 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 1.618811734s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 100
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-cname","properties":{"CNAMERecord":{"cname":"asosample.com"},"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "100"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 87b386b9a0d7c8fff41199a96643b4a9782491fdcc9bd2363013f966efaaffa8
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CNAME/aso-sample-record-cname?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 481
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CNAME\/aso-sample-record-cname","name":"aso-sample-record-cname","type":"Microsoft.Network\/dnszones\/CNAME","etag":"7bac60ce-e763-48f7-9bf0-37d1d91f07e4","properties":{"fqdn":"aso-sample-record-cname.aso-sample-dz.com.","TTL":3600,"CNAMERecord":{"cname":"asosample.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "481"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 7bac60ce-e763-48f7-9bf0-37d1d91f07e4
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/05ce8e92-a5f2-45e9-ab51-bc14ccbd0445
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: F037DAA63BE6467F8945492A764B6440 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 1.646977039s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 104
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-txt","properties":{"TTL":3600,"TXTRecords":[{"value":["ASO sample value"]}]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "104"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 59697c16698c77d0d3d39ef2b2dca0b60e263aae8b0db25a9608feb8df0484e0
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/TXT/aso-sample-record-txt?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 477
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/TXT\/aso-sample-record-txt","name":"aso-sample-record-txt","type":"Microsoft.Network\/dnszones\/TXT","etag":"c0dbe367-d90b-48ea-9895-24a84afa10ed","properties":{"fqdn":"aso-sample-record-txt.aso-sample-dz.com.","TTL":3600,"TXTRecords":[{"value":["ASO sample value"]}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "477"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - c0dbe367-d90b-48ea-9895-24a84afa10ed
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/18ab4b84-a819-41ca-9bab-a1c913199608
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: 7E798E6EE3544606B2C7503BE475BEFA Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 1.900644397s
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 142
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-srv","properties":{"SRVRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "142"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 359745f00a8747daf4e450b6671f7f55f3e3afd8be3986109c535e05aad7e491
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/SRV/aso-sample-record-srv?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 515
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/SRV\/aso-sample-record-srv","name":"aso-sample-record-srv","type":"Microsoft.Network\/dnszones\/SRV","etag":"0b47e709-b6df-4572-90f2-76f77a0545cf","properties":{"fqdn":"aso-sample-record-srv.aso-sample-dz.com.","TTL":3600,"SRVRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "515"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 0b47e709-b6df-4572-90f2-76f77a0545cf
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/de539367-2919-4a69-ad7b-b059755a3816
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: 83600C2C8C144AF58CBA279BB82F1C77 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 2.299410264s
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 102
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-ptr","properties":{"PTRRecords":[{"ptrdname":"asosample.com"}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "102"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - d49d8ddf70a8f73dfc6ae06ccf82dc27520d8286a746ada1bc65757677b3c3b3
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/PTR/aso-sample-record-ptr?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 475
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/PTR\/aso-sample-record-ptr","name":"aso-sample-record-ptr","type":"Microsoft.Network\/dnszones\/PTR","etag":"7386631c-510e-40b1-ab14-a40a578775ad","properties":{"fqdn":"aso-sample-record-ptr.aso-sample-dz.com.","TTL":3600,"PTRRecords":[{"ptrdname":"asosample.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "475"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 7386631c-510e-40b1-ab14-a40a578775ad
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/0d0bfb83-ed58-42cd-9058-0b1ced5af788
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: BE614A2C20D74F8EB5F99E9612096A89 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 2.308156931s
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 121
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-mx","properties":{"MXRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "121"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - c20fd3cdf1b78eb1e633d11834b63ab24ff79e2574f9f6c4ae9fa6a4568657d1
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/MX/aso-sample-record-mx?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 490
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/MX\/aso-sample-record-mx","name":"aso-sample-record-mx","type":"Microsoft.Network\/dnszones\/MX","etag":"fea786ec-7ff1-4c64-ab23-d4eb72841021","properties":{"fqdn":"aso-sample-record-mx.aso-sample-dz.com.","TTL":3600,"MXRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "490"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - fea786ec-7ff1-4c64-ab23-d4eb72841021
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/ac36148d-825e-4b99-82ac-1191d7547006
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: 3B34339E6C3249F2824BB163DF6D565D Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 2.397315935s
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 96
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-a","properties":{"ARecords":[{"ipv4Address":"10.0.1.9"}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "96"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 66318746cbe35af41b0763e54a59fc436603bfa2fb13f601f4027e8a792cc615
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/A/aso-sample-record-a?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 461
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/A\/aso-sample-record-a","name":"aso-sample-record-a","type":"Microsoft.Network\/dnszones\/A","etag":"64717dbf-e5f3-4ff4-a127-87bcf52339e0","properties":{"fqdn":"aso-sample-record-a.aso-sample-dz.com.","TTL":3600,"ARecords":[{"ipv4Address":"10.0.1.9"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "461"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 64717dbf-e5f3-4ff4-a127-87bcf52339e0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/72e02142-612a-43a1-887e-acd2d0190101
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: CCF339123B7B4C3B95C43DFF7C6B7F36 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 2.6933478s
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 112
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"aso-sample-record-caa","properties":{"caaRecords":[{"flags":0,"tag":"aso","value":"test"}],"TTL":3600}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "112"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 4afaca756b6ec8b9a15ffc42117320840de07a58ed11db45e0829e43499c267f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CAA/aso-sample-record-caa?api-version=2018-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 485
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CAA\/aso-sample-record-caa","name":"aso-sample-record-caa","type":"Microsoft.Network\/dnszones\/CAA","etag":"abbde41a-11d2-466f-a598-df80e60379ab","properties":{"fqdn":"aso-sample-record-caa.aso-sample-dz.com.","TTL":3600,"caaRecords":[{"flags":0,"tag":"aso","value":"test"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "485"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - abbde41a-11d2-466f-a598-df80e60379ab
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/malaysiasouth/461ff395-c1e7-4c94-8c20-0c0572750074
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: A6010EE4AACD475DB171A5BF479FD6C0 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 201 Created
+        code: 201
+        duration: 3.041186054s
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/NS/aso-sample-record-ns?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 469
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/NS\/aso-sample-record-ns","name":"aso-sample-record-ns","type":"Microsoft.Network\/dnszones\/NS","etag":"6d362e78-2560-4d3d-9716-0df3ad35b86e","properties":{"fqdn":"aso-sample-record-ns.aso-sample-dz.com.","TTL":3600,"NSRecords":[{"nsdname":"ns.asotest.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "469"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 6d362e78-2560-4d3d-9716-0df3ad35b86e
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/c144be4f-9758-440c-a2ea-e3b0bf806248
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: D226B30387734903AB339EB96C8AA791 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:57:59Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 600.157533ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/AAAA/aso-sample-record-aaaa?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 510
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/AAAA\/aso-sample-record-aaaa","name":"aso-sample-record-aaaa","type":"Microsoft.Network\/dnszones\/AAAA","etag":"ed2477e7-d16a-418b-8aa6-cf76e5a8c72c","properties":{"fqdn":"aso-sample-record-aaaa.aso-sample-dz.com.","TTL":3600,"AAAARecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "510"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - ed2477e7-d16a-418b-8aa6-cf76e5a8c72c
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/59dc46e4-aa78-4313-9740-d70839defb9f
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 71883633AF05447E80B6B7F42B939244 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:00Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 449.835191ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CNAME/aso-sample-record-cname?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 481
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CNAME\/aso-sample-record-cname","name":"aso-sample-record-cname","type":"Microsoft.Network\/dnszones\/CNAME","etag":"7bac60ce-e763-48f7-9bf0-37d1d91f07e4","properties":{"fqdn":"aso-sample-record-cname.aso-sample-dz.com.","TTL":3600,"CNAMERecord":{"cname":"asosample.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "481"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 7bac60ce-e763-48f7-9bf0-37d1d91f07e4
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/2401b9ce-2a3c-49f4-bbe0-294c8ea566ae
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: BD4327A1016840BB8FFB4FCF73293134 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:00Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 440.245204ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/TXT/aso-sample-record-txt?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 477
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/TXT\/aso-sample-record-txt","name":"aso-sample-record-txt","type":"Microsoft.Network\/dnszones\/TXT","etag":"c0dbe367-d90b-48ea-9895-24a84afa10ed","properties":{"fqdn":"aso-sample-record-txt.aso-sample-dz.com.","TTL":3600,"TXTRecords":[{"value":["ASO sample value"]}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "477"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - c0dbe367-d90b-48ea-9895-24a84afa10ed
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/a400ff7a-7b6a-4a89-ae30-643b0c15032a
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 7693066DFB294B3A9F40E6CABC8D0D4B Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:00Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 519.285455ms
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/SRV/aso-sample-record-srv?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 515
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/SRV\/aso-sample-record-srv","name":"aso-sample-record-srv","type":"Microsoft.Network\/dnszones\/SRV","etag":"0b47e709-b6df-4572-90f2-76f77a0545cf","properties":{"fqdn":"aso-sample-record-srv.aso-sample-dz.com.","TTL":3600,"SRVRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "515"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 0b47e709-b6df-4572-90f2-76f77a0545cf
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/447a06e6-29af-4424-8453-4d2dd1411702
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 77938271CB9244BFA6DE53BEA082954F Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:01Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 376.757614ms
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/PTR/aso-sample-record-ptr?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 475
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/PTR\/aso-sample-record-ptr","name":"aso-sample-record-ptr","type":"Microsoft.Network\/dnszones\/PTR","etag":"7386631c-510e-40b1-ab14-a40a578775ad","properties":{"fqdn":"aso-sample-record-ptr.aso-sample-dz.com.","TTL":3600,"PTRRecords":[{"ptrdname":"asosample.com"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "475"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 7386631c-510e-40b1-ab14-a40a578775ad
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/4b825b73-94bc-44d0-8a1a-d9a515ce3b75
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 1FB0F81CFFA243B4B12CC53AF8C292D8 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:01Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 388.314789ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/MX/aso-sample-record-mx?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 490
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/MX\/aso-sample-record-mx","name":"aso-sample-record-mx","type":"Microsoft.Network\/dnszones\/MX","etag":"fea786ec-7ff1-4c64-ab23-d4eb72841021","properties":{"fqdn":"aso-sample-record-mx.aso-sample-dz.com.","TTL":3600,"MXRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "490"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - fea786ec-7ff1-4c64-ab23-d4eb72841021
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/91fb244a-a1c7-4653-aa9c-aca171658346
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: BB18CCD8C0074BEB8D795CF190AFCC26 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:01Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 420.085011ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/A/aso-sample-record-a?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 461
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/A\/aso-sample-record-a","name":"aso-sample-record-a","type":"Microsoft.Network\/dnszones\/A","etag":"64717dbf-e5f3-4ff4-a127-87bcf52339e0","properties":{"fqdn":"aso-sample-record-a.aso-sample-dz.com.","TTL":3600,"ARecords":[{"ipv4Address":"10.0.1.9"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "461"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - 64717dbf-e5f3-4ff4-a127-87bcf52339e0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/b1d26eaf-dc29-4e2d-81e3-661f5730853c
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 35BD7C56B8B547DD8F33D81544E9BE75 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:02Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 391.400289ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CAA/aso-sample-record-caa?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 485
+        uncompressed: false
+        body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-emkabl\/providers\/Microsoft.Network\/dnszones\/aso-sample-dz.com\/CAA\/aso-sample-record-caa","name":"aso-sample-record-caa","type":"Microsoft.Network\/dnszones\/CAA","etag":"abbde41a-11d2-466f-a598-df80e60379ab","properties":{"fqdn":"aso-sample-record-caa.aso-sample-dz.com.","TTL":3600,"caaRecords":[{"flags":0,"tag":"aso","value":"test"}],"targetResource":{},"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - private
+            Content-Length:
+                - "485"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - abbde41a-11d2-466f-a598-df80e60379ab
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/23f913a5-ea08-42c5-b0a5-404c66491d47
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 15A1284788254E5BA18DF9D8E910D752 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:03Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 446.116706ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl","name":"asotest-rg-emkabl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 7EB84CDE5DAF43BCA8BAA1E808A2A303 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:06Z'
+        status: 200 OK
+        code: 200
+        duration: 1.080899653s
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991898920755449&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=ksVbcKs8ttyic6RuJFaZTwgW4uAqyiWdO4a1Ny-RPnfU7svGv0rxZaHEc0Yduwwy_6mkTDyAy9GsKJyXVYzvFtbsk4zYINeR-VaC_VXO_EM01oVEV2VWusQqtllW5x7NDvNsIB5HKgomtMCfOY_ZARz-0h6OSGQ5YEI35rBvZmMSABzQPJzJNZuCdfKAfRmmbUlFE_T-4F-tU5UwFvXM_HeXsbHGLKP8wQs0hzgXFJetm5ag20khY6r9u9ldkeo8kcYjGX6oKuOw61etZz3JLuImgXVwxAg4R-1Xd5e0s6edYPs1oTw3W46qwDuuuJff3CSBGhYRxwnFB1MhUHOuiA&h=3TrKUcpvS8W-7xxKeTzht2CkI4OpZSA2V4YpenyC_t8
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F51D037FA94A4C1F80AA69481E883B36 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:08Z'
+        status: 202 Accepted
+        code: 202
+        duration: 3.260546971s
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991898920755449&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=ksVbcKs8ttyic6RuJFaZTwgW4uAqyiWdO4a1Ny-RPnfU7svGv0rxZaHEc0Yduwwy_6mkTDyAy9GsKJyXVYzvFtbsk4zYINeR-VaC_VXO_EM01oVEV2VWusQqtllW5x7NDvNsIB5HKgomtMCfOY_ZARz-0h6OSGQ5YEI35rBvZmMSABzQPJzJNZuCdfKAfRmmbUlFE_T-4F-tU5UwFvXM_HeXsbHGLKP8wQs0hzgXFJetm5ag20khY6r9u9ldkeo8kcYjGX6oKuOw61etZz3JLuImgXVwxAg4R-1Xd5e0s6edYPs1oTw3W46qwDuuuJff3CSBGhYRxwnFB1MhUHOuiA&h=3TrKUcpvS8W-7xxKeTzht2CkI4OpZSA2V4YpenyC_t8
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991899120775535&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=JGC9TntTKHoeg3JTkwiTdhcCGULM2VrA4_VI34yBLjnmsBCV9ZM_mqkFdfSX0DwDbgP1Taz2dKx59oI4e8aekWH89e18mGOzZknAfcBOs-6LtpNKMa8bH-PFmRyosn6zsIDzF6NT3r8GOQEROvuo9194vyZAy1edvV42hWMWzk92JDjAvx_S1a_WI3Xzhvvviz4fvz2mPJ_sNWg6DeMyPZhZD_FC0OyH4JyxBaszj2qGMMu6_gFG1zkxz7t-kfE5j1-6ZnaXQmdOlsPWBJonvjs24vHG9mTCI4Z1oFXqP0E_-F2qmRdWYZS-NFYTA-TC8UMHT4oz3QE9oRHjBbkoYw&h=RtfTvUwySjlWmAsAwu9dd5z3cYHMPlsPUvq60ZwtXsg
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 53714B61318B468B84689CDBBC41B367 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:31Z'
+        status: 202 Accepted
+        code: 202
+        duration: 475.191388ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991898920755449&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=ksVbcKs8ttyic6RuJFaZTwgW4uAqyiWdO4a1Ny-RPnfU7svGv0rxZaHEc0Yduwwy_6mkTDyAy9GsKJyXVYzvFtbsk4zYINeR-VaC_VXO_EM01oVEV2VWusQqtllW5x7NDvNsIB5HKgomtMCfOY_ZARz-0h6OSGQ5YEI35rBvZmMSABzQPJzJNZuCdfKAfRmmbUlFE_T-4F-tU5UwFvXM_HeXsbHGLKP8wQs0hzgXFJetm5ag20khY6r9u9ldkeo8kcYjGX6oKuOw61etZz3JLuImgXVwxAg4R-1Xd5e0s6edYPs1oTw3W46qwDuuuJff3CSBGhYRxwnFB1MhUHOuiA&h=3TrKUcpvS8W-7xxKeTzht2CkI4OpZSA2V4YpenyC_t8
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991899294188398&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=ij2t-MXXSkzAbvCTGxtTy8g91S0SX0FcFQNNGeI05ko11B9Urt10-lgevk7W6TWDuZ-OHC-HJ4wLYOp3DbVcpRrcdlaiwpefc6Xt5n-2OLYls0L71vkAVln2GkGUB-gn0JBlvvzqkMR6xTR_jVB7E730cooEem8-U7VE8PsVMgrkarprFNnTUJ9fAdQMqoWxnxbdL_UUH5h5hQAsYb-uHEjn9Y_A3ioJEhDFZFP8VBirF9WZJb6ESnQPL8M60x7G3javv52P3az5cpAoE2I_ah_1_OcRnAI3cIXc5Q4nzJEhdNpA_rg1DJHzrOS0Sj9a8zYaTj63a0mOc89U7sASkQ&h=VzzZHd12JxMg_qRqQy52b9_HBoiTkU6myWfakoZe51E
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 8779273732FF42B4935A28B6803876E9 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:58:48Z'
+        status: 202 Accepted
+        code: 202
+        duration: 615.936087ms
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991898920755449&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=ksVbcKs8ttyic6RuJFaZTwgW4uAqyiWdO4a1Ny-RPnfU7svGv0rxZaHEc0Yduwwy_6mkTDyAy9GsKJyXVYzvFtbsk4zYINeR-VaC_VXO_EM01oVEV2VWusQqtllW5x7NDvNsIB5HKgomtMCfOY_ZARz-0h6OSGQ5YEI35rBvZmMSABzQPJzJNZuCdfKAfRmmbUlFE_T-4F-tU5UwFvXM_HeXsbHGLKP8wQs0hzgXFJetm5ag20khY6r9u9ldkeo8kcYjGX6oKuOw61etZz3JLuImgXVwxAg4R-1Xd5e0s6edYPs1oTw3W46qwDuuuJff3CSBGhYRxwnFB1MhUHOuiA&h=3TrKUcpvS8W-7xxKeTzht2CkI4OpZSA2V4YpenyC_t8
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991899473040524&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=UKWmQMsXIDHW0RIzYRsk_ZDjbITX18XQ5Af265R5P9Pj47gi8eT-3n7XP8wxaymyZhZ2qa_rC9QjslrdbSmHx0guIrlHmjr-ucLhYdEmQIwRT-0yGfGYOhse3D1L0SY5RZhhprL5IOx4gfPtmjJ7MZKjXmOmaOpjxlR1JqUvcmIs_w3cprxxxw4t05_mVMnae9KBsH2amPEYZuxgzYoEYGQvQBo3ZXkY9oe08Hnb-p3Q2IQmPTjef3YRKGdGGTiX6ZuLnwj_KWksjusE9zH8pJJCUNf3RuG78jM0ECDdKTgzTVqucSu4d4V0ZQfX7L-qB6LyHR16aROnk15CnwLZVw&h=95Qpp0C-EYGuC6jodt3RmWtSmaldTqlKxrX098lvgGk
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 32A59BD1DE4141F4949BAE6B0B7652DA Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:06Z'
+        status: 202 Accepted
+        code: 202
+        duration: 1.026101163s
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFTUtBQkwtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991898920755449&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=ksVbcKs8ttyic6RuJFaZTwgW4uAqyiWdO4a1Ny-RPnfU7svGv0rxZaHEc0Yduwwy_6mkTDyAy9GsKJyXVYzvFtbsk4zYINeR-VaC_VXO_EM01oVEV2VWusQqtllW5x7NDvNsIB5HKgomtMCfOY_ZARz-0h6OSGQ5YEI35rBvZmMSABzQPJzJNZuCdfKAfRmmbUlFE_T-4F-tU5UwFvXM_HeXsbHGLKP8wQs0hzgXFJetm5ag20khY6r9u9ldkeo8kcYjGX6oKuOw61etZz3JLuImgXVwxAg4R-1Xd5e0s6edYPs1oTw3W46qwDuuuJff3CSBGhYRxwnFB1MhUHOuiA&h=3TrKUcpvS8W-7xxKeTzht2CkI4OpZSA2V4YpenyC_t8
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 3E888356D0C44712AA5A7131605DC6CA Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:24Z'
+        status: 200 OK
+        code: 200
+        duration: 328.394696ms
+    - id: 29
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 233
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/dnszones/aso-sample-dz.com'' under resource group ''asotest-rg-emkabl'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "233"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 45EE0125B34E4AB895EF648DA04F4ECD Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:26Z'
+        status: 404 Not Found
+        code: 404
+        duration: 399.648492ms
+    - id: 30
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/MX/aso-sample-record-mx?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 88510CCE7E4042D48AAF7ECC4281EAF3 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 336.035574ms
+    - id: 31
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/AAAA/aso-sample-record-aaaa?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 260A7E93F55443009425E2D56DDEDB09 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 370.330662ms
+    - id: 32
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/NS/aso-sample-record-ns?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: F9DDD576B37E4F28982238D2B8187B05 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 392.817438ms
+    - id: 33
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/TXT/aso-sample-record-txt?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 33868532B7014BC4AF3A36D4E7D43FB7 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 376.426375ms
+    - id: 34
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/SRV/aso-sample-record-srv?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 99DC1012EBB24165B893CB7DE3DA303B Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 389.738362ms
+    - id: 35
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CAA/aso-sample-record-caa?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 86E75199C6194A538993F9AACCA232D8 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 366.313773ms
+    - id: 36
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/CNAME/aso-sample-record-cname?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 1648E8D3927745EFA7FCAD0996882637 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 359.259013ms
+    - id: 37
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/PTR/aso-sample-record-ptr?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 8340E4A7790B43A09FC61D7B0EDE1340 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 404.055693ms
+    - id: 38
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-emkabl/providers/Microsoft.Network/dnsZones/aso-sample-dz.com/A/aso-sample-record-a?api-version=2018-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 109
+        uncompressed: false
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-emkabl'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 0BF03F6A3E67429785B0A17529BBAA56 Ref B: SG2AA1070302060 Ref C: 2025-11-19T22:59:32Z'
+        status: 404 Not Found
+        code: 404
+        duration: 423.195124ms

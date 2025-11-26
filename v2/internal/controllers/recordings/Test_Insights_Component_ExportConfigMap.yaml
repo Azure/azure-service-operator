@@ -1,513 +1,813 @@
 ---
-version: 1
+version: 2
 interactions:
-- request:
-    body: '{"location":"westus2","name":"asotest-rg-ufhqmc","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "93"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc","name":"asotest-rg-ufhqmc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "276"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc","name":"asotest-rg-ufhqmc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"kind":"web","location":"westus2","name":"asotest-component-xrducl","properties":{"Application_Type":"other"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "111"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: PUT
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n
-      \ \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"0000cce5-0000-0600-0000-643dfe0f0000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\":
-      \"bb1d8b71-9ade-443e-8c09-dcd346eb4994\",\r\n    \"Application_Type\": \"other\",\r\n
-      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
-      \"dac2a523-fbdc-4986-9aaf-fa428da3d641\",\r\n    \"ConnectionString\": \"InstrumentationKey=dac2a523-fbdc-4986-9aaf-fa428da3d641;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2023-04-18T02:18:55.2002524+00:00\",\r\n
-      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
-      \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
-      \"v2\"\r\n  }\r\n}"
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: GET
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n
-      \ \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"0000cce5-0000-0600-0000-643dfe0f0000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\":
-      \"bb1d8b71-9ade-443e-8c09-dcd346eb4994\",\r\n    \"Application_Type\": \"other\",\r\n
-      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
-      \"dac2a523-fbdc-4986-9aaf-fa428da3d641\",\r\n    \"ConnectionString\": \"InstrumentationKey=dac2a523-fbdc-4986-9aaf-fa428da3d641;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2023-04-18T02:18:55.2002524+00:00\",\r\n
-      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
-      \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
-      \"v2\"\r\n  }\r\n}"
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"kind":"web","location":"westus2","name":"asotest-component-xrducl","properties":{"Application_Type":"other"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "111"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: PUT
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n
-      \ \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"0000cfe5-0000-0600-0000-643dfe180000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\":
-      \"bb1d8b71-9ade-443e-8c09-dcd346eb4994\",\r\n    \"Application_Type\": \"other\",\r\n
-      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
-      \"dac2a523-fbdc-4986-9aaf-fa428da3d641\",\r\n    \"ConnectionString\": \"InstrumentationKey=dac2a523-fbdc-4986-9aaf-fa428da3d641;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2023-04-18T02:18:55.2002524+00:00\",\r\n
-      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
-      \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
-      \"v2\"\r\n  }\r\n}"
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: GET
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n
-      \ \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"0000cfe5-0000-0600-0000-643dfe180000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\":
-      \"bb1d8b71-9ade-443e-8c09-dcd346eb4994\",\r\n    \"Application_Type\": \"other\",\r\n
-      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
-      \"dac2a523-fbdc-4986-9aaf-fa428da3d641\",\r\n    \"ConnectionString\": \"InstrumentationKey=dac2a523-fbdc-4986-9aaf-fa428da3d641;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2023-04-18T02:18:55.2002524+00:00\",\r\n
-      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
-      \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
-      \"v2\"\r\n  }\r\n}"
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"kind":"web","location":"westus2","name":"asotest-component-xrducl","properties":{"Application_Type":"other"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "111"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: PUT
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n
-      \ \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"0000d3e5-0000-0600-0000-643dfe220000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\":
-      \"bb1d8b71-9ade-443e-8c09-dcd346eb4994\",\r\n    \"Application_Type\": \"other\",\r\n
-      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
-      \"dac2a523-fbdc-4986-9aaf-fa428da3d641\",\r\n    \"ConnectionString\": \"InstrumentationKey=dac2a523-fbdc-4986-9aaf-fa428da3d641;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2023-04-18T02:18:55.2002524+00:00\",\r\n
-      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
-      \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
-      \"v2\"\r\n  }\r\n}"
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: GET
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n
-      \ \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"0000d3e5-0000-0600-0000-643dfe220000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\":
-      \"bb1d8b71-9ade-443e-8c09-dcd346eb4994\",\r\n    \"Application_Type\": \"other\",\r\n
-      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
-      \"dac2a523-fbdc-4986-9aaf-fa428da3d641\",\r\n    \"ConnectionString\": \"InstrumentationKey=dac2a523-fbdc-4986-9aaf-fa428da3d641;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2023-04-18T02:18:55.2002524+00:00\",\r\n
-      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
-      \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
-      \"v2\"\r\n  }\r\n}"
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Access-Control-Expose-Headers:
-      - Request-Context
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Request-Context:
-      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Powered-By:
-      - ASP.NET
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl?api-version=2020-02-02
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''microsoft.insights/components/asotest-component-xrducl''
-      under resource group ''asotest-rg-ufhqmc'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "243"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVRkhRTUMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVRkhRTUMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-ufhqmc","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 0d8cf2c5fce0a7f838de67d52414c43c4e8b023d7ebe5389a05851feba2015cd
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc","name":"asotest-rg-ufhqmc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F82B4C6AC7444031B589C7C11C356326 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:09:29Z'
+        status: 201 Created
+        code: 201
+        duration: 3.060478369s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc","name":"asotest-rg-ufhqmc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 8BEED3FEF5204D5583CAF077EB586941 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:09:35Z'
+        status: 200 OK
+        code: 200
+        duration: 334.30463ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 111
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"web","location":"westus2","name":"asotest-component-xrducl","properties":{"Application_Type":"other"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "111"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 9fa16381440c0b7c38fac2e86019868625eba107cc6d80aa340d688b2e0000b6
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30018a1f-0000-0800-0000-691ce09a0000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/ca154ebe-e264-439f-87e0-d910800bfe53
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: E0ADA37EDC464AED8E6B4F8AD81AD334 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:09:37Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 9.29227744s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30018a1f-0000-0800-0000-691ce09a0000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 526429EB56584A06BEB3337C088AEE15 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:09:56Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 367.469665ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 111
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"web","location":"westus2","name":"asotest-component-xrducl","properties":{"Application_Type":"other"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "111"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 9fa16381440c0b7c38fac2e86019868625eba107cc6d80aa340d688b2e0000b6
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30016720-0000-0800-0000-691ce0aa0000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/7c2ec6cd-8e2a-4500-811b-099a4ac4b539
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 380D5468BEFA4BE2ABD41D9A74224703 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:01Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 2.073762111s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30016720-0000-0800-0000-691ce0aa0000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 00384044F5384BBD9BB3307E314B7F5D Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:06Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 883.846063ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 111
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"web","location":"westus2","name":"asotest-component-xrducl","properties":{"Application_Type":"other"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "111"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 9fa16381440c0b7c38fac2e86019868625eba107cc6d80aa340d688b2e0000b6
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30010721-0000-0800-0000-691ce0b50000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/62e02186-c83f-4201-a7eb-3f61d50013af
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F14E9B48A70248A39ECFBE8E2BC1BAB6 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:12Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 4.115427467s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30010721-0000-0800-0000-691ce0b50000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 591360F6B40C4A4EB674E92D47613552 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:20Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 887.933092ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"30010721-0000-0800-0000-691ce0b50000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl\",\r\n  \"name\": \"asotest-component-xrducl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-xrducl\",\r\n    \"AppId\": \"8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"9e0aff34-3765-42a0-a5e8-1e57103c8436\",\r\n    \"ConnectionString\": \"InstrumentationKey=9e0aff34-3765-42a0-a5e8-1e57103c8436;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=8fd23d79-0d5e-4df2-876a-90c41ddb8cc5\",\r\n    \"Name\": \"asotest-component-xrducl\",\r\n    \"CreationDate\": \"2025-11-18T21:09:41.5958207+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-xrducl_8fd23d79-0d5e-4df2-876a-90c41ddb8cc5_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-xrducl-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: EC24E1737EE7485DAC2356A83C7B45F5 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:27Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 338.815653ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/Microsoft.Insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/81d54c48-28f1-4373-839d-d423108e5904
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F38308C5C5DC48578B948755F5AE5403 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:27Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 4.512857067s
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc/providers/microsoft.insights/components/asotest-component-xrducl?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 243
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''microsoft.insights/components/asotest-component-xrducl'' under resource group ''asotest-rg-ufhqmc'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "243"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: F1C604362D7E43FA93B4C1C8C640F00C Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:37Z'
+        status: 404 Not Found
+        code: 404
+        duration: 313.59328ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc","name":"asotest-rg-ufhqmc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16497"
+            X-Msedge-Ref:
+                - 'Ref A: 9BB158B181254415BAC03191FCBD5355 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:38Z'
+        status: 200 OK
+        code: 200
+        duration: 336.447016ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ufhqmc?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVRkhRTUMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638990970423966664&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=OcgEz1eEqAxJfcCDwbfGzW8lb1NeD5cNEKQlDzSXoxRdjYB35BJ8G0BP8oRyUYVNpJGiuo084YRGBlUOjun3_6QRGpqo8edEA02_T9S1mttZ2-Dl2YiA5hUTIdXXl0BW7nr-nKQPhTkl3nqmEmjFMfCA6UXrTlteEfux6cgjmA--4MlrOIv8f8IMAbaZjv-sVODhWUtA3Z5CnBYebBAxKOCJRUjQU6DPxroaV97bWRCdQf0Ud3M5hyUkaX1hFjlmT0F3We3Lh3ZBLPfW4atB3U1bcVVwr4JMBJOD4_gcKn5FCPvx5zuXR32rZjH5QjrNTeAuU6YBefA-078vQrEHXQ&h=WQMEM_qvdrwei3ZS96DMJ3mQS8vQ2zdK2Q60A-RxKXc
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 8EB5B6E26574479DA82EDD43A36A05DC Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:10:38Z'
+        status: 202 Accepted
+        code: 202
+        duration: 3.682196008s
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVRkhRTUMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638990970423966664&c=MIIHhzCCBm-gAwIBAgITHgePNrHnjd12qB0bIgAAB482sTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUxMDIyMTAyMjQ3WhcNMjYwNDIwMTAyMjQ3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMa4N6biD4b3y2sbkcnqgvMUgcwQKiAzk6u9JnZaint0OklVT6F5R74wbTDsv_4dzFZJj0B58oOFYbmYdz5UpWx-trcGnzZyXvbpu8L_VPU1RpVCJQ0SRIq-g3rNEXPuVf6evWZVBtz7-MgDAFvnccLefCnMUHp7N4bZqiDsy28OfmRbQzhhoL41JzMdqzFlKgQ-dTsvi0HHLif_Mr07Es0fLchVhsZYkmIgvY9VUQZtZET0We8oF1B2WHHV6sL8vIzsz9jqtH2zdt8MgnznMeILbR56pwInNYirrHezmh8gVBHp_Zl-F56bqZmow4Eu_YTeO_XuWPKCm1F9YaLo0c0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBRcVbdaRCO2xc_MBp944xfmCA0TCjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBALWa0sUBkyggdGJnmhB4J6SrVANSHlycQCHiZlA2U4MwHUJkcgyojUIF5Xw6ZOZvN0ifW5XvRnp2jwnWjABIflBMuxsEFZV3vZM4UEcZVhbmtGa51SkNWjDMEamlhq6Z_36ecuej-YMQzDLG8AYFDMekpXYoO_e-oelBHDIepzFOUagZhG5kH9-tdIkdiy3hQyQgC8qYCj820QAMfjqA2itQaWwrPgmQzmsC4UPQZKd3MgSgpNfpCE0kLGC0paPa3hXtlF25KKEYiLlFkqhiF31gG3922DVrfGHJWIR6bZId54ZuWDj4nkCBCUsu72HLCupMgnOlyV7z9Ff4x1KXE3s&s=OcgEz1eEqAxJfcCDwbfGzW8lb1NeD5cNEKQlDzSXoxRdjYB35BJ8G0BP8oRyUYVNpJGiuo084YRGBlUOjun3_6QRGpqo8edEA02_T9S1mttZ2-Dl2YiA5hUTIdXXl0BW7nr-nKQPhTkl3nqmEmjFMfCA6UXrTlteEfux6cgjmA--4MlrOIv8f8IMAbaZjv-sVODhWUtA3Z5CnBYebBAxKOCJRUjQU6DPxroaV97bWRCdQf0Ud3M5hyUkaX1hFjlmT0F3We3Lh3ZBLPfW4atB3U1bcVVwr4JMBJOD4_gcKn5FCPvx5zuXR32rZjH5QjrNTeAuU6YBefA-078vQrEHXQ&h=WQMEM_qvdrwei3ZS96DMJ3mQS8vQ2zdK2Q60A-RxKXc
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16497"
+            X-Msedge-Ref:
+                - 'Ref A: F6A4CE92602F498DB9F3DCE0FCE07057 Ref B: SG2AA1070306025 Ref C: 2025-11-18T21:11:01Z'
+        status: 200 OK
+        code: 200
+        duration: 429.789089ms

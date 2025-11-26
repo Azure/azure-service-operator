@@ -54,10 +54,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 1CCADB15E5524139914FEDA43C083484 Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:01Z'
-        status: 201 Created
-        code: 201
-        duration: 3.834760456s
+                - 'Ref A: E6F086B1F84B42D585A918D4E849C215 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:17:14Z'
+        status: 200 OK
+        code: 200
+        duration: 2.03061607s
     - id: 1
       request:
         proto: HTTP/1.1
@@ -107,10 +107,10 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 78FE91BAE0EF41FCA7CAFC2A075448D0 Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:08Z'
+                - 'Ref A: D3C48C3CA0784586A80B2C23C8A28A84 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:17:18Z'
         status: 200 OK
         code: 200
-        duration: 492.724683ms
+        duration: 285.12972ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -141,14 +141,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 899
+        content_length: 901
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"InBuild"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/","provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Basic","tier":"Basic"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"errors":[],"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/"},"sku":{"name":"Basic","tier":"Basic"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "899"
+                - "901"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -162,72 +162,19 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 1cc7ca25-64d1-4cb0-90fb-57ac45b38b8f
+                - f59964fd-5660-4c78-8185-a974a60bb814
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G10|2025-02-05T03:55:18
+                - PROD|WESTUS2|WESTUS2|G14|2025-11-19T19:17:24
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/295801b8-e00c-4daf-9d19-75015e6a3bd2
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 3F460331E90A49F49F7A582BB4587414 Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:13Z'
-        status: 201 Created
-        code: 201
-        duration: 4.881038671s
-    - id: 3
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx?api-version=2024-01-01
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 896
-        uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/","provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Basic","tier":"Basic"}}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "896"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Messaging-Activity-Id:
-                - 78770d50-be7d-4d06-b270-e4b88eeb6c37
-            X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G3|2025-02-05T03:55:26
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 38262357A40D4591ADF1BE876C403C1A Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:25Z'
+                - 'Ref A: 9C792F6A142F4EA4BBD901C171D5466B Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:17:24Z'
         status: 200 OK
         code: 200
-        duration: 1.056595659s
-    - id: 4
+        duration: 505.806433ms
+    - id: 3
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -244,7 +191,7 @@ interactions:
             Accept:
                 - application/json
             Test-Request-Attempt:
-                - "1"
+                - "0"
         url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx?api-version=2024-01-01
         method: GET
       response:
@@ -253,14 +200,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 896
+        content_length: 900
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/","provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Basic","tier":"Basic"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"errors":[],"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/"},"sku":{"name":"Basic","tier":"Basic"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "896"
+                - "900"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -274,17 +221,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 289514bd-31fc-41c3-bb49-faa1ea7a21f6
+                - 61140a48-c1aa-44b9-a215-b35d029061f3
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G7|2025-02-05T03:55:29
+                - PROD|WESTUS2|WESTUS2|G12|2025-11-19T19:17:25
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
+                - "16497"
             X-Msedge-Ref:
-                - 'Ref A: 041314F791EE4AEBB3F3E38DEBE4C896 Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:28Z'
+                - 'Ref A: 30D202A6E92C4C8D8BD391C23A184141 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:17:25Z'
         status: 200 OK
         code: 200
-        duration: 1.169845487s
-    - id: 5
+        duration: 219.248677ms
+    - id: 4
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -314,14 +261,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 1027
+        content_length: 1028
         uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx/queues/asotest-queue-fujars","name":"asotest-queue-fujars","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "1027"
+                - "1028"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -335,17 +282,19 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 0fffbc88-1bdf-4782-9793-d5116dc6bef4
+                - 8fbea6e4-8c9f-4e11-87e3-e6ff5083e526
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G6|2025-02-05T03:55:37
+                - PROD|WESTUS2|WESTUS2|G5|2025-11-19T19:47:37
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiacentral2/dd0ab7b4-c4ea-4e12-95c5-65f9dd4f6cfe
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 7498081004EB4AB28D96543CCC98808D Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:34Z'
+                - 'Ref A: A4B09320D0884C778E5D0A52C64B84F5 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:47:33Z'
         status: 200 OK
         code: 200
-        duration: 3.353660138s
-    - id: 6
+        duration: 3.651045719s
+    - id: 5
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -371,14 +320,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 1028
+        content_length: 1029
         uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx/queues/asotest-queue-fujars","name":"asotest-queue-fujars","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "1028"
+                - "1029"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -392,16 +341,77 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - b3d25035-5c6c-4f30-85c9-b2ee46a61b27
+                - 44586772-76b7-4731-92c6-ba1e59207cab
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G1|2025-02-05T03:55:42
+                - PROD|WESTUS2|WESTUS2|G3|2025-11-19T19:47:41
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/1d36fdc4-83b2-4c8f-8382-a7825b66e665
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: E3DEE8425F2A4618BD8264BF84893E2C Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:41Z'
+                - 'Ref A: 859CD14F90064FFF88E57F8CF017D769 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:47:41Z'
         status: 200 OK
         code: 200
-        duration: 1.050715034s
+        duration: 226.345527ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx/queues/asotest-queue-fujars?api-version=2024-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1029
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx/queues/asotest-queue-fujars","name":"asotest-queue-fujars","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1029"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - fecfc8a1-86a8-4fd8-8508-69c13afdafba
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G6|2025-11-19T19:47:44
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/7aa0e56c-9914-40c4-b4c8-b32d280761e9
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: DE21F40974D148AEA80DA5E5558BBD2C Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:47:43Z'
+        status: 200 OK
+        code: 200
+        duration: 854.676003ms
     - id: 7
       request:
         proto: HTTP/1.1
@@ -447,16 +457,18 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 00000001-0000-0000-0002-000000004724
+                - 00000001-0000-0000-0002-000000010052
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G1|2025-02-05T03:55:49
+                - PROD|WESTUS2|WESTUS2|G1|2025-11-19T19:47:46
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/daf528cd-00b0-4c6a-b86a-414981264d64
             X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 161C4C232DEA407E8E85DC753FEBEDD9 Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:49Z'
+                - 'Ref A: 9EFC59E233C64ABCB4865CFA65ABC872 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:47:45Z'
         status: 200 OK
         code: 200
-        duration: 1.068073995s
+        duration: 1.065841959s
     - id: 8
       request:
         proto: HTTP/1.1
@@ -487,14 +499,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 896
+        content_length: 901
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/","provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Basic","tier":"Basic"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"errors":[],"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/"},"sku":{"name":"Basic","tier":"Basic"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "896"
+                - "901"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -508,16 +520,18 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - c3fc78d5-cd25-45ee-be22-64dbe837bad7
+                - a89d3410-c1f5-4845-8bd3-fd5b34f01ca3
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G3|2025-02-05T03:55:58
+                - PROD|WESTUS2|WESTUS2|G6|2025-11-19T19:52:47
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/35c79409-d7b0-4f68-8b36-e7515b4300b9
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 2F8D9B1E773F4C22895E1A6E64589C36 Ref B: MAA201060514031 Ref C: 2025-02-05T03:55:54Z'
+                - 'Ref A: 4243D8367FFC43E3B5AB793300901E98 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:52:44Z'
         status: 200 OK
         code: 200
-        duration: 4.743094231s
+        duration: 3.447655672s
     - id: 9
       request:
         proto: HTTP/1.1
@@ -535,7 +549,7 @@ interactions:
             Accept:
                 - application/json
             Test-Request-Attempt:
-                - "2"
+                - "1"
         url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx?api-version=2024-01-01
         method: GET
       response:
@@ -544,14 +558,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 896
+        content_length: 900
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/","provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Basic","tier":"Basic"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"errors":[],"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/"},"sku":{"name":"Basic","tier":"Basic"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "896"
+                - "900"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -565,16 +579,16 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - cd8f83db-ab92-4fe1-93e9-051ef8b90e52
+                - 596ff444-5e89-4315-8279-5884b7edf28f
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G1|2025-02-05T03:56:05
+                - PROD|WESTUS2|WESTUS2|G7|2025-11-19T19:52:52
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 05F46D104CE24E2D92A45B3FF50D0086 Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:04Z'
+                - 'Ref A: 9D2BC9FE6CC743C0B585E7B16A3A22DA Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:52:51Z'
         status: 200 OK
         code: 200
-        duration: 1.273096322s
+        duration: 286.938705ms
     - id: 10
       request:
         proto: HTTP/1.1
@@ -622,17 +636,76 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 8d697907-eb6a-4227-8c78-95e3f3bc77e7
+                - 88fb9983-6289-400e-abe3-317b2856aec3
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G11|2025-02-05T03:56:08
+                - PROD|WESTUS2|WESTUS2|G8|2025-11-19T19:52:53
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/8552c5ad-f31b-42a9-869c-e1a92eec1861
             X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 621BC22689D240FB817F1C6FC44885A8 Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:07Z'
+                - 'Ref A: E44CF4F5FA18455990D8301156A9B83F Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:52:52Z'
         status: 200 OK
         code: 200
-        duration: 1.471590815s
+        duration: 1.186491537s
     - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx?api-version=2024-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 900
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nfctrx","name":"asotest-namespace-nfctrx","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"errors":[],"geoDataReplication":{"maxReplicationLagDurationInSeconds":0,"locations":[{"locationName":"westus2","roleType":"Primary","replicaState":"Ready"}]},"premiumMessagingPartitions":0,"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nfctrx","serviceBusEndpoint":"https://asotest-namespace-nfctrx.servicebus.windows.net:443/"},"sku":{"name":"Basic","tier":"Basic"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "900"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 0b069aad-5737-44ed-abdf-2220182bc440
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G5|2025-11-19T19:53:00
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16497"
+            X-Msedge-Ref:
+                - 'Ref A: 1229F3F1355142789BE6E335A7B2BFB8 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:00Z'
+        status: 200 OK
+        code: 200
+        duration: 220.780809ms
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -662,6 +735,8 @@ interactions:
         uncompressed: false
         body: ""
         headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/0d15eeb1-9135-41d1-8172-082f5d2ef9e3?isAsyncHeader=true&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638991787816133874&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=i771APVac3kMQ0fMHnx5nzbdYL9trpAKdYsL94PKsljuCmp1RRKO5cXfamkkMuNyy9UUvFqiw8_OM7hDl8IQWaLFMc5h1FafZiIdnALoBcKlQv79z2x4QOQ5qbckwAEA0mef0TrYGjhAhEs_hT8tItOwU59eZ2En7FHvTk9TFjEoPVgft-Zm0Y8buVhGas7INLhY-gMI4qD-YccKUm3T4GGb4nR74m6mEG2Z4tnghSRwiGELockpnDCiIwWyHjgx80doxMHEKBgODUA6j0McX0B05_ZlIImtOIOcnYp8D5CDK8lP9iveuPNH6z_7UHA60w7_h1vLbkOFwLqlDwQwhg&h=mC3gnYmJL8unz05d28FWG_VCtxz91MMmx0jSXvRYB-0
             Cache-Control:
                 - no-cache
             Content-Length:
@@ -669,7 +744,7 @@ interactions:
             Expires:
                 - "-1"
             Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/2d950154-97f2-4b2b-8b92-b656ed3d1210?isAsyncHeader=false&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638743245776800502&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=A6W-l0iigbhTHl93WK5ZOSjzm50GBSVNQC4lEg8mzgMUMCwWjf50z27D0GTkv0QMVq0UDCJICuQqr3El6n4MD5aowFRK3nk9wKtNOFYvRsuMGeatd7ZgwlUJ0ZRvxfxKkcXQv2ALjYXmVxVRyQAJ0xI6sYBMg8Lok5ubcaLJ1Z6p_8183RTnTclFoM3bJcqxR1QhkUdJeN7cpWCtTwWD1VaOhaIoewa96P_GXwp2woNomeLVxvhVRqU-jVOaE9k_Z2Fu4IrcUsfPeLh7v5KiXNaNFSysdIN6wslYoMWf1UtWPS4Sfm8AjUoVLaKb6aQ5sb-vbJnMTfnnsGWiAp_LZA&h=zLvrF-kV89xfm9ujw_bk6vqgRRlRJR67gBs8kzAOBR4
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/0d15eeb1-9135-41d1-8172-082f5d2ef9e3?isAsyncHeader=false&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638991787816290124&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=Id_yxM6dCD0Qs-qkgYg_43pF9Tk7fKrAm5SzeoXwnSGdpebAY7OsqghdKr9qwi_Jx8ZV2CELtmidzP4m3davEfXNmmbsJ-0raQLQaBrgML0XAqFOEABYNMpcEP3z_Vsnc0hZ76X-T4FgYhQYzQaYpZeno5qxufhj5V4ySB42d7ob-tV9wHuch9l0MAkANoWcm8hY1v0IVqaDtsbAx0h3tAXtgrm2tLjZhAGOTgt20cqw4gcayVwTdRdot91EdAcIrECVaJSh7a2bwFCtuDfa82LB3FnShzlADzX_1xCVRUS06I0dHi4G1N2tiboZlX_Ne4B4QFphJNk56UoGytC1BA&h=YmpJlBGxbrPZmHyXCRXEXl3yNICwjtpSyfzerRZigLk
             Pragma:
                 - no-cache
             Strict-Transport-Security:
@@ -679,17 +754,19 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 00000001-0000-0000-0002-000000000592
+                - 00000001-0000-0000-0002-000000006620
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G6|2025-02-05T03:56:17
+                - PROD|WESTUS2|WESTUS2|G5|2025-11-19T19:53:01
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/90ef1821-b943-4ddc-bab8-e2d138ee005e
             X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: DC965079E2EA4358A8BC3C8C49F5BE2D Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:15Z'
+                - 'Ref A: 46B6D1678F6B4E61B5406A7DBB8A9C97 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:01Z'
         status: 202 Accepted
         code: 202
-        duration: 2.662946381s
-    - id: 12
+        duration: 572.668416ms
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -705,7 +782,7 @@ interactions:
         headers:
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/2d950154-97f2-4b2b-8b92-b656ed3d1210?isAsyncHeader=false&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638743245776800502&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=A6W-l0iigbhTHl93WK5ZOSjzm50GBSVNQC4lEg8mzgMUMCwWjf50z27D0GTkv0QMVq0UDCJICuQqr3El6n4MD5aowFRK3nk9wKtNOFYvRsuMGeatd7ZgwlUJ0ZRvxfxKkcXQv2ALjYXmVxVRyQAJ0xI6sYBMg8Lok5ubcaLJ1Z6p_8183RTnTclFoM3bJcqxR1QhkUdJeN7cpWCtTwWD1VaOhaIoewa96P_GXwp2woNomeLVxvhVRqU-jVOaE9k_Z2Fu4IrcUsfPeLh7v5KiXNaNFSysdIN6wslYoMWf1UtWPS4Sfm8AjUoVLaKb6aQ5sb-vbJnMTfnnsGWiAp_LZA&h=zLvrF-kV89xfm9ujw_bk6vqgRRlRJR67gBs8kzAOBR4
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/0d15eeb1-9135-41d1-8172-082f5d2ef9e3?isAsyncHeader=true&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638991787816133874&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=i771APVac3kMQ0fMHnx5nzbdYL9trpAKdYsL94PKsljuCmp1RRKO5cXfamkkMuNyy9UUvFqiw8_OM7hDl8IQWaLFMc5h1FafZiIdnALoBcKlQv79z2x4QOQ5qbckwAEA0mef0TrYGjhAhEs_hT8tItOwU59eZ2En7FHvTk9TFjEoPVgft-Zm0Y8buVhGas7INLhY-gMI4qD-YccKUm3T4GGb4nR74m6mEG2Z4tnghSRwiGELockpnDCiIwWyHjgx80doxMHEKBgODUA6j0McX0B05_ZlIImtOIOcnYp8D5CDK8lP9iveuPNH6z_7UHA60w7_h1vLbkOFwLqlDwQwhg&h=mC3gnYmJL8unz05d28FWG_VCtxz91MMmx0jSXvRYB-0
         method: GET
       response:
         proto: HTTP/2.0
@@ -713,16 +790,18 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: -1
+        content_length: 66
         uncompressed: false
-        body: ""
+        body: '{"name":"0d15eeb1-9135-41d1-8172-082f5d2ef9e3","status":"Running"}'
         headers:
             Cache-Control:
                 - no-cache
+            Content-Length:
+                - "66"
+            Content-Type:
+                - application/json; charset=utf-8
             Expires:
                 - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/2d950154-97f2-4b2b-8b92-b656ed3d1210?isAsyncHeader=false&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638743245824868524&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=CzPHis3wF2062ieneGG-LAhckNOYKrYdoKSi4nJGtWdHdU4gqTT0Kia-BztYH62PSY7-DbUab0v8wCEltO-eSi7ujUZWhdFf3B_0xleS8Igo3S_hscjxbjSdrJQZs3o1GuslOYcowcGZBonl0jFMjFe_P9X_tlMbiTA2czuZ6L-7cJ72ul4G4CwrJIMUeqYWWfbQdHtLb0zDBSCY_jfaL9TnyaGC8BQYaAdaSZEUusgoLipofpxseDxDiurA5QAqd7XyYjwAlhuxOzSJXx_kfY5xtNsFevLH4hpJqnC94njgGgfWjvDbC0PnD-mrPWuQccXlHbwnxiCMrBQ6FaxnSg&h=yo2dluS7a3jioE1Rd7eri4zWjOCQQsFytUXV2_w9prg
             Pragma:
                 - no-cache
             Strict-Transport-Security:
@@ -732,17 +811,76 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - 00000001-0000-0000-0002-000000006416
+                - c97ff841-b032-4264-ac12-1d4d8d5c7ca3
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G13|2025-02-05T03:56:22
+                - PROD|WESTUS2|WESTUS2|G11|2025-11-19T19:53:04
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/a5e60db1-5a01-403b-af81-2ad3f6c8a024
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: CEE8CB8EBCA0493988A396D8A4B68211 Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:21Z'
-        status: 204 No Content
-        code: 204
-        duration: 990.35981ms
-    - id: 13
+                - 'Ref A: 6F3E04B41773473D9479C1F7D9341AB0 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:03Z'
+        status: 200 OK
+        code: 200
+        duration: 709.348437ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/0d15eeb1-9135-41d1-8172-082f5d2ef9e3?isAsyncHeader=true&resourceName=asotest-namespace-nfctrx&resourceType=namespace&api-version=2024-01-01&operationType=Deleted&t=638991787816133874&c=MIIHhzCCBm-gAwIBAgITfAldUuOkqyWaFWVmdAAACV1S4zANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUxMDIxMDgxMjA1WhcNMjYwNDE5MDgxMjA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK6VhHo7SMnPI07xSUC0EKrS_gaAU3t2sorvXTakEJppgrr-M5q-yAFDicwNGCe2zSU9ZvGBPI46D9PesTntz4RhQO5-Dkx5G8vC9lZ0WV6mem5Hsnf78kDXgYxzLyAaMKv9WjuZNcTaFQKdrPAx-ZS-2EebUB404VhX1yJ3S4C3QHTpXASyoAbFfGV8tHPGM7q2s_Qr9qBJ5RUnI0t_oD0IJ_dyn_wQvIsgBjpGMentNk7AKNnJ7dWOCU76BFL9ZQAP9lNuU68JHjdsD1lABOX7Jtcv8FrW2zWgZn6TOHf9rY990h8zyuY_EBAr0xrbFD0i_O184Iy9gHWqScS_2CkCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTUpdRlqz5GkJ77fs3HRMz2Z_W49DAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGQmJdPitlGjIwFSf4WsFmLr4W3CmkUpm4HxfZATnxnP9vV2uH5f01rfg_lA-Q0s4GMqkftMAVNRm0Ta6w_NRSLRZO2GWa65KrQ8ITCuGR12jMTYPqYgqEIaBQAqqxvtTisw6-_rDdMBbWwvTo6h0yR_Rw0GGgX1C4WUYhFJq-o90nFF2qZEFQJht7ni8RYQonaxB281z64rp0rlXCz8r3rJXIR2RLC48IA1los4mZYaxAv_Y_LPYwZUQ_V0_YrSGK5KMJp6exPToKF_DePs6j27AncGilbWo9t96F-yKBPD57WulOVgbYwNKAZ_Klbw0ur-YLdTdCaIbUiNhmGTDvY&s=i771APVac3kMQ0fMHnx5nzbdYL9trpAKdYsL94PKsljuCmp1RRKO5cXfamkkMuNyy9UUvFqiw8_OM7hDl8IQWaLFMc5h1FafZiIdnALoBcKlQv79z2x4QOQ5qbckwAEA0mef0TrYGjhAhEs_hT8tItOwU59eZ2En7FHvTk9TFjEoPVgft-Zm0Y8buVhGas7INLhY-gMI4qD-YccKUm3T4GGb4nR74m6mEG2Z4tnghSRwiGELockpnDCiIwWyHjgx80doxMHEKBgODUA6j0McX0B05_ZlIImtOIOcnYp8D5CDK8lP9iveuPNH6z_7UHA60w7_h1vLbkOFwLqlDwQwhg&h=mC3gnYmJL8unz05d28FWG_VCtxz91MMmx0jSXvRYB-0
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 68
+        uncompressed: false
+        body: '{"name":"0d15eeb1-9135-41d1-8172-082f5d2ef9e3","status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "68"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - dfc92aa3-d52b-498a-837e-39eafb92ea9a
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2025-11-19T19:53:07
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/23a5da02-14d7-4698-a68c-5351a284907f
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 041FEFD9318D43478C61220713CC11D4 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:07Z'
+        status: 200 OK
+        code: 200
+        duration: 225.675165ms
+    - id: 15
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -789,17 +927,70 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Messaging-Activity-Id:
-                - d003996c-8a10-4888-af50-24175b398549
+                - 72fe77df-39ce-4d8f-86c6-a05c40fad4ac
             X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G14|2025-02-05T03:56:26
+                - PROD|WESTUS2|WESTUS2|G6|2025-11-19T19:53:12
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: E359161EAEE24D92852E99AEAD089576 Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:25Z'
+                - 'Ref A: A7F40C158D8A4001A03AC468B6A8661E Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:11Z'
         status: 404 Not Found
         code: 404
-        duration: 2.611524312s
-    - id: 14
+        duration: 2.847927724s
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqelci","name":"asotest-rg-qqelci","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: BFC295C404AB47039219CDF6AE7FAE0C Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:18Z'
+        status: 200 OK
+        code: 200
+        duration: 816.920012ms
+    - id: 17
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -836,7 +1027,7 @@ interactions:
             Expires:
                 - "-1"
             Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRUUVMQ0ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638743245957719777&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=E3ot7xF6ZhLsCBg5fYfPMU6cnNz9lCG48fCgsuyDq52QGD1N66_u36wRLsGowDJrlwRK04AskqsEcQWtjDo5c2QQ22wztmdEoSR9L-1wA-Yg4RV8XfOfdyFptinAFDRFkuqf_AvSrvjKLJ4Y3pvbEVOKO1ODI78NVhplO_4k4IC9ewP8bJFinKAKZQ91J0-dc1Q3TcIqGdkTbS6iJV8J9cB2-rUE4YvvZutZ-7_jEUmQaULWw7T6OzNNwYdvFYoWOtcrqA8Xk8aF4Ofq4mIUA3W_yA2scNzryP3HMa_IrQbRIIsva0TO4Sc5_pKB8GJ4c9_PhxtiJBdKh9MYPhibAQ&h=9M731mBVnN0V1gTeCkJ7sKMX4iizC6hOQBFGjFC3YvQ
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRUUVMQ0ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991788049162377&c=MIIIpTCCBo2gAwIBAgITFgIfhVKsWXM3Ygh08wABAh-FUjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDMwHhcNMjUxMDIyMTIwOTI4WhcNMjYwNDIwMTIwOTI4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALCV2BIPUGGkYMoxr_bXBj5ZkyyE9q_v21X4b91s6Rv-hABQloLIeEvPMezEfAUDjb9NTZKZkwxaCzGCvroQFalzludoDJWeKdIkCMThPTZNeLjNogjfwUQ8_ETvPbJbyl7VKMkEWUFUM8CxjgPVapaVaqhnIZHxNvDEtADT_w8DOUmoZdPS0kBYGfQUPKrCQ6g16eA8MGAkI3g4qhhB1FwZqDFxOeqHsXVn9POMMonuggA9RMRqS9XKeXpCZ4qE6vUN1ztSeYGxqbasmqAWodUl2rA6DaKQAWsIT5K-gFjika_lvYuyD07eweZ1YsupseAPlBF3y8H1ECvgVuqlWo0CAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9BTTNQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAzKDEpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MB0GA1UdDgQWBBSB5hCasPW3N2rHKykhmCYGlK4_EzAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBRIo61gdWpv7GDzaVXRALEyV_xs5DAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggIBADD1KiF9c0NCmTsnfBE-z4sYsAGmy3SGxldEQqU4Vw7lusvDg8VYJdpIFQEKJBaDlgrBzE-jQWZtNoZL4K42Wl_q2w1N9RDoV0kHM3_FQapzv4d9CSXp3mDMK-NcKi55fngSZ360o6Iff9CyB-03aaeQv2KhdgnlSTA8vY5Jc3mNE2-9eBMhBeCs2bF96ZvT8jrWqoVRjggsdZZE58-tRJtnuGg7ZIFJT98Prz0kprAoZyjSyTpeHdFujPqH7U37b0SPw8ORSn5qEMW0DSd926RHI25DX57Zij7cqANzb-pfOoVOayqi2KYdkWM7eqHrF__0uR2YHKjq_r9BRrKlu9W0iwfDmR3ONaib0Xp1o9bvasDkCRaEwzHg4C-VSjA7XUaZHRJt-Lcx4hB5agh4eXiseo_cX6oTZ6UOIC7ASRD1udW3rBsDEAIlca2G547on6JZl6wATxjKeKFMbOa_-AyPap-khHwj-GpLeSLgiHoStY9eGpTt640IoB7rjqJCS2Bo9y0PgilD5IXEqUjPpBDdts7ED9JDrTsw-Dz1PUGGTsFScTYZ7z21UhU5EWKrZ13h6C2FqD9EynUQo6NV20kuW7lY5plj_LGCniz5Or1HTbuob4-hDioSaoV6PVKAsJmyScJua6SuMKtRILlw752lLoL6sk95VCN02VHSAtqs&s=Diz_BD9eCXI9vsQwOBLde3eqScsFhrPmoVMijKFJF05ol9oI0bytJEQQIu-Ye0sCO9XGN2p8TcqHO5JrpWa9WdUgVBFOFSmoJxd7N5IvyMNXLNSaq7QOAXDbNwd1rrfgTKEf_0lbGb2y59L9htI96OFbf8k_XoHqcq8JH63KgMrU63OXey00RW1INPUy_zy4arEz8dz8IZdOOUnuF8PwojZRG01J_2SMcx3MrvLZFnPeshyY-vxQGp02Wg0h_A4GDiXXv4VoK4bdGzaIouzAG2wX3lHjfhqovd1HHDoUOT6Z6US1VQiv0eYTEb7L3vNONr79pRnxQNy2z4mJFnqhyQ&h=Tb9JLcojJotZzjVYAI_RKBEKw4DdBYNuKAmFMT5-hPY
             Pragma:
                 - no-cache
             Retry-After:
@@ -850,11 +1041,11 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                 - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 8806F582F06749B888D8DA1FCD23CC8B Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:31Z'
+                - 'Ref A: E7CDC7E73BFF4BAEBF01CC12A48C5DBF Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:19Z'
         status: 202 Accepted
         code: 202
-        duration: 4.487607666s
-    - id: 15
+        duration: 4.715402497s
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -870,7 +1061,7 @@ interactions:
         headers:
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRUUVMQ0ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638743245957719777&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=E3ot7xF6ZhLsCBg5fYfPMU6cnNz9lCG48fCgsuyDq52QGD1N66_u36wRLsGowDJrlwRK04AskqsEcQWtjDo5c2QQ22wztmdEoSR9L-1wA-Yg4RV8XfOfdyFptinAFDRFkuqf_AvSrvjKLJ4Y3pvbEVOKO1ODI78NVhplO_4k4IC9ewP8bJFinKAKZQ91J0-dc1Q3TcIqGdkTbS6iJV8J9cB2-rUE4YvvZutZ-7_jEUmQaULWw7T6OzNNwYdvFYoWOtcrqA8Xk8aF4Ofq4mIUA3W_yA2scNzryP3HMa_IrQbRIIsva0TO4Sc5_pKB8GJ4c9_PhxtiJBdKh9MYPhibAQ&h=9M731mBVnN0V1gTeCkJ7sKMX4iizC6hOQBFGjFC3YvQ
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRUUVMQ0ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638991788049162377&c=MIIIpTCCBo2gAwIBAgITFgIfhVKsWXM3Ygh08wABAh-FUjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDMwHhcNMjUxMDIyMTIwOTI4WhcNMjYwNDIwMTIwOTI4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALCV2BIPUGGkYMoxr_bXBj5ZkyyE9q_v21X4b91s6Rv-hABQloLIeEvPMezEfAUDjb9NTZKZkwxaCzGCvroQFalzludoDJWeKdIkCMThPTZNeLjNogjfwUQ8_ETvPbJbyl7VKMkEWUFUM8CxjgPVapaVaqhnIZHxNvDEtADT_w8DOUmoZdPS0kBYGfQUPKrCQ6g16eA8MGAkI3g4qhhB1FwZqDFxOeqHsXVn9POMMonuggA9RMRqS9XKeXpCZ4qE6vUN1ztSeYGxqbasmqAWodUl2rA6DaKQAWsIT5K-gFjika_lvYuyD07eweZ1YsupseAPlBF3y8H1ECvgVuqlWo0CAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9BTTNQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAzKDEpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MB0GA1UdDgQWBBSB5hCasPW3N2rHKykhmCYGlK4_EzAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBRIo61gdWpv7GDzaVXRALEyV_xs5DAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggIBADD1KiF9c0NCmTsnfBE-z4sYsAGmy3SGxldEQqU4Vw7lusvDg8VYJdpIFQEKJBaDlgrBzE-jQWZtNoZL4K42Wl_q2w1N9RDoV0kHM3_FQapzv4d9CSXp3mDMK-NcKi55fngSZ360o6Iff9CyB-03aaeQv2KhdgnlSTA8vY5Jc3mNE2-9eBMhBeCs2bF96ZvT8jrWqoVRjggsdZZE58-tRJtnuGg7ZIFJT98Prz0kprAoZyjSyTpeHdFujPqH7U37b0SPw8ORSn5qEMW0DSd926RHI25DX57Zij7cqANzb-pfOoVOayqi2KYdkWM7eqHrF__0uR2YHKjq_r9BRrKlu9W0iwfDmR3ONaib0Xp1o9bvasDkCRaEwzHg4C-VSjA7XUaZHRJt-Lcx4hB5agh4eXiseo_cX6oTZ6UOIC7ASRD1udW3rBsDEAIlca2G547on6JZl6wATxjKeKFMbOa_-AyPap-khHwj-GpLeSLgiHoStY9eGpTt640IoB7rjqJCS2Bo9y0PgilD5IXEqUjPpBDdts7ED9JDrTsw-Dz1PUGGTsFScTYZ7z21UhU5EWKrZ13h6C2FqD9EynUQo6NV20kuW7lY5plj_LGCniz5Or1HTbuob4-hDioSaoV6PVKAsJmyScJua6SuMKtRILlw752lLoL6sk95VCN02VHSAtqs&s=Diz_BD9eCXI9vsQwOBLde3eqScsFhrPmoVMijKFJF05ol9oI0bytJEQQIu-Ye0sCO9XGN2p8TcqHO5JrpWa9WdUgVBFOFSmoJxd7N5IvyMNXLNSaq7QOAXDbNwd1rrfgTKEf_0lbGb2y59L9htI96OFbf8k_XoHqcq8JH63KgMrU63OXey00RW1INPUy_zy4arEz8dz8IZdOOUnuF8PwojZRG01J_2SMcx3MrvLZFnPeshyY-vxQGp02Wg0h_A4GDiXXv4VoK4bdGzaIouzAG2wX3lHjfhqovd1HHDoUOT6Z6US1VQiv0eYTEb7L3vNONr79pRnxQNy2z4mJFnqhyQ&h=Tb9JLcojJotZzjVYAI_RKBEKw4DdBYNuKAmFMT5-hPY
         method: GET
       response:
         proto: HTTP/2.0
@@ -899,7 +1090,7 @@ interactions:
             X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                 - "16499"
             X-Msedge-Ref:
-                - 'Ref A: C5359BFF46964D55B8E61CB166907DC9 Ref B: MAA201060514031 Ref C: 2025-02-05T03:56:56Z'
+                - 'Ref A: F0B8268DAEFD466282AA4D1E1DED4A54 Ref B: SYD03EDGE1922 Ref C: 2025-11-19T19:53:46Z'
         status: 200 OK
         code: 200
-        duration: 1.109181499s
+        duration: 826.063356ms

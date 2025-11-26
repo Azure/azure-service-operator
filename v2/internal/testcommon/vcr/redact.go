@@ -8,6 +8,7 @@ package vcr
 import (
 	"net/http"
 	"regexp"
+	"strings"
 
 	"github.com/google/uuid"
 
@@ -141,6 +142,7 @@ func (r *Redactor) HideRecordingData(s string) string {
 	s = hideKubeConfigs(s)
 	s = hideKeys(s)
 	s = hideCustomKeys(s)
+	s = hideAppConfigurationKeySecrets(s)
 
 	return s
 }
@@ -212,4 +214,28 @@ func (r *Redactor) HideURLData(s string) string {
 	s = r.hideRecordingDataWithCustomRedaction(s)
 
 	return s
+}
+
+var appConfigKeySecretMatcher = regexp.MustCompile(`Secret=([A-Za-z0-9]+)`)
+
+// hideAppConfigurationKeySecrets hides App Configuration key secrets
+// We can detect the secret in the connection string where it shows up as Secret=REDACTED
+// but also need to replace the bare value elsewhere in the body of the string.
+func hideAppConfigurationKeySecrets(s string) string {
+	// Get all the matches first
+	matches := appConfigKeySecretMatcher.FindAllStringSubmatch(s, -1)
+	if matches == nil {
+		return s
+	}
+
+	// Replace each match
+	for _, match := range matches {
+		if len(match) > 1 {
+			secretValue := match[1]
+			s = strings.ReplaceAll(s, secretValue, "{KEY}")
+		}
+	}
+
+	return s
+
 }
