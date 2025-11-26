@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
+	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type Snapshot struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v1api20240601-snapshot,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=snapshots,verbs=create;update,versions=v1api20240601,name=default.v1api20240601.snapshots.appconfiguration.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v20240601-snapshot,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=snapshots,verbs=create;update,versions=v20240601,name=default.v20240601.snapshots.appconfiguration.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &Snapshot{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &Snapshot{}
 func (snapshot *Snapshot) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20240601.Snapshot)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Snapshot, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Snapshot, but got %T", obj)
 	}
 	err := snapshot.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (snapshot *Snapshot) defaultImpl(ctx context.Context, obj *v20240601.Snapsh
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v1api20240601-snapshot,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=snapshots,verbs=create;update,versions=v1api20240601,name=validate.v1api20240601.snapshots.appconfiguration.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v20240601-snapshot,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=snapshots,verbs=create;update,versions=v20240601,name=validate.v20240601.snapshots.appconfiguration.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &Snapshot{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &Snapshot{}
 func (snapshot *Snapshot) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20240601.Snapshot)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Snapshot, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Snapshot, but got %T", resource)
 	}
 	validations := snapshot.createValidations()
 	var temp any = snapshot
@@ -82,7 +82,7 @@ func (snapshot *Snapshot) ValidateCreate(ctx context.Context, resource runtime.O
 func (snapshot *Snapshot) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20240601.Snapshot)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Snapshot, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Snapshot, but got %T", resource)
 	}
 	validations := snapshot.deleteValidations()
 	var temp any = snapshot
@@ -96,11 +96,11 @@ func (snapshot *Snapshot) ValidateDelete(ctx context.Context, resource runtime.O
 func (snapshot *Snapshot) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20240601.Snapshot)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Snapshot, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Snapshot, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20240601.Snapshot)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Snapshot, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Snapshot, but got %T", oldResource)
 	}
 	validations := snapshot.updateValidations()
 	var temp any = snapshot

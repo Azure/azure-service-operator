@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20240601.ConfigurationStore
+// Storage version of v20240601.ConfigurationStore
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
@@ -156,7 +156,7 @@ func (store *ConfigurationStore) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20240601.ConfigurationStore
+// Storage version of v20240601.ConfigurationStore
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
@@ -166,13 +166,13 @@ type ConfigurationStoreList struct {
 	Items           []ConfigurationStore `json:"items"`
 }
 
-// Storage version of v1api20240601.APIVersion
+// Storage version of v20240601.APIVersion
 // +kubebuilder:validation:Enum={"2024-06-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2024-06-01")
 
-// Storage version of v1api20240601.ConfigurationStore_Spec
+// Storage version of v20240601.ConfigurationStore_Spec
 type ConfigurationStore_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -221,7 +221,7 @@ func (store *ConfigurationStore_Spec) ConvertSpecTo(destination genruntime.Conve
 	return destination.ConvertSpecFrom(store)
 }
 
-// Storage version of v1api20240601.ConfigurationStore_STATUS
+// Storage version of v20240601.ConfigurationStore_STATUS
 // The configuration store along with all resource properties. The Configuration Store will have all information to begin
 // utilizing it.
 type ConfigurationStore_STATUS struct {
@@ -269,7 +269,7 @@ func (store *ConfigurationStore_STATUS) ConvertStatusTo(destination genruntime.C
 	return destination.ConvertStatusFrom(store)
 }
 
-// Storage version of v1api20240601.ConfigurationStoreOperatorSpec
+// Storage version of v20240601.ConfigurationStoreOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ConfigurationStoreOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression      `json:"configMapExpressions,omitempty"`
@@ -278,7 +278,7 @@ type ConfigurationStoreOperatorSpec struct {
 	Secrets              *ConfigurationStoreOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// Storage version of v1api20240601.DataPlaneProxyProperties
+// Storage version of v20240601.DataPlaneProxyProperties
 // The data plane proxy settings for a configuration store.
 type DataPlaneProxyProperties struct {
 	AuthenticationMode    *string                `json:"authenticationMode,omitempty"`
@@ -286,7 +286,7 @@ type DataPlaneProxyProperties struct {
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.DataPlaneProxyProperties_STATUS
+// Storage version of v20240601.DataPlaneProxyProperties_STATUS
 // The data plane proxy settings for a configuration store.
 type DataPlaneProxyProperties_STATUS struct {
 	AuthenticationMode    *string                `json:"authenticationMode,omitempty"`
@@ -294,21 +294,21 @@ type DataPlaneProxyProperties_STATUS struct {
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.EncryptionProperties
+// Storage version of v20240601.EncryptionProperties
 // The encryption settings for a configuration store.
 type EncryptionProperties struct {
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.EncryptionProperties_STATUS
+// Storage version of v20240601.EncryptionProperties_STATUS
 // The encryption settings for a configuration store.
 type EncryptionProperties_STATUS struct {
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.PrivateEndpointConnectionReference_STATUS
+// Storage version of v20240601.PrivateEndpointConnectionReference_STATUS
 // A reference to a related private endpoint connection.
 type PrivateEndpointConnectionReference_STATUS struct {
 	Id                                *string                                   `json:"id,omitempty"`
@@ -320,7 +320,7 @@ type PrivateEndpointConnectionReference_STATUS struct {
 	Type                              *string                                   `json:"type,omitempty"`
 }
 
-// Storage version of v1api20240601.ResourceIdentity
+// Storage version of v20240601.ResourceIdentity
 // An identity that can be associated with a resource.
 type ResourceIdentity struct {
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -328,7 +328,7 @@ type ResourceIdentity struct {
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20240601.ResourceIdentity_STATUS
+// Storage version of v20240601.ResourceIdentity_STATUS
 // An identity that can be associated with a resource.
 type ResourceIdentity_STATUS struct {
 	PrincipalId            *string                        `json:"principalId,omitempty"`
@@ -338,21 +338,21 @@ type ResourceIdentity_STATUS struct {
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20240601.Sku
+// Storage version of v20240601.Sku
 // Describes a configuration store SKU.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.Sku_STATUS
+// Storage version of v20240601.Sku_STATUS
 // Describes a configuration store SKU.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.SystemData
+// Storage version of v20240601.SystemData
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -364,7 +364,7 @@ type SystemData struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.SystemData_STATUS
+// Storage version of v20240601.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -376,7 +376,7 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.ConfigurationStoreOperatorSecrets
+// Storage version of v20240601.ConfigurationStoreOperatorSecrets
 type ConfigurationStoreOperatorSecrets struct {
 	PrimaryConnectionString           *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
 	PrimaryKey                        *genruntime.SecretDestination `json:"primaryKey,omitempty"`
@@ -393,7 +393,7 @@ type ConfigurationStoreOperatorSecrets struct {
 	SecondaryReadOnlyKeyID            *genruntime.SecretDestination `json:"secondaryReadOnlyKeyID,omitempty"`
 }
 
-// Storage version of v1api20240601.KeyVaultProperties
+// Storage version of v20240601.KeyVaultProperties
 // Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties struct {
 	IdentityClientId *string                `json:"identityClientId,omitempty"`
@@ -401,7 +401,7 @@ type KeyVaultProperties struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.KeyVaultProperties_STATUS
+// Storage version of v20240601.KeyVaultProperties_STATUS
 // Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties_STATUS struct {
 	IdentityClientId *string                `json:"identityClientId,omitempty"`
@@ -409,14 +409,14 @@ type KeyVaultProperties_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.PrivateEndpoint_STATUS
+// Storage version of v20240601.PrivateEndpoint_STATUS
 // Private endpoint which a connection belongs to.
 type PrivateEndpoint_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.PrivateLinkServiceConnectionState_STATUS
+// Storage version of v20240601.PrivateLinkServiceConnectionState_STATUS
 // The state of a private link service connection.
 type PrivateLinkServiceConnectionState_STATUS struct {
 	ActionsRequired *string                `json:"actionsRequired,omitempty"`
@@ -425,14 +425,14 @@ type PrivateLinkServiceConnectionState_STATUS struct {
 	Status          *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1api20240601.UserAssignedIdentityDetails
+// Storage version of v20240601.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
-// Storage version of v1api20240601.UserIdentity_STATUS
+// Storage version of v20240601.UserIdentity_STATUS
 // A resource identity that is managed by the user of the service.
 type UserIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`

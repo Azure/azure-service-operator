@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20240601.Snapshot
+// Storage version of v20240601.Snapshot
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/snapshots/{snapshotName}
@@ -155,7 +155,7 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20240601.Snapshot
+// Storage version of v20240601.Snapshot
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/snapshots/{snapshotName}
@@ -165,7 +165,7 @@ type SnapshotList struct {
 	Items           []Snapshot `json:"items"`
 }
 
-// Storage version of v1api20240601.Snapshot_Spec
+// Storage version of v20240601.Snapshot_Spec
 type Snapshot_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -205,7 +205,7 @@ func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	return destination.ConvertSpecFrom(snapshot)
 }
 
-// Storage version of v1api20240601.Snapshot_STATUS
+// Storage version of v20240601.Snapshot_STATUS
 type Snapshot_STATUS struct {
 	CompositionType   *string                 `json:"compositionType,omitempty"`
 	Conditions        []conditions.Condition  `json:"conditions,omitempty"`
@@ -245,7 +245,7 @@ func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(snapshot)
 }
 
-// Storage version of v1api20240601.KeyValueFilter
+// Storage version of v20240601.KeyValueFilter
 // Enables filtering of key-values.
 type KeyValueFilter struct {
 	Key         *string                `json:"key,omitempty"`
@@ -253,7 +253,7 @@ type KeyValueFilter struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.KeyValueFilter_STATUS
+// Storage version of v20240601.KeyValueFilter_STATUS
 // Enables filtering of key-values.
 type KeyValueFilter_STATUS struct {
 	Key         *string                `json:"key,omitempty"`
@@ -261,7 +261,7 @@ type KeyValueFilter_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240601.SnapshotOperatorSpec
+// Storage version of v20240601.SnapshotOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type SnapshotOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`

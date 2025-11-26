@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20240601.Replica
+// Storage version of v20240601.Replica
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}
@@ -156,7 +156,7 @@ func (replica *Replica) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20240601.Replica
+// Storage version of v20240601.Replica
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}
@@ -166,7 +166,7 @@ type ReplicaList struct {
 	Items           []Replica `json:"items"`
 }
 
-// Storage version of v1api20240601.Replica_Spec
+// Storage version of v20240601.Replica_Spec
 type Replica_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -203,7 +203,7 @@ func (replica *Replica_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return destination.ConvertSpecFrom(replica)
 }
 
-// Storage version of v1api20240601.Replica_STATUS
+// Storage version of v20240601.Replica_STATUS
 type Replica_STATUS struct {
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	Endpoint          *string                `json:"endpoint,omitempty"`
@@ -236,7 +236,7 @@ func (replica *Replica_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	return destination.ConvertStatusFrom(replica)
 }
 
-// Storage version of v1api20240601.ReplicaOperatorSpec
+// Storage version of v20240601.ReplicaOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ReplicaOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`

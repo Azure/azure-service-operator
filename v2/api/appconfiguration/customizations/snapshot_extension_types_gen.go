@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/storage"
+	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
+	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

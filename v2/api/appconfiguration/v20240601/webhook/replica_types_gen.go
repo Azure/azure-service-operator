@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
+	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type Replica struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v1api20240601-replica,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=replicas,verbs=create;update,versions=v1api20240601,name=default.v1api20240601.replicas.appconfiguration.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v20240601-replica,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=replicas,verbs=create;update,versions=v20240601,name=default.v20240601.replicas.appconfiguration.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &Replica{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &Replica{}
 func (replica *Replica) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20240601.Replica)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Replica, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Replica, but got %T", obj)
 	}
 	err := replica.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (replica *Replica) defaultImpl(ctx context.Context, obj *v20240601.Replica)
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v1api20240601-replica,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=replicas,verbs=create;update,versions=v1api20240601,name=validate.v1api20240601.replicas.appconfiguration.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v20240601-replica,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=replicas,verbs=create;update,versions=v20240601,name=validate.v20240601.replicas.appconfiguration.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &Replica{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &Replica{}
 func (replica *Replica) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20240601.Replica)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Replica, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Replica, but got %T", resource)
 	}
 	validations := replica.createValidations()
 	var temp any = replica
@@ -82,7 +82,7 @@ func (replica *Replica) ValidateCreate(ctx context.Context, resource runtime.Obj
 func (replica *Replica) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20240601.Replica)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Replica, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Replica, but got %T", resource)
 	}
 	validations := replica.deleteValidations()
 	var temp any = replica
@@ -96,11 +96,11 @@ func (replica *Replica) ValidateDelete(ctx context.Context, resource runtime.Obj
 func (replica *Replica) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20240601.Replica)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Replica, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Replica, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20240601.Replica)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/Replica, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/Replica, but got %T", oldResource)
 	}
 	validations := replica.updateValidations()
 	var temp any = replica

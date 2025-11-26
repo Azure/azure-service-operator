@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
+	v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type ConfigurationStore struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v1api20240601-configurationstore,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v1api20240601,name=default.v1api20240601.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v20240601-configurationstore,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v20240601,name=default.v20240601.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &ConfigurationStore{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &ConfigurationStore{}
 func (store *ConfigurationStore) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20240601.ConfigurationStore)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/ConfigurationStore, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/ConfigurationStore, but got %T", obj)
 	}
 	err := store.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (store *ConfigurationStore) defaultImpl(ctx context.Context, obj *v20240601
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v1api20240601-configurationstore,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v1api20240601,name=validate.v1api20240601.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v20240601-configurationstore,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v20240601,name=validate.v20240601.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &ConfigurationStore{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &ConfigurationStore{}
 func (store *ConfigurationStore) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20240601.ConfigurationStore)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/ConfigurationStore, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/ConfigurationStore, but got %T", resource)
 	}
 	validations := store.createValidations()
 	var temp any = store
@@ -82,7 +82,7 @@ func (store *ConfigurationStore) ValidateCreate(ctx context.Context, resource ru
 func (store *ConfigurationStore) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20240601.ConfigurationStore)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/ConfigurationStore, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/ConfigurationStore, but got %T", resource)
 	}
 	validations := store.deleteValidations()
 	var temp any = store
@@ -96,11 +96,11 @@ func (store *ConfigurationStore) ValidateDelete(ctx context.Context, resource ru
 func (store *ConfigurationStore) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20240601.ConfigurationStore)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/ConfigurationStore, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/ConfigurationStore, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20240601.ConfigurationStore)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601/ConfigurationStore, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/ConfigurationStore, but got %T", oldResource)
 	}
 	validations := store.updateValidations()
 	var temp any = store

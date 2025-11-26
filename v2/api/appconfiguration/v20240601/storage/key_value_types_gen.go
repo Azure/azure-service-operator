@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20240601.KeyValue
+// Storage version of v20240601.KeyValue
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}
@@ -156,7 +156,7 @@ func (value *KeyValue) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20240601.KeyValue
+// Storage version of v20240601.KeyValue
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2024-06-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}
@@ -166,7 +166,7 @@ type KeyValueList struct {
 	Items           []KeyValue `json:"items"`
 }
 
-// Storage version of v1api20240601.KeyValue_Spec
+// Storage version of v20240601.KeyValue_Spec
 type KeyValue_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -205,7 +205,7 @@ func (value *KeyValue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec
 	return destination.ConvertSpecFrom(value)
 }
 
-// Storage version of v1api20240601.KeyValue_STATUS
+// Storage version of v20240601.KeyValue_STATUS
 type KeyValue_STATUS struct {
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	ContentType  *string                `json:"contentType,omitempty"`
@@ -242,7 +242,7 @@ func (value *KeyValue_STATUS) ConvertStatusTo(destination genruntime.Convertible
 	return destination.ConvertStatusFrom(value)
 }
 
-// Storage version of v1api20240601.KeyValueOperatorSpec
+// Storage version of v20240601.KeyValueOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type KeyValueOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`

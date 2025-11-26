@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20240601"
+	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
