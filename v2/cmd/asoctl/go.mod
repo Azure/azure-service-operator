@@ -6,8 +6,6 @@ toolchain go1.24.2
 
 replace github.com/Azure/azure-service-operator/v2 => ../../
 
-replace github.com/Azure/azure-service-operator/v2/tools/generator => ../generator
-
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.20.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.1
