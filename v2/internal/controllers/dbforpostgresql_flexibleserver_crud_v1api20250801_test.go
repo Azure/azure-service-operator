@@ -14,7 +14,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"

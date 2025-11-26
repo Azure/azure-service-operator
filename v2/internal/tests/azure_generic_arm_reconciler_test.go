@@ -18,9 +18,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
-	dbforpostgresqlarm "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/arm"
-	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
+	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
+	dbforpostgresqlarm "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/arm"
+	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
