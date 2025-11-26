@@ -201,10 +201,9 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 	versionVisitor := newEveryVersionConfigurationVisitor(
 		func(verConfig *VersionConfiguration) error {
 			if VersionRegex.MatchString(verConfig.name) {
-				currentPackage = astmodel.MakeLocalPackageReference(
+				currentPackage = astmodel.MakeNamedLocalPackageReference(
 					localPath,
 					currentGroup,
-					"", // no prefix needed (or wanted!) for v1
 					verConfig.name)
 				return verConfig.visitTypes(typeVisitor)
 			}

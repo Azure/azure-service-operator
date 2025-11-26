@@ -175,7 +175,16 @@ func (rule *TopicAuthorizationRule) validateSecretDestinations(ctx context.Conte
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	return secrets.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.SecretExpressions)
+	var toValidate []*genruntime.SecretDestination
+	if obj.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			obj.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
+			obj.Spec.OperatorSpec.Secrets.PrimaryKey,
+			obj.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
+			obj.Spec.OperatorSpec.Secrets.SecondaryKey,
+		}
+	}
+	return secrets.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

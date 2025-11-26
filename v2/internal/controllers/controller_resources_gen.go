@@ -181,6 +181,9 @@ import (
 	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
 	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
 	dbforpostgresql_v20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/webhook"
+	dbforpostgresql_v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
+	dbforpostgresql_v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	dbforpostgresql_v20250801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/webhook"
 	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
 	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
 	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
@@ -1181,7 +1184,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbforpostgresql_v20240801s.FlexibleServer),
+		Obj: new(dbforpostgresql_v20250801s.FlexibleServer),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
@@ -1195,6 +1198,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.dataEncryption.primaryKeyURIFromConfig",
 				Func: indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig,
 			},
+			{
+				Key:  ".spec.authConfig.tenantIdFromConfig",
+				Func: indexDbforpostgresqlFlexibleServerTenantIdFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1203,25 +1210,50 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.administratorLoginPassword",
 					},
-					&dbforpostgresql_v20240801s.FlexibleServerList{}),
+					&dbforpostgresql_v20250801s.FlexibleServerList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.authConfig.tenantIdFromConfig",
 						".spec.dataEncryption.geoBackupKeyURIFromConfig",
 						".spec.dataEncryption.primaryKeyURIFromConfig",
 					},
-					&dbforpostgresql_v20240801s.FlexibleServerList{}),
+					&dbforpostgresql_v20250801s.FlexibleServerList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersAdvancedThreatProtectionSettings)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersBackup)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersConfiguration)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersFirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersVirtualEndpoint)})
+	result = append(result, &registration.StorageType{
+		Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdministrator),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalNameFromConfig",
+				Func: indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig,
+			},
+			{
+				Key:  ".spec.tenantIdFromConfig",
+				Func: indexDbforpostgresqlFlexibleServersAdministratorTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalNameFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&dbforpostgresql_v20250801s.FlexibleServersAdministratorList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdvancedThreatProtectionSettings)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersBackup)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersVirtualEndpoint)})
 	result = append(result, &registration.StorageType{
 		Obj: new(devices_v20210702s.IotHub),
 		Indexes: []registration.Index{
@@ -1915,13 +1947,174 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZone)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesCNAMERecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesMXRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesPTRRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesAAAARecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesAAAARecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesARecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesARecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesARecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesCNAMERecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesCNAMERecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesCNAMERecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesMXRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesMXRecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesMXRecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesPTRRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesPTRRecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesPTRRecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesSRVRecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesSRVRecordList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.aRecords.ipv4AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig,
+			},
+			{
+				Key:  ".spec.aaaaRecords.ipv6AddressFromConfig",
+				Func: indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.aRecords.ipv4AddressFromConfig",
+						".spec.aaaaRecords.ipv6AddressFromConfig",
+					},
+					&network_v20240601s.PrivateDnsZonesTXTRecordList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatcher)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
@@ -3886,6 +4079,58 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersDatabase)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersFirewallRule)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersVirtualEndpoint)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServer),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServer{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersAdministrator),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersAdministrator{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersAdvancedThreatProtectionSettings),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersAdvancedThreatProtectionSettings{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersAdvancedThreatProtectionSettings{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersBackup),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersBackup{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersBackup{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20250801.FlexibleServersVirtualEndpoint),
+			Defaulter: &dbforpostgresql_v20250801w.FlexibleServersVirtualEndpoint{},
+			Validator: &dbforpostgresql_v20250801w.FlexibleServersVirtualEndpoint{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdvancedThreatProtectionSettings)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersBackup)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersFirewallRule)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersVirtualEndpoint)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(devices_v20210702.IotHub),
 		Defaulter: &devices_v20210702w.IotHub{},
@@ -5749,6 +5994,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20230601ps.AddToScheme(scheme)
 	_ = dbforpostgresql_v20240801.AddToScheme(scheme)
 	_ = dbforpostgresql_v20240801s.AddToScheme(scheme)
+	_ = dbforpostgresql_v20250801.AddToScheme(scheme)
+	_ = dbforpostgresql_v20250801s.AddToScheme(scheme)
 	_ = devices_v20210702.AddToScheme(scheme)
 	_ = devices_v20210702s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
@@ -5966,6 +6213,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServerExtension{})
+	result = append(result, &dbforpostgresql_customizations.FlexibleServersAdministratorExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersAdvancedThreatProtectionSettingsExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersBackupExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersConfigurationExtension{})
@@ -7207,9 +7455,9 @@ func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client
 	return obj.Spec.TenantIdFromConfig.Index()
 }
 
-// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20240801s.FlexibleServer .spec.administratorLoginPassword
+// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20250801s.FlexibleServer .spec.administratorLoginPassword
 func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbforpostgresql_v20240801s.FlexibleServer)
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -7219,9 +7467,9 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig an index function for dbforpostgresql_v20240801s.FlexibleServer .spec.dataEncryption.geoBackupKeyURIFromConfig
+// indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServer .spec.dataEncryption.geoBackupKeyURIFromConfig
 func indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbforpostgresql_v20240801s.FlexibleServer)
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -7234,9 +7482,9 @@ func indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig(rawObj client.O
 	return obj.Spec.DataEncryption.GeoBackupKeyURIFromConfig.Index()
 }
 
-// indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig an index function for dbforpostgresql_v20240801s.FlexibleServer .spec.dataEncryption.primaryKeyURIFromConfig
+// indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServer .spec.dataEncryption.primaryKeyURIFromConfig
 func indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbforpostgresql_v20240801s.FlexibleServer)
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -7247,6 +7495,45 @@ func indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig(rawObj client.Obj
 		return nil
 	}
 	return obj.Spec.DataEncryption.PrimaryKeyURIFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServerTenantIdFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServer .spec.authConfig.tenantIdFromConfig
+func indexDbforpostgresqlFlexibleServerTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthConfig == nil {
+		return nil
+	}
+	if obj.Spec.AuthConfig.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthConfig.TenantIdFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.principalNameFromConfig
+func indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServersAdministrator)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalNameFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.tenantIdFromConfig
+func indexDbforpostgresqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServersAdministrator)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.TenantIdFromConfig.Index()
 }
 
 // indexDevicesIotHubEventHubsConnectionString an index function for devices_v20210702s.IotHub .spec.properties.routing.endpoints.eventHubs.connectionString
@@ -8654,6 +8941,230 @@ func indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig(rawObj c
 			continue
 		}
 		result = append(result, targetDnsServerItem.IpAddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesAAAARecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesAAAARecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesAAAARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesAAAARecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesAAAARecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesAAAARecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesAAAARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesARecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesARecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesARecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesARecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesARecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesARecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesCNAMERecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesCNAMERecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesCNAMERecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesCNAMERecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesCNAMERecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesCNAMERecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesCNAMERecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesMXRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesMXRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesMXRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesMXRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesMXRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesMXRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesMXRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesPTRRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesPTRRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesPTRRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesPTRRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesPTRRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesPTRRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesPTRRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesSRVRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesSRVRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesSRVRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesSRVRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesSRVRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesSRVRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesSRVRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesTXTRecord .spec.aRecords.ipv4AddressFromConfig
+func indexNetworkPrivateDnsZonesTXTRecordIpv4AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesTXTRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aRecordItem := range obj.Spec.ARecords {
+		if aRecordItem.Ipv4AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aRecordItem.Ipv4AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig an index function for network_v20240601s.PrivateDnsZonesTXTRecord .spec.aaaaRecords.ipv6AddressFromConfig
+func indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20240601s.PrivateDnsZonesTXTRecord)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, aaaaRecordItem := range obj.Spec.AaaaRecords {
+		if aaaaRecordItem.Ipv6AddressFromConfig == nil {
+			continue
+		}
+		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
 	}
 	return result
 }

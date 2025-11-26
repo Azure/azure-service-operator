@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FlexibleServersBackup{}
 
 // ConvertFrom populates our FlexibleServersBackup from the provided hub FlexibleServersBackup
 func (backup *FlexibleServersBackup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersBackup)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersBackup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersBackup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return backup.AssignProperties_From_FlexibleServersBackup(source)
+	err = backup.AssignProperties_From_FlexibleServersBackup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to backup")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersBackup from our FlexibleServersBackup
 func (backup *FlexibleServersBackup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersBackup)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20240801/storage/FlexibleServersBackup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersBackup
+	err := backup.AssignProperties_To_FlexibleServersBackup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from backup")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return backup.AssignProperties_To_FlexibleServersBackup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersBackup{}
@@ -87,17 +101,6 @@ func (backup *FlexibleServersBackup) SecretDestinationExpressions() []*core.Dest
 		return nil
 	}
 	return backup.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServersBackup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (backup *FlexibleServersBackup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServersBackup_STATUS); ok {
-		return backup.Spec.Initialize_From_FlexibleServersBackup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServersBackup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersBackup{}
@@ -422,13 +425,6 @@ func (backup *FlexibleServersBackup_Spec) AssignProperties_To_FlexibleServersBac
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServersBackup_STATUS populates our FlexibleServersBackup_Spec from the provided source FlexibleServersBackup_STATUS
-func (backup *FlexibleServersBackup_Spec) Initialize_From_FlexibleServersBackup_STATUS(source *FlexibleServersBackup_STATUS) error {
 
 	// No error
 	return nil

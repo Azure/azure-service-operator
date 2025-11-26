@@ -689,7 +689,7 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasIntermediateVersio
 	definitions.AddAll(person2020, person2022)
 
 	cfg := config.NewObjectModelConfiguration()
-	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder := storage.NewConversionGraphBuilder(cfg)
 	builder.Add(person2020.Name(), person2022.Name())
 	builder.Add(location2020.Name(), location2021.Name(), location2022.Name())
 
@@ -780,7 +780,7 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermedia
 
 	// Arrange - create the conversion graph between all these object versions
 	cfg := config.NewObjectModelConfiguration()
-	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder := storage.NewConversionGraphBuilder(cfg)
 	builder.Add(
 		person2020.Name(),
 		person2022.Name(),
@@ -882,7 +882,7 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeVersionsAreNotInline_
 
 	// Arrange - create the conversion graph between all these object versions
 	cfg := config.NewObjectModelConfiguration()
-	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder := storage.NewConversionGraphBuilder(cfg)
 	builder.Add(
 		person2020p.Name(),
 		person2021p.Name(),

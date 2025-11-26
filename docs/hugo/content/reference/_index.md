@@ -431,6 +431,21 @@ These are older versions of resources still available for use in the current rel
 
 To install the CRDs for these resources, your ASO configuration must include `dbforpostgresql.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                                |
+|-------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer                                  | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserver.yaml)                                  |
+| FlexibleServersAdministrator                    | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversadministrator.yaml)                    |
+| FlexibleServersAdvancedThreatProtectionSettings | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversadvancedthreatprotectionsettings.yaml) |
+| FlexibleServersBackup                           | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversbackup.yaml)                           |
+| FlexibleServersConfiguration                    | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversconfiguration.yaml)                    |
+| FlexibleServersDatabase                         | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversdatabase.yaml)                         |
+| FlexibleServersFirewallRule                     | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversfirewallrule.yaml)                     |
+| FlexibleServersVirtualEndpoint                  | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserversvirtualendpoint.yaml)                  |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
