@@ -1,4 +1,4 @@
-apiVersion: appconfiguration.azure.com/v1api20240601
+apiVersion: appconfiguration.azure.com/v20240601
 kind: Snapshot
 metadata:
   name: aso-sample-snapshot

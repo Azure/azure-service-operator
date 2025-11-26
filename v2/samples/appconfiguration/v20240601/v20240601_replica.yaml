@@ -1,4 +1,4 @@
-apiVersion: appconfiguration.azure.com/v1api20240601
+apiVersion: appconfiguration.azure.com/v20240601
 kind: Replica
 metadata:
   name: aso-sample-replica
