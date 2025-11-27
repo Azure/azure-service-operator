@@ -48,6 +48,7 @@ type ObjectModelConfiguration struct {
 	TypeNameInNextVersion    typeAccess[string]
 
 	// Property access fields here (alphabetical, please)
+	ConversionStrategy             propertyAccess[ConversionStrategy]
 	Description                    propertyAccess[string]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
 	IsSecret                       propertyAccess[bool]
@@ -106,6 +107,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.NameInNextVersion })
 
 	// Initialize property access fields here (alphabetical, please)
+	result.ConversionStrategy = makePropertyAccess[ConversionStrategy](
+		result, func(c *PropertyConfiguration) *configurable[ConversionStrategy] { return &c.ConversionStrategy })
 	result.Description = makePropertyAccess[string](
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description })
 	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](

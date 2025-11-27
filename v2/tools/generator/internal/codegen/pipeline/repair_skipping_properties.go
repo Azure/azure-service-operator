@@ -332,9 +332,12 @@ func (repairer *skippingPropertyRepairer) createRepairs(
 		return repairer.createRepairs(reintroduced)
 	}
 
-	// Construct the name of the compatibility type we need to create
+	// Construct the name of the compatibility type we need to create, allowing for renames
 	compatPkg := astmodel.MakeCompatPackageReference(lastMissing.DeclaringType().InternalPackageReference())
 	compatType := tn.WithPackageReference(compatPkg)
+	if newName, ok := repairer.objectModelConfiguration.TypeNameInNextVersion.Lookup(tn); ok {
+		compatType = compatType.WithName(newName)
+	}
 
 	result, err := repairer.createRepairs(reintroduced)
 	if err != nil {

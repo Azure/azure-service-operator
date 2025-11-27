@@ -23,6 +23,7 @@ import (
 type PropertyConfiguration struct {
 	name string
 	// Configurable properties here (alphabetical, please)
+	ConversionStrategy             configurable[ConversionStrategy]  // Specify the conversion strategy for this property
 	Description                    configurable[string]              // Specify a description override for this property
 	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 	IsSecret                       configurable[bool]                // Specify whether this property is a secret
@@ -52,8 +53,16 @@ const (
 // arm+compat allows us to fix up an ARM reference if we miss it before releasing a version of the resource.
 // See https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references/ for the gory details.
 
+type ConversionStrategy string
+
+const (
+	ConversionStrategyAuto   = ConversionStrategy("auto")   // Automatic conversion (default)
+	ConversionStrategyManual = ConversionStrategy("manual") // Manual conversion
+)
+
 // Tags used in yaml files to specify configurable properties. Alphabetical please.
 const (
+	conversionStrategyTag             = "$conversionStrategy"             // String specifying the conversion strategy (auto or manual)
 	descriptionTag                    = "$description"                    // String overriding the properties default description
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
@@ -69,6 +78,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 	return &PropertyConfiguration{
 		name: name,
 		// Initialize configurable properties here (alphabetical, please)
+		ConversionStrategy:             makeConfigurable[ConversionStrategy](conversionStrategyTag, scope),
 		Description:                    makeConfigurable[string](descriptionTag, scope),
 		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
 		IsSecret:                       makeConfigurable[bool](isSecretTag, scope),
@@ -91,6 +101,20 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
 			lastID = strings.ToLower(c.Value)
+			continue
+		}
+
+		// $conversionStrategy: <string>
+		if strings.EqualFold(lastID, conversionStrategyTag) && c.Kind == yaml.ScalarNode {
+			switch strings.ToLower(c.Value) {
+			case string(ConversionStrategyAuto):
+				pc.ConversionStrategy.Set(ConversionStrategyAuto)
+			case string(ConversionStrategyManual):
+				pc.ConversionStrategy.Set(ConversionStrategyManual)
+			default:
+				return eris.Errorf("unknown %s value: %s.", conversionStrategyTag, c.Value)
+			}
+
 			continue
 		}
 
