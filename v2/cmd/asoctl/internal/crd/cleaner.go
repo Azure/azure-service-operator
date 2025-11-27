@@ -97,9 +97,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		asoCRDsSeen++
 		newStoredVersions, deprecatedVersions := crdmanagement.GetDeprecatedStorageVersions(crd)
 
-		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
-		if len(newStoredVersions) <= 0 {
-			// TODO: test?
+		// If there is no new version found other than alpha/beta, it means there wasn't a newer version installed/reconciled yet and we short circuit here, as there is no updated version found in the CRDs
+		if len(newStoredVersions) == 1 && (strings.HasPrefix(newStoredVersions[0], "v1alpha") || strings.HasPrefix(newStoredVersions[0], "v1beta")) {
 			return eris.Errorf("it doesn't look like your version of ASO is one that supports deprecating CRD %q, versions %q. Have you upgraded ASO yet?", crd.Name, deprecatedVersions)
 		}
 
