@@ -1556,6 +1556,17 @@ objectModelConfiguration:
       BatchAccount:
         $exportAs: BatchAccount
         $supportedFrom: v2.0.0-alpha.1
+      BatchAccountIdentity_UserAssignedIdentities:
+        $nameInNextVersion: UserAssignedIdentities
+      BatchAccountIdentity_UserAssignedIdentities_STATUS:
+        $nameInNextVersion: UserAssignedIdentities_STATUS
+    2024-07-01:
+      BatchAccount:
+        $exportAs: BatchAccount
+        $supportedFrom: v2.17.0
+      ComputeNodeIdentityReference:
+        ResourceId:
+          $referenceType: arm
   cache:
     2020-12-01:
       Redis:
