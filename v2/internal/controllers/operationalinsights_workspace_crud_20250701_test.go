@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701"
+	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

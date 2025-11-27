@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &Workspace{}
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.Workspace)
 	if !ok {
-		return fmt.Errorf("expected operationalinsights/v1api20250701/storage/Workspace but received %T instead", hub)
+		return fmt.Errorf("expected operationalinsights/v20250701/storage/Workspace but received %T instead", hub)
 	}
 
 	return workspace.AssignProperties_From_Workspace(source)
@@ -63,7 +63,7 @@ func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.Workspace)
 	if !ok {
-		return fmt.Errorf("expected operationalinsights/v1api20250701/storage/Workspace but received %T instead", hub)
+		return fmt.Errorf("expected operationalinsights/v20250701/storage/Workspace but received %T instead", hub)
 	}
 
 	return workspace.AssignProperties_To_Workspace(destination)

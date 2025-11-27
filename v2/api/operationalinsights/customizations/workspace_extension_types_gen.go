@@ -6,8 +6,8 @@ package customizations
 import (
 	v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
-	v20250701 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701"
-	v20250701s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/storage"
+	v20250701 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701"
+	v20250701s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

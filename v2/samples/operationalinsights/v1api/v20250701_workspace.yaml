@@ -1,4 +1,4 @@
-apiVersion: operationalinsights.azure.com/v1api20250701
+apiVersion: operationalinsights.azure.com/v20250701
 kind: Workspace
 metadata:
   name: sampleworkspace2025

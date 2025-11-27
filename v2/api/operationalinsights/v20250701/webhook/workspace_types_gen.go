@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20250701 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701"
+	v20250701 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type Workspace struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1api20250701-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1api20250701,name=default.v1api20250701.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v20250701-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v20250701,name=default.v20250701.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &Workspace{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &Workspace{}
 func (workspace *Workspace) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20250701.Workspace)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/Workspace, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/Workspace, but got %T", obj)
 	}
 	err := workspace.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (workspace *Workspace) defaultImpl(ctx context.Context, obj *v20250701.Work
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1api20250701-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1api20250701,name=validate.v1api20250701.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v20250701-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v20250701,name=validate.v20250701.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &Workspace{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &Workspace{}
 func (workspace *Workspace) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20250701.Workspace)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/Workspace, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/Workspace, but got %T", resource)
 	}
 	validations := workspace.createValidations()
 	var temp any = workspace
@@ -82,7 +82,7 @@ func (workspace *Workspace) ValidateCreate(ctx context.Context, resource runtime
 func (workspace *Workspace) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20250701.Workspace)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/Workspace, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/Workspace, but got %T", resource)
 	}
 	validations := workspace.deleteValidations()
 	var temp any = workspace
@@ -96,11 +96,11 @@ func (workspace *Workspace) ValidateDelete(ctx context.Context, resource runtime
 func (workspace *Workspace) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20250701.Workspace)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/Workspace, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/Workspace, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20250701.Workspace)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20250701/Workspace, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/Workspace, but got %T", oldResource)
 	}
 	validations := workspace.updateValidations()
 	var temp any = workspace

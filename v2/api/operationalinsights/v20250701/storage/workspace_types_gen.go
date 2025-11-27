@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20250701.Workspace
+// Storage version of v20250701.Workspace
 // Generator information:
 // - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/Workspaces.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
@@ -156,7 +156,7 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20250701.Workspace
+// Storage version of v20250701.Workspace
 // Generator information:
 // - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/Workspaces.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
@@ -166,13 +166,13 @@ type WorkspaceList struct {
 	Items           []Workspace `json:"items"`
 }
 
-// Storage version of v1api20250701.APIVersion
+// Storage version of v20250701.APIVersion
 // +kubebuilder:validation:Enum={"2025-07-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2025-07-01")
 
-// Storage version of v1api20250701.Workspace_Spec
+// Storage version of v20250701.Workspace_Spec
 type Workspace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -225,7 +225,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(workspace)
 }
 
-// Storage version of v1api20250701.Workspace_STATUS
+// Storage version of v20250701.Workspace_STATUS
 // The top level Workspace resource container.
 type Workspace_STATUS struct {
 	Conditions                          []conditions.Condition                 `json:"conditions,omitempty"`
@@ -275,7 +275,7 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(workspace)
 }
 
-// Storage version of v1api20250701.Identity
+// Storage version of v20250701.Identity
 // Identity for the resource.
 type Identity struct {
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -283,7 +283,7 @@ type Identity struct {
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20250701.Identity_STATUS
+// Storage version of v20250701.Identity_STATUS
 // Identity for the resource.
 type Identity_STATUS struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
@@ -293,7 +293,7 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20250701.PrivateLinkScopedResource_STATUS
+// Storage version of v20250701.PrivateLinkScopedResource_STATUS
 // The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -301,7 +301,7 @@ type PrivateLinkScopedResource_STATUS struct {
 	ScopeId     *string                `json:"scopeId,omitempty"`
 }
 
-// Storage version of v1api20250701.SystemData_STATUS
+// Storage version of v20250701.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -313,14 +313,14 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceCapping
+// Storage version of v20250701.WorkspaceCapping
 // The daily volume cap for ingestion.
 type WorkspaceCapping struct {
 	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceCapping_STATUS
+// Storage version of v20250701.WorkspaceCapping_STATUS
 // The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS struct {
 	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
@@ -329,7 +329,7 @@ type WorkspaceCapping_STATUS struct {
 	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceFailoverProperties_STATUS
+// Storage version of v20250701.WorkspaceFailoverProperties_STATUS
 // The failover state of the replication.
 type WorkspaceFailoverProperties_STATUS struct {
 	LastModifiedDate *string                `json:"lastModifiedDate,omitempty"`
@@ -337,7 +337,7 @@ type WorkspaceFailoverProperties_STATUS struct {
 	State            *string                `json:"state,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceFeatures
+// Storage version of v20250701.WorkspaceFeatures
 // Workspace features.
 type WorkspaceFeatures struct {
 	// ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
@@ -349,7 +349,7 @@ type WorkspaceFeatures struct {
 	PropertyBag                                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceFeatures_STATUS
+// Storage version of v20250701.WorkspaceFeatures_STATUS
 // Workspace features.
 type WorkspaceFeatures_STATUS struct {
 	Associations                                []string               `json:"associations,omitempty"`
@@ -362,7 +362,7 @@ type WorkspaceFeatures_STATUS struct {
 	UnifiedSentinelBillingOnly                  *bool                  `json:"unifiedSentinelBillingOnly,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceOperatorSpec
+// Storage version of v20250701.WorkspaceOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type WorkspaceOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -371,7 +371,7 @@ type WorkspaceOperatorSpec struct {
 	Secrets              *WorkspaceOperatorSecrets     `json:"secrets,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceReplicationProperties
+// Storage version of v20250701.WorkspaceReplicationProperties
 // Workspace replication properties.
 type WorkspaceReplicationProperties struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -379,7 +379,7 @@ type WorkspaceReplicationProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceReplicationProperties_STATUS
+// Storage version of v20250701.WorkspaceReplicationProperties_STATUS
 // Workspace replication properties.
 type WorkspaceReplicationProperties_STATUS struct {
 	CreatedDate       *string                `json:"createdDate,omitempty"`
@@ -390,7 +390,7 @@ type WorkspaceReplicationProperties_STATUS struct {
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceSku
+// Storage version of v20250701.WorkspaceSku
 // The SKU (tier) of a workspace.
 type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
@@ -398,7 +398,7 @@ type WorkspaceSku struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceSku_STATUS
+// Storage version of v20250701.WorkspaceSku_STATUS
 // The SKU (tier) of a workspace.
 type WorkspaceSku_STATUS struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
@@ -407,14 +407,14 @@ type WorkspaceSku_STATUS struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.UserAssignedIdentityDetails
+// Storage version of v20250701.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
-// Storage version of v1api20250701.UserIdentityProperties_STATUS
+// Storage version of v20250701.UserIdentityProperties_STATUS
 // User assigned identity properties.
 type UserIdentityProperties_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
@@ -422,7 +422,7 @@ type UserIdentityProperties_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20250701.WorkspaceOperatorSecrets
+// Storage version of v20250701.WorkspaceOperatorSecrets
 type WorkspaceOperatorSecrets struct {
 	PrimarySharedKey   *genruntime.SecretDestination `json:"primarySharedKey,omitempty"`
 	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
