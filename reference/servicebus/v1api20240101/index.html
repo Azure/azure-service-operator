@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <meta itemprop="description" content="APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/​namespaces/​{namespaceName}
 Used by: NamespaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecOptional status Namespace_STATUSOptional Namespace_Spec Property Description Type alternateName Alternate name for namespace stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAuth This property disables SAS authentication for the Service Bus namespace. boolOptional encryption Properties of BYOK Encryption description EncryptionOptional identity Properties of BYOK Identity description IdentityOptional location The Geo-location where the resource lives stringRequired minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 SBNamespaceProperties_MinimumTlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure NamespaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired premiumMessagingPartitions The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 intOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. SBNamespaceProperties_PublicNetworkAccessOptional sku Properties of SKU SBSkuOptional tags Resource tags map[string]stringOptional zoneRedundant This property reflects if zone redundancy has been enabled for namespaces in regions that support availability zones. boolOptional Namespace_STATUS Property Description Type alternateName Alternate name for namespace stringOptional conditions The observed state of the resource conditions.Condition[]Optional createdAt The time the namespace was created stringOptional disableLocalAuth This property disables SAS authentication for the Service Bus namespace. boolOptional encryption Properties of BYOK Encryption description Encryption_STATUSOptional id Resource Id stringOptional identity Properties of BYOK Identity description Identity_STATUSOptional location The Geo-location where the resource lives stringOptional metricId Identifier for Azure Insights metrics stringOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 SBNamespaceProperties_MinimumTlsVersion_STATUSOptional name Resource name stringOptional premiumMessagingPartitions The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 intOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS[]Optional provisioningState Provisioning state of the namespace. stringOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. SBNamespaceProperties_PublicNetworkAccess_STATUSOptional serviceBusEndpoint Endpoint you can use to perform Service Bus operations. stringOptional sku Properties of SKU SBSku_STATUSOptional status Status of the namespace. stringOptional systemData The system meta data relating to this resource. SystemData_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional updatedAt The time the namespace was updated. stringOptional zoneRedundant This property reflects if zone redundancy has been enabled for namespaces in regions that support availability zones. boolOptional NamespaceList Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/​namespaces/​{namespaceName}">
-  <meta itemprop="wordCount" content="8600">
+  <meta itemprop="wordCount" content="8696">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="servicebus.azure.com/v1api20240101">
   <meta name="twitter:description" content="APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/​namespaces/​{namespaceName}
@@ -449,8 +449,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" title="dbforpostgresql.azure.com/v1api20230601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">v1api20230601preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20240801-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20240801/" title="dbforpostgresql.azure.com/v1api20240801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20240801"><span class="">v1api20240801</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20250801-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20250801/" title="dbforpostgresql.azure.com/v1api20250801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20250801"><span class="">v1api20250801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
@@ -984,6 +982,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
     <li><a href="#SBSku_Tier_STATUS">SBSku_Tier_STATUS</a></li>
     <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
+    <li><a href="#TopicAuthorizationRuleOperatorSecrets">TopicAuthorizationRuleOperatorSecrets</a></li>
     <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
     <li><a href="#UserAssignedIdentityProperties">UserAssignedIdentityProperties</a></li>
@@ -4794,6 +4793,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
+      <tr>
+          <td>secrets</td>
+          <td>configures where to place Azure generated secrets.</td>
+          <td><a href="#TopicAuthorizationRuleOperatorSecrets">TopicAuthorizationRuleOperatorSecrets</a><br/><small>Optional</small></td>
+      </tr>
   </tbody>
 </table>
 <h2 id="TopicAuthorizationRuleRights_Spec">TopicAuthorizationRuleRights_Spec</h2>
@@ -5220,6 +5224,39 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       <tr>
           <td>&ldquo;User&rdquo;</td>
           <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TopicAuthorizationRuleOperatorSecrets">TopicAuthorizationRuleOperatorSecrets</h2>
+<p>Used by: <a href="#TopicAuthorizationRuleOperatorSpec">TopicAuthorizationRuleOperatorSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>primaryConnectionString</td>
+          <td>indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>primaryKey</td>
+          <td>indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secondaryConnectionString</td>
+          <td>indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secondaryKey</td>
+          <td>indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>

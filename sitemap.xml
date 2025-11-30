@@ -581,8 +581,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20250801/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20250801/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/quota/v1api20250901/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
