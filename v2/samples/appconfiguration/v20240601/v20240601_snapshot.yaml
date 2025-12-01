@@ -4,7 +4,7 @@ metadata:
   name: aso-sample-snapshot
   namespace: default
 spec:
-  azureName: "production-snapshot-v1"
+  azureName: "snapshotv1"
   owner:
     name: aso-sample-confstore-v2
   compositionType: Key_Label
