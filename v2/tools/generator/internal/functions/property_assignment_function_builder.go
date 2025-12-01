@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 )
 
@@ -246,7 +247,27 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 		// Generate a conversion from one endpoint to another
 		conv, err := builder.createConversion(sourceEndpoint, destinationEndpoint, conversionContext)
 		if err != nil {
-			// An error was returned, we abort creating conversions for this object
+			// An error was returned, we can't create a conversion for this pair
+			// We return the error *unless* we have an excluded property
+
+			dstName := builder.direction.SelectName(builder.receiverDefinition.Name(), builder.otherDefinition.Name())
+			dstStrategy := conversionContext.PropertyConversionStrategy(
+				dstName,
+				astmodel.PropertyName(destinationEndpoint.Name()),
+			)
+
+			srcName := builder.direction.SelectName(builder.otherDefinition.Name(), builder.receiverDefinition.Name())
+			srcStrategy := conversionContext.PropertyConversionStrategy(
+				srcName,
+				astmodel.PropertyName(sourceEndpoint.Name()),
+			)
+
+			if srcStrategy == config.ConversionStrategyManual || dstStrategy == config.ConversionStrategyManual {
+				// One of the properties is marked as manual conversion, so we can skip this error
+				return nil
+			}
+
+			// Otherwise, return the conversion error
 			return eris.Wrapf(
 				err,
 				"creating conversion to %s by %s",

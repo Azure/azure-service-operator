@@ -1008,6 +1008,18 @@ status:
 #     The name in the serialized ARM payload does NOT change. This only changes the name of the property
 #     in the ASO types. The shape serialized to ARM uses the original name.
 #
+# $conversionStrategy: <string>
+#     Specifies a custom conversion strategy to use when converting between API versions.
+#     Only valid on properties which are complex types (i.e. objects) for which attempted automatic 
+#     conversion returns an error.
+#
+#     Valid values are:
+#     - auto - use automatic conversion (default)
+#     - manual - use manually implemented conversion functions
+#
+#     Note that manual implementation of the appropriate augment* interface(s) will be *required* 
+#     to make the generated conversion tests pass.
+#
 objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
@@ -2399,6 +2411,12 @@ objectModelConfiguration:
       ManagedClusters_MaintenanceConfiguration:
         $exportAs: MaintenanceConfiguration
         $supportedFrom: v2.11.0
+      ScaleProfile:
+        Autoscale:
+          $conversionStrategy: manual
+      ScaleProfile_STATUS:
+        Autoscale:
+          $conversionStrategy: manual
       UserAssignedIdentity:
         ClientId:
           $importConfigMapMode: optional
