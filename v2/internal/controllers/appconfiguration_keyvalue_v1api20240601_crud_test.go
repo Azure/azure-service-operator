@@ -115,7 +115,7 @@ func AppConfiguration_Replica_v1api20240601_CRUD(tc *testcommon.KubePerTestConte
 	replica := &appconfig.Replica{
 		ObjectMeta: tc.MakeObjectMetaWithName(replicaName),
 		Spec: appconfig.Replica_Spec{
-			AzureName: "eastus2-replica",
+			AzureName: "eastus2replica",
 			Owner:     testcommon.AsOwner(cs),
 			Location:  to.Ptr("eastus2"),
 		},
@@ -165,18 +165,10 @@ func AppConfiguration_Snapshot_v1api20240601_CRUD(tc *testcommon.KubePerTestCont
 
 	tc.CreateResourceAndWait(snapshot)
 
-	armId := *snapshot.Status.Id
 	tc.Expect(snapshot.Status.CompositionType).ToNot(BeNil())
 	tc.Expect(snapshot.Status.ProvisioningState).ToNot(BeNil())
 	tc.Expect(snapshot.Status.ItemsCount).ToNot(BeNil())
 
-	tc.DeleteResourceAndWait(snapshot)
-
-	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
-		tc.Ctx,
-		armId,
-		string(appconfig.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	// Snapshots can't be directly deleted
+	// tc.DeleteResourceAndWait(snapshot)
 }
