@@ -237,5 +237,4 @@ func hideAppConfigurationKeySecrets(s string) string {
 	}
 
 	return s
-
 }
