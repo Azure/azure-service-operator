@@ -32,6 +32,8 @@ func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
 	}
 	secretNames, _ := secretsSpecified(acct)
 	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(documentdb.DatabaseAccountOperatorSecrets{}))
+	// We expect every property in the secrets struct to be considered a secret except for the $propertyBag one
+	// (that property exists because this is the storage version)
 	expectedTags.Remove("$propertyBag")
 	expectedTags.Remove("documentEndpoint")
 

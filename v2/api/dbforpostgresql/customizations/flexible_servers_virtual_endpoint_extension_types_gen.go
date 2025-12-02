@@ -6,8 +6,8 @@ package customizations
 import (
 	v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
 	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
-	v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
+	v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

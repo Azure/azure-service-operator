@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &FlexibleServersFirewallRule{}
 func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.FlexibleServersFirewallRule)
 	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20250801/storage/FlexibleServersFirewallRule but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersFirewallRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_From_FlexibleServersFirewallRule(source)
@@ -63,7 +63,7 @@ func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
 func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.FlexibleServersFirewallRule)
 	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20250801/storage/FlexibleServersFirewallRule but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersFirewallRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_To_FlexibleServersFirewallRule(destination)

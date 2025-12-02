@@ -5,7 +5,8 @@ package v1api20210101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
+	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
+	v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForAutoStorageBaseProperties(subject AutoStorageBa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoStorageBaseProperties
+	var other v20210101s.AutoStorageBaseProperties
 	err := copied.AssignProperties_To_AutoStorageBaseProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -132,7 +133,7 @@ func RunPropertyAssignmentTestForAutoStorageProperties_STATUS(subject AutoStorag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoStorageProperties_STATUS
+	var other v20210101s.AutoStorageProperties_STATUS
 	err := copied.AssignProperties_To_AutoStorageProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -237,7 +238,7 @@ func RunResourceConversionTestForBatchAccount(subject BatchAccount) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.BatchAccount
+	var hub v20240701s.BatchAccount
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForBatchAccount(subject BatchAccount) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccount
+	var other v20210101s.BatchAccount
 	err := copied.AssignProperties_To_BatchAccount(&other)
 	if err != nil {
 		return err.Error()
@@ -382,7 +383,7 @@ func RunPropertyAssignmentTestForBatchAccountIdentity(subject BatchAccountIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccountIdentity
+	var other v20210101s.BatchAccountIdentity
 	err := copied.AssignProperties_To_BatchAccountIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -499,7 +500,7 @@ func RunPropertyAssignmentTestForBatchAccountIdentity_STATUS(subject BatchAccoun
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccountIdentity_STATUS
+	var other v20210101s.BatchAccountIdentity_STATUS
 	err := copied.AssignProperties_To_BatchAccountIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -620,7 +621,7 @@ func RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccountIdentity_UserAssignedIdentities_STATUS
+	var other v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS
 	err := copied.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -724,7 +725,7 @@ func RunPropertyAssignmentTestForBatchAccountOperatorSpec(subject BatchAccountOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccountOperatorSpec
+	var other v20210101s.BatchAccountOperatorSpec
 	err := copied.AssignProperties_To_BatchAccountOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -821,7 +822,7 @@ func RunPropertyAssignmentTestForBatchAccount_STATUS(subject BatchAccount_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccount_STATUS
+	var other v20210101s.BatchAccount_STATUS
 	err := copied.AssignProperties_To_BatchAccount_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -964,7 +965,7 @@ func RunPropertyAssignmentTestForBatchAccount_Spec(subject BatchAccount_Spec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BatchAccount_Spec
+	var other v20210101s.BatchAccount_Spec
 	err := copied.AssignProperties_To_BatchAccount_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1090,7 +1091,7 @@ func RunPropertyAssignmentTestForEncryptionProperties(subject EncryptionProperti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EncryptionProperties
+	var other v20210101s.EncryptionProperties
 	err := copied.AssignProperties_To_EncryptionProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1207,7 +1208,7 @@ func RunPropertyAssignmentTestForEncryptionProperties_STATUS(subject EncryptionP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EncryptionProperties_STATUS
+	var other v20210101s.EncryptionProperties_STATUS
 	err := copied.AssignProperties_To_EncryptionProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1324,7 +1325,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultProperties
+	var other v20210101s.KeyVaultProperties
 	err := copied.AssignProperties_To_KeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1426,7 +1427,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties_STATUS(subject KeyVaultPrope
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultProperties_STATUS
+	var other v20210101s.KeyVaultProperties_STATUS
 	err := copied.AssignProperties_To_KeyVaultProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1529,7 +1530,7 @@ func RunPropertyAssignmentTestForKeyVaultReference(subject KeyVaultReference) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultReference
+	var other v20210101s.KeyVaultReference
 	err := copied.AssignProperties_To_KeyVaultReference(&other)
 	if err != nil {
 		return err.Error()
@@ -1631,7 +1632,7 @@ func RunPropertyAssignmentTestForKeyVaultReference_STATUS(subject KeyVaultRefere
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultReference_STATUS
+	var other v20210101s.KeyVaultReference_STATUS
 	err := copied.AssignProperties_To_KeyVaultReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1735,7 +1736,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnection_STATUS
+	var other v20210101s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1838,7 +1839,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other v20210101s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -1935,7 +1936,7 @@ func RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuota_STATUS(subject Vi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualMachineFamilyCoreQuota_STATUS
+	var other v20210101s.VirtualMachineFamilyCoreQuota_STATUS
 	err := copied.AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -1,0 +1,11 @@
+apiVersion: dbforpostgresql.azure.com/v20250801
+kind: FlexibleServersVirtualEndpoint
+metadata:
+  name: asovendpoint20250801
+  namespace: default
+spec:
+  owner:
+    name: asosampleserver20250801
+  endpointType: ReadWrite
+  members:
+    - asosampleserver20250801

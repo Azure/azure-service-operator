@@ -165,6 +165,23 @@ func (c *PropertyConversionContext) FindNextType(name astmodel.InternalTypeName)
 	return c.conversionGraph.FindNextType(name, c.definitions)
 }
 
+// PropertyConversionStrategy returns true if the specified property has been configured to use manual conversion.
+func (c *PropertyConversionContext) PropertyConversionStrategy(
+	container astmodel.InternalTypeName,
+	property astmodel.PropertyName,
+) config.ConversionStrategy {
+	if c.configuration == nil {
+		return config.ConversionStrategyAuto
+	}
+
+	strategy, ok := c.configuration.ConversionStrategy.Lookup(container, property)
+	if !ok {
+		return config.ConversionStrategyAuto
+	}
+
+	return strategy
+}
+
 // PathExists returns true if a path exists in the conversion graph starting from the specified type name and ending
 // at the specified type name. If no conversion graph is available, returns false.
 func (c *PropertyConversionContext) PathExists(

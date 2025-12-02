@@ -1008,6 +1008,18 @@ status:
 #     The name in the serialized ARM payload does NOT change. This only changes the name of the property
 #     in the ASO types. The shape serialized to ARM uses the original name.
 #
+# $conversionStrategy: <string>
+#     Specifies a custom conversion strategy to use when converting between API versions.
+#     Only valid on properties which are complex types (i.e. objects) for which attempted automatic 
+#     conversion returns an error.
+#
+#     Valid values are:
+#     - auto - use automatic conversion (default)
+#     - manual - use manually implemented conversion functions
+#
+#     Note that manual implementation of the appropriate augment* interface(s) will be *required* 
+#     to make the generated conversion tests pass.
+#
 objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
@@ -1544,6 +1556,17 @@ objectModelConfiguration:
       BatchAccount:
         $exportAs: BatchAccount
         $supportedFrom: v2.0.0-alpha.1
+      BatchAccountIdentity_UserAssignedIdentities:
+        $nameInNextVersion: UserAssignedIdentities
+      BatchAccountIdentity_UserAssignedIdentities_STATUS:
+        $nameInNextVersion: UserAssignedIdentities_STATUS
+    2024-07-01:
+      BatchAccount:
+        $exportAs: BatchAccount
+        $supportedFrom: v2.17.0
+      ComputeNodeIdentityReference:
+        ResourceId:
+          $referenceType: arm
   cache:
     2020-12-01:
       Redis:
@@ -2373,6 +2396,12 @@ objectModelConfiguration:
       ManagedClusters_MaintenanceConfiguration:
         $exportAs: MaintenanceConfiguration
         $supportedFrom: v2.11.0
+      ScaleProfile:
+        Autoscale:
+          $conversionStrategy: manual
+      ScaleProfile_STATUS:
+        Autoscale:
+          $conversionStrategy: manual
       UserAssignedIdentity:
         ClientId:
           $importConfigMapMode: optional
@@ -4532,6 +4561,19 @@ objectModelConfiguration:
       WorkspaceFeatures:
         ClusterResourceId:
           $referenceType: arm
+    2025-07-01:
+      Workspace:
+        $exportAs: Workspace
+        $supportedFrom: v2.17.0
+        $azureGeneratedSecrets:
+          - PrimarySharedKey
+          - SecondarySharedKey
+      WorkspaceProperties:
+        DefaultDataCollectionRuleResourceId:
+          $referenceType: arm
+      WorkspaceFeatures:
+        ClusterResourceId:
+          $referenceType: arm
   quota:
     2025-09-01:
       Quota:
@@ -4730,6 +4772,11 @@ objectModelConfiguration:
       Namespaces_Topics_AuthorizationRule:
         $exportAs: TopicAuthorizationRule
         $supportedFrom: v2.13.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
       Namespaces_Topics_AuthorizationRule_Properties_Rights_Spec:
         $renameTo: TopicAuthorizationRuleRights_Spec
       Namespaces_Topics_AuthorizationRule_Properties_Rights_STATUS:

@@ -15,7 +15,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20250801"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
