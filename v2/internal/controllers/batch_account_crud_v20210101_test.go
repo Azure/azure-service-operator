@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
-func Test_Batch_Account_CRUD(t *testing.T) {
+func Test_Batch_Account_CRUD_v20210101(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

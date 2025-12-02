@@ -12,8 +12,8 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-	batchstorage "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v20240701"
+	batchstorage "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
