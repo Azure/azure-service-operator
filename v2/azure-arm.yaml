@@ -4550,6 +4550,19 @@ objectModelConfiguration:
       WorkspaceFeatures:
         ClusterResourceId:
           $referenceType: arm
+    2025-07-01:
+      Workspace:
+        $exportAs: Workspace
+        $supportedFrom: v2.17.0
+        $azureGeneratedSecrets:
+          - PrimarySharedKey
+          - SecondarySharedKey
+      WorkspaceProperties:
+        DefaultDataCollectionRuleResourceId:
+          $referenceType: arm
+      WorkspaceFeatures:
+        ClusterResourceId:
+          $referenceType: arm
   quota:
     2025-09-01:
       Quota:
