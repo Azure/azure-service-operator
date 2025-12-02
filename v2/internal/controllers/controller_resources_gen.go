@@ -119,9 +119,6 @@ import (
 	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
 	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	containerservice_v20230201w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/webhook"
-	containerservice_v20230315p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
-	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
-	containerservice_v20230315pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/webhook"
 	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	containerservice_v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	containerservice_v20231001w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/webhook"
@@ -3586,28 +3583,6 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(containerservice_v20230315p.Fleet),
-			Defaulter: &containerservice_v20230315pw.Fleet{},
-			Validator: &containerservice_v20230315pw.Fleet{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20230315p.FleetsMember),
-			Defaulter: &containerservice_v20230315pw.FleetsMember{},
-			Validator: &containerservice_v20230315pw.FleetsMember{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20230315p.FleetsUpdateRun),
-			Defaulter: &containerservice_v20230315pw.FleetsUpdateRun{},
-			Validator: &containerservice_v20230315pw.FleetsUpdateRun{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v20230315ps.Fleet)},
-		&registration.KnownType{Obj: new(containerservice_v20230315ps.FleetsMember)},
-		&registration.KnownType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
-	result = append(
-		result,
-		&registration.KnownType{
 			Obj:       new(containerservice_v20231001.ManagedCluster),
 			Defaulter: &containerservice_v20231001w.ManagedCluster{},
 			Validator: &containerservice_v20231001w.ManagedCluster{},
@@ -5940,8 +5915,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
 	_ = containerservice_v20230201.AddToScheme(scheme)
 	_ = containerservice_v20230201s.AddToScheme(scheme)
-	_ = containerservice_v20230315p.AddToScheme(scheme)
-	_ = containerservice_v20230315ps.AddToScheme(scheme)
 	_ = containerservice_v20231001.AddToScheme(scheme)
 	_ = containerservice_v20231001s.AddToScheme(scheme)
 	_ = containerservice_v20240402p.AddToScheme(scheme)

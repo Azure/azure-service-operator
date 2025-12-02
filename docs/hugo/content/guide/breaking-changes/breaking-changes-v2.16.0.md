@@ -10,3 +10,5 @@ weight: -55  # This should be 5 lower than the previous breaking change document
 ## Upcoming breaking changes
 
 * Will remove containerservice fleet API version v1api20230315preview in the next release of ASO (v2.17)
+* Will remove containerservice ManagedCluster and AgentPool api version v1api20230201 and v1api20231001 in v2.18 of ASO.
+* Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.
