@@ -220,24 +220,29 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 		return ctrl.Result{}, nil
 	}
 
-	if _, _, err := r.getStatus(ctx, resourceID); err != nil {
-		if genericarmclient.IsNotFoundError(err) {
-			// Resource no longer exists
-			return ctrl.Result{}, nil
-		}
+	_, _, err := r.getStatus(ctx, resourceID)
+	if err != nil && genericarmclient.IsNotFoundError(err) {
+		// Resource no longer exists
+		return ctrl.Result{}, nil
 	}
 
 	msg := fmt.Sprintf(
-		"Resource does not support deletion in Azure; set annotation %s: %s to permit deletion in Kubernetes",
+		"Resource does not support deletion in Azure; set annotation '%s: %s' to permit deletion in Kubernetes",
 		annotations.ReconcilePolicy,
 		annotations.ReconcilePolicyDetachOnDelete)
 	r.Log.V(Verbose).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
 
 	// Return a meaningful error so that the Ready condition is updated to show the user why the resource can't yet be deleted.
+	if err == nil {
+		err = eris.New(msg)
+	} else {
+		err = eris.Wrapf(err, msg)
+	}
+
 	return ctrl.Result{},
 		conditions.NewReadyConditionImpactingError(
-			eris.New(msg),
+			err,
 			conditions.ConditionSeverityWarning,
 			conditions.ReasonDeletionNotSupported)
 }
