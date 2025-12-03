@@ -237,7 +237,7 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 	if err == nil {
 		err = eris.New(msg)
 	} else {
-		err = eris.Wrapf(err, msg)
+		err = eris.Wrap(err, msg)
 	}
 
 	return ctrl.Result{},
