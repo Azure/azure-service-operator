@@ -46,6 +46,9 @@ import (
 	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
 	batch_v20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/webhook"
+	batch_v20240701 "github.com/Azure/azure-service-operator/v2/api/batch/v20240701"
+	batch_v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
+	batch_v20240701w "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/webhook"
 	cache_customizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
 	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
@@ -119,9 +122,6 @@ import (
 	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
 	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	containerservice_v20230201w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/webhook"
-	containerservice_v20230315p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
-	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
-	containerservice_v20230315pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/webhook"
 	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	containerservice_v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	containerservice_v20231001w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/webhook"
@@ -334,6 +334,9 @@ import (
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
 	operationalinsights_v20210601w "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/webhook"
+	operationalinsights_v20250701 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701"
+	operationalinsights_v20250701s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/storage"
+	operationalinsights_v20250701w "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/webhook"
 	quota_customizations "github.com/Azure/azure-service-operator/v2/api/quota/customizations"
 	quota_v20250901 "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901"
 	quota_v20250901s "github.com/Azure/azure-service-operator/v2/api/quota/v1api20250901/storage"
@@ -716,7 +719,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
-	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
+	result = append(result, &registration.StorageType{Obj: new(batch_v20240701s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicy)})
 	result = append(result, &registration.StorageType{
@@ -2439,7 +2442,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(notificationhubs_v20230901s.NotificationHubsAuthorizationRule)})
-	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
+	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20250701s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(quota_v20250901s.Quota)})
 	result = append(result, &registration.StorageType{
 		Obj: new(redhatopenshift_v20231122s.OpenShiftCluster),
@@ -3207,6 +3210,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &batch_v20210101w.BatchAccount{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(batch_v20210101s.BatchAccount)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(batch_v20240701.BatchAccount),
+		Defaulter: &batch_v20240701w.BatchAccount{},
+		Validator: &batch_v20240701w.BatchAccount{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(batch_v20240701s.BatchAccount)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -3605,28 +3614,6 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerservice_v20230201w.ManagedClustersAgentPool{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerservice_v20230201s.ManagedCluster)}, &registration.KnownType{Obj: new(containerservice_v20230201s.ManagedClustersAgentPool)})
-	result = append(
-		result,
-		&registration.KnownType{
-			Obj:       new(containerservice_v20230315p.Fleet),
-			Defaulter: &containerservice_v20230315pw.Fleet{},
-			Validator: &containerservice_v20230315pw.Fleet{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20230315p.FleetsMember),
-			Defaulter: &containerservice_v20230315pw.FleetsMember{},
-			Validator: &containerservice_v20230315pw.FleetsMember{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20230315p.FleetsUpdateRun),
-			Defaulter: &containerservice_v20230315pw.FleetsUpdateRun{},
-			Validator: &containerservice_v20230315pw.FleetsUpdateRun{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v20230315ps.Fleet)},
-		&registration.KnownType{Obj: new(containerservice_v20230315ps.FleetsMember)},
-		&registration.KnownType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5310,6 +5297,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(operationalinsights_v20250701.Workspace),
+		Defaulter: &operationalinsights_v20250701w.Workspace{},
+		Validator: &operationalinsights_v20250701w.Workspace{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(operationalinsights_v20250701s.Workspace)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(quota_v20250901.Quota),
 		Defaulter: &quota_v20250901w.Quota{},
 		Validator: &quota_v20250901w.Quota{},
@@ -5912,6 +5905,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v20220401s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
 	_ = batch_v20210101s.AddToScheme(scheme)
+	_ = batch_v20240701.AddToScheme(scheme)
+	_ = batch_v20240701s.AddToScheme(scheme)
 	_ = cache_v20201201.AddToScheme(scheme)
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
@@ -5956,8 +5951,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
 	_ = containerservice_v20230201.AddToScheme(scheme)
 	_ = containerservice_v20230201s.AddToScheme(scheme)
-	_ = containerservice_v20230315p.AddToScheme(scheme)
-	_ = containerservice_v20230315ps.AddToScheme(scheme)
 	_ = containerservice_v20231001.AddToScheme(scheme)
 	_ = containerservice_v20231001s.AddToScheme(scheme)
 	_ = containerservice_v20240402p.AddToScheme(scheme)
@@ -6086,6 +6079,8 @@ func createScheme() *runtime.Scheme {
 	_ = notificationhubs_v20230901s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
+	_ = operationalinsights_v20250701.AddToScheme(scheme)
+	_ = operationalinsights_v20250701s.AddToScheme(scheme)
 	_ = quota_v20250901.AddToScheme(scheme)
 	_ = quota_v20250901s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)

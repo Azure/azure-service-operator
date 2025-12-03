@@ -153,12 +153,20 @@ These are older versions of resources still available for use in the current rel
 
 To install the CRDs for these resources, your ASO configuration must include `batch.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource     | ARM Version | CRD Version | Supported From | Sample                                                                                                                   |
+|--------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
+| BatchAccount | 2024-07-01  | v20240701   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v20240701/v20240701_batchaccount.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                   |
-|------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
-| [BatchAccount]({{< relref "/reference/batch/v1api20210101#BatchAccount" >}}) | 2021-01-01  | v1api20210101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1api/v1api20210101_batchaccount.yaml) |
+| Resource                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                           |
+|------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------|
+| [BatchAccount]({{< relref "/reference/batch/v1api20210101#BatchAccount" >}}) | 2021-01-01  | v1api20210101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1api20210101/v1api20210101_batchaccount.yaml) |
 
 ## Cache
 
@@ -330,9 +338,6 @@ These resource(s) are the latest versions available for use in the current relea
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                               | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                |
 |------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Fleet]({{< relref "/reference/containerservice/v1api20230315preview#Fleet" >}})                                       | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleet.yaml)                    |
-| [FleetsMember]({{< relref "/reference/containerservice/v1api20230315preview#FleetsMember" >}})                         | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleetsmember.yaml)             |
-| [FleetsUpdateRun]({{< relref "/reference/containerservice/v1api20230315preview#FleetsUpdateRun" >}})                   | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleetsupdaterun.yaml)          |
 | [MaintenanceConfiguration]({{< relref "/reference/containerservice/v1api20240901#MaintenanceConfiguration" >}})        | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240901/v1api20240901_maintenanceconfiguration.yaml)               |
 | [ManagedCluster]({{< relref "/reference/containerservice/v1api20240901#ManagedCluster" >}})                            | 2024-09-01         | v1api20240901        | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240901/v1api20240901_managedcluster.yaml)                         |
 | [ManagedCluster]({{< relref "/reference/containerservice/v1api20240402preview#ManagedCluster" >}})                     | 2024-04-02-preview | v1api20240402preview | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20240402preview/v1api20240402preview_managedcluster.yaml)           |
@@ -875,6 +880,14 @@ These resource(s) are available for use in the current release of ASO. Different
 ## OperationalInsights
 
 To install the CRDs for these resources, your ASO configuration must include `operationalinsights.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource  | ARM Version | CRD Version | Supported From | Sample                                                                                                                          |
+|-----------|-------------|-------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
+| Workspace | 2025-07-01  | v20250701   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1api/v20250701_workspace.yaml) |
 
 ### Released
 

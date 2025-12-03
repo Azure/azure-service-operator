@@ -80,3 +80,27 @@ Workspace: Resource
         ├── PropertyBag: genruntime.PropertyBag
         └── QuotaNextResetTime: *string
 
+augmentConversionForPrivateLinkScopedResource_STATUS: Interface
+
+augmentConversionForWorkspace: Interface
+
+augmentConversionForWorkspaceCapping: Interface
+
+augmentConversionForWorkspaceCapping_STATUS: Interface
+
+augmentConversionForWorkspaceFeatures: Interface
+
+augmentConversionForWorkspaceFeatures_STATUS: Interface
+
+augmentConversionForWorkspaceOperatorSecrets: Interface
+
+augmentConversionForWorkspaceOperatorSpec: Interface
+
+augmentConversionForWorkspaceSku: Interface
+
+augmentConversionForWorkspaceSku_STATUS: Interface
+
+augmentConversionForWorkspace_STATUS: Interface
+
+augmentConversionForWorkspace_Spec: Interface
+

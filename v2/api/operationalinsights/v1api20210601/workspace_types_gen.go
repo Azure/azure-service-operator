@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Workspace)
-	if !ok {
-		return fmt.Errorf("expected operationalinsights/v1api20210601/storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Workspace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return workspace.AssignProperties_From_Workspace(source)
+	err = workspace.AssignProperties_From_Workspace(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to workspace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Workspace)
-	if !ok {
-		return fmt.Errorf("expected operationalinsights/v1api20210601/storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Workspace
+	err := workspace.AssignProperties_To_Workspace(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from workspace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return workspace.AssignProperties_To_Workspace(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Workspace{}
@@ -87,17 +101,6 @@ func (workspace *Workspace) SecretDestinationExpressions() []*core.DestinationEx
 		return nil
 	}
 	return workspace.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Workspace{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (workspace *Workspace) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspace_STATUS); ok {
-		return workspace.Spec.Initialize_From_Workspace_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Workspace_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Workspace{}
@@ -820,93 +823,6 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Workspace_STATUS populates our Workspace_Spec from the provided source Workspace_STATUS
-func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Workspace_STATUS) error {
-
-	// Etag
-	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Features
-	if source.Features != nil {
-		var feature WorkspaceFeatures
-		err := feature.Initialize_From_WorkspaceFeatures_STATUS(source.Features)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_WorkspaceFeatures_STATUS() to populate field Features")
-		}
-		workspace.Features = &feature
-	} else {
-		workspace.Features = nil
-	}
-
-	// ForceCmkForQuery
-	if source.ForceCmkForQuery != nil {
-		forceCmkForQuery := *source.ForceCmkForQuery
-		workspace.ForceCmkForQuery = &forceCmkForQuery
-	} else {
-		workspace.ForceCmkForQuery = nil
-	}
-
-	// Location
-	workspace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), workspaceProperties_ProvisioningState_Values)
-		workspace.ProvisioningState = &provisioningState
-	} else {
-		workspace.ProvisioningState = nil
-	}
-
-	// PublicNetworkAccessForIngestion
-	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := genruntime.ToEnum(string(*source.PublicNetworkAccessForIngestion), publicNetworkAccessType_Values)
-		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		workspace.PublicNetworkAccessForIngestion = nil
-	}
-
-	// PublicNetworkAccessForQuery
-	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := genruntime.ToEnum(string(*source.PublicNetworkAccessForQuery), publicNetworkAccessType_Values)
-		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		workspace.PublicNetworkAccessForQuery = nil
-	}
-
-	// RetentionInDays
-	workspace.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
-
-	// Sku
-	if source.Sku != nil {
-		var sku WorkspaceSku
-		err := sku.Initialize_From_WorkspaceSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_WorkspaceSku_STATUS() to populate field Sku")
-		}
-		workspace.Sku = &sku
-	} else {
-		workspace.Sku = nil
-	}
-
-	// Tags
-	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// WorkspaceCapping
-	if source.WorkspaceCapping != nil {
-		var workspaceCapping WorkspaceCapping
-		err := workspaceCapping.Initialize_From_WorkspaceCapping_STATUS(source.WorkspaceCapping)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
-		}
-		workspace.WorkspaceCapping = &workspaceCapping
-	} else {
-		workspace.WorkspaceCapping = nil
 	}
 
 	// No error
@@ -1671,21 +1587,6 @@ func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destinatio
 	return nil
 }
 
-// Initialize_From_WorkspaceCapping_STATUS populates our WorkspaceCapping from the provided source WorkspaceCapping_STATUS
-func (capping *WorkspaceCapping) Initialize_From_WorkspaceCapping_STATUS(source *WorkspaceCapping_STATUS) error {
-
-	// DailyQuotaGb
-	if source.DailyQuotaGb != nil {
-		dailyQuotaGb := *source.DailyQuotaGb
-		capping.DailyQuotaGb = &dailyQuotaGb
-	} else {
-		capping.DailyQuotaGb = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
@@ -2000,53 +1901,6 @@ func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_WorkspaceFeatures_STATUS populates our WorkspaceFeatures from the provided source WorkspaceFeatures_STATUS
-func (features *WorkspaceFeatures) Initialize_From_WorkspaceFeatures_STATUS(source *WorkspaceFeatures_STATUS) error {
-
-	// ClusterResourceReference
-	if source.ClusterResourceId != nil {
-		clusterResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ClusterResourceId)
-		features.ClusterResourceReference = &clusterResourceReference
-	} else {
-		features.ClusterResourceReference = nil
-	}
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		features.DisableLocalAuth = &disableLocalAuth
-	} else {
-		features.DisableLocalAuth = nil
-	}
-
-	// EnableDataExport
-	if source.EnableDataExport != nil {
-		enableDataExport := *source.EnableDataExport
-		features.EnableDataExport = &enableDataExport
-	} else {
-		features.EnableDataExport = nil
-	}
-
-	// EnableLogAccessUsingOnlyResourcePermissions
-	if source.EnableLogAccessUsingOnlyResourcePermissions != nil {
-		enableLogAccessUsingOnlyResourcePermission := *source.EnableLogAccessUsingOnlyResourcePermissions
-		features.EnableLogAccessUsingOnlyResourcePermissions = &enableLogAccessUsingOnlyResourcePermission
-	} else {
-		features.EnableLogAccessUsingOnlyResourcePermissions = nil
-	}
-
-	// ImmediatePurgeDataOn30Days
-	if source.ImmediatePurgeDataOn30Days != nil {
-		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
-		features.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
-	} else {
-		features.ImmediatePurgeDataOn30Days = nil
 	}
 
 	// No error
@@ -2502,29 +2356,6 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_WorkspaceSku_STATUS populates our WorkspaceSku from the provided source WorkspaceSku_STATUS
-func (workspaceSku *WorkspaceSku) Initialize_From_WorkspaceSku_STATUS(source *WorkspaceSku_STATUS) error {
-
-	// CapacityReservationLevel
-	if source.CapacityReservationLevel != nil {
-		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel(*source.CapacityReservationLevel)
-		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
-	} else {
-		workspaceSku.CapacityReservationLevel = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), workspaceSku_Name_Values)
-		workspaceSku.Name = &name
-	} else {
-		workspaceSku.Name = nil
 	}
 
 	// No error
