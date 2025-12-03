@@ -172,8 +172,6 @@ func FlexibleServer_Configuration_20221201_CRUD(tc *testcommon.KubePerTestContex
 	tc.AddAnnotation(&configuration.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(configuration)
-	// This isn't a "real" resource so it cannot be deleted directly
-	// defer tc.DeleteResourceAndWait(configuration)
 
 	tc.Expect(configuration.Status.Id).ToNot(BeNil())
 	tc.Expect(configuration.Status.Value).To(Equal(to.Ptr("READ")))
