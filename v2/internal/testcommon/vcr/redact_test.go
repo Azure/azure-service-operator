@@ -9,11 +9,14 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
 
-func Test_hideAppConfigurationKeySecrets(t *testing.T) {
+func Test_Redactor_givenInput_returnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
+	//TODO: Add more test cases, including ones to cover existing redactions
 	cases := map[string]struct {
 		input    string
 		expected string
@@ -22,6 +25,9 @@ func Test_hideAppConfigurationKeySecrets(t *testing.T) {
 			input:    "",
 			expected: "",
 		},
+		//
+		// Test cases for hideAppConfigurationKeySecrets
+		//
 		"No secrets": {
 			input:    `{"someKey":"someValue"}`,
 			expected: `{"someKey":"someValue"}`,
@@ -36,12 +42,15 @@ func Test_hideAppConfigurationKeySecrets(t *testing.T) {
 		},
 	}
 
+	ids := creds.AzureIDs{}
+	redactor := NewRedactor(ids)
+
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			actual := hideAppConfigurationKeySecrets(c.input)
+			actual := redactor.HideRecordingData(c.input)
 
 			g.Expect(actual).To(Equal(c.expected))
 		})
