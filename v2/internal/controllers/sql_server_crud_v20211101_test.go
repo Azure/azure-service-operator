@@ -538,14 +538,9 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 
 	tc.Expect(vulnerabilityAssessment.Status.Id).ToNot(BeNil())
 
+	// This is an odd case - the DELETE is accepted by the service, but isn't actually honoured: the resource still exists after deletion
+	// So we'll skip our usual verification to make sure it's gone.
 	tc.DeleteResourceAndWait(vulnerabilityAssessment)
-	// TODO: It seems like delete of this resource isn't actually honored by the service - it's accepted but doesn't remove the resource
-	// exists, _, err := tc.AzureClient.HeadByID(
-	//	tc.Ctx,
-	//	armId,
-	//	string(sql.APIVersion_Value))
-	// tc.Expect(err).ToNot(HaveOccurred())
-	// tc.Expect(exists).To(BeFalse())
 }
 
 func SQL_Database_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, db *sql.ServersDatabase, storageDetails vulnStorageAccountDetails) {
