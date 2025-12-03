@@ -17,7 +17,7 @@ import (
 )
 
 func Test_EventGrid_Domain(t *testing.T) {
-	t.Parallel()add
+	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
 
