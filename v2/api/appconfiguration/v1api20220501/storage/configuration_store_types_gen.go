@@ -288,7 +288,6 @@ type ConfigurationStore_Spec struct {
 	PublicNetworkAccess       *string                            `json:"publicNetworkAccess,omitempty"`
 	Sku                       *Sku                               `json:"sku,omitempty"`
 	SoftDeleteRetentionInDays *int                               `json:"softDeleteRetentionInDays,omitempty"`
-	SystemData                *SystemData                        `json:"systemData,omitempty"`
 	Tags                      map[string]string                  `json:"tags,omitempty"`
 }
 
@@ -451,18 +450,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 	// SoftDeleteRetentionInDays
 	store.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
-		}
-		store.SystemData = &systemDatum
-	} else {
-		store.SystemData = nil
-	}
-
 	// Tags
 	store.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -606,18 +593,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 
 	// SoftDeleteRetentionInDays
 	destination.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(store.SoftDeleteRetentionInDays)
-
-	// SystemData
-	if store.SystemData != nil {
-		var systemDatum storage.SystemData
-		err := store.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(store.Tags)
@@ -1854,104 +1829,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 	return nil
 }
 
-// Storage version of v1api20220501.SystemData
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_SystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignProperties_From_SystemData(source *storage.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForSystemData interface (if implemented) to customize the conversion
-	var dataAsAny any = data
-	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData); ok {
-		err := augmentedData.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignProperties_To_SystemData(destination *storage.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForSystemData interface (if implemented) to customize the conversion
-	var dataAsAny any = data
-	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData); ok {
-		err := augmentedData.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1api20220501.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
@@ -2088,11 +1965,6 @@ type augmentConversionForSku interface {
 type augmentConversionForSku_STATUS interface {
 	AssignPropertiesFrom(src *storage.Sku_STATUS) error
 	AssignPropertiesTo(dst *storage.Sku_STATUS) error
-}
-
-type augmentConversionForSystemData interface {
-	AssignPropertiesFrom(src *storage.SystemData) error
-	AssignPropertiesTo(dst *storage.SystemData) error
 }
 
 type augmentConversionForSystemData_STATUS interface {

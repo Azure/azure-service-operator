@@ -55,10 +55,7 @@
 | SnapshotProperties_Status_STATUS                             |               | v20240601 |
 | Snapshot_STATUS                                              |               | v20240601 |
 | Snapshot_Spec                                                |               | v20240601 |
-| SystemData                                                   | v1api20220501 | v20240601 |
-| SystemData_CreatedByType                                     | v1api20220501 | v20240601 |
 | SystemData_CreatedByType_STATUS                              | v1api20220501 | v20240601 |
-| SystemData_LastModifiedByType                                | v1api20220501 | v20240601 |
 | SystemData_LastModifiedByType_STATUS                         | v1api20220501 | v20240601 |
 | SystemData_STATUS                                            | v1api20220501 | v20240601 |
 | UserAssignedIdentityDetails                                  | v1api20220501 | v20240601 |

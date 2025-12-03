@@ -303,9 +303,6 @@ type ConfigurationStore_Spec struct {
 	// deleted.
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 
-	// SystemData: Resource system metadata.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -388,16 +385,6 @@ func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		}
 		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
-	}
-
-	// Set property "SystemData":
-	if store.SystemData != nil {
-		systemData_ARM, err := store.SystemData.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemData_ARM.(*arm.SystemData)
-		result.SystemData = &systemData
 	}
 
 	// Set property "Tags":
@@ -522,17 +509,6 @@ func (store *ConfigurationStore_Spec) PopulateFromARM(owner genruntime.Arbitrary
 			softDeleteRetentionInDays := *typedInput.Properties.SoftDeleteRetentionInDays
 			store.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
 		}
-	}
-
-	// Set property "SystemData":
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		store.SystemData = &systemData
 	}
 
 	// Set property "Tags":
@@ -699,18 +675,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 	// SoftDeleteRetentionInDays
 	store.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
-		}
-		store.SystemData = &systemDatum
-	} else {
-		store.SystemData = nil
-	}
-
 	// Tags
 	store.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -822,18 +786,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 
 	// SoftDeleteRetentionInDays
 	destination.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(store.SoftDeleteRetentionInDays)
-
-	// SystemData
-	if store.SystemData != nil {
-		var systemDatum storage.SystemData
-		err := store.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(store.Tags)
@@ -2318,215 +2270,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 }
 
 // Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SystemData{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if data == nil {
-		return nil, nil
-	}
-	result := &arm.SystemData{}
-
-	// Set property "CreatedAt":
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		result.CreatedAt = &createdAt
-	}
-
-	// Set property "CreatedBy":
-	if data.CreatedBy != nil {
-		createdBy := *data.CreatedBy
-		result.CreatedBy = &createdBy
-	}
-
-	// Set property "CreatedByType":
-	if data.CreatedByType != nil {
-		var temp string
-		temp = string(*data.CreatedByType)
-		createdByType := arm.SystemData_CreatedByType(temp)
-		result.CreatedByType = &createdByType
-	}
-
-	// Set property "LastModifiedAt":
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		result.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property "LastModifiedBy":
-	if data.LastModifiedBy != nil {
-		lastModifiedBy := *data.LastModifiedBy
-		result.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property "LastModifiedByType":
-	if data.LastModifiedByType != nil {
-		var temp string
-		temp = string(*data.LastModifiedByType)
-		lastModifiedByType := arm.SystemData_LastModifiedByType(temp)
-		result.LastModifiedByType = &lastModifiedByType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.SystemData{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.SystemData)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData, got %T", armInput)
-	}
-
-	// Set property "CreatedAt":
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property "CreatedBy":
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property "CreatedByType":
-	if typedInput.CreatedByType != nil {
-		var temp string
-		temp = string(*typedInput.CreatedByType)
-		createdByType := SystemData_CreatedByType(temp)
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property "LastModifiedAt":
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property "LastModifiedBy":
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property "LastModifiedByType":
-	if typedInput.LastModifiedByType != nil {
-		var temp string
-		temp = string(*typedInput.LastModifiedByType)
-		lastModifiedByType := SystemData_LastModifiedByType(temp)
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_SystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignProperties_From_SystemData(source *storage.SystemData) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := *source.CreatedByType
-		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_Values)
-		data.CreatedByType = &createdByTypeTemp
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := *source.LastModifiedByType
-		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_Values)
-		data.LastModifiedByType = &lastModifiedByTypeTemp
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignProperties_To_SystemData(destination *storage.SystemData) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -3155,24 +2898,6 @@ var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATU
 	"userassigned":                 ResourceIdentity_Type_STATUS_UserAssigned,
 }
 
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
-}
-
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -3188,24 +2913,6 @@ var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType
 	"key":             SystemData_CreatedByType_STATUS_Key,
 	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
 	"user":            SystemData_CreatedByType_STATUS_User,
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
 }
 
 type SystemData_LastModifiedByType_STATUS string

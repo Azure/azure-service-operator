@@ -364,6 +364,12 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly in Swagger
 
+  - group: appconfiguration
+    name: ConfigurationStore_Spec
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+
   - name: IotHub_Spec
     group: devices
     property: Etag

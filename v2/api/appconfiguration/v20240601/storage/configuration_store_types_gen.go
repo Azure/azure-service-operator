@@ -197,7 +197,6 @@ type ConfigurationStore_Spec struct {
 	PublicNetworkAccess       *string                            `json:"publicNetworkAccess,omitempty"`
 	Sku                       *Sku                               `json:"sku,omitempty"`
 	SoftDeleteRetentionInDays *int                               `json:"softDeleteRetentionInDays,omitempty"`
-	SystemData                *SystemData                        `json:"systemData,omitempty"`
 	Tags                      map[string]string                  `json:"tags,omitempty"`
 }
 
@@ -350,18 +349,6 @@ type Sku struct {
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v20240601.SystemData
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20240601.SystemData_STATUS
