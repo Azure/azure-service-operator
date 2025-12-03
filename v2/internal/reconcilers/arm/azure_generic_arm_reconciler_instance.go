@@ -577,7 +577,7 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 
 var zeroDuration time.Duration = 0
 
-func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) { // nolint:unparam
+func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) { //nolint:unparam
 	armStatus, err := genruntime.NewEmptyARMStatus(r.Obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, eris.Wrapf(err, "constructing ARM status for resource: %q", id)
