@@ -175,11 +175,13 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTes
 			},
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&throughputSettings.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.T.Log("creating mongo database throughput")
 	tc.CreateResourceAndWait(&throughputSettings)
-	// no DELETE, this is not a real resource - to delete it you must delete its parent
 
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
@@ -206,7 +208,8 @@ func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommo
 		},
 	}
 
-	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&throughputSettings.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.T.Log("creating mongo database collections throughput")

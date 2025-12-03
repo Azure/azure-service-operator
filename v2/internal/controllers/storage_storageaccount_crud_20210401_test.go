@@ -78,7 +78,8 @@ func StorageAccount_BlobServices_20210401_CRUD(tc *testcommon.KubePerTestContext
 		},
 	}
 
-	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(blobService)
@@ -111,6 +112,9 @@ func StorageAccount_QueueServices_20210401_CRUD(tc *testcommon.KubePerTestContex
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queueService)
@@ -133,9 +137,6 @@ func StorageAccount_QueueServices_Queue_20210401_CRUD(tc *testcommon.KubePerTest
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
-
-	// Don't try to delete directly, this is not a real resource - to delete it you must delete its parent
-	tc.AddAnnotation(&queue.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
 	tc.CreateResourceAndWait(queue)
 	defer tc.DeleteResourceAndWait(queue)
