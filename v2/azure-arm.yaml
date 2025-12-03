@@ -2199,18 +2199,6 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
-    2023-03-15-preview:
-      Fleet:
-        $exportAs: Fleet
-        $supportedFrom: v2.4.0
-        $azureGeneratedSecrets:
-          - UserCredentials
-      Fleets_Member:
-        $exportAs: FleetsMember
-        $supportedFrom: v2.4.0
-      Fleets_UpdateRun:
-        $exportAs: FleetsUpdateRun
-        $supportedFrom: v2.4.0
     2025-03-01:
       Fleet:
         $exportAs: Fleet
