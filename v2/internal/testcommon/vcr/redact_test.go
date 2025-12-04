@@ -16,7 +16,7 @@ import (
 func Test_Redactor_givenInput_returnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
-	//TODO: Add more test cases, including ones to cover existing redactions
+	// TODO: Add more test cases, including ones to cover existing redactions
 	cases := map[string]struct {
 		input    string
 		expected string
