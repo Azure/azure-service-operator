@@ -71,6 +71,10 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("velero"),
 		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
