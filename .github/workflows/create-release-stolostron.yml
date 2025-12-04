@@ -1,0 +1,47 @@
+name: Create new Stolostron release
+
+on:
+  # run when a release is published,
+  # which creates a new tag
+  push:
+    tags:
+      - v2*
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Required to write a release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
+        with:
+          fetch-depth: 0 # required to access tags
+          submodules: "true"
+
+      - name: Build & run devcontainer image
+        # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
+        # so that we pick up the latest versions of everything
+        # NB: if you update this also update live-validation.yml, pre-release-tests.yaml and create-release-experimental.yml
+        id: devcontainer
+        run: |
+          docker build --tag devcontainer:latest .devcontainer
+          mkdir -p $HOME/.docker # in case it doesn't exist
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          docker start "$container_id"
+          echo "container_id=$container_id" >> $GITHUB_ENV
+
+      - name: Build required release files
+        run: |
+          container_id=${{env.container_id}}
+          docker exec "$container_id" task make-release-artifacts
+
+      - name: Upload release assets
+        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd # this is v2.9.0, but pinned
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          file: "v2/out/release/*"
+          file_glob: true
