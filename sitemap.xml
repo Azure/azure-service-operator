@@ -485,8 +485,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20230311/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230315preview/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/monitor/v1api20230403/</loc>
