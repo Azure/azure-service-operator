@@ -13,5 +13,5 @@ spec:
   # This can be fetched by using `az ad sp list --display-name "Azure Red Hat OpenShift RP" --query "[0].id" -o tsv` command
   principalId: 00000000-0000-0000-0000-000000000000
   roleDefinitionReference:
-    # This ARM ID represents "Contributor" - you can read about other built in roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c
+    # ASO allows you to specify global roles by name instead of the published GUID
+    wellKnownName: contributor

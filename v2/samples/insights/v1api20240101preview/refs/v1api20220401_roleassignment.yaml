@@ -12,5 +12,5 @@ spec:
     name: admin-settings
     key: principalId
   roleDefinitionReference:
-    # This is the ID of the built-in "Monitoring Contributor" role. See https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for more.
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c
+    # ASO allows you to specify global roles by name instead of the published GUID
+    wellKnownName: contributor
