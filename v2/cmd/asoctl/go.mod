@@ -16,7 +16,7 @@ require (
 	github.com/rotisserie/eris v0.5.4
 	github.com/rs/zerolog v1.34.0
 	github.com/sourcegraph/conc v0.3.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/vbauerster/mpb/v8 v8.11.2
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 	k8s.io/api v0.34.2
@@ -100,7 +100,7 @@ require (
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.19 // indirect
-	github.com/microsoft/go-mssqldb v1.9.4 // indirect
+	github.com/microsoft/go-mssqldb v1.9.5 // indirect
 	github.com/microsoft/kiota-abstractions-go v1.9.3 // indirect
 	github.com/microsoft/kiota-authentication-azure-go v1.3.1 // indirect
 	github.com/microsoft/kiota-http-go v1.5.4 // indirect
@@ -108,7 +108,7 @@ require (
 	github.com/microsoft/kiota-serialization-json-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-multipart-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-text-go v1.1.3 // indirect
-	github.com/microsoftgraph/msgraph-sdk-go v1.90.0 // indirect
+	github.com/microsoftgraph/msgraph-sdk-go v1.91.0 // indirect
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.4.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
@@ -121,6 +121,7 @@ require (
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
 	github.com/samber/lo v1.52.0 // indirect
+	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/std-uritemplate/std-uritemplate/go/v2 v2.0.3 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect

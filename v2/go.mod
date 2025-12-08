@@ -44,15 +44,15 @@ require (
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
-	github.com/microsoft/go-mssqldb v1.9.4
-	github.com/microsoftgraph/msgraph-sdk-go v1.90.0
+	github.com/microsoft/go-mssqldb v1.9.5
+	github.com/microsoftgraph/msgraph-sdk-go v1.91.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.4.0
 	github.com/onsi/gomega v1.38.2
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.23.2
 	github.com/rotisserie/eris v0.5.4
 	github.com/samber/lo v1.52.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	go.uber.org/zap v1.27.1
 	golang.org/x/crypto v0.45.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
@@ -164,3 +164,5 @@ require (
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.0 // indirect
 )
+
+require github.com/shopspring/decimal v1.4.0 // indirect
