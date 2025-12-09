@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/versioning/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,29 +17,22 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Resource versioning | Azure Service Operator</title>
-<meta name="description" content="Specification for how storage versioning will operate for code generated CRD definitions.
-We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/">
+<title>v2.17.0 Breaking Changes | Azure Service Operator</title>
+<meta name="description" content="Breaking changes Removed containerservice v20230315preview versions of Fleet resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Upcoming breaking changes Will remove containerservice ManagedCluster and AgentPool api version v1api20230201 and v1api20231001 in v2.18 of ASO. Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Resource versioning">
-  <meta property="og:description" content="Specification for how storage versioning will operate for code generated CRD definitions.
-We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
+  <meta property="og:title" content="v2.17.0 Breaking Changes">
+  <meta property="og:description" content="Breaking changes Removed containerservice v20230315preview versions of Fleet resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Upcoming breaking changes Will remove containerservice ManagedCluster and AgentPool api version v1api20230201 and v1api20231001 in v2.18 of ASO. Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="Resource versioning">
-  <meta itemprop="description" content="Specification for how storage versioning will operate for code generated CRD definitions.
-We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
-  <meta itemprop="wordCount" content="3450">
+  <meta itemprop="name" content="v2.17.0 Breaking Changes">
+  <meta itemprop="description" content="Breaking changes Removed containerservice v20230315preview versions of Fleet resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Upcoming breaking changes Will remove containerservice ManagedCluster and AgentPool api version v1api20230201 and v1api20231001 in v2.18 of ASO. Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.">
+  <meta itemprop="wordCount" content="90">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Resource versioning">
-  <meta name="twitter:description" content="Specification for how storage versioning will operate for code generated CRD definitions.
-We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
+  <meta name="twitter:title" content="v2.17.0 Breaking Changes">
+  <meta name="twitter:description" content="Breaking changes Removed containerservice v20230315preview versions of Fleet resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Upcoming breaking changes Will remove containerservice ManagedCluster and AgentPool api version v1api20230201 and v1api20231001 in v2.18 of ASO. Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -49,7 +41,7 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -57,7 +49,7 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
@@ -75,7 +67,7 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
       </li>
       </ul>
   </div>
@@ -103,20 +95,20 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -127,11 +119,11 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -144,61 +136,61 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/" title="v2.17.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170"><span class="">v2.17.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/" title="v2.17.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170"><span class="td-sidebar-nav-active-item">v2.17.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.9.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -219,7 +211,7 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -760,83 +752,83 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
   <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
   <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
   <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="">2023-04: Preventing Resource Drift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
   <a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds"><span class="">2023-05: Installing only selected CRDs</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
   <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
   <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
   <a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation"><span class="">2024-04: RoleAssignments UUID Generation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
   <a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties"><span class="">2024-05 OperatorSpec Custom Properties</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
   <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
   <a href="/azure-service-operator/design/adr-2024-10-oneof-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-10-oneof-resources"><span class="">2024-10 OneOf Resouces</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesignversioning-li">
-  <a href="/azure-service-operator/design/versioning/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="td-sidebar-nav-active-item">Resource versioning</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+  <a href="/azure-service-operator/design/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioningcase-studies-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
   <a href="/azure-service-operator/design/versioning/case-studies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioningcase-studies"><span class="">Case Studies</span></a>
   <ul class="ul-4 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studieschained-storage-versions-li">
@@ -849,7 +841,7 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -869,46 +861,8 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#goals">Goals</a></li>
-    <li><a href="#non-goals">Non-Goals</a></li>
-    <li><a href="#other-constraints">Other Constraints</a></li>
-    <li><a href="#case-studies">Case Studies</a></li>
-    <li><a href="#proposed-solution">Proposed Solution</a>
-      <ul>
-        <li><a href="#defining-storage-versions">Defining Storage Versions</a></li>
-        <li><a href="#generated-conversion-methods">Generated conversion methods</a></li>
-        <li><a href="#external-metadata-for-common-changes">External Metadata for common changes</a></li>
-        <li><a href="#standard-extension-points">Standard extension points</a></li>
-      </ul>
-    </li>
-    <li><a href="#testing">Testing</a>
-      <ul>
-        <li><a href="#round-trip-testing">Round Trip Testing</a></li>
-        <li><a href="#relibility-testing">Relibility Testing</a></li>
-        <li><a href="#golden-tests">Golden Tests</a></li>
-      </ul>
-    </li>
-    <li><a href="#conversion-flow">Conversion Flow</a>
-      <ul>
-        <li><a href="#direct-conversion-to-storage-type">Direct conversion to storage type</a></li>
-        <li><a href="#two-step-conversion-to-storage-type">Two step conversion to storage type</a></li>
-        <li><a href="#multiple-step-conversion-to-storage-type">Multiple step conversion to storage type</a></li>
-        <li><a href="#two-step-conversion-from-storage-type">Two step conversion from storage type</a></li>
-      </ul>
-    </li>
-    <li><a href="#alternative-solutions">Alternative Solutions</a>
-      <ul>
-        <li><a href="#alternative-fixed-storage-version">Alternative: Fixed storage version</a></li>
-        <li><a href="#alternative-use-the-latest-api-version">Alternative: Use the latest API version</a></li>
-      </ul>
-    </li>
-    <li><a href="#metadata-design">Metadata Design</a></li>
-    <li><a href="#outstanding-issues">Outstanding Issues</a>
-      <ul>
-        <li><a href="#service-operator-upgrades">Service Operator Upgrades</a></li>
-      </ul>
-    </li>
-    <li><a href="#see-also">See Also</a></li>
+    <li><a href="#breaking-changes">Breaking changes</a></li>
+    <li><a href="#upcoming-breaking-changes">Upcoming breaking changes</a></li>
   </ul>
 </nav>
       </div>
@@ -923,281 +877,32 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/design/">Design</a></li>
+    <a href="/azure-service-operator/guide/">Guide</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Resource versioning</li>
+    v2.17.0</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Resource versioning</h1>
-  
+	<h1>v2.17.0 Breaking Changes</h1>
+	
 	<header class="article-meta">
 		
 </header>
-	<p>Specification for how storage versioning will operate for code generated CRD definitions.</p>
-<p>We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.</p>
-<h2 id="goals">Goals</h2>
-<p><strong>Principle of Least Surprise:</strong> The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises.</p>
-<p><strong>Auto-generated conversions:</strong> As far as practical, we want to autogenerate the schema for storage use along with the conversions to and from the actual ARM API versions. Hand coding all the required conversions doesn&rsquo;t scale across all the different Azure sevices, especially with the ongoing rate of change.</p>
-<p><strong>Allow for hand coded conversions:</strong> While we expect to use code generation to handle the vast majority of needed conversions, we anticipate that some breaking API changes will require <em>part</em> of the conversion to be hand coded. We need to make it simple for these conversions to be introduced while still autogenerating the majority of the conversion. We also want to minimize the need for these conversions to be revisited and maintained over time.</p>
-<p><strong>No modification of generated files.</strong> Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. Worse, this process would need to be repeated every time we want to update the operator.</p>
-<p><strong>Compliance with Kubernetes versioning.</strong> To quote <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">Kubebuilder&rsquo;s documentation</a>:</p>
-<blockquote>
-<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
-</blockquote>
-<p><strong>Consistency of experience:</strong> Early adopters should have a similar experience with the latest release of the service operator as new users who are adopting it for the first time. We don&rsquo;t want early adopters to be penalized for their enthusiasm.</p>
-<h2 id="non-goals">Non-Goals</h2>
-<p><strong>Coverage of every case by code generation:</strong> While it&rsquo;s likely that very high coverage will be achievable with code generation, we don&rsquo;t believe that it will be practical to handle every possible situation automatically. It&rsquo;s therefore necessary for the solution to have some form of extensibility allowing for the injection of hand written code.</p>
-<h2 id="other-constraints">Other Constraints</h2>
-<p>Unlike the typical situation with a hand written service operator, we don&rsquo;t have complete control over the schema we are publishing for custom resources - we&rsquo;re deriving the CRD schema from the ARM JSON schema published online. This somewhat paints us into a corner where some issues that would be easily avoided with a hand-coded schema have to be faced head on.</p>
-<h2 id="case-studies">Case Studies</h2>
-<p>There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.</p>
-<p>The <a href="/azure-service-operator/design/versioning/case-studies/chained-storage-versions/"><strong>Chained Versions</strong></a> case study shows how the preferred solution adapts to changes as the API is modified.</p>
-<p>The <a href="/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/"><strong>Rolling Versions</strong></a> case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.</p>
-<p>The <a href="/azure-service-operator/design/versioning/case-studies/fixed-storage-version/"><strong>Fixed Version</strong></a> case study shows how a popular alternative would fare, calling out some specific problems that will occur.</p>
-<p><strong>TL;DR:</strong> Using a <em>fixed storage version</em> appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with <em>chained storage versions</em>, the approach doesn&rsquo;t break down over time and we can generate useful automated tests for verification. The <em>rolling storage version</em> approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.</p>
-<p>Examples shown in this document are drawn from the case studies.</p>
-<h2 id="proposed-solution">Proposed Solution</h2>
-<p>In summary:</p>
+	<h2 id="breaking-changes">Breaking changes</h2>
 <ul>
-<li>
-<p>For each supported version of an Azure Resource Type, we will define a synthetic storage type type that will be used for serialization of that versions of the API. The latest non-preview version will be tagged as the canonical storage type for Kubernetes.</p>
-</li>
-<li>
-<p>Automatically generated conversions will allow for lossless conversions between the externally exposed API versions of resources and the related storage versions. Additional conversions will be generated to allow upgrade or downgrade between adjacent storage versions.</p>
-</li>
-<li>
-<p>External metadata that we bundle with the code generator will document common changes that occur over time (including property and type name changes), extending the coverage of our automatically generated conversions.</p>
-</li>
-<li>
-<p>For cases where automatically generated conversion is not sufficient, standard extension points for each resource type will allow hand-coded conversion steps to be injected into the process at key points.</p>
-</li>
+<li>Removed containerservice v20230315preview versions of Fleet resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via <code>--crd-pattern</code>, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you&rsquo;ll need to run <a href="https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds">asoctl clean crds</a> before upgrading.</li>
 </ul>
-<p>Each of these four points is expanded upon in detail below.</p>
-<h3 id="defining-storage-versions">Defining Storage Versions</h3>
-<p>We&rsquo;ll base the schema of the storage versions on the corresponding API version, with the following modifications:</p>
-<p><strong>All properties will be defined as optional</strong> allowing for back compatibility with prior versions of the API that might not have included specific properties.</p>
-<p><strong>Inclusion of a property bag</strong> to provide for storage for properties present in other versions of the API that are not present in this version.</p>
-<p>If a resource type is dropped from later releases of the ARM API, we will still generate a storage type based on the latest available release of that type. We need to do this in order to maintain backward compatibility with existing installations of the service operator.</p>
-<p>Using a purpose designed types for storage avoids a number of version-to-version compatibility issues that can arise if the API version itself is used directly for storage.</p>
-<p>To illustrate, if the API version defined the following <code>Person</code> type:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>        <span style="color:#a6e22e">Guid</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span> <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>  <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Then the generated storage (hub) version will be:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101storage</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">PropertyBag</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>          <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Using the latest version of the API as the basis for our storage version gives us maximum compatibility for the usual case, where a user defines their custom resource using the latest available version.</p>
-<p>If a type has been dropped from the ARM API, we will still generate a storage schema for it based on the last ARM API version where it existed; this helps to ensure backward compatibility with existing service operator deployments. For example, if <code>Person</code> was dropped in favour of <code>Party</code> type (that can capture companies and organizations as well), we will still continue to generate a storage version of <code>Person</code> to allow deserialization by existing service operator installations as a part of their upgrade process.</p>
-<p>Sequestering additional properties away within a property bag in the storage schema is more robust than using separate annotations as they are less subject to arbitrary modification by users. This allows us to largely avoid situations where well meaning (but uninformed) consumers of the service operator innocently make changes that result in the operator becoming failing. We particularly want to avoid this failure mode because recovery will be difficult - restoration of the modified/deleted information may be impractical or impossible.</p>
-<p>The latest non-preview storage version will be selected as the definitive storage version (or <em>hub</em> version) for use by the controller.</p>
-<h3 id="generated-conversion-methods">Generated conversion methods</h3>
-<p>Each of the structs generated for ARM API will have the normal <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods generated automatically, implementing the required <a href="https://book.kubebuilder.io/multiversion-tutorial/conversion.html">Convertible</a> interface:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the matching storage version.</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">p</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the matching storage version</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">p</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>As shown, these methods will delegate to two strongly typed helper methods (<code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code>) that are generated to handle the process of copying information across between instances.</p>
-<p>The <code>ConvertToStorage()</code> method is responsible for copying all of the properties from the API type onto the storage type. The <code>ConvertFromStorage()</code> method is its mirror, responsible for populating all of the properties on the API type from the storage type.</p>
-<p>Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:</p>
-<p><img src="property-mapping-flowchart.png" alt=""></p>
-<p><strong>For properties with a primitive type</strong> a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.</p>
+<h2 id="upcoming-breaking-changes">Upcoming breaking changes</h2>
 <ul>
-<li>Primitive types are <strong>string</strong>, <strong>int</strong>, <strong>float64</strong>, and <strong>bool</strong></li>
-<li>Name comparisons are case-insensitive</li>
+<li>Will remove containerservice ManagedCluster and AgentPool api version v1api20230201 and v1api20231001 in v2.18 of ASO.</li>
+<li>Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.</li>
 </ul>
-<p><strong>For properties with an enumeration type</strong> a matching property must have the same property name and a type matching the underlying type of the enumeration. If found, a simple assignment will copy the value over with a suitable type cast. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type using the underlying type of the enumeration.</p>
-<ul>
-<li>Name comparisons are case-insensitive for both property names and enumeration type names</li>
-<li>Enumeration types are generated independently for each version, so they will never be identical types</li>
-</ul>
-<p><strong>For properties with a custom type</strong> a matching property must have the same name and a custom type with same type name. If found, a new instance will be created and the appropriate <code>ConvertToStorage()</code> or <code>ConvertFromStorage()</code> method for the custom type will be used. If not found, JSON serialization will be used with the property bag for storage.</p>
-<ul>
-<li>Name comparisons are case-insensitive for both property names and custom type names</li>
-<li>Custom types are generated independently for each version, so they will never be identical types</li>
-</ul>
-<blockquote>
-<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p>
-</blockquote>
-<h3 id="external-metadata-for-common-changes">External Metadata for common changes</h3>
-<p>We&rsquo;ll capture common changes between versions in metadata (likely a YAML file) that we bundle with the code generator, allowing it to handle a wider range of scenarios.</p>
-<p><strong>If a property is renamed</strong> in a particular API version, conversion from the prior API version to that point of change will instead match based on the new name of the property on the storage type.</p>
-<p>There are more than 40 cases of properties being renamed across versions of the ARM API.</p>
-<blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p>
-</blockquote>
-<p><strong>If a type has been renamed</strong> in a particular API version, conversion from the API version <em>prior</em> to that point of change will instead match based on the new type of the property on the storage type.</p>
-<p>There are 160 cases of properties changing type across versions of the ARM API. Many of these can be handled automatically by capturing type renames in metadata.</p>
-<blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p>
-</blockquote>
-<blockquote>
-<p><em><strong>Outstanding Issue:</strong></em> Are there other kinds of common change we want to support?<br>
-Are there other cases of changes between versions that we may be able to handle automatically.
-Can we find examples? Do we want to support these cases?</p>
-</blockquote>
-<h3 id="standard-extension-points">Standard extension points</h3>
-<p>Code generation will include interfaces to allow easy injection of manual conversion steps.</p>
-<p>For each storage type, two interfaces will be generated, one for each direction of conversion.</p>
-<p>An <code>AssignableTo*</code> interface for conversion <em>to</em> the storage type will be available for conversions that write to an instance of the storage type.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPerson</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AssignToPerson</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Similarly, an <code>AssignableFrom*</code> interface for conversion <em>from</em> the storage type will be available for conversions that read from an instance of the storage type:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPerson</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AssignFromPerson</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>If a type (whether API or storage) implements one (or both) of these interfaces, they will be automatically invoked <em>after</em> the standard conversion code has completed, creating an opportunity to augment the standard conversion process.</p>
-<h2 id="testing">Testing</h2>
-<p>It&rsquo;s vital that we are able to correctly convert between versions. We will therefore generate a set of unit tests to help ensure that the conversions work correctly. Coverage won&rsquo;t be perfect (as there are conversion steps we can&rsquo;t automatically verify) but these tests will help ensure correctness.</p>
-<h3 id="round-trip-testing">Round Trip Testing</h3>
-<p>We will generate a unit test to ensure that every spoke version can round trip to the hub version and back again to the same version with no loss of information. This will help to ensure a base level of compliance, that information is not lost through serialization.</p>
-<p>This test targets the following failure modes:</p>
-<ul>
-<li>Edge cases not correctly handled by the generated conversion code.</li>
-<li>Manually implemented conversions that don&rsquo;t handle some cases correctly.</li>
-</ul>
-<p>Each test will work as follows:</p>
-<ul>
-<li>Create an instance of the required type and API version
-<ul>
-<li>This will likely be done by using one of the available fuzzing libraries for Go testing</li>
-</ul>
-</li>
-<li>Convert this to the current storage version</li>
-<li>Convert back from the storage version to a new instance of the original type and API version</li>
-<li>Verify that all properties are equal
-<ul>
-<li><strong>string</strong>, <strong>int</strong>, <strong>bool</strong> much match exactly</li>
-<li><strong>Float64</strong> match within tolerance</li>
-<li>Complex types are recursively matched using the same rules</li>
-</ul>
-</li>
-</ul>
-<h3 id="relibility-testing">Relibility Testing</h3>
-<p>We will generate unit tests to ensure that every spoke version can be converted to every other spoke version via the hub version without crashing. We lack the semantic context to verify that the conversion is correct, but we can at least verify that it doesn&rsquo;t crash.</p>
-<p>This test targets the following failure modes:</p>
-<ul>
-<li>Conversions that fail when information is missing (as may happen when converting from earlier versions)</li>
-</ul>
-<h3 id="golden-tests">Golden Tests</h3>
-<p>For API (spoke) types where the optional interfaces <code>AssignableTo...()</code> and <code>AssignableFrom...()</code> have been implemented, we&rsquo;ll generate golden tests to verify that they are generating the expected results.</p>
-<p>This test targets the following failure modes:</p>
-<ul>
-<li>Manually implemented conversions that don&rsquo;t handle all the expected edge cases.</li>
-<li>Manually implemented conversions that fail when given newer (or older) starting versions than expected.</li>
-</ul>
-<p>These tests will be particularly useful when a new version of the ARM API is released for a given service as they will help to catch any new changes that now require support.</p>
-<p>We&rsquo;ll generate two golden tests for each type in each API type, one to test verify conversion <em><strong>to</strong></em> the latest version, and one to test conversion <em><strong>from</strong></em> the latest version.</p>
-<p><strong>Testing conversion to the latest version</strong> will check that an instance of a older version of the API can be up-converted to the latest version:</p>
-<p><img src="golden-tests-to-latest.png" alt=""></p>
-<p>The test will involve these steps:</p>
-<ul>
-<li>Create an exemplar instance of the older API type</li>
-<li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
-<li>Convert it to the latest API type using <code>ConvertFromStorage()</code></li>
-<li>Check that it matches the golden file from a previous run</li>
-</ul>
-<p>Testing will only occur if one (or both) types implements one of the optional interfaces. That is, one or both of the following must be true:</p>
-<ul>
-<li>The older API type implements <code>AssignableTo...()</code></li>
-<li>The latest API type implements <code>AssignableFrom...()</code></li>
-</ul>
-<p>If neither rule is satisfied, the test will silently null out.</p>
-<p><strong>Testing conversion from the latest version</strong> will check that an instance of the latest version of the API can be down-converted to an older version.</p>
-<p><img src="golden-tests-from-latest.png" alt=""></p>
-<ul>
-<li>Create an exemplar instance of the latest API type</li>
-<li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
-<li>Convert it to the older API type using <code>ConvertFromStorage()</code></li>
-<li>Check that it matches the golden file from a previous run</li>
-</ul>
-<p>Testing will only occur if one (or both) types implements one of the optional interfaces. That is, one or both of the following must be true:</p>
-<ul>
-<li>The older API type implements <code>AssignableFrom...()</code></li>
-<li>The latest API type implements <code>AssignableTo...()</code></li>
-</ul>
-<p>If neither rule is satisfied, the test will silently null out.</p>
-<h2 id="conversion-flow">Conversion Flow</h2>
-<p>To illustrate the operation of conversions, consider the following graph of related versions of <code>Person</code>:</p>
-<p><img src="conversions.png" alt=""></p>
-<p>API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package <code>v3</code> imports <code>v3storage</code> and can access the types within.</p>
-<p>The highlighted storage version <strong>v4storage</strong> is the currently nominated hub version - all conversions are to or from this type.</p>
-<h3 id="direct-conversion-to-storage-type">Direct conversion to storage type</h3>
-<p>The simplest case is a conversion directly between <strong>v4</strong> and <strong>v4storage</strong>, which simply involves copying properties across:</p>
-<p><img src="direct-conversion.png" alt=""></p>
-<h3 id="two-step-conversion-to-storage-type">Two step conversion to storage type</h3>
-<p>There&rsquo;s no direct conversion between a <strong>v3.Person</strong> and a <strong>v4storage.Person</strong>, so an intermediate step is required: we convert first to a <strong>v3storage.Person</strong>, and then to the final type:</p>
-<p><img src="two-step-conversion.png" alt=""></p>
-<h3 id="multiple-step-conversion-to-storage-type">Multiple step conversion to storage type</h3>
-<p>The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:</p>
-<p><img src="multiple-step-conversion.png" alt=""></p>
-<h3 id="two-step-conversion-from-storage-type">Two step conversion from storage type</h3>
-<p>When converting in the other direction, the process is similar - we show here just the two step case to illustrate.</p>
-<p><img src="two-step-reverse-conversion.png" alt=""></p>
-<h2 id="alternative-solutions">Alternative Solutions</h2>
-<p>AKA the road not travelled</p>
-<h3 id="alternative-fixed-storage-version">Alternative: Fixed storage version</h3>
-<p>The &ldquo;v1&rdquo; storage version of each supported resource type will be created by merging all of the fields of all the distinct versions of the resource type, creating a <em>superset</em> type that includes every property declared across every version of the API.</p>
-<p>To maintain backward compatibility as Azure APIs evolve over time, we will include properties across all versions of the API, even for versions we are not currently generating as output. This ensures that properties in use by older APIs are still present and available for forward conversion to newer APIs, even as those older APIs age out of use.</p>
-<p>This approach has a number of issues that are called out in detail in the <a href="./case-studies/fixed-storage-version/">fixed storage version case study</a>.</p>
-<p><strong>Property Bloat</strong>: As our API evolves over time, our storage version is accumulating all the properties that have ever existed, bloating the storage version with obsolete properties that are seldom (if ever) used. Even properties that only ever existed on a single preview release of an ARM API need to be correctly managed for the lifetime of the service operator.</p>
-<p><strong>Property Amnesia</strong>: Our code generator only knows about properties defined in current versions of the API. Once an API version has been excluded (or if the JSON schema definition is no longer available), the generator completely forgets about older properties. This would cause compatibility issues for established users who would find upgrading the service operator breaks their cluster.</p>
-<p><strong>Type Collision</strong>: Identically named properties with different types can&rsquo;t be stored in the same property; mitigation is possible for a limited time, though eventually <em>property amnesia</em> will cause a breaking change.</p>
-<h3 id="alternative-use-the-latest-api-version">Alternative: Use the latest API version</h3>
-<p>The supported storage version of each resource type will simply be the latest version of the API supported by ARM. Any additional information not supported on that version will be persisted via annotations on the resource.</p>
-<p><strong>This is a known antipattern that we should avoid.</strong></p>
-<p>Annotations are publicly visible on the cluster and can easily modified. This makes it spectacularly easy for a user to make an innocent change that would break the functionality of the operator.</p>
-<h2 id="metadata-design">Metadata Design</h2>
-<p>To support property and type renaming, we will include metadata describing the known changes. This will be added to the existing configuration file we already have that includes filtering information on the types we exclude/include in the output.</p>
-<p>As identification of renames requires manual inspection, any case of a property not appearing in a later version of the API needs to be checked. We&rsquo;ll therefore also capture metadata for property removal so that we know which properties have been assessed and which have not.</p>
-<h2 id="outstanding-issues">Outstanding Issues</h2>
-<h3 id="service-operator-upgrades">Service Operator Upgrades</h3>
-<p>There are a number of issues outstanding around upgrades of the service operator.</p>
-<p><strong>Timing</strong> - when are upgrades triggered? Does this happen immediately after installation of a new version of the service operator, or does it happen at a later point? If so, what&rsquo;s the trigger?</p>
-<p><strong>Atomicity</strong> - are all the CRDs upgraded in one atomic operation that either succeeds or fails, or are they upgraded one at a time? Are CRDs upgraded serially, or in parallel?</p>
-<p><strong>Performance</strong> - for users who have a large number of CRDs (hundreds to thousands), what sort of upgrade performance will they see?</p>
-<p><strong>Recovery</strong> - if an upgrade aborts part way through, or if a new version of the service operator proves to be unreliable, is it possible for users to roll back to a previous version, or must they roll forward to a fixed version?</p>
-<h2 id="see-also">See Also</h2>
-<ul>
-<li>
-<p><a href="https://book.kubebuilder.io/multiversion-tutorial/conversion-concepts.html">Hubs, spokes, and other wheel metaphors</a></p>
-</li>
-<li>
-<p><a href="https://www.mjt.me.uk/posts/falsehoods-programmers-believe-about-addresses/">Falsehoods programmers believe about addresses</a></p>
-</li>
-</ul>
-<p><a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/">https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/</a></p>
 
-	<div class="section-index">
-    
-    
-    <hr class="panel-line">
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/versioning/case-studies/">Case Studies</a>
-                </h5>
-                <p></p>
-            </div>
-        </div>
+	
 </div>
+
 
           </main>
         </div>
