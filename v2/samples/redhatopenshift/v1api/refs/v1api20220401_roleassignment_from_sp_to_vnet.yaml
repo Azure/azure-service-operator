@@ -12,5 +12,5 @@ spec:
   # This is the Principal ID of the AAD identity to which the role will be assigned
   principalId: 00000000-0000-0000-0000-000000000000
   roleDefinitionReference:
-    # ASO allows you to specify global roles by name instead of the published GUID
+    # ASO allows you to specify global roles by name instead of the published GUID. Lookup is case insensitive.
     wellKnownName: contributor

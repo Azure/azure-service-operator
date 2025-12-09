@@ -14,5 +14,5 @@ spec:
     name: identity-settings
     key: principalId
   roleDefinitionReference:
-    # ASO allows you to specify global roles by name instead of the published GUID
-    wellKnownName: contributor
+    # ASO allows you to specify global roles by name instead of the published GUID. Lookup is case insensitive.
+    wellKnownName: Contributor
