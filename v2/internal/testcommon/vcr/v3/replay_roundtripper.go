@@ -8,10 +8,12 @@ package v3
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"sync"
 
 	"github.com/go-logr/logr"
@@ -79,7 +81,7 @@ func (replayer *replayRoundTripper) RoundTrip(request *http.Request) (*http.Resp
 }
 
 func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.Response, error) {
-	requestURL := request.URL.String()
+	requestURL := request.URL.RequestURI()
 
 	// First use our inner round tripper to get the response.
 	response, err := replayer.inner.RoundTrip(request)
@@ -108,11 +110,17 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 		return response, err
 	}
 
-	replayer.padlock.Lock()
-	defer replayer.padlock.Unlock()
+	// We have a response, skip caching if it represents a transient state (ends in 'ing')
+	if status, ok := replayer.resourceStatusFromBody(response); ok {
+		if !strings.HasSuffix(strings.ToLower(status), "ing") && !strings.EqualFold(status, "InProgress") {
+			// Not transient, cache it
+			replayer.padlock.Lock()
+			defer replayer.padlock.Unlock()
 
-	// We have a response, cache it and return it
-	replayer.gets[requestURL] = newReplayResponse(response, getReplays)
+			replayer.gets[requestURL] = newReplayResponse(response, getReplays)
+		}
+	}
+
 	return response, nil
 }
 
@@ -177,6 +185,52 @@ func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	request.Body = io.NopCloser(&body)
 
 	return fmt.Sprintf("%x", hash)
+}
+
+type operation struct {
+	Status string `json:"status"`
+}
+
+type resource struct {
+	Properties struct {
+		ProvisioningState string `json:"provisioningState"`
+	} `json:"properties"`
+}
+
+func (replayer *replayRoundTripper) resourceStatusFromBody(response *http.Response) (string, bool) {
+	body := replayer.bodyOfResponse(response)
+
+	// Treat the body as an operation and deserialize it
+	var op operation
+	if err := json.Unmarshal([]byte(body), &op); err == nil {
+		if op.Status != "" {
+			return op.Status, true
+		}
+	}
+
+	// Treat the body as a resource and deserialize it
+	var res resource
+	if err := json.Unmarshal([]byte(body), &res); err == nil {
+		if res.Properties.ProvisioningState != "" {
+			return res.Properties.ProvisioningState, true
+		}
+	}
+
+	return "", false
+}
+
+func (replayer *replayRoundTripper) bodyOfResponse(response *http.Response) string {
+	// Read all the content of the response body
+	var body bytes.Buffer
+	_, err := body.ReadFrom(response.Body)
+	if err != nil {
+		// Should never fail
+		panic(fmt.Sprintf("reading response.Body failed: %s", err))
+	}
+
+	// Reset the body so it can be read again
+	response.Body = io.NopCloser(&body)
+	return body.String()
 }
 
 func newReplayResponse(resp *http.Response, maxReplays int) *replayResponse {
