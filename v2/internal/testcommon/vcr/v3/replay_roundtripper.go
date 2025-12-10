@@ -111,14 +111,16 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 	}
 
 	// We have a response, skip caching if it represents a transient state (ends in 'ing')
+	cacheable := true
 	if status, ok := replayer.resourceStatusFromBody(response); ok {
-		if !strings.HasSuffix(strings.ToLower(status), "ing") && !strings.EqualFold(status, "InProgress") {
-			// Not transient, cache it
-			replayer.padlock.Lock()
-			defer replayer.padlock.Unlock()
+		cacheable = !strings.HasSuffix(strings.ToLower(status), "ing") && !strings.EqualFold(status, "InProgress")
+	}
 
-			replayer.gets[requestURL] = newReplayResponse(response, getReplays)
-		}
+	if cacheable {
+		replayer.padlock.Lock()
+		defer replayer.padlock.Unlock()
+
+		replayer.gets[requestURL] = newReplayResponse(response, getReplays)
 	}
 
 	return response, nil
