@@ -929,6 +929,10 @@ tasks:
             {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
     status:
       - "kind get clusters | grep \"^asov2-wi$\""
+    preconditions:
+      # If our working directory starts with /workspaces then we're running in a container and need HOSTROOT to be defined
+      - sh: '[ "${PWD#/workspaces}" = "$PWD" ] || [ -n "${HOSTROOT-}" ]'
+        msg: "When running in a container (detected via PWD starting with /workspaces) you must set HOSTROOT to the host's root path so that files can be mounted into kind clusters correctly."
     env:
       SERVICE_ACCOUNT_KEY_FILE:
         sh: "echo ${HOSTROOT:-$PWD}/{{.KIND_WORKLOAD_IDENTITY_PATH}}/sa.pub" # Have to use HOSTROOT here for mounting files when in docker-in-docker as paths are relative to host
