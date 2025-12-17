@@ -197,6 +197,12 @@ spec:
               key: DEFAULT_RECONCILE_POLICY
               name: aso-controller-settings
               optional: true
+        - name: ALLOW_MULTI_ENV_MANAGEMENT
+          valueFrom:
+            secretKeyRef:
+              key: ALLOW_MULTI_ENV_MANAGEMENT
+              name: aso-controller-settings
+              optional: true
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
