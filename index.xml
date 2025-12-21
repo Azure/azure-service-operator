@@ -6,7 +6,7 @@
     <description>Recent content in Azure Service Operator v2 on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>v2.16.0 Breaking Changes</title>
@@ -294,6 +294,13 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/</guid>
       <description>&lt;p&gt;We recommend you run a few final checks to catch any issues before you submit your PR.&lt;/p&gt;&#xA;&lt;h2 id=&#34;check-your-pr-contents&#34;&gt;Check your PR contents&lt;/h2&gt;&#xA;&lt;p&gt;Double check that everything you expect to include in your PR is actually included. You should have:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Configuration changes to &lt;code&gt;asure-arm.yaml&lt;/code&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Generated code changes, mostly in the &lt;code&gt;v2/api&lt;/code&gt; folder.&lt;/li&gt;&#xA;&lt;li&gt;Generated documentation updates in the &lt;code&gt;docs&lt;/code&gt; folder&lt;/li&gt;&#xA;&lt;li&gt;Any hand-coded extensions you implemented, in the &lt;code&gt;v2/api/&amp;lt;group&amp;gt;/customizations&lt;/code&gt; folder.&lt;/li&gt;&#xA;&lt;li&gt;A test for the resource in the &lt;code&gt;v2/internal/controllers&lt;/code&gt; folder, with a recording for playback testing.&lt;/li&gt;&#xA;&lt;li&gt;A sample for the resource in the &lt;code&gt;v2/samples&lt;/code&gt; folder, also with a recording.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;check-it-builds&#34;&gt;Check it builds&lt;/h2&gt;&#xA;&lt;p&gt;Running &lt;code&gt;task&lt;/code&gt; with no parameters runs a quick set of checks that will catch most issues.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Developer Talks - Quality of Life Features with Bevan</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/v2.17-features-with-bevan/</link>
+      <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/v2.17-features-with-bevan/</guid>
+      <description>&lt;p&gt;With the release of ASO v2.17 coming soon, this felt like a great time to go behind the curtain and get a better idea of what us devs have been working on, both landed and upcoming, and how they contribute to a smoother user experience for ASO users.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll go over two exciting features, one landing in v2.17 and one that shipped in v2.16. Alongside our other host of improvements, we hope these features make using ASO that much smoother for our users.&lt;/p&gt;</description>
     </item>
     <item>
       <title>ASO v2.16 Release Notes</title>

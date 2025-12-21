@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Developer Talks - Quality of Life Features with Bevan</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/v2.17-features-with-bevan/</link>
+      <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/v2.17-features-with-bevan/</guid>
+      <description>&lt;p&gt;With the release of ASO v2.17 coming soon, this felt like a great time to go behind the curtain and get a better idea of what us devs have been working on, both landed and upcoming, and how they contribute to a smoother user experience for ASO users.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll go over two exciting features, one landing in v2.17 and one that shipped in v2.16. Alongside our other host of improvements, we hope these features make using ASO that much smoother for our users.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>ASO v2.16 Release Notes</title>
       <link>https://azure.github.io/azure-service-operator/blogs/release-notes-v2.16.0/</link>
