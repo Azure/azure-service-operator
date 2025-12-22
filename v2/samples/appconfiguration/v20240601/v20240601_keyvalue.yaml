@@ -1,0 +1,14 @@
+apiVersion: appconfiguration.azure.com/v20240601
+kind: KeyValue
+metadata:
+  name: aso-sample-keyvalue
+  namespace: default
+spec:
+  azureName: "MyApp:Settings:DatabaseTimeout"
+  owner:
+    name: aso-sample-confstore-v2
+  contentType: "text/plain"
+  value: "30"
+  tags:
+    Environment: "Production"
+    Team: "Backend"
