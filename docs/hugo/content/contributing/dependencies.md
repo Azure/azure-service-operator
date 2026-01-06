@@ -14,7 +14,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | cmctl | latest | https://cert-manager.io/docs/reference/cmctl |
 | controller-gen | v0.16.3 | https://book.kubebuilder.io/reference/controller-gen |
 | conversion-gen | v0.30.5 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
-| crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
+| crddoc | ce2ddd3 | https://github.com/theunrepentantgeek/crddoc |
 | Go | 1.23 | https://golang.org/doc/install #
 | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
 | golangci-lint | 1.62.0 | https://github.com/golangci/golangci-lint |

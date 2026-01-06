@@ -99,7 +99,7 @@ typeFilters:
 
   - action: include
     group: redhatopenshift
-    version: v*20240610preview
+    version: v*20251223preview
     because: We want to export ARO-HCP resources from this preview version
 
   - action: include
@@ -3927,7 +3927,7 @@ objectModelConfiguration:
           $isSecret: true
         ClientId:
           $importConfigMapMode: optional
-    2024-06-10-preview:
+    2025-12-23-preview:
       HcpOpenShiftClusters_NodePool:
         $supportedFrom: v2.13.0
         $exportAs: HcpOpenShiftClustersNodePool
