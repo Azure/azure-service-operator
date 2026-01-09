@@ -101,7 +101,6 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	} else {
 		result, err = gr.createOrUpdate(ctx, log, metaObj)
 	}
-
 	if err != nil {
 		err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
 		result, err = gr.RequeueIntervalCalculator.NextInterval(req, result, err)
