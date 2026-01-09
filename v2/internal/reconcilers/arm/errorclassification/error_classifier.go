@@ -66,18 +66,26 @@ func classifyCloudError(err *genericarmclient.CloudError) core.CloudErrorDetails
 		"ResourceGroupNotFound",
 		"ResourceNotFound",
 		"ResourceQuotaExceeded",
+		"RequestDisallowedByPolicy",
 		"SubscriptionNotRegistered":
 		result.Classification = core.ErrorRetryable
-	case "ScopeLocked": // This error is raised when a resource or resource(s) are locked by a lock
+	// Codes here are probably fatal, but we've seen reports that they can come up transiently from time to time,
+	// so we treat them as retryable at a slow rate.
+	case "BadRequestFormat",
+		"BadRequest",
+		"InvalidResourceGroupLocation",
+		"InvalidParameter",
+		"InvalidParameterValue",
+		"MethodNotAllowed",
+		"ReservedResourceName",
+		"RegionIsOfferRestricted",
+		"ScopeLocked", // This error is raised when a resource or resource(s) are locked by a lock
+		"SkuNotAvailable",
+		"SubscriptionNotFound":
 		// Retry, but at a very slow rate to avoid spamming the Azure API with a request that is unlikely to succeed.
 		result.Classification = core.ErrorRetryable
 		result.Retry = retry.VerySlow
-	case "BadRequestFormat",
-		"BadRequest",
-		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
-		"InvalidParameter",
-		"InvalidParameterValue",
-		"InvalidResourceGroupLocation",
+	case "PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidResourceType",
 		"InvalidRequestContent",
 		"InvalidTemplate",
@@ -85,35 +93,32 @@ func classifyCloudError(err *genericarmclient.CloudError) core.CloudErrorDetails
 		"InvalidGatewaySkuProvidedForGatewayVpnType",
 		"InvalidGatewaySize",
 		"LocationRequired",
-		"MethodNotAllowed",
 		"MissingRequiredParameter",
 		"PasswordTooLong",
 		"PrivateIPAddressInReservedRange",
 		"PrivateIPAddressNotInSubnet",
-		"PropertyChangeNotAllowed",
-		"RegionIsOfferRestricted",
-		"RequestDisallowedByPolicy", // TODO: Technically could probably retry through this?
-		"ReservedResourceName",
-		"SkuNotAvailable",
-		"SubscriptionNotFound":
+		"PropertyChangeNotAllowed":
 		result.Classification = core.ErrorFatal
 	default:
 		// If we don't know what the error is use the HTTP status code to determine if we can retry
-		result.Classification = classifyHTTPError(err)
+		result.Classification, result.Retry = classifyHTTPError(err)
 	}
 
 	return result
 }
 
-func classifyHTTPError(err *genericarmclient.CloudError) core.ErrorClassification {
+func classifyHTTPError(err *genericarmclient.CloudError) (core.ErrorClassification, retry.Classification) {
 	var httpError *azcore.ResponseError
 	if !eris.As(err.Unwrap(), &httpError) {
-		return core.ErrorRetryable
+		// If we can't determine the error type, assume we can retry
+		return core.ErrorRetryable, retry.None
 	}
 
 	if httpError.StatusCode == 400 {
-		return core.ErrorFatal
+		// HTTP 400 errors are generally fatal, but we don't know that for sure and Azure has a lot of services which return
+		// 400 even when the error is transient, so we treat them all as retryable (at very slow speed) for now.
+		return core.ErrorRetryable, retry.VerySlow
 	}
 
-	return core.ErrorRetryable
+	return core.ErrorRetryable, retry.None
 }

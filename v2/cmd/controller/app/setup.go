@@ -522,7 +522,7 @@ func makeControllerOptions(cfg config.Values) generic.Options {
 	}
 
 	// If sync period isn't set, set verySlow delay at 24h, otherwise set it
-	// to the sync period.
+	// to the sync period (whose default is 1h)
 	verySlowDelay := 24 * time.Hour
 	if cfg.SyncPeriod != nil {
 		verySlowDelay = *cfg.SyncPeriod
