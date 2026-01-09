@@ -1,0 +1,35 @@
+apiVersion: redhatopenshift.azure.com/v1api20240610preview
+kind: HcpOpenShiftClustersExternalAuth
+metadata:
+  name: mveber-int-ea
+  namespace: default
+spec:
+  azureName: mveber-int-ea
+  owner:
+    group: redhatopenshift.azure.com
+    kind: HcpOpenShiftCluster
+    name: mveber-int
+  properties:
+    issuer:
+      url: "https://login.microsoftonline.com/tenant-id/v2.0"
+      audiences:
+        - "client-id-12345"
+    claim:
+      mappings:
+        username:
+          claim: "sub"
+          prefix: "aad:"
+          prefixPolicy: "Prefix"
+        groups:
+          claim: "groups"
+    clients:
+      - clientId: "client-id-12345"
+        component:
+          name: "console"
+          authClientNamespace: "openshift-console"
+        type: "Confidential"
+      - clientId: "client-id-12345"
+        component:
+          name: "cli"
+          authClientNamespace: "openshift-console"
+        type: "Public"

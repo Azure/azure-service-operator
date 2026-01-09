@@ -1,26 +1,22 @@
 # See here for image contents: https://github.com/devcontainers/images/blob/main/src/go/.devcontainer/Dockerfile
 
 # This is pinned to a particular version of go:
-FROM mcr.microsoft.com/devcontainers/go:1.24
+FROM mcr.microsoft.com/devcontainers/go:dev-1.24-bookworm
 
 # https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
-
 ARG TARGETARCH
 
 # APT dependencies
-# including docker-cli for docker-from-docker pattern
-# and az-cli for interacting with azure resources
 ENV DEBIAN_FRONTEND=noninteractive
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends bash-completion lsb-release graphviz zip nodejs npm python3-pip docker-ce-cli docker-compose-plugin\
+RUN apt-get update \
+    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release graphviz zip nodejs npm python3-pip \
     # install az-cli
-    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash - \
-    # Temporary fix to avoid regression in v2.77
-    && apt-get remove azure-cli --assume-yes \
-    && apt-get -y install azure-cli=2.76.0-1~bookworm \
-    && rm -rf /var/lib/apt/lists/*
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
+
+# install docker
+# - not yet needed?
+# RUN curl -fsSL https://get.docker.com | sh -
+# RUN usermod -aG docker vscode
 
 COPY install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
@@ -48,7 +44,13 @@ RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.2.0/completion/b
 
 ENV KIND_CLUSTER_NAME=aso
 
-# Add user to docker group for docker socket access
-RUN groupadd -f docker && usermod -aG docker vscode
+# install docker, from: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
+COPY library-scripts/docker-debian.sh /tmp/library-scripts/
 
+# these are all the default values except for the last one (USE_MOBY) which is what we want to set.
+# currently packages.microsoft.com does not have Moby packages for Debian Bullseye, which the
+# devcontainer image is based on: https://github.com/microsoft/vscode-dev-containers/issues/1008
+RUN bash /tmp/library-scripts/docker-debian.sh true /var/run/docker-host.sock /var/run/docker.sock automatic false
+
+ENTRYPOINT ["/usr/local/share/docker-init.sh"]
 CMD ["sleep", "infinity"]
