@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsTableServicesTable{}
 
 // ConvertFrom populates our StorageAccountsTableServicesTable from the provided hub StorageAccountsTableServicesTable
 func (table *StorageAccountsTableServicesTable) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsTableServicesTable)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsTableServicesTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsTableServicesTable
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return table.AssignProperties_From_StorageAccountsTableServicesTable(source)
+	err = table.AssignProperties_From_StorageAccountsTableServicesTable(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to table")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsTableServicesTable from our StorageAccountsTableServicesTable
 func (table *StorageAccountsTableServicesTable) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsTableServicesTable)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsTableServicesTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsTableServicesTable
+	err := table.AssignProperties_To_StorageAccountsTableServicesTable(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from table")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return table.AssignProperties_To_StorageAccountsTableServicesTable(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsTableServicesTable{}
