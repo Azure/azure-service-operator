@@ -10,6 +10,8 @@ import (
 	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	v20250601 "github.com/Azure/azure-service-operator/v2/api/storage/v20250601"
+	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *StorageAccountsQueueServicesQueueExtension) GetExtendedResource
 		&v20220901.StorageAccountsQueueServicesQueue{},
 		&v20220901s.StorageAccountsQueueServicesQueue{},
 		&v20230101.StorageAccountsQueueServicesQueue{},
-		&v20230101s.StorageAccountsQueueServicesQueue{}}
+		&v20230101s.StorageAccountsQueueServicesQueue{},
+		&v20250601.StorageAccountsQueueServicesQueue{},
+		&v20250601s.StorageAccountsQueueServicesQueue{}}
 }

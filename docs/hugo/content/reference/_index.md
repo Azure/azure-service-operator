@@ -1028,6 +1028,23 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `storage.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                             | ARM Version | CRD Version | Supported From | Sample |
+|--------------------------------------|-------------|-------------|----------------|--------|
+| StorageAccount                       | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsBlobService           | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsBlobServicesContainer | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsFileService           | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsFileServicesShare     | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsManagementPolicy      | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsQueueService          | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsQueueServicesQueue    | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsTableService          | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| StorageAccountsTableServicesTable    | 2025-06-01  | v20250601   | v2.18.0        | -      |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
