@@ -43,6 +43,9 @@ type Credential struct {
 	credentialFrom    types.NamespacedName
 	subscriptionID    string
 	additionalTenants []string
+	// cloudConfig contains the cloud configuration for this credential.
+	// If nil, the global cloud configuration should be used.
+	cloudConfig *cloud.Configuration
 
 	// secretData contains the secret
 	secretData map[string][]byte
@@ -68,6 +71,10 @@ func (c *Credential) AdditionalTenants() []string {
 	return c.additionalTenants
 }
 
+func (c *Credential) CloudConfig() *cloud.Configuration {
+	return c.cloudConfig
+}
+
 func NewDefaultCredential(
 	tokenCred azcore.TokenCredential,
 	namespace string,
@@ -87,8 +94,9 @@ type CredentialProvider interface {
 }
 
 type CredentialProviderOptions struct {
-	TokenProvider TokenCredentialProvider
-	Cloud         *cloud.Configuration
+	TokenProvider           TokenCredentialProvider
+	Cloud                   *cloud.Configuration
+	AllowMultiEnvManagement bool
 }
 
 type credentialProvider struct {
@@ -96,6 +104,7 @@ type credentialProvider struct {
 	kubeClient              kubeclient.Client
 	tokenCredentialProvider TokenCredentialProvider
 	cloud                   cloud.Configuration
+	allowMultiEnvManagement bool
 }
 
 func NewCredentialProvider(
@@ -123,6 +132,7 @@ func NewCredentialProvider(
 		globalCredential:        globalCredential,
 		tokenCredentialProvider: opts.TokenProvider,
 		cloud:                   cloud,
+		allowMultiEnvManagement: opts.AllowMultiEnvManagement,
 	}
 }
 
@@ -274,12 +284,20 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		additionalTenants = config.ParseCommaCollection(string(additionalTenantsBytes))
 	}
 
-	// TODO: We could read AzureAuthorityHost and other "cloud-defining"
-	// TODO: variables here to allow per-cloud credentials.
+	// Read cloud configuration fields if present
+	cloudConfigFromSecret, err := c.extractCloudConfig(secret)
+	if err != nil {
+		errs = append(errs, err)
+	}
 
 	// Missing required properties, fail fast
 	if len(errs) > 0 {
 		return nil, kerrors.NewAggregate(errs)
+	}
+
+	cloudConfig := c.cloud
+	if cloudConfigFromSecret != nil {
+		cloudConfig = *cloudConfigFromSecret
 	}
 
 	if clientSecret, hasClientSecret := secret.Data[config.AzureClientSecret]; hasClientSecret {
@@ -289,7 +307,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			string(clientSecret),
 			&azidentity.ClientSecretCredentialOptions{
 				ClientOptions: azcore.ClientOptions{
-					Cloud: c.cloud,
+					Cloud: cloudConfig,
 				},
 				AdditionallyAllowedTenants: additionalTenants,
 			})
@@ -302,6 +320,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			subscriptionID:    subscriptionID,
 			credentialFrom:    nsName,
 			additionalTenants: additionalTenants,
+			cloudConfig:       &cloudConfig,
 			secretData:        secret.Data,
 		}, nil
 	}
@@ -319,7 +338,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			clientCertPassword,
 			&azidentity.ClientCertificateCredentialOptions{
 				ClientOptions: azcore.ClientOptions{
-					Cloud: c.cloud,
+					Cloud: cloudConfig,
 				},
 				AdditionallyAllowedTenants: additionalTenants,
 			})
@@ -332,6 +351,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			subscriptionID:    subscriptionID,
 			credentialFrom:    nsName,
 			additionalTenants: additionalTenants,
+			cloudConfig:       &cloudConfig,
 			secretData:        secret.Data,
 		}, nil
 	}
@@ -340,9 +360,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	// authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity's backing
 	// certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.
 	if userAssignedCredentialsPath, hasUserAssignedCredentials := secret.Data[config.AzureUserAssignedIdentityCredentials]; hasUserAssignedCredentials {
-		// Default to AzurePublic
 		options := azcore.ClientOptions{
-			Cloud: c.cloud,
+			Cloud: cloudConfig,
 		}
 
 		tokenCredential, err := c.tokenCredentialProvider.NewUserAssignedIdentityCredentials(context.Background(), string(userAssignedCredentialsPath), dataplane.WithClientOpts(options))
@@ -354,6 +373,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			tokenCredential: tokenCredential,
 			subscriptionID:  string(subscriptionID),
 			credentialFrom:  nsName,
+			cloudConfig:     &cloudConfig,
 			secretData:      secret.Data,
 		}, nil
 	}
@@ -369,7 +389,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			// are inherently single-tenant, so we don't pass
 			tokenCredential, err := c.tokenCredentialProvider.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
 				ClientOptions: azcore.ClientOptions{
-					Cloud: c.cloud,
+					Cloud: cloudConfig,
 				},
 				ID: azidentity.ClientID(clientID),
 			})
@@ -381,6 +401,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 				tokenCredential: tokenCredential,
 				subscriptionID:  subscriptionID,
 				credentialFrom:  nsName,
+				cloudConfig:     &cloudConfig,
 				secretData:      secret.Data,
 			}, nil
 		}
@@ -390,7 +411,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	tokenCredential, err := c.tokenCredentialProvider.NewWorkloadIdentityCredential(
 		&azidentity.WorkloadIdentityCredentialOptions{
 			ClientOptions: azcore.ClientOptions{
-				Cloud: c.cloud,
+				Cloud: cloudConfig,
 			},
 			ClientID:                   clientID,
 			TenantID:                   tenantID,
@@ -414,6 +435,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		subscriptionID:    subscriptionID,
 		credentialFrom:    nsName,
 		additionalTenants: additionalTenants,
+		cloudConfig:       &cloudConfig,
 		secretData:        secret.Data,
 	}, nil
 }
@@ -446,4 +468,71 @@ func authModeOrDefault(mode string) (config.AuthModeOption, error) {
 	}
 
 	return "", eris.Errorf("authorization mode %q not valid", mode)
+}
+
+// extractCloudConfig reads cloud configuration from the secret if present.
+// It enforces the all-or-nothing rule: either all three cloud fields must be present, or none.
+// It also enforces that cloud configuration is only allowed if AllowMultiEnvManagement is enabled.
+func (c *credentialProvider) extractCloudConfig(secret *v1.Secret) (*cloud.Configuration, error) {
+	nsName := types.NamespacedName{Namespace: secret.GetNamespace(), Name: secret.GetName()}
+
+	// Check if any cloud configuration fields are present
+	endpoint, hasEndpoint := secret.Data[config.ResourceManagerEndpoint]
+	audience, hasAudience := secret.Data[config.ResourceManagerAudience]
+	authorityHost, hasAuthorityHost := secret.Data[config.AzureAuthorityHost]
+
+	// Count how many fields are present
+	fieldsPresent := 0
+	if hasEndpoint {
+		fieldsPresent++
+	}
+	if hasAudience {
+		fieldsPresent++
+	}
+	if hasAuthorityHost {
+		fieldsPresent++
+	}
+
+	// If no cloud fields are present, return nil (use global cloud config)
+	if fieldsPresent == 0 {
+		return nil, nil
+	}
+
+	// If some but not all fields are present, return an error
+	if fieldsPresent != 3 {
+		return nil, core.NewSecretNotFoundError(
+			nsName,
+			eris.Errorf(
+				"credential Secret %q must specify ALL or NONE of %q, %q, and %q (found %d of 3)",
+				nsName,
+				config.ResourceManagerEndpoint,
+				config.ResourceManagerAudience,
+				config.AzureAuthorityHost,
+				fieldsPresent),
+		)
+	}
+
+	// All three fields are present, check if multi-env management is allowed
+	if !c.allowMultiEnvManagement {
+		return nil, core.NewSecretNotFoundError(
+			nsName,
+			eris.Errorf(
+				"credential Secret %q specifies cloud configuration (%q, %q, %q) but %q is not enabled",
+				nsName,
+				config.ResourceManagerEndpoint,
+				config.ResourceManagerAudience,
+				config.AzureAuthorityHost,
+				config.AllowMultiEnvManagement),
+		)
+	}
+
+	// Create cloud configuration
+	cfg := asocloud.Configuration{
+		ResourceManagerEndpoint: string(endpoint),
+		ResourceManagerAudience: string(audience),
+		AzureAuthorityHost:      string(authorityHost),
+	}
+
+	cloudCfg := cfg.Cloud()
+	return &cloudCfg, nil
 }
