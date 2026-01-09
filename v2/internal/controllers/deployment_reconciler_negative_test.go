@@ -152,13 +152,13 @@ func Test_OperationRejected(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 	vmss := newVMSSWithInvalidPublisher(tc, rg)
-	tc.CreateResourceAndWaitForFailure(vmss)
+	tc.CreateResourceAndWaitForState(vmss, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	ready, ok := conditions.GetCondition(vmss, conditions.ConditionTypeReady)
 	tc.Expect(ok).To(BeTrue())
 
 	tc.Expect(ready.Status).To(Equal(metav1.ConditionFalse))
-	tc.Expect(ready.Severity).To(Equal(conditions.ConditionSeverityError))
+	tc.Expect(ready.Severity).To(Equal(conditions.ConditionSeverityWarning))
 	tc.Expect(ready.Reason).To(ContainSubstring("InvalidParameter"))
 	tc.Expect(ready.Message).To(ContainSubstring("The value of parameter imageReference.publisher is invalid"))
 }
@@ -191,7 +191,7 @@ func Test_OperationRejected_SucceedsAfterUpdate(t *testing.T) {
 	imgRef.Sku = to.Ptr("exist")
 	imgRef.Version = to.Ptr("latest")
 
-	tc.CreateResourceAndWaitForFailure(vmss)
+	tc.CreateResourceAndWaitForState(vmss, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	// Now fix the image reference and the VMSS should successfully deploy
 	old := vmss.DeepCopy()

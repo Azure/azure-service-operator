@@ -49,35 +49,45 @@ func classifyCloudError(err *genericarmclient.CloudError) core.CloudErrorDetails
 	}
 
 	switch code {
-	case "AnotherOperationInProgress",
-		"AuthorizationFailed",
-		"AllocationFailed",
-		"Conflict",
-		"FailedIdentityOperation",
-		"InvalidResourceReference",
-		"InvalidSubscriptionRegistrationState",
-		"LinkedAuthorizationFailed",
-		"MissingRegistrationForLocation",
-		"MissingSubscriptionRegistration",
-		"NoRegisteredProviderFound",
-		"NotFound",
-		"ParentResourceNotFound",
-		"PrincipalNotFound",
-		"ResourceGroupNotFound",
-		"ResourceNotFound",
-		"ResourceQuotaExceeded",
-		"SubscriptionNotRegistered":
+	case "AnotherOperationInProgress", // Retry after the other operation has completed may work
+		"AuthorizationFailed",                  // Retry after authorization updated (or propagated) may work
+		"AllocationFailed",                     // Retry later may work as there may be more capacity then
+		"Conflict",                             // Retry after conflicting operation completed may work
+		"FailedIdentityOperation",              // Retry after identity updated (or propagated) may work
+		"InvalidResourceReference",             // Often raised when the referenced resource is still being created, retry once creation has finished may work
+		"InvalidSubscriptionRegistrationState", // Retry after registration updated (or propagated) may work
+		"LinkedAuthorizationFailed",            // Retry after authorization updated (or propagated) may work
+		"MissingRegistrationForLocation",       // Retry after registration updated (or propagated) may work
+		"MissingSubscriptionRegistration",      // Retry after registration updated (or propagated) may work
+		"NoRegisteredProviderFound",            // Retry after provider registered may work
+		"NotFound",                             // Retry after resource created may work
+		"ParentResourceNotFound",               // Retry after parent created may work
+		"PrincipalNotFound",                    // Retry after principal propagation may work
+		"ResourceGroupNotFound",                // Often raised when the referenced group is still being created, retry once creation has finished may work
+		"ResourceNotFound",                     // Often raised when the referenced resource is still being created, retry once creation has finished may work
+		"ResourceQuotaExceeded",                // Retry after quota increased (or other resources deleted) may work
+		"RequestDisallowedByPolicy",            // Retry after policy updated/removed may work
+		"SubscriptionNotRegistered":            // Retry after subscription registration updated (or propagated) may work
 		result.Classification = core.ErrorRetryable
-	case "ScopeLocked": // This error is raised when a resource or resource(s) are locked by a lock
+
+	// Codes here are probably fatal, but we've seen reports that they can come up transiently from time to time,
+	// so we treat them as retryable at a slow rate.
+	case "BadRequestFormat",
+		"BadRequest",
+		"InvalidResourceGroupLocation",
+		"InvalidParameter",
+		"InvalidParameterValue",
+		"MethodNotAllowed",
+		"ReservedResourceName",
+		"RegionIsOfferRestricted",
+		"ScopeLocked", // This error is raised when a resource or resource(s) are locked by a lock
+		"SkuNotAvailable",
+		"SubscriptionNotFound":
 		// Retry, but at a very slow rate to avoid spamming the Azure API with a request that is unlikely to succeed.
 		result.Classification = core.ErrorRetryable
 		result.Retry = retry.VerySlow
-	case "BadRequestFormat",
-		"BadRequest",
-		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
-		"InvalidParameter",
-		"InvalidParameterValue",
-		"InvalidResourceGroupLocation",
+
+	case "PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidResourceType",
 		"InvalidRequestContent",
 		"InvalidTemplate",
@@ -85,35 +95,33 @@ func classifyCloudError(err *genericarmclient.CloudError) core.CloudErrorDetails
 		"InvalidGatewaySkuProvidedForGatewayVpnType",
 		"InvalidGatewaySize",
 		"LocationRequired",
-		"MethodNotAllowed",
 		"MissingRequiredParameter",
 		"PasswordTooLong",
 		"PrivateIPAddressInReservedRange",
 		"PrivateIPAddressNotInSubnet",
-		"PropertyChangeNotAllowed",
-		"RegionIsOfferRestricted",
-		"RequestDisallowedByPolicy", // TODO: Technically could probably retry through this?
-		"ReservedResourceName",
-		"SkuNotAvailable",
-		"SubscriptionNotFound":
+		"PropertyChangeNotAllowed":
 		result.Classification = core.ErrorFatal
+
 	default:
 		// If we don't know what the error is use the HTTP status code to determine if we can retry
-		result.Classification = classifyHTTPError(err)
+		result.Classification, result.Retry = classifyHTTPError(err)
 	}
 
 	return result
 }
 
-func classifyHTTPError(err *genericarmclient.CloudError) core.ErrorClassification {
+func classifyHTTPError(err *genericarmclient.CloudError) (core.ErrorClassification, retry.Classification) { //nolint:unparam
 	var httpError *azcore.ResponseError
 	if !eris.As(err.Unwrap(), &httpError) {
-		return core.ErrorRetryable
+		// If we can't determine the error type, assume we can retry
+		return core.ErrorRetryable, retry.Slow
 	}
 
 	if httpError.StatusCode == 400 {
-		return core.ErrorFatal
+		// HTTP 400 errors are generally fatal, but we don't know that for sure and Azure has a lot of services which return
+		// 400 even when the error is transient, so we treat them all as retryable (at very slow speed) for now.
+		return core.ErrorRetryable, retry.VerySlow
 	}
 
-	return core.ErrorRetryable
+	return core.ErrorRetryable, retry.Slow
 }

@@ -18,7 +18,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
-var DefaultMaxConcurrentReconciles = 1
+const (
+	DefaultSyncIntervalString = "1h"
+)
+
+var (
+	DefaultMaxConcurrentReconciles = 1
+	DefaultSyncInterval            = mustParseDuration(DefaultSyncIntervalString)
+)
 
 // NOTE: Changes to documentation or available values here should be documented in Helm values.yaml as well
 
@@ -348,4 +355,12 @@ func envOrDefault(env string, def string) string {
 	}
 
 	return result
+}
+
+func mustParseDuration(s string) time.Duration {
+	d, err := time.ParseDuration(s)
+	if err != nil {
+		panic(fmt.Sprintf("failed to parse duration %q: %s", s, err.Error()))
+	}
+	return d
 }

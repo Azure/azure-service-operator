@@ -85,9 +85,9 @@ func Test_MakeReadyConditionImpactingErrorFromError_FatalCloudError(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	// Create a fatal CloudError using "BadRequest" code which is classified as fatal
+	// Create a fatal CloudError using "InvalidTemplate" code which is classified as fatal
 	innerErr := fmt.Errorf("This is an inner error")
-	fatalErr := genericarmclient.NewTestCloudError("BadRequest", "This is a fatal error", genericarmclient.WithTestInnerError(innerErr))
+	fatalErr := genericarmclient.NewTestCloudError("InvalidTemplate", "This is a fatal error", genericarmclient.WithTestInnerError(innerErr))
 
 	// Pass it to MakeReadyConditionImpactingErrorFromError with the real classifier
 	result := errorclassification.MakeReadyConditionImpactingErrorFromError(fatalErr, errorclassification.ClassifyCloudError)
@@ -96,7 +96,7 @@ func Test_MakeReadyConditionImpactingErrorFromError_FatalCloudError(t *testing.T
 	readyErr, ok := conditions.AsReadyConditionImpactingError(result)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(readyErr.Severity).To(Equal(conditions.ConditionSeverityError))
-	g.Expect(readyErr.Reason).To(ContainSubstring("BadRequest"))
+	g.Expect(readyErr.Reason).To(ContainSubstring("InvalidTemplate"))
 
 	// Verify the cause contains our original error
 	g.Expect(eris.Unwrap(readyErr.Cause())).To(Equal(fatalErr))
