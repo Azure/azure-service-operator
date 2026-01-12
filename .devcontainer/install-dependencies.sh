@@ -94,7 +94,7 @@ fi
 
 # Ensure we have the right version of GO
 
-#doc# | Go | 1.23 | https://golang.org/doc/install #
+#doc# | Go | 1.25 | https://golang.org/doc/install #
 if ! command -v go > /dev/null 2>&1; then
     write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
@@ -104,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREGEX=".*go1.([0-9]+).([0-9]+).*"
-GOVERREQUIRED="go1.24.*"
+GOVERREQUIRED="go1.25.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 
 if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
@@ -113,7 +113,7 @@ if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
 fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
-GOMINORREQUIRED=24
+GOMINORREQUIRED=25
 
 # We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
 if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
