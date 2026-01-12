@@ -11474,13 +11474,22 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *storag
 // Properties of key vault.
 type KeyVaultProperties struct {
 	// Keyname: The name of KeyVault key.
-	Keyname *string `json:"keyname,omitempty"`
+	Keyname *string `json:"keyname,omitempty" optionalConfigMapPair:"Keyname"`
+
+	// KeynameFromConfig: The name of KeyVault key.
+	KeynameFromConfig *genruntime.ConfigMapReference `json:"keynameFromConfig,omitempty" optionalConfigMapPair:"Keyname"`
 
 	// Keyvaulturi: The Uri of KeyVault.
-	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
+	Keyvaulturi *string `json:"keyvaulturi,omitempty" optionalConfigMapPair:"Keyvaulturi"`
+
+	// KeyvaulturiFromConfig: The Uri of KeyVault.
+	KeyvaulturiFromConfig *genruntime.ConfigMapReference `json:"keyvaulturiFromConfig,omitempty" optionalConfigMapPair:"Keyvaulturi"`
 
 	// Keyversion: The version of KeyVault key.
-	Keyversion *string `json:"keyversion,omitempty"`
+	Keyversion *string `json:"keyversion,omitempty" optionalConfigMapPair:"Keyversion"`
+
+	// KeyversionFromConfig: The version of KeyVault key.
+	KeyversionFromConfig *genruntime.ConfigMapReference `json:"keyversionFromConfig,omitempty" optionalConfigMapPair:"Keyversion"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -11497,16 +11506,40 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		keyname := *properties.Keyname
 		result.Keyname = &keyname
 	}
+	if properties.KeynameFromConfig != nil {
+		keynameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.KeynameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Keyname")
+		}
+		keyname := keynameValue
+		result.Keyname = &keyname
+	}
 
 	// Set property "Keyvaulturi":
 	if properties.Keyvaulturi != nil {
 		keyvaulturi := *properties.Keyvaulturi
 		result.Keyvaulturi = &keyvaulturi
 	}
+	if properties.KeyvaulturiFromConfig != nil {
+		keyvaulturiValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.KeyvaulturiFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Keyvaulturi")
+		}
+		keyvaulturi := keyvaulturiValue
+		result.Keyvaulturi = &keyvaulturi
+	}
 
 	// Set property "Keyversion":
 	if properties.Keyversion != nil {
 		keyversion := *properties.Keyversion
+		result.Keyversion = &keyversion
+	}
+	if properties.KeyversionFromConfig != nil {
+		keyversionValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.KeyversionFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Keyversion")
+		}
+		keyversion := keyversionValue
 		result.Keyversion = &keyversion
 	}
 	return result, nil
@@ -11530,17 +11563,23 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.Keyname = &keyname
 	}
 
+	// no assignment for property "KeynameFromConfig"
+
 	// Set property "Keyvaulturi":
 	if typedInput.Keyvaulturi != nil {
 		keyvaulturi := *typedInput.Keyvaulturi
 		properties.Keyvaulturi = &keyvaulturi
 	}
 
+	// no assignment for property "KeyvaulturiFromConfig"
+
 	// Set property "Keyversion":
 	if typedInput.Keyversion != nil {
 		keyversion := *typedInput.Keyversion
 		properties.Keyversion = &keyversion
 	}
+
+	// no assignment for property "KeyversionFromConfig"
 
 	// No error
 	return nil
@@ -11552,11 +11591,35 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 	// Keyname
 	properties.Keyname = genruntime.ClonePointerToString(source.Keyname)
 
+	// KeynameFromConfig
+	if source.KeynameFromConfig != nil {
+		keynameFromConfig := source.KeynameFromConfig.Copy()
+		properties.KeynameFromConfig = &keynameFromConfig
+	} else {
+		properties.KeynameFromConfig = nil
+	}
+
 	// Keyvaulturi
 	properties.Keyvaulturi = genruntime.ClonePointerToString(source.Keyvaulturi)
 
+	// KeyvaulturiFromConfig
+	if source.KeyvaulturiFromConfig != nil {
+		keyvaulturiFromConfig := source.KeyvaulturiFromConfig.Copy()
+		properties.KeyvaulturiFromConfig = &keyvaulturiFromConfig
+	} else {
+		properties.KeyvaulturiFromConfig = nil
+	}
+
 	// Keyversion
 	properties.Keyversion = genruntime.ClonePointerToString(source.Keyversion)
+
+	// KeyversionFromConfig
+	if source.KeyversionFromConfig != nil {
+		keyversionFromConfig := source.KeyversionFromConfig.Copy()
+		properties.KeyversionFromConfig = &keyversionFromConfig
+	} else {
+		properties.KeyversionFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -11570,11 +11633,35 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	// Keyname
 	destination.Keyname = genruntime.ClonePointerToString(properties.Keyname)
 
+	// KeynameFromConfig
+	if properties.KeynameFromConfig != nil {
+		keynameFromConfig := properties.KeynameFromConfig.Copy()
+		destination.KeynameFromConfig = &keynameFromConfig
+	} else {
+		destination.KeynameFromConfig = nil
+	}
+
 	// Keyvaulturi
 	destination.Keyvaulturi = genruntime.ClonePointerToString(properties.Keyvaulturi)
 
+	// KeyvaulturiFromConfig
+	if properties.KeyvaulturiFromConfig != nil {
+		keyvaulturiFromConfig := properties.KeyvaulturiFromConfig.Copy()
+		destination.KeyvaulturiFromConfig = &keyvaulturiFromConfig
+	} else {
+		destination.KeyvaulturiFromConfig = nil
+	}
+
 	// Keyversion
 	destination.Keyversion = genruntime.ClonePointerToString(properties.Keyversion)
+
+	// KeyversionFromConfig
+	if properties.KeyversionFromConfig != nil {
+		keyversionFromConfig := properties.KeyversionFromConfig.Copy()
+		destination.KeyversionFromConfig = &keyversionFromConfig
+	} else {
+		destination.KeyversionFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

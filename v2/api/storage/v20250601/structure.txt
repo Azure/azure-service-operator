@@ -64,10 +64,13 @@ StorageAccount: Resource
 │   │   ├── KeySource: *Enum (2 values)
 │   │   │   ├── "Microsoft.Keyvault"
 │   │   │   └── "Microsoft.Storage"
-│   │   ├── Keyvaultproperties: *Object (3 properties)
+│   │   ├── Keyvaultproperties: *Object (6 properties)
 │   │   │   ├── Keyname: *string
+│   │   │   ├── KeynameFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── Keyvaulturi: *string
-│   │   │   └── Keyversion: *string
+│   │   │   ├── KeyvaulturiFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── Keyversion: *string
+│   │   │   └── KeyversionFromConfig: *genruntime.ConfigMapReference
 │   │   ├── RequireInfrastructureEncryption: *bool
 │   │   └── Services: *Object (4 properties)
 │   │       ├── Blob: *Object (2 properties)

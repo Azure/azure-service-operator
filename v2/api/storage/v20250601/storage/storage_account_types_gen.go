@@ -809,10 +809,13 @@ type IPRule_STATUS struct {
 // Storage version of v20250601.KeyVaultProperties
 // Properties of key vault.
 type KeyVaultProperties struct {
-	Keyname     *string                `json:"keyname,omitempty"`
-	Keyvaulturi *string                `json:"keyvaulturi,omitempty"`
-	Keyversion  *string                `json:"keyversion,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Keyname               *string                        `json:"keyname,omitempty" optionalConfigMapPair:"Keyname"`
+	KeynameFromConfig     *genruntime.ConfigMapReference `json:"keynameFromConfig,omitempty" optionalConfigMapPair:"Keyname"`
+	Keyvaulturi           *string                        `json:"keyvaulturi,omitempty" optionalConfigMapPair:"Keyvaulturi"`
+	KeyvaulturiFromConfig *genruntime.ConfigMapReference `json:"keyvaulturiFromConfig,omitempty" optionalConfigMapPair:"Keyvaulturi"`
+	Keyversion            *string                        `json:"keyversion,omitempty" optionalConfigMapPair:"Keyversion"`
+	KeyversionFromConfig  *genruntime.ConfigMapReference `json:"keyversionFromConfig,omitempty" optionalConfigMapPair:"Keyversion"`
+	PropertyBag           genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20250601.KeyVaultProperties_STATUS

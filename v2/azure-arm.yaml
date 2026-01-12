@@ -5145,6 +5145,13 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         UserAssignedIdentity:
           $referenceType: arm
+      KeyvaultProperties:
+        Keyname:
+          $importConfigMapMode: optional
+        Keyvaulturi:
+          $importConfigMapMode: optional
+        Keyversion:
+          $importConfigMapMode: optional
       ResourceAccessRule:
         ResourceId:
           $referenceType: arm

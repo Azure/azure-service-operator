@@ -2140,14 +2140,29 @@ func (in *KeyVaultProperties) DeepCopyInto(out *KeyVaultProperties) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.KeynameFromConfig != nil {
+		in, out := &in.KeynameFromConfig, &out.KeynameFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Keyvaulturi != nil {
 		in, out := &in.Keyvaulturi, &out.Keyvaulturi
 		*out = new(string)
 		**out = **in
 	}
+	if in.KeyvaulturiFromConfig != nil {
+		in, out := &in.KeyvaulturiFromConfig, &out.KeyvaulturiFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Keyversion != nil {
 		in, out := &in.Keyversion, &out.Keyversion
 		*out = new(string)
+		**out = **in
+	}
+	if in.KeyversionFromConfig != nil {
+		in, out := &in.KeyversionFromConfig, &out.KeyversionFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.PropertyBag != nil {

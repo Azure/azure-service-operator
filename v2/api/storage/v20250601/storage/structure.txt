@@ -47,10 +47,13 @@ StorageAccount: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   ├── KeySource: *string
-│   │   ├── Keyvaultproperties: *Object (4 properties)
+│   │   ├── Keyvaultproperties: *Object (7 properties)
 │   │   │   ├── Keyname: *string
+│   │   │   ├── KeynameFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── Keyvaulturi: *string
+│   │   │   ├── KeyvaulturiFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── Keyversion: *string
+│   │   │   ├── KeyversionFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── RequireInfrastructureEncryption: *bool

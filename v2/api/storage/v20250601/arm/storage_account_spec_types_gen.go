@@ -677,13 +677,13 @@ type IPRule struct {
 // Properties of key vault.
 type KeyVaultProperties struct {
 	// Keyname: The name of KeyVault key.
-	Keyname *string `json:"keyname,omitempty"`
+	Keyname *string `json:"keyname,omitempty" optionalConfigMapPair:"Keyname"`
 
 	// Keyvaulturi: The Uri of KeyVault.
-	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
+	Keyvaulturi *string `json:"keyvaulturi,omitempty" optionalConfigMapPair:"Keyvaulturi"`
 
 	// Keyversion: The version of KeyVault key.
-	Keyversion *string `json:"keyversion,omitempty"`
+	Keyversion *string `json:"keyversion,omitempty" optionalConfigMapPair:"Keyversion"`
 }
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}

@@ -6399,11 +6399,32 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 	// Keyname
 	properties.Keyname = genruntime.ClonePointerToString(source.Keyname)
 
+	// KeynameFromConfig
+	if source.KeynameFromConfig != nil {
+		propertyBag.Add("KeynameFromConfig", *source.KeynameFromConfig)
+	} else {
+		propertyBag.Remove("KeynameFromConfig")
+	}
+
 	// Keyvaulturi
 	properties.Keyvaulturi = genruntime.ClonePointerToString(source.Keyvaulturi)
 
+	// KeyvaulturiFromConfig
+	if source.KeyvaulturiFromConfig != nil {
+		propertyBag.Add("KeyvaulturiFromConfig", *source.KeyvaulturiFromConfig)
+	} else {
+		propertyBag.Remove("KeyvaulturiFromConfig")
+	}
+
 	// Keyversion
 	properties.Keyversion = genruntime.ClonePointerToString(source.Keyversion)
+
+	// KeyversionFromConfig
+	if source.KeyversionFromConfig != nil {
+		propertyBag.Add("KeyversionFromConfig", *source.KeyversionFromConfig)
+	} else {
+		propertyBag.Remove("KeyversionFromConfig")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6433,11 +6454,50 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	// Keyname
 	destination.Keyname = genruntime.ClonePointerToString(properties.Keyname)
 
+	// KeynameFromConfig
+	if propertyBag.Contains("KeynameFromConfig") {
+		var keynameFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("KeynameFromConfig", &keynameFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeynameFromConfig' from propertyBag")
+		}
+
+		destination.KeynameFromConfig = &keynameFromConfig
+	} else {
+		destination.KeynameFromConfig = nil
+	}
+
 	// Keyvaulturi
 	destination.Keyvaulturi = genruntime.ClonePointerToString(properties.Keyvaulturi)
 
+	// KeyvaulturiFromConfig
+	if propertyBag.Contains("KeyvaulturiFromConfig") {
+		var keyvaulturiFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("KeyvaulturiFromConfig", &keyvaulturiFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeyvaulturiFromConfig' from propertyBag")
+		}
+
+		destination.KeyvaulturiFromConfig = &keyvaulturiFromConfig
+	} else {
+		destination.KeyvaulturiFromConfig = nil
+	}
+
 	// Keyversion
 	destination.Keyversion = genruntime.ClonePointerToString(properties.Keyversion)
+
+	// KeyversionFromConfig
+	if propertyBag.Contains("KeyversionFromConfig") {
+		var keyversionFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("KeyversionFromConfig", &keyversionFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeyversionFromConfig' from propertyBag")
+		}
+
+		destination.KeyversionFromConfig = &keyversionFromConfig
+	} else {
+		destination.KeyversionFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

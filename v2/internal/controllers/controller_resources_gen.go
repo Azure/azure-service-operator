@@ -2728,6 +2728,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.networkAcls.ipv6Rules.valueFromConfig",
 				Func: indexStorageStorageAccountIpv6RulesValueFromConfig,
 			},
+			{
+				Key:  ".spec.encryption.keyvaultproperties.keynameFromConfig",
+				Func: indexStorageStorageAccountKeynameFromConfig,
+			},
+			{
+				Key:  ".spec.encryption.keyvaultproperties.keyvaulturiFromConfig",
+				Func: indexStorageStorageAccountKeyvaulturiFromConfig,
+			},
+			{
+				Key:  ".spec.encryption.keyvaultproperties.keyversionFromConfig",
+				Func: indexStorageStorageAccountKeyversionFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -2735,6 +2747,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
 						".spec.encryption.identity.federatedIdentityClientIdFromConfig",
+						".spec.encryption.keyvaultproperties.keynameFromConfig",
+						".spec.encryption.keyvaultproperties.keyvaulturiFromConfig",
+						".spec.encryption.keyvaultproperties.keyversionFromConfig",
 						".spec.networkAcls.ipRules.valueFromConfig",
 						".spec.networkAcls.ipv6Rules.valueFromConfig",
 					},
@@ -10776,6 +10791,60 @@ func indexStorageStorageAccountIpv6RulesValueFromConfig(rawObj client.Object) []
 		result = append(result, ipv6RuleItem.ValueFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexStorageStorageAccountKeynameFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keynameFromConfig
+func indexStorageStorageAccountKeynameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties.KeynameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Keyvaultproperties.KeynameFromConfig.Index()
+}
+
+// indexStorageStorageAccountKeyvaulturiFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keyvaulturiFromConfig
+func indexStorageStorageAccountKeyvaulturiFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties.KeyvaulturiFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Keyvaultproperties.KeyvaulturiFromConfig.Index()
+}
+
+// indexStorageStorageAccountKeyversionFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keyversionFromConfig
+func indexStorageStorageAccountKeyversionFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties.KeyversionFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Keyvaultproperties.KeyversionFromConfig.Index()
 }
 
 // indexSynapseWorkspaceAccountUrlFromConfig an index function for synapse_v20210601s.Workspace .spec.defaultDataLakeStorage.accountUrlFromConfig
