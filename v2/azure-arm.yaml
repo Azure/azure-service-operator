@@ -5141,6 +5141,8 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
       EncryptionIdentity:
+        FederatedIdentityClientId:
+          $importConfigMapMode: optional
         UserAssignedIdentity:
           $referenceType: arm
       ResourceAccessRule:

@@ -1091,6 +1091,11 @@ func (in *EncryptionIdentity) DeepCopyInto(out *EncryptionIdentity) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.FederatedIdentityClientIdFromConfig != nil {
+		in, out := &in.FederatedIdentityClientIdFromConfig, &out.FederatedIdentityClientIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

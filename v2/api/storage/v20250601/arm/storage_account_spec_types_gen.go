@@ -643,7 +643,7 @@ var encryption_KeySource_Values = map[string]Encryption_KeySource{
 type EncryptionIdentity struct {
 	// FederatedIdentityClientId: ClientId of the multi-tenant application to be used in conjunction with the user-assigned
 	// identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
-	FederatedIdentityClientId *string `json:"federatedIdentityClientId,omitempty"`
+	FederatedIdentityClientId *string `json:"federatedIdentityClientId,omitempty" optionalConfigMapPair:"FederatedIdentityClientId"`
 
 	// UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
 	// the storage account.

@@ -41,8 +41,9 @@ StorageAccount: Resource
 │   │   └── PublishIpv6Endpoint: *bool
 │   ├── EnableExtendedGroups: *bool
 │   ├── Encryption: *Object (6 properties)
-│   │   ├── Identity: *Object (3 properties)
+│   │   ├── Identity: *Object (4 properties)
 │   │   │   ├── FederatedIdentityClientId: *string
+│   │   │   ├── FederatedIdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   ├── KeySource: *string

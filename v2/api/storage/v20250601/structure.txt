@@ -57,8 +57,9 @@ StorageAccount: Resource
 │   │   └── PublishIpv6Endpoint: *bool
 │   ├── EnableExtendedGroups: *bool
 │   ├── Encryption: *Object (5 properties)
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── FederatedIdentityClientId: *string
+│   │   │   ├── FederatedIdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   ├── KeySource: *Enum (2 values)
 │   │   │   ├── "Microsoft.Keyvault"

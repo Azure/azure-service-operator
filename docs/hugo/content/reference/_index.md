@@ -1032,18 +1032,18 @@ To install the CRDs for these resources, your ASO configuration must include `st
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                             | ARM Version | CRD Version | Supported From | Sample |
-|--------------------------------------|-------------|-------------|----------------|--------|
-| StorageAccount                       | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsBlobService           | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsBlobServicesContainer | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsFileService           | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsFileServicesShare     | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsManagementPolicy      | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsQueueService          | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsQueueServicesQueue    | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsTableService          | 2025-06-01  | v20250601   | v2.18.0        | -      |
-| StorageAccountsTableServicesTable    | 2025-06-01  | v20250601   | v2.18.0        | -      |
+| Resource                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                             |
+|--------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| StorageAccount                       | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccount.yaml)                       |
+| StorageAccountsBlobService           | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsblobservice.yaml)           |
+| StorageAccountsBlobServicesContainer | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsblobservicescontainer.yaml) |
+| StorageAccountsFileService           | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsfileservice.yaml)           |
+| StorageAccountsFileServicesShare     | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsfileservicesshare.yaml)     |
+| StorageAccountsManagementPolicy      | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsmanagementpolicy.yaml)      |
+| StorageAccountsQueueService          | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsqueueservice.yaml)          |
+| StorageAccountsQueueServicesQueue    | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsqueueservicesqueue.yaml)    |
+| StorageAccountsTableService          | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountstableservice.yaml)          |
+| StorageAccountsTableServicesTable    | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountstableservicestable.yaml)    |
 
 ### Latest Released Versions
 

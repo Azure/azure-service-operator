@@ -2717,6 +2717,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(storage_v20250601s.StorageAccount),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.encryption.identity.federatedIdentityClientIdFromConfig",
+				Func: indexStorageStorageAccountFederatedIdentityClientIdFromConfig,
+			},
+			{
 				Key:  ".spec.networkAcls.ipRules.valueFromConfig",
 				Func: indexStorageStorageAccountIpRulesValueFromConfig,
 			},
@@ -2730,6 +2734,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.encryption.identity.federatedIdentityClientIdFromConfig",
 						".spec.networkAcls.ipRules.valueFromConfig",
 						".spec.networkAcls.ipv6Rules.valueFromConfig",
 					},
@@ -10715,6 +10720,24 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 		return nil
 	}
 	return obj.Spec.StorageContainerSasKey.Index()
+}
+
+// indexStorageStorageAccountFederatedIdentityClientIdFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.identity.federatedIdentityClientIdFromConfig
+func indexStorageStorageAccountFederatedIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Identity == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Identity.FederatedIdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Identity.FederatedIdentityClientIdFromConfig.Index()
 }
 
 // indexStorageStorageAccountIpRulesValueFromConfig an index function for storage_v20250601s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig

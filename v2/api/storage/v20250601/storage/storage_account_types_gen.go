@@ -752,8 +752,9 @@ type BlobRestoreParameters_STATUS struct {
 // Storage version of v20250601.EncryptionIdentity
 // Encryption identity for the storage account.
 type EncryptionIdentity struct {
-	FederatedIdentityClientId *string                `json:"federatedIdentityClientId,omitempty"`
-	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	FederatedIdentityClientId           *string                        `json:"federatedIdentityClientId,omitempty" optionalConfigMapPair:"FederatedIdentityClientId"`
+	FederatedIdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"federatedIdentityClientIdFromConfig,omitempty" optionalConfigMapPair:"FederatedIdentityClientId"`
+	PropertyBag                         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 
 	// UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
 	// encryption on the storage account.

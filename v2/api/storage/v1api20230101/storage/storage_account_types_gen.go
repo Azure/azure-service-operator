@@ -5759,6 +5759,13 @@ func (identity *EncryptionIdentity) AssignProperties_From_EncryptionIdentity(sou
 	// FederatedIdentityClientId
 	identity.FederatedIdentityClientId = genruntime.ClonePointerToString(source.FederatedIdentityClientId)
 
+	// FederatedIdentityClientIdFromConfig
+	if source.FederatedIdentityClientIdFromConfig != nil {
+		propertyBag.Add("FederatedIdentityClientIdFromConfig", *source.FederatedIdentityClientIdFromConfig)
+	} else {
+		propertyBag.Remove("FederatedIdentityClientIdFromConfig")
+	}
+
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
 		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
@@ -5794,6 +5801,19 @@ func (identity *EncryptionIdentity) AssignProperties_To_EncryptionIdentity(desti
 
 	// FederatedIdentityClientId
 	destination.FederatedIdentityClientId = genruntime.ClonePointerToString(identity.FederatedIdentityClientId)
+
+	// FederatedIdentityClientIdFromConfig
+	if propertyBag.Contains("FederatedIdentityClientIdFromConfig") {
+		var federatedIdentityClientIdFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("FederatedIdentityClientIdFromConfig", &federatedIdentityClientIdFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'FederatedIdentityClientIdFromConfig' from propertyBag")
+		}
+
+		destination.FederatedIdentityClientIdFromConfig = &federatedIdentityClientIdFromConfig
+	} else {
+		destination.FederatedIdentityClientIdFromConfig = nil
+	}
 
 	// UserAssignedIdentityReference
 	if identity.UserAssignedIdentityReference != nil {

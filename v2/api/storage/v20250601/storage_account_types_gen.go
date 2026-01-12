@@ -10411,7 +10411,11 @@ var encryption_KeySource_STATUS_Values = map[string]Encryption_KeySource_STATUS{
 type EncryptionIdentity struct {
 	// FederatedIdentityClientId: ClientId of the multi-tenant application to be used in conjunction with the user-assigned
 	// identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
-	FederatedIdentityClientId *string `json:"federatedIdentityClientId,omitempty"`
+	FederatedIdentityClientId *string `json:"federatedIdentityClientId,omitempty" optionalConfigMapPair:"FederatedIdentityClientId"`
+
+	// FederatedIdentityClientIdFromConfig: ClientId of the multi-tenant application to be used in conjunction with the
+	// user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
+	FederatedIdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"federatedIdentityClientIdFromConfig,omitempty" optionalConfigMapPair:"FederatedIdentityClientId"`
 
 	// UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
 	// encryption on the storage account.
@@ -10430,6 +10434,14 @@ func (identity *EncryptionIdentity) ConvertToARM(resolved genruntime.ConvertToAR
 	// Set property "FederatedIdentityClientId":
 	if identity.FederatedIdentityClientId != nil {
 		federatedIdentityClientId := *identity.FederatedIdentityClientId
+		result.FederatedIdentityClientId = &federatedIdentityClientId
+	}
+	if identity.FederatedIdentityClientIdFromConfig != nil {
+		federatedIdentityClientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*identity.FederatedIdentityClientIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property FederatedIdentityClientId")
+		}
+		federatedIdentityClientId := federatedIdentityClientIdValue
 		result.FederatedIdentityClientId = &federatedIdentityClientId
 	}
 
@@ -10463,6 +10475,8 @@ func (identity *EncryptionIdentity) PopulateFromARM(owner genruntime.ArbitraryOw
 		identity.FederatedIdentityClientId = &federatedIdentityClientId
 	}
 
+	// no assignment for property "FederatedIdentityClientIdFromConfig"
+
 	// no assignment for property "UserAssignedIdentityReference"
 
 	// No error
@@ -10474,6 +10488,14 @@ func (identity *EncryptionIdentity) AssignProperties_From_EncryptionIdentity(sou
 
 	// FederatedIdentityClientId
 	identity.FederatedIdentityClientId = genruntime.ClonePointerToString(source.FederatedIdentityClientId)
+
+	// FederatedIdentityClientIdFromConfig
+	if source.FederatedIdentityClientIdFromConfig != nil {
+		federatedIdentityClientIdFromConfig := source.FederatedIdentityClientIdFromConfig.Copy()
+		identity.FederatedIdentityClientIdFromConfig = &federatedIdentityClientIdFromConfig
+	} else {
+		identity.FederatedIdentityClientIdFromConfig = nil
+	}
 
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
@@ -10494,6 +10516,14 @@ func (identity *EncryptionIdentity) AssignProperties_To_EncryptionIdentity(desti
 
 	// FederatedIdentityClientId
 	destination.FederatedIdentityClientId = genruntime.ClonePointerToString(identity.FederatedIdentityClientId)
+
+	// FederatedIdentityClientIdFromConfig
+	if identity.FederatedIdentityClientIdFromConfig != nil {
+		federatedIdentityClientIdFromConfig := identity.FederatedIdentityClientIdFromConfig.Copy()
+		destination.FederatedIdentityClientIdFromConfig = &federatedIdentityClientIdFromConfig
+	} else {
+		destination.FederatedIdentityClientIdFromConfig = nil
+	}
 
 	// UserAssignedIdentityReference
 	if identity.UserAssignedIdentityReference != nil {
