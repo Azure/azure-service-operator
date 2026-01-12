@@ -297,16 +297,16 @@
     </item>
     <item>
       <title>Developer Talks - Quality of Life Features with Bevan</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/v2.17-features-with-bevan/</link>
+      <link>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</link>
       <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/v2.17-features-with-bevan/</guid>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</guid>
       <description>&lt;p&gt;With the release of ASO v2.17 coming soon, this felt like a great time to go behind the curtain and get a better idea of what us devs have been working on, both landed and upcoming, and how they contribute to a smoother user experience for ASO users.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll go over two exciting features, one landing in v2.17 and one that shipped in v2.16. Alongside our other host of improvements, we hope these features make using ASO that much smoother for our users.&lt;/p&gt;</description>
     </item>
     <item>
       <title>ASO v2.16 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/release-notes-v2.16.0/</link>
+      <link>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</link>
       <pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/release-notes-v2.16.0/</guid>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</guid>
       <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.16.0! This release comes with a host of improvements and fixes, along with support being added for some oft-requested resources.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-breaking-changes&#34;&gt;⚠️ Breaking changes&lt;/h2&gt;&#xA;&lt;p&gt;This release includes breaking changes. Please review the &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/breaking-changes/&#34;&gt;breaking changes documentation&lt;/a&gt; before upgrading.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-new-and-improved-resource-support&#34;&gt;🎉 New and improved resource support&lt;/h2&gt;&#xA;&lt;h3 id=&#34;new-resource-support&#34;&gt;New resource support&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve added support for three new resources:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/4980&#34;&gt;Azure Compute Capacity Reservation Groups&lt;/a&gt; allowing capacity reservation manifests to be declaratively included alongside VM manifests&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;Special thanks to &lt;a href=&#34;https://github.com/bingikarthik&#34;&gt;bingikarthik&lt;/a&gt; for his contribution!&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/4979&#34;&gt;Managing Azure quotas&lt;/a&gt; for Kubernetes native management of Azure quotas&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;Special thanks to &lt;a href=&#34;https://github.com/bingikarthik&#34;&gt;bingikarthik&lt;/a&gt; for his contribution!&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4614&#34;&gt;NetworkWatchers/flowLogs&lt;/a&gt; for management of Network Security Group Flow Logs.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;enhanced-resource-references&#34;&gt;Enhanced resource references&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve enhanced existing resource references with additional functionality:&lt;/p&gt;</description>
     </item>
     <item>
