@@ -1514,7 +1514,7 @@ objectModelConfiguration:
     2024-06-01:
       ConfigurationStore:
         $exportAs: ConfigurationStore
-        $supportedFrom: v2.17.0
+        $supportedFrom: v2.18.0
         $azureGeneratedSecrets:
           - PrimaryKeyID
           - PrimaryKey
@@ -1530,13 +1530,13 @@ objectModelConfiguration:
           - SecondaryReadOnlyConnectionString
       ConfigurationStores_KeyValue:
         $exportAs: KeyValue
-        $supportedFrom: v2.17.0
+        $supportedFrom: v2.18.0
       ConfigurationStores_Replica:
         $exportAs: Replica
-        $supportedFrom: v2.17.0
+        $supportedFrom: v2.18.0
       ConfigurationStores_Snapshot:
         $exportAs: Snapshot
-        $supportedFrom: v2.17.0
+        $supportedFrom: v2.18.0
   authorization:
     2020-08-01-preview:
       RoleAssignment:

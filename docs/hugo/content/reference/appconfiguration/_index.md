@@ -11,10 +11,10 @@ Development of these new resources is complete and they will be available in the
 
 | Resource           | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
 |--------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| ConfigurationStore | 2024-06-01  | v20240601   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_configurationstore.yaml) |
-| KeyValue           | 2024-06-01  | v20240601   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_keyvalue.yaml)           |
-| Replica            | 2024-06-01  | v20240601   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_replica.yaml)            |
-| Snapshot           | 2024-06-01  | v20240601   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_snapshot.yaml)           |
+| ConfigurationStore | 2024-06-01  | v20240601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_configurationstore.yaml) |
+| KeyValue           | 2024-06-01  | v20240601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_keyvalue.yaml)           |
+| Replica            | 2024-06-01  | v20240601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_replica.yaml)            |
+| Snapshot           | 2024-06-01  | v20240601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_snapshot.yaml)           |
 
 ### Released
 
