@@ -45,8 +45,15 @@ type replayResponse struct {
 }
 
 const (
-	putReplays = 1  // Number of times to replay a PUT request
-	getReplays = 10 // Number of times to replay a GET request
+	// Timing variations during test replay may result in a resource being reconciled an additional time - we don't
+	// want to fail the test in this situation because we've already successfully achieved our goal state.
+	// Thus we allow the last PUT for each resource to be replayed one extra time.
+	maxPutReplays = 1 // Maximum number of times to replay a PUT request
+
+	// GET requests may be replayed multiple times to allow multiple reconciles to observe the same stable final state.
+	// We set this to accommodate timing variations during test replay, while avoiding unbounded replays as they might
+	// result in a test getting stuck and continuing to run until the entire test suite times out.
+	maxGetReplays = 10 // Maximum number of times to replay a GET request
 )
 
 var _ http.RoundTripper = &replayRoundTripper{}
