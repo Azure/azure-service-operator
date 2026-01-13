@@ -73,6 +73,11 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(blobService)
 
 	tc.Expect(blobService.Status.Id).ToNot(BeNil())
@@ -149,8 +154,10 @@ func Test_OwnerIsARMID_ExtensionResourceSuccessfullyReconciled(t *testing.T) {
 				Name: configMapName,
 				Key:  principalIdKey,
 			},
-			RoleDefinitionReference: &genruntime.ResourceReference{
-				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
+				ResourceReference: genruntime.ResourceReference{
+					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
+				},
 			},
 		},
 	}

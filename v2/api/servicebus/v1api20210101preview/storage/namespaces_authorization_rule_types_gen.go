@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210101preview.NamespacesAuthorizationRule
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (rule *NamespacesAuthorizationRule) OriginalGVK() *schema.GroupVersionKind 
 // +kubebuilder:object:root=true
 // Storage version of v1api20210101preview.NamespacesAuthorizationRule
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
 type NamespacesAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`

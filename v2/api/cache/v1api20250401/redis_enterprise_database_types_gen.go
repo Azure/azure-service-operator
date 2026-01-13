@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2025-04-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2025-04-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -2475,6 +2475,9 @@ type RedisEnterpriseDatabaseOperatorSpec struct {
 
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *RedisEnterpriseDatabaseOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_RedisEnterpriseDatabaseOperatorSpec populates our RedisEnterpriseDatabaseOperatorSpec from the provided source RedisEnterpriseDatabaseOperatorSpec
@@ -2510,6 +2513,18 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 		operator.SecretExpressions = secretExpressionList
 	} else {
 		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret RedisEnterpriseDatabaseOperatorSecrets
+		err := secret.AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -2551,6 +2566,18 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 		destination.SecretExpressions = secretExpressionList
 	} else {
 		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.RedisEnterpriseDatabaseOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -2966,6 +2993,71 @@ var persistence_RdbFrequency_STATUS_Values = map[string]Persistence_RdbFrequency
 	"12h": Persistence_RdbFrequency_STATUS_12H,
 	"1h":  Persistence_RdbFrequency_STATUS_1H,
 	"6h":  Persistence_RdbFrequency_STATUS_6H,
+}
+
+type RedisEnterpriseDatabaseOperatorSecrets struct {
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets populates our RedisEnterpriseDatabaseOperatorSecrets from the provided source RedisEnterpriseDatabaseOperatorSecrets
+func (secrets *RedisEnterpriseDatabaseOperatorSecrets) AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets(source *storage.RedisEnterpriseDatabaseOperatorSecrets) error {
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets populates the provided destination RedisEnterpriseDatabaseOperatorSecrets from our RedisEnterpriseDatabaseOperatorSecrets
+func (secrets *RedisEnterpriseDatabaseOperatorSecrets) AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(destination *storage.RedisEnterpriseDatabaseOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type SystemData_CreatedByType_STATUS string

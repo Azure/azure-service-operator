@@ -29,10 +29,9 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			// Iterate through resource types and aggregate the resource types that share the same extension type in a map.
 			for _, typeDef := range state.Definitions().AllResources() {
 				group := typeDef.Name().InternalPackageReference().Group()
-				packageRef := astmodel.MakeLocalPackageReference(
+				packageRef := astmodel.MakeNamedLocalPackageReference(
 					localPath,
 					group,
-					"", // no prefix needed (or wanted!) for customizations
 					"customizations")
 				extensionTypeName := astmodel.MakeInternalTypeName(packageRef, typeDef.Name().Name()+"Extension")
 				extendedResourceTypesMapping[extensionTypeName] = append(extendedResourceTypesMapping[extensionTypeName], typeDef.Name())

@@ -122,7 +122,6 @@ tasks:
     deps: 
       - header-check
       - specifier-check
-      - controller:check-crd-size
 
   make-release-artifacts:
     desc: Produce files required for an ASOv2 release
@@ -143,12 +142,16 @@ tasks:
     cmds:
       - task: asoctl:unit-tests
       - task: basic-checks
+        vars:
+          DIR: '{{.ASOCTL_ROOT}}'
       - task: asoctl:lint
 
   asoctl:ci:
     cmds:
       - task: asoctl:unit-tests-cover
       - task: basic-checks
+        vars:
+          DIR: '{{.ASOCTL_ROOT}}'
       - task: asoctl:lint
 
   asoctl:unit-tests:
@@ -236,12 +239,16 @@ tasks:
     cmds:
       - task: generator:unit-tests
       - task: basic-checks
+        vars:
+          DIR: '{{.GENERATOR_ROOT}}'
       - task: generator:lint
 
   generator:ci:
     cmds:
       - task: generator:unit-tests-cover
       - task: basic-checks
+        vars:
+          DIR: '{{.GENERATOR_ROOT}}'
       - task: generator:lint
 
   generator:unit-tests:
@@ -308,6 +315,7 @@ tasks:
       - task: controller:test
       # checks must be after test as that will generate code
       - task: basic-checks
+      - task: controller:check-crd-size
       - task: controller:verify-samples
       # Lint is forced to the end because it expects the code is formatted
       - task: controller:lint
@@ -319,6 +327,7 @@ tasks:
       - task: controller:test-integration-ci
       # checks must be after test as that will generate code
       - task: basic-checks
+      - task: controller:check-crd-size
       # lint must be at end after code is formatted
       - task: controller:lint
 
@@ -333,6 +342,7 @@ tasks:
     cmds:
       - task: controller:test-integration-ci-live
       - task: basic-checks
+      - task: controller:check-crd-size
       - task: controller:lint
 
   controller:format-code:
@@ -708,7 +718,7 @@ tasks:
       - generator:build
     sources:
       - ./bin/{{.GENERATOR_APP}}
-      - v2/azure-arm.yaml
+      - azure-arm.yaml
       - ../docs/hugo/content/reference
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
@@ -1031,7 +1041,7 @@ tasks:
     cmds:
       - "kubectl create namespace cert-manager"
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
-      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.4/cert-manager.yaml"
+      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.18.2/cert-manager.yaml"
     status:
       - "kubectl get namespace cert-manager"
 
@@ -1249,7 +1259,9 @@ tasks:
 
   crossplane:ci:
     deps: 
-      - basic-checks
+      - task: basic-checks
+        vars:
+          DIR: '{{.CROSSPLANE_ROOT}}'
       - crossplane:generate-crds
 
   ############### Documentation targets ###############
@@ -1333,8 +1345,11 @@ tasks:
 
   header-check:
     desc: Ensure all files have an appropriate license header.
+    dir: '{{.DIR}}'
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_headers.py"
+    vars:
+      DIR: "{{default .CONTROLLER_ROOT .DIR}}"
 
   # Stub retained until migration of workflows complete
   frontmatter-check:
@@ -1343,15 +1358,18 @@ tasks:
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used
+    dir: '{{.DIR}}'
     # Both %v and %+v result in all the values from structs being dumped into the string. If that
     # struct happens to contain a secret or sensitive information, it ends up dumped out in an
     # uncontrolled way, potentially leading to a security issue or a problem with PII disclosure.
     # The buried risk here is that while %v might be safe now, a future change to the struct might
     # introduce a disclosure later on.
     cmds:
-      - cmd: echo "==> Checking format specifiers <=="
+      - cmd: echo "==> Checking format specifiers for {{.DIR}} <=="
         silent: true
       - cmd: '! git grep -e "%+v" -e "%v" --break --heading --line-number -I "*.go"'
+    vars:
+      DIR: "{{default .CONTROLLER_ROOT .DIR}}"
 
   verify-no-changes:
     desc: Checks that there are no uncommitted modifications to files

@@ -69,7 +69,7 @@ func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
 		return nil, err
 	}
 
-	return NewARMClientCache(credentialProvider, client, cfg.Cloud(), nil, metrics.NewARMClientMetrics()), nil
+	return NewARMClientCache(credentialProvider, cfg.Cloud(), nil, metrics.NewARMClientMetrics()), nil
 }
 
 type testResources struct {
@@ -113,7 +113,7 @@ func Test_DefaultCredential_NotSet_ReturnsErrorWhenTryToUseGlobalCredential(t *t
 	g.Expect(err).To(BeNil())
 
 	providerWithNoDefaultCred := identity.NewCredentialProvider(nil, kubeClient, nil)
-	clientWithNoDefaultCred := NewARMClientCache(providerWithNoDefaultCred, kubeClient, cfg.Cloud(), nil, metrics.NewARMClientMetrics())
+	clientWithNoDefaultCred := NewARMClientCache(providerWithNoDefaultCred, cfg.Cloud(), nil, metrics.NewARMClientMetrics())
 
 	rg := newResourceGroup("")
 

@@ -32,6 +32,8 @@ func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
 	}
 	secretNames := secretsSpecified(obj)
 	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(eventgrid.TopicOperatorSecrets{}))
+	// We expect every property in the secrets struct to be considered a secret except for the $propertyBag one
+	// (that property exists because this is the storage version)
 	expectedTags.Remove("$propertyBag")
 
 	g.Expect(expectedTags).To(Equal(secretNames))

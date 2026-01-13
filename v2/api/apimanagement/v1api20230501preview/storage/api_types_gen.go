@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230501preview.Api
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimapis.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimapis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}
 type Api struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -49,22 +48,36 @@ var _ conversion.Convertible = &Api{}
 
 // ConvertFrom populates our Api from the provided hub Api
 func (api *Api) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Api)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Api but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Api
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return api.AssignProperties_From_Api(source)
+	err = api.AssignProperties_From_Api(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to api")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Api from our Api
 func (api *Api) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Api)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Api but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Api
+	err := api.AssignProperties_To_Api(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from api")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return api.AssignProperties_To_Api(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Api{}
@@ -245,7 +258,7 @@ func (api *Api) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230501preview.Api
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimapis.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimapis.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}
 type ApiList struct {
 	metav1.TypeMeta `json:",inline"`

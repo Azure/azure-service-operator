@@ -5,7 +5,8 @@ package v1api20240801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersAdvancedThreatProtectionSettings
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FlexibleServersAdvancedThreatProtectionSettings
+	var hub v20250801s.FlexibleServersAdvancedThreatProtectionSettings
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdvancedThreatProtectionSettings
+	var other v20240801s.FlexibleServersAdvancedThreatProtectionSettings
 	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec
+	var other v20240801s.FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdvancedThreatProtectionSettings_STATUS
+	var other v20240801s.FlexibleServersAdvancedThreatProtectionSettings_STATUS
 	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -400,7 +401,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdvancedThreatProtectionSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdvancedThreatProtectionSettings_Spec
+	var other v20240801s.FlexibleServersAdvancedThreatProtectionSettings_Spec
 	err := copied.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings_Spec(&other)
 	if err != nil {
 		return err.Error()

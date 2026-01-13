@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/datafactory.json
+// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/datafactory.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}
 type Factory struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (factory *Factory) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/datafactory.json
+// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/datafactory.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}
 type FactoryList struct {
 	metav1.TypeMeta `json:",inline"`

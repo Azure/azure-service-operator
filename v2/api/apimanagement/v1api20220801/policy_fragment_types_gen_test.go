@@ -5,7 +5,8 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForPolicyFragment(subject PolicyFragment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PolicyFragment
+	var hub v20240501s.PolicyFragment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForPolicyFragment(subject PolicyFragment) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PolicyFragment
+	var other v20220801s.PolicyFragment
 	err := copied.AssignProperties_To_PolicyFragment(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForPolicyFragmentOperatorSpec(subject PolicyFragme
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PolicyFragmentOperatorSpec
+	var other v20220801s.PolicyFragmentOperatorSpec
 	err := copied.AssignProperties_To_PolicyFragmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForPolicyFragment_STATUS(subject PolicyFragment_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PolicyFragment_STATUS
+	var other v20220801s.PolicyFragment_STATUS
 	err := copied.AssignProperties_To_PolicyFragment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -386,7 +387,7 @@ func RunPropertyAssignmentTestForPolicyFragment_Spec(subject PolicyFragment_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PolicyFragment_Spec
+	var other v20220801s.PolicyFragment_Spec
 	err := copied.AssignProperties_To_PolicyFragment_Spec(&other)
 	if err != nil {
 		return err.Error()

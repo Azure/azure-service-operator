@@ -5,7 +5,8 @@ package v1api20240801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersVirtualEndpoint(subject Flexible
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FlexibleServersVirtualEndpoint
+	var hub v20250801s.FlexibleServersVirtualEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint(subject Flexible
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersVirtualEndpoint
+	var other v20240801s.FlexibleServersVirtualEndpoint
 	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersVirtualEndpointOperatorSpec
+	var other v20240801s.FlexibleServersVirtualEndpointOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersVirtualEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS(subject F
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersVirtualEndpoint_STATUS
+	var other v20240801s.FlexibleServersVirtualEndpoint_STATUS
 	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -401,7 +402,7 @@ func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersVirtualEndpoint_Spec
+	var other v20240801s.FlexibleServersVirtualEndpoint_Spec
 	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()

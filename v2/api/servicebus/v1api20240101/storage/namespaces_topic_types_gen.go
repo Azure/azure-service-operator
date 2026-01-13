@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240101.NamespacesTopic
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/topics.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/topics.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240101.NamespacesTopic
 // Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/topics.json
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/topics.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
 type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`

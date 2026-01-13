@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210601.Profile
 // Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/Cdn/stable/2021-06-01/cdn.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}
 type Profile struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (profile *Profile) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210601.Profile
 // Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/Cdn/stable/2021-06-01/cdn.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}
 type ProfileList struct {
 	metav1.TypeMeta `json:",inline"`

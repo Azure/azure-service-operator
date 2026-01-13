@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210301.RedisEnterpriseDatabase
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2021-03-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 // +kubebuilder:object:root=true
 // Storage version of v1api20210301.RedisEnterpriseDatabase
 // Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2021-03-01/redisenterprise.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1167,9 +1167,10 @@ func (persistence *Persistence_STATUS) AssignProperties_To_Persistence_STATUS(de
 // Storage version of v1api20210301.RedisEnterpriseDatabaseOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisEnterpriseDatabaseOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression           `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression           `json:"secretExpressions,omitempty"`
+	Secrets              *RedisEnterpriseDatabaseOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_RedisEnterpriseDatabaseOperatorSpec populates our RedisEnterpriseDatabaseOperatorSpec from the provided source RedisEnterpriseDatabaseOperatorSpec
@@ -1207,6 +1208,18 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_From_Redis
 		operator.SecretExpressions = secretExpressionList
 	} else {
 		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret RedisEnterpriseDatabaseOperatorSecrets
+		err := secret.AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// Update the property bag
@@ -1266,6 +1279,18 @@ func (operator *RedisEnterpriseDatabaseOperatorSpec) AssignProperties_To_RedisEn
 		destination.SecretExpressions = nil
 	}
 
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.RedisEnterpriseDatabaseOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1309,6 +1334,100 @@ type augmentConversionForPersistence_STATUS interface {
 type augmentConversionForRedisEnterpriseDatabaseOperatorSpec interface {
 	AssignPropertiesFrom(src *storage.RedisEnterpriseDatabaseOperatorSpec) error
 	AssignPropertiesTo(dst *storage.RedisEnterpriseDatabaseOperatorSpec) error
+}
+
+// Storage version of v1api20210301.RedisEnterpriseDatabaseOperatorSecrets
+type RedisEnterpriseDatabaseOperatorSecrets struct {
+	PrimaryKey   *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets populates our RedisEnterpriseDatabaseOperatorSecrets from the provided source RedisEnterpriseDatabaseOperatorSecrets
+func (secrets *RedisEnterpriseDatabaseOperatorSecrets) AssignProperties_From_RedisEnterpriseDatabaseOperatorSecrets(source *storage.RedisEnterpriseDatabaseOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		secrets.PropertyBag = propertyBag
+	} else {
+		secrets.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForRedisEnterpriseDatabaseOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets populates the provided destination RedisEnterpriseDatabaseOperatorSecrets from our RedisEnterpriseDatabaseOperatorSecrets
+func (secrets *RedisEnterpriseDatabaseOperatorSecrets) AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(destination *storage.RedisEnterpriseDatabaseOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForRedisEnterpriseDatabaseOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRedisEnterpriseDatabaseOperatorSecrets interface {
+	AssignPropertiesFrom(src *storage.RedisEnterpriseDatabaseOperatorSecrets) error
+	AssignPropertiesTo(dst *storage.RedisEnterpriseDatabaseOperatorSecrets) error
 }
 
 func init() {

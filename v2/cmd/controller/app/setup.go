@@ -214,7 +214,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			os.Exit(1)
 		}
 
-		if errs := generic.RegisterWebhooks(mgr, objs); errs != nil {
+		if err = generic.RegisterWebhooks(mgr, objs); err != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
@@ -416,7 +416,6 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 
 	armClientCache := armreconciler.NewARMClientCache(
 		credentialProvider,
-		kubeClient,
 		cfg.Cloud(),
 		nil,
 		armMetrics)

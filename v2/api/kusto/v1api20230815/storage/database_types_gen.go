@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230815.Database
 // Generator information:
-// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/kusto.json
+// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/Kusto/stable/2023-08-15/kusto.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (database *Database) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230815.Database
 // Generator information:
-// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/kusto.json
+// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/Kusto/stable/2023-08-15/kusto.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}
 type DatabaseList struct {
 	metav1.TypeMeta `json:",inline"`

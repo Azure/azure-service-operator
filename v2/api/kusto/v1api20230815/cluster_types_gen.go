@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/kusto.json
+// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/Kusto/stable/2023-08-15/kusto.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -241,7 +241,7 @@ func (cluster *Cluster) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/kusto.json
+// - Generated from: /azure-kusto/resource-manager/Microsoft.Kusto/Kusto/stable/2023-08-15/kusto.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}
 type ClusterList struct {
 	metav1.TypeMeta `json:",inline"`

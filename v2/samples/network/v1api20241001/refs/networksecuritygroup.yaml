@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1api20240301
+kind: NetworkSecurityGroup
+metadata:
+  name: sample-nsg
+  namespace: default
+spec:
+  location: newzealandnorth
+  owner:
+    name: sample-rg

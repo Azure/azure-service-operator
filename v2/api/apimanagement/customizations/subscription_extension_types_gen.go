@@ -8,6 +8,8 @@ import (
 	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
 	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
+	v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *SubscriptionExtension) GetExtendedResources() []genruntime.Kube
 		&v20220801.Subscription{},
 		&v20220801s.Subscription{},
 		&v20230501p.Subscription{},
-		&v20230501ps.Subscription{}}
+		&v20230501ps.Subscription{},
+		&v20240501.Subscription{},
+		&v20240501s.Subscription{}}
 }

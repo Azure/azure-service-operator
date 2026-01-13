@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/ContainerInstance/stable/2021-10-01/containerInstance.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
 type ContainerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (group *ContainerGroup) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/ContainerInstance/stable/2021-10-01/containerInstance.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
 type ContainerGroupList struct {
 	metav1.TypeMeta `json:",inline"`

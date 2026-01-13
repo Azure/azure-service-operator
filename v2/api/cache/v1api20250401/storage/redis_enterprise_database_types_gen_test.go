@@ -594,6 +594,61 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopt
 	gens["Status"] = RedisEnterpriseDatabase_STATUSGenerator()
 }
 
+func Test_RedisEnterpriseDatabaseOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisEnterpriseDatabaseOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabaseOperatorSecrets, RedisEnterpriseDatabaseOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisEnterpriseDatabaseOperatorSecrets runs a test to see if a specific instance of RedisEnterpriseDatabaseOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabaseOperatorSecrets(subject RedisEnterpriseDatabaseOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisEnterpriseDatabaseOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisEnterpriseDatabaseOperatorSecrets instances for property testing - lazily instantiated by
+// RedisEnterpriseDatabaseOperatorSecretsGenerator()
+var redisEnterpriseDatabaseOperatorSecretsGenerator gopter.Gen
+
+// RedisEnterpriseDatabaseOperatorSecretsGenerator returns a generator of RedisEnterpriseDatabaseOperatorSecrets instances for property testing.
+func RedisEnterpriseDatabaseOperatorSecretsGenerator() gopter.Gen {
+	if redisEnterpriseDatabaseOperatorSecretsGenerator != nil {
+		return redisEnterpriseDatabaseOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	redisEnterpriseDatabaseOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabaseOperatorSecrets{}), generators)
+
+	return redisEnterpriseDatabaseOperatorSecretsGenerator
+}
+
 func Test_RedisEnterpriseDatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -644,9 +699,15 @@ func RedisEnterpriseDatabaseOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseOperatorSpec(generators)
 	redisEnterpriseDatabaseOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabaseOperatorSpec{}), generators)
 
 	return redisEnterpriseDatabaseOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(RedisEnterpriseDatabaseOperatorSecretsGenerator())
 }
 
 func Test_RedisEnterpriseDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

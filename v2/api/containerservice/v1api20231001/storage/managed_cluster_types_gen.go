@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	compat "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -56,22 +55,36 @@ var _ conversion.Convertible = &ManagedCluster{}
 
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20240901/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ManagedCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_ManagedCluster(source)
+	err = cluster.AssignProperties_From_ManagedCluster(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20240901/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ManagedCluster
+	err := cluster.AssignProperties_To_ManagedCluster(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_ManagedCluster(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ManagedCluster{}
@@ -8954,9 +8967,11 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 // Storage version of v1api20231001.UserAssignedIdentity
 // Details about a user assigned identity.
 type UserAssignedIdentity struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ObjectId           *string                        `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: The resource ID of the user assigned identity.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -8970,8 +8985,24 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		identity.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		identity.ClientIdFromConfig = nil
+	}
+
 	// ObjectId
 	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		identity.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		identity.ObjectIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -9009,8 +9040,24 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
 
+	// ClientIdFromConfig
+	if identity.ClientIdFromConfig != nil {
+		clientIdFromConfig := identity.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
+	}
+
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ObjectIdFromConfig
+	if identity.ObjectIdFromConfig != nil {
+		objectIdFromConfig := identity.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if identity.ResourceReference != nil {

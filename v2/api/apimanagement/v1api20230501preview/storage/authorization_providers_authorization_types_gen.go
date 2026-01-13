@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230501preview.AuthorizationProvidersAuthorization
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}
 type AuthorizationProvidersAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &AuthorizationProvidersAuthorization{}
 
 // ConvertFrom populates our AuthorizationProvidersAuthorization from the provided hub AuthorizationProvidersAuthorization
 func (authorization *AuthorizationProvidersAuthorization) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AuthorizationProvidersAuthorization)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AuthorizationProvidersAuthorization
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return authorization.AssignProperties_From_AuthorizationProvidersAuthorization(source)
+	err = authorization.AssignProperties_From_AuthorizationProvidersAuthorization(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to authorization")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AuthorizationProvidersAuthorization from our AuthorizationProvidersAuthorization
 func (authorization *AuthorizationProvidersAuthorization) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AuthorizationProvidersAuthorization)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AuthorizationProvidersAuthorization
+	err := authorization.AssignProperties_To_AuthorizationProvidersAuthorization(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from authorization")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return authorization.AssignProperties_To_AuthorizationProvidersAuthorization(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AuthorizationProvidersAuthorization{}
@@ -246,7 +259,7 @@ func (authorization *AuthorizationProvidersAuthorization) OriginalGVK() *schema.
 // +kubebuilder:object:root=true
 // Storage version of v1api20230501preview.AuthorizationProvidersAuthorization
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}
 type AuthorizationProvidersAuthorizationList struct {
 	metav1.TypeMeta `json:",inline"`

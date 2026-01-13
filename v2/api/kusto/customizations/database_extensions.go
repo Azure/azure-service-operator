@@ -10,6 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	kusto "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -18,19 +19,23 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &ClusterExtension{}
+var _ extensions.PreReconciliationOwnerChecker = &DatabaseExtension{}
 
-// PreReconcileCheck is called before the reconciliation of the resource to see if the cluster
+// Ensure we're dealing with the hub version of Cluster
+// If this no longer compiles (due to a newer version being imported), change the import above to that version.
+var _ conversion.Hub = &kusto.Cluster{}
+
+// PreReconcileOwnerCheck is called before the reconciliation of the resource to see if the cluster
 // is in a state that will allow reconciliation to proceed.
 // We can't try to create/update a Database unless the cluster is in a state that allows it.
-func (ext *DatabaseExtension) PreReconcileCheck(
+// We use PreReconcileOwnerCheck instead of PreReconcileCheck because you can't even GET a database if the cluster is powered down.
+func (ext *DatabaseExtension) PreReconcileOwnerCheck(
 	ctx context.Context,
-	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient_ *genericarmclient.GenericClient,
 	log logr.Logger,
-	next extensions.PreReconcileCheckFunc,
+	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if the owning cluster is in a state that will block us from reconciling
 	// Owner nil can happen if the owner of the database is referenced by armID
@@ -53,5 +58,5 @@ func (ext *DatabaseExtension) PreReconcileCheck(
 		}
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient_, log)
+	return next(ctx, owner, resourceResolver, armClient_, log)
 }

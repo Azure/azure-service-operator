@@ -152,6 +152,10 @@ func Insights_PricingPlan_20171001_CRUD(
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&plan.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(plan)
 
 	tc.Expect(plan.Status.PlanType).NotTo(BeNil())
@@ -164,8 +168,6 @@ func Insights_PricingPlan_20171001_CRUD(
 
 	tc.Expect(plan.Status.StopSendNotificationWhenHitCap).NotTo(BeNil())
 	tc.Expect(*plan.Status.StopSendNotificationWhenHitCap).To(BeFalse())
-
-	// Pricing plans can't be deleted
 }
 
 func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights20200202.Component) {
