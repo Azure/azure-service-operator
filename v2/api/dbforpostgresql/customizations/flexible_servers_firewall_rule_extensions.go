@@ -18,16 +18,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &FlexibleServersFirewallRuleExtension{}
+var _ extensions.PreReconciliationOwnerChecker = &FlexibleServersFirewallRuleExtension{}
 
-func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
+func (ext *FlexibleServersFirewallRuleExtension) PreReconcileOwnerCheck(
 	ctx context.Context,
-	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	next extensions.PreReconcileCheckFunc,
+	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
 	// Owner nil can happen if the server/owner of the firewall rule is referenced by armID
@@ -43,5 +42,5 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
 		}
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient, log)
+	return next(ctx, owner, resourceResolver, armClient, log)
 }

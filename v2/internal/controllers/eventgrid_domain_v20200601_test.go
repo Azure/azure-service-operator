@@ -61,6 +61,10 @@ func Test_EventGrid_Domain(t *testing.T) {
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&queueServices.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(queueServices)
 
 	queue := &storage.StorageAccountsQueueServicesQueue{

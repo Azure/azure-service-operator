@@ -125,7 +125,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	g.Expect(eris.As(err, &httpErr)).To(BeTrue())
 
 	// The body was already closed... suppressing linter
-	// nolint:bodyclose
+
 	g.Expect(httpErr.RawResponse.StatusCode).To(Equal(http.StatusBadRequest))
 	g.Expect(httpErr.StatusCode).To(Equal(http.StatusBadRequest))
 	g.Expect(cloudError.Code()).To(Equal("LocationNotAvailableForResourceGroup"))

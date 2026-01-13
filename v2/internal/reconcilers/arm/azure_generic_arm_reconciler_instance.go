@@ -26,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm/errorclassification"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -129,6 +130,11 @@ func (r *azureDeploymentReconcilerInstance) DetermineDeleteAction() (DeleteActio
 		return DeleteActionMonitorDelete, r.MonitorDelete, nil
 	}
 
+	if !genruntime.ResourceOperationDelete.IsSupportedBy(r.Obj) {
+		// Resource doesn't support delete; we'll end up returning an actionable error
+		return DeleteActionNotPossibleInAzure, r.DeleteNotPossibleInAzure, nil
+	}
+
 	return DeleteActionBeginDelete, r.StartDeleteOfResource, nil
 }
 
@@ -203,6 +209,42 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	r.Log.V(Verbose).Info("Found resource: continuing to wait for deletion...")
 	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
+}
+
+// DeleteNotPossibleInAzure is used when the underlying Azure resource doesn't support direct
+// deletion, so we return an error unless the resource has already gone.
+func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context.Context) (ctrl.Result, error) {
+	resourceID, hasResourceID := genruntime.GetResourceID(r.Obj)
+	if !hasResourceID {
+		// No resource ID means nothing to delete
+		return ctrl.Result{}, nil
+	}
+
+	_, _, err := r.getStatus(ctx, resourceID)
+	if err != nil && genericarmclient.IsNotFoundError(err) {
+		// Resource no longer exists
+		return ctrl.Result{}, nil
+	}
+
+	msg := fmt.Sprintf(
+		"Resource does not support deletion in Azure; set annotation '%s: %s' to permit deletion in Kubernetes",
+		annotations.ReconcilePolicy,
+		annotations.ReconcilePolicyDetachOnDelete)
+	r.Log.V(Verbose).Info(msg)
+	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
+
+	// Return a meaningful error so that the Ready condition is updated to show the user why the resource can't yet be deleted.
+	if err == nil {
+		err = eris.New(msg)
+	} else {
+		err = eris.Wrap(err, msg)
+	}
+
+	return ctrl.Result{},
+		conditions.NewReadyConditionImpactingError(
+			err,
+			conditions.ConditionSeverityWarning,
+			conditions.ReasonDeletionNotSupported)
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
@@ -535,7 +577,7 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 
 var zeroDuration time.Duration = 0
 
-func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) { // nolint:unparam
+func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) { //nolint:unparam
 	armStatus, err := genruntime.NewEmptyARMStatus(r.Obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, eris.Wrapf(err, "constructing ARM status for resource: %q", id)
