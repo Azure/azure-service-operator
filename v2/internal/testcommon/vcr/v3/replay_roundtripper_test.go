@@ -38,7 +38,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGETReturningTerminalState_Return
 		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Succeeded"}}`)),
 	}
 
-	fake := vcr.NewFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
 	fake.AddResponse(req, resp)
 
 	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
@@ -105,7 +105,7 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.
 		Body:       io.NopCloser(strings.NewReader("PUT response goes here")),
 	}
 
-	fake := vcr.NewFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
 	fake.AddResponse(req, resp)
 
 	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
@@ -147,7 +147,7 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 		"Gamma goes here",
 		200)
 
-	fake := vcr.NewFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
 	fake.AddResponse(alphaRequest, alphaResponse)
 	fake.AddResponse(betaRequest, betaResponse)
 	fake.AddResponse(gammaRequest, gammaResponse)
@@ -194,7 +194,7 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 		200)
 
 	// Arrange - set up fake replayer
-	fake := vcr.NewFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
 	fake.AddResponse(creationRequest, creationResponse)
 	fake.AddError(creationRequest, cassette.ErrInteractionNotFound)
 	fake.AddResponse(updateRequest, updateResponse)
