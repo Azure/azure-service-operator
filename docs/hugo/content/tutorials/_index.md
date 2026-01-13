@@ -19,7 +19,7 @@ description: Tutorials for using Azure Service Operator
 {{% /card %}}
 {{% card header="Create Your own Manifest"%}}
 
-[Create your own deployment manifests](tutorial-deployment-files) on ASO.
+[Create your own deployment manifests](.../.../tutorials/tutorial-deployment-files) on ASO.
 
 {{% /card %}}
 {{% /cardpane %}}
