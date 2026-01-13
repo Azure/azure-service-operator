@@ -230,7 +230,7 @@ func Test_Storage_StorageAccount_20250601_SecretsFromAzure(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-	acct := newStorageAccount20230101(tc, rg)
+	acct := newStorageAccount20250601(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -253,19 +253,19 @@ func Test_Storage_StorageAccount_20250601_SecretsFromAzure(t *testing.T) {
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_SecretsWrittenToSameKubeSecret20230101(tc, acct)
+				StorageAccount_SecretsWrittenToSameKubeSecret20250601(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "SecretsWrittenToDifferentKubeSecrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_SecretsWrittenToDifferentKubeSecrets20230101(tc, acct)
+				StorageAccount_SecretsWrittenToDifferentKubeSecrets20250601(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "ConfigMapsWritten",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_ConfigMapsWritten20230101(tc, acct)
+				StorageAccount_ConfigMapsWritten20250601(tc, acct)
 			},
 		},
 	)
