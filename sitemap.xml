@@ -594,6 +594,12 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v20250701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20250801/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-year-month-title/</loc>
