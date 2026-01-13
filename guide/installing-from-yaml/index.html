@@ -103,7 +103,9 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
+  <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
@@ -235,10 +237,14 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortutorials-li">
   <a href="/azure-service-operator/tutorials/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatortutorials"><span class="">Tutorials</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-deployment-files-li">
+  <a href="/azure-service-operator/tutorials/tutorial-deployment-files/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-deployment-files"><span class="">Tutorial: Creating deployment manifests</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-li">
   <a href="/azure-service-operator/tutorials/tutorial-cosmosdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-asoargocd-li">
+  <a href="/azure-service-operator/tutorials/tutorial-asoargocd/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-asoargocd"><span class="">Tutorial: Create ASO resources and view them in ArgoCD</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-postgresql-li">
   <a href="/azure-service-operator/tutorials/tutorial-postgresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-redis-li">
@@ -905,8 +911,8 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
 </header>
 	<h2 id="prerequisites">Prerequisites</h2>
 <ol>
-<li>You have installed Cert Manager as per the <a href="../../#installation">installation instructions</a> up to the &ldquo;install from Helm&rdquo; step.</li>
-<li>You have followed the <a href="../../#create-a-managed-identity-or-service-principal">instructions for creating a Managed Identity or Service Principal</a>
+<li>You have installed Cert Manager as per the <a href="../../getting-started/#installation">installation instructions</a> up to the &ldquo;install from Helm&rdquo; step.</li>
+<li>You have followed the <a href="../../getting-started/#create-a-managed-identity-or-service-principal">instructions for creating a Managed Identity or Service Principal</a>
 and set the appropriate environment variables.</li>
 </ol>
 <h2 id="installation-operator">Installation (operator)</h2>
@@ -924,7 +930,7 @@ For more information about what <code>--crd-pattern</code> means, see <a href="/
 <li>
 <p>Create the Azure Service Operator v2 global secret. This secret contains the identity that Azure Service Operator will run as.
 Make sure that you have the 4 environment variables from the
-<a href="../../#create-a-managed-identity-or-service-principal">create a service principal step of the Helm instructions</a> set.</p>
+<a href="../../getting-started/#create-a-managed-identity-or-service-principal">create a service principal step of the Helm instructions</a> set.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret

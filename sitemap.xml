@@ -74,11 +74,15 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/getting-started/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/before-you-begin/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-deployment-files/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url><url>
@@ -349,6 +353,8 @@
     <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-asoargocd/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-postgresql/</loc>
   </url><url>

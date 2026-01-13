@@ -8,6 +8,13 @@
     <language>en-us</language>
     <atom:link href="https://azure.github.io/azure-service-operator/tutorials/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Tutorial: Creating deployment manifests</title>
+      <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-deployment-files/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-deployment-files/</guid>
+      <description>&lt;h2 id=&#34;creating-your-own-deployment-files&#34;&gt;Creating your own deployment files&lt;/h2&gt;&#xA;&lt;p&gt;Typially, a deployment of a specific type of Azure resource is its own CRD; you can tell what type of resource is deployed by looking at its &lt;code&gt;kind:&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;p&gt;The &lt;code&gt;spec:&lt;/code&gt; field of the deployment file will typically be associated with the parameters you expect when creating the resource in Azure.&lt;/p&gt;&#xA;&lt;h3 id=&#34;example-aks-cluster&#34;&gt;Example AKS Cluster&lt;/h3&gt;&#xA;&lt;p&gt;Lets look at an AKS cluster as an example. The &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/containerservice/v1api20240901/v1api20240901_managedcluster.yaml&#34;&gt;latest sample&lt;/a&gt; looks like so:&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Tutorial: CosmosDB to-do List</title>
       <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -20,6 +27,13 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/</guid>
       <description>&lt;p&gt;Follow the &lt;a href=&#34;https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/cosmos-todo-list-mi&#34;&gt;guided example&lt;/a&gt;&#xA;to create a to-do list application backed by CosmosDB.&#xA;The CosmosDB is hosted in Azure but created easily via &lt;code&gt;kubectl&lt;/code&gt; and Azure Service Operator!&lt;/p&gt;&#xA;&lt;p&gt;It also uses Managed Identity + Workload Identity, so the identity of the application and its permissions can&#xA;be managed through YAML with Azure Service Operator.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tutorial: Create ASO resources and view them in ArgoCD</title>
+      <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-asoargocd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-asoargocd/</guid>
+      <description>&lt;p&gt;Follow the &lt;a href=&#34;https://azure-samples.github.io/aks-labs/docs/platform-engineering/aks-capz-aso/#sample-1-create-a-new-aks-cluster-as-an-argo-cd-application&#34;&gt;guided example&lt;/a&gt;&#xA;to see how you can deploy Argo CD on your cluster, deploy resources via ASO, and see the resources populated in the Argo CD UI.&lt;/p&gt;&#xA;&lt;p&gt;You will learn hwo to declaratively provision a new AKS cluster using Argo CD and Helm, integrating them directly with Azure via the Azure Cluster API. Once you deploy resources on ASO, they will also show up in Argo CD.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Tutorial: PostgreSQL Votes</title>
