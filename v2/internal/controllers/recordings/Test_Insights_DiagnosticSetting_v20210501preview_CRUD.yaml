@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-ukrehb","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb","name":"asotest-rg-ukrehb","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb","name":"asotest-rg-ukrehb","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -135,10 +112,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 240
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-udsjpw'' under resource group ''asotest-rg-ukrehb'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -170,13 +144,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 115
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-vn-udsjpw","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -192,10 +161,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 519
-        uncompressed: false
         body: '{"name":"asotest-vn-udsjpw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Network/virtualNetworks/asotest-vn-udsjpw","etag":"W/\"6cafcd49-a969-4f2a-b98b-e8e2d5f4c83e\"","type":"Microsoft.Network/virtualNetworks","location":"westus2","properties":{"provisioningState":"Updating","resourceGuid":"b9a21329-ec4c-4cba-858a-f3d73cd47f44","addressSpace":{"addressPrefixes":["10.0.0.0/16"]},"subnets":[],"virtualNetworkPeerings":[],"enableDdosProtection":false}}'
         headers:
             Azure-Asyncnotification:
@@ -235,13 +201,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 174
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"kind":"StorageV2","location":"westus2","name":"asoteststoryukoip","properties":{"accessTier":"Hot","allowBlobPublicAccess":false},"sku":{"name":"Standard_LRS"},"tags":null}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -257,10 +218,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -298,13 +256,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -314,10 +266,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -351,13 +300,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -367,10 +310,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 520
-        uncompressed: false
         body: '{"name":"asotest-vn-udsjpw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Network/virtualNetworks/asotest-vn-udsjpw","etag":"W/\"90093a26-68ad-4719-a279-9090eb33b7fb\"","type":"Microsoft.Network/virtualNetworks","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"b9a21329-ec4c-4cba-858a-f3d73cd47f44","addressSpace":{"addressPrefixes":["10.0.0.0/16"]},"subnets":[],"virtualNetworkPeerings":[],"enableDdosProtection":false}}'
         headers:
             Cache-Control:
@@ -404,13 +344,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -422,10 +356,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 520
-        uncompressed: false
         body: '{"name":"asotest-vn-udsjpw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Network/virtualNetworks/asotest-vn-udsjpw","etag":"W/\"90093a26-68ad-4719-a279-9090eb33b7fb\"","type":"Microsoft.Network/virtualNetworks","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"b9a21329-ec4c-4cba-858a-f3d73cd47f44","addressSpace":{"addressPrefixes":["10.0.0.0/16"]},"subnets":[],"virtualNetworkPeerings":[],"enableDdosProtection":false}}'
         headers:
             Cache-Control:
@@ -459,13 +390,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -475,10 +400,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -516,13 +438,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 278
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-diagnosticsetting-uzcccx","properties":{"logs":[{"categoryGroup":"allLogs","enabled":true}],"storageAccountId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Storage/storageAccounts/asoteststoryukoip"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -538,10 +455,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 823
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ukrehb/providers/microsoft.network/virtualnetworks/asotest-vn-udsjpw/providers/microsoft.insights/diagnosticSettings/asotest-diagnosticsetting-uzcccx","type":"Microsoft.Insights/diagnosticSettings","name":"asotest-diagnosticsetting-uzcccx","location":null,"kind":null,"tags":null,"properties":{"storageAccountId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Storage/storageAccounts/asoteststoryukoip","serviceBusRuleId":null,"workspaceId":null,"eventHubAuthorizationRuleId":null,"eventHubName":null,"metrics":[],"logs":[{"category":null,"categoryGroup":"allLogs","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}],"logAnalyticsDestinationType":null},"identity":null}'
         headers:
             Cache-Control:
@@ -575,13 +489,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -593,10 +501,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 914
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ukrehb/providers/microsoft.network/virtualnetworks/asotest-vn-udsjpw/providers/microsoft.insights/diagnosticSettings/asotest-diagnosticsetting-uzcccx","type":"Microsoft.Insights/diagnosticSettings","name":"asotest-diagnosticsetting-uzcccx","location":"westus2","kind":null,"tags":null,"properties":{"storageAccountId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Storage/storageAccounts/asoteststoryukoip","serviceBusRuleId":null,"workspaceId":null,"eventHubAuthorizationRuleId":null,"eventHubName":null,"metrics":[{"category":"AllMetrics","enabled":false,"retentionPolicy":{"enabled":false,"days":0}}],"logs":[{"category":null,"categoryGroup":"allLogs","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}],"logAnalyticsDestinationType":null},"identity":null}'
         headers:
             Cache-Control:
@@ -630,13 +535,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -646,10 +545,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1469
-        uncompressed: false
         body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Storage/storageAccounts/asoteststoryukoip","name":"asoteststoryukoip","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"allowCrossTenantReplication":false,"privateEndpointConnections":[],"minimumTlsVersion":"TLS1_2","allowBlobPublicAccess":false,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststoryukoip.dfs.core.windows.net/","web":"https://asoteststoryukoip.z5.web.core.windows.net/","blob":"https://asoteststoryukoip.blob.core.windows.net/","queue":"https://asoteststoryukoip.queue.core.windows.net/","table":"https://asoteststoryukoip.table.core.windows.net/","file":"https://asoteststoryukoip.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
         headers:
             Cache-Control:
@@ -683,13 +579,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -701,10 +591,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1469
-        uncompressed: false
         body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukrehb/providers/Microsoft.Storage/storageAccounts/asoteststoryukoip","name":"asoteststoryukoip","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"allowCrossTenantReplication":false,"privateEndpointConnections":[],"minimumTlsVersion":"TLS1_2","allowBlobPublicAccess":false,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststoryukoip.dfs.core.windows.net/","web":"https://asoteststoryukoip.z5.web.core.windows.net/","blob":"https://asoteststoryukoip.blob.core.windows.net/","queue":"https://asoteststoryukoip.queue.core.windows.net/","table":"https://asoteststoryukoip.table.core.windows.net/","file":"https://asoteststoryukoip.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
         headers:
             Cache-Control:
@@ -736,13 +623,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -754,10 +635,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -789,13 +667,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -807,10 +679,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 112
-        uncompressed: false
         body: '{"code":"ResourceNotFound","message":"The diagnostic setting ''asotest-diagnosticsetting-uzcccx'' doesn''t exist."}'
         headers:
             Cache-Control:
@@ -844,13 +713,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -862,10 +725,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -899,13 +759,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -915,10 +769,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -952,66 +803,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVS1JFSEItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638901363365216458&c=MIIHhzCCBm-gAwIBAgITfAiEqRZrgLhPwkUvfgAACISpFjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNzE5MTUxNTU3WhcNMjYwMTE1MTUxNTU3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANo8JkuCSyYzxbK-6GTWYze3gfPX3W0gGXDNABI0DpWEhe9om3se5tziu1JvncajCytpTguwrHlK0rcquzbDXXvHhbsY73edSvO92c2ADuvWEnNdsmm_eToLFsXFZjZMhgj9jD_wnJ6L9KtxBHW6hwaA6YgFKE3lyA5TXmiyo15CLkHFj02CX4NB1cTIN15yGoCxLyB-Zr3jEH0xfMCQPYlmSTwuQvC4UWEndUzZd_Y-HLo959DU-Ug61g41JksM4dzdEHw2_Yew_EDtac3ERKzqVKC1GxTNXLELU_LFkPdkKBi-JGTX5MxlXWEAVL1gSKy4C0lslOvMVICJ0D5ZPTECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTHBRf8ZL9wY__HzSsEXGXuVL8aEDAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIsWwSMOlrjb5kZTgKGXSVnDyLsC7qm2NFBdhoNUtOxSB-TF88cKGPhwNx59_1_GhsNjXldjQVJ1seRL3Dxf55jqzfXeFBQAIHIRsR8-WJPTpZ3VtWewO_Qvh9h7Bd-gfA0pRXw3Hq4eRpBmAf7gfOki1W-7-m3cozATlPCkEWnBM4qRujLuiQX_Q3tfok25Wmnyq_KkG_0VC3JVUvJnkKpv1qRHWahwVo1wzWyJIoaxA7T0oOonf6ZN3j8AyT_VGFDRmvLuvakI8huZgSbjWvWFT6bx7NRTo6YHkHb5COr1PJTbhpDS-PSv5Ud3SFTnLAZyd3oRW-Lp3Fo6RFoNgBs&s=BYQqlsCCanESq5GbeLmHSZ3YirOyjXHgfsXxC5Y6k0luDDgYgE03KKlvZfKS9kevsu_icgxsaT0Q9S31gRrW2mSSW2n4cQAXtIOtwEojiivMy0gNIl9yY_OC-or3vBkdsc1YX8FzoLYnYP_aENZ_hdyoZIi2vLNiFjKI0cb_a4Ww5_NDm9mXcBXhFXLdpOw68o4PLHmu6YXmu36SzkTt1zx5LfXckSbEgKV5121LOj4IBJFMQwnBNoDmfAHMrgQa8vYfoMlKar0IDoT0_kpQOCEB825eLnRunELMdGrk10cQVcUjKvQ0ULcK41_fa3h7Lh_NbzN6p9wEd0hdQzbqGw&h=iIeLzn-UDCwtXkZvqrHpQLVKbYzpNIEcxYTTDacPpUo
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVS1JFSEItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638901363736542975&c=MIIHhzCCBm-gAwIBAgITfAiEqRZrgLhPwkUvfgAACISpFjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNzE5MTUxNTU3WhcNMjYwMTE1MTUxNTU3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANo8JkuCSyYzxbK-6GTWYze3gfPX3W0gGXDNABI0DpWEhe9om3se5tziu1JvncajCytpTguwrHlK0rcquzbDXXvHhbsY73edSvO92c2ADuvWEnNdsmm_eToLFsXFZjZMhgj9jD_wnJ6L9KtxBHW6hwaA6YgFKE3lyA5TXmiyo15CLkHFj02CX4NB1cTIN15yGoCxLyB-Zr3jEH0xfMCQPYlmSTwuQvC4UWEndUzZd_Y-HLo959DU-Ug61g41JksM4dzdEHw2_Yew_EDtac3ERKzqVKC1GxTNXLELU_LFkPdkKBi-JGTX5MxlXWEAVL1gSKy4C0lslOvMVICJ0D5ZPTECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBTHBRf8ZL9wY__HzSsEXGXuVL8aEDAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIsWwSMOlrjb5kZTgKGXSVnDyLsC7qm2NFBdhoNUtOxSB-TF88cKGPhwNx59_1_GhsNjXldjQVJ1seRL3Dxf55jqzfXeFBQAIHIRsR8-WJPTpZ3VtWewO_Qvh9h7Bd-gfA0pRXw3Hq4eRpBmAf7gfOki1W-7-m3cozATlPCkEWnBM4qRujLuiQX_Q3tfok25Wmnyq_KkG_0VC3JVUvJnkKpv1qRHWahwVo1wzWyJIoaxA7T0oOonf6ZN3j8AyT_VGFDRmvLuvakI8huZgSbjWvWFT6bx7NRTo6YHkHb5COr1PJTbhpDS-PSv5Ud3SFTnLAZyd3oRW-Lp3Fo6RFoNgBs&s=U1qbQtANMtCiHfO1RK7Dt4mxT91RY_vSKF7y8-RpNQgNAYV3PEsyIQmA-AVZuRC9HqDAjvBdq2m8A3yXPMjmY0mmCEcsvOuUzQb0-EYsFjY7FX0j2LAZW4pNLjQfbyaQ4nQdChyzUn_pHXxzIdHWMzCRWa3gPZT-nDKBXFbB_mBgSoN1L7KpsjgU_Tci2y5eNfxbANdsbUO3xPwYN7fGjW5R-IT5Ehr_6qxeuJTVR7iL7ol40v9GxpJNYLh3rULsh8zIwle7jXqsjn-KtyZqtxWlJLANacUOiiLhv6GvdRTt6iPMn_SUutlxE3ml5X-Y_W4gQjRXpqPTJ8FsiIHptg&h=36RmqNA_uOBH_6-9Ph2vT9x6-tDyqM4gJxSjJLQnRDc
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 068C067DD2DC4EF587FD04921E6EF25C Ref B: SYD03EDGE1416 Ref C: 2025-08-07T04:06:12Z'
-        status: 202 Accepted
-        code: 202
-        duration: 917.803238ms
-    - id: 18
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -1021,10 +813,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1052,19 +841,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 917.936926ms
-    - id: 19
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -1074,10 +857,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1101,19 +881,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 869.461487ms
-    - id: 20
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1125,10 +899,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ukrehb'' could not be found."}}'
         headers:
             Cache-Control:
@@ -1154,19 +925,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 308.467664ms
-    - id: 21
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1178,10 +943,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ukrehb'' could not be found."}}'
         headers:
             Cache-Control:

@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-vhoszi","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi","name":"asotest-rg-vhoszi","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi","name":"asotest-rg-vhoszi","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 49
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-mi-oolldd"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -139,10 +117,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 454
-        uncompressed: false
         body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-vhoszi/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-oolldd","name":"asotest-mi-oolldd","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"d7ba88d4-f910-4951-b22b-927ba2e32448","clientId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a"}}'
         headers:
             Cache-Control:
@@ -178,13 +153,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 49
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-mi-oolldd"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -200,10 +170,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 454
-        uncompressed: false
         body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-vhoszi/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-oolldd","name":"asotest-mi-oolldd","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"d7ba88d4-f910-4951-b22b-927ba2e32448","clientId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a"}}'
         headers:
             Cache-Control:
@@ -237,13 +204,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -255,10 +216,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 454
-        uncompressed: false
         body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-vhoszi/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-oolldd","name":"asotest-mi-oolldd","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"d7ba88d4-f910-4951-b22b-927ba2e32448","clientId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a"}}'
         headers:
             Cache-Control:
@@ -290,13 +248,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -308,10 +260,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 490
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/asotest-kv2-nlezra","name":"asotest-kv2-nlezra","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
         headers:
             Cache-Control:
@@ -349,13 +298,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -367,10 +310,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 490
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/asotest-kv2-nlezra","name":"asotest-kv2-nlezra","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
         headers:
             Cache-Control:
@@ -408,13 +348,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 527
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-kv2-nlezra","properties":{"accessPolicies":[{"applicationId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a","objectId":"d7ba88d4-f910-4951-b22b-927ba2e32448","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"createMode":"recover","enabledForDiskEncryption":true,"sku":{"family":"A","name":"standard"},"softDeleteRetentionInDays":7,"tenantId":"00000000-0000-0000-0000-000000000000"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -430,10 +365,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1119
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra","name":"asotest-kv2-nlezra","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"89fc8e65-9711-4aa4-93af-647aff27b944","applicationId":"ed1ada22-8028-47b0-a96c-3e65a8428ba5","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv2-nlezra.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
@@ -471,13 +403,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -489,10 +415,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1119
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra","name":"asotest-kv2-nlezra","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"89fc8e65-9711-4aa4-93af-647aff27b944","applicationId":"ed1ada22-8028-47b0-a96c-3e65a8428ba5","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv2-nlezra.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
@@ -528,13 +451,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -546,10 +463,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 353
-        uncompressed: false
         body: '{"error":{"code":"DeletedVaultNotFound","message":"The specified deleted vault ''asotest-kv2-nlezra'' does not exist. Ensure that the vault was indeed deleted and that it is in recoverable state. If soft delete was not enabled then the vault is permanently deleted. Follow this link for more information: https://go.microsoft.com/fwlink/?linkid=2149745"}}'
         headers:
             Cache-Control:
@@ -587,13 +501,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 527
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-kv2-nlezra","properties":{"accessPolicies":[{"applicationId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a","objectId":"d7ba88d4-f910-4951-b22b-927ba2e32448","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"createMode":"default","enabledForDiskEncryption":true,"sku":{"family":"A","name":"standard"},"softDeleteRetentionInDays":7,"tenantId":"00000000-0000-0000-0000-000000000000"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -609,10 +518,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1119
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra","name":"asotest-kv2-nlezra","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"d7ba88d4-f910-4951-b22b-927ba2e32448","applicationId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv2-nlezra.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
@@ -650,13 +556,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -668,10 +568,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1119
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra","name":"asotest-kv2-nlezra","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"d7ba88d4-f910-4951-b22b-927ba2e32448","applicationId":"47ccaed6-19a2-48f5-b647-8c83001c7a4a","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv2-nlezra.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
@@ -707,13 +604,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 73
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"properties":{"attributes":{"enabled":true},"keySize":2048,"kty":"RSA"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -729,10 +621,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 669
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra/keys/testkey","name":"testkey","type":"Microsoft.KeyVault/vaults/keys","location":"westus2","properties":{"attributes":{"enabled":true,"created":1743361855,"updated":1743361855,"recoveryLevel":"CustomizedRecoverable+Purgeable","exportable":false},"kty":"RSA","keyOps":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"keySize":2048,"keyUri":"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey","keyUriWithVersion":"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey/c54f5612e58049d4bb07fb98fd4ee6e7"}}'
         headers:
             Cache-Control:
@@ -770,13 +659,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 430
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotest-set-ixzejw","properties":{"activeKey":{"keyUrl":"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey/c54f5612e58049d4bb07fb98fd4ee6e7","sourceVault":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra"}},"encryptionType":"EncryptionAtRestWithCustomerKey"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -792,10 +676,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 562
-        uncompressed: false
         body: "{\r\n  \"name\": \"asotest-set-ixzejw\",\r\n  \"location\": \"westus2\",\r\n  \"identity\": {\r\n    \"type\": \"SystemAssigned\"\r\n  },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\": {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra\"\r\n      },\r\n      \"keyUrl\": \"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey/c54f5612e58049d4bb07fb98fd4ee6e7\"\r\n    },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\": \"Updating\"\r\n  }\r\n}"
         headers:
             Azure-Asyncoperation:
@@ -837,13 +718,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -853,10 +728,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1119
-        uncompressed: false
         body: "{\r\n  \"startTime\": \"2025-03-31T21:12:36.6186007+00:00\",\r\n  \"endTime\": \"2025-03-31T21:12:36.6966994+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\": {\r\n    \"output\": {\r\n  \"name\": \"asotest-set-ixzejw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-ixzejw\",\r\n  \"type\": \"Microsoft.Compute/diskEncryptionSets\",\r\n  \"location\": \"westus2\",\r\n  \"identity\": {\r\n    \"type\": \"SystemAssigned\",\r\n    \"principalId\": \"949906e6-5c9f-4bbd-8179-a9e0ec41dc10\",\r\n    \"tenantId\": \"00000000-0000-0000-0000-000000000000\"\r\n  },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\": {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra\"\r\n      },\r\n      \"keyUrl\": \"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey/c54f5612e58049d4bb07fb98fd4ee6e7\"\r\n    },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}\r\n  },\r\n  \"name\": \"9d15fb8d-ed4f-45da-9e14-503fc73dba54\"\r\n}"
         headers:
             Cache-Control:
@@ -894,13 +766,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -910,10 +776,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 894
-        uncompressed: false
         body: "{\r\n  \"name\": \"asotest-set-ixzejw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-ixzejw\",\r\n  \"type\": \"Microsoft.Compute/diskEncryptionSets\",\r\n  \"location\": \"westus2\",\r\n  \"identity\": {\r\n    \"type\": \"SystemAssigned\",\r\n    \"principalId\": \"949906e6-5c9f-4bbd-8179-a9e0ec41dc10\",\r\n    \"tenantId\": \"00000000-0000-0000-0000-000000000000\"\r\n  },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\": {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra\"\r\n      },\r\n      \"keyUrl\": \"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey/c54f5612e58049d4bb07fb98fd4ee6e7\"\r\n    },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -949,13 +812,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -967,10 +824,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 894
-        uncompressed: false
         body: "{\r\n  \"name\": \"asotest-set-ixzejw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-ixzejw\",\r\n  \"type\": \"Microsoft.Compute/diskEncryptionSets\",\r\n  \"location\": \"westus2\",\r\n  \"identity\": {\r\n    \"type\": \"SystemAssigned\",\r\n    \"principalId\": \"949906e6-5c9f-4bbd-8179-a9e0ec41dc10\",\r\n    \"tenantId\": \"00000000-0000-0000-0000-000000000000\"\r\n  },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\": {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vhoszi/providers/Microsoft.KeyVault/vaults/asotest-kv2-nlezra\"\r\n      },\r\n      \"keyUrl\": \"https://asotest-kv2-nlezra.vault.azure.net/keys/testkey/c54f5612e58049d4bb07fb98fd4ee6e7\"\r\n    },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1006,13 +860,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1024,10 +872,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Azure-Asyncoperation:
@@ -1067,13 +912,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1083,10 +922,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 184
-        uncompressed: false
         body: "{\r\n  \"startTime\": \"2025-03-31T21:12:44.6030506+00:00\",\r\n  \"endTime\": \"2025-03-31T21:12:44.6498872+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\": \"aa8c0322-cf6b-495f-9771-0561cc616d5e\"\r\n}"
         headers:
             Cache-Control:
@@ -1124,13 +960,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1142,10 +972,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 120
-        uncompressed: false
         body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\": \"DiskEncryptionSet 'asotest-set-ixzejw' was not found.\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1181,13 +1008,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1199,10 +1020,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1236,13 +1054,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1252,10 +1064,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1289,66 +1098,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWSE9TWkktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638790523704890881&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=OGn1UwqKvtP6ah6wywtWh7qWqsB3_C7EzMTUm1eCbrL2kXAM4gxYFCamr2sdRNBZXeUC8y_LQthSol3pUH0VHN_ikBVm525iq_fMKbl15kMJaaDvuo009CU0VEvgv5nERn616BwW3s6aW8GuvY6YJAuR_VXs-GxKvE9eR3WpUyiYzLEyIERyJAnjbYcL0CuJNe3kxISCeudjUDcKCXFigvFr9kjZPZOSLH1e9veRuh8xBkL5p6QY7f-TZaIMVM_-JZQpoXcqpKQ3W1iawcZ9gcsHSrE9Wo-66rue0lNQvqxIJ2L1Hr4obqS5MDT6mK25KatQineLbTVwSobgF2wcIg&h=b2ykNfTYfgSgZVaWbA2q6Fb44Ef5W89Bxj_dCyCTn3c
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWSE9TWkktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638790524014591729&c=MIIHhzCCBm-gAwIBAgITfAaTiaklTwdb3CiPmAAABpOJqTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwMTIxMjI0MTE0WhcNMjUwNzIwMjI0MTE0WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOmbUr8nPmMTJCdlYtukpEJEQ6NI5er-Vfsp5MRwIESjPj6gQ9NC4czYZZZ3dm1Hp85y0l3ZlFsYoTHzzHaj2ZqWW0V97CbxFcGqXohbDUnk9dpmspwGy2SiEGYseXIea4nHCbGLZQy9h7EC74uBI6WqsfoFLCnIiUvBkXQsneM4Y__PD4oGkBE3QX-BFjX1GvNN4lO26JmdnJujHiuGiY_Xdzy4wfChN8m2A3NuGFRyygED5SOQHVAaJaNpxoOgPvS98XVyKf7SpVpY3Edx8OwdSXVus6lL9Lu14CF30haHpRpV2zE3G5nevFwh9XSquojKUfYLTq1ohD1mxiznhm0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBT870AQV-Tgc57mnegK8TIGwtH2xzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAKt7SAWtCzPHMRCbBGIjKD-lleovshqUK-Rpyq5vsIWLLfzY9HZVzLgVMKYbI7sfGu8DGG2Q_AYLZ-pfZV8p9Q47EY_5LhruBCZDg9158kT335PwQ3aMdnE2cA0Cvkk18UEDWTaXZd0binxFy4dzOklmsDsb8VU-3A3KZfsL6RN_v-i0iw2KaT2zhGu59LdeqtDyBxefzHUHFT00QtVqDQRbq7FOMr-tYyBmUYS_9c8LHvmr0yNHtGH_Vqj7QZa8xYQPBrS-rRnWVDrS3v_xqv-9QxowrZKWmtYYqQakuTuGBh2DYpRjKeyGhNc1DssNE2AJp2l-xShy3IY2Rk24bYE&s=DAuofl5jKtRgnfACZZWz1xnxHKG1mAXpmWQjITVe3In_WTS11FTAn9jDWjwtsF2iG0GRggTE4htT5g8zVd-hVaKpwE4-uxcNqMblbJyz64RI15z5cBMIFwwwv7mRgsF-0Q6MaIunHqL_CzpgJcJfnnlJozyDMdLok06hztx4ms7UdbTcF76vhNcAGq2mTYHUnQFwkTOYyKBybCV96EzJL60dxRdzDnVU6hA1fCRtlTlyQopgo-DXthyOwzrHlEIzBLWaajSaYq0nnmdc5coxgY58Dy2oMkOTGB3qiqd3Lg4wvtq_q84Y3OH9fmAUMXyFG-nX4y56lf-c7pXPZnH0oA&h=Dz8PY1MlYYV2DqTQvVq1Lw2FnKw1wa4RQZ02XK4sDAo
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 091104DE64214978AB49C9988D4F2581 Ref B: MWH011020809025 Ref C: 2025-03-31T21:13:21Z'
-        status: 202 Accepted
-        code: 202
-        duration: 167.178694ms
-    - id: 23
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -1358,10 +1108,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1389,19 +1136,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 109.259467ms
-    - id: 24
+    - id: 23
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -1411,10 +1152,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1438,19 +1176,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 152.502316ms
-    - id: 25
+    - id: 24
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1462,10 +1194,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-vhoszi'' could not be found."}}'
         headers:
             Cache-Control:
@@ -1491,19 +1220,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 63.339324ms
-    - id: 26
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1515,10 +1238,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-vhoszi'' could not be found."}}'
         headers:
             Cache-Control:

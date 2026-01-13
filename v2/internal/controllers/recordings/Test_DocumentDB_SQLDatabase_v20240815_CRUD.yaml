@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 99
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-rg-fgjcsu","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 282
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu","name":"asotest-rg-fgjcsu","type":"Microsoft.Resources/resourceGroups","location":"australiaeast","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 282
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu","name":"asotest-rg-fgjcsu","type":"Microsoft.Resources/resourceGroups","location":"australiaeast","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -135,10 +112,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 247
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu'' under resource group ''asotest-rg-fgjcsu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -170,13 +144,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 208
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"kind":"GlobalDocumentDB","location":"australiaeast","name":"asotestsqlacctecnhqu","properties":{"databaseAccountOfferType":"Standard","disableLocalAuth":true,"locations":[{"locationName":"australiaeast"}]}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -192,10 +161,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2422
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu","name":"asotestsqlacctecnhqu","location":"Australia East","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Creating","publicNetworkAccess":"Enabled","enableAutomaticFailover":true,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"b51fc8a5-af91-4e96-bb0d-e6243cd9c4ec","databaseAccountOfferType":"Standard","defaultIdentity":"","networkAclBypass":"None","disableLocalAuth":true,"enablePartitionMerge":false,"enableBurstCapacity":false,"minimalTlsVersion":"Tls12","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{"EnablePerRegionPerPartitionAutoscaleOptIn":"True"},"writeLocations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Invalid"}},"networkAclBypassResourceIds":[],"keysMetadata":{"primaryMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"secondaryMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"primaryReadonlyMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"secondaryReadonlyMasterKey":{"generationTime":"2001-02-03T04:05:06Z"}}},"identity":{"type":"None"}}'
         headers:
             Azure-Asyncoperation:
@@ -233,13 +199,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -249,10 +209,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -286,13 +243,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -302,10 +253,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -339,13 +287,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -355,10 +297,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -392,13 +331,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -408,10 +341,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -445,13 +375,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -461,10 +385,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -498,13 +419,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -514,10 +429,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2852
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu","name":"asotestsqlacctecnhqu","location":"Australia East","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestsqlacctecnhqu.documents.azure.com:443/","sqlEndpoint":"https://asotestsqlacctecnhqu.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":true,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"b51fc8a5-af91-4e96-bb0d-e6243cd9c4ec","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":true,"enablePartitionMerge":false,"enableBurstCapacity":false,"minimalTlsVersion":"Tls12","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{"EnablePerRegionPerPartitionAutoscaleOptIn":"True"},"writeLocations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","documentEndpoint":"https://asotestsqlacctecnhqu-australiaeast.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","documentEndpoint":"https://asotestsqlacctecnhqu-australiaeast.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","documentEndpoint":"https://asotestsqlacctecnhqu-australiaeast.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[],"keysMetadata":{"primaryMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"secondaryMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"primaryReadonlyMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"secondaryReadonlyMasterKey":{"generationTime":"2001-02-03T04:05:06Z"}}},"identity":{"type":"None"}}'
         headers:
             Cache-Control:
@@ -549,13 +461,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -567,10 +473,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2852
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu","name":"asotestsqlacctecnhqu","location":"Australia East","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestsqlacctecnhqu.documents.azure.com:443/","sqlEndpoint":"https://asotestsqlacctecnhqu.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":true,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"b51fc8a5-af91-4e96-bb0d-e6243cd9c4ec","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":true,"enablePartitionMerge":false,"enableBurstCapacity":false,"minimalTlsVersion":"Tls12","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{"EnablePerRegionPerPartitionAutoscaleOptIn":"True"},"writeLocations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","documentEndpoint":"https://asotestsqlacctecnhqu-australiaeast.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","documentEndpoint":"https://asotestsqlacctecnhqu-australiaeast.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","documentEndpoint":"https://asotestsqlacctecnhqu-australiaeast.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestsqlacctecnhqu-australiaeast","locationName":"Australia East","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[],"keysMetadata":{"primaryMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"secondaryMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"primaryReadonlyMasterKey":{"generationTime":"2001-02-03T04:05:06Z"},"secondaryReadonlyMasterKey":{"generationTime":"2001-02-03T04:05:06Z"}}},"identity":{"type":"None"}}'
         headers:
             Cache-Control:
@@ -602,13 +505,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 169
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-sqldb-flukmo","properties":{"options":{"autoscaleSettings":{"maxThroughput":4000}},"resource":{"id":"asotest-sqldb-flukmo"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -624,10 +522,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -665,13 +560,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -681,10 +570,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -718,13 +604,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -734,10 +614,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -771,13 +648,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -787,10 +658,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -824,13 +692,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -840,10 +702,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 488
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases","name":"asotest-sqldb-flukmo","properties":{"resource":{"id":"asotest-sqldb-flukmo","_rid":"hrwZAA==","_self":"dbs/hrwZAA==/","_etag":"\"00009f3e-0000-1a00-0000-6891695c0000\"","_colls":"colls/","_users":"users/","_ts":1754360156}}}'
         headers:
             Cache-Control:
@@ -877,13 +736,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -895,10 +748,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 488
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases","name":"asotest-sqldb-flukmo","properties":{"resource":{"id":"asotest-sqldb-flukmo","_rid":"hrwZAA==","_self":"dbs/hrwZAA==/","_etag":"\"00009f3e-0000-1a00-0000-6891695c0000\"","_colls":"colls/","_users":"users/","_ts":1754360156}}}'
         headers:
             Cache-Control:
@@ -932,13 +782,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 408
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-container-vndnss","properties":{"options":{"throughput":400},"resource":{"conflictResolutionPolicy":{"mode":"LastWriterWins"},"defaultTtl":200,"id":"asotest-container-vndnss","indexingPolicy":{"excludedPaths":[{"path":"/myPathToNotIndex/*"}],"includedPaths":[{"path":"/*"}],"indexingMode":"consistent"},"partitionKey":{"kind":"Hash","paths":["/myPartitionKey"]}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -954,10 +799,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -995,13 +837,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 89
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"default","properties":{"resource":{"autoscaleSettings":{"maxThroughput":5000}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1017,10 +854,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -1058,13 +892,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 55
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-mi-iirasy"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1080,10 +909,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 460
-        uncompressed: false
         body: '{"location":"australiaeast","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-fgjcsu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-iirasy","name":"asotest-mi-iirasy","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"84d65089-2bc2-4653-8034-602973b2bcca","clientId":"3527fa2d-ddc3-4488-b571-22687c45be91"}}'
         headers:
             Cache-Control:
@@ -1119,13 +945,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1135,10 +955,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -1172,13 +989,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1188,10 +999,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -1225,13 +1033,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 55
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-mi-iirasy"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1247,10 +1050,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 460
-        uncompressed: false
         body: '{"location":"australiaeast","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-fgjcsu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-iirasy","name":"asotest-mi-iirasy","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"84d65089-2bc2-4653-8034-602973b2bcca","clientId":"3527fa2d-ddc3-4488-b571-22687c45be91"}}'
         headers:
             Cache-Control:
@@ -1284,13 +1084,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1300,10 +1094,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -1337,13 +1128,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1353,10 +1138,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -1390,13 +1172,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1408,10 +1184,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 460
-        uncompressed: false
         body: '{"location":"australiaeast","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-fgjcsu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-iirasy","name":"asotest-mi-iirasy","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"84d65089-2bc2-4653-8034-602973b2bcca","clientId":"3527fa2d-ddc3-4488-b571-22687c45be91"}}'
         headers:
             Cache-Control:
@@ -1443,13 +1216,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1459,10 +1226,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 507
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"mKek","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":5000},"minimumThroughput":"1000","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"1000000"}}}'
         headers:
             Cache-Control:
@@ -1496,13 +1260,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1514,10 +1272,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 507
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"mKek","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":5000},"minimumThroughput":"1000","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"1000000"}}}'
         headers:
             Cache-Control:
@@ -1551,13 +1306,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 89
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"default","properties":{"resource":{"autoscaleSettings":{"maxThroughput":6000}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1573,10 +1323,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -1614,13 +1361,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 510
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"3f013cde-d526-5573-8d6d-555911fe0563","properties":{"principalId":"84d65089-2bc2-4653-8034-602973b2bcca","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1636,10 +1378,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -1677,13 +1416,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1693,10 +1426,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -1730,13 +1460,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -1746,10 +1470,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -1783,13 +1504,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1799,10 +1514,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -1836,13 +1548,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1852,10 +1558,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -1889,13 +1592,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1905,10 +1602,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1229
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"asotest-container-vndnss","properties":{"resource":{"id":"asotest-container-vndnss","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}],"fullTextIndexes":[]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":200,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"hrwZAIKZuTA=","_ts":1754360176,"_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/","_etag":"\"0000a53e-0000-1a00-0000-689169700000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","computedProperties":[],"statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
         headers:
             Cache-Control:
@@ -1942,13 +1636,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1960,10 +1648,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1229
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"asotest-container-vndnss","properties":{"resource":{"id":"asotest-container-vndnss","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}],"fullTextIndexes":[]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":200,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"hrwZAIKZuTA=","_ts":1754360176,"_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/","_etag":"\"0000a53e-0000-1a00-0000-689169700000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","computedProperties":[],"statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
         headers:
             Cache-Control:
@@ -1997,13 +1682,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -2013,10 +1692,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -2050,13 +1726,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2066,10 +1736,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -2103,13 +1770,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 267
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-storedproc-hnekbu","properties":{"resource":{"body":"\nfunction () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello, World'');\n}","id":"asotest-storedproc-hnekbu"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2125,10 +1787,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -2166,13 +1825,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 361
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-udf-ecosqm","properties":{"resource":{"body":"\nfunction tax(income) {\n    if (income == undefined)\n        throw ''no input'';\n    if (income \u003c 1000)\n        return income*0.1;\n    else if(income \u003c 10000)\n        return income*0.2;\n    else\n        return income*0.4;\n}","id":"asotest-udf-ecosqm"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2188,10 +1842,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -2229,13 +1880,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 493
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-trigger-tdumfx","properties":{"resource":{"body":"\nfunction validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}","id":"asotest-trigger-tdumfx","triggerOperation":"Create","triggerType":"Pre"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2251,10 +1897,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -2292,13 +1935,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 63
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"default","properties":{"resource":{"throughput":500}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2314,10 +1952,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -2355,13 +1990,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -2371,10 +2000,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 507
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"mKek","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":6000},"minimumThroughput":"1000","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"1000000"}}}'
         headers:
             Cache-Control:
@@ -2408,13 +2034,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2426,10 +2046,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 507
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"mKek","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":6000},"minimumThroughput":"1000","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"1000000"}}}'
         headers:
             Cache-Control:
@@ -2463,13 +2080,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2479,10 +2090,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -2516,13 +2124,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2532,10 +2134,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -2569,13 +2168,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2585,10 +2178,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -2622,13 +2212,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2638,10 +2222,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -2675,13 +2256,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2691,10 +2266,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -2728,13 +2300,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -2744,10 +2310,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -2781,13 +2344,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2797,10 +2354,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -2834,13 +2388,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2850,10 +2398,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -2887,13 +2432,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2903,10 +2442,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 779
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/storedProcedures/asotest-storedproc-hnekbu","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"asotest-storedproc-hnekbu","properties":{"resource":{"body":"\nfunction () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello, World'');\n}","id":"asotest-storedproc-hnekbu","_rid":"hrwZAIKZuTABAAAAAAAAgA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/sprocs/hrwZAIKZuTABAAAAAAAAgA==/","_etag":"\"060093ca-0000-1a00-0000-689169880000\"","_ts":1754360200}}}'
         headers:
             Cache-Control:
@@ -2940,13 +2476,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2956,10 +2486,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -2993,13 +2520,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3009,10 +2530,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 793
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlRoleAssignments/3f013cde-d526-5573-8d6d-555911fe0563","name":"3f013cde-d526-5573-8d6d-555911fe0563","properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","principalId":"84d65089-2bc2-4653-8034-602973b2bcca","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu"},"type":"Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"}'
         headers:
             Cache-Control:
@@ -3046,13 +2564,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3062,10 +2574,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 988
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/triggers/asotest-trigger-tdumfx","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"asotest-trigger-tdumfx","properties":{"resource":{"body":"\nfunction validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}","id":"asotest-trigger-tdumfx","triggerOperation":"Create","triggerType":"Pre","_rid":"hrwZAIKZuTABAAAAAAAAcA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/triggers/hrwZAIKZuTABAAAAAAAAcA==/","_etag":"\"060091ca-0000-1a00-0000-689169880000\"","_ts":1754360200}}}'
         headers:
             Cache-Control:
@@ -3099,13 +2608,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3117,10 +2620,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 779
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/storedProcedures/asotest-storedproc-hnekbu","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"asotest-storedproc-hnekbu","properties":{"resource":{"body":"\nfunction () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello, World'');\n}","id":"asotest-storedproc-hnekbu","_rid":"hrwZAIKZuTABAAAAAAAAgA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/sprocs/hrwZAIKZuTABAAAAAAAAgA==/","_etag":"\"060093ca-0000-1a00-0000-689169880000\"","_ts":1754360200}}}'
         headers:
             Cache-Control:
@@ -3154,13 +2654,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3170,10 +2664,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 509
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"CKgf","properties":{"resource":{"throughput":500,"minimumThroughput":"400","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"100000"}}}'
         headers:
             Cache-Control:
@@ -3207,13 +2698,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3225,10 +2710,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 988
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/triggers/asotest-trigger-tdumfx","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"asotest-trigger-tdumfx","properties":{"resource":{"body":"\nfunction validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}","id":"asotest-trigger-tdumfx","triggerOperation":"Create","triggerType":"Pre","_rid":"hrwZAIKZuTABAAAAAAAAcA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/triggers/hrwZAIKZuTABAAAAAAAAcA==/","_etag":"\"060091ca-0000-1a00-0000-689169880000\"","_ts":1754360200}}}'
         headers:
             Cache-Control:
@@ -3262,13 +2744,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3280,10 +2756,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 793
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlRoleAssignments/3f013cde-d526-5573-8d6d-555911fe0563","name":"3f013cde-d526-5573-8d6d-555911fe0563","properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","principalId":"84d65089-2bc2-4653-8034-602973b2bcca","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu"},"type":"Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"}'
         headers:
             Cache-Control:
@@ -3317,13 +2790,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3335,10 +2802,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 509
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"CKgf","properties":{"resource":{"throughput":500,"minimumThroughput":"400","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"100000"}}}'
         headers:
             Cache-Control:
@@ -3372,13 +2836,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 157
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-storedproc-hnekbu","properties":{"resource":{"body":"your code doesn''t work!","id":"asotest-storedproc-hnekbu"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3394,10 +2853,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -3435,13 +2891,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3453,10 +2903,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -3494,13 +2941,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 494
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-trigger-tdumfx","properties":{"resource":{"body":"\nfunction validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}","id":"asotest-trigger-tdumfx","triggerOperation":"Create","triggerType":"Post"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3516,10 +2958,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -3557,13 +2996,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3573,10 +3006,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -3610,13 +3040,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3626,10 +3050,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -3663,13 +3084,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3679,10 +3094,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -3716,13 +3128,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -3732,10 +3138,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -3769,13 +3172,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3785,10 +3182,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 862
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/userDefinedFunctions/asotest-udf-ecosqm","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions","name":"asotest-udf-ecosqm","properties":{"resource":{"body":"\nfunction tax(income) {\n    if (income == undefined)\n        throw ''no input'';\n    if (income < 1000)\n        return income*0.1;\n    else if(income < 10000)\n        return income*0.2;\n    else\n        return income*0.4;\n}","id":"asotest-udf-ecosqm","_rid":"hrwZAIKZuTABAAAAAAAAYA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/udfs/hrwZAIKZuTABAAAAAAAAYA==/","_etag":"\"060092ca-0000-1a00-0000-689169880000\"","_ts":1754360200}}}'
         headers:
             Cache-Control:
@@ -3822,13 +3216,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -3838,10 +3226,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -3875,13 +3260,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -3891,10 +3270,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -3928,13 +3304,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 63
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"default","properties":{"resource":{"throughput":600}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3950,10 +3321,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -3991,13 +3359,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -4007,10 +3369,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -4044,13 +3403,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4062,10 +3415,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 862
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/userDefinedFunctions/asotest-udf-ecosqm","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions","name":"asotest-udf-ecosqm","properties":{"resource":{"body":"\nfunction tax(income) {\n    if (income == undefined)\n        throw ''no input'';\n    if (income < 1000)\n        return income*0.1;\n    else if(income < 10000)\n        return income*0.2;\n    else\n        return income*0.4;\n}","id":"asotest-udf-ecosqm","_rid":"hrwZAIKZuTABAAAAAAAAYA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/udfs/hrwZAIKZuTABAAAAAAAAYA==/","_etag":"\"060092ca-0000-1a00-0000-689169880000\"","_ts":1754360200}}}'
         headers:
             Cache-Control:
@@ -4099,13 +3449,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4115,10 +3459,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -4152,13 +3493,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 138
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-udf-ecosqm","properties":{"resource":{"body":"wonder what to do?","id":"asotest-udf-ecosqm"}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4174,10 +3510,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -4215,13 +3548,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4231,10 +3558,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -4268,13 +3592,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4284,10 +3602,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -4321,13 +3636,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4337,10 +3646,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -4374,13 +3680,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -4390,10 +3690,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -4427,13 +3724,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4443,10 +3734,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 669
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/storedProcedures/asotest-storedproc-hnekbu","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"asotest-storedproc-hnekbu","properties":{"resource":{"body":"your code doesn''t work!","id":"asotest-storedproc-hnekbu","_rid":"hrwZAIKZuTABAAAAAAAAgA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/sprocs/hrwZAIKZuTABAAAAAAAAgA==/","_etag":"\"06009cca-0000-1a00-0000-689169970000\"","_ts":1754360215}}}'
         headers:
             Cache-Control:
@@ -4480,13 +3768,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4496,10 +3778,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -4533,13 +3812,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4549,10 +3822,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 989
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/triggers/asotest-trigger-tdumfx","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"asotest-trigger-tdumfx","properties":{"resource":{"body":"\nfunction validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}","id":"asotest-trigger-tdumfx","triggerOperation":"Create","triggerType":"Post","_rid":"hrwZAIKZuTABAAAAAAAAcA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/triggers/hrwZAIKZuTABAAAAAAAAcA==/","_etag":"\"06009bca-0000-1a00-0000-689169970000\"","_ts":1754360215}}}'
         headers:
             Cache-Control:
@@ -4586,13 +3856,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4604,10 +3868,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 669
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/storedProcedures/asotest-storedproc-hnekbu","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"asotest-storedproc-hnekbu","properties":{"resource":{"body":"your code doesn''t work!","id":"asotest-storedproc-hnekbu","_rid":"hrwZAIKZuTABAAAAAAAAgA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/sprocs/hrwZAIKZuTABAAAAAAAAgA==/","_etag":"\"06009cca-0000-1a00-0000-689169970000\"","_ts":1754360215}}}'
         headers:
             Cache-Control:
@@ -4641,13 +3902,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4659,10 +3914,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 989
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/triggers/asotest-trigger-tdumfx","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"asotest-trigger-tdumfx","properties":{"resource":{"body":"\nfunction validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}","id":"asotest-trigger-tdumfx","triggerOperation":"Create","triggerType":"Post","_rid":"hrwZAIKZuTABAAAAAAAAcA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/triggers/hrwZAIKZuTABAAAAAAAAcA==/","_etag":"\"06009bca-0000-1a00-0000-689169970000\"","_ts":1754360215}}}'
         headers:
             Cache-Control:
@@ -4696,13 +3948,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -4712,10 +3958,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -4749,13 +3992,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4765,10 +4002,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -4802,13 +4036,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4818,10 +4046,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 509
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"CKgf","properties":{"resource":{"throughput":600,"minimumThroughput":"400","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"100000"}}}'
         headers:
             Cache-Control:
@@ -4855,13 +4080,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4873,10 +4092,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 509
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"CKgf","properties":{"resource":{"throughput":600,"minimumThroughput":"400","instantMaximumThroughput":"10000","softAllowedMaximumThroughput":"100000"}}}'
         headers:
             Cache-Control:
@@ -4910,13 +4126,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -4926,10 +4136,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -4963,13 +4170,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -4979,10 +4180,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -5016,13 +4214,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -5032,10 +4224,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -5069,13 +4258,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -5085,10 +4268,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -5122,13 +4302,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -5138,10 +4312,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -5175,13 +4346,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -5191,10 +4356,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 649
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/userDefinedFunctions/asotest-udf-ecosqm","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions","name":"asotest-udf-ecosqm","properties":{"resource":{"body":"wonder what to do?","id":"asotest-udf-ecosqm","_rid":"hrwZAIKZuTABAAAAAAAAYA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/udfs/hrwZAIKZuTABAAAAAAAAYA==/","_etag":"\"0600a0ca-0000-1a00-0000-689169a10000\"","_ts":1754360225}}}'
         headers:
             Cache-Control:
@@ -5228,13 +4390,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5246,10 +4402,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 649
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss/userDefinedFunctions/asotest-udf-ecosqm","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions","name":"asotest-udf-ecosqm","properties":{"resource":{"body":"wonder what to do?","id":"asotest-udf-ecosqm","_rid":"hrwZAIKZuTABAAAAAAAAYA==","_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/udfs/hrwZAIKZuTABAAAAAAAAYA==/","_etag":"\"0600a0ca-0000-1a00-0000-689169a10000\"","_ts":1754360225}}}'
         headers:
             Cache-Control:
@@ -5283,13 +4436,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 408
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"australiaeast","name":"asotest-container-vndnss","properties":{"options":{"throughput":400},"resource":{"conflictResolutionPolicy":{"mode":"LastWriterWins"},"defaultTtl":400,"id":"asotest-container-vndnss","indexingPolicy":{"excludedPaths":[{"path":"/myPathToNotIndex/*"}],"includedPaths":[{"path":"/*"}],"indexingMode":"consistent"},"partitionKey":{"kind":"Hash","paths":["/myPartitionKey"]}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5305,10 +4453,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -5346,13 +4491,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5362,10 +4501,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Cache-Control:
@@ -5399,13 +4535,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -5415,10 +4545,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5452,13 +4579,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -5468,10 +4589,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -5505,13 +4623,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -5521,10 +4633,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1229
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"asotest-container-vndnss","properties":{"resource":{"id":"asotest-container-vndnss","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}],"fullTextIndexes":[]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":400,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"hrwZAIKZuTA=","_ts":1754360267,"_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/","_etag":"\"0000af3e-0000-1a00-0000-689169cb0000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","computedProperties":[],"statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
         headers:
             Cache-Control:
@@ -5558,13 +4667,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5576,10 +4679,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1229
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fgjcsu/providers/Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu/sqlDatabases/asotest-sqldb-flukmo/containers/asotest-container-vndnss","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"asotest-container-vndnss","properties":{"resource":{"id":"asotest-container-vndnss","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}],"fullTextIndexes":[]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":400,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"hrwZAIKZuTA=","_ts":1754360267,"_self":"dbs/hrwZAA==/colls/hrwZAIKZuTA=/","_etag":"\"0000af3e-0000-1a00-0000-689169cb0000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","computedProperties":[],"statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
         headers:
             Cache-Control:
@@ -5613,13 +4713,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5631,10 +4725,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Enqueued"}'
         headers:
             Azure-Asyncoperation:
@@ -5672,13 +4763,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5688,10 +4773,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5725,13 +4807,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -5741,10 +4817,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5778,13 +4851,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -5794,10 +4861,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5831,13 +4895,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -5847,10 +4905,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5884,13 +4939,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -5900,10 +4949,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5937,13 +4983,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "5"
@@ -5953,10 +4993,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -5990,13 +5027,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "6"
@@ -6006,10 +5037,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6043,13 +5071,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "7"
@@ -6059,10 +5081,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6096,13 +5115,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "8"
@@ -6112,10 +5125,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6149,13 +5159,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "9"
@@ -6165,10 +5169,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6202,13 +5203,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "10"
@@ -6218,10 +5213,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6255,13 +5247,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "11"
@@ -6271,10 +5257,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6308,13 +5291,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "12"
@@ -6324,10 +5301,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6361,13 +5335,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "13"
@@ -6377,10 +5345,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6414,13 +5379,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "14"
@@ -6430,10 +5389,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6467,13 +5423,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "15"
@@ -6483,10 +5433,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 21
-        uncompressed: false
         body: '{"status":"Dequeued"}'
         headers:
             Cache-Control:
@@ -6520,13 +5467,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "16"
@@ -6536,10 +5477,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -6573,13 +5511,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6591,10 +5523,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 247
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu'' under resource group ''asotest-rg-fgjcsu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -6626,13 +5555,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6644,10 +5567,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6681,13 +5601,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -6697,10 +5611,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6734,66 +5645,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRGR0pDU1UtQVVTVFJBTElBRUFTVCIsImpvYkxvY2F0aW9uIjoiYXVzdHJhbGlhZWFzdCJ9?api-version=2020-06-01&t=638899578568368577&c=MIIIpTCCBo2gAwIBAgITFgGt2JEpNowfqCnGHAABAa3YkTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDMwHhcNMjUwNzE5MTQ1NzQwWhcNMjYwMTE1MTQ1NzQwWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL5TQVW0Qals2t66nORtdmQwb00kVPjniCGDLLX4mwKZ-fxkHqwHO7g_esL2deyq8HcN36C0DLwWukkoVGn0ufXbKd1pJ4b5N_sx4zsPY-9cZffSeCobK9SMjDw_Z2FngZDr6jynqhn1LqM5oTNDC7WkeOTSdwhN3w0-wgZgYR6l5slOSYIk0nAkZj-Pt4UIneFIDrvRJ0f0vA3lPPcQ94RHxKqVM21jHUI1dgUO5gb4nv5xUsEJBSTgKA9pH4sWzyETRwvAn6ZtvhRLAT4VGssZKaNe9Fd-Fpp40QwiARBKySjS1MpVsyVhuGwxdWHhXfUscU5Ux_dlfgHy3RvE4PUCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9BTTNQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAzKDEpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MB0GA1UdDgQWBBQ_6zDy7fendurTyys2Fav6C-FFKjAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBRIo61gdWpv7GDzaVXRALEyV_xs5DAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggIBAJaPckelU9EAh7Z5s4Kye0xRzJ1cRmt4BcOdI0s982io2nVT2oOo-grIVFjuZ6JQblfiWgy0CLlwdhXTLNrVMOfA-jZ9xZ7PPvXJjPilxt-ZaRt4wEUf2KYVbjdrhNWhRMQfbFJGL0lC4XNWLmvjBioFfwQ_GoerxWSDQl9VE7OEr7-R5XD6nK4_tIza2uzkO1OYffwtur3ezp5rw2cTlf0Y1oRSQXhPzea7-gCYBIqjXykR8v9x-SIwDHPqCyhXqDV1dRFFRSg7VaO5D28keTV7sQO7kduGVK8VK4vTPXXFOzfe9bt7eg0XBq6MfN4j17GQ_TVPUmxvfUoIDYMSpxZu4fGNQ9iKji6ncomVmF9LX6KPd0hWajO7jHWYztEjok0bL9oxAt_A7VZv5crnVac_PnTp2JFfYcYaO4YhRLyfb23v-DQx2WhUZ3mReiEiPAQbpA9wLUYLD7dkPDG5rJSpGnHGchUX-pvHsmlMmM5s9exP-Hxg6BSoQ8-7gO-SvTPuUVHK_3aCp7hNpoyD3cosIrbNQC5Fyi7rRlHTOKuttA9ZZQYWafSnDXdrpHBegHh2RFywnulrzw9pqevDo5FG-M6WUlsPV6lm9aGRWuXs98kExP_g3yzbXRfZ2MaG7c_G6aX2W3rMpuHJ5YsLmwsmVRl75UWaMJMBHcE71_39&s=c78fdYHdTwrIRRhrkuoYTjpnB3JG5e_brlR3NAktTJgnZHx-IaKCdfqt38FWhboLKRmCcqUT1vGlqE2VpRT-y3KxjJ7bM5sgUA-Ttr-LhIU3gOVK4CoEtzcK-ka_exwJSKR8vuvAGVD-CV-TlfFwJRkZru4VXsmtB4mVq0bN7VOtogLV7bI_GZ9QUAARoulusrbRJHP6r-1uH_ijIwmUtxF_fDvS8HcMpcO18G1wNtaQVTl3FsTRSVR9R4VMyOal8fBoDA40MBZxG9K-aNvjI8if06LVQVyl9zFo3Q3NNvA8-5Z3AljdVVE4ziqf3-tPcR9G5IeQa5VngxcnhJgMOw&h=u5bJ2Cck3FYZORU0u7Z0nZVQ_Vv3v1c-4lp6wQMyXBk
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRGR0pDU1UtQVVTVFJBTElBRUFTVCIsImpvYkxvY2F0aW9uIjoiYXVzdHJhbGlhZWFzdCJ9?api-version=2020-06-01&t=638899578927362533&c=MIIIpTCCBo2gAwIBAgITFgGt2JEpNowfqCnGHAABAa3YkTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDMwHhcNMjUwNzE5MTQ1NzQwWhcNMjYwMTE1MTQ1NzQwWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL5TQVW0Qals2t66nORtdmQwb00kVPjniCGDLLX4mwKZ-fxkHqwHO7g_esL2deyq8HcN36C0DLwWukkoVGn0ufXbKd1pJ4b5N_sx4zsPY-9cZffSeCobK9SMjDw_Z2FngZDr6jynqhn1LqM5oTNDC7WkeOTSdwhN3w0-wgZgYR6l5slOSYIk0nAkZj-Pt4UIneFIDrvRJ0f0vA3lPPcQ94RHxKqVM21jHUI1dgUO5gb4nv5xUsEJBSTgKA9pH4sWzyETRwvAn6ZtvhRLAT4VGssZKaNe9Fd-Fpp40QwiARBKySjS1MpVsyVhuGwxdWHhXfUscU5Ux_dlfgHy3RvE4PUCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9BTTNQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAzKDEpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MB0GA1UdDgQWBBQ_6zDy7fendurTyys2Fav6C-FFKjAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBRIo61gdWpv7GDzaVXRALEyV_xs5DAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggIBAJaPckelU9EAh7Z5s4Kye0xRzJ1cRmt4BcOdI0s982io2nVT2oOo-grIVFjuZ6JQblfiWgy0CLlwdhXTLNrVMOfA-jZ9xZ7PPvXJjPilxt-ZaRt4wEUf2KYVbjdrhNWhRMQfbFJGL0lC4XNWLmvjBioFfwQ_GoerxWSDQl9VE7OEr7-R5XD6nK4_tIza2uzkO1OYffwtur3ezp5rw2cTlf0Y1oRSQXhPzea7-gCYBIqjXykR8v9x-SIwDHPqCyhXqDV1dRFFRSg7VaO5D28keTV7sQO7kduGVK8VK4vTPXXFOzfe9bt7eg0XBq6MfN4j17GQ_TVPUmxvfUoIDYMSpxZu4fGNQ9iKji6ncomVmF9LX6KPd0hWajO7jHWYztEjok0bL9oxAt_A7VZv5crnVac_PnTp2JFfYcYaO4YhRLyfb23v-DQx2WhUZ3mReiEiPAQbpA9wLUYLD7dkPDG5rJSpGnHGchUX-pvHsmlMmM5s9exP-Hxg6BSoQ8-7gO-SvTPuUVHK_3aCp7hNpoyD3cosIrbNQC5Fyi7rRlHTOKuttA9ZZQYWafSnDXdrpHBegHh2RFywnulrzw9pqevDo5FG-M6WUlsPV6lm9aGRWuXs98kExP_g3yzbXRfZ2MaG7c_G6aX2W3rMpuHJ5YsLmwsmVRl75UWaMJMBHcE71_39&s=flvEBLTSzQoo1U9kuCvyQvqtaT1f4kysWbIzh-FU3GA7nmS1hLtKbe_aV5avJGPPHgUk0TUpLKbJKFmpQTxzWOg7hXqoJ2X7RGmjZ0TJoDnk5iscVOZaaXKmtZNJxHnuhbHREIyYEYqTHec_GFFaRG2C_L_KYEmGBQtV9kXR1J2g0DNJsIl_su6fBTffrEo5cDxqCOwPJWTtzyQjw2__0LKZP3xpsFKOWn6fUfLqSHKcRCgPfpLvn8pq-2Pqrmc5Kpl4Lz0e7tB5w-yQa6JfYNi3IVxOGx_B6VHt6jWac6zYL7kiOQ31KSSUEKpn78lNDZcCG82A27ODot2fTkJS7Q&h=o32sAtVvTepirJXQ1iUl8dZ1nF3IYgCY-T8ynAF_3BU
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: A7351E14B6CD4CF4A76B8BAD784C1C85 Ref B: MAA201060514051 Ref C: 2025-08-05T02:31:32Z'
-        status: 202 Accepted
-        code: 202
-        duration: 773.502627ms
-    - id: 124
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -6803,10 +5655,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6834,19 +5683,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 819.386909ms
-    - id: 125
+    - id: 124
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -6856,10 +5699,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6883,19 +5723,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 796.820358ms
-    - id: 126
+    - id: 125
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6907,10 +5741,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fgjcsu'' could not be found."}}'
         headers:
             Cache-Control:
@@ -6936,19 +5767,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 378.022364ms
-    - id: 127
+    - id: 126
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6960,10 +5785,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fgjcsu'' could not be found."}}'
         headers:
             Cache-Control:
@@ -6989,19 +5811,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 901.362274ms
-    - id: 128
+    - id: 127
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -7013,10 +5829,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fgjcsu'' could not be found."}}'
         headers:
             Cache-Control:
@@ -7042,19 +5855,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 422.942082ms
-    - id: 129
+    - id: 128
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -7066,10 +5873,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 247
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu'' under resource group ''asotest-rg-fgjcsu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -7095,19 +5899,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 558.194149ms
-    - id: 130
+    - id: 129
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -7119,10 +5917,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 247
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestsqlacctecnhqu'' under resource group ''asotest-rg-fgjcsu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -7148,19 +5943,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 479.427625ms
-    - id: 131
+    - id: 130
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -7172,10 +5961,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fgjcsu'' could not be found."}}'
         headers:
             Cache-Control:
@@ -7201,19 +5987,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 624.074998ms
-    - id: 132
+    - id: 131
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -7225,10 +6005,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fgjcsu'' could not be found."}}'
         headers:
             Cache-Control:
@@ -7254,19 +6031,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 617.385919ms
-    - id: 133
+    - id: 132
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -7278,10 +6049,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fgjcsu'' could not be found."}}'
         headers:
             Cache-Control:

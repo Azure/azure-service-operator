@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-qlxgsl","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl","name":"asotest-rg-qlxgsl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl","name":"asotest-rg-qlxgsl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 286
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"ukwest","name":"asotest-mysql-vihfnq","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","storage":{"storageSizeGB":128},"version":"8.0.21"},"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -139,10 +117,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 87
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -182,13 +157,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -198,10 +167,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"bd1f91f4-b58f-464e-92a2-d386be78c3e9","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -237,68 +203,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/bd1f91f4-b58f-464e-92a2-d386be78c3e9?api-version=2023-12-30&t=638833065815271872&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=YbRiRVajF5qj_PDPLtEugVWg2kdKVlAPxlQCT0o9y3I8w57-hOAcCka65g4mfpz9P6N5q0c7g0bN45H7GQRQOPdkzRA-ZTE_ssj9Z4BhIBRH8rIo125VS9S0F9yB3H1FDTynKbwjFpBEe9AM6zXNawK09P4GIP9YAlLyxSdHrZxjVqsP_SB_sYSpo4FYg3caay-xelDIuvyhEA4Qw0CT1A3blIw2DYwUNzDmVjNkhibhOVbVwiYp0O-IZpkIm9pvM8VC-sZPmv74A7LyVxmmYOa-51LQHtDaBWpIv2UR_G3oEpdX9nJwy5XXJhf9aEDQQ1YepYYjrNfsG5V4JNcTBA&h=UsWTWqcbfSsY8HWT0pmQBvZndEfK4cR3cMbDnQ4Uhcg
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 107
-        uncompressed: false
-        body: '{"name":"bd1f91f4-b58f-464e-92a2-d386be78c3e9","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "107"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/b7d3b694-7b7c-491a-9e41-5e926795e519
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: E90240BBD393421787D998DB5887ABD9 Ref B: MAA201060513011 Ref C: 2025-05-20T02:57:34Z'
-        status: 200 OK
-        code: 200
-        duration: 758.244923ms
-    - id: 5
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -308,10 +213,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"bd1f91f4-b58f-464e-92a2-d386be78c3e9","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -341,19 +243,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 774.710053ms
-    - id: 6
+    - id: 5
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -363,10 +259,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"bd1f91f4-b58f-464e-92a2-d386be78c3e9","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -396,19 +289,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 782.295976ms
-    - id: 7
+    - id: 6
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -418,10 +305,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1146
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myadmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotest-mysql-vihfnq.mysql.database.azure.com","availabilityZone":"","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"backupIntervalHours":24,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-05-20T02:59:18.8571224+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"UK West","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq","name":"asotest-mysql-vihfnq","type":"Microsoft.DBforMySQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -447,19 +331,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 969.226827ms
-    - id: 8
+    - id: 7
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -471,10 +349,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1146
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myadmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotest-mysql-vihfnq.mysql.database.azure.com","availabilityZone":"","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"backupIntervalHours":24,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-05-20T02:59:18.8571224+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"UK West","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq","name":"asotest-mysql-vihfnq","type":"Microsoft.DBforMySQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -500,19 +375,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 918.367022ms
-    - id: 9
+    - id: 8
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 353
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"ukwest","name":"asotest-mysql-vihfnq","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","backup":{"backupRetentionDays":5,"geoRedundantBackup":"Disabled"},"storage":{"storageSizeGB":128},"version":"8.0.21"},"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -528,10 +398,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -565,19 +432,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.510657921s
-    - id: 10
+    - id: 9
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -587,10 +448,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"e7871cdf-f1ef-4022-8ef5-26038c49dfba","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -620,19 +478,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 760.659318ms
-    - id: 11
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -642,10 +494,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1146
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myadmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotest-mysql-vihfnq.mysql.database.azure.com","availabilityZone":"","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":5,"backupIntervalHours":24,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-05-20T02:59:18.8571224+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"UK West","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq","name":"asotest-mysql-vihfnq","type":"Microsoft.DBforMySQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -671,19 +520,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.100525896s
-    - id: 12
+    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -695,10 +538,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1146
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myadmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotest-mysql-vihfnq.mysql.database.azure.com","availabilityZone":"","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":5,"backupIntervalHours":24,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-05-20T02:59:18.8571224+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"UK West","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq","name":"asotest-mysql-vihfnq","type":"Microsoft.DBforMySQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -724,19 +564,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 922.532125ms
-    - id: 13
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 48
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"ukwest","name":"asotest-mi-knncjg"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -752,10 +587,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 453
-        uncompressed: false
         body: '{"location":"ukwest","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg","name":"asotest-mi-knncjg","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"2528b4e2-1968-4731-8a89-ba76e1a3f24d","clientId":"353db934-14d5-4c2d-a0d1-82026229d394"}}'
         headers:
             Cache-Control:
@@ -785,19 +617,14 @@ interactions:
         status: 201 Created
         code: 201
         duration: 4.51059936s
-    - id: 14
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 48
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"ukwest","name":"asotest-mi-knncjg"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -813,10 +640,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 453
-        uncompressed: false
         body: '{"location":"ukwest","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg","name":"asotest-mi-knncjg","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"2528b4e2-1968-4731-8a89-ba76e1a3f24d","clientId":"353db934-14d5-4c2d-a0d1-82026229d394"}}'
         headers:
             Cache-Control:
@@ -844,19 +668,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 2.023839916s
-    - id: 15
+    - id: 14
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -868,10 +686,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 453
-        uncompressed: false
         body: '{"location":"ukwest","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg","name":"asotest-mi-knncjg","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"2528b4e2-1968-4731-8a89-ba76e1a3f24d","clientId":"353db934-14d5-4c2d-a0d1-82026229d394"}}'
         headers:
             Cache-Control:
@@ -897,19 +712,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 993.912805ms
-    - id: 16
+    - id: 15
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 582
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg":{}}},"location":"ukwest","name":"asotest-mysql-vihfnq","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","backup":{"backupRetentionDays":5,"geoRedundantBackup":"Disabled"},"storage":{"storageSizeGB":128},"version":"8.0.21"},"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -925,10 +735,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 87
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -962,19 +769,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 4.141002497s
-    - id: 17
+    - id: 16
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -984,10 +785,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"521dc504-1739-4fe2-ab4d-0c76de73ee40","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1017,19 +815,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 745.593181ms
-    - id: 18
+    - id: 17
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -1039,10 +831,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1580
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"identity":{"userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg":{"principalId":"2528b4e2-1968-4731-8a89-ba76e1a3f24d","tenantId":"00000000-0000-0000-0000-000000000000"}},"principalId":"00000000-0000-0000-0000-000000000000","type":"UserAssigned","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myadmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotest-mysql-vihfnq.mysql.database.azure.com","availabilityZone":"","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":5,"backupIntervalHours":24,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-05-20T02:59:18.8571224+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"UK West","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq","name":"asotest-mysql-vihfnq","type":"Microsoft.DBforMySQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1068,19 +857,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 925.875677ms
-    - id: 19
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1092,10 +875,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1580
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"identity":{"userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg":{"principalId":"2528b4e2-1968-4731-8a89-ba76e1a3f24d","tenantId":"00000000-0000-0000-0000-000000000000"}},"principalId":"00000000-0000-0000-0000-000000000000","type":"UserAssigned","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myadmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotest-mysql-vihfnq.mysql.database.azure.com","availabilityZone":"","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":5,"backupIntervalHours":24,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-05-20T02:59:18.8571224+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"UK West","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq","name":"asotest-mysql-vihfnq","type":"Microsoft.DBforMySQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1121,19 +901,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 959.258539ms
-    - id: 20
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 387
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"ActiveDirectory","properties":{"administratorType":"ActiveDirectory","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg","login":"asotest-mi-knncjg","sid":"353db934-14d5-4c2d-a0d1-82026229d394","tenantId":"00000000-0000-0000-0000-000000000000"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1149,10 +924,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"operation":"UpsertActiveDirectoryAdministratorManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1186,19 +958,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.154232793s
-    - id: 21
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1208,10 +974,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"70e20029-cd13-44ec-9d6b-cbb534292e68","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1241,19 +1004,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 716.341204ms
-    - id: 22
+    - id: 21
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1263,10 +1020,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 639
-        uncompressed: false
         body: '{"properties":{"administratorType":"ActiveDirectory","login":"asotest-mi-knncjg","sid":"353db934-14d5-4c2d-a0d1-82026229d394","tenantId":"00000000-0000-0000-0000-000000000000","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/administrators/ActiveDirectory","name":"ActiveDirectory","type":"Microsoft.DBforMySQL/flexibleServers/administrators"}'
         headers:
             Cache-Control:
@@ -1294,19 +1048,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.059275653s
-    - id: 23
+    - id: 22
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1318,10 +1066,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 639
-        uncompressed: false
         body: '{"properties":{"administratorType":"ActiveDirectory","login":"asotest-mi-knncjg","sid":"353db934-14d5-4c2d-a0d1-82026229d394","tenantId":"00000000-0000-0000-0000-000000000000","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qlxgsl/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-knncjg"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/administrators/ActiveDirectory","name":"ActiveDirectory","type":"Microsoft.DBforMySQL/flexibleServers/administrators"}'
         headers:
             Cache-Control:
@@ -1349,19 +1094,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 977.409292ms
-    - id: 24
+    - id: 23
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1373,10 +1112,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 105
-        uncompressed: false
         body: '{"operation":"DropActiveDirectoryAdministratorManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1410,19 +1146,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.454869288s
-    - id: 25
+    - id: 24
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1432,10 +1162,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"79e9a1cd-e4b5-43a3-b23d-164ce81e96e3","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1465,19 +1192,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 794.95646ms
-    - id: 26
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 61
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotestdbnmutal","properties":{"charset":"utf8mb4"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1493,10 +1215,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 94
-        uncompressed: false
         body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1530,19 +1249,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.271879419s
-    - id: 27
+    - id: 26
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 79
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"max_connections","properties":{"source":"user-override","value":"20"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1558,10 +1272,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 97
-        uncompressed: false
         body: '{"operation":"UpdateServerParameterManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1595,19 +1306,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.439252877s
-    - id: 28
+    - id: 27
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 99
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-fwrule-jhwmoj","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1623,10 +1329,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 98
-        uncompressed: false
         body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1660,19 +1363,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.270583137s
-    - id: 29
+    - id: 28
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1682,10 +1379,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"1a2f2f17-c0d5-4f51-9c15-daae26ec4810","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1715,19 +1409,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 934.526328ms
-    - id: 30
+    - id: 29
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1737,10 +1425,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"f4981bc7-5267-4dcc-9e50-d935de082c9e","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1770,19 +1455,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 872.357497ms
-    - id: 31
+    - id: 30
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1792,10 +1471,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 336
-        uncompressed: false
         body: '{"properties":{"charset":"utf8mb4","collation":"utf8mb4_0900_ai_ci"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/databases/asotestdbnmutal","name":"asotestdbnmutal","type":"Microsoft.DBforMySQL/flexibleServers/databases"}'
         headers:
             Cache-Control:
@@ -1823,19 +1499,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 992.471629ms
-    - id: 32
+    - id: 31
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1845,10 +1515,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"78259c57-46cb-430c-809a-ae2d793273b2","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1878,19 +1545,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 848.587346ms
-    - id: 33
+    - id: 32
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1902,10 +1563,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 336
-        uncompressed: false
         body: '{"properties":{"charset":"utf8mb4","collation":"utf8mb4_0900_ai_ci"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/databases/asotestdbnmutal","name":"asotestdbnmutal","type":"Microsoft.DBforMySQL/flexibleServers/databases"}'
         headers:
             Cache-Control:
@@ -1933,19 +1591,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 740.265237ms
-    - id: 34
+    - id: 33
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1957,10 +1609,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 92
-        uncompressed: false
         body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1994,74 +1643,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.047303154s
-    - id: 35
+    - id: 34
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/f4981bc7-5267-4dcc-9e50-d935de082c9e?api-version=2023-12-30&t=638833069334372596&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=pkwoz-z_sqRMLavN5TBdYeo57wOARzP6HIZXcjFatYHixQnNDrcBkGM_JXAkb5JtUue73SbyQlDfEr1V1crYIVuZaNbhvAqLkHUF8kqIcjM-ypAMiPnuPYDLhNL76pWpY0q6wxJIWlhG56trrwRZ3gk5khWUQcKg69FW8RcOA6qy2z64FXZ8PzS_XU7vkB0zubakmu0aIDU4rOIdbBohTVdavzWWVylzDKE6DnX6F7o5MCUw_mx6h7mO9dtdL-EHMIn3SPS4Y6IFy3ndIBmdkVGDydWmUCLJ-rDiX-KiFCOr_Xt9QsYWMMVJLNL5R7mOyI-tI9kSRBFRmcdNdymw5g&h=78dEyX5TC7LIsHP64jupD0OyFS8C9sqSuUopGYgCQZ0
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"f4981bc7-5267-4dcc-9e50-d935de082c9e","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/57ac53bf-b698-40e5-8ad3-b5863e384a1c
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 96866788C11A468FB24AE35E19970963 Ref B: MAA201060513011 Ref C: 2025-05-20T03:02:35Z'
-        status: 200 OK
-        code: 200
-        duration: 835.234776ms
-    - id: 36
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2071,10 +1659,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2104,129 +1689,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 757.217247ms
-    - id: 37
+    - id: 35
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/f4981bc7-5267-4dcc-9e50-d935de082c9e?api-version=2023-12-30&t=638833069334372596&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=pkwoz-z_sqRMLavN5TBdYeo57wOARzP6HIZXcjFatYHixQnNDrcBkGM_JXAkb5JtUue73SbyQlDfEr1V1crYIVuZaNbhvAqLkHUF8kqIcjM-ypAMiPnuPYDLhNL76pWpY0q6wxJIWlhG56trrwRZ3gk5khWUQcKg69FW8RcOA6qy2z64FXZ8PzS_XU7vkB0zubakmu0aIDU4rOIdbBohTVdavzWWVylzDKE6DnX6F7o5MCUw_mx6h7mO9dtdL-EHMIn3SPS4Y6IFy3ndIBmdkVGDydWmUCLJ-rDiX-KiFCOr_Xt9QsYWMMVJLNL5R7mOyI-tI9kSRBFRmcdNdymw5g&h=78dEyX5TC7LIsHP64jupD0OyFS8C9sqSuUopGYgCQZ0
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"f4981bc7-5267-4dcc-9e50-d935de082c9e","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/0d95bc6c-355f-457e-9808-40435ca93e51
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: A49F0AEF714245BFB385E53323D50F0A Ref B: MAA201060513011 Ref C: 2025-05-20T03:02:52Z'
-        status: 200 OK
-        code: 200
-        duration: 855.331863ms
-    - id: 38
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/cd5fec9c-7c23-42b1-8e10-5c571ae02e3d?api-version=2023-12-30&t=638833069478827436&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=QcXTSl4IXHd1z5OtChKO6Q5zY-iEj1aw2RFGoWVBqDKLmqBiDH_wF2Zbn42HfajV_BZ0iyVjgbzEMz8gotkcYe-t92AXDgf0R7RbMSqzyUjhWumi1UyOP1OUMyy-QmHc6NmOBiyxfsQIe58_FWXJj9SRDpbeX0S13BVPziLjcwXLdl3z5pQeWD-U6XHU02_O2Qy9eiSAaeKkmFfSDoFJwNP7GQGze46S5qIHS1Pl_j3AzP9b708b6-c6QW_C-DQznV02kgTnThNlmIMtgmk7j-azwV15rhNSsfxlfPQDRPf65qc5wPaAbJV5GC9D0y6Y7f06w5FjC_azTMKuZH2tZw&h=i7VjgnRRzgFQaTkJEXPOQDQoJaAB9F1-qQKs4W_Ndmw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/da1b1842-7386-49c4-9279-455af074bf47
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: EBD312D171E2490D9CF64D9B581DF39D Ref B: MAA201060513011 Ref C: 2025-05-20T03:03:02Z'
-        status: 200 OK
-        code: 200
-        duration: 816.221058ms
-    - id: 39
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -2236,10 +1705,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"f4981bc7-5267-4dcc-9e50-d935de082c9e","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2269,74 +1735,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 826.06642ms
-    - id: 40
+    - id: 36
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/cd5fec9c-7c23-42b1-8e10-5c571ae02e3d?api-version=2023-12-30&t=638833069478827436&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=QcXTSl4IXHd1z5OtChKO6Q5zY-iEj1aw2RFGoWVBqDKLmqBiDH_wF2Zbn42HfajV_BZ0iyVjgbzEMz8gotkcYe-t92AXDgf0R7RbMSqzyUjhWumi1UyOP1OUMyy-QmHc6NmOBiyxfsQIe58_FWXJj9SRDpbeX0S13BVPziLjcwXLdl3z5pQeWD-U6XHU02_O2Qy9eiSAaeKkmFfSDoFJwNP7GQGze46S5qIHS1Pl_j3AzP9b708b6-c6QW_C-DQznV02kgTnThNlmIMtgmk7j-azwV15rhNSsfxlfPQDRPf65qc5wPaAbJV5GC9D0y6Y7f06w5FjC_azTMKuZH2tZw&h=i7VjgnRRzgFQaTkJEXPOQDQoJaAB9F1-qQKs4W_Ndmw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/d6dc5448-e46a-4209-bf44-b2468df92fc3
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 679B86527844469B8657E828941CD6D4 Ref B: MAA201060513011 Ref C: 2025-05-20T03:03:20Z'
-        status: 200 OK
-        code: 200
-        duration: 725.493017ms
-    - id: 41
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2346,10 +1751,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"78259c57-46cb-430c-809a-ae2d793273b2","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2379,19 +1781,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 753.011121ms
-    - id: 42
+    - id: 37
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2401,10 +1797,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/firewallRules/asotest-fwrule-jhwmoj","name":"asotest-fwrule-jhwmoj","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -2432,19 +1825,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.011973548s
-    - id: 43
+    - id: 38
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -2454,10 +1841,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"f4981bc7-5267-4dcc-9e50-d935de082c9e","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2487,19 +1871,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.017910286s
-    - id: 44
+    - id: 39
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2511,10 +1889,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/firewallRules/asotest-fwrule-jhwmoj","name":"asotest-fwrule-jhwmoj","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -2542,19 +1917,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.040782905s
-    - id: 45
+    - id: 40
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2564,10 +1933,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 694
-        uncompressed: false
         body: '{"properties":{"value":"20","currentValue":"20","description":"The maximum permitted number of simultaneous client connections.","defaultValue":"1365","dataType":"Integer","allowedValues":"10-2731","source":"user-override","isConfigPendingRestart":"False","isDynamicConfig":"True","isReadOnly":"False","documentationLink":"https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_connections"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/configurations/max_connections","name":"max_connections","type":"Microsoft.DBforMySQL/flexibleServers/configurations"}'
         headers:
             Cache-Control:
@@ -2595,19 +1961,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 951.040287ms
-    - id: 46
+    - id: 41
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2619,10 +1979,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 694
-        uncompressed: false
         body: '{"properties":{"value":"20","currentValue":"20","description":"The maximum permitted number of simultaneous client connections.","defaultValue":"1365","dataType":"Integer","allowedValues":"10-2731","source":"user-override","isConfigPendingRestart":"False","isDynamicConfig":"True","isReadOnly":"False","documentationLink":"https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_connections"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/configurations/max_connections","name":"max_connections","type":"Microsoft.DBforMySQL/flexibleServers/configurations"}'
         headers:
             Cache-Control:
@@ -2650,19 +2007,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 956.804844ms
-    - id: 47
+    - id: 42
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 99
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-fwrule-jhwmoj","properties":{"endIpAddress":"1.2.3.5","startIpAddress":"1.2.3.4"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2678,10 +2030,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2715,74 +2064,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.172137229s
-    - id: 48
+    - id: 43
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/cd5fec9c-7c23-42b1-8e10-5c571ae02e3d?api-version=2023-12-30&t=638833069478827436&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=QcXTSl4IXHd1z5OtChKO6Q5zY-iEj1aw2RFGoWVBqDKLmqBiDH_wF2Zbn42HfajV_BZ0iyVjgbzEMz8gotkcYe-t92AXDgf0R7RbMSqzyUjhWumi1UyOP1OUMyy-QmHc6NmOBiyxfsQIe58_FWXJj9SRDpbeX0S13BVPziLjcwXLdl3z5pQeWD-U6XHU02_O2Qy9eiSAaeKkmFfSDoFJwNP7GQGze46S5qIHS1Pl_j3AzP9b708b6-c6QW_C-DQznV02kgTnThNlmIMtgmk7j-azwV15rhNSsfxlfPQDRPf65qc5wPaAbJV5GC9D0y6Y7f06w5FjC_azTMKuZH2tZw&h=i7VjgnRRzgFQaTkJEXPOQDQoJaAB9F1-qQKs4W_Ndmw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/cc73c59f-abef-44d0-8622-a98815b31411
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 786F0FC53F2C48879CECEFCE6FE04CEE Ref B: MAA201060513011 Ref C: 2025-05-20T03:03:37Z'
-        status: 200 OK
-        code: 200
-        duration: 734.940991ms
-    - id: 49
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2792,10 +2080,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"0a12e769-8723-4ac2-8d8d-e1f71b214a35","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2825,74 +2110,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 850.621167ms
-    - id: 50
+    - id: 44
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "4"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/ukwest/azureAsyncOperation/cd5fec9c-7c23-42b1-8e10-5c571ae02e3d?api-version=2023-12-30&t=638833069478827436&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=QcXTSl4IXHd1z5OtChKO6Q5zY-iEj1aw2RFGoWVBqDKLmqBiDH_wF2Zbn42HfajV_BZ0iyVjgbzEMz8gotkcYe-t92AXDgf0R7RbMSqzyUjhWumi1UyOP1OUMyy-QmHc6NmOBiyxfsQIe58_FWXJj9SRDpbeX0S13BVPziLjcwXLdl3z5pQeWD-U6XHU02_O2Qy9eiSAaeKkmFfSDoFJwNP7GQGze46S5qIHS1Pl_j3AzP9b708b6-c6QW_C-DQznV02kgTnThNlmIMtgmk7j-azwV15rhNSsfxlfPQDRPf65qc5wPaAbJV5GC9D0y6Y7f06w5FjC_azTMKuZH2tZw&h=i7VjgnRRzgFQaTkJEXPOQDQoJaAB9F1-qQKs4W_Ndmw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/45d0c4f9-c660-4377-a78f-05f5552a7321
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 46AE8B51A075492B84ACC8AF30D24602 Ref B: MAA201060513011 Ref C: 2025-05-20T03:03:55Z'
-        status: 200 OK
-        code: 200
-        duration: 723.311823ms
-    - id: 51
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "5"
@@ -2902,10 +2126,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2935,19 +2156,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 979.242665ms
-    - id: 52
+    - id: 45
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "6"
@@ -2957,10 +2172,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"cd5fec9c-7c23-42b1-8e10-5c571ae02e3d","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2990,19 +2202,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 795.633986ms
-    - id: 53
+    - id: 46
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -3012,10 +2218,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"0a12e769-8723-4ac2-8d8d-e1f71b214a35","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -3045,19 +2248,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 820.960833ms
-    - id: 54
+    - id: 47
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -3067,10 +2264,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.5"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/firewallRules/asotest-fwrule-jhwmoj","name":"asotest-fwrule-jhwmoj","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -3098,19 +2292,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 877.288539ms
-    - id: 55
+    - id: 48
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3122,10 +2310,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.5"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qlxgsl/providers/Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq/firewallRules/asotest-fwrule-jhwmoj","name":"asotest-fwrule-jhwmoj","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -3153,19 +2338,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.033687174s
-    - id: 56
+    - id: 49
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3177,10 +2356,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 97
-        uncompressed: false
         body: '{"operation":"DropServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3214,19 +2390,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.05619642s
-    - id: 57
+    - id: 50
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3236,10 +2406,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"4f943381-8ccf-468c-9d35-e12ef7faf9b2","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -3269,19 +2436,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 821.790704ms
-    - id: 58
+    - id: 51
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3293,10 +2454,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 84
-        uncompressed: false
         body: '{"operation":"DropServerManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3330,19 +2488,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 4.382241784s
-    - id: 59
+    - id: 52
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3352,10 +2504,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"32e4eb97-f0b9-4a95-84e3-feeed445a50b","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -3385,19 +2534,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 905.403111ms
-    - id: 60
+    - id: 53
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3409,10 +2552,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 246
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforMySQL/flexibleServers/asotest-mysql-vihfnq'' under resource group ''asotest-rg-qlxgsl'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -3438,19 +2578,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 476.101844ms
-    - id: 61
+    - id: 54
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3462,10 +2596,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3493,19 +2624,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 3.745360367s
-    - id: 62
+    - id: 55
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3515,10 +2640,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3546,72 +2668,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.005795655s
-    - id: 63
+    - id: 56
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRTFhHU0wtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638833072013384754&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=CQ-RxmeD34ZlNNz_EWcrwJZyCfpfNApVvbdowDzaXc0RTcg0Y_J2fTT_rdYkrMG7y9LFKkydRnuOzS_AlY-zfJyxmNuqsEi5R3I3_soCrZggfVI1pxV_lWvfpWaHCC6lgb3kpDi22_vSFVJ5EJy6tsA4fLn_V9MnOOuMVoJ6odF2WhbNXCZ8zxZwRcMSHO9PG1aaQC8B6DA5pGXjuX2I8XV9kJhLdbmFnoC_gVpV0jLqk3NMzsip-U-jxz1qHqJ-mwjW1z4auOEKvCDl-cm6eQYaTeOIVmzS7s1hCT_7igmYgtlnbP-491F-NqHOIUpsMKqpKCmfJDwMhKLjK4ENFA&h=WBDYartKsTowoLmksRz2PGXTSYwWVPNrNel739xMm9U
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRTFhHU0wtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638833072404335879&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=KKsaCyVT4u0Asm4nhFIJdizzmZoAs-KagEEONMnV_BHYMd-7BOy8AYq7cp7oEqTi-4xlXRE7pZKCqCFe0F5lX7q2gwxZIrEv7S6NU9Mv1H1W4me5pn4E63TaQWnobaxhWtpVgU4TcJd9Gc09ZPRguagWw_XZ_7htSFhSXaMpMV6xI8_BQ6WzEw-zBN217GpZH2MkH-1RLVtuEf-jmvVjI7m9pfvlOSXAx-SXY2uQkIlLKKHDm3a_DTlrOdtlRO_orKIGdY_bh-0U6HBE8e6vk7gp2wknY2iLv0ZzsIi4FLoiq9IW05n1RR_x4PDtv7wHip-peDdJ8HmAF0gmDua5Zg&h=Uf0wpbEpo4d8MZcKNMM3XrhLwz5CY_uMiZbUD9klymo
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 2EBA33015641433FB23D5C9545BDB339 Ref B: MAA201060513011 Ref C: 2025-05-20T03:07:19Z'
-        status: 202 Accepted
-        code: 202
-        duration: 1.080373971s
-    - id: 64
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -3621,10 +2684,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3652,19 +2712,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.189837545s
-    - id: 65
+    - id: 57
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -3674,10 +2728,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3701,19 +2752,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.017570304s
-    - id: 66
+    - id: 58
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3725,10 +2770,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qlxgsl'' could not be found."}}'
         headers:
             Cache-Control:
@@ -3754,19 +2796,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 450.109394ms
-    - id: 67
+    - id: 59
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3778,10 +2814,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qlxgsl'' could not be found."}}'
         headers:
             Cache-Control:

@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-ujjrls","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls","name":"asotest-rg-ujjrls","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls","name":"asotest-rg-ujjrls","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 307
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"ip2","properties":{"publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"}},"sku":{"name":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -139,10 +117,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 211
-        uncompressed: false
         body: '{"error":{"code":"NotFound","message":"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix not found.","details":[]}}'
         headers:
             Cache-Control:
@@ -174,13 +149,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 307
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"ip1","properties":{"publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"}},"sku":{"name":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -196,10 +166,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 211
-        uncompressed: false
         body: '{"error":{"code":"NotFound","message":"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix not found.","details":[]}}'
         headers:
             Cache-Control:
@@ -231,13 +198,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 147
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"prefix","properties":{"prefixLength":29,"publicIPAddressVersion":"IPv4"},"sku":{"name":"Standard","tier":"Regional"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -253,10 +215,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 484
-        uncompressed: false
         body: '{"name":"prefix","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix","etag":"W/\"58bc100e-74ce-463b-85da-3f2e69c24940\"","type":"Microsoft.Network/publicIPPrefixes","location":"westus2","properties":{"provisioningState":"Updating","resourceGuid":"0926a45d-0389-4a21-a825-842b7bd4ca1e","prefixLength":29,"publicIPAddressVersion":"IPv4","ipTags":[]},"sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Azure-Asyncnotification:
@@ -294,13 +253,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 307
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"ip3","properties":{"publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"}},"sku":{"name":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -316,10 +270,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 211
-        uncompressed: false
         body: '{"error":{"code":"NotFound","message":"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix not found.","details":[]}}'
         headers:
             Cache-Control:
@@ -351,13 +302,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 307
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"ip1","properties":{"publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"}},"sku":{"name":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -373,10 +319,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 746
-        uncompressed: false
         body: '{"name":"ip1","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip1","etag":"W/\"dcc203f6-981b-4f2f-83fb-85b3519830cb\"","location":"westus2","properties":{"provisioningState":"Updating","resourceGuid":"57da35f6-fd09-4c32-bfcd-20a253988127","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Azure-Asyncnotification:
@@ -414,13 +357,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -430,10 +367,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -465,13 +399,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 307
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"ip2","properties":{"publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"}},"sku":{"name":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -487,10 +416,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 746
-        uncompressed: false
         body: '{"name":"ip2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip2","etag":"W/\"0350c13b-d367-44c8-a161-347d6c2b7df6\"","location":"westus2","properties":{"provisioningState":"Updating","resourceGuid":"6e7daae7-f785-4c8d-9d95-63ac23370303","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Azure-Asyncnotification:
@@ -528,13 +454,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -544,10 +464,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 826
-        uncompressed: false
         body: '{"name":"prefix","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix","etag":"W/\"e5c2902b-e0cc-4c5f-948c-a6eb6d035b70\"","type":"Microsoft.Network/publicIPPrefixes","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"0926a45d-0389-4a21-a825-842b7bd4ca1e","prefixLength":29,"publicIPAddressVersion":"IPv4","ipPrefix":"52.247.193.112/29","ipTags":[],"publicIPAddresses":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip1"},{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip2"}]},"sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -581,13 +498,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -599,10 +510,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 826
-        uncompressed: false
         body: '{"name":"prefix","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix","etag":"W/\"e5c2902b-e0cc-4c5f-948c-a6eb6d035b70\"","type":"Microsoft.Network/publicIPPrefixes","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"0926a45d-0389-4a21-a825-842b7bd4ca1e","prefixLength":29,"publicIPAddressVersion":"IPv4","ipPrefix":"52.247.193.112/29","ipTags":[],"publicIPAddresses":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip1"},{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip2"}]},"sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -636,13 +544,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -652,10 +554,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -687,13 +586,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 307
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"ip3","properties":{"publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"}},"sku":{"name":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -709,10 +603,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 746
-        uncompressed: false
         body: '{"name":"ip3","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip3","etag":"W/\"fea4047d-d9ce-42f1-a876-fe26951ab97f\"","location":"westus2","properties":{"provisioningState":"Updating","resourceGuid":"92e09af1-874e-4e65-be22-eb62e58e7227","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Azure-Asyncnotification:
@@ -750,13 +641,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -766,10 +651,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 776
-        uncompressed: false
         body: '{"name":"ip1","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip1","etag":"W/\"12c6d58c-8bdb-42c9-9a18-5fa1e97699db\"","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"57da35f6-fd09-4c32-bfcd-20a253988127","ipAddress":"52.247.193.112","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -803,13 +685,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -821,10 +697,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 776
-        uncompressed: false
         body: '{"name":"ip1","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip1","etag":"W/\"12c6d58c-8bdb-42c9-9a18-5fa1e97699db\"","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"57da35f6-fd09-4c32-bfcd-20a253988127","ipAddress":"52.247.193.112","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -858,13 +731,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -874,10 +741,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -909,13 +773,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -925,10 +783,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 776
-        uncompressed: false
         body: '{"name":"ip2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip2","etag":"W/\"ba517a67-f504-4bf4-be1a-2d00cec2ec28\"","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"6e7daae7-f785-4c8d-9d95-63ac23370303","ipAddress":"52.247.193.113","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -962,13 +817,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -980,10 +829,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 776
-        uncompressed: false
         body: '{"name":"ip2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip2","etag":"W/\"ba517a67-f504-4bf4-be1a-2d00cec2ec28\"","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"6e7daae7-f785-4c8d-9d95-63ac23370303","ipAddress":"52.247.193.113","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -1017,13 +863,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1033,10 +873,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -1068,13 +905,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1084,10 +915,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 776
-        uncompressed: false
         body: '{"name":"ip3","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip3","etag":"W/\"04f24cda-e297-47a3-aa93-fd63d6b159ae\"","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"92e09af1-874e-4e65-be22-eb62e58e7227","ipAddress":"52.247.193.114","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -1121,13 +949,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1139,10 +961,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 776
-        uncompressed: false
         body: '{"name":"ip3","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPAddresses/ip3","etag":"W/\"04f24cda-e297-47a3-aa93-fd63d6b159ae\"","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"92e09af1-874e-4e65-be22-eb62e58e7227","ipAddress":"52.247.193.114","publicIPAddressVersion":"IPv4","publicIPAllocationMethod":"Static","idleTimeoutInMinutes":4,"ipTags":[],"publicIPPrefix":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ujjrls/providers/Microsoft.Network/publicIPPrefixes/prefix"},"ddosSettings":{"protectionMode":"VirtualNetworkInherited"}},"type":"Microsoft.Network/publicIPAddresses","sku":{"name":"Standard","tier":"Regional"}}'
         headers:
             Cache-Control:
@@ -1176,13 +995,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1194,10 +1007,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1231,13 +1041,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1247,10 +1051,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1284,66 +1085,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVSkpSTFMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638687658196566241&c=MIIHhzCCBm-gAwIBAgITHgV0Am0HtpbJw6qd5wAABXQCbTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI3MDgyMjIxWhcNMjUwMzI2MDgyMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMgJCEWh3POrqbhsQ_nsNPLTwMLltYItV3Z2pLAl_He3H3n9lLYypfqFjRus3fxOmreXBun3pTgw0v5M1o11tIQ35A7GfGR3PLJZvLyUnyOLlUulmId1qHlB_Eca__W1QAJaCzhMdXbRDdBRfSh4tMQrZ1mgb1Z63c8TVF1VZ97Qofq_U4BDvOArvARLjWJkr-iuNAH25YQRu42HmDr9cpH1_Pm_mMAmxzntUZOrlBisJAnpwgu0Luy1HHf3ZppLbooRq4hI6pxzNHpvJFjssmnXyZ5DGriBYq8TC9qcfOahYhGW34zW4uw8y3oc11MypcccV6JvsqIHCTv-HIPqHMUCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSkNXFG7HFDf4QA2iXQGug0G-qNYzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADrusw-PCkO5ei7sAu22p4jTkhqxE2MuMN7zYajMba7fxwRXcayq8HSZt_rwwShrvXkY0WeBM3y3z6tIG0XSNBjEsROaQ6XEbNmIxwWMRyPrxlwsItCYOT17HSiV3wFR_kQlokJJ1sZq3To7Rsv604dkrmrydte_K4YvVKkXwnJa_yTfuXK118cFukluMiUmJX7V0_tyYsp4SLM_dVIOaBxQkhowJMURLOTEPHPGuLIC9Be58aPxpGMGRWscVeCY1VX4Tdot9sVtpMFY9IhiPztzmGhZSClhSVPCpp_zI_P39KtiZII31hr57v-TKTRNCOo2V4Ph57EhbpHwUqEBrFQ&s=D-F6Lj-fkSbnlgkLBD-hOYali_atsZCSSp_uo4GIg187ZUjwMC1pEsDGS-0RMpOtuS0nmSZauG6M5tGlMJWQultPYumlrKVSFKMWrABId7wYDVxTc4VSgpTSx6lwajY4K9EmyNgYtnscXtOIewQdFc8JZV5KJFOaWb_aFZphzci7vFKSsh_mfWQ4ocg7xHIUubfHOLtt7GXD9suH8BbbHc5jaueM8efU7boh7yS1TDNgXPRYOJ5YX4N_TeTCy5ZzjIW4SM6bGeLbJ7ORVdsx7k8BG1RMAv2wKEERW5IFYLYpi7hm2YGMtwiwdMoe5b5EdUZ8FVctVlxMYvkCluvsHw&h=EQ194wTjVYXkmYIbDT9-AZSOvtB_SeTvhcnVBIDwpxA
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVSkpSTFMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638687658573361220&c=MIIHhzCCBm-gAwIBAgITHgV0Am0HtpbJw6qd5wAABXQCbTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI3MDgyMjIxWhcNMjUwMzI2MDgyMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMgJCEWh3POrqbhsQ_nsNPLTwMLltYItV3Z2pLAl_He3H3n9lLYypfqFjRus3fxOmreXBun3pTgw0v5M1o11tIQ35A7GfGR3PLJZvLyUnyOLlUulmId1qHlB_Eca__W1QAJaCzhMdXbRDdBRfSh4tMQrZ1mgb1Z63c8TVF1VZ97Qofq_U4BDvOArvARLjWJkr-iuNAH25YQRu42HmDr9cpH1_Pm_mMAmxzntUZOrlBisJAnpwgu0Luy1HHf3ZppLbooRq4hI6pxzNHpvJFjssmnXyZ5DGriBYq8TC9qcfOahYhGW34zW4uw8y3oc11MypcccV6JvsqIHCTv-HIPqHMUCAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSkNXFG7HFDf4QA2iXQGug0G-qNYzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADrusw-PCkO5ei7sAu22p4jTkhqxE2MuMN7zYajMba7fxwRXcayq8HSZt_rwwShrvXkY0WeBM3y3z6tIG0XSNBjEsROaQ6XEbNmIxwWMRyPrxlwsItCYOT17HSiV3wFR_kQlokJJ1sZq3To7Rsv604dkrmrydte_K4YvVKkXwnJa_yTfuXK118cFukluMiUmJX7V0_tyYsp4SLM_dVIOaBxQkhowJMURLOTEPHPGuLIC9Be58aPxpGMGRWscVeCY1VX4Tdot9sVtpMFY9IhiPztzmGhZSClhSVPCpp_zI_P39KtiZII31hr57v-TKTRNCOo2V4Ph57EhbpHwUqEBrFQ&s=DbbUx2HvutpnsM40_NBCggF_3R029xoMOuv-tTSrl9pCDyXHHrkqgrzaaBiB6fJ2xyup8cLpaa-TKKt_BWooaVKD1kvdHJrITRGgDuQDYnqjyN7k0CJ3lz4h1nUk6IbgKGMvLWb1s9sVBz5nu57w6J1Fwq7XHqhGt9FhWFSZGU3j_Ls4iVx7sKT1CDE20jFdyUe6EPtQGDbxywVXOvJSTKgGL8FrXdcmhD8JaMqIR6pTOVJpBHSSNb-UfIj5ww54SITIkWKp1NZdCrsCjyAq5ohyaZJJBOOuY8b8GL5ciheeA7uIQixd1wpquCC1xupySVlfCfjr0NAYvp42h5Z27g&h=_w4SSiRqUpNxUI2ZqCP6M3B73PHNBlgUKWDbWxuPhbk
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: FA414BCD6B024BBA9789215BE867754C Ref B: SYD03EDGE0808 Ref C: 2024-12-02T19:50:56Z'
-        status: 202 Accepted
-        code: 202
-        duration: 867.189085ms
-    - id: 24
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -1353,10 +1095,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1384,19 +1123,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 855.013519ms
-    - id: 25
+    - id: 24
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -1406,10 +1139,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1433,19 +1163,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 892.433524ms
-    - id: 26
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1457,10 +1181,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ujjrls'' could not be found."}}'
         headers:
             Cache-Control:
@@ -1486,19 +1207,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 332.650484ms
-    - id: 27
+    - id: 26
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1510,10 +1225,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ujjrls'' could not be found."}}'
         headers:
             Cache-Control:
@@ -1539,19 +1251,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 339.521838ms
-    - id: 28
+    - id: 27
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1563,10 +1269,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ujjrls'' could not be found."}}'
         headers:
             Cache-Control:
@@ -1592,19 +1295,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 322.113669ms
-    - id: 29
+    - id: 28
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1616,10 +1313,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ujjrls'' could not be found."}}'
         headers:
             Cache-Control:

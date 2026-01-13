@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-lzxzrt","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt","name":"asotest-rg-lzxzrt","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt","name":"asotest-rg-lzxzrt","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 248
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus","name":"asotest-function-jyktmk","properties":{"enabled":true,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/serverfarms/asotest-appservice-drlwoj"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -139,10 +117,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 467
-        uncompressed: false
         body: '{"Code":"NotFound","Message":"Cannot find ServerFarm with name asotest-appservice-drlwoj.","Target":null,"Details":[{"Message":"Cannot find ServerFarm with name asotest-appservice-drlwoj."},{"Code":"NotFound"},{"ErrorEntity":{"ExtendedCode":"51004","MessageTemplate":"Cannot find {0} with name {1}.","Parameters":["ServerFarm","asotest-appservice-drlwoj"],"Code":"NotFound","Message":"Cannot find ServerFarm with name asotest-appservice-drlwoj."}}],"Innererror":null}'
         headers:
             Cache-Control:
@@ -178,13 +153,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 78
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus","name":"asotest-appservice-drlwoj","sku":{"name":"P1v2"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -200,10 +170,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1629
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/serverfarms/asotest-appservice-drlwoj","name":"asotest-appservice-drlwoj","type":"Microsoft.Web/serverfarms","kind":"app","location":"westus","properties":{"serverFarmId":47927,"name":"asotest-appservice-drlwoj","sku":{"name":"P1v2","tier":"PremiumV2","size":"P1v2","family":"Pv2","capacity":1},"workerSize":"D1","workerSizeId":3,"workerTierName":null,"numberOfWorkers":1,"currentWorkerSize":"D1","currentWorkerSizeId":3,"currentNumberOfWorkers":1,"status":"Ready","webSpace":"asotest-rg-lzxzrt-WestUSwebspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dedicated","siteMode":null,"geoRegion":"West US","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":1,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":null,"kind":"app","resourceGroup":"asotest-rg-lzxzrt","reserved":false,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-bay-021_47927","targetWorkerCount":0,"targetWorkerSizeId":0,"provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"migrateToVMSS":null,"vnetConnectionsUsed":null,"vnetConnectionsMax":null,"createdTime":"2025-01-21T07:24:05.443"},"sku":{"name":"P1v2","tier":"PremiumV2","size":"P1v2","family":"Pv2","capacity":1}}'
         headers:
             Cache-Control:
@@ -241,13 +208,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -259,10 +220,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1542
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/serverfarms/asotest-appservice-drlwoj","name":"asotest-appservice-drlwoj","type":"Microsoft.Web/serverfarms","kind":"app","location":"West US","properties":{"serverFarmId":47927,"name":"asotest-appservice-drlwoj","workerSize":"D1","workerSizeId":3,"workerTierName":null,"numberOfWorkers":1,"currentWorkerSize":"D1","currentWorkerSizeId":3,"currentNumberOfWorkers":1,"status":"Ready","webSpace":"asotest-rg-lzxzrt-WestUSwebspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":30,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dedicated","siteMode":null,"geoRegion":"West US","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":1,"numberOfSites":1,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":null,"kind":"app","resourceGroup":"asotest-rg-lzxzrt","reserved":false,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-bay-021_47927","targetWorkerCount":0,"targetWorkerSizeId":0,"provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"migrateToVMSS":null,"vnetConnectionsUsed":0,"vnetConnectionsMax":2,"createdTime":"2025-01-21T07:24:05.443"},"sku":{"name":"P1v2","tier":"PremiumV2","size":"P1v2","family":"Pv2","capacity":1}}'
         headers:
             Cache-Control:
@@ -298,13 +256,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 248
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus","name":"asotest-function-jyktmk","properties":{"enabled":true,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/serverfarms/asotest-appservice-drlwoj"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -320,10 +273,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 7650
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites","kind":"app","location":"westus","properties":{"name":"asotest-function-jyktmk","state":"Running","hostNames":["asotest-function-jyktmk.azurewebsites.net"],"webSpace":"asotest-rg-lzxzrt-WestUSwebspace","selfLink":"https://waws-prod-bay-021.api.azurewebsites.windows.net:454/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/asotest-rg-lzxzrt-WestUSwebspace/sites/asotest-function-jyktmk","repositorySiteName":"asotest-function-jyktmk","owner":null,"usageState":"Normal","enabled":true,"adminEnabled":true,"siteScopedCertificatesEnabled":false,"afdEnabled":false,"enabledHostNames":["asotest-function-jyktmk.azurewebsites.net","asotest-function-jyktmk.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-jyktmk.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-jyktmk.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/serverfarms/asotest-appservice-drlwoj","reserved":false,"isXenon":false,"hyperV":false,"lastModifiedTimeUtc":"2025-01-21T07:24:14.2","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"vnetRouteAllEnabled":false,"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"vnetImagePullEnabled":false,"vnetContentShareEnabled":false,"outboundVnetRouting":{"allTraffic":false,"applicationTraffic":false,"contentShareTraffic":false,"imagePullTraffic":false,"backupRestoreTraffic":false},"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":[{"ipAddress":"Any","action":"Allow","priority":2147483647,"name":"Allow all","description":"Allow all access"}],"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":[{"ipAddress":"Any","action":"Allow","priority":2147483647,"name":"Allow all","description":"Allow all access"}],"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":null,"elasticWebAppScaleLimit":0,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false},"functionAppConfig":null,"daprConfig":null,"deploymentId":"asotest-function-jyktmk","slotName":null,"trafficManagerHostNames":null,"sku":"PremiumV2","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":true,"clientAffinityProxyEnabled":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"hostNamesDisabled":false,"ipMode":"IPv4","vnetBackupRestoreEnabled":false,"domainVerificationIdentifiers":null,"customDomainVerificationId":"A00D24443F74503AF7B248004CD5B641EF5D56FE78D0179ECD5032B4E4F2CFD2","kind":"app","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"104.45.231.79","possibleInboundIpAddresses":"104.45.231.79,40.112.243.9","ftpUsername":"asotest-function-jyktmk\\$asotest-function-jyktmk","ftpsHostName":"ftps://waws-prod-bay-021.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"23.101.200.187,137.117.16.235,40.118.186.170,137.117.10.162,104.45.229.18,104.45.231.79","possibleOutboundIpAddresses":"104.45.225.96,104.45.229.87,104.45.229.169,104.45.233.233,23.101.200.187,137.117.16.235,40.118.186.170,137.117.10.162,104.45.229.18,20.245.178.101,20.245.176.144,20.245.178.126,20.245.178.203,20.237.243.22,20.245.179.40,20.66.123.217,20.245.89.2,20.245.91.252,20.245.88.211,20.66.126.246,20.245.88.66,104.45.231.79","containerSize":0,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-bay-021","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-lzxzrt","defaultHostName":"asotest-function-jyktmk.azurewebsites.net","slotSwapStatus":null,"httpsOnly":false,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":null,"publicNetworkAccess":null,"buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"AppServiceAppLogs,AppServiceAuditLogs,AppServiceConsoleLogs,AppServiceHTTPLogs,AppServiceIPSecAuditLogs,AppServicePlatformLogs,ScanLogs,AppServiceFileAuditLogs,AppServiceAntivirusScanAuditLogs,AppServiceAuthenticationLogs","inFlightFeatures":null,"storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"defaultHostNameScope":"Global","privateLinkIdentifiers":null,"sshEnabled":null}}'
         headers:
             Cache-Control:
@@ -361,13 +311,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -379,10 +323,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 7324
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites","kind":"app","location":"West US","properties":{"name":"asotest-function-jyktmk","state":"Running","hostNames":["asotest-function-jyktmk.azurewebsites.net"],"webSpace":"asotest-rg-lzxzrt-WestUSwebspace","selfLink":"https://waws-prod-bay-021.api.azurewebsites.windows.net:454/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/asotest-rg-lzxzrt-WestUSwebspace/sites/asotest-function-jyktmk","repositorySiteName":"asotest-function-jyktmk","owner":null,"usageState":"Normal","enabled":true,"adminEnabled":true,"siteScopedCertificatesEnabled":false,"afdEnabled":false,"enabledHostNames":["asotest-function-jyktmk.azurewebsites.net","asotest-function-jyktmk.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-jyktmk.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-jyktmk.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/serverfarms/asotest-appservice-drlwoj","reserved":false,"isXenon":false,"hyperV":false,"lastModifiedTimeUtc":"2025-01-21T07:24:14.243","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"vnetRouteAllEnabled":false,"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"vnetImagePullEnabled":false,"vnetContentShareEnabled":false,"outboundVnetRouting":null,"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":null,"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":null,"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":0,"elasticWebAppScaleLimit":null,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false},"functionAppConfig":null,"daprConfig":null,"deploymentId":"asotest-function-jyktmk","slotName":null,"trafficManagerHostNames":null,"sku":"PremiumV2","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":true,"clientAffinityProxyEnabled":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"hostNamesDisabled":false,"ipMode":"IPv4","vnetBackupRestoreEnabled":false,"domainVerificationIdentifiers":null,"customDomainVerificationId":"A00D24443F74503AF7B248004CD5B641EF5D56FE78D0179ECD5032B4E4F2CFD2","kind":"app","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"104.45.231.79","possibleInboundIpAddresses":"104.45.231.79,40.112.243.9","ftpUsername":"asotest-function-jyktmk\\$asotest-function-jyktmk","ftpsHostName":"ftps://waws-prod-bay-021.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"23.101.200.187,137.117.16.235,40.118.186.170,137.117.10.162,104.45.229.18,104.45.231.79","possibleOutboundIpAddresses":"104.45.225.96,104.45.229.87,104.45.229.169,104.45.233.233,23.101.200.187,137.117.16.235,40.118.186.170,137.117.10.162,104.45.229.18,20.245.178.101,20.245.176.144,20.245.178.126,20.245.178.203,20.237.243.22,20.245.179.40,20.66.123.217,20.245.89.2,20.245.91.252,20.245.88.211,20.66.126.246,20.245.88.66,104.45.231.79","containerSize":0,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-bay-021","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-lzxzrt","defaultHostName":"asotest-function-jyktmk.azurewebsites.net","slotSwapStatus":null,"httpsOnly":false,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":[],"publicNetworkAccess":null,"buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"AppServiceAppLogs,AppServiceAuditLogs,AppServiceConsoleLogs,AppServiceHTTPLogs,AppServiceIPSecAuditLogs,AppServicePlatformLogs,ScanLogs,AppServiceFileAuditLogs,AppServiceAntivirusScanAuditLogs,AppServiceAuthenticationLogs","inFlightFeatures":["SiteContainers"],"storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"defaultHostNameScope":"Global","privateLinkIdentifiers":null,"sshEnabled":null}}'
         headers:
             Cache-Control:
@@ -420,13 +361,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 139
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"web","properties":{"branch":"master","isManualIntegration":true,"repoUrl":"https://github.com/splunk/azure-functions-splunk.git"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -442,10 +378,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 532
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":"https://github.com/splunk/azure-functions-splunk.git","branch":"master","isManualIntegration":true,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"InProgress","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -483,13 +416,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -499,10 +426,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 703
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":"https://github.com/splunk/azure-functions-splunk.git","branch":"master","isManualIntegration":true,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"InProgress","provisioningDetails":"2025-01-21T07:25:26.1536544 https://asotest-function-jyktmk.scm.azurewebsites.net/api/deployments/latest?deployer=GitHub&time=2025-01-21_07-25-25Z","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -540,13 +464,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -556,10 +474,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 703
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":"https://github.com/splunk/azure-functions-splunk.git","branch":"master","isManualIntegration":true,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"InProgress","provisioningDetails":"2025-01-21T07:25:26.1536544 https://asotest-function-jyktmk.scm.azurewebsites.net/api/deployments/latest?deployer=GitHub&time=2025-01-21_07-25-25Z","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -597,13 +512,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -613,10 +522,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1411
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":"https://github.com/splunk/azure-functions-splunk.git","branch":"master","isManualIntegration":true,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"Failed","provisioningDetails":"System.InvalidOperationException: Deployment 8f75acee360e5fcf330f3a0491e7094c6261e0e9 unsuccessful, status: 3\r\n   at Microsoft.Web.Hosting.Administration.SiteRepositoryProvider.<CheckDeploymentStatus>d__28.MoveNext() in C:\\__w\\1\\s\\src\\Hosting\\AdministrationService\\Microsoft.Web.Hosting.Administration\\Providers\\SiteRepositoryProvider.cs:line 293\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at Microsoft.Web.Hosting.Administration.WebCloudController.<CheckDeploymentStatus>d__382.MoveNext() in C:\\__w\\1\\s\\src\\Hosting\\AdministrationService\\Microsoft.Web.Hosting.Administration\\Controllers\\WebCloudController.cs:line 11682","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -654,13 +560,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 139
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"web","properties":{"branch":"master","isManualIntegration":true,"repoUrl":"https://github.com/splunk/azure-functions-splunk.git"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -676,10 +577,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 531
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":"https://github.com/splunk/azure-functions-splunk.git","branch":"master","isManualIntegration":true,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"Succeeded","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -717,13 +615,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -735,10 +627,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 531
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":"https://github.com/splunk/azure-functions-splunk.git","branch":"master","isManualIntegration":true,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"Succeeded","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -776,13 +665,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -794,10 +677,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -831,13 +711,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -849,10 +723,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 478
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lzxzrt/providers/Microsoft.Web/sites/asotest-function-jyktmk/sourcecontrols/web","name":"asotest-function-jyktmk","type":"Microsoft.Web/sites/sourcecontrols","location":"West US","properties":{"repoUrl":null,"branch":null,"isManualIntegration":false,"isGitHubAction":false,"deploymentRollbackEnabled":false,"isMercurial":false,"provisioningState":"Succeeded","gitHubActionConfiguration":null}}'
         headers:
             Cache-Control:
@@ -890,13 +761,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -908,10 +773,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -945,13 +807,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -961,10 +817,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -998,66 +851,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMWlhaUlQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638730412175011455&c=MIIHhzCCBm-gAwIBAgITfAWZnAKDvd4xEuvOGQAABZmcAjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjQxMDAzMDg1MDA1WhcNMjUwNDAxMDg1MDA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbsFcaJpKQloFwUPDSK63qAV4_Gh5m2LagG0Kj62uLVJqYJm9Z2rd259DxiZexsVvaA6cy_4GMgYbx0S26ToW6M7U4XDYuGtf5iceHk_uR2l-j59K0z75ltaQTyjzZ5JFPiid5YueZZzakeQyGJ9eMw5Zj97j-8NiArPd4VdGOIj-ktMNqlLFHK7x012HOwhdBIqYh2iUt-0SEXmqFESmRBK2OUctVB-yGWRQXxZo1CKX1R4aDEKnb-yTbSD2IAiKr8AL5x5ccoeX6kca0TktS3G-ncZmhjOBSQLcXScjG9DIuLQAgwmlrw-Fqubep7UWxQxDMl8B6l7vpKE1t-MrECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBRWQsUCIxUfskh8RoPMbk98Jz_QpjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAHR64fSdTm75xFWU4g_L3ZBLvpQ0yzVxQgBlg_wr8UjWRYOR2rHWxwk44sfm8W1t9vQBrIOq1x6kEdbdfrMVUeAB_YZfWHQjwGx4wJae16fgSjj6_CpTwePAf5aOUXi72mYCj-qltSdfZeL254zQy3OKLSDXb5Vf12TLz4WqyU4T8Noo787zKYGPOP5TGxp_bLL-s_6j-wGU9r3KoBVrwBDsGpfql6oF44DCM6TBrmtdo0AGb8avJ38fK_DfF1FEieKF-iojTygUMza86MkBBDaDHf51xBkBgSnkqdi3Er7HExrR0TWaACPqGp6b2-YV_BRteF_hME8rYvFOZO3tuX0&s=yT15poYXp-yaJrf261ajjrNhyH-Of3_BJxpqqEgll6sC7-Kp0kBSPC_FBi8dxlfF6j1iVw8am8E-snzwS_C1uK_Eu3FDYnZumEj9hZFuEbVIPmPIWXpOreLW7QfkKcoXe7WDo_z1Io9MhGnt_P3qB-pkpqXjcjEowu1ntUvT2LEwKH0WrI4qNB0OxgF8RYknsUSM3_yvkajw2jTSAbw7Ubi84DvwZtdrdvq3i8VM5dpyo5JGEUD8rIyTmc_MAOTj99DCX-56bmoRnI2lMCBI-_YpK_48cP_lq6DZAhgw6Zi3aFHNOYZuMIjLcpkdO7LLNv9XtIdC5jC3kRF5Tfp_7Q&h=4DRzS24Yubokzo8Fuy2OIvCwGR0IhCr-uKMaNy9o3E4
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMWlhaUlQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638730412568045362&c=MIIHhzCCBm-gAwIBAgITfAWZnAKDvd4xEuvOGQAABZmcAjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjQxMDAzMDg1MDA1WhcNMjUwNDAxMDg1MDA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbsFcaJpKQloFwUPDSK63qAV4_Gh5m2LagG0Kj62uLVJqYJm9Z2rd259DxiZexsVvaA6cy_4GMgYbx0S26ToW6M7U4XDYuGtf5iceHk_uR2l-j59K0z75ltaQTyjzZ5JFPiid5YueZZzakeQyGJ9eMw5Zj97j-8NiArPd4VdGOIj-ktMNqlLFHK7x012HOwhdBIqYh2iUt-0SEXmqFESmRBK2OUctVB-yGWRQXxZo1CKX1R4aDEKnb-yTbSD2IAiKr8AL5x5ccoeX6kca0TktS3G-ncZmhjOBSQLcXScjG9DIuLQAgwmlrw-Fqubep7UWxQxDMl8B6l7vpKE1t-MrECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBRWQsUCIxUfskh8RoPMbk98Jz_QpjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAHR64fSdTm75xFWU4g_L3ZBLvpQ0yzVxQgBlg_wr8UjWRYOR2rHWxwk44sfm8W1t9vQBrIOq1x6kEdbdfrMVUeAB_YZfWHQjwGx4wJae16fgSjj6_CpTwePAf5aOUXi72mYCj-qltSdfZeL254zQy3OKLSDXb5Vf12TLz4WqyU4T8Noo787zKYGPOP5TGxp_bLL-s_6j-wGU9r3KoBVrwBDsGpfql6oF44DCM6TBrmtdo0AGb8avJ38fK_DfF1FEieKF-iojTygUMza86MkBBDaDHf51xBkBgSnkqdi3Er7HExrR0TWaACPqGp6b2-YV_BRteF_hME8rYvFOZO3tuX0&s=Ms9BBzcHHlqL4SDS9msiQ_9Ff6N6SMfihGJdjKt45qgoEiuRJJRLRjdJ2cYQePueVvH3v04Aj1P4IzgSyRLHjbqZgWOfVOVQc-cHYfcvqQRRVF3kmNMXYpK7aGS8K2n8gIJ4eT0CxmVfXNYR929FZ0Ze8c8jR5wL0YLRh1Qv2No9Gg7tCi1M7F4E6Kz2taZCKaOTHrX8_WUj8cMANSnnlqx2I2GgwZr8enIeJrIrWkRCozi5wC6zCSkB9hjHn5PG8ivijcflmWQ7nANaqDmfwSVXuq3jFMVl8NNDgGoNP77xiqCtQXFmEUhP3uk4_JGL4Up2-u53nNplI-ZdMcHI7w&h=_htT6UKJzGnhqNLjxn4MViSpdZzFCp7LhL5fZnfcCQ4
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "3749"
-            X-Msedge-Ref:
-                - 'Ref A: 46B83AD8B5924F46AE0B0E9E25ED4846 Ref B: MAA201060515029 Ref C: 2025-01-21T07:27:35Z'
-        status: 202 Accepted
-        code: 202
-        duration: 1.067542292s
-    - id: 18
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -1067,10 +861,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1098,19 +889,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 538.449417ms
-    - id: 19
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -1120,10 +905,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1147,19 +929,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.027130042s
-    - id: 20
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1171,10 +947,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-lzxzrt'' could not be found."}}'
         headers:
             Cache-Control:
@@ -1200,19 +973,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 434.134209ms
-    - id: 21
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1224,10 +991,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-lzxzrt'' could not be found."}}'
         headers:
             Cache-Control:

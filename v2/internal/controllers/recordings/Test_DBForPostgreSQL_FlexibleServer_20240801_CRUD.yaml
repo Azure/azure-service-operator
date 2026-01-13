@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-rg-shfomn","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn","name":"asotest-rg-shfomn","type":"Microsoft.Resources/resourceGroups","location":"uksouth","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn","name":"asotest-rg-shfomn","type":"Microsoft.Resources/resourceGroups","location":"uksouth","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -135,10 +112,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 256
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf'' under resource group ''asotest-rg-shfomn'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -170,13 +144,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 253
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-wryjaf","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -192,10 +161,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -235,13 +201,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -251,10 +211,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"a0f670cb-97f8-47a9-96f3-e94486f83cd1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -290,178 +247,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/a0f670cb-97f8-47a9-96f3-e94486f83cd1?api-version=2024-08-01&t=638785465892876676&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=If_ZlzDpxYCISDkSWutJrGfu-uDiq02G8mVZtZCr4Pzf6rkQ_lhsqb7co-vhZ3eKHEo86Fo_BThuFUG4K-AwLDO2zWbhrrbBrFsRRfcaCEtVwlHw-FyJy1DDT0_Tooif4CFNsVhLUhapGqdFFW7VkXAPtp1R4XKPdGryxYrws-0LDwLr3Usu0nLqhkfGDKIO2NHz2LR7Lb52rWfbOplvR6aQ1BFeu66bKhcbj_0FlcoJ-8-zRP9Zkc_kJ7FUz5j6m7aDT_GmVWbx2mQh1g2-dgp7S-lssTMTxmH5DfDO-h3WzNgHNfMpaOROZV8-z8fX7k2830uhcMrAqzBZ4HU55A&h=PUd1YwuRQb63g7ot1omfCT_IjfzpCqEEtbNf154X4q0
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"a0f670cb-97f8-47a9-96f3-e94486f83cd1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/620c5651-9633-414c-a382-e492572ab031
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: DC0BABA248AD4020B93AE7D2D9D87F91 Ref B: MWH011020808054 Ref C: 2025-03-26T00:44:15Z'
-        status: 200 OK
-        code: 200
-        duration: 551.890153ms
-    - id: 6
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/a0f670cb-97f8-47a9-96f3-e94486f83cd1?api-version=2024-08-01&t=638785465892876676&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=If_ZlzDpxYCISDkSWutJrGfu-uDiq02G8mVZtZCr4Pzf6rkQ_lhsqb7co-vhZ3eKHEo86Fo_BThuFUG4K-AwLDO2zWbhrrbBrFsRRfcaCEtVwlHw-FyJy1DDT0_Tooif4CFNsVhLUhapGqdFFW7VkXAPtp1R4XKPdGryxYrws-0LDwLr3Usu0nLqhkfGDKIO2NHz2LR7Lb52rWfbOplvR6aQ1BFeu66bKhcbj_0FlcoJ-8-zRP9Zkc_kJ7FUz5j6m7aDT_GmVWbx2mQh1g2-dgp7S-lssTMTxmH5DfDO-h3WzNgHNfMpaOROZV8-z8fX7k2830uhcMrAqzBZ4HU55A&h=PUd1YwuRQb63g7ot1omfCT_IjfzpCqEEtbNf154X4q0
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"a0f670cb-97f8-47a9-96f3-e94486f83cd1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/0c570f8a-0216-4e8a-ba25-dd17b2fbd2ad
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: D43B55AD770D40A58173E6B24C408C1E Ref B: MWH011020808054 Ref C: 2025-03-26T00:45:16Z'
-        status: 200 OK
-        code: 200
-        duration: 1.206688932s
-    - id: 7
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/a0f670cb-97f8-47a9-96f3-e94486f83cd1?api-version=2024-08-01&t=638785465892876676&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=If_ZlzDpxYCISDkSWutJrGfu-uDiq02G8mVZtZCr4Pzf6rkQ_lhsqb7co-vhZ3eKHEo86Fo_BThuFUG4K-AwLDO2zWbhrrbBrFsRRfcaCEtVwlHw-FyJy1DDT0_Tooif4CFNsVhLUhapGqdFFW7VkXAPtp1R4XKPdGryxYrws-0LDwLr3Usu0nLqhkfGDKIO2NHz2LR7Lb52rWfbOplvR6aQ1BFeu66bKhcbj_0FlcoJ-8-zRP9Zkc_kJ7FUz5j6m7aDT_GmVWbx2mQh1g2-dgp7S-lssTMTxmH5DfDO-h3WzNgHNfMpaOROZV8-z8fX7k2830uhcMrAqzBZ4HU55A&h=PUd1YwuRQb63g7ot1omfCT_IjfzpCqEEtbNf154X4q0
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"a0f670cb-97f8-47a9-96f3-e94486f83cd1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/6c01645a-3a52-4dc1-b955-d9ee3f48bbdd
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 1D853C87C1BD4619BB0F67A2ADB5FB89 Ref B: MWH011020808054 Ref C: 2025-03-26T00:46:19Z'
-        status: 200 OK
-        code: 200
-        duration: 760.695667ms
-    - id: 8
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -471,10 +257,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"a0f670cb-97f8-47a9-96f3-e94486f83cd1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -504,19 +287,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 662.107989ms
-    - id: 9
+    - id: 6
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "5"
@@ -526,10 +303,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"a0f670cb-97f8-47a9-96f3-e94486f83cd1","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -559,19 +333,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 947.400241ms
-    - id: 10
+    - id: 7
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -581,10 +349,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1184
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -610,19 +375,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.435315913s
-    - id: 11
+    - id: 8
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -634,10 +393,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1184
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -663,19 +419,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.268181056s
-    - id: 12
+    - id: 9
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -687,10 +437,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1184
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -716,19 +463,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.641586708s
-    - id: 13
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 314
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-wryjaf","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -744,10 +486,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -781,19 +520,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.754644033s
-    - id: 14
+    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -803,10 +536,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"07a80f3f-3e3c-4e69-b25e-7cefb1a7067b","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -836,19 +566,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 833.104556ms
-    - id: 15
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -858,10 +582,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1183
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -887,19 +608,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.255120214s
-    - id: 16
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -911,10 +626,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1183
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -940,19 +652,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.101660299s
-    - id: 17
+    - id: 14
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -964,10 +670,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1183
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -993,19 +696,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.060607711s
-    - id: 18
+    - id: 15
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1017,10 +714,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 179
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of type ''Microsoft.DBforPostgreSQL/flexibleServers/databases'' with name ''asotest-db-ylwxua'' was not found."}}'
         headers:
             Cache-Control:
@@ -1048,19 +742,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 712.666983ms
-    - id: 19
+    - id: 16
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1072,10 +760,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 173
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of type ''Microsoft.DBforPostgreSQL/flexibleServers'' with name ''asotest-fwrule-yxjgwg'' was not found."}}'
         headers:
             Cache-Control:
@@ -1103,19 +788,14 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 857.157196ms
-    - id: 20
+    - id: 17
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 51
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"Default","properties":{"state":"Enabled"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1131,10 +811,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 90
-        uncompressed: false
         body: '{"operation":"UpsertThreatProtectionStateOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1168,19 +845,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.132579708s
-    - id: 21
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 32
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-backup-koywxr"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1196,10 +868,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 81
-        uncompressed: false
         body: '{"operation":"SnapshotManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1233,19 +902,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.223674972s
-    - id: 22
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1261,10 +925,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1298,19 +959,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.299135805s
-    - id: 23
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 99
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-fwrule-yxjgwg","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1326,10 +982,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1363,19 +1016,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 517.401939ms
-    - id: 24
+    - id: 21
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 314
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-wryjaf","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1391,10 +1039,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1428,19 +1073,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.504591518s
-    - id: 25
+    - id: 22
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 60
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-db-ylwxua","properties":{"charset":"utf8"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1456,10 +1096,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 94
-        uncompressed: false
         body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1493,19 +1130,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.827510419s
-    - id: 26
+    - id: 23
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1515,10 +1146,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"072b16e3-ce60-44bd-9d4d-3332b6b1cce2","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1548,19 +1176,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 213.621588ms
-    - id: 27
+    - id: 24
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1570,10 +1192,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 264
-        uncompressed: false
         body: '{"name":"b6afef6b-47a5-446a-827c-e53c2d3da42d","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"InternalServerError","message":"An unexpected error occured while processing the request. Tracking ID: ''fa38c114-c636-41cb-96b7-03502379d487''"}}'
         headers:
             Cache-Control:
@@ -1603,19 +1222,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 495.884249ms
-    - id: 28
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1625,10 +1238,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"2a349ebb-048c-406d-aa5c-f40eb79897d5","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -1658,19 +1268,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 718.435509ms
-    - id: 29
+    - id: 26
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1680,10 +1284,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"9d99f0cb-ad3a-4a62-b851-a4c36331b686","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1713,19 +1314,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 747.07845ms
-    - id: 30
+    - id: 27
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1735,10 +1330,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 217
-        uncompressed: false
         body: '{"name":"c00bfbeb-7850-4095-8f7a-021fde154f13","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"","message":"Server asotest-postgresql-wryjaf is busy with other operations. Please try later"}}'
         headers:
             Cache-Control:
@@ -1768,19 +1360,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 972.536632ms
-    - id: 31
+    - id: 28
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1790,10 +1376,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 392
-        uncompressed: false
         body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings"}'
         headers:
             Cache-Control:
@@ -1821,19 +1404,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.411232502s
-    - id: 32
+    - id: 29
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1843,10 +1420,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 370
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/firewallRules/asotest-fwrule-yxjgwg","name":"asotest-fwrule-yxjgwg","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -1874,19 +1448,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 999.50365ms
-    - id: 33
+    - id: 30
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 32
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-backup-koywxr"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1902,10 +1471,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 82
-        uncompressed: false
         body: '{"operation":"SnapshotManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1939,19 +1505,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.361037266s
-    - id: 34
+    - id: 31
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1961,10 +1521,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"20dc4494-bb67-4781-bbf8-79b9373a94fa","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1994,19 +1551,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 902.663536ms
-    - id: 35
+    - id: 32
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2022,10 +1574,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2059,19 +1608,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.301891769s
-    - id: 36
+    - id: 33
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2083,10 +1626,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 392
-        uncompressed: false
         body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings"}'
         headers:
             Cache-Control:
@@ -2114,19 +1654,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 958.4678ms
-    - id: 37
+    - id: 34
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2138,10 +1672,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 370
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/firewallRules/asotest-fwrule-yxjgwg","name":"asotest-fwrule-yxjgwg","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -2169,19 +1700,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 960.698513ms
-    - id: 38
+    - id: 35
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2193,10 +1718,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1176
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Updating","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":""},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -2222,19 +1744,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.17000376s
-    - id: 39
+    - id: 36
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2244,10 +1760,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 344
-        uncompressed: false
         body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/databases/asotest-db-ylwxua","name":"asotest-db-ylwxua","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
         headers:
             Cache-Control:
@@ -2275,19 +1788,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.397719051s
-    - id: 40
+    - id: 37
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2297,10 +1804,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"36640a8a-72bd-4174-98dc-a66e3177b578","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2330,19 +1834,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 194.669222ms
-    - id: 41
+    - id: 38
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2352,10 +1850,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"197f963f-9c13-49ea-b7a3-13ebf73bd747","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -2385,19 +1880,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 233.377343ms
-    - id: 42
+    - id: 39
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2409,10 +1898,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 344
-        uncompressed: false
         body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/databases/asotest-db-ylwxua","name":"asotest-db-ylwxua","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
         headers:
             Cache-Control:
@@ -2440,19 +1926,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.412041045s
-    - id: 43
+    - id: 40
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2464,10 +1944,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1176
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Updating","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":""},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -2493,19 +1970,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 672.508591ms
-    - id: 44
+    - id: 41
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2521,10 +1993,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2558,19 +2027,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.806149815s
-    - id: 45
+    - id: 42
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2582,10 +2045,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 96
-        uncompressed: false
         body: '{"operation":"DropServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2619,19 +2079,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.580345922s
-    - id: 46
+    - id: 43
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2641,10 +2095,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 236
-        uncompressed: false
         body: '{"name":"2f7e784a-b3eb-4654-ba98-be14b01ec9f7","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -2674,19 +2125,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 773.110507ms
-    - id: 47
+    - id: 44
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2698,10 +2143,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1176
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Updating","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":""},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -2727,19 +2169,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 709.824079ms
-    - id: 48
+    - id: 45
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2755,10 +2192,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2792,19 +2226,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 459.086797ms
-    - id: 49
+    - id: 46
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2816,10 +2244,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 92
-        uncompressed: false
         body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2853,19 +2278,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.390270901s
-    - id: 50
+    - id: 47
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2875,10 +2294,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"35dbb4ff-e837-44be-b86a-fbaebad0c115","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -2908,19 +2324,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 184.293123ms
-    - id: 51
+    - id: 48
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2936,10 +2347,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2973,19 +2381,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 884.297495ms
-    - id: 52
+    - id: 49
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2995,10 +2397,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"35086d73-9dd6-451e-b6e3-52ccf53ec19e","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -3028,74 +2427,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 217.932594ms
-    - id: 53
+    - id: 50
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/36640a8a-72bd-4174-98dc-a66e3177b578?api-version=2024-08-01&t=638785469393012760&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=TtJLy3Gc6FBFF7fqn8dantYbobe6VaR09CdjfyvZ8heqPF5YqzSbUXUJ1UDohXUo8uySIs9Q32l9ivpWZPwbPksSs58WKlXaU0r168wCWsZJMRo4ZdvPr4Mdg2-KUnDPziK4dmamLoOBVwV4pEMA11HOst9gwpmB1fhcwjOaXYviMJQatZ_YbxAR8S23lPwc8tRzf3XA76eKoyGjPmG7kgk3QR8-Hpt-Q-zKOJbZ6pzWusRsNN8t4Fvjp3fZGLwIv_Kpncd2hmHXWBYBNut88L8XSfFS1T4u7fEptcofgxz_Z9SexaLY6GFJmP7A3HAhs6_xgWvjhoWsqKN-DQa6rg&h=41y_ljUOcb6wTMJP3KrNlU0Lil0ELzikYcsNZDrIdfI
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"36640a8a-72bd-4174-98dc-a66e3177b578","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/244e560e-34b6-411a-8dc9-bd80184981e9
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 8CF5C4A1C6C849EF8AA2469DE0A7F0FC Ref B: MWH011020808054 Ref C: 2025-03-26T00:49:17Z'
-        status: 200 OK
-        code: 200
-        duration: 565.120052ms
-    - id: 54
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3107,10 +2445,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1176
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Updating","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":""},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -3136,19 +2471,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.198670953s
-    - id: 55
+    - id: 51
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3164,10 +2494,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3201,19 +2528,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.893842967s
-    - id: 56
+    - id: 52
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3223,10 +2544,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"2bc306bb-9fa9-44d9-8c2c-65822013fc8c","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -3256,19 +2574,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 182.9546ms
-    - id: 57
+    - id: 53
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3278,10 +2590,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"3b9aa974-4eb0-4e56-818d-4d923f45abd9","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -3311,19 +2620,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.139822238s
-    - id: 58
+    - id: 54
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3339,10 +2643,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3376,19 +2677,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.588203096s
-    - id: 59
+    - id: 55
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3398,10 +2693,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"8ff1758c-119c-4f82-aaef-c3ec1d386f88","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -3431,19 +2723,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 846.768509ms
-    - id: 60
+    - id: 56
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3459,10 +2746,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3496,74 +2780,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.709617917s
-    - id: 61
+    - id: 57
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/36640a8a-72bd-4174-98dc-a66e3177b578?api-version=2024-08-01&t=638785469393012760&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=TtJLy3Gc6FBFF7fqn8dantYbobe6VaR09CdjfyvZ8heqPF5YqzSbUXUJ1UDohXUo8uySIs9Q32l9ivpWZPwbPksSs58WKlXaU0r168wCWsZJMRo4ZdvPr4Mdg2-KUnDPziK4dmamLoOBVwV4pEMA11HOst9gwpmB1fhcwjOaXYviMJQatZ_YbxAR8S23lPwc8tRzf3XA76eKoyGjPmG7kgk3QR8-Hpt-Q-zKOJbZ6pzWusRsNN8t4Fvjp3fZGLwIv_Kpncd2hmHXWBYBNut88L8XSfFS1T4u7fEptcofgxz_Z9SexaLY6GFJmP7A3HAhs6_xgWvjhoWsqKN-DQa6rg&h=41y_ljUOcb6wTMJP3KrNlU0Lil0ELzikYcsNZDrIdfI
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"36640a8a-72bd-4174-98dc-a66e3177b578","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/14b9bde4-9e5d-434d-a429-042090443c35
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: E9C82A8CB8F54C7299BC570FB2693C9A Ref B: MWH011020808054 Ref C: 2025-03-26T00:49:33Z'
-        status: 200 OK
-        code: 200
-        duration: 208.692598ms
-    - id: 62
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3573,10 +2796,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 236
-        uncompressed: false
         body: '{"name":"34d66324-55ee-4e37-921b-fedc3e7efa2f","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -3606,19 +2826,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 697.280159ms
-    - id: 63
+    - id: 58
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3630,10 +2844,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1176
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Updating","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":""},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -3659,19 +2870,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 2.984765586s
-    - id: 64
+    - id: 59
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3687,10 +2893,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3724,19 +2927,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.883796756s
-    - id: 65
+    - id: 60
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3746,10 +2943,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"56273cc1-fa06-4380-8954-5cc878500865","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -3779,19 +2973,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 970.284233ms
-    - id: 66
+    - id: 61
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3807,10 +2996,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -3844,74 +3030,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.449713177s
-    - id: 67
+    - id: 62
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/36640a8a-72bd-4174-98dc-a66e3177b578?api-version=2024-08-01&t=638785469393012760&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=TtJLy3Gc6FBFF7fqn8dantYbobe6VaR09CdjfyvZ8heqPF5YqzSbUXUJ1UDohXUo8uySIs9Q32l9ivpWZPwbPksSs58WKlXaU0r168wCWsZJMRo4ZdvPr4Mdg2-KUnDPziK4dmamLoOBVwV4pEMA11HOst9gwpmB1fhcwjOaXYviMJQatZ_YbxAR8S23lPwc8tRzf3XA76eKoyGjPmG7kgk3QR8-Hpt-Q-zKOJbZ6pzWusRsNN8t4Fvjp3fZGLwIv_Kpncd2hmHXWBYBNut88L8XSfFS1T4u7fEptcofgxz_Z9SexaLY6GFJmP7A3HAhs6_xgWvjhoWsqKN-DQa6rg&h=41y_ljUOcb6wTMJP3KrNlU0Lil0ELzikYcsNZDrIdfI
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"36640a8a-72bd-4174-98dc-a66e3177b578","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/0660fd3f-e1a7-41ee-8925-373cc518b1a5
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: D9F5E0CC8C0340BF8F8BD5B2F38D74DC Ref B: MWH011020808054 Ref C: 2025-03-26T00:49:48Z'
-        status: 200 OK
-        code: 200
-        duration: 833.773905ms
-    - id: 68
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3921,10 +3046,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 236
-        uncompressed: false
         body: '{"name":"d8501f74-bbc4-42d5-9e48-6ac66f6818cd","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -3954,19 +3076,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 518.843568ms
-    - id: 69
+    - id: 63
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3982,10 +3099,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -4019,19 +3133,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.615775856s
-    - id: 70
+    - id: 64
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4041,10 +3149,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"5c28f8a7-cbed-4d45-93d3-a0b9df8de7fc","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -4074,19 +3179,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.030368138s
-    - id: 71
+    - id: 65
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4102,10 +3202,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -4139,19 +3236,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.705759305s
-    - id: 72
+    - id: 66
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4161,10 +3252,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"54a7abd5-3283-46a3-bc79-22c7fd2e8ebf","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -4194,19 +3282,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 833.760132ms
-    - id: 73
+    - id: 67
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -4216,10 +3298,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"36640a8a-72bd-4174-98dc-a66e3177b578","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -4249,19 +3328,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.139718355s
-    - id: 74
+    - id: 68
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4277,10 +3351,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -4314,19 +3385,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.541342532s
-    - id: 75
+    - id: 69
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4336,10 +3401,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"a05d7bec-80b3-4b85-a3be-77ed2c69022e","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -4369,19 +3431,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 478.03749ms
-    - id: 76
+    - id: 70
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4391,10 +3447,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 236
-        uncompressed: false
         body: '{"name":"c72f6fb7-e086-4037-b3b6-90fc749cfc3d","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -4424,19 +3477,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 879.122957ms
-    - id: 77
+    - id: 71
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4452,10 +3500,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -4489,19 +3534,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 514.267363ms
-    - id: 78
+    - id: 72
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4511,10 +3550,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"bb381d2e-f347-4007-a769-73760c3ce218","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -4544,19 +3580,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 908.697667ms
-    - id: 79
+    - id: 73
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4568,10 +3598,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1176
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Updating","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":""},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -4597,19 +3624,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.063445388s
-    - id: 80
+    - id: 74
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4625,10 +3647,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -4662,19 +3681,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.361169014s
-    - id: 81
+    - id: 75
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4684,10 +3697,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 237
-        uncompressed: false
         body: '{"name":"54a41502-d0c2-4321-838f-626d905fd281","status":"Failed","startTime":"2001-02-03T04:05:06Z","error":{"code":"ServerBusy","message":"Server ''asotest-postgresql-wryjaf'' is busy with another operation. Please try again later."}}'
         headers:
             Cache-Control:
@@ -4717,19 +3727,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 528.121047ms
-    - id: 82
+    - id: 76
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "5"
@@ -4739,10 +3743,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"36640a8a-72bd-4174-98dc-a66e3177b578","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -4772,19 +3773,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 849.825071ms
-    - id: 83
+    - id: 77
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4794,10 +3789,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 422
-        uncompressed: false
         body: '{"properties":{"backupType":"Customer On-Demand","source":"Customer Initiated","completedTime":"2025-03-26T00:50:22.0046005+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/backups/asotest-backup-koywxr","name":"asotest-backup-koywxr","type":"Microsoft.DBforPostgreSQL/flexibleServers/backups"}'
         headers:
             Cache-Control:
@@ -4825,19 +3817,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.092824467s
-    - id: 84
+    - id: 78
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4853,10 +3840,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -4890,19 +3874,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.600791747s
-    - id: 85
+    - id: 79
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4914,10 +3892,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 422
-        uncompressed: false
         body: '{"properties":{"backupType":"Customer On-Demand","source":"Customer Initiated","completedTime":"2025-03-26T00:50:22.0046005+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/backups/asotest-backup-koywxr","name":"asotest-backup-koywxr","type":"Microsoft.DBforPostgreSQL/flexibleServers/backups"}'
         headers:
             Cache-Control:
@@ -4945,19 +3920,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 769.502025ms
-    - id: 86
+    - id: 80
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4967,10 +3936,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"5584c931-a892-4544-ae25-17313e37c086","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5000,19 +3966,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 226.875674ms
-    - id: 87
+    - id: 81
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5024,10 +3984,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 86
-        uncompressed: false
         body: '{"operation":"DropSnapshotManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -5061,19 +4018,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.015599429s
-    - id: 88
+    - id: 82
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -5083,10 +4034,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"5584c931-a892-4544-ae25-17313e37c086","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5116,19 +4064,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 664.85846ms
-    - id: 89
+    - id: 83
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5138,10 +4080,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 687
-        uncompressed: false
         body: '{"properties":{"value":"READ","description":"Specifies which classes of statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
         headers:
             Cache-Control:
@@ -5169,19 +4108,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.135368803s
-    - id: 90
+    - id: 84
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5193,10 +4126,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 687
-        uncompressed: false
         body: '{"properties":{"value":"READ","description":"Specifies which classes of statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
         headers:
             Cache-Control:
@@ -5224,19 +4154,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.598625974s
-    - id: 91
+    - id: 85
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5246,10 +4170,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"1aeff923-ed9b-48d3-bfea-1931f116f6de","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5279,19 +4200,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.898799018s
-    - id: 92
+    - id: 86
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5303,10 +4218,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1241
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-03-26T00:50:43.4571583+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -5332,19 +4244,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.037685748s
-    - id: 93
+    - id: 87
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 314
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-wryjaf","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5360,10 +4267,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -5397,19 +4301,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.423021447s
-    - id: 94
+    - id: 88
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5419,10 +4317,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"406e080e-98e4-4a86-8526-ace8e4db69c2","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5452,19 +4347,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 624.897209ms
-    - id: 95
+    - id: 89
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -5474,10 +4363,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"406e080e-98e4-4a86-8526-ace8e4db69c2","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5507,19 +4393,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.26007124s
-    - id: 96
+    - id: 90
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "14"
@@ -5529,10 +4409,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1241
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-03-26T00:50:43.4571583+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -5558,19 +4435,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.478189507s
-    - id: 97
+    - id: 91
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5582,10 +4453,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1241
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-wryjaf.postgres.database.azure.com","version":"16","minorVersion":"8","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2025-03-26T00:50:43.4571583+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf","name":"asotest-postgresql-wryjaf","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -5611,19 +4479,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.277726139s
-    - id: 98
+    - id: 92
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 123
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-virtualendpoint-ssvnbu","properties":{"endpointType":"ReadWrite","members":["asotest-postgresql-wryjaf"]}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5639,10 +4502,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 94
-        uncompressed: false
         body: '{"operation":"VirtualEndpointCreateManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -5676,19 +4536,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.86158771s
-    - id: 99
+    - id: 93
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5698,10 +4552,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"31e0cb6f-bd50-4c50-b0e9-4076bd3ee3de","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5731,19 +4582,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 794.249704ms
-    - id: 100
+    - id: 94
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -5753,10 +4598,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"31e0cb6f-bd50-4c50-b0e9-4076bd3ee3de","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -5786,19 +4628,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.070757231s
-    - id: 101
+    - id: 95
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5808,10 +4644,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 566
-        uncompressed: false
         body: '{"properties":{"endpointType":"ReadWrite","virtualEndpoints":["asotest-virtualendpoint-ssvnbu.writer.postgres.database.azure.com","asotest-virtualendpoint-ssvnbu.reader.postgres.database.azure.com"],"members":["asotest-postgresql-wryjaf"]},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/virtualendpoints/asotest-virtualendpoint-ssvnbu","name":"asotest-virtualendpoint-ssvnbu","type":"Microsoft.DBforPostgreSQL/flexibleServers/virtualendpoints"}'
         headers:
             Cache-Control:
@@ -5839,19 +4672,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.442345198s
-    - id: 102
+    - id: 96
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5863,10 +4690,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 566
-        uncompressed: false
         body: '{"properties":{"endpointType":"ReadWrite","virtualEndpoints":["asotest-virtualendpoint-ssvnbu.writer.postgres.database.azure.com","asotest-virtualendpoint-ssvnbu.reader.postgres.database.azure.com"],"members":["asotest-postgresql-wryjaf"]},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shfomn/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf/virtualendpoints/asotest-virtualendpoint-ssvnbu","name":"asotest-virtualendpoint-ssvnbu","type":"Microsoft.DBforPostgreSQL/flexibleServers/virtualendpoints"}'
         headers:
             Cache-Control:
@@ -5894,19 +4718,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.078663166s
-    - id: 103
+    - id: 97
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5918,10 +4736,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 92
-        uncompressed: false
         body: '{"operation":"VirtualEndpointDropManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -5955,19 +4770,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.289092391s
-    - id: 104
+    - id: 98
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5977,10 +4786,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"5b74a772-8f85-4ee1-9c34-2fe96149d5ea","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -6010,19 +4816,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 917.179432ms
-    - id: 105
+    - id: 99
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6034,10 +4834,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 84
-        uncompressed: false
         body: '{"operation":"DropServerManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -6071,19 +4868,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.59021499s
-    - id: 106
+    - id: 100
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -6093,10 +4884,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"0d15b018-4dbb-4ab1-a963-81058026451f","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -6126,19 +4914,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 716.800442ms
-    - id: 107
+    - id: 101
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -6148,10 +4930,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"0d15b018-4dbb-4ab1-a963-81058026451f","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -6181,19 +4960,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 703.844121ms
-    - id: 108
+    - id: 102
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -6203,10 +4976,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"0d15b018-4dbb-4ab1-a963-81058026451f","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -6236,19 +5006,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 704.565792ms
-    - id: 109
+    - id: 103
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6260,10 +5024,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 177
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of type ''Microsoft.DBforPostgreSQL/flexibleServers'' with name ''asotest-postgresql-wryjaf'' was not found."}}'
         headers:
             Cache-Control:
@@ -6289,19 +5050,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 2.133001584s
-    - id: 110
+    - id: 104
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6313,10 +5068,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6344,19 +5096,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.771649905s
-    - id: 111
+    - id: 105
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -6366,10 +5112,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6397,72 +5140,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.046337941s
-    - id: 112
+    - id: 106
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRTSEZPTU4tVUtTT1VUSCIsImpvYkxvY2F0aW9uIjoidWtzb3V0aCJ9?api-version=2020-06-01&t=638785473635110252&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=VHx5JK_cs3aGzM7YGcyPgBWVC9zFOIsM8b0QgHjhAHvn4U6-ajxPbikO4vHQI37HL51KIbqTl9ukgKE-fwRX_GvsFrl6yg_bMkp9yooYerldrK6jJaNoghtqi8pLJ5R3Wue5pIlcDMAYFv_ck8bqI2S309-5qZJVBYMLYLUCEb7vMf6xsdvl0YBuseKNYs9vE3qQDG-UszOZArN0LKVng67BLI_x-KVm0UClMuJkSIXHcNHip6sIO9wFMjkb_GnZiNb-TO_JNcsCAVvt-tNhaJXHg2y510ezi-t5h4nPWD_nCciammhY-UygSixGZerzGoA_Vmz2xKNxOSzudSx7rg&h=ho1IZL4alUEAxolfno0Rx3BLImMupi5kLcu0e6y826Q
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRTSEZPTU4tVUtTT1VUSCIsImpvYkxvY2F0aW9uIjoidWtzb3V0aCJ9?api-version=2020-06-01&t=638785474004559662&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=k8R5QO0hqDASMKoa79yxZTfKvx3Zb_i3kg2xfUXI8i8emJHlSXi9eGhLGR8xOvSAqLdKmpe3CqP2iM7U2OQqcjO7Xlt6rH5oC0Aey_OYeY_D2HDiUn-U7pg7uAKZnZABwTYjp4cvtlrMjEnGENp4xqRft0GCmMUSBkOgKPzup6xUMSloOsqb2SgdZiUFkpjEifUv5wTZcQA2NvGROs9hvIkjsDxQYSW6a0vpkqx_m_UTJUjYz58kwM1DrkmKp6FLkSqAGjZzG3nMjf_V3DOogBKlc5Wh7LzA6c8yn--baGLOKzT3gML_g0i7Eq4e2KsKt0JF-uNNpR_BdxSyahbaow&h=Gc03QnLrFcHqg5g_C1X1147YyOJ0kt1tMvf3bpfxN3o
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 9DEC1313587C4663A5DE2C33339311D5 Ref B: MWH011020808054 Ref C: 2025-03-26T00:56:38Z'
-        status: 202 Accepted
-        code: 202
-        duration: 2.079523598s
-    - id: 113
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -6472,10 +5156,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6503,19 +5184,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.105870919s
-    - id: 114
+    - id: 107
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -6525,10 +5200,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -6552,19 +5224,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.526077119s
-    - id: 115
+    - id: 108
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6576,10 +5242,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 256
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf'' under resource group ''asotest-rg-shfomn'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -6605,19 +5268,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 548.344748ms
-    - id: 116
+    - id: 109
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -6629,10 +5286,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 256
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-wryjaf'' under resource group ''asotest-rg-shfomn'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:

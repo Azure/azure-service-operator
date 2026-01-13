@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-zlmwur","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur","name":"asotest-rg-zlmwur","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur","name":"asotest-rg-zlmwur","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 178
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"eastus","name":"asotest-apimanagementv2-twykac","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting"},"sku":{"capacity":1,"name":"BasicV2"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -139,10 +117,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2224
-        uncompressed: false
         body: '{"etag":"AAAAAAICoYE=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Created","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apimanagementv2-twykac.azure-api.net","gatewayRegionalUrl":null,"portalUrl":null,"developerPortalUrl":null,"dataApiUrl":null,"managementApiUrl":"https://smapi.api-blu-prod-scaleunit-003.p.azurewebsites.net/","scmUrl":null,"hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apimanagementv2-twykac.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":null,"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"natGatewayState":"Enabled","outboundPublicIPAddresses":null,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"undetermined","configurationApi":null,"legacyPortalStatus":"Disabled","developerPortalStatus":"Disabled"},"sku":{"name":"BasicV2","capacity":1},"identity":null,"zones":null,"systemData":null,"location":"East US","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac","name":"asotest-apimanagementv2-twykac","type":"Microsoft.ApiManagement/service"}'
         headers:
             Azure-Asyncoperation:
@@ -182,13 +157,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -198,10 +167,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 23
-        uncompressed: false
         body: '{"status":"InProgress"}'
         headers:
             Azure-Asyncoperation:
@@ -239,13 +205,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -255,10 +215,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 23
-        uncompressed: false
         body: '{"status":"InProgress"}'
         headers:
             Azure-Asyncoperation:
@@ -296,13 +253,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -312,10 +263,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -347,13 +295,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -363,10 +305,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2226
-        uncompressed: false
         body: '{"etag":"AAAAAAICoYg=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apimanagementv2-twykac.azure-api.net","gatewayRegionalUrl":null,"portalUrl":null,"developerPortalUrl":null,"dataApiUrl":null,"managementApiUrl":"https://smapi.api-blu-prod-scaleunit-003.p.azurewebsites.net/","scmUrl":null,"hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apimanagementv2-twykac.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":null,"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"natGatewayState":"Enabled","outboundPublicIPAddresses":null,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"undetermined","configurationApi":null,"legacyPortalStatus":"Disabled","developerPortalStatus":"Disabled"},"sku":{"name":"BasicV2","capacity":1},"identity":null,"zones":null,"systemData":null,"location":"East US","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac","name":"asotest-apimanagementv2-twykac","type":"Microsoft.ApiManagement/service"}'
         headers:
             Cache-Control:
@@ -400,13 +339,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -418,10 +351,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2226
-        uncompressed: false
         body: '{"etag":"AAAAAAICoYg=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apimanagementv2-twykac.azure-api.net","gatewayRegionalUrl":null,"portalUrl":null,"developerPortalUrl":null,"dataApiUrl":null,"managementApiUrl":"https://smapi.api-blu-prod-scaleunit-003.p.azurewebsites.net/","scmUrl":null,"hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apimanagementv2-twykac.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":null,"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"natGatewayState":"Enabled","outboundPublicIPAddresses":null,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"undetermined","configurationApi":null,"legacyPortalStatus":"Disabled","developerPortalStatus":"Disabled"},"sku":{"name":"BasicV2","capacity":1},"identity":null,"zones":null,"systemData":null,"location":"East US","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac","name":"asotest-apimanagementv2-twykac","type":"Microsoft.ApiManagement/service"}'
         headers:
             Cache-Control:
@@ -455,13 +385,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 211
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"eastus","name":"asotest-apimanagementv2-twykac","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting"},"sku":{"capacity":1,"name":"BasicV2"},"tags":{"scratchcard":"lanyard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -477,10 +402,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2256
-        uncompressed: false
         body: '{"etag":"AAAAAAICoZk=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Updating","targetProvisioningState":"Updating","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apimanagementv2-twykac.azure-api.net","gatewayRegionalUrl":null,"portalUrl":null,"developerPortalUrl":null,"dataApiUrl":null,"managementApiUrl":"https://smapi.api-blu-prod-scaleunit-003.p.azurewebsites.net/","scmUrl":null,"hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apimanagementv2-twykac.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":null,"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"natGatewayState":"Enabled","outboundPublicIPAddresses":null,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"undetermined","configurationApi":null,"legacyPortalStatus":"Disabled","developerPortalStatus":"Disabled"},"sku":{"name":"BasicV2","capacity":1},"identity":null,"zones":null,"systemData":null,"location":"East US","tags":{"scratchcard":"lanyard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac","name":"asotest-apimanagementv2-twykac","type":"Microsoft.ApiManagement/service"}'
         headers:
             Azure-Asyncoperation:
@@ -520,13 +442,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -536,10 +452,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 22
-        uncompressed: false
         body: '{"status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -571,13 +484,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -587,10 +494,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2582
-        uncompressed: false
         body: '{"etag":"AAAAAAICoZ0=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apimanagementv2-twykac.azure-api.net","gatewayRegionalUrl":null,"portalUrl":null,"developerPortalUrl":null,"dataApiUrl":null,"managementApiUrl":"https://smapi.api-blu-prod-scaleunit-003.p.azurewebsites.net/","scmUrl":null,"hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apimanagementv2-twykac.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":null,"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"natGatewayState":"Enabled","outboundPublicIPAddresses":null,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"undetermined","configurationApi":null,"legacyPortalStatus":"Disabled","developerPortalStatus":"Disabled"},"sku":{"name":"BasicV2","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":null,"createdByType":null,"createdAt":null,"lastModifiedBy":"bearps@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"East US","tags":{"scratchcard":"lanyard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac","name":"asotest-apimanagementv2-twykac","type":"Microsoft.ApiManagement/service"}'
         headers:
             Cache-Control:
@@ -624,13 +528,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -642,10 +540,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 2582
-        uncompressed: false
         body: '{"etag":"AAAAAAICoZ0=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apimanagementv2-twykac.azure-api.net","gatewayRegionalUrl":null,"portalUrl":null,"developerPortalUrl":null,"dataApiUrl":null,"managementApiUrl":"https://smapi.api-blu-prod-scaleunit-003.p.azurewebsites.net/","scmUrl":null,"hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apimanagementv2-twykac.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":null,"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"natGatewayState":"Enabled","outboundPublicIPAddresses":null,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"undetermined","configurationApi":null,"legacyPortalStatus":"Disabled","developerPortalStatus":"Disabled"},"sku":{"name":"BasicV2","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":null,"createdByType":null,"createdAt":null,"lastModifiedBy":"bearps@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"East US","tags":{"scratchcard":"lanyard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac","name":"asotest-apimanagementv2-twykac","type":"Microsoft.ApiManagement/service"}'
         headers:
             Cache-Control:
@@ -679,13 +574,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 166
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-vs-cexbpa","properties":{"description":"A version set for the account api","displayName":"/apiVersionSets/account-api","versioningScheme":"Segment"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -701,10 +591,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 530
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\": \"asotest-vs-cexbpa\",\r\n  \"properties\": {\r\n    \"displayName\": \"/apiVersionSets/account-api\",\r\n    \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\": \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\": null\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -734,13 +621,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 149
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-product2-ocqsvh","properties":{"description":"A product Api example","displayName":"Product Api Test","subscriptionRequired":false}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -756,10 +638,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1095
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product2-ocqsvh\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-product2-ocqsvh\",\r\n  \"properties\": {\r\n    \"displayName\": \"Product Api Test\",\r\n    \"description\": \"A product Api example\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\",\r\n    \"groups\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/groups/administrators\",\r\n        \"name\": \"Administrators\",\r\n        \"description\": \"Administrators is a built-in group containing the admin email account provided at the time of service creation. Its membership is managed by the system.\",\r\n        \"builtIn\": true,\r\n        \"type\": \"system\",\r\n        \"externalId\": null\r\n      }\r\n    ]\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -789,13 +668,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 100
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"test_namedvalue","properties":{"displayName":"My_Key","secret":false,"value":"It''s value"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -811,10 +685,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 353
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/namedValues/test_namedvalue\",\r\n  \"type\": \"Microsoft.ApiManagement/service/namedValues\",\r\n  \"name\": \"test_namedvalue\",\r\n  \"properties\": {\r\n    \"ProvisioningState\": \"InProgress\"\r\n  }\r\n}"
         headers:
             Azure-Asyncoperation:
@@ -846,13 +717,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 163
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-policyfragment-pchnpt","properties":{"description":"A Description about the policy fragment","value":"\u003cfragment\u003e\u003c/fragment\u003e"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -868,10 +734,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 389
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/policyFragments/asotest-policyfragment-pchnpt\",\r\n  \"type\": \"Microsoft.ApiManagement/service/policyFragments\",\r\n  \"name\": \"asotest-policyfragment-pchnpt\",\r\n  \"properties\": {\r\n    \"ProvisioningState\": \"InProgress\"\r\n  }\r\n}"
         headers:
             Azure-Asyncoperation:
@@ -903,13 +766,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 103
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-sub1-wohigs","properties":{"displayName":"Subscription for all APIs","scope":"/apis"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -925,10 +783,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 903
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"primaryKey\": \"c05ba0bbf1f34a94b1673c1851647fa9\",\r\n    \"secondaryKey\": \"e5607540da0946eebf1f1682e1d06b66\",\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -958,13 +813,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 143
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-cust1-ygcdnb","properties":{"description":"A product for customer 1","displayName":"Customer 1","subscriptionRequired":false}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -980,10 +830,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1086
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-cust1-ygcdnb\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-cust1-ygcdnb\",\r\n  \"properties\": {\r\n    \"displayName\": \"Customer 1\",\r\n    \"description\": \"A product for customer 1\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\",\r\n    \"groups\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/groups/administrators\",\r\n        \"name\": \"Administrators\",\r\n        \"description\": \"Administrators is a built-in group containing the admin email account provided at the time of service creation. Its membership is managed by the system.\",\r\n        \"builtIn\": true,\r\n        \"type\": \"system\",\r\n        \"externalId\": null\r\n      }\r\n    ]\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1013,13 +860,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 195
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"policy","properties":{"value":"\u003cpolicies\u003e\u003cinbound /\u003e\u003cbackend\u003e\u003cforward-request /\u003e\u003c/backend\u003e\u003coutbound /\u003e\u003c/policies\u003e"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1035,10 +877,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 447
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/policies/policy\",\r\n  \"type\": \"Microsoft.ApiManagement/service/policies\",\r\n  \"name\": \"policy\",\r\n  \"properties\": {\r\n    \"format\": \"xml\",\r\n    \"value\": \"<policies>\\r\\n\\t<inbound />\\r\\n\\t<backend>\\r\\n\\t\\t<forward-request />\\r\\n\\t</backend>\\r\\n\\t<outbound />\\r\\n</policies>\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1070,13 +909,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 133
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"test_backend","properties":{"description":"A Description about the backend","protocol":"http","url":"https://www.bing.com"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1092,10 +926,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 437
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/backends/test_backend\",\r\n  \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n  \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Description about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\": \"http\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1125,13 +956,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 274
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-authorizationprovider-vzkzjl","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{PASSWORD}"}}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1147,10 +973,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 676
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-vzkzjl","name":"asotest-authorizationprovider-vzkzjl","type":"Microsoft.ApiManagement/service/authorizationProviders","location":"East US","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"redirectUrl":"https://authorization-manager.consent.azure-apim.net/redirect/apim/asotest-apimanagementv2-twykac","grantTypes":{"authorizationCode":{"clientId":"{PASSWORD}","scopes":null,"resourceUri":"https://www.contoso.com"}}}}}'
         headers:
             Cache-Control:
@@ -1182,13 +1005,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 274
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-authorizationprovider-zbvhht","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{PASSWORD}"}}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1204,10 +1022,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 676
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-zbvhht","name":"asotest-authorizationprovider-zbvhht","type":"Microsoft.ApiManagement/service/authorizationProviders","location":"East US","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"redirectUrl":"https://authorization-manager.consent.azure-apim.net/redirect/apim/asotest-apimanagementv2-twykac","grantTypes":{"authorizationCode":{"clientId":"{PASSWORD}","scopes":null,"resourceUri":"https://www.contoso.com"}}}}}'
         headers:
             Cache-Control:
@@ -1239,13 +1054,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 155
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-product1-purcyo","properties":{"description":"A product policy example","displayName":"Product Policy Test","subscriptionRequired":false}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1261,10 +1071,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1101
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product1-purcyo\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-product1-purcyo\",\r\n  \"properties\": {\r\n    \"displayName\": \"Product Policy Test\",\r\n    \"description\": \"A product policy example\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\",\r\n    \"groups\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/groups/administrators\",\r\n        \"name\": \"Administrators\",\r\n        \"description\": \"Administrators is a built-in group containing the admin email account provided at the time of service creation. Its membership is managed by the system.\",\r\n        \"builtIn\": true,\r\n        \"type\": \"system\",\r\n        \"externalId\": null\r\n      }\r\n    ]\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1294,13 +1101,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 274
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-authorizationprovider-evjxus","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{PASSWORD}"}}}}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1316,10 +1118,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 676
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-evjxus","name":"asotest-authorizationprovider-evjxus","type":"Microsoft.ApiManagement/service/authorizationProviders","location":"East US","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"redirectUrl":"https://authorization-manager.consent.azure-apim.net/redirect/apim/asotest-apimanagementv2-twykac","grantTypes":{"authorizationCode":{"clientId":"{PASSWORD}","scopes":null,"resourceUri":"https://www.contoso.com"}}}}}'
         headers:
             Cache-Control:
@@ -1351,13 +1150,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1369,10 +1162,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 447
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/policies/policy\",\r\n  \"type\": \"Microsoft.ApiManagement/service/policies\",\r\n  \"name\": \"policy\",\r\n  \"properties\": {\r\n    \"format\": \"xml\",\r\n    \"value\": \"<policies>\\r\\n\\t<inbound />\\r\\n\\t<backend>\\r\\n\\t\\t<forward-request />\\r\\n\\t</backend>\\r\\n\\t<outbound />\\r\\n</policies>\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1404,13 +1194,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1420,10 +1204,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 530
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\": \"asotest-vs-cexbpa\",\r\n  \"properties\": {\r\n    \"displayName\": \"/apiVersionSets/account-api\",\r\n    \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\": \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\": null\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1455,13 +1236,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1471,10 +1246,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 558
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product2-ocqsvh\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-product2-ocqsvh\",\r\n  \"properties\": {\r\n    \"displayName\": \"Product Api Test\",\r\n    \"description\": \"A product Api example\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1506,13 +1278,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1524,10 +1290,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 676
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-zbvhht","name":"asotest-authorizationprovider-zbvhht","type":"Microsoft.ApiManagement/service/authorizationProviders","location":"East US","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"redirectUrl":"https://authorization-manager.consent.azure-apim.net/redirect/apim/asotest-apimanagementv2-twykac","grantTypes":{"authorizationCode":{"clientId":"{PASSWORD}","scopes":null,"resourceUri":"https://www.contoso.com"}}}}}'
         headers:
             Cache-Control:
@@ -1559,13 +1322,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1577,10 +1334,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 676
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-vzkzjl","name":"asotest-authorizationprovider-vzkzjl","type":"Microsoft.ApiManagement/service/authorizationProviders","location":"East US","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"redirectUrl":"https://authorization-manager.consent.azure-apim.net/redirect/apim/asotest-apimanagementv2-twykac","grantTypes":{"authorizationCode":{"clientId":"{PASSWORD}","scopes":null,"resourceUri":"https://www.contoso.com"}}}}}'
         headers:
             Cache-Control:
@@ -1612,13 +1366,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1628,10 +1376,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 549
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-cust1-ygcdnb\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-cust1-ygcdnb\",\r\n  \"properties\": {\r\n    \"displayName\": \"Customer 1\",\r\n    \"description\": \"A product for customer 1\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1663,13 +1408,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1679,10 +1418,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 29
-        uncompressed: false
         body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
         headers:
             Cache-Control:
@@ -1712,13 +1448,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1728,10 +1458,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 787
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1763,13 +1490,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1779,10 +1500,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 29
-        uncompressed: false
         body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
         headers:
             Cache-Control:
@@ -1812,13 +1530,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1830,10 +1542,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 530
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\": \"asotest-vs-cexbpa\",\r\n  \"properties\": {\r\n    \"displayName\": \"/apiVersionSets/account-api\",\r\n    \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\": \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\": null\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1865,13 +1574,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1881,10 +1584,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 437
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/backends/test_backend\",\r\n  \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n  \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Description about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\": \"http\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1916,13 +1616,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1934,10 +1628,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 549
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-cust1-ygcdnb\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-cust1-ygcdnb\",\r\n  \"properties\": {\r\n    \"displayName\": \"Customer 1\",\r\n    \"description\": \"A product for customer 1\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -1969,13 +1660,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1987,10 +1672,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 558
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product2-ocqsvh\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-product2-ocqsvh\",\r\n  \"properties\": {\r\n    \"displayName\": \"Product Api Test\",\r\n    \"description\": \"A product Api example\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2022,13 +1704,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2038,10 +1714,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 564
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product1-purcyo\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-product1-purcyo\",\r\n  \"properties\": {\r\n    \"displayName\": \"Product Policy Test\",\r\n    \"description\": \"A product policy example\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2073,13 +1746,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2091,10 +1758,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 676
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-evjxus","name":"asotest-authorizationprovider-evjxus","type":"Microsoft.ApiManagement/service/authorizationProviders","location":"East US","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"redirectUrl":"https://authorization-manager.consent.azure-apim.net/redirect/apim/asotest-apimanagementv2-twykac","grantTypes":{"authorizationCode":{"clientId":"{PASSWORD}","scopes":null,"resourceUri":"https://www.contoso.com"}}}}}'
         headers:
             Cache-Control:
@@ -2126,13 +1790,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2144,10 +1802,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 787
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2179,13 +1834,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2197,10 +1846,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -2230,13 +1876,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2248,10 +1888,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -2281,13 +1918,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2299,10 +1930,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 437
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/backends/test_backend\",\r\n  \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n  \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Description about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\": \"http\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2334,13 +1962,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2352,10 +1974,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 564
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product1-purcyo\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products\",\r\n  \"name\": \"asotest-product1-purcyo\",\r\n  \"properties\": {\r\n    \"displayName\": \"Product Policy Test\",\r\n    \"description\": \"A product policy example\",\r\n    \"terms\": null,\r\n    \"subscriptionRequired\": false,\r\n    \"approvalRequired\": null,\r\n    \"subscriptionsLimit\": null,\r\n    \"state\": \"notPublished\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2387,13 +2006,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2403,10 +2016,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 490
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/policyfragments/asotest-policyfragment-pchnpt\",\r\n  \"type\": \"Microsoft.ApiManagement/service/policyFragments\",\r\n  \"name\": \"asotest-policyfragment-pchnpt\",\r\n  \"properties\": {\r\n    \"description\": \"A Description about the policy fragment\",\r\n    \"value\": \"<fragment></fragment>\",\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2438,13 +2048,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 680
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-api-gckykx","properties":{"apiVersion":"2.0.0","apiRevision":"v1","apiRevisionDescription":"First Revision","apiVersionDescription":"Second Version","apiVersionSetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa","contact":{"email":"test@test.com","name":"Test","url":"https://www.bing.com"},"description":"A Description about the api","displayName":"account-api","isCurrent":true,"path":"/account-api","protocols":["https"],"subscriptionRequired":false,"termsOfServiceUrl":"https://www.bing.com/tos","type":"http"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2460,10 +2065,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1775
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis/asotest-api-gckykx\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gckykx\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\": [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\": null,\r\n      \"openid\": null\r\n    },\r\n    \"subscriptionKeyParameterNames\": {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n    },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\": {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n      \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\",\r\n    \"apiVersionSet\": {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\",\r\n      \"name\": \"/apiVersionSets/account-api\",\r\n      \"description\": \"A version set for the account api\",\r\n      \"versioningScheme\": \"Segment\",\r\n      \"versionQueryName\": null,\r\n      \"versionHeaderName\": null\r\n    }\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2493,13 +2095,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2509,10 +2105,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 451
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/namedValues/test_namedvalue\",\r\n  \"type\": \"Microsoft.ApiManagement/service/namedValues\",\r\n  \"name\": \"test_namedvalue\",\r\n  \"properties\": {\r\n    \"displayName\": \"My_Key\",\r\n    \"value\": \"It's value\",\r\n    \"tags\": null,\r\n    \"secret\": false,\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2544,13 +2137,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 121
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-authorization-grkqrz","properties":{"authorizationType":"OAuth2","oauth2grantType":"AuthorizationCode"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2566,10 +2154,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 592
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-zbvhht/authorizations/asotest-authorization-grkqrz","name":"asotest-authorization-grkqrz","type":"Microsoft.ApiManagement/service/authorizationProviders/authorizations","location":"East US","properties":{"authorizationType":"OAuth2","oauth2grantType":"AuthorizationCode","status":"Error","error":{"code":"Unauthenticated","message":"This connection is not authenticated."}}}'
         headers:
             Cache-Control:
@@ -2601,13 +2186,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 103
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-sub1-wohigs","properties":{"displayName":"Subscription for all APIs","scope":"/apis"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2623,10 +2203,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 899
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"primaryKey\": \"c05ba0bbf1f34a94b1673c1851647fa9\",\r\n    \"secondaryKey\": \"e5607540da0946eebf1f1682e1d06b66\",\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2658,13 +2235,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2676,10 +2247,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 490
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/policyfragments/asotest-policyfragment-pchnpt\",\r\n  \"type\": \"Microsoft.ApiManagement/service/policyFragments\",\r\n  \"name\": \"asotest-policyfragment-pchnpt\",\r\n  \"properties\": {\r\n    \"description\": \"A Description about the policy fragment\",\r\n    \"value\": \"<fragment></fragment>\",\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2711,13 +2279,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2731,10 +2293,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -2764,13 +2323,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2782,10 +2335,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -2815,13 +2365,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 286
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"policy","properties":{"value":"\u003cpolicies\u003e\u003cinbound\u003e\u003cset-variable name=\"asoTest\" value=\"ProductPolicy Value\" /\u003e\u003c/inbound\u003e\u003cbackend\u003e\u003cforward-request /\u003e\u003c/backend\u003e\u003coutbound /\u003e\u003c/policies\u003e"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2837,10 +2382,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 574
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product1-purcyo/policies/policy\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products/policies\",\r\n  \"name\": \"policy\",\r\n  \"properties\": {\r\n    \"format\": \"xml\",\r\n    \"value\": \"<policies>\\r\\n\\t<inbound>\\r\\n\\t\\t<set-variable name=\\\"asoTest\\\" value=\\\"ProductPolicy Value\\\" />\\r\\n\\t</inbound>\\r\\n\\t<backend>\\r\\n\\t\\t<forward-request />\\r\\n\\t</backend>\\r\\n\\t<outbound />\\r\\n</policies>\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2870,13 +2412,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2886,10 +2422,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1413
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis/asotest-api-gckykx\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gckykx\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\": [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\": null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\": [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\": {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n    },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\": {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n      \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2921,13 +2454,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2939,10 +2466,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 451
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/namedValues/test_namedvalue\",\r\n  \"type\": \"Microsoft.ApiManagement/service/namedValues\",\r\n  \"name\": \"test_namedvalue\",\r\n  \"properties\": {\r\n    \"displayName\": \"My_Key\",\r\n    \"value\": \"It's value\",\r\n    \"tags\": null,\r\n    \"secret\": false,\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -2974,13 +2498,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2992,10 +2510,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 592
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-zbvhht/authorizations/asotest-authorization-grkqrz","name":"asotest-authorization-grkqrz","type":"Microsoft.ApiManagement/service/authorizationProviders/authorizations","location":"East US","properties":{"authorizationType":"OAuth2","oauth2grantType":"AuthorizationCode","status":"Error","error":{"code":"Unauthenticated","message":"This connection is not authenticated."}}}'
         headers:
             Cache-Control:
@@ -3027,13 +2542,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3045,10 +2554,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1413
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis/asotest-api-gckykx\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gckykx\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\": [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\": null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\": [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\": {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n    },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\": {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n      \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs-cexbpa\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3080,13 +2586,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 143
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-vs2-muerbm","properties":{"description":"A version set for the account api","displayName":"vs2","versioningScheme":"Segment"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3102,10 +2603,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 508
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\": \"asotest-vs2-muerbm\",\r\n  \"properties\": {\r\n    \"displayName\": \"vs2\",\r\n    \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\": \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\": null\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3135,13 +2633,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3153,10 +2645,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 787
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3188,13 +2677,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3206,10 +2689,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: -1
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3237,13 +2717,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 121
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-authorization-qplscc","properties":{"authorizationType":"OAuth2","oauth2grantType":"AuthorizationCode"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3259,10 +2734,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 592
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-evjxus/authorizations/asotest-authorization-qplscc","name":"asotest-authorization-qplscc","type":"Microsoft.ApiManagement/service/authorizationProviders/authorizations","location":"East US","properties":{"authorizationType":"OAuth2","oauth2grantType":"AuthorizationCode","status":"Error","error":{"code":"Unauthenticated","message":"This connection is not authenticated."}}}'
         headers:
             Cache-Control:
@@ -3294,13 +2766,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3312,10 +2778,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3345,13 +2808,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3363,10 +2820,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Azure-Asyncoperation:
@@ -3400,13 +2854,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3418,10 +2866,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"primaryKey":"c05ba0bbf1f34a94b1673c1851647fa9","secondaryKey":"e5607540da0946eebf1f1682e1d06b66"}'
         headers:
             Cache-Control:
@@ -3453,13 +2898,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3471,10 +2910,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3504,13 +2940,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3520,10 +2950,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 574
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product1-purcyo/policies/policy\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products/policies\",\r\n  \"name\": \"policy\",\r\n  \"properties\": {\r\n    \"format\": \"xml\",\r\n    \"value\": \"<policies>\\r\\n\\t<inbound>\\r\\n\\t\\t<set-variable name=\\\"asoTest\\\" value=\\\"ProductPolicy Value\\\" />\\r\\n\\t</inbound>\\r\\n\\t<backend>\\r\\n\\t\\t<forward-request />\\r\\n\\t</backend>\\r\\n\\t<outbound />\\r\\n</policies>\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3555,13 +2982,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3573,10 +2994,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 574
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product1-purcyo/policies/policy\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products/policies\",\r\n  \"name\": \"policy\",\r\n  \"properties\": {\r\n    \"format\": \"xml\",\r\n    \"value\": \"<policies>\\r\\n\\t<inbound>\\r\\n\\t\\t<set-variable name=\\\"asoTest\\\" value=\\\"ProductPolicy Value\\\" />\\r\\n\\t</inbound>\\r\\n\\t<backend>\\r\\n\\t\\t<forward-request />\\r\\n\\t</backend>\\r\\n\\t<outbound />\\r\\n</policies>\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3608,13 +3026,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3626,10 +3038,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 592
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-evjxus/authorizations/asotest-authorization-qplscc","name":"asotest-authorization-qplscc","type":"Microsoft.ApiManagement/service/authorizationProviders/authorizations","location":"East US","properties":{"authorizationType":"OAuth2","oauth2grantType":"AuthorizationCode","status":"Error","error":{"code":"Unauthenticated","message":"This connection is not authenticated."}}}'
         headers:
             Cache-Control:
@@ -3661,13 +3070,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3677,10 +3080,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 508
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\": \"asotest-vs2-muerbm\",\r\n  \"properties\": {\r\n    \"displayName\": \"vs2\",\r\n    \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\": \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\": null\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3712,13 +3112,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3728,10 +3122,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 29
-        uncompressed: false
         body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
         headers:
             Cache-Control:
@@ -3761,13 +3152,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 103
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-sub1-wohigs","properties":{"displayName":"Subscription for all APIs","scope":"/apis"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3783,10 +3169,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 899
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"primaryKey\": \"c05ba0bbf1f34a94b1673c1851647fa9\",\r\n    \"secondaryKey\": \"e5607540da0946eebf1f1682e1d06b66\",\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3818,13 +3201,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3836,10 +3213,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3869,13 +3243,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3887,10 +3255,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 508
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\": \"asotest-vs2-muerbm\",\r\n  \"properties\": {\r\n    \"displayName\": \"vs2\",\r\n    \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\": \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\": null\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3922,13 +3287,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3940,10 +3299,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 787
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/subscriptions/asotest-sub1-wohigs\",\r\n  \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\": \"asotest-sub1-wohigs\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis\",\r\n    \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n    \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n    \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\": null,\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -3975,13 +3331,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 49
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-mi-enejbo"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -3997,10 +3348,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 454
-        uncompressed: false
         body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zlmwur/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-enejbo","name":"asotest-mi-enejbo","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"2d7236b5-e701-4381-8c1f-d7e324b5f0b9","clientId":"c424ab34-f7ac-4636-a824-7e4622e381cc"}}'
         headers:
             Cache-Control:
@@ -4034,13 +3382,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4052,10 +3394,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -4085,13 +3424,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4105,10 +3438,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -4138,13 +3468,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4156,10 +3480,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"primaryKey":"c05ba0bbf1f34a94b1673c1851647fa9","secondaryKey":"e5607540da0946eebf1f1682e1d06b66"}'
         headers:
             Cache-Control:
@@ -4191,13 +3512,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 684
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-api2-vqragk","properties":{"apiVersion":"2.0.0","apiRevision":"v1","apiRevisionDescription":"First Revision","apiVersionDescription":"Second Version","apiVersionSetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm","contact":{"email":"test@test.com","name":"Test","url":"https://www.bing.com"},"description":"A Description about the api","displayName":"account-api2","isCurrent":true,"path":"/account-api2","protocols":["https"],"subscriptionRequired":false,"termsOfServiceUrl":"https://www.bing.com/tos","type":"http"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4213,10 +3529,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1757
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis/asotest-api2-vqragk\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api2-vqragk\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api2\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api2\",\r\n    \"protocols\": [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\": null,\r\n      \"openid\": null\r\n    },\r\n    \"subscriptionKeyParameterNames\": {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n    },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\": {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n      \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\",\r\n    \"apiVersionSet\": {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\",\r\n      \"name\": \"vs2\",\r\n      \"description\": \"A version set for the account api\",\r\n      \"versioningScheme\": \"Segment\",\r\n      \"versionQueryName\": null,\r\n      \"versionHeaderName\": null\r\n    }\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -4246,13 +3559,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4264,10 +3571,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: -1
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -4295,13 +3599,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4313,10 +3611,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 167
-        uncompressed: false
         body: '{"error":{"code":"AuthorizationGatewayNotFoundException","message":"Cannot find api with name asotest-authorizationprovider-evjxus.","details":null,"innerError":null}}'
         headers:
             Cache-Control:
@@ -4348,13 +3643,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4366,10 +3655,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -4399,13 +3685,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 49
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-mi-enejbo"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4421,10 +3702,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 454
-        uncompressed: false
         body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zlmwur/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-enejbo","name":"asotest-mi-enejbo","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"2d7236b5-e701-4381-8c1f-d7e324b5f0b9","clientId":"c424ab34-f7ac-4636-a824-7e4622e381cc"}}'
         headers:
             Cache-Control:
@@ -4456,13 +3734,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4472,10 +3744,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1418
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis/asotest-api2-vqragk\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api2-vqragk\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api2\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api2\",\r\n    \"protocols\": [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\": null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\": [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\": {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n    },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\": {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n      \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -4507,13 +3776,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4525,10 +3788,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 454
-        uncompressed: false
         body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zlmwur/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-enejbo","name":"asotest-mi-enejbo","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"2d7236b5-e701-4381-8c1f-d7e324b5f0b9","clientId":"c424ab34-f7ac-4636-a824-7e4622e381cc"}}'
         headers:
             Cache-Control:
@@ -4560,13 +3820,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4578,10 +3832,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1418
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apis/asotest-api2-vqragk\",\r\n  \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api2-vqragk\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api2\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api2\",\r\n    \"protocols\": [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\": null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\": [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\": {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n    },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\": {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n      \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/apiVersionSets/asotest-vs2-muerbm\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -4613,13 +3864,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 30
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-api2-vqragk"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4635,10 +3881,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 829
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product2-ocqsvh/apis/asotest-api2-vqragk\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products/apis\",\r\n  \"name\": \"asotest-api2-vqragk\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api2\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api2\",\r\n    \"protocols\": null,\r\n    \"authenticationSettings\": null,\r\n    \"subscriptionKeyParameterNames\": null,\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -4668,13 +3911,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 168
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-authorization-access-policy-mdnckv","properties":{"objectId":"2d7236b5-e701-4381-8c1f-d7e324b5f0b9","tenantId":"00000000-0000-0000-0000-000000000000"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4690,10 +3928,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 625
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-zbvhht/authorizations/asotest-authorization-grkqrz/accessPolicies/asotest-authorization-access-policy-mdnckv","name":"asotest-authorization-access-policy-mdnckv","type":"Microsoft.ApiManagement/service/authorizationProviders/authorizations/accessPolicies/","location":"East US","properties":{"objectId":"2d7236b5-e701-4381-8c1f-d7e324b5f0b9","tenantId":"00000000-0000-0000-0000-000000000000","appIds":null}}'
         headers:
             Cache-Control:
@@ -4725,13 +3960,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -4741,10 +3970,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 72
-        uncompressed: false
         body: '{"Message":"The requested resource does not support http method ''GET''."}'
         headers:
             Allow:
@@ -4774,13 +4000,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4792,10 +4012,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 625
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/authorizationProviders/asotest-authorizationprovider-zbvhht/authorizations/asotest-authorization-grkqrz/accessPolicies/asotest-authorization-access-policy-mdnckv","name":"asotest-authorization-access-policy-mdnckv","type":"Microsoft.ApiManagement/service/authorizationProviders/authorizations/accessPolicies/","location":"East US","properties":{"objectId":"2d7236b5-e701-4381-8c1f-d7e324b5f0b9","tenantId":"00000000-0000-0000-0000-000000000000","appIds":null}}'
         headers:
             Cache-Control:
@@ -4827,13 +4044,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 30
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-api2-vqragk"}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4849,10 +4061,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 829
-        uncompressed: false
         body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlmwur/providers/Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac/products/asotest-product2-ocqsvh/apis/asotest-api2-vqragk\",\r\n  \"type\": \"Microsoft.ApiManagement/service/products/apis\",\r\n  \"name\": \"asotest-api2-vqragk\",\r\n  \"properties\": {\r\n    \"displayName\": \"account-api2\",\r\n    \"apiRevision\": \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\": false,\r\n    \"serviceUrl\": null,\r\n    \"backendId\": null,\r\n    \"path\": \"account-api2\",\r\n    \"protocols\": null,\r\n    \"authenticationSettings\": null,\r\n    \"subscriptionKeyParameterNames\": null,\r\n    \"isCurrent\": true,\r\n    \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n    \"apiVersionDescription\": \"Second Version\"\r\n  }\r\n}"
         headers:
             Cache-Control:
@@ -4884,13 +4093,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4902,10 +4105,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -4935,13 +4135,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -4953,10 +4147,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -4986,13 +4177,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5004,10 +4189,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 167
-        uncompressed: false
         body: '{"error":{"code":"AuthorizationGatewayNotFoundException","message":"Cannot find api with name asotest-authorizationprovider-zbvhht.","details":null,"innerError":null}}'
         headers:
             Cache-Control:
@@ -5039,13 +4221,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5057,10 +4233,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5090,13 +4263,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5110,10 +4277,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5143,13 +4307,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5161,10 +4319,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 167
-        uncompressed: false
         body: '{"error":{"code":"AuthorizationGatewayNotFoundException","message":"Cannot find api with name asotest-authorizationprovider-zbvhht.","details":null,"innerError":null}}'
         headers:
             Cache-Control:
@@ -5196,13 +4351,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5214,10 +4363,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: -1
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5245,13 +4391,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5263,10 +4403,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5300,13 +4437,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -5316,10 +4447,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5353,225 +4481,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763074677067854&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=DmrfcRUxXXIKKVsTb2R-2MaSOKvso6rCT61liNzKxSsIj1OSEM5D9GeEZ5PQUmf5DsmsWscn8Hkn5ST09BnuaP3j8efR3WsS2-oo_ya0x5PYrkBRn3BcFBqhiTyp9AXgj4nLha1Ltpix1hRhG2-x5XCfeukHB67eXjCoSok3Fi4BhYQ2AYUDCtMU3liJFJsuGGmtUaTnZ_jWtkXOpSQ2WjymwFjY6QeTRkm6gByX2jXV44WLv_cg9j7H4D3oGMy0t9pO1pUl6TstiRY6ovjeXIsdaA5_KU5hnRUVwgb-KjXt9YsXp3Vor3qkKu3ki0L1TARO26VsB2MU8ZGri7kfCw&h=FGYFQw4vTBQE35l0hpXqCa4GqaxWsFuMxNr9ElZqQkE
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763075077285487&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=TBAh1TahvGzpZJFk0upkwYjC0eWnDx-Oyv-BLBerYCR9-cDNnYkB_xskr1G-NlRkMEC4d-PTEuqhdvDD-Ippuz1Y6X7YkRQML1qFkdaJJzXiZ6D_1r59aRhNkYyFTuaVwDgBgCPcXyH8Rz_Yt-OpkcWqnWs1WrJd-jEYEfODy-b-SSLW4JdpKZEKkA76HKHgDJzOCml7NcQAFW_IxM1nNI_mUF1sK09v7GFhUdqi-jAVggk5jwJ9VH3ed0u0F7h-7p0c30asLlmrtK6daHBR5qXKUxki-CzbWNezKF2wf_bbNDSXAIEA33eSqnHX2b8VOabH9rJsQrxPMLZtdEF6Kg&h=wQHhTuqq60X5IntlGs0u9OW67x-PavIOmH0mCx_81tc
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: C43E298F723E482F9DED4447A84B014E Ref B: MAA201060514019 Ref C: 2025-02-28T02:45:06Z'
-        status: 202 Accepted
-        code: 202
-        duration: 1.059582121s
-    - id: 101
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763074677067854&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=DmrfcRUxXXIKKVsTb2R-2MaSOKvso6rCT61liNzKxSsIj1OSEM5D9GeEZ5PQUmf5DsmsWscn8Hkn5ST09BnuaP3j8efR3WsS2-oo_ya0x5PYrkBRn3BcFBqhiTyp9AXgj4nLha1Ltpix1hRhG2-x5XCfeukHB67eXjCoSok3Fi4BhYQ2AYUDCtMU3liJFJsuGGmtUaTnZ_jWtkXOpSQ2WjymwFjY6QeTRkm6gByX2jXV44WLv_cg9j7H4D3oGMy0t9pO1pUl6TstiRY6ovjeXIsdaA5_KU5hnRUVwgb-KjXt9YsXp3Vor3qkKu3ki0L1TARO26VsB2MU8ZGri7kfCw&h=FGYFQw4vTBQE35l0hpXqCa4GqaxWsFuMxNr9ElZqQkE
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763075262007793&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=e983CoJLht5CVsLEJ4TRiluDUqnKvTLhl4CQGxaDRryOOSwasYHVKx1IknibfBWJbj3te1ppLPyv7bNRLdYxv9KynsVyCYkwqgHWczuobo6OXCcZ6Lotyf2JyKSpayyn8-aH5_NZKUXUTU76jVvBqGMwOHCgfDgAkndbuJAIqv2JlyYUR2BGtvNIZLAOcENjchUwM-S5bPJ4l82l8_bwkkK9MLIMHPIIENoQBt-Yqh409U0R1tQcvEjVQN7p8eTYTBU6YOwyEZMBjIa2WUbpu3ugcoiKE2RsDqA67Zxy3rsqBf-kfBJBMRkD6j3uCoLFC5cJ0lHmqlvzqsr-tRXPng&h=oRoWgWiODrNxWA3fr3ZzUxReaLyBkuq32C9KF1__kf8
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 337116D73ED34E37A984A5F247BF4558 Ref B: MAA201060514019 Ref C: 2025-02-28T02:45:25Z'
-        status: 202 Accepted
-        code: 202
-        duration: 1.00319045s
-    - id: 102
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763074677067854&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=DmrfcRUxXXIKKVsTb2R-2MaSOKvso6rCT61liNzKxSsIj1OSEM5D9GeEZ5PQUmf5DsmsWscn8Hkn5ST09BnuaP3j8efR3WsS2-oo_ya0x5PYrkBRn3BcFBqhiTyp9AXgj4nLha1Ltpix1hRhG2-x5XCfeukHB67eXjCoSok3Fi4BhYQ2AYUDCtMU3liJFJsuGGmtUaTnZ_jWtkXOpSQ2WjymwFjY6QeTRkm6gByX2jXV44WLv_cg9j7H4D3oGMy0t9pO1pUl6TstiRY6ovjeXIsdaA5_KU5hnRUVwgb-KjXt9YsXp3Vor3qkKu3ki0L1TARO26VsB2MU8ZGri7kfCw&h=FGYFQw4vTBQE35l0hpXqCa4GqaxWsFuMxNr9ElZqQkE
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763075446437974&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=ermoqIRQc_ydLaxV2ZZqGkaHF4kwsVl6zQmmZyiytGyAvPGwHPPDeIwVdyYBYz_bpf4ch457mHlUeGiqf1zS5Alzf9sZjcw4T28unH3utUO1GAHj5uVpyR-3spm12-uVlM_joIjhhDwKfz_8LxXdpo8KHOV49mayyxOyIM88UVF5cTyPWdTYRVZ6VWjFQKRYzVeC-0ye3mUDBWmyLHKduW9T56JsHDwor1ufV6TtqoxNdI6AjGBFfghZn2FruWxkv-uTXIfDa_0xlXCdy4h5iU495RxjulQZ2tv5yLTkTCP4HFo_is8debD1uDgbq8sFJ0Kop4FFUs504dIpdTtHdQ&h=gnD5fSp_VU86d8tkB7nYbiKW2FouKyZpfALtUxcmZBw
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: CA1AC0A9BD474476A974DE3AFBACAD98 Ref B: MAA201060514019 Ref C: 2025-02-28T02:45:43Z'
-        status: 202 Accepted
-        code: 202
-        duration: 1.017279156s
-    - id: 103
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "4"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763074677067854&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=DmrfcRUxXXIKKVsTb2R-2MaSOKvso6rCT61liNzKxSsIj1OSEM5D9GeEZ5PQUmf5DsmsWscn8Hkn5ST09BnuaP3j8efR3WsS2-oo_ya0x5PYrkBRn3BcFBqhiTyp9AXgj4nLha1Ltpix1hRhG2-x5XCfeukHB67eXjCoSok3Fi4BhYQ2AYUDCtMU3liJFJsuGGmtUaTnZ_jWtkXOpSQ2WjymwFjY6QeTRkm6gByX2jXV44WLv_cg9j7H4D3oGMy0t9pO1pUl6TstiRY6ovjeXIsdaA5_KU5hnRUVwgb-KjXt9YsXp3Vor3qkKu3ki0L1TARO26VsB2MU8ZGri7kfCw&h=FGYFQw4vTBQE35l0hpXqCa4GqaxWsFuMxNr9ElZqQkE
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "0"
-            Expires:
-                - "-1"
-            Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaTE1XVVItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638763075630003254&c=MIIHpTCCBo2gAwIBAgITfwTbn828Ducmmj24MgAEBNufzTANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTI1MTI1MTUzWhcNMjUwNzI0MTI1MTUzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL20TJQJbhV5Jrwzn-fiGrag_COjmaTwDy9Ir0oe1CLIfiJ9ageBVfcEmW-k5bUVL3eg6B8mQTEYE-FJDVVZ4jbJ9Qw8REpm2kBASDRwoItVVD_HBpJf1VhdViEPJPMDvLg0mAmde0X2m3HVEO6Y7eggJ9iL31DDv9PF-Xvn6x9xlWvO3_OCJReOoV_HCTDyzds4Pq9OySlnAGAozKYzOumbcVPz_WEMc_vwW80fjQLmdihJgp6_15qlnMdx48MQhVGT3y4gdbknMQJghyzTFcsASVncSqtmz8nAx5qT9dZ63iaF6E7Fbx76fnF4lx5K72ANX5cjlfVOig5jzgf8RPkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQp8DW_okjTMbIBWANCvQr_FrvzazAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAA5sOyKXcQwQQAVKz9J8GIjVymZkoHVSft4TqdgNxSdoIAYkk_tYdx_dEZChJfSvIfzhzAb8k57EHRKNwKtP752SSUr0Q0oB60Y3Fq7il1fMKFTbVk9ZMTyOoo3hJmRwJaisv9rK2UVHWvwD2iUKD0IK_tHwy3m6bqbGDVKaRn1K9UYM39wEvEdy-k8J2z3Olfn6yYpcrVBHWzDzSy7TVdgUzaa0IZ670aJGPrNVYMvsCepP2_T_FdHVk4LoK9K4_0-GkZbvBLZPQO6FYgttg78s6Nn34TUcXWeTeeXArlkf48rbeL5fDY_CJyKYXLv3arwG7gUdcU5T8MGHeLLzcyo&s=UsQqfekTU1Z0E-J5Cgiw_2Lha9KjbYOj5jpFD6tngNSnaHtfrFiKtyWZci9YG3USPqXI3rCjSdmCrLU06hN8lRD2vwRsS_4a3qH36OfgwyaN3EpMtwSNqbu8XXIMEX26lTeEf-EMeN5RGmEB9TmoEv5-Q2yJ0yEYPe10vOxv8NK2XQxs3e5KYJgXikQV20vBhq8RuqOOKwBY26y8C9k1wYWS5XipsAVsWsTjQ4Rvo6NcRHy9d-xbkryC6tXcIIyuEMOOP4q-i8yTfjvjlzY_VkcAiiO_hIMiGmbyEc-_xkyksFpbAqqB4w5Y8Lmt_ycexcC4xQAI6TiHkw8AvhijKQ&h=sUQMczh-XWCKchK0h4Xhyv_llSu3k1C5a_PNt3gOJxc
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 2D35951B5D1948DE9E93C855D48C53D2 Ref B: MAA201060514019 Ref C: 2025-02-28T02:46:02Z'
-        status: 202 Accepted
-        code: 202
-        duration: 1.053099794s
-    - id: 104
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "5"
@@ -5581,10 +4491,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5612,19 +4519,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 1.008436412s
-    - id: 105
+    - id: 101
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "6"
@@ -5634,10 +4535,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -5661,19 +4559,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 982.709956ms
-    - id: 106
+    - id: 102
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5685,10 +4577,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-zlmwur'' could not be found."}}'
         headers:
             Cache-Control:
@@ -5714,19 +4603,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 343.311496ms
-    - id: 107
+    - id: 103
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5738,10 +4621,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-zlmwur'' could not be found."}}'
         headers:
             Cache-Control:
@@ -5767,19 +4647,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 375.181423ms
-    - id: 108
+    - id: 104
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5791,10 +4665,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 251
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac'' under resource group ''asotest-rg-zlmwur'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -5820,19 +4691,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 574.320784ms
-    - id: 109
+    - id: 105
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5844,10 +4709,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 109
-        uncompressed: false
         body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-zlmwur'' could not be found."}}'
         headers:
             Cache-Control:
@@ -5873,19 +4735,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 579.952491ms
-    - id: 110
+    - id: 106
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -5897,10 +4753,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 251
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.ApiManagement/service/asotest-apimanagementv2-twykac'' under resource group ''asotest-rg-zlmwur'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
