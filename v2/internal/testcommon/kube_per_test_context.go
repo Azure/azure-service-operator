@@ -22,6 +22,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
@@ -866,6 +867,20 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filePath str
 	}
 
 	return nil
+}
+
+func (tc *KubePerTestContext) AddAnnotation(
+	obj *v1.ObjectMeta,
+	key string,
+	value string,
+) {
+	annotations := obj.GetAnnotations()
+	if annotations == nil {
+		annotations = make(map[string]string)
+	}
+
+	annotations[key] = value
+	obj.SetAnnotations(annotations)
 }
 
 type ResourceTracker struct {

@@ -3,6 +3,10 @@ kind: FlexibleServersAdvancedThreatProtectionSettings
 metadata:
   name: advancedprotection
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent server
+    # We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: asosampleserver20240801
