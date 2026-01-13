@@ -117,20 +117,24 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 		return response, err
 	}
 
-	// We have a response, skip caching if it represents a transient state (ends in 'ing')
+	// We have a response; if it has a status, cache only if that represents a terminal state
 	cacheable := true
 	if status, ok := replayer.resourceStatusFromBody(response); ok {
-		cacheable = !strings.HasSuffix(strings.ToLower(status), "ing") && !strings.EqualFold(status, "InProgress")
+		cacheable = replayer.isTerminalStatus(status)
 	}
 
 	if cacheable {
 		replayer.padlock.Lock()
 		defer replayer.padlock.Unlock()
 
-		replayer.gets[requestURL] = newReplayResponse(response, getReplays)
+		replayer.gets[requestURL] = newReplayResponse(response, maxGetReplays)
 	}
 
 	return response, nil
+}
+
+func (*replayRoundTripper) isTerminalStatus(status string) bool {
+	return strings.EqualFold(status, "Succeeded") || strings.EqualFold(status, "Failed") || strings.EqualFold(status, "Canceled")
 }
 
 func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.Response, error) {
@@ -169,7 +173,7 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 	defer replayer.padlock.Unlock()
 
 	// We have a response, cache it and return it
-	replayer.puts[hash] = newReplayResponse(response, putReplays)
+	replayer.puts[hash] = newReplayResponse(response, maxPutReplays)
 	return response, nil
 }
 
