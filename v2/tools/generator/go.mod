@@ -1,8 +1,6 @@
 module github.com/Azure/azure-service-operator/v2/tools/generator
 
-go 1.24.0
-
-toolchain go1.24.2
+go 1.25.0
 
 // Needed to reference shared version numbering:
 replace github.com/Azure/azure-service-operator/v2 => ../../
@@ -37,7 +35,7 @@ require (
 	golang.org/x/sync v0.18.0
 	golang.org/x/text v0.31.0
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.34.2
+	k8s.io/apimachinery v0.35.0
 )
 
 require (

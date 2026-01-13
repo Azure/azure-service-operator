@@ -1,7 +1,7 @@
 # See here for image contents: https://github.com/devcontainers/images/blob/main/src/go/.devcontainer/Dockerfile
 
 # This is pinned to a particular version of go:
-FROM mcr.microsoft.com/devcontainers/go:1.24
+FROM mcr.microsoft.com/devcontainers/go:1.25
 
 # https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
 
