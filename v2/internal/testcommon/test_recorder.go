@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	v1 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v1"
-	v3 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v3"
+	v4 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v4"
 )
 
 // createTestRecorder returns an instance of testRecorder to allow recording and playback of HTTP requests.
@@ -37,5 +37,5 @@ func createTestRecorder(
 		return v1.NewTestPlayer(cassetteName, cfg)
 	}
 
-	return v3.NewTestRecorder(cassetteName, cfg, log)
+	return v4.NewTestRecorder(cassetteName, cfg, log)
 }
