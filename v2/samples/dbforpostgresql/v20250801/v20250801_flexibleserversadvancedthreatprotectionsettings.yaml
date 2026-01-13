@@ -1,0 +1,9 @@
+apiVersion: dbforpostgresql.azure.com/v20250801
+kind: FlexibleServersAdvancedThreatProtectionSettings
+metadata:
+  name: advancedprotection
+  namespace: default
+spec:
+  owner:
+    name: asosampleserver20250801
+  state: Enabled

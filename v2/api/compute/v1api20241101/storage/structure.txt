@@ -101,3 +101,15 @@ AvailabilitySet: Resource
         ├── Id: *string
         └── PropertyBag: genruntime.PropertyBag
 
+augmentConversionForInstanceViewStatus_STATUS: Interface
+
+augmentConversionForSku: Interface
+
+augmentConversionForSku_STATUS: Interface
+
+augmentConversionForSubResource: Interface
+
+augmentConversionForSubResource_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+

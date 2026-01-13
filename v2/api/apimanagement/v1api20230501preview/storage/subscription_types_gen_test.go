@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForSubscription(subject Subscription) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Subscription
+	var hub v20240501s.Subscription
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForSubscription(subject Subscription) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subscription
+	var other v20220801s.Subscription
 	err := copied.AssignProperties_To_Subscription(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForSubscriptionOperatorSecrets(subject Subscriptio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubscriptionOperatorSecrets
+	var other v20220801s.SubscriptionOperatorSecrets
 	err := copied.AssignProperties_To_SubscriptionOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForSubscriptionOperatorSpec(subject SubscriptionOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubscriptionOperatorSpec
+	var other v20220801s.SubscriptionOperatorSpec
 	err := copied.AssignProperties_To_SubscriptionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForSubscription_STATUS(subject Subscription_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subscription_STATUS
+	var other v20220801s.Subscription_STATUS
 	err := copied.AssignProperties_To_Subscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -497,7 +498,7 @@ func RunPropertyAssignmentTestForSubscription_Spec(subject Subscription_Spec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subscription_Spec
+	var other v20220801s.Subscription_Spec
 	err := copied.AssignProperties_To_Subscription_Spec(&other)
 	if err != nil {
 		return err.Error()

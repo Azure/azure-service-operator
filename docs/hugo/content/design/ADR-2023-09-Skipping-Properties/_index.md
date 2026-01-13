@@ -24,8 +24,6 @@ Consider a CRM system containing details of people. In v3 of the system, we capt
 
 <img src="./conversion-v3-v4-class.png" alt="Conversion from v3 to v4" />
 
-
-
 When we convert from v3 to v4 (v3 -> v4) the `ResidentialAddress` property gets serialized into the `PropertyBag` on the v4 Person. Note that the bag contains a v3 `Address` in a serialized form.
 
 To illustrate, consider this concrete example:
@@ -83,7 +81,7 @@ In v5, the `ResidentialAddress` is reintroduced, but with a different shape. Ins
 
 <img  src="./conversion-v4-v5-class.png" alt="Conversion from v4 to v5" />
 
-When we convert from v5 to v4, again the `ResidentialAddress` property gets serialized into the `PropertyBag` on the v4 Person. 
+When we convert from v5 to v4, again the `ResidentialAddress` property gets serialized into the `PropertyBag` on the v4 Person.
 
 Again, it's useful to see a concrete example:
 
@@ -116,7 +114,7 @@ Conversion back and forward between versions v4 and v5 works fine.
 
 ### The Problem
 
-Observe how we can end up with two different variants of v4 `Person`. 
+Observe how we can end up with two different variants of v4 `Person`.
 
 In one case, we have a v4 `Person` where the property bag contains a v3 `Address`.
 In the other case, we have a v4 `Person` the property bag contains a v5 `Address`:
@@ -147,8 +145,7 @@ While round trips between _adjacent_ versions work fine, we run into problems wh
 
 <img src="./conversion-v3-v4-v5-class.png" alt="Conversion from v3 to v4 to v5" />
 
-
-Compare the two different kinds of v4 Person we end up with for Mickey. 
+Compare the two different kinds of v4 Person we end up with for Mickey.
 
 First when we start from v3:
 
@@ -170,15 +167,15 @@ propertyBag:
     residentialAddress: "street:1313 S. Harbor Blvd;suburb:;city:Anaheim, CA 92803;country:USA"
 ```
 
-If we have a v4 `Person` that contains a v3 `Address` in the property bag, conversion to the v5 `Person` will fail when we try to deserialize a v5 `Address` from the v3 item. 
+If we have a v4 `Person` that contains a v3 `Address` in the property bag, conversion to the v5 `Person` will fail when we try to deserialize a v5 `Address` from the v3 item.
 
-This will cause the operator to fail at runtime. 
+This will cause the operator to fail at runtime.
 
 Similarly f we end up with a v4 `Person` that contains a v5 `Address` in the property bag, we can't deserialize a v3 `Address` and again the operator will fail at runtime.
 
 ### Constraint: Serialization format
 
-For each resource type, there's a specific hub version that's used for serialization - this is the version that's persisted within a cluster. All other versions are created on-the-fly by conversion from the hub version. By convention in ASO, this hub version is based on the the latest stable version of the resource, or the latest preview version if no stable version is available. 
+For each resource type, there's a specific hub version that's used for serialization - this is the version that's persisted within a cluster. All other versions are created on-the-fly by conversion from the hub version. By convention in ASO, this hub version is based on the the latest stable version of the resource, or the latest preview version if no stable version is available.
 
 In most cases, the hub version will be the version affected by changes to solve the skipping-property problem, so we have to assume that there are extant resources of that version.
 
@@ -217,11 +214,13 @@ In our example here, we would add a new `ResidentialAddress` property to the v4 
 The shape of `Address` when reintroduced will always match the shape of `Address` when removed, so we can always serialize the same shape in-to or out-of the property bag, ensuring any `Address` has the a consistent shape.
 
 Pros:
+
 * Works the way existing conversions do.
 * We have an existing contract for augmenting conversions with custom code, allowing us to handcode the conversion between v4 and v5 to handle the mismatch in the shapes of `Address`.
 * Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags
 
 Cons:
+
 * Changes the serialization format for existing v4 resources. This is a breaking change for existing resources.
 * Changes the object model of released resources, a breaking change for code consumers of ASO `api` packages.
 * When there are multi-generational skips, other questions arise: Do we introduce the new type into every intermediate version, only the last, or both first and last? Each approach has advantages and drawbacks.
@@ -280,7 +279,6 @@ We're already generating support to allow augmentation of the generated conversi
 
 It's highly desirable that we leverage this existing functionality for skipping properties, rather than building something new.
 
-
 ### Proposed Solution
 
 Given that any existing resources will have property bags containing instances in the earlier shape, standardize on using that shape - and only that shape - when storing the instance in the property bag.
@@ -307,7 +305,7 @@ if source.ResidentialAddress != nil {
 } else {
     propertyBag.Remove("ResidentialAddress")
 }
-``` 
+```
 
 Reading the value from the property bag will also need to change. Instead of:
 
@@ -325,6 +323,7 @@ if propertyBag.Contains("ResidentialAddress") {
     destination.ResidentialAddress = nil
 }
 ```
+
 We will read the earlier shape and convert it as required.
 
 ```go
@@ -371,8 +370,8 @@ To avoid problems with circular dependencies (as noted above), we will clone the
 
 Our existing conversion framework supports writing hand-crafted conversions between shapes, migrating data between the two shapes. By introducing a new type and leveraging the existing framework for the conversion, we gain support for writing these hand-crafted conversions between shapes.
 
-
 Pros:
+
 * Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags
 * Conversions are still driven by the earlier version, avoiding any issues with circular dependencies or needing to move conversion code elsewhere (e.g. to the later version).
 * Isolates the compatibility type in a dedicated subpackage, where it won't inadvertently be picked up by documentation tools or other code consumers. (If this is not important, we can instead target the main v4 package.)
@@ -381,9 +380,9 @@ Pros:
 * Serialization format of v4 remains unchanged, ensuring compatibility with existing releases of ASO.
 
 Cons:
-* Requires modification of the conversion-graph, which to this point has been immutable once constructed (we can't delay construction until after we inject the compatibility package as we need it to identify skipping properties).
-* When code generating for property conversions using a property bag, we'll need to detect and use the `compat` subpackage. 
 
+* Requires modification of the conversion-graph, which to this point has been immutable once constructed (we can't delay construction until after we inject the compatibility package as we need it to identify skipping properties).
+* When code generating for property conversions using a property bag, we'll need to detect and use the `compat` subpackage.
 
 ## Decision
 
@@ -399,9 +398,43 @@ TBC
 
 ## Experience Report
 
-TBC
+As implemented by [PR#3614](https://github.com/Azure/azure-service-operator/pull/3614), we can successfully handle most situations without requiring any manual intervention.
+
+There's an edge case, however, when the _type_ of the property changes between removal and reintroduction, as discovered with `containerservice.ManagedCluster`.
+
+The property `ManagedClusterAgentPoolProfile.GPUProfile` had the type `AgentPoolGPUProfile` in version `2024-04-02-preview`, but when it was reintroduced in `2025-08-01`, the type had been renamed to `GPUProfile`.
+
+This resulted in testing failures when the shape persisted in the property bag was inconsistent between directions, as predicted above.
+
+```
+Round trip from ManagedClustersAgentPool to hub returns original: Falsified after 1 passed tests.
+Labels of failing property: 
+  converting from destination to hub: 
+    converting from destination to hub: 
+      converting from destination to hub: 
+        calling AssignProperties_To_ManagedClustersAgentPool_Spec() to populate field Spec: 
+          pulling'GpuProfile' from propertyBag: 
+            pulling "GpuProfile" from PropertyBag: json: 
+              unknown field "installGPUDriver"
+```
+
+Automatic repair of the skipping property failed in this case because the code was unaware that the type had been renamed from `AgentPoolGPUProfile` to `GPUProfile`.
+
+A code fix has been implemented, but requires additional configuration to activate if this edge case recurs, as follows:
+
+On the version where the property is last seen, add `$nameInNextVersion: NewName` to the objectModelConfiguration section for each property type that's been renamed. Remember to do both the spec and status variants if applicable.
+
+```yaml
+  containerservice:
+    ...
+    2024-04-02-preview:
+      AgentPoolGPUProfile:
+        $nameInNextVersion: GPUProfile
+      AgentPoolGPUProfile_STATUS:
+        $nameInNextVersion: GPUProfile_STATUS
+    ...
+```
 
 ## References
 
 TBC
-``

@@ -38,44 +38,64 @@ var subRegex = regexp.MustCompile(`/([0]+-?)+`)
 // An empty GUID, used to replace the subscriptionID and tenantID in the sample files
 var emptyGUID = uuid.Nil.String()
 
-// exclusions slice contains RESOURCES to exclude from test
-var exclusions = []string{
-	// Excluding webtest as it contains hidden link reference
-	"webtest",
+var wholeSampleExclusions = []*regexp.Regexp{
+	regexp.MustCompile(`/cache/`),                               // Cache has issues with linked caches being able to delete
+	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
+	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
+	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
+	regexp.MustCompile(`dbforpostgresql/v20250801`),             // Fails due to a race condition saving owner updates that can result in children getting stalled. See #5062
+}
 
-	// Excluding dbformysql/user as is not an ARM resource
-	"user",
+var exclusions = []*regexp.Regexp{
+	// ------------------------------
+	// Individual resource exclusions
+	// ------------------------------
+	regexp.MustCompile(`insights/.*_webtest.yaml`), // Excluding webtest as it contains hidden link reference
+
+	// db users aren't ARM resources
+	regexp.MustCompile(`sql/.*_user.yaml`),
+	regexp.MustCompile(`dbformysql/.*_user.yaml`),
+	regexp.MustCompile(`dbformysql/.*_user_aad.yaml`),
+	regexp.MustCompile(`dbforpostgresql/.*_user.yaml`),
 
 	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
 	// which the samples recordings aren't using.
-	"serversadministrator",
-	"serversazureadonlyauthentication",
-	"serversfailovergroup", // Requires creating multiple linked SQL servers which is hard to do in the samples
+	regexp.MustCompile(`sql/.*_serversadministrator.yaml`),
+	regexp.MustCompile(`sql/.*_serversazureadonlyauthentication.yaml`),
+
+	// Requires creating multiple linked SQL servers which is hard to do in the samples
+	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
 
 	// TODO: Unable to test diskencryptionsets sample since it requires keyvault/key URI.
 	// TODO: we don't support Keyvault/Keys to automate the process
-	"diskencryptionset",
+	regexp.MustCompile(`compute/.*_diskencryptionset.yaml`),
 
 	// Excluding APIM Product and Subscription as we need to pass deleteSubscription flag to delete the subscription
 	// when we delete the Product. https://github.com/Azure/azure-service-operator/issues/3408
-	"api",
-	"apiversionset",
-	"product",
-	"subscription",
-	"productpolicy",
-	"productapi",
+	regexp.MustCompile(`apimanagement/.*_api.yaml`),
+	regexp.MustCompile(`apimanagement/.*_apiversionset.yaml`),
+	regexp.MustCompile(`apimanagement/.*_product.yaml`),
+	regexp.MustCompile(`apimanagement/.*_subscription.yaml`),
+	regexp.MustCompile(`apimanagement/.*_productpolicy.yaml`),
+	regexp.MustCompile(`apimanagement/.*_productapi.yaml`),
 
 	// Excluding cdn secret as it requires KV secrets
-	"secret",
+	regexp.MustCompile(`cdn/.*_secret.yaml`),
 
-	// Excluding SignalR CustomDomain and CustomCertificate becaues they require KV secrets/certs
-	"customdomain",
-	"customcertificate",
+	// Excluding SignalR CustomDomain and CustomCertificate because they require KV secrets/certs
+	regexp.MustCompile(`signalrservice/.*_customdomain.yaml`),
+	regexp.MustCompile(`signalrservice/.*_customcertificate.yaml`),
 
 	// [Issue #3091] Exclude backupvaultsbackupinstance as it requires role assignments to be created after backup instance is created to make it land into protection configured state.
-	"backupvaultsbackupinstance",
+	regexp.MustCompile(`dataprotection/.*_backupvaultsbackupinstance.yaml`),
 
-	"virtualnetworkgateway", // blocks RG deletion and causes networking tests to fail
+	regexp.MustCompile(`network/.*_virtualnetworkgateway.yaml`), // blocks RG deletion and causes networking tests to fail
+
+	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
+	regexp.MustCompile(`quota/.*_quota.yaml`),
+
+	// Excluding flexible servers administrator as we don't currently support AzureNameFromConfig and it is required for the sample
+	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 }
 
 type SamplesTester struct {
@@ -132,7 +152,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 
 	err := filepath.Walk(t.groupVersionPath,
 		func(filePath string, info os.FileInfo, err error) error {
-			if !info.IsDir() && !IsSampleExcluded(filePath, exclusions) {
+			if !info.IsDir() && !IsSampleFileExcluded(filePath) {
 				sample, err := t.getObjectFromFile(filePath)
 				if err != nil {
 					return eris.Wrapf(err, "loading sample from %s", filePath)
@@ -319,24 +339,26 @@ func PathContains(path string, matches []string) bool {
 	return false
 }
 
-func IsSampleExcluded(path string, exclusions []string) bool {
-	// Exclude evertying that's not a yaml file
+func IsSampleFolderExcluded(path string) bool {
+	for _, exclusion := range wholeSampleExclusions {
+		if exclusion.MatchString(path) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func IsSampleFileExcluded(path string) bool {
+	// Exclude everything that's not a yaml file
 	ext := filepath.Ext(path)
 	if ext != ".yaml" && ext != ".yml" {
 		return true
 	}
 
-	// Check our exclusion list
-	base := filepath.Base(path)
-	split := strings.Split(base, "_")
-	if len(split) < 2 {
-		return false
-	}
-	baseWithoutAPIVersion := split[1]
-	baseWithoutAPIVersion = strings.TrimSuffix(baseWithoutAPIVersion, filepath.Ext(baseWithoutAPIVersion))
-
+	// Check all exclusions
 	for _, exclusion := range exclusions {
-		if baseWithoutAPIVersion == exclusion {
+		if exclusion.MatchString(path) {
 			return true
 		}
 	}

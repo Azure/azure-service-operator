@@ -6,7 +6,7 @@ package v1api20230201
 import (
 	"encoding/json"
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
-	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -1370,7 +1370,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20240901s.ManagedCluster
+	var hub v20250801s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

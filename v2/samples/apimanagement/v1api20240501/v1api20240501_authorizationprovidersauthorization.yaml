@@ -1,0 +1,10 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: AuthorizationProvidersAuthorization
+metadata:
+  name: sampleauthorization
+  namespace: default
+spec:
+  authorizationType: "OAuth2"
+  oauth2GrantType: "AuthorizationCode"
+  owner:
+    name: sampleauthorizationprovider

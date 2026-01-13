@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.15.0
+  currentRelease: v2.17.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -452,6 +452,12 @@ typeTransformers:
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
   
+  - group: network
+    name: TrafficAnalyticsConfigurationProperties
+    property: WorkspaceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
   # 
   # In the group 'network'
   # remove the property 'Type'
@@ -1002,6 +1008,18 @@ status:
 #     The name in the serialized ARM payload does NOT change. This only changes the name of the property
 #     in the ASO types. The shape serialized to ARM uses the original name.
 #
+# $conversionStrategy: <string>
+#     Specifies a custom conversion strategy to use when converting between API versions.
+#     Only valid on properties which are complex types (i.e. objects) for which attempted automatic 
+#     conversion returns an error.
+#
+#     Valid values are:
+#     - auto - use automatic conversion (default)
+#     - manual - use manually implemented conversion functions
+#
+#     Note that manual implementation of the appropriate augment* interface(s) will be *required* 
+#     to make the generated conversion tests pass.
+#
 objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
@@ -1242,6 +1260,113 @@ objectModelConfiguration:
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $referenceType: arm
+    2024-05-01:
+      AdditionalLocation:
+        PublicIpAddressId:
+          $referenceType: arm
+      ApiCreateOrUpdateProperties:
+        ApiVersionSetId:
+          $referenceType: arm
+        SourceApiId:
+          $referenceType: arm
+      ApiVersionSetContractDetails:
+        Id: 
+          $referenceType: arm
+      ApiManagementServiceProperties:
+        PublicIpAddressId:
+          $referenceType: arm
+      AuthorizationAccessPolicyContractProperties:
+        TenantId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      AuthorizationContractProperties:
+        Parameters:
+          $isSecret: true
+      AuthorizationProviderOAuth2GrantTypes:
+        AuthorizationCode:
+          $isSecret: true
+        ClientCredentials:
+          $isSecret: true
+      BackendContractProperties:
+        ResourceId:
+          $referenceType: arm
+      BackendProxyContract:
+        Password:
+          $isSecret: true
+      CertificateInformation:
+        Expiry:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+        Thumbprint:
+          $importConfigMapMode: optional
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
+      KeyVaultContractCreateProperties:
+        IdentityClientId:
+          $importConfigMapMode: optional
+      Service:
+        $exportAs: Service
+        $supportedFrom: v2.16.0
+      Service_Api:
+        $exportAs: Api
+        $supportedFrom: v2.16.0
+      Service_ApiVersionSet:
+        $exportAs: ApiVersionSet
+        $supportedFrom: v2.16.0
+      Service_AuthorizationProvider:
+        $exportAs: AuthorizationProvider
+        $supportedFrom: v2.16.0
+      Service_AuthorizationProviders_Authorization:
+        $exportAs: AuthorizationProvidersAuthorization
+        $supportedFrom: v2.16.0
+      Service_AuthorizationProviders_Authorizations_AccessPolicy:
+        $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+        $supportedFrom: v2.16.0
+      Service_Backend:
+        $exportAs: Backend
+        $supportedFrom: v2.16.0
+      Service_NamedValue:
+        $exportAs: NamedValue
+        $supportedFrom: v2.16.0
+      Service_Policy:
+        $exportAs: Policy
+        $supportedFrom: v2.16.0
+      Service_PolicyFragment:
+        $exportAs: PolicyFragment
+        $supportedFrom: v2.16.0
+      Service_Product:
+        $exportAs: Product
+        $supportedFrom: v2.16.0
+      Service_Products_Api:
+        $exportAs: ProductApi
+        $supportedFrom: v2.16.0
+      Service_Products_Policy:
+        $exportAs: ProductPolicy
+        $supportedFrom: v2.16.0
+      Service_Subscription:
+        $exportAs: Subscription
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+      SubscriptionCreateParameterProperties:
+        PrimaryKey:
+          $isSecret: true
+        SecondaryKey:
+          $isSecret: true
+        OwnerId:
+          $referenceType: arm
+      VirtualNetworkConfiguration:
+        SubnetResourceId:
+          $referenceType: arm
   app:
     2025-01-01:
       ContainerApp:
@@ -1431,6 +1556,17 @@ objectModelConfiguration:
       BatchAccount:
         $exportAs: BatchAccount
         $supportedFrom: v2.0.0-alpha.1
+      BatchAccountIdentity_UserAssignedIdentities:
+        $nameInNextVersion: UserAssignedIdentities
+      BatchAccountIdentity_UserAssignedIdentities_STATUS:
+        $nameInNextVersion: UserAssignedIdentities_STATUS
+    2024-07-01:
+      BatchAccount:
+        $exportAs: BatchAccount
+        $supportedFrom: v2.17.0
+      ComputeNodeIdentityReference:
+        ResourceId:
+          $referenceType: arm
   cache:
     2020-12-01:
       Redis:
@@ -1462,6 +1598,9 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
     2023-04-01:
       Redis:
         $exportAs: Redis
@@ -1492,6 +1631,9 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
     2023-08-01:
       Redis:
         $exportAs: Redis
@@ -1569,6 +1711,9 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.15.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
@@ -1962,6 +2107,16 @@ objectModelConfiguration:
       SubResource:
         Id:
           $referenceType: arm
+    2025-04-01:
+      CapacityReservationGroup:
+        $exportAs: CapacityReservationGroup
+        $supportedFrom: v2.16.0
+      CapacityReservationGroups_CapacityReservation:
+        $exportAs: CapacityReservation
+        $supportedFrom: v2.16.0
+      SubResource:
+        Id:
+          $referenceType: arm
   containerinstance:
     2021-10-01:
       ContainerGroup:
@@ -1993,58 +2148,6 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
   containerservice:
     $payloadType: explicitCollections
-    2021-05-01:
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.0.0-alpha.1
-        $stripDocumentation: true
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        ProximityPlacementGroupID:
-          $referenceType: simple  # This is true in the next version and we have custom conversion to make round-tripping work
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.0.0-alpha.1
-      ManagedClusterAgentPoolProfileProperties:
-        ProximityPlacementGroupID:
-          $referenceType: simple # This is true in the next version and we have custom conversion to make round-tripping work
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2023-02-01:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2096,18 +2199,24 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
-    2023-03-15-preview:
+    2025-03-01:
       Fleet:
         $exportAs: Fleet
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.16.0
         $azureGeneratedSecrets:
           - UserCredentials
       Fleets_Member:
         $exportAs: FleetsMember
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.16.0
       Fleets_UpdateRun:
         $exportAs: FleetsUpdateRun
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.16.0
+      Fleets_UpdateStrategy:
+        $exportAs: FleetsUpdateStrategy
+        $supportedFrom: v2.16.0
+      Fleets_AutoUpgradeProfile:
+        $exportAs: FleetsAutoUpgradeProfile
+        $supportedFrom: v2.16.0
     2023-10-01:
       ContainerServiceNetworkProfile_NetworkPlugin:
         $renameTo: NetworkPlugin
@@ -2163,60 +2272,11 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
-    2023-11-02-preview:
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      DelegatedResource:
-        ResourceId:
-          $referenceType: arm
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.6.0
-        $stripDocumentation: true
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.6.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2024-04-02-preview:
+      AgentPoolGPUProfile:
+        $nameInNextVersion: GPUProfile
+      AgentPoolGPUProfile_STATUS:
+        $nameInNextVersion: GPUProfile_STATUS
       ContainerServiceSshPublicKey:
         KeyData:
           $isSecret: false
@@ -2324,6 +2384,70 @@ objectModelConfiguration:
       ManagedClusters_MaintenanceConfiguration:
         $exportAs: MaintenanceConfiguration
         $supportedFrom: v2.11.0
+      ScaleProfile:
+        Autoscale:
+          $conversionStrategy: manual
+      ScaleProfile_STATUS:
+        Autoscale:
+          $conversionStrategy: manual
+      UserAssignedIdentity:
+        ClientId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+    2025-08-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
+      DelegatedResource:
+        ResourceId:
+          $referenceType: arm
+      ManagedCluster:
+        $exportAs: ManagedCluster
+        $supportedFrom: v2.16.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.16.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $referenceType: arm
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.16.0
+      ManagedClusters_MaintenanceConfiguration:
+        $exportAs: MaintenanceConfiguration
+        $supportedFrom: v2.16.0
       UserAssignedIdentity:
         ClientId:
           $importConfigMapMode: optional
@@ -2421,7 +2545,8 @@ objectModelConfiguration:
         $nameInNextVersion: MySQLServerSku_STATUS
       ServerProperties:
         SourceServerResourceId:
-          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here. It's fixed in 2023-06-30
+          $referenceType: simple 
     2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
@@ -2661,6 +2786,62 @@ objectModelConfiguration:
       FlexibleServers_VirtualEndpoint:  # TODO: net new
         $exportAs: FlexibleServersVirtualEndpoint
         $supportedFrom: v2.13.0
+      ServerProperties:
+        SourceServerResourceId:
+          $referenceType: arm
+      Network:
+        DelegatedSubnetResourceId:
+          $referenceType: arm
+        PrivateDnsZoneArmResourceId:
+          $referenceType: arm
+    2025-08-01:
+      DataEncryption:
+        GeoBackupKeyURI:
+          $importConfigMapMode: optional
+        GeoBackupUserAssignedIdentityId:
+          $referenceType: arm
+        PrimaryKeyURI:
+          $importConfigMapMode: optional
+        PrimaryUserAssignedIdentityId:
+          $referenceType: arm
+      FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $exportAs: FlexibleServer
+        $supportedFrom: v2.17.0
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Administrator:
+        $exportAs: FlexibleServersAdministrator
+        $supportedFrom: v2.17.0
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.17.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.17.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.17.0
+      FlexibleServers_Backup:
+        $exportAs: FlexibleServersBackup
+        $supportedFrom: v2.17.0
+      FlexibleServers_AdvancedThreatProtectionSetting:
+        $exportAs: FlexibleServersAdvancedThreatProtectionSettings
+        $supportedFrom: v2.17.0
+      FlexibleServers_VirtualEndpoint:
+        $exportAs: FlexibleServersVirtualEndpoint
+        $supportedFrom: v2.17.0
+      AdministratorMicrosoftEntraPropertiesForAdd:
+        PrincipalName:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      AuthConfig:
+        TenantId:
+          $importConfigMapMode: optional
+        # AzureName:  # TODO: Does this work? Nope.
+        #   $importConfigMapMode: optional
       ServerProperties:
         SourceServerResourceId:
           $referenceType: arm
@@ -3070,6 +3251,9 @@ objectModelConfiguration:
       WebtestLocationAvailabilityCriteria:
         ComponentId:
           $referenceType: arm
+      MetricAlertAction:
+        ActionGroupId:
+          $referenceType: arm+compat
       MetricAlertProperties:
         Scopes:
           $referenceType: arm
@@ -3490,11 +3674,11 @@ objectModelConfiguration:
           $referenceType: arm
       IdentityForCmk:
         UserAssignedIdentity:
-          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: arm+compat
       KeyVaultProperties:
         $nameInNextVersion: EncryptionKeyVaultProperties
         KeyVaultArmId:
-          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: arm+compat
       Kubernetes:
         ResourceId:
           $referenceType: arm
@@ -3808,6 +3992,12 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.0.0
+      ARecord:
+        Ipv4Address:
+          $importConfigMapMode: optional
+      AaaaRecord:
+        Ipv6Address:
+          $importConfigMapMode: optional
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
@@ -4290,8 +4480,29 @@ objectModelConfiguration:
       PrivateDnsZones_TXT:
         $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.11.0
+      ARecord:
+        Ipv4Address:
+          $importConfigMapMode: optional
+      AaaaRecord:
+        Ipv6Address:
+          $importConfigMapMode: optional
       SubResource:
         Id:
+          $referenceType: arm
+    2024-10-01:
+      NetworkWatcher:
+        $exportAs: NetworkWatcher
+        $supportedFrom: v2.16.0
+      NetworkWatchers_FlowLog:
+        $exportAs: NetworkWatchersFlowLog
+        $supportedFrom: v2.16.0
+      FlowLogPropertiesFormat:
+        StorageId:
+          $referenceType: arm
+        TargetResourceId:
+          $referenceType: arm
+      TrafficAnalyticsConfigurationProperties:
+        WorkspaceResourceId:
           $referenceType: arm
   network.frontdoor:
     2022-05-01:
@@ -4332,9 +4543,30 @@ objectModelConfiguration:
       Workspace:
         $exportAs: Workspace
         $supportedFrom: v2.0.0-alpha.4
+        $azureGeneratedSecrets:
+          - PrimarySharedKey
+          - SecondarySharedKey
       WorkspaceFeatures:
         ClusterResourceId:
           $referenceType: arm
+    2025-07-01:
+      Workspace:
+        $exportAs: Workspace
+        $supportedFrom: v2.17.0
+        $azureGeneratedSecrets:
+          - PrimarySharedKey
+          - SecondarySharedKey
+      WorkspaceProperties:
+        DefaultDataCollectionRuleResourceId:
+          $referenceType: arm
+      WorkspaceFeatures:
+        ClusterResourceId:
+          $referenceType: arm
+  quota:
+    2025-09-01:
+      Quota:
+        $exportAs: Quota
+        $supportedFrom: v2.16.0
   resources:
     2020-06-01:
       ResourceGroup:
@@ -4528,6 +4760,11 @@ objectModelConfiguration:
       Namespaces_Topics_AuthorizationRule:
         $exportAs: TopicAuthorizationRule
         $supportedFrom: v2.13.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
       Namespaces_Topics_AuthorizationRule_Properties_Rights_Spec:
         $renameTo: TopicAuthorizationRuleRights_Spec
       Namespaces_Topics_AuthorizationRule_Properties_Rights_STATUS:

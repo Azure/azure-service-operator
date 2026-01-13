@@ -1,0 +1,691 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 135
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"cores","properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":100},"name":{"value":"cores"}}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "135"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 51d805b3cc11a5b798ff4e6203823d82880a820a525e19af6d01b8cda54c6a5e
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 454
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":100},"name":{"value":"CORES"},"properties":{},"provisioningState":"InProgress","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotaRequests/1283f948-3272-4ebd-9fbc-b3a0c2059bd6","type":"Microsoft.Quota/Quotas","name":"1283f948-3272-4ebd-9fbc-b3a0c2059bd6"}'
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "454"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+            Ms-Requestid:
+                - _h0gfHmR5EK7ptNoG8YOaQ.0
+            Retry-After:
+                - "30"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/centralindia/644cba29-4776-46f3-8c53-4a7558a84f0d
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: BD9FC1EB7A474D5282E9767C3C4B8643 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:13:17Z'
+        status: 202 Accepted
+        code: 202
+        duration: 2.78040858s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 331
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6","name":"1283f948-3272-4ebd-9fbc-b3a0c2059bd6","startTime":"2001-02-03T04:05:06Z","status":"InProgress","type":"Microsoft.Quota/OperationsStatus"}'
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "331"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+            Ms-Requestid:
+                - XlLgBjCgCESh6TSnZeC7Rw.0
+            Retry-After:
+                - "30"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/4a305235-bfc3-4a98-9236-ee6d771d9ce3
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 1A07D896063B4D27AF8E76962093B781 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:13:24Z'
+        status: 200 OK
+        code: 200
+        duration: 1.29585036s
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 330
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1283f948-3272-4ebd-9fbc-b3a0c2059bd6","name":"1283f948-3272-4ebd-9fbc-b3a0c2059bd6","startTime":"2001-02-03T04:05:06Z","status":"Succeeded","type":"Microsoft.Quota/OperationsStatus"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "330"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotaRequests/1283f948-3272-4ebd-9fbc-b3a0c2059bd6?api-version=2025-09-01
+            Ms-Requestid:
+                - BDB4WIk8JkOmJCnqa9ev9A.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/centralindia/2693256b-7fd2-48d0-ab23-879c68cfabd2
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: EDA21B7F87404E3180F697B7FCA7EF34 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:13:57Z'
+        status: 200 OK
+        code: 200
+        duration: 2.096394641s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 407
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":100},"name":{"value":"cores","localizedValue":"Total Regional vCPUs"},"properties":{},"unit":"Count","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores","type":"Microsoft.Quota/Quotas","name":"cores"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "407"
+            Content-Type:
+                - application/json
+            Ms-Requestid:
+                - wWt26HxHhkSAILet4597Gw.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/026e0f11-89dd-4075-9d53-0f9f28ab087b
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 3C4B1523A46847B48682C84A04367CEA Ref B: PNQ231110909034 Ref C: 2025-10-17T16:14:01Z'
+        status: 200 OK
+        code: 200
+        duration: 2.06907232s
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 407
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":100},"name":{"value":"cores","localizedValue":"Total Regional vCPUs"},"properties":{},"unit":"Count","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores","type":"Microsoft.Quota/Quotas","name":"cores"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "407"
+            Content-Type:
+                - application/json
+            Ms-Requestid:
+                - n8ZUTJQMzkSNfxEZgqsfXA.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/484e2820-15b4-4122-8ddf-f262a2e2c8ab
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: C131F192F4FE42B392A8EB17A7156DE0 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:14:05Z'
+        status: 200 OK
+        code: 200
+        duration: 2.198230898s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 135
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"cores","properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":200},"name":{"value":"cores"}}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "135"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - e66efc2cdee065eecb8e8cadbf27dde9282ad271612111ba2cf12aa7bc488a2f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 454
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":200},"name":{"value":"CORES"},"properties":{},"provisioningState":"InProgress","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotaRequests/1beafaad-de74-4d3f-af4a-b8885db86b67","type":"Microsoft.Quota/Quotas","name":"1beafaad-de74-4d3f-af4a-b8885db86b67"}'
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "454"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Ms-Requestid:
+                - NTnh9ghdVkO4aF8FNnjLYA.0
+            Retry-After:
+                - "30"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/12821952-4f13-4eab-b934-08201bced43a
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "799"
+            X-Msedge-Ref:
+                - 'Ref A: FBD78C886D39479D90CD0050F4A0318C Ref B: PNQ231110909034 Ref C: 2025-10-17T16:14:14Z'
+        status: 202 Accepted
+        code: 202
+        duration: 1.91968378s
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 331
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67","name":"1beafaad-de74-4d3f-af4a-b8885db86b67","startTime":"2001-02-03T04:05:06Z","status":"InProgress","type":"Microsoft.Quota/OperationsStatus"}'
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "331"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Ms-Requestid:
+                - sczxSNy8R0ixQ57i84nSZA.0
+            Retry-After:
+                - "30"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/centralindia/e3f63734-3346-4e98-acbc-b6f7db298478
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: C323AF555FF64D8C86C4F993293E87E3 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:14:19Z'
+        status: 200 OK
+        code: 200
+        duration: 1.708615027s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 331
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67","name":"1beafaad-de74-4d3f-af4a-b8885db86b67","startTime":"2001-02-03T04:05:06Z","status":"InProgress","type":"Microsoft.Quota/OperationsStatus"}'
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "331"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Ms-Requestid:
+                - lxyGOVBjkkme03oeaGJCMQ.0
+            Retry-After:
+                - "30"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/803073cb-2696-4dbb-8717-1234d3f8314d
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: 2C1AC0778058405CB854A511AAFD23C8 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:14:52Z'
+        status: 200 OK
+        code: 200
+        duration: 1.350291439s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 330
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/operationsStatus/1beafaad-de74-4d3f-af4a-b8885db86b67","name":"1beafaad-de74-4d3f-af4a-b8885db86b67","startTime":"2001-02-03T04:05:06Z","status":"Succeeded","type":"Microsoft.Quota/OperationsStatus"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "330"
+            Content-Type:
+                - application/json
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotaRequests/1beafaad-de74-4d3f-af4a-b8885db86b67?api-version=2025-09-01
+            Ms-Requestid:
+                - 9x5gHuK5h0qLxHIRjzLXAQ.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/centralindia/0ce2f19e-b176-40c9-a5fd-5645dc79a434
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "1099"
+            X-Msedge-Ref:
+                - 'Ref A: B1F748F7359A48C29BF534AF9DC41BF1 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:15:25Z'
+        status: 200 OK
+        code: 200
+        duration: 892.098826ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 407
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":200},"name":{"value":"cores","localizedValue":"Total Regional vCPUs"},"properties":{},"unit":"Count","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores","type":"Microsoft.Quota/Quotas","name":"cores"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "407"
+            Content-Type:
+                - application/json
+            Ms-Requestid:
+                - bmUTrQuZXUqAEaIMyhkJ1w.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/22417406-36bc-4024-8814-2543df49e6e0
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: A5E815848FFA46138A0DE728AA074AA7 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:15:27Z'
+        status: 200 OK
+        code: 200
+        duration: 2.154679202s
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 407
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":200},"name":{"value":"cores","localizedValue":"Total Regional vCPUs"},"properties":{},"unit":"Count","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores","type":"Microsoft.Quota/Quotas","name":"cores"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "407"
+            Content-Type:
+                - application/json
+            Ms-Requestid:
+                - 2JCGBIR-FkC-BHRIfe0wcA.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/westindia/fdfbd592-c38a-4d39-a627-0ff61adc82cc
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 368A5F4EF1BB44E19CF6A5CC2450F5FF Ref B: PNQ231110909034 Ref C: 2025-10-17T16:15:31Z'
+        status: 200 OK
+        code: 200
+        duration: 1.725247612s
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "4"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores?api-version=2025-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 407
+        uncompressed: false
+        body: '{"properties":{"limit":{"limitObjectType":"LimitValue","limitType":"Independent","value":200},"name":{"value":"cores","localizedValue":"Total Regional vCPUs"},"properties":{},"unit":"Count","isQuotaApplicable":true},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/providers/Microsoft.Quota/quotas/cores","type":"Microsoft.Quota/Quotas","name":"cores"}'
+        headers:
+            Cache-Control:
+                - no-store, must-revalidate, no-cache
+            Content-Length:
+                - "407"
+            Content-Type:
+                - application/json
+            Ms-Requestid:
+                - AubYk0VqP0adny9lPoEZxQ.0
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=7d5df4ea-e524-446c-a4ed-58ec625e2f70/southindia/0431430c-60ac-4131-92b6-80118475b72a
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "3749"
+            X-Msedge-Ref:
+                - 'Ref A: 3B908DA574964F588DF5D2F0AA868215 Ref B: PNQ231110909034 Ref C: 2025-10-17T16:15:40Z'
+        status: 200 OK
+        code: 200
+        duration: 2.204630971s

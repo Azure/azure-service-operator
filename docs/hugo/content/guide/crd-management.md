@@ -151,8 +151,7 @@ For manually installed CRDs, [`asoctl clean crds`]( {{< relref "asoctl#clean-crd
 CRDs for upgrade when a CRD version that was previously a storage version was removed.
 
 For ASO managed CRDs, ASO will automatically clean up the old storage versions when it's upgraded to the new version
-that removed those CRDs. **Note:** This is not yet implemented, it is being tracked by 
-[#4376](https://github.com/Azure/azure-service-operator/issues/4376).
+that removed those CRDs.
 
 ## Best Practices
 

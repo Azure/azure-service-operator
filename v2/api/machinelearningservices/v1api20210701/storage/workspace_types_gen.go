@@ -3315,6 +3315,10 @@ func (settings *CosmosDbSettings_STATUS) AssignProperties_To_CosmosDbSettings_ST
 type IdentityForCmk struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
+
+	// UserAssignedIdentityReference: The ArmId of the user assigned identity that will be used to access the customer managed
+	// key vault
+	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
 // AssignProperties_From_IdentityForCmk populates our IdentityForCmk from the provided source IdentityForCmk
@@ -3337,9 +3341,10 @@ func (forCmk *IdentityForCmk) AssignProperties_From_IdentityForCmk(source *stora
 
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
-		propertyBag.Add("UserAssignedIdentityReference", *source.UserAssignedIdentityReference)
+		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
+		forCmk.UserAssignedIdentityReference = &userAssignedIdentityReference
 	} else {
-		propertyBag.Remove("UserAssignedIdentityReference")
+		forCmk.UserAssignedIdentityReference = nil
 	}
 
 	// Update the property bag
@@ -3375,13 +3380,8 @@ func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *st
 	}
 
 	// UserAssignedIdentityReference
-	if propertyBag.Contains("UserAssignedIdentityReference") {
-		var userAssignedIdentityReference genruntime.ResourceReference
-		err := propertyBag.Pull("UserAssignedIdentityReference", &userAssignedIdentityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UserAssignedIdentityReference' from propertyBag")
-		}
-
+	if forCmk.UserAssignedIdentityReference != nil {
+		userAssignedIdentityReference := forCmk.UserAssignedIdentityReference.Copy()
 		destination.UserAssignedIdentityReference = &userAssignedIdentityReference
 	} else {
 		destination.UserAssignedIdentityReference = nil
@@ -3472,10 +3472,14 @@ func (forCmk *IdentityForCmk_STATUS) AssignProperties_To_IdentityForCmk_STATUS(d
 
 // Storage version of v1api20210701.KeyVaultProperties
 type KeyVaultProperties struct {
-	IdentityClientId *string                `json:"identityClientId,omitempty"`
-	KeyIdentifier    *string                `json:"keyIdentifier,omitempty"`
-	KeyVaultArmId    *string                `json:"keyVaultArmId,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	IdentityClientId *string `json:"identityClientId,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
+	KeyVaultArmId    *string `json:"keyVaultArmId,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// KeyVaultArmReference: The ArmId of the keyVault where the customer owned encryption key is present.
+	KeyVaultArmReference *genruntime.ResourceReference `armReference:"KeyVaultArmId" json:"keyVaultArmReference,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_EncryptionKeyVaultProperties populates our KeyVaultProperties from the provided source EncryptionKeyVaultProperties
@@ -3511,9 +3515,10 @@ func (properties *KeyVaultProperties) AssignProperties_From_EncryptionKeyVaultPr
 
 	// KeyVaultArmReference
 	if source.KeyVaultArmReference != nil {
-		propertyBag.Add("KeyVaultArmReference", *source.KeyVaultArmReference)
+		keyVaultArmReference := source.KeyVaultArmReference.Copy()
+		properties.KeyVaultArmReference = &keyVaultArmReference
 	} else {
-		propertyBag.Remove("KeyVaultArmReference")
+		properties.KeyVaultArmReference = nil
 	}
 
 	// Update the property bag
@@ -3568,13 +3573,8 @@ func (properties *KeyVaultProperties) AssignProperties_To_EncryptionKeyVaultProp
 	}
 
 	// KeyVaultArmReference
-	if propertyBag.Contains("KeyVaultArmReference") {
-		var keyVaultArmReference genruntime.ResourceReference
-		err := propertyBag.Pull("KeyVaultArmReference", &keyVaultArmReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'KeyVaultArmReference' from propertyBag")
-		}
-
+	if properties.KeyVaultArmReference != nil {
+		keyVaultArmReference := properties.KeyVaultArmReference.Copy()
 		destination.KeyVaultArmReference = &keyVaultArmReference
 	} else {
 		destination.KeyVaultArmReference = nil

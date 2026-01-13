@@ -111,9 +111,21 @@ func RegisterAll(
 	}
 	mgr.GetLogger().V(Info).Info("Registering informer for type", "type", secretGVK.String())
 	// We don't need to block until synced, we just want to make sure the informer is going to start
-	_, err := mgr.GetCache().GetInformerForKind(context.Background(), secretGVK, cache.BlockUntilSynced(false))
-	if err != nil {
+	if _, err := mgr.GetCache().GetInformerForKind(context.Background(), secretGVK, cache.BlockUntilSynced(false)); err != nil {
 		return eris.Wrapf(err, "failed to start informer for secrets")
+	}
+
+	// Start informer for configmaps. Not all ASO resources have registered for events from configmaps, but we always need the ability
+	// to read configmaps. This ensures the cache is populated since ReaderFailOnMissingInformer is true.
+	configMapGVK := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "ConfigMap",
+	}
+	mgr.GetLogger().V(Info).Info("Registering informer for type", "type", configMapGVK.String())
+	// We don't need to block until synced, we just want to make sure the informer is going to start
+	if _, err := mgr.GetCache().GetInformerForKind(context.Background(), configMapGVK, cache.BlockUntilSynced(false)); err != nil {
+		return eris.Wrapf(err, "failed to start informer for configmaps")
 	}
 
 	var errs []error
@@ -204,7 +216,9 @@ func registerNamespaceWatcher(kubeclient kubeclient.Client, gvk schema.GroupVers
 		}
 		// list the objects for the current kind
 
-		log.V(Verbose).Info("Detected namespace reconcile-policy annotation", "namespace", obj.GetName())
+		log.V(Verbose).Info("Detected namespace reconcile-policy annotation change",
+			"namespace", obj.GetName(),
+			"reconcile-policy", obj.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"])
 		for _, el := range aList.Items {
 			if _, ok := el.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
 				// If the annotation is defined for the object, there's no need to reconcile it and we skip the object

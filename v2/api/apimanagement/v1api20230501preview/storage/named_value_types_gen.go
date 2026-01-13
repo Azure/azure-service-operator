@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230501preview.NamedValue
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimnamedvalues.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimnamedvalues.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}
 type NamedValue struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &NamedValue{}
 
 // ConvertFrom populates our NamedValue from the provided hub NamedValue
 func (value *NamedValue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamedValue)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/NamedValue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamedValue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return value.AssignProperties_From_NamedValue(source)
+	err = value.AssignProperties_From_NamedValue(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to value")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamedValue from our NamedValue
 func (value *NamedValue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamedValue)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/NamedValue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamedValue
+	err := value.AssignProperties_To_NamedValue(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from value")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return value.AssignProperties_To_NamedValue(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamedValue{}
@@ -247,7 +260,7 @@ func (value *NamedValue) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230501preview.NamedValue
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimnamedvalues.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimnamedvalues.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}
 type NamedValueList struct {
 	metav1.TypeMeta `json:",inline"`

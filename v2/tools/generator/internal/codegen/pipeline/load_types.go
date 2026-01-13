@@ -813,10 +813,9 @@ func loadAllSchemas(
 				return nil
 			}
 
-			pkg := astmodel.MakeLocalPackageReference(
+			pkg := astmodel.MakeVersionedLocalPackageReference(
 				localPathPrefix,
 				idFactory.CreateGroupName(group),
-				astmodel.GeneratorVersion,
 				version)
 
 			// We need the file if the version is short (e.g. "v1") because those are often shared between

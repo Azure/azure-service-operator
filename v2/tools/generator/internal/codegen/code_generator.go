@@ -169,6 +169,8 @@ func createAllPipelineStages(
 		// but we include it to hedge against future changes
 		pipeline.RemoveEmptyObjects(log),
 
+		pipeline.MoveTypesForVersionMigration(configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
+
 		pipeline.VerifyNoErroredTypes(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
@@ -221,11 +223,11 @@ func createAllPipelineStages(
 		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
-		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
-		pipeline.RepairSkippingProperties().UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.RepairSkippingProperties(configuration.ObjectModelConfiguration, log).UsedFor(pipeline.ARMTarget),
 
 		// Need to regenerate the conversion graph in case our repairs for Skipping properties changed things
-		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph(configuration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory, log).UsedFor(pipeline.ARMTarget),

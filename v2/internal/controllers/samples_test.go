@@ -28,15 +28,6 @@ import (
 
 const samplesPath = "../../samples"
 
-// skipTests slice contains the groups to skip from being tested.
-var skipTests = []string{
-	// TODO: Cache has issues with linked caches being able to delete
-	"/cache/",
-	"/subscription/",                        // Can't easily be run/recorded in our standard subscription
-	"/redhatopenshift/",                     // This requires SP creation
-	"/documentdb/sqldatabase/v1api20210515", // This is blocked by corp policy (can't set DisableLocalAuth)
-}
-
 // randomNameExclusions slice contains groups for which we don't want to use random names
 var randomNameExclusions = []string{
 	"/authorization/",
@@ -50,6 +41,7 @@ var randomNameExclusions = []string{
 	"/web/",
 	"/app/",
 	"/dbforpostgresql/v1api20240801", // Only required starting when we added virtualendpoints support
+	"/dbforpostgresql/v20250801",     // Only required starting when we added virtualendpoints support
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
@@ -61,12 +53,12 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 
-	regex, err := regexp.Compile("^v1(api|beta)?[a-z0-9]*$")
+	regex, err := regexp.Compile("^v(1api)?[a-z0-9]*$")
 	g.Expect(err).To(BeNil())
 
 	_ = filepath.WalkDir(samplesPath,
 		func(filePath string, info os.DirEntry, err error) error {
-			if info.IsDir() && !testcommon.PathContains(filePath, skipTests) {
+			if info.IsDir() && !testcommon.IsSampleFolderExcluded(filePath) {
 				basePath := filepath.Base(filePath)
 				// proceed only if the base path is the matching versions.
 				if regex.MatchString(basePath) {

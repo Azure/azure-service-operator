@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230501preview.ProductApi
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimproducts.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}
 type ProductApi struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ProductApi{}
 
 // ConvertFrom populates our ProductApi from the provided hub ProductApi
 func (productApi *ProductApi) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ProductApi)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ProductApi
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return productApi.AssignProperties_From_ProductApi(source)
+	err = productApi.AssignProperties_From_ProductApi(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to productApi")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ProductApi from our ProductApi
 func (productApi *ProductApi) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ProductApi)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ProductApi
+	err := productApi.AssignProperties_To_ProductApi(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from productApi")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return productApi.AssignProperties_To_ProductApi(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ProductApi{}
@@ -246,7 +259,7 @@ func (productApi *ProductApi) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230501preview.ProductApi
 // Generator information:
-// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json
+// - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/preview/2023-05-01-preview/apimproducts.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}
 type ProductApiList struct {
 	metav1.TypeMeta `json:",inline"`

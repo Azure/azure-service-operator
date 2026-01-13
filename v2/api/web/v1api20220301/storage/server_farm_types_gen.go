@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220301.ServerFarm
 // Generator information:
-// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
+// - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (farm *ServerFarm) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20220301.ServerFarm
 // Generator information:
-// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
+// - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
 type ServerFarmList struct {
 	metav1.TypeMeta `json:",inline"`

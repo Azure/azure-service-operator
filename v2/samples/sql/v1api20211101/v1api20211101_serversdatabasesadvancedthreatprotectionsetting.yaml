@@ -3,6 +3,10 @@ kind: ServersDatabasesAdvancedThreatProtectionSetting
 metadata:
   name: aso-sample-atp
   namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent database
+    # We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: aso-sample-db

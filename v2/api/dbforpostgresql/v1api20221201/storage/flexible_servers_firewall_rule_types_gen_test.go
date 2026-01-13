@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FlexibleServersFirewallRule
+	var hub v20250801s.FlexibleServersFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersFirewallRule
+	var other v20240801s.FlexibleServersFirewallRule
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRuleOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersFirewallRuleOperatorSpec
+	var other v20240801s.FlexibleServersFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule_STATUS(subject Flex
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersFirewallRule_STATUS
+	var other v20240801s.FlexibleServersFirewallRule_STATUS
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -400,7 +401,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule_Spec(subject Flexib
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersFirewallRule_Spec
+	var other v20240801s.FlexibleServersFirewallRule_Spec
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()

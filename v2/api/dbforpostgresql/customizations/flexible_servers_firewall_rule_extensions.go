@@ -11,23 +11,22 @@ import (
 
 	"github.com/go-logr/logr"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &FlexibleServersFirewallRuleExtension{}
+var _ extensions.PreReconciliationOwnerChecker = &FlexibleServersFirewallRuleExtension{}
 
-func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
+func (ext *FlexibleServersFirewallRuleExtension) PreReconcileOwnerCheck(
 	ctx context.Context,
-	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	next extensions.PreReconcileCheckFunc,
+	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
 	// Owner nil can happen if the server/owner of the firewall rule is referenced by armID
@@ -37,11 +36,11 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
 			if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
 				return extensions.BlockReconcile(
 					fmt.Sprintf(
-						"Owning FlexibleServer is in provisioning state %q",
+						"Owning FlexibleServer is in state %q",
 						*serverState)), nil
 			}
 		}
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient, log)
+	return next(ctx, owner, resourceResolver, armClient, log)
 }

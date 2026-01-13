@@ -36,7 +36,7 @@ func TestCreateConversionGraph(t *testing.T) {
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateConversionGraph(cfg, "v"))
+		CreateConversionGraph(cfg))
 	g.Expect(err).To(Succeed())
 
 	g.Expect(finalState.Definitions()).To(HaveLen(6))

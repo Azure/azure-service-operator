@@ -10,6 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/go-logr/logr"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -35,14 +37,14 @@ func TestSkippingPropertyRepairer_AddProperty_CreatesExpectedChain(t *testing.T)
 	defs.AddAll(person2020s, person2021s, person2022s)
 
 	cfg := config.NewObjectModelConfiguration()
-	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder := storage.NewConversionGraphBuilder(cfg)
 	builder.Add(person2020.Name(), person2020s.Name())
 	builder.Add(person2021.Name(), person2021s.Name())
 	builder.Add(person2022.Name(), person2022s.Name())
 	graph, err := builder.Build()
 	g.Expect(err).NotTo(HaveOccurred())
 
-	repairer := newSkippingPropertyRepairer(defs, graph)
+	repairer := newSkippingPropertyRepairer(defs, graph, cfg, logr.Discard())
 	err = repairer.AddProperties(person2020.Name(), test.FullNameProperty)
 	g.Expect(err).NotTo(HaveOccurred())
 
@@ -75,8 +77,8 @@ func TestSkippingPropertyRepairer_findBreak_returnsExpectedResults(t *testing.T)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
-	graph, _ := storage.NewConversionGraphBuilder(cfg, "v").Build()
-	repairer := newSkippingPropertyRepairer(defs, graph)
+	graph, _ := storage.NewConversionGraphBuilder(cfg).Build()
+	repairer := newSkippingPropertyRepairer(defs, graph, cfg, logr.Discard())
 
 	repairer.addLink(alphaSeen, betaSeen)
 	repairer.addLink(betaSeen, gammaSeen)
@@ -139,15 +141,15 @@ func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_DoesNotChangeDefin
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(cfg.ObjectModelConfiguration, logr.Discard()), // and then we get to run the stage we're testing
 	)
 
 	// Assert - we expect no error, and no new definitions
@@ -178,15 +180,15 @@ func Test_RepairSkippingProperties_WhenPropertyStructurlyIdentical_DoesNotChange
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(cfg.ObjectModelConfiguration, logr.Discard()), // and then we get to run the stage we're testing
 	)
 	g.Expect(err).To(BeNil())
 
@@ -218,15 +220,15 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditi
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
 	// Act - run the Repairer stage
 	finalState, err := RunTestPipeline(
 		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(cfg.ObjectModelConfiguration, logr.Discard()), // and then we get to run the stage we're testing
 	)
 
 	// Assert - we expect no error, and one new definition

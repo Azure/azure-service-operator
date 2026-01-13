@@ -5,7 +5,8 @@ package v1api20210601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
+	v20250701s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v20250701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkScopedResource_STATUS
+	var other v20210601s.PrivateLinkScopedResource_STATUS
 	err := copied.AssignProperties_To_PrivateLinkScopedResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -140,7 +141,7 @@ func RunResourceConversionTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Workspace
+	var hub v20250701s.Workspace
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Workspace
+	var other v20210601s.Workspace
 	err := copied.AssignProperties_To_Workspace(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +286,7 @@ func RunPropertyAssignmentTestForWorkspaceCapping(subject WorkspaceCapping) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceCapping
+	var other v20210601s.WorkspaceCapping
 	err := copied.AssignProperties_To_WorkspaceCapping(&other)
 	if err != nil {
 		return err.Error()
@@ -387,7 +388,7 @@ func RunPropertyAssignmentTestForWorkspaceCapping_STATUS(subject WorkspaceCappin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceCapping_STATUS
+	var other v20210601s.WorkspaceCapping_STATUS
 	err := copied.AssignProperties_To_WorkspaceCapping_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -498,7 +499,7 @@ func RunPropertyAssignmentTestForWorkspaceFeatures(subject WorkspaceFeatures) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceFeatures
+	var other v20210601s.WorkspaceFeatures
 	err := copied.AssignProperties_To_WorkspaceFeatures(&other)
 	if err != nil {
 		return err.Error()
@@ -603,7 +604,7 @@ func RunPropertyAssignmentTestForWorkspaceFeatures_STATUS(subject WorkspaceFeatu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceFeatures_STATUS
+	var other v20210601s.WorkspaceFeatures_STATUS
 	err := copied.AssignProperties_To_WorkspaceFeatures_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -693,6 +694,103 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeatures_STATUS(gens map[string
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_WorkspaceOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceOperatorSecrets to WorkspaceOperatorSecrets via AssignProperties_To_WorkspaceOperatorSecrets & AssignProperties_From_WorkspaceOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceOperatorSecrets, WorkspaceOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceOperatorSecrets tests if a specific instance of WorkspaceOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceOperatorSecrets(subject WorkspaceOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210601s.WorkspaceOperatorSecrets
+	err := copied.AssignProperties_To_WorkspaceOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceOperatorSecrets
+	err = actual.AssignProperties_From_WorkspaceOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_WorkspaceOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WorkspaceOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceOperatorSecrets, WorkspaceOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspaceOperatorSecrets runs a test to see if a specific instance of WorkspaceOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceOperatorSecrets(subject WorkspaceOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WorkspaceOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WorkspaceOperatorSecrets instances for property testing - lazily instantiated by
+// WorkspaceOperatorSecretsGenerator()
+var workspaceOperatorSecretsGenerator gopter.Gen
+
+// WorkspaceOperatorSecretsGenerator returns a generator of WorkspaceOperatorSecrets instances for property testing.
+func WorkspaceOperatorSecretsGenerator() gopter.Gen {
+	if workspaceOperatorSecretsGenerator != nil {
+		return workspaceOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	workspaceOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(WorkspaceOperatorSecrets{}), generators)
+
+	return workspaceOperatorSecretsGenerator
+}
+
 func Test_WorkspaceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -710,7 +808,7 @@ func RunPropertyAssignmentTestForWorkspaceOperatorSpec(subject WorkspaceOperator
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceOperatorSpec
+	var other v20210601s.WorkspaceOperatorSpec
 	err := copied.AssignProperties_To_WorkspaceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -785,9 +883,15 @@ func WorkspaceOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec(generators)
 	workspaceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WorkspaceOperatorSpec{}), generators)
 
 	return workspaceOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(WorkspaceOperatorSecretsGenerator())
 }
 
 func Test_WorkspaceSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -807,7 +911,7 @@ func RunPropertyAssignmentTestForWorkspaceSku(subject WorkspaceSku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceSku
+	var other v20210601s.WorkspaceSku
 	err := copied.AssignProperties_To_WorkspaceSku(&other)
 	if err != nil {
 		return err.Error()
@@ -926,7 +1030,7 @@ func RunPropertyAssignmentTestForWorkspaceSku_STATUS(subject WorkspaceSku_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspaceSku_STATUS
+	var other v20210601s.WorkspaceSku_STATUS
 	err := copied.AssignProperties_To_WorkspaceSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1047,7 +1151,7 @@ func RunPropertyAssignmentTestForWorkspace_STATUS(subject Workspace_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Workspace_STATUS
+	var other v20210601s.Workspace_STATUS
 	err := copied.AssignProperties_To_Workspace_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1188,7 +1292,7 @@ func RunPropertyAssignmentTestForWorkspace_Spec(subject Workspace_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Workspace_Spec
+	var other v20210601s.Workspace_Spec
 	err := copied.AssignProperties_To_Workspace_Spec(&other)
 	if err != nil {
 		return err.Error()
