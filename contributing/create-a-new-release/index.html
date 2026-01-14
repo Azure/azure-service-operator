@@ -1005,8 +1005,8 @@ service Swagger specifications. We must validate each breaking change so that we
 </span></span></code></pre></div></li>
 <li>
 <p>Enable workload identity on that cluster:</p>
-<pre tabindex="0"><code>task controller:create-mi-for-workload-identity
-</code></pre></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>task controller:create-mi-for-workload-identity
+</span></span></code></pre></div></li>
 <li>
 <p>Install cert-manager</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>task controller:install-cert-manager
@@ -1061,17 +1061,27 @@ These steps are documented here in case that process fails.
 </ol>
 <h3 id="test-the-updated-chart">Test the updated chart</h3>
 <ol>
-<li>Create a kind cluster with the chart installed
+<li>
+<p>Create a kind cluster with the chart installed</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>task controller:kind-create-workloadidentity-local-helm
 </span></span></code></pre></div></li>
-<li>Wait for it all to start: <code>k get all -n azureserviceoperator-system</code></li>
-<li>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):
+<li>
+<p>Wait for it all to start: <code>k get all -n azureserviceoperator-system</code></p>
+</li>
+<li>
+<p>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):</p>
 <pre tabindex="0"><code>k apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
 k apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
 </code></pre></li>
-<li>Make sure they deploy successfully - check in the portal as well.</li>
-<li>If installed successfully, commit the files under <code>v2/charts/azure-service-operator</code>.</li>
-<li>Send a PR.</li>
+<li>
+<p>Make sure they deploy successfully - check in the portal as well.</p>
+</li>
+<li>
+<p>If installed successfully, commit the files under <code>v2/charts/azure-service-operator</code>.</p>
+</li>
+<li>
+<p>Send a PR.</p>
+</li>
 </ol>
 <h2 id="update-resource-documentation">Update Resource Documentation</h2>
 <p>Any resources included in the new release will currently be listed under &ldquo;Next Release&rdquo; in the documentation, so we need to update the documentation to move them to the &ldquo;Released&rdquo; section.</p>
