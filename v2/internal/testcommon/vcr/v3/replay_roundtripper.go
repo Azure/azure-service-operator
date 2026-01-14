@@ -119,8 +119,11 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 
 	// We have a response; if it has a status, cache only if that represents a terminal state
 	cacheable := true
-	if status, ok := replayer.resourceStatusFromBody(response); ok {
-		cacheable = replayer.isTerminalStatus(status)
+	if state, ok := replayer.resourceStateFromBody(response); ok {
+		cacheable = replayer.isTerminalProvisioningState(state)
+	}
+	if status, ok := replayer.operationStatusFromBody(response); ok {
+		cacheable = replayer.isTerminalOperationStatus(status)
 	}
 
 	if cacheable {
@@ -131,10 +134,6 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 	}
 
 	return response, nil
-}
-
-func (*replayRoundTripper) isTerminalStatus(status string) bool {
-	return strings.EqualFold(status, "Succeeded") || strings.EqualFold(status, "Failed") || strings.EqualFold(status, "Canceled")
 }
 
 func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.Response, error) {
@@ -204,22 +203,36 @@ type operation struct {
 	Status string `json:"status"`
 }
 
-type resource struct {
-	Properties struct {
-		ProvisioningState string `json:"provisioningState"`
-	} `json:"properties"`
-}
-
-func (replayer *replayRoundTripper) resourceStatusFromBody(response *http.Response) (string, bool) {
+// operationStatusFromBody extracts the operation status from the response body, if present.
+func (replayer *replayRoundTripper) operationStatusFromBody(response *http.Response) (string, bool) {
 	body := replayer.bodyOfResponse(response)
 
-	// Treat the body as an operation and deserialize it
 	var op operation
 	if err := json.Unmarshal([]byte(body), &op); err == nil {
 		if op.Status != "" {
 			return op.Status, true
 		}
 	}
+
+	return "", false
+}
+
+// isTerminalOperationStatus returns true if the specified status represents a terminal state for a long-running operation
+func (replayer *replayRoundTripper) isTerminalOperationStatus(status string) bool {
+	return !strings.EqualFold(status, "InProgress")
+}
+
+type resource struct {
+	Properties struct {
+		ProvisioningState string `json:"provisioningState"`
+	} `json:"properties"`
+}
+
+// resourceStateFromBody extracts the provisioning state from the response body, if present.
+func (replayer *replayRoundTripper) resourceStateFromBody(response *http.Response) (string, bool) {
+	body := replayer.bodyOfResponse(response)
+
+	// Treat the body as an operation and deserialize it
 
 	// Treat the body as a resource and deserialize it
 	var res resource
@@ -230,6 +243,13 @@ func (replayer *replayRoundTripper) resourceStatusFromBody(response *http.Respon
 	}
 
 	return "", false
+}
+
+// isTerminalStatus returns true if the specified status represents a terminal state a resource
+func (*replayRoundTripper) isTerminalProvisioningState(status string) bool {
+	return strings.EqualFold(status, "Succeeded") ||
+		strings.EqualFold(status, "Failed") ||
+		strings.EqualFold(status, "Canceled")
 }
 
 func (replayer *replayRoundTripper) bodyOfResponse(response *http.Response) string {
