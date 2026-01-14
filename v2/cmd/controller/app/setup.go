@@ -411,7 +411,8 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		credential,
 		kubeClient,
 		&identity.CredentialProviderOptions{
-			Cloud: to.Ptr(cfg.Cloud()),
+			Cloud:                   to.Ptr(cfg.Cloud()),
+			AllowMultiEnvManagement: cfg.AllowMultiEnvManagement,
 		})
 
 	armClientCache := armreconciler.NewARMClientCache(
