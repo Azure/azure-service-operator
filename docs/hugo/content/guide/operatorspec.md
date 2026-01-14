@@ -13,5 +13,5 @@ You can consider fields under the `operatorSpec` field under certain resources w
 
 At the moment, the `operatorSpec` supports `configMapExpressions`, `secretExpressions`, and `secrets`.
 
-- `configMapExpressions` allows uers to configuire where to place operator written dynamic ConfigMaps. You can learn more about `configMap` and walk through a sample [here](../configmaps). 
-- `secretExpressions` configures where to place operator written dynamic secrets, while `secrets` configure where to place Azure generated secrets. You can learn more about `secretExpressions`/`secrets` and walk through an example [here](../secrets).
+- `configMapExpressions` allows uers to configuire where to place operator written dynamic ConfigMaps. You can learn more about `configMap` and walk through a sample [here](../configmaps/). 
+- `secretExpressions` configures where to place operator written dynamic secrets, while `secrets` configure where to place Azure generated secrets. You can learn more about `secretExpressions`/`secrets` and walk through an example [here](../secrets/).
