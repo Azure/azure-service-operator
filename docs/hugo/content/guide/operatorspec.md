@@ -9,3 +9,9 @@ Unless the field is specifically configured to request the property, ASO will no
 
 ## How to configure OperatorSpec in ASO
 
+You can consider fields under the `operatorSpec` field under certain resources with values that you wish to populate.
+
+At the moment, the `operatorSpec` supports `configMapExpressions`, `secretExpressions`, and `secrets`.
+
+- `configMapExpressions` allows uers to configuire where to place operator written dynamic ConfigMaps. You can learn more about `configMap` and walk through a sample [here](configmaps/). 
+- `secretExpressions` configures where to place operator written dynamic secrets, while `secrets` configure where to place Azure generated secrets. You can learn more about `secretExpressions`/`secrets` and walk through an example [here](secrets/).
