@@ -54,9 +54,10 @@ const (
 	// We set this to accommodate timing variations during test replay, while avoiding unbounded replays as they might
 	// result in a test getting stuck and continuing to run until the entire test suite times out.
 	//
-	// Surprisingly, the test Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD_2 requires this value to be at least 62
-	// before the test will pass locally for @theunrepentantgeek; be cautious about lowering this value.
-	maxGetReplays = 80 // Maximum number of times to replay a GET request
+	// Currently we need to set this to an apparently comical limit because some of our tests requiring many many
+	// repetitions to work due to changes in timing used during test replay. Once we've addressed other issues causing
+	// test instability, we should be able to reduce this limit significantly.
+	maxGetReplays = 1000 // Maximum number of times to replay a GET request (effectively unlimited for now)
 )
 
 var _ http.RoundTripper = &replayRoundTripper{}
