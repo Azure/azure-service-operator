@@ -90,14 +90,11 @@ func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
-	// Inefficient but avoids triggering the vnet/subnets problem.
-	// https://github.com/Azure/azure-service-operator/issues/1944
-	tc.CreateResourceAndWait(vnet)
-	tc.CreateResourcesAndWait(subnet, networkInterface)
+
 	secret := createPasswordSecret("vmsecret", "password", tc)
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 
-	tc.CreateResourceAndWait(vm)
+	tc.CreateResourcesAndWait(vnet, subnet, networkInterface, vm)
 	tc.Expect(vm.Status.Id).ToNot(BeNil())
 	armId := *vm.Status.Id
 
