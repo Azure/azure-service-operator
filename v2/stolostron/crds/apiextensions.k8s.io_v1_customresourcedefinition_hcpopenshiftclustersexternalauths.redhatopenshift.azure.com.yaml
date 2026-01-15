@@ -1,0 +1,1308 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: v0.19.0
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.13.0-hcpclusters.2-rev.3-dirty
+  name: hcpopenshiftclustersexternalauths.redhatopenshift.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+          port: 443
+      conversionReviewVersions:
+      - v1
+  group: redhatopenshift.azure.com
+  names:
+    kind: HcpOpenShiftClustersExternalAuth
+    listKind: HcpOpenShiftClustersExternalAuthList
+    plural: hcpopenshiftclustersexternalauths
+    singular: hcpopenshiftclustersexternalauth
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240610preview
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                pattern: ^[a-zA-Z][-a-zA-Z0-9]{1,15}$
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a redhatopenshift.azure.com/HcpOpenShiftCluster resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: 'Properties: The resource-specific properties for this
+                  resource.'
+                properties:
+                  claim:
+                    description: |-
+                      Claim: External Auth claim
+                      This configures how claims are validated and applied.
+                    properties:
+                      mappings:
+                        description: 'Mappings: The claim mappings'
+                        properties:
+                          groups:
+                            description: 'Groups: The claim mappings groups.'
+                            properties:
+                              claim:
+                                description: 'Claim: Claim name of the external profile'
+                                maxLength: 256
+                                minLength: 1
+                                type: string
+                              prefix:
+                                description: |-
+                                  Prefix: Prefix for the claim external profile
+                                  If this is specified prefixPolicy will be set to "Prefix" by default
+                                type: string
+                            required:
+                            - claim
+                            type: object
+                          username:
+                            description: 'Username: The claim mappings username.'
+                            properties:
+                              claim:
+                                description: 'Claim: Claim name of the external profile'
+                                maxLength: 256
+                                minLength: 1
+                                type: string
+                              prefix:
+                                description: |-
+                                  Prefix: Prefix for the claim external profile
+                                  Must be set when the prefixPolicy field is set to 'Prefix' and must be unset
+                                  otherwise.
+                                type: string
+                              prefixPolicy:
+                                description: |-
+                                  PrefixPolicy: Prefix policy is an optional field that configures how a prefix should be
+                                  applied to the value of the JWT claim specified in the 'claim' field.
+                                  Allowed values are 'Prefix', 'NoPrefix', and 'None'.
+                                  When set to 'Prefix', the value specified in the prefix field will be
+                                  prepended to the value of the JWT claim.
+                                  The prefix field must be set when prefixPolicy is 'Prefix'.
+                                  When set to 'NoPrefix', no prefix will be prepended to the value
+                                  of the JWT claim.
+                                  When set to 'None', this means no opinion and the platform is left to choose
+                                  any prefixes that are applied which is subject to change over time.
+                                  Currently, the platform prepends `{issuerURL}#` to the value of the JWT claim
+                                  when the claim is not 'email'.
+                                  As an example, consider the following scenario:
+                                  `prefix` is unset, `issuerURL` is set to `https://myoidc.tld`,
+                                  the JWT claims include "username":"userA" and "email":"userA
+                                enum:
+                                - NoPrefix
+                                - None
+                                - Prefix
+                                type: string
+                            required:
+                            - claim
+                            type: object
+                        required:
+                        - username
+                        type: object
+                      validationRules:
+                        description: 'ValidationRules: The claim validation rules'
+                        items:
+                          description: External Auth claim validation rule
+                          properties:
+                            requiredClaim:
+                              description: 'RequiredClaim: The required claim rule
+                                to be applied.'
+                              properties:
+                                claim:
+                                  description: |-
+                                    Claim: Claim name for the validation profile
+                                    claim is a required field that configures the name of the required claim.
+                                  minLength: 1
+                                  type: string
+                                requiredValue:
+                                  description: |-
+                                    RequiredValue: Required value
+                                    requiredValue is a required field that configures the value that 'claim' must
+                                    have when taken from the incoming JWT claims.
+                                    If the value in the JWT claims does not match, the token
+                                    will be rejected for authentication.
+                                  minLength: 1
+                                  type: string
+                              required:
+                              - claim
+                              - requiredValue
+                              type: object
+                            type:
+                              description: |-
+                                Type: This configures the type of the validation rule.
+                                It defaults to "RequiredClaim"
+                              enum:
+                              - RequiredClaim
+                              type: string
+                          type: object
+                        type: array
+                    required:
+                    - mappings
+                    type: object
+                  clients:
+                    description: |-
+                      Clients: External Auth OIDC clients
+                      There must not be more than 20 entries and entries must have unique namespace/name pairs.
+                    items:
+                      description: |-
+                        External Auth client profile
+                        This configures how on-cluster, platform clients should request tokens from the identity
+                        provider.
+                      properties:
+                        clientId:
+                          description: |-
+                            ClientId: External Auth client id
+                            The clientId must appear in the audience field of the TokenIssuerProfile.
+                          minLength: 1
+                          type: string
+                        component:
+                          description: 'Component: External Auth client component'
+                          properties:
+                            authClientNamespace:
+                              description: |-
+                                AuthClientNamespace: The namespace of the external Auth client
+                                This specifies the namespace in which the platform component being configured
+                                to use the identity provider as an authentication mode is running.
+                                It is used in combination with name as a unique identifier.
+                              maxLength: 63
+                              minLength: 1
+                              type: string
+                            name:
+                              description: |-
+                                Name: The name of the external auth client
+                                This specifies the name of the platform component being configured to use
+                                the identity provider as an authentication mode.
+                                It is used in combination with namespace as a unique identifier.
+                              maxLength: 256
+                              minLength: 1
+                              type: string
+                          required:
+                          - authClientNamespace
+                          - name
+                          type: object
+                        extraScopes:
+                          description: |-
+                            ExtraScopes: external auth client scopes
+                            This is useful if you have configured claim mappings that requires specific
+                            scopes to be requested beyond the standard OIDC scopes.
+                            When omitted, no additional scopes are requested.
+                          items:
+                            type: string
+                          type: array
+                        type:
+                          description: 'Type: Determines the OIDC provider client
+                            type.'
+                          enum:
+                          - Confidential
+                          - Public
+                          type: string
+                      required:
+                      - clientId
+                      - component
+                      - type
+                      type: object
+                    maxItems: 20
+                    type: array
+                  issuer:
+                    description: 'Issuer: Token Issuer profile'
+                    properties:
+                      audiences:
+                        description: |-
+                          Audiences: This configures the acceptable audiences the JWT token, issued by the identity
+                          provider, must be issued to. At least one of the entries must match the
+                          'aud' claim in the JWT token.
+                          audiences must contain at least one entry and must not exceed ten entries.
+                        items:
+                          type: string
+                        maxItems: 10
+                        minItems: 1
+                        type: array
+                      ca:
+                        description: |-
+                          Ca: The issuer of the token
+                          Certificate bundle to use to validate server certificates for the configured URL.
+                          It must be PEM encoded and when not specified, the system trust is used.
+                        type: string
+                      url:
+                        description: |-
+                          Url: This configures the URL used to issue tokens by the identity provider.
+                          The Kubernetes API server determines how authentication tokens should be handled
+                          by matching the 'iss' claim in the JWT to the issuerURL of configured identity providers.
+                          issuerURL must use the 'https' scheme.
+                        type: string
+                    required:
+                    - audiences
+                    - url
+                    type: object
+                required:
+                - claim
+                - issuer
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                description: |-
+                  Id: Fully qualified resource ID for the resource. E.g.
+                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              properties:
+                description: 'Properties: The resource-specific properties for this
+                  resource.'
+                properties:
+                  claim:
+                    description: |-
+                      Claim: External Auth claim
+                      This configures how claims are validated and applied.
+                    properties:
+                      mappings:
+                        description: 'Mappings: The claim mappings'
+                        properties:
+                          groups:
+                            description: 'Groups: The claim mappings groups.'
+                            properties:
+                              claim:
+                                description: 'Claim: Claim name of the external profile'
+                                type: string
+                              prefix:
+                                description: |-
+                                  Prefix: Prefix for the claim external profile
+                                  If this is specified prefixPolicy will be set to "Prefix" by default
+                                type: string
+                            type: object
+                          username:
+                            description: 'Username: The claim mappings username.'
+                            properties:
+                              claim:
+                                description: 'Claim: Claim name of the external profile'
+                                type: string
+                              prefix:
+                                description: |-
+                                  Prefix: Prefix for the claim external profile
+                                  Must be set when the prefixPolicy field is set to 'Prefix' and must be unset
+                                  otherwise.
+                                type: string
+                              prefixPolicy:
+                                description: |-
+                                  PrefixPolicy: Prefix policy is an optional field that configures how a prefix should be
+                                  applied to the value of the JWT claim specified in the 'claim' field.
+                                  Allowed values are 'Prefix', 'NoPrefix', and 'None'.
+                                  When set to 'Prefix', the value specified in the prefix field will be
+                                  prepended to the value of the JWT claim.
+                                  The prefix field must be set when prefixPolicy is 'Prefix'.
+                                  When set to 'NoPrefix', no prefix will be prepended to the value
+                                  of the JWT claim.
+                                  When set to 'None', this means no opinion and the platform is left to choose
+                                  any prefixes that are applied which is subject to change over time.
+                                  Currently, the platform prepends `{issuerURL}#` to the value of the JWT claim
+                                  when the claim is not 'email'.
+                                  As an example, consider the following scenario:
+                                  `prefix` is unset, `issuerURL` is set to `https://myoidc.tld`,
+                                  the JWT claims include "username":"userA" and "email":"userA
+                                type: string
+                            type: object
+                        type: object
+                      validationRules:
+                        description: 'ValidationRules: The claim validation rules'
+                        items:
+                          description: External Auth claim validation rule
+                          properties:
+                            requiredClaim:
+                              description: 'RequiredClaim: The required claim rule
+                                to be applied.'
+                              properties:
+                                claim:
+                                  description: |-
+                                    Claim: Claim name for the validation profile
+                                    claim is a required field that configures the name of the required claim.
+                                  type: string
+                                requiredValue:
+                                  description: |-
+                                    RequiredValue: Required value
+                                    requiredValue is a required field that configures the value that 'claim' must
+                                    have when taken from the incoming JWT claims.
+                                    If the value in the JWT claims does not match, the token
+                                    will be rejected for authentication.
+                                  type: string
+                              type: object
+                            type:
+                              description: |-
+                                Type: This configures the type of the validation rule.
+                                It defaults to "RequiredClaim"
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  clients:
+                    description: |-
+                      Clients: External Auth OIDC clients
+                      There must not be more than 20 entries and entries must have unique namespace/name pairs.
+                    items:
+                      description: |-
+                        External Auth client profile
+                        This configures how on-cluster, platform clients should request tokens from the identity
+                        provider.
+                      properties:
+                        clientId:
+                          description: |-
+                            ClientId: External Auth client id
+                            The clientId must appear in the audience field of the TokenIssuerProfile.
+                          minLength: 1
+                          type: string
+                        component:
+                          description: 'Component: External Auth client component'
+                          properties:
+                            authClientNamespace:
+                              description: |-
+                                AuthClientNamespace: The namespace of the external Auth client
+                                This specifies the namespace in which the platform component being configured
+                                to use the identity provider as an authentication mode is running.
+                                It is used in combination with name as a unique identifier.
+                              maxLength: 63
+                              minLength: 1
+                              type: string
+                            name:
+                              description: |-
+                                Name: The name of the external auth client
+                                This specifies the name of the platform component being configured to use
+                                the identity provider as an authentication mode.
+                                It is used in combination with namespace as a unique identifier.
+                              maxLength: 256
+                              minLength: 1
+                              type: string
+                          required:
+                          - authClientNamespace
+                          - name
+                          type: object
+                        extraScopes:
+                          description: |-
+                            ExtraScopes: external auth client scopes
+                            This is useful if you have configured claim mappings that requires specific
+                            scopes to be requested beyond the standard OIDC scopes.
+                            When omitted, no additional scopes are requested.
+                          items:
+                            type: string
+                          type: array
+                        type:
+                          description: 'Type: Determines the OIDC provider client
+                            type.'
+                          enum:
+                          - Confidential
+                          - Public
+                          type: string
+                      required:
+                      - clientId
+                      - component
+                      - type
+                      type: object
+                    type: array
+                  condition:
+                    description: 'Condition: An observation of the current state with
+                      additional information.'
+                    properties:
+                      lastTransitionTime:
+                        description: 'LastTransitionTime: The last time the condition
+                          transitioned from one status to another.'
+                        type: string
+                      message:
+                        description: |-
+                          Message: This is a human readable message indicating details about the transition.
+                          This may be an empty string.
+                        type: string
+                      reason:
+                        description: 'Reason: This contains a programmatic identifier
+                          indicating the reason for the condition''s last transition.'
+                        type: string
+                      status:
+                        description: 'Status: The status of the condition.'
+                        type: string
+                      type:
+                        description: 'Type: This is a PascalCase (or in foo.example.com/PascalCase)
+                          code to represent the type of condition.'
+                        type: string
+                    type: object
+                  issuer:
+                    description: 'Issuer: Token Issuer profile'
+                    properties:
+                      audiences:
+                        description: |-
+                          Audiences: This configures the acceptable audiences the JWT token, issued by the identity
+                          provider, must be issued to. At least one of the entries must match the
+                          'aud' claim in the JWT token.
+                          audiences must contain at least one entry and must not exceed ten entries.
+                        items:
+                          type: string
+                        type: array
+                      ca:
+                        description: |-
+                          Ca: The issuer of the token
+                          Certificate bundle to use to validate server certificates for the configured URL.
+                          It must be PEM encoded and when not specified, the system trust is used.
+                        type: string
+                      url:
+                        description: |-
+                          Url: This configures the URL used to issue tokens by the identity provider.
+                          The Kubernetes API server determines how authentication tokens should be handled
+                          by matching the 'iss' claim in the JWT to the issuerURL of configured identity providers.
+                          issuerURL must use the 'https' scheme.
+                        type: string
+                    type: object
+                  provisioningState:
+                    description: 'ProvisioningState: Provisioning state'
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: Azure Resource Manager metadata containing
+                  createdBy and modifiedBy information.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240610previewstorage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth
+          Generator information:
+          - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuthOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a redhatopenshift.azure.com/HcpOpenShiftCluster resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: |-
+                  Storage version of v1api20240610preview.ExternalAuthProperties
+                  External Auth profile
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  claim:
+                    description: |-
+                      Storage version of v1api20240610preview.ExternalAuthClaimProfile
+                      External Auth claim profile
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      mappings:
+                        description: |-
+                          Storage version of v1api20240610preview.TokenClaimMappingsProfile
+                          External Auth claim mappings profile.
+                          At a minimum username or groups must be defined.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          groups:
+                            description: |-
+                              Storage version of v1api20240610preview.GroupClaimProfile
+                              External Auth claim profile
+                              This configures how the groups of a cluster identity should be constructed
+                              from the claims
+                              in a JWT token issued by the identity provider. When
+                              referencing a claim, if the claim is present in the JWT token, its
+                              value
+                              must be a list of groups separated by a comma (',').
+                              For example - '"example"' and '"exampleOne", "exampleTwo",
+                              "exampleThree"' are valid claim values.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              claim:
+                                type: string
+                              prefix:
+                                type: string
+                            type: object
+                          username:
+                            description: |-
+                              Storage version of v1api20240610preview.UsernameClaimProfile
+                              External Auth claim profile
+                              This configures how the username of a cluster identity should be constructed
+                              from the claims
+                              in a JWT token issued by the identity provider.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              claim:
+                                type: string
+                              prefix:
+                                type: string
+                              prefixPolicy:
+                                type: string
+                            type: object
+                        type: object
+                      validationRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20240610preview.TokenClaimValidationRule
+                            External Auth claim validation rule
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            requiredClaim:
+                              description: |-
+                                Storage version of v1api20240610preview.TokenRequiredClaim
+                                Token required claim validation rule.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                claim:
+                                  type: string
+                                requiredValue:
+                                  type: string
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  clients:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.ExternalAuthClientProfile
+                        External Auth client profile
+                        This configures how on-cluster, platform clients should request tokens from the identity
+                        provider.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        clientId:
+                          type: string
+                        component:
+                          description: |-
+                            Storage version of v1api20240610preview.ExternalAuthClientComponentProfile
+                            External Auth component profile
+                            Must have unique namespace/name pairs.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            authClientNamespace:
+                              type: string
+                            name:
+                              type: string
+                          type: object
+                        extraScopes:
+                          items:
+                            type: string
+                          type: array
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  issuer:
+                    description: |-
+                      Storage version of v1api20240610preview.TokenIssuerProfile
+                      Token issuer profile
+                      This configures how the platform interacts with the identity provider and
+                      how tokens issued from
+                      the identity provider are evaluated by the Kubernetes API server.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      audiences:
+                        items:
+                          type: string
+                        type: array
+                      ca:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                type: string
+              name:
+                type: string
+              properties:
+                description: |-
+                  Storage version of v1api20240610preview.ExternalAuthProperties_STATUS
+                  External Auth profile
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  claim:
+                    description: |-
+                      Storage version of v1api20240610preview.ExternalAuthClaimProfile_STATUS
+                      External Auth claim profile
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      mappings:
+                        description: |-
+                          Storage version of v1api20240610preview.TokenClaimMappingsProfile_STATUS
+                          External Auth claim mappings profile.
+                          At a minimum username or groups must be defined.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          groups:
+                            description: |-
+                              Storage version of v1api20240610preview.GroupClaimProfile_STATUS
+                              External Auth claim profile
+                              This configures how the groups of a cluster identity should be constructed
+                              from the claims
+                              in a JWT token issued by the identity provider. When
+                              referencing a claim, if the claim is present in the JWT token, its
+                              value
+                              must be a list of groups separated by a comma (',').
+                              For example - '"example"' and '"exampleOne", "exampleTwo",
+                              "exampleThree"' are valid claim values.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              claim:
+                                type: string
+                              prefix:
+                                type: string
+                            type: object
+                          username:
+                            description: |-
+                              Storage version of v1api20240610preview.UsernameClaimProfile_STATUS
+                              External Auth claim profile
+                              This configures how the username of a cluster identity should be constructed
+                              from the claims
+                              in a JWT token issued by the identity provider.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              claim:
+                                type: string
+                              prefix:
+                                type: string
+                              prefixPolicy:
+                                type: string
+                            type: object
+                        type: object
+                      validationRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20240610preview.TokenClaimValidationRule_STATUS
+                            External Auth claim validation rule
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            requiredClaim:
+                              description: |-
+                                Storage version of v1api20240610preview.TokenRequiredClaim_STATUS
+                                Token required claim validation rule.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                claim:
+                                  type: string
+                                requiredValue:
+                                  type: string
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  clients:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.ExternalAuthClientProfile_STATUS
+                        External Auth client profile
+                        This configures how on-cluster, platform clients should request tokens from the identity
+                        provider.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        clientId:
+                          type: string
+                        component:
+                          description: |-
+                            Storage version of v1api20240610preview.ExternalAuthClientComponentProfile_STATUS
+                            External Auth component profile
+                            Must have unique namespace/name pairs.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            authClientNamespace:
+                              type: string
+                            name:
+                              type: string
+                          type: object
+                        extraScopes:
+                          items:
+                            type: string
+                          type: array
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  condition:
+                    description: |-
+                      Storage version of v1api20240610preview.ExternalAuthCondition_STATUS
+                      Condition defines an observation of the external auth state.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      lastTransitionTime:
+                        type: string
+                      message:
+                        type: string
+                      reason:
+                        type: string
+                      status:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                  issuer:
+                    description: |-
+                      Storage version of v1api20240610preview.TokenIssuerProfile_STATUS
+                      Token issuer profile
+                      This configures how the platform interacts with the identity provider and
+                      how tokens issued from
+                      the identity provider are evaluated by the Kubernetes API server.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      audiences:
+                        items:
+                          type: string
+                        type: array
+                      ca:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                  provisioningState:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20240610preview.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

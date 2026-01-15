@@ -1,0 +1,1334 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: v0.19.0
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.13.0-hcpclusters.2-rev.3-dirty
+  name: hcpopenshiftclustersnodepools.redhatopenshift.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+          port: 443
+      conversionReviewVersions:
+      - v1
+  group: redhatopenshift.azure.com
+  names:
+    kind: HcpOpenShiftClustersNodePool
+    listKind: HcpOpenShiftClustersNodePoolList
+    plural: hcpopenshiftclustersnodepools
+    singular: hcpopenshiftclustersnodepool
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240610preview
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                pattern: ^[a-zA-Z][-a-zA-Z0-9]{1,13}[a-zA-Z0-9]$
+                type: string
+              identity:
+                description: 'Identity: The managed service identities assigned to
+                  this resource.'
+                properties:
+                  type:
+                    description: 'Type: Type of managed service identity (where both
+                      SystemAssigned and UserAssigned types are allowed).'
+                    enum:
+                    - None
+                    - SystemAssigned
+                    - SystemAssigned,UserAssigned
+                    - UserAssigned
+                    type: string
+                  userAssignedIdentities:
+                    description: |-
+                      UserAssignedIdentities: The set of user assigned identities associated with the resource. The userAssignedIdentities
+                      dictionary keys will be ARM resource ids in the form:
+                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+                      The dictionary values can be empty objects ({}) in requests.
+                    items:
+                      description: Information about the user assigned identity for
+                        the resource
+                      properties:
+                        reference:
+                          description: ResourceReference represents a resource reference,
+                            either to a Kubernetes resource or directly to an Azure
+                            resource via ARMID
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                required:
+                - type
+                type: object
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a redhatopenshift.azure.com/HcpOpenShiftCluster resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: 'Properties: The resource-specific properties for this
+                  resource.'
+                properties:
+                  autoRepair:
+                    description: 'AutoRepair: Auto-repair'
+                    type: boolean
+                  autoScaling:
+                    description: 'AutoScaling: Representation of a autoscaling in
+                      a node pool.'
+                    properties:
+                      max:
+                        description: 'Max: The maximum number of nodes in the node
+                          pool'
+                        minimum: 0
+                        type: integer
+                      min:
+                        description: 'Min: The minimum number of nodes in the node
+                          pool'
+                        minimum: 0
+                        type: integer
+                    type: object
+                  labels:
+                    description: |-
+                      Labels: Kubernetes labels to propagate to the NodePool Nodes
+                      Note that when the labels are updated this is only applied to newly
+                      create nodes in the Nodepool, existing node labels remain unchanged.
+                    items:
+                      description: Label represents the Kubernetes label
+                      properties:
+                        key:
+                          description: 'Key: The key of the label'
+                          type: string
+                        value:
+                          description: 'Value: The value of the label'
+                          type: string
+                      required:
+                      - key
+                      type: object
+                    type: array
+                  nodeDrainTimeoutMinutes:
+                    description: |-
+                      NodeDrainTimeoutMinutes: nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected
+                      workloads will be
+                      respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption
+                      Budgets that have not been successfully drained from a node will be forcibly evicted. This is
+                      especially relevant to cluster upgrades.
+                      Valid values are from 0 to 10080 minutes (1 week) .
+                      0 means that the NodePool can be drained without any time limitation.
+                      If unset the cluster nodeDrainTimeoutMinutes value is used as a default.
+                    type: integer
+                  platform:
+                    description: 'Platform: Azure node pool platform configuration'
+                    properties:
+                      availabilityZone:
+                        description: |-
+                          AvailabilityZone: The availability zone for the node pool.
+                          Please read the documentation to see which regions support availability zones
+                          - https://learn.microsoft.com/en-us/azure/availability-zones/az-overview
+                        type: string
+                      enableEncryptionAtHost:
+                        description: |-
+                          EnableEncryptionAtHost: Whether to enable host based OS and data drive encryption.
+                          -
+                          https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data
+                        type: boolean
+                      osDisk:
+                        description: 'OsDisk: The settings and configuration options
+                          for OSDisk'
+                        properties:
+                          diskStorageAccountType:
+                            description: |-
+                              DiskStorageAccountType: The type of the disk storage account
+                              - https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types
+                            enum:
+                            - Premium_LRS
+                            - StandardSSD_LRS
+                            - Standard_LRS
+                            type: string
+                          encryptionSetReference:
+                            description: |-
+                              EncryptionSetReference: The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs.
+                              This needs to exist in the same subscription id listed in the Hosted Cluster,
+                              HostedCluster.Spec.Platform.Azure.SubscriptionID.
+                              DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location
+                              listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location.
+                              Details on how to create a Disk Encryption Set can be found here:
+                              https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set
+                            properties:
+                              armId:
+                                description: |-
+                                  ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                  ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                                pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                          sizeGiB:
+                            description: 'SizeGiB: The OS disk size in GiB'
+                            type: integer
+                        type: object
+                      subnetReference:
+                        description: |-
+                          SubnetReference: The Azure resource ID of the worker subnet
+                          Note that a subnet cannot be reused between ARO-HCP Clusters, however the
+                          same subnet can be used for NodePools of the same cluster.
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                      vmSize:
+                        description: |-
+                          VmSize: The VM size according to the documentation:
+                          - https://learn.microsoft.com/en-us/azure/virtual-machines/sizes
+                        type: string
+                    required:
+                    - vmSize
+                    type: object
+                  replicas:
+                    description: 'Replicas: The number of worker nodes, it cannot
+                      be used together with autoscaling'
+                    type: integer
+                  taints:
+                    description: 'Taints: Taints for the nodes'
+                    items:
+                      description: Taint is controlling the node taint and its effects
+                      properties:
+                        effect:
+                          description: 'Effect: The effect of the taint'
+                          enum:
+                          - NoExecute
+                          - NoSchedule
+                          - PreferNoSchedule
+                          type: string
+                        key:
+                          description: 'Key: The key of the taint'
+                          maxLength: 316
+                          minLength: 1
+                          type: string
+                        value:
+                          description: 'Value: The value of the taint'
+                          maxLength: 63
+                          type: string
+                      required:
+                      - effect
+                      - key
+                      type: object
+                    type: array
+                  version:
+                    description: 'Version: OpenShift version for the nodepool'
+                    properties:
+                      channelGroup:
+                        description: |-
+                          ChannelGroup: ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single
+                          set.
+                        type: string
+                      id:
+                        description: 'Id: ID is the unique identifier of the version.'
+                        type: string
+                    type: object
+                required:
+                - platform
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+            required:
+            - location
+            - owner
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                description: |-
+                  Id: Fully qualified resource ID for the resource. E.g.
+                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+                type: string
+              identity:
+                description: 'Identity: The managed service identities assigned to
+                  this resource.'
+                properties:
+                  principalId:
+                    description: |-
+                      PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
+                      assigned identity.
+                    type: string
+                  tenantId:
+                    description: |-
+                      TenantId: The tenant ID of the system assigned identity. This property will only be provided for a system assigned
+                      identity.
+                    type: string
+                  type:
+                    description: 'Type: Type of managed service identity (where both
+                      SystemAssigned and UserAssigned types are allowed).'
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: User assigned identity properties
+                      properties:
+                        clientId:
+                          description: 'ClientId: The client ID of the assigned identity.'
+                          type: string
+                        principalId:
+                          description: 'PrincipalId: The principal ID of the assigned
+                            identity.'
+                          type: string
+                      type: object
+                    description: |-
+                      UserAssignedIdentities: The set of user assigned identities associated with the resource. The userAssignedIdentities
+                      dictionary keys will be ARM resource ids in the form:
+                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+                      The dictionary values can be empty objects ({}) in requests.
+                    type: object
+                type: object
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              properties:
+                description: 'Properties: The resource-specific properties for this
+                  resource.'
+                properties:
+                  autoRepair:
+                    description: 'AutoRepair: Auto-repair'
+                    type: boolean
+                  autoScaling:
+                    description: 'AutoScaling: Representation of a autoscaling in
+                      a node pool.'
+                    properties:
+                      max:
+                        description: 'Max: The maximum number of nodes in the node
+                          pool'
+                        type: integer
+                      min:
+                        description: 'Min: The minimum number of nodes in the node
+                          pool'
+                        type: integer
+                    type: object
+                  labels:
+                    description: |-
+                      Labels: Kubernetes labels to propagate to the NodePool Nodes
+                      Note that when the labels are updated this is only applied to newly
+                      create nodes in the Nodepool, existing node labels remain unchanged.
+                    items:
+                      description: Label represents the Kubernetes label
+                      properties:
+                        key:
+                          description: 'Key: The key of the label'
+                          type: string
+                        value:
+                          description: 'Value: The value of the label'
+                          type: string
+                      type: object
+                    type: array
+                  nodeDrainTimeoutMinutes:
+                    description: |-
+                      NodeDrainTimeoutMinutes: nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected
+                      workloads will be
+                      respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption
+                      Budgets that have not been successfully drained from a node will be forcibly evicted. This is
+                      especially relevant to cluster upgrades.
+                      Valid values are from 0 to 10080 minutes (1 week) .
+                      0 means that the NodePool can be drained without any time limitation.
+                      If unset the cluster nodeDrainTimeoutMinutes value is used as a default.
+                    type: integer
+                  platform:
+                    description: 'Platform: Azure node pool platform configuration'
+                    properties:
+                      availabilityZone:
+                        description: |-
+                          AvailabilityZone: The availability zone for the node pool.
+                          Please read the documentation to see which regions support availability zones
+                          - https://learn.microsoft.com/en-us/azure/availability-zones/az-overview
+                        type: string
+                      enableEncryptionAtHost:
+                        description: |-
+                          EnableEncryptionAtHost: Whether to enable host based OS and data drive encryption.
+                          -
+                          https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data
+                        type: boolean
+                      osDisk:
+                        description: 'OsDisk: The settings and configuration options
+                          for OSDisk'
+                        properties:
+                          diskStorageAccountType:
+                            description: |-
+                              DiskStorageAccountType: The type of the disk storage account
+                              - https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types
+                            type: string
+                          encryptionSetId:
+                            description: |-
+                              EncryptionSetId: The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs.
+                              This needs to exist in the same subscription id listed in the Hosted Cluster,
+                              HostedCluster.Spec.Platform.Azure.SubscriptionID.
+                              DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location
+                              listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location.
+                              Details on how to create a Disk Encryption Set can be found here:
+                              https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set
+                            type: string
+                          sizeGiB:
+                            description: 'SizeGiB: The OS disk size in GiB'
+                            type: integer
+                        type: object
+                      subnetId:
+                        description: |-
+                          SubnetId: The Azure resource ID of the worker subnet
+                          Note that a subnet cannot be reused between ARO-HCP Clusters, however the
+                          same subnet can be used for NodePools of the same cluster.
+                        type: string
+                      vmSize:
+                        description: |-
+                          VmSize: The VM size according to the documentation:
+                          - https://learn.microsoft.com/en-us/azure/virtual-machines/sizes
+                        type: string
+                    type: object
+                  provisioningState:
+                    description: 'ProvisioningState: Provisioning state'
+                    type: string
+                  replicas:
+                    description: 'Replicas: The number of worker nodes, it cannot
+                      be used together with autoscaling'
+                    type: integer
+                  taints:
+                    description: 'Taints: Taints for the nodes'
+                    items:
+                      description: Taint is controlling the node taint and its effects
+                      properties:
+                        effect:
+                          description: 'Effect: The effect of the taint'
+                          type: string
+                        key:
+                          description: 'Key: The key of the taint'
+                          type: string
+                        value:
+                          description: 'Value: The value of the taint'
+                          type: string
+                      type: object
+                    type: array
+                  version:
+                    description: 'Version: OpenShift version for the nodepool'
+                    properties:
+                      channelGroup:
+                        description: |-
+                          ChannelGroup: ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single
+                          set.
+                        type: string
+                      id:
+                        description: 'Id: ID is the unique identifier of the version.'
+                        type: string
+                    type: object
+                type: object
+              systemData:
+                description: 'SystemData: Azure Resource Manager metadata containing
+                  createdBy and modifiedBy information.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240610previewstorage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20240610preview.HcpOpenShiftClustersNodePool
+          Generator information:
+          - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20240610preview.HcpOpenShiftClustersNodePool_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              identity:
+                description: |-
+                  Storage version of v1api20240610preview.ManagedServiceIdentity
+                  Managed service identity (system assigned and/or user assigned identities)
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.UserAssignedIdentityDetails
+                        Information about the user assigned identity for the resource
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        reference:
+                          description: ResourceReference represents a resource reference,
+                            either to a Kubernetes resource or directly to an Azure
+                            resource via ARMID
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20240610preview.HcpOpenShiftClustersNodePoolOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a redhatopenshift.azure.com/HcpOpenShiftCluster resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: |-
+                  Storage version of v1api20240610preview.NodePoolProperties
+                  Represents the node pool properties
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  autoRepair:
+                    type: boolean
+                  autoScaling:
+                    description: |-
+                      Storage version of v1api20240610preview.NodePoolAutoScaling
+                      Node pool autoscaling
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      max:
+                        type: integer
+                      min:
+                        type: integer
+                    type: object
+                  labels:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.Label
+                        Label represents the Kubernetes label
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  nodeDrainTimeoutMinutes:
+                    type: integer
+                  platform:
+                    description: |-
+                      Storage version of v1api20240610preview.NodePoolPlatformProfile
+                      Azure node pool platform configuration
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      availabilityZone:
+                        type: string
+                      enableEncryptionAtHost:
+                        type: boolean
+                      osDisk:
+                        description: |-
+                          Storage version of v1api20240610preview.OsDiskProfile
+                          The settings and configuration options for OSDisk
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          diskStorageAccountType:
+                            type: string
+                          encryptionSetReference:
+                            description: |-
+                              EncryptionSetReference: The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs.
+                              This needs to exist in the same subscription id listed in the Hosted Cluster,
+                              HostedCluster.Spec.Platform.Azure.SubscriptionID.
+                              DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location
+                              listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location.
+                              Details on how to create a Disk Encryption Set can be found here:
+                              https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set
+                            properties:
+                              armId:
+                                description: |-
+                                  ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                  ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                                pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                          sizeGiB:
+                            type: integer
+                        type: object
+                      subnetReference:
+                        description: |-
+                          SubnetReference: The Azure resource ID of the worker subnet
+                          Note that a subnet cannot be reused between ARO-HCP Clusters, however the
+                          same subnet can be used for NodePools of the same cluster.
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                      vmSize:
+                        type: string
+                    type: object
+                  replicas:
+                    type: integer
+                  taints:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.Taint
+                        Taint is controlling the node taint and its effects
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  version:
+                    description: |-
+                      Storage version of v1api20240610preview.NodePoolVersionProfile
+                      Versions represents an OpenShift version.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      channelGroup:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20240610preview.HcpOpenShiftClustersNodePool_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                type: string
+              identity:
+                description: |-
+                  Storage version of v1api20240610preview.ManagedServiceIdentity_STATUS
+                  Managed service identity (system assigned and/or user assigned identities)
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  principalId:
+                    type: string
+                  tenantId:
+                    type: string
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: |-
+                        Storage version of v1api20240610preview.UserAssignedIdentity_STATUS
+                        User assigned identity properties
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        clientId:
+                          type: string
+                        principalId:
+                          type: string
+                      type: object
+                    type: object
+                type: object
+              location:
+                type: string
+              name:
+                type: string
+              properties:
+                description: |-
+                  Storage version of v1api20240610preview.NodePoolProperties_STATUS
+                  Represents the node pool properties
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  autoRepair:
+                    type: boolean
+                  autoScaling:
+                    description: |-
+                      Storage version of v1api20240610preview.NodePoolAutoScaling_STATUS
+                      Node pool autoscaling
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      max:
+                        type: integer
+                      min:
+                        type: integer
+                    type: object
+                  labels:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.Label_STATUS
+                        Label represents the Kubernetes label
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  nodeDrainTimeoutMinutes:
+                    type: integer
+                  platform:
+                    description: |-
+                      Storage version of v1api20240610preview.NodePoolPlatformProfile_STATUS
+                      Azure node pool platform configuration
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      availabilityZone:
+                        type: string
+                      enableEncryptionAtHost:
+                        type: boolean
+                      osDisk:
+                        description: |-
+                          Storage version of v1api20240610preview.OsDiskProfile_STATUS
+                          The settings and configuration options for OSDisk
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          diskStorageAccountType:
+                            type: string
+                          encryptionSetId:
+                            type: string
+                          sizeGiB:
+                            type: integer
+                        type: object
+                      subnetId:
+                        type: string
+                      vmSize:
+                        type: string
+                    type: object
+                  provisioningState:
+                    type: string
+                  replicas:
+                    type: integer
+                  taints:
+                    items:
+                      description: |-
+                        Storage version of v1api20240610preview.Taint_STATUS
+                        Taint is controlling the node taint and its effects
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  version:
+                    description: |-
+                      Storage version of v1api20240610preview.NodePoolVersionProfile_STATUS
+                      Versions represents an OpenShift version.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      channelGroup:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20240610preview.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

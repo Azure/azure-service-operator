@@ -9,7 +9,7 @@ FROM toolchain AS builder
 ENV GOPATH=/opt/app-root/src/go
 ENV GOFLAGS="-buildvcs=false"
 
-COPY . ./
+COPY --chown=root:root --chmod=777 . ./
 
 # Cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
@@ -26,4 +26,5 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 # Copy the aso-controller into a thin image
 FROM registry.access.redhat.com/ubi9/ubi:9.6-1754380668
 COPY --from=builder /opt/app-root/src/aso-controller /aso-controller
+COPY stolostron/crds ./crds
 ENTRYPOINT ["/aso-controller"]
