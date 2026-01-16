@@ -5134,6 +5134,80 @@ objectModelConfiguration:
       IPRule:
         Value:
           $importConfigMapMode: optional
+    2025-06-01:
+      StorageAccount:
+        $exportAs: StorageAccount
+        $supportedFrom: v2.18.0
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+          - WebEndpoint
+          - BlobEndpoint
+          - FileEndpoint
+          - QueueEndpoint
+          - TableEndpoint
+          - DfsEndpoint
+        $generatedConfigs:
+          WebEndpoint: $.Status.PrimaryEndpoints.Web
+          BlobEndpoint: $.Status.PrimaryEndpoints.Blob
+          FileEndpoint: $.Status.PrimaryEndpoints.File
+          QueueEndpoint: $.Status.PrimaryEndpoints.Queue
+          TableEndpoint: $.Status.PrimaryEndpoints.Table
+          DfsEndpoint: $.Status.PrimaryEndpoints.Dfs
+      StorageAccounts_BlobService:
+        $exportAs: StorageAccountsBlobService
+        $supportedFrom: v2.18.0
+      StorageAccounts_BlobServices_Container:
+        $exportAs: StorageAccountsBlobServicesContainer
+        $supportedFrom: v2.18.0
+      StorageAccounts_QueueService:
+        $exportAs: StorageAccountsQueueService
+        $supportedFrom: v2.18.0
+      StorageAccounts_QueueServices_Queue:
+        $exportAs: StorageAccountsQueueServicesQueue
+        $supportedFrom: v2.18.0
+      StorageAccounts_ManagementPolicy:
+        $exportAs: StorageAccountsManagementPolicy
+        $supportedFrom: v2.18.0
+      VirtualNetworkRule:
+        Id:
+          $referenceType: arm
+      EncryptionIdentity:
+        FederatedIdentityClientId:
+          $importConfigMapMode: optional
+        UserAssignedIdentity:
+          $referenceType: arm
+      KeyvaultProperties:
+        Keyname:
+          $importConfigMapMode: optional
+        Keyvaulturi:
+          $importConfigMapMode: optional
+        Keyversion:
+          $importConfigMapMode: optional
+      ResourceAccessRule:
+        ResourceId:
+          $referenceType: arm
+      StorageAccounts_TableService:
+        $exportAs: StorageAccountsTableService
+        $supportedFrom: v2.18.0
+      StorageAccounts_TableServices_Table:
+        $exportAs: StorageAccountsTableServicesTable
+        $supportedFrom: v2.18.0
+      TableSignedIdentifier:
+        Id:
+          $referenceType: arm
+      StorageAccounts_FileService:
+        $exportAs: StorageAccountsFileService
+        $supportedFrom: v2.18.0
+      StorageAccounts_FileServices_Share:
+        $exportAs: StorageAccountsFileServicesShare
+        $supportedFrom: v2.18.0
+      SignedIdentifier:
+        Id:
+          $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
   subscription:
     2021-10-01:
       Alias:

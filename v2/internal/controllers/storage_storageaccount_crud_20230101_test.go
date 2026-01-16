@@ -42,31 +42,31 @@ func Test_Storage_StorageAccount_20230101_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Blob Services CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_CRUD(tc, acct)
+				StorageAccount_BlobServices_20230101_CRUD(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Queue Services CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_QueueServices_CRUD(tc, acct)
+				StorageAccount_QueueServices_20230101_CRUD(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Table Services CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_TableServices_CRUD(tc, acct)
+				StorageAccount_TableServices_20230101_CRUD(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "File Services CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_FileServices_CRUD(tc, acct)
+				StorageAccount_FileServices_20230101_CRUD(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Management Policies CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_ManagementPolicy_CRUD(tc, acct)
+				StorageAccount_ManagementPolicy_20230101_CRUD(tc, acct)
 			},
 		},
 	)
@@ -82,7 +82,7 @@ func Test_Storage_StorageAccount_20230101_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
+func StorageAccount_BlobServices_20230101_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobService_Spec{
@@ -100,12 +100,12 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 		testcommon.Subtest{
 			Name: "Container CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_Container_CRUD(tc, blobService)
+				StorageAccount_BlobServices_Container_20230101_CRUD(tc, blobService)
 			},
 		})
 }
 
-func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
+func StorageAccount_BlobServices_Container_20230101_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
@@ -117,7 +117,7 @@ func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContex
 	defer tc.DeleteResourceAndWait(blobContainer)
 }
 
-func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
+func StorageAccount_QueueServices_20230101_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsQueueService_Spec{
@@ -135,13 +135,13 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_QueueServices_Queue_CRUD(tc, queueService)
+				StorageAccount_QueueServices_Queue_20230101_CRUD(tc, queueService)
 			},
 		},
 	)
 }
 
-func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, queueService *storage.StorageAccountsQueueService) {
+func StorageAccount_QueueServices_Queue_20230101_CRUD(tc *testcommon.KubePerTestContext, queueService *storage.StorageAccountsQueueService) {
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
@@ -153,7 +153,7 @@ func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, 
 	defer tc.DeleteResourceAndWait(queue)
 }
 
-func StorageAccount_TableServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
+func StorageAccount_TableServices_20230101_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	tableService := &storage.StorageAccountsTableService{
 		ObjectMeta: tc.MakeObjectMeta("tableservice"),
 		Spec: storage.StorageAccountsTableService_Spec{
@@ -171,12 +171,12 @@ func StorageAccount_TableServices_CRUD(tc *testcommon.KubePerTestContext, storag
 		testcommon.Subtest{
 			Name: "Table CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_TableServices_Table_CRUD(tc, tableService)
+				StorageAccount_TableServices_Table_20230101_CRUD(tc, tableService)
 			},
 		})
 }
 
-func StorageAccount_TableServices_Table_CRUD(tc *testcommon.KubePerTestContext, tableService *storage.StorageAccountsTableService) {
+func StorageAccount_TableServices_Table_20230101_CRUD(tc *testcommon.KubePerTestContext, tableService *storage.StorageAccountsTableService) {
 	table := &storage.StorageAccountsTableServicesTable{
 		ObjectMeta: tc.MakeObjectMetaWithName("testtable"),
 		Spec: storage.StorageAccountsTableServicesTable_Spec{
@@ -188,7 +188,7 @@ func StorageAccount_TableServices_Table_CRUD(tc *testcommon.KubePerTestContext, 
 	defer tc.DeleteResourceAndWait(table)
 }
 
-func StorageAccount_FileServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
+func StorageAccount_FileServices_20230101_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	fileService := &storage.StorageAccountsFileService{
 		ObjectMeta: tc.MakeObjectMeta("fileservice"),
 		Spec: storage.StorageAccountsFileService_Spec{
@@ -206,12 +206,12 @@ func StorageAccount_FileServices_CRUD(tc *testcommon.KubePerTestContext, storage
 		testcommon.Subtest{
 			Name: "Share CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_FileServices_Share_CRUD(tc, fileService)
+				StorageAccount_FileServices_Share_20230101_CRUD(tc, fileService)
 			},
 		})
 }
 
-func StorageAccount_FileServices_Share_CRUD(tc *testcommon.KubePerTestContext, fileService *storage.StorageAccountsFileService) {
+func StorageAccount_FileServices_Share_20230101_CRUD(tc *testcommon.KubePerTestContext, fileService *storage.StorageAccountsFileService) {
 	share := &storage.StorageAccountsFileServicesShare{
 		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsFileServicesShare_Spec{
@@ -253,25 +253,25 @@ func Test_Storage_StorageAccount_20230101_SecretsFromAzure(t *testing.T) {
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_SecretsWrittenToSameKubeSecret(tc, acct)
+				StorageAccount_SecretsWrittenToSameKubeSecret20230101(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "SecretsWrittenToDifferentKubeSecrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc, acct)
+				StorageAccount_SecretsWrittenToDifferentKubeSecrets20230101(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "ConfigMapsWritten",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				StorageAccount_ConfigMapsWritten(tc, acct)
+				StorageAccount_ConfigMapsWritten20230101(tc, acct)
 			},
 		},
 	)
 }
 
-func StorageAccount_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
+func StorageAccount_SecretsWrittenToSameKubeSecret20230101(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
 	old := acct.DeepCopy()
 	storageKeysSecret := "storagekeys"
 	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
@@ -285,7 +285,7 @@ func StorageAccount_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestCon
 	tc.ExpectSecretHasKeys(storageKeysSecret, "key1", "blob")
 }
 
-func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
+func StorageAccount_SecretsWrittenToDifferentKubeSecrets20230101(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
 	old := acct.DeepCopy()
 	key1Secret := "secret1"
 	key2Secret := "secret2"
@@ -322,7 +322,7 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(dfsSecret, "dfs")
 }
 
-func StorageAccount_ConfigMapsWritten(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
+func StorageAccount_ConfigMapsWritten20230101(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
 	old := acct.DeepCopy()
 	configMap := "storageconfig"
 	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
@@ -350,7 +350,7 @@ func StorageAccount_ConfigMapsWritten(tc *testcommon.KubePerTestContext, acct *s
 		*acct.Status.PrimaryEndpoints.Dfs)
 }
 
-func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
+func StorageAccount_ManagementPolicy_20230101_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
 	ruleType := storage.ManagementPolicyRule_Type_Lifecycle
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{

@@ -15,7 +15,7 @@ description: "How to use Azure Service Operator v2 to manage your Azure resource
 
 ### Helm
 
-[Helm]( {{< relref "/#installation" >}}) is the preferred way to install and manage Azure Service Operator.  
+[Helm]( {{< relref "/getting-started/#installation" >}}) is the preferred way to install and manage Azure Service Operator.  
 
 ### YAML
 

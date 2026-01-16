@@ -8,9 +8,9 @@ To install the CRDs for these resources, your ASO configuration must include `ba
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource     | ARM Version | CRD Version | Supported From | Sample                                                                                                                   |
-|--------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
-| BatchAccount | 2024-07-01  | v20240701   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v20240701/v20240701_batchaccount.yaml) |
+| Resource                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                   |
+|--------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
+| [BatchAccount]({{< relref "/reference/batch/v20240701#BatchAccount" >}}) | 2024-07-01  | v20240701   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v20240701/v20240701_batchaccount.yaml) |
 
 ### Other Supported Versions
 

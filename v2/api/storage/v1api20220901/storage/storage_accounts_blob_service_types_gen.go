@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsBlobService{}
 
 // ConvertFrom populates our StorageAccountsBlobService from the provided hub StorageAccountsBlobService
 func (service *StorageAccountsBlobService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsBlobService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsBlobService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsBlobService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsBlobService(source)
+	err = service.AssignProperties_From_StorageAccountsBlobService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsBlobService from our StorageAccountsBlobService
 func (service *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsBlobService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsBlobService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsBlobService
+	err := service.AssignProperties_To_StorageAccountsBlobService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsBlobService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsBlobService{}
