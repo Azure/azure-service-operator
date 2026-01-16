@@ -122,7 +122,7 @@ metrics:
 # the operator will only reconcile that subset if those are the only CRDs it finds when the pod starts.
 installCRDs: true
 
-# crdPattern is a semicolon delimited string containing the CRD patterns for the operator to install.
+# crdPattern is a semicolon delimited string or a list of strings containing the CRD patterns for the operator to install.
 # Setting this has no effect if installCRDs is false.
 # This defines what new CRDs will be installed by ASO. Will always upgrade any existing CRDs even if no
 # crdPattern is defined. Leaving this field unspecified for a fresh install of ASO will result in the operator pod
