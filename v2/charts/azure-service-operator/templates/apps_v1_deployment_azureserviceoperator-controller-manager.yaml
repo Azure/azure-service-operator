@@ -60,7 +60,7 @@ spec:
         - --enable-leader-election
         - --v=2
         {{- if and (eq .Values.installCRDs true) (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks")) }}
-        - --crd-pattern={{ .Values.crdPattern }}
+        - --crd-pattern={{ if kindIs "slice" .Values.crdPattern }}{{ join ";" .Values.crdPattern }}{{ else }}{{ .Values.crdPattern }}{{ end }}
         {{- end }}
         - --webhook-port={{ .Values.webhook.port }}
         {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
