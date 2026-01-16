@@ -67,9 +67,6 @@ func Test_Networking_DnsResolver_CRUD(t *testing.T) {
 
 func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
 	subnet := newSubnet20201101(tc, vnet, "10.0.0.0/24")
-	tc.CreateResourceAndWait(subnet)
-	defer tc.DeleteResourceAndWait(subnet)
-
 	inbound := &network.DnsResolversInboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("inbound"),
 		Spec: network.DnsResolversInboundEndpoint_Spec{
@@ -84,7 +81,9 @@ func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolve
 		},
 	}
 
-	tc.CreateResourceAndWait(inbound)
+	tc.CreateResourcesAndWait(subnet, inbound)
+	defer tc.DeleteResourceAndWait(subnet)
+
 	tc.Expect(inbound.Status.Id).ToNot(BeNil())
 	armId := *inbound.Status.Id
 
@@ -106,12 +105,12 @@ func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolve
 
 func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
 	subnet := newSubnet20201101(tc, vnet, "10.225.0.0/28")
-	tc.CreateResourceAndWait(subnet)
-	defer tc.DeleteResourceAndWait(subnet)
 
 	outbound := newDnsResolversOutboundEndpoint(tc, resolver, subnet)
 
-	tc.CreateResourceAndWait(outbound)
+	tc.CreateResourcesAndWait(subnet, outbound)
+	defer tc.DeleteResourceAndWait(subnet)
+
 	tc.Expect(outbound.Status.Id).ToNot(BeNil())
 	armId := *outbound.Status.Id
 

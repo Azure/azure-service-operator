@@ -116,12 +116,10 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	publicIPAddress := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg))
 	loadBalancer := newLoadBalancerForVMSS(tc, rg, publicIPAddress)
-	// Have to create the vnet first there's a race between it and subnet creation that
-	// can change the body of the VNET PUT (because VNET PUT contains subnets)
-	tc.CreateResourceAndWait(vnet)
-	tc.CreateResourcesAndWait(subnet, loadBalancer, publicIPAddress)
+	tc.CreateResourcesAndWait(vnet, subnet, loadBalancer, publicIPAddress)
 	vmss := newVMSS20220301(tc, rg, loadBalancer, subnet)
 
+	// Can't create the VMSS at the same time as the above, because we read from the status of the load balancer.
 	tc.CreateResourceAndWait(vmss)
 	tc.Expect(vmss.Status.Id).ToNot(BeNil())
 	armId := *vmss.Status.Id

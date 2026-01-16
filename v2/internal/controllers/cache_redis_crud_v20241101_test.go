@@ -157,9 +157,6 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 		},
 	}
 
-	tc.CreateResourceAndWait(&accessPolicy)
-	defer tc.DeleteResourceAndWait(&accessPolicy)
-
 	// Create an access policy assignment
 	assignment := cache.RedisAccessPolicyAssignment{
 		ObjectMeta: tc.MakeObjectMeta("testassignment"),
@@ -171,7 +168,8 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 		},
 	}
 
-	tc.CreateResourceAndWait(&assignment)
+	tc.CreateResourcesAndWait(&accessPolicy, &assignment)
+	defer tc.DeleteResourceAndWait(&accessPolicy)
 	defer tc.DeleteResourceAndWait(&assignment)
 
 	tc.Expect(assignment.Status.Id).ToNot(BeNil())

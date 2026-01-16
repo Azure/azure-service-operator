@@ -110,9 +110,6 @@ func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTest
 		},
 	}
 
-	tc.CreateResourceAndWait(nestedTmp)
-	defer tc.DeleteResourceAndWait(nestedTmp)
-
 	endpoint := &network.TrafficManagerProfilesNestedEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("nested-ep"),
 		Spec: network.TrafficManagerProfilesNestedEndpoint_Spec{
@@ -122,8 +119,9 @@ func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTest
 		},
 	}
 
-	tc.CreateResourceAndWait(endpoint)
-	tc.DeleteResourcesAndWait(endpoint)
+	tc.CreateResourcesAndWait(nestedTmp, endpoint)
+
+	tc.DeleteResourcesAndWait(nestedTmp, endpoint)
 }
 
 func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTestContext, tmp *network.TrafficManagerProfile) {
@@ -146,7 +144,6 @@ func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestC
 	publicIp.Spec.DnsSettings = &network2020.PublicIPAddressDnsSettings{
 		DomainNameLabel: to.Ptr("mydemoapp"),
 	}
-	tc.CreateResourceAndWait(publicIp)
 
 	endpoint := &network.TrafficManagerProfilesAzureEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("azure-ep"),
@@ -157,6 +154,6 @@ func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestC
 		},
 	}
 
-	tc.CreateResourceAndWait(endpoint)
-	tc.DeleteResourcesAndWait(endpoint)
+	tc.CreateResourcesAndWait(publicIp, endpoint)
+	tc.DeleteResourcesAndWait(publicIp, endpoint)
 }

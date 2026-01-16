@@ -30,8 +30,6 @@ func Test_KubernetesConfiguration_Extension_20241101_CRUD(t *testing.T) {
 
 	cluster := NewManagedCluster20240402preview(tc, rg, adminUsername, sshPublicKey)
 
-	tc.CreateResourceAndWait(cluster)
-
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
@@ -49,7 +47,7 @@ func Test_KubernetesConfiguration_Extension_20241101_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(extension)
+	tc.CreateResourcesAndWait(cluster, extension)
 
 	tc.Expect(extension.Status.Id).ToNot(BeNil())
 	armId := *extension.Status.Id
@@ -75,8 +73,6 @@ func Test_KubernetesConfiguration_Extension_ProtectedSettings_20241101(t *testin
 
 	cluster := NewManagedCluster20240402preview(tc, rg, adminUsername, sshPublicKey)
 
-	tc.CreateResourceAndWait(cluster)
-
 	secretName := "mysecret"
 
 	// Create the secret
@@ -90,7 +86,6 @@ func Test_KubernetesConfiguration_Extension_ProtectedSettings_20241101(t *testin
 			"password": "secret2",
 		},
 	}
-	tc.CreateResource(secret)
 
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
@@ -112,7 +107,7 @@ func Test_KubernetesConfiguration_Extension_ProtectedSettings_20241101(t *testin
 		},
 	}
 
-	tc.CreateResourceAndWait(extension)
+	tc.CreateResourcesAndWait(cluster, secret, extension)
 
 	tc.Expect(extension.Status.ConfigurationProtectedSettings).To(HaveLen(2))
 

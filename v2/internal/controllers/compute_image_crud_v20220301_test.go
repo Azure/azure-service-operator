@@ -14,7 +14,6 @@ import (
 	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Compute_Image_20220301_CRUD(t *testing.T) {
@@ -39,10 +38,6 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(snapshot)
-	tc.Expect(snapshot.Status.Id).ToNot(BeNil())
-	snapshotARMId := *snapshot.Status.Id
-
 	tc.LogSectionf("Create Image")
 	v2 := compute2022.HyperVGenerationType_V2
 	linuxOS := compute2022.ImageOSDisk_OsType_Linux
@@ -59,16 +54,15 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 					OsType:     &linuxOS,
 					OsState:    &linuxOSState,
 					Snapshot: &compute2022.SubResource{
-						Reference: &genruntime.ResourceReference{
-							ARMID: snapshotARMId,
-						},
+						Reference: tc.MakeReferenceFromResource(snapshot),
 					},
 				},
 			},
 		},
 	}
 
-	tc.CreateResourceAndWait(image)
+	tc.CreateResourcesAndWait(snapshot, image)
+	tc.Expect(snapshot.Status.Id).ToNot(BeNil())
 	tc.Expect(image.Status.Id).ToNot(BeNil())
 	tc.Expect(image.Status.StorageProfile).ToNot(BeNil())
 	tc.Expect(image.Status.StorageProfile.OsDisk).ToNot(BeNil())

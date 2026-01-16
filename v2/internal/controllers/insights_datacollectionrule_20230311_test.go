@@ -36,8 +36,6 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(workspace)
-
 	// Create a DataCollectionRule
 	dataCollectionRule := &insights.DataCollectionRule{
 		ObjectMeta: tc.MakeObjectMeta("datacollectionrule"),
@@ -82,7 +80,7 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(dataCollectionRule)
+	tc.CreateResourcesAndWait(workspace, dataCollectionRule)
 
 	tc.Expect(dataCollectionRule.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(dataCollectionRule.Status.Id).ToNot(BeNil())
