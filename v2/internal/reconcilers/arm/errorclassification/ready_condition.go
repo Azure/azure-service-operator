@@ -58,7 +58,6 @@ func MakeReadyConditionImpactingErrorFromError(azureErr error, classifier extens
 		return eris.Errorf(
 			"unknown error classification %q while making Ready condition",
 			details.Classification)
-
 	}
 
 	// Stick errorDetails.Message into an error so that it will be displayed as the message on the condition
