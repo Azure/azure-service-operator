@@ -163,6 +163,10 @@ func AppConfiguration_Snapshot_v1api20240601_CRUD(tc *testcommon.KubePerTestCont
 		},
 	}
 
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&snapshot.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
 	tc.CreateResourceAndWait(snapshot)
 
 	tc.Expect(snapshot.Status.CompositionType).ToNot(BeNil())
