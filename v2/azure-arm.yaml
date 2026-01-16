@@ -364,6 +364,12 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly in Swagger
 
+  - group: appconfiguration
+    name: ConfigurationStore_Spec
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+
   - name: IotHub_Spec
     group: devices
     property: Etag
@@ -1505,6 +1511,32 @@ objectModelConfiguration:
         # This is a subresource but it's not labelled as one in their Swagger, instead there's a duplicate entity
         # shaped the same called PrivateEndpointConnection which is labelled as a resource. We want to prune this.
         $isResource: true
+    2024-06-01:
+      ConfigurationStore:
+        $exportAs: ConfigurationStore
+        $supportedFrom: v2.18.0
+        $azureGeneratedSecrets:
+          - PrimaryKeyID
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKeyID
+          - SecondaryKey
+          - SecondaryConnectionString
+          - PrimaryReadOnlyKeyID
+          - PrimaryReadOnlyKey
+          - PrimaryReadOnlyConnectionString
+          - SecondaryReadOnlyKeyID
+          - SecondaryReadOnlyKey
+          - SecondaryReadOnlyConnectionString
+      ConfigurationStores_KeyValue:
+        $exportAs: KeyValue
+        $supportedFrom: v2.18.0
+      ConfigurationStores_Replica:
+        $exportAs: Replica
+        $supportedFrom: v2.18.0
+      ConfigurationStores_Snapshot:
+        $exportAs: Snapshot
+        $supportedFrom: v2.18.0
   authorization:
     2020-08-01-preview:
       RoleAssignment:
