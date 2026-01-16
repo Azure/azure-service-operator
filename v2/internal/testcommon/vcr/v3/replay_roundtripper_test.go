@@ -84,6 +84,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGETReturningNonterminalState_Ret
 	assertExpectedResponse(t, replayer, req, 200, `{"provisioningState": "Deleting"`)
 
 	// Assert - second request fails
+	//nolint:bodyclose // there's no actual body in this response to close
 	_, err := fake.RoundTrip(req)
 	g.Expect(err).To(MatchError(ContainSubstring("requested interaction not found")))
 }
