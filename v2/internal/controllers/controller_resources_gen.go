@@ -40,9 +40,12 @@ import (
 	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/webhook"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
-	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
-	batch_v20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/webhook"
+	batch_v1api20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	batch_v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
+	batch_v1api20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/webhook"
+	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v20210101"
+	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v20210101/storage"
+	batch_v20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v20210101/webhook"
 	batch_v20240701 "github.com/Azure/azure-service-operator/v2/api/batch/v20240701"
 	batch_v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
 	batch_v20240701w "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/webhook"
@@ -3199,6 +3202,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(authorization_v20220401s.RoleAssignment)}, &registration.KnownType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(batch_v1api20210101.BatchAccount),
+		Defaulter: &batch_v1api20210101w.BatchAccount{},
+		Validator: &batch_v1api20210101w.BatchAccount{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(batch_v1api20210101s.BatchAccount)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(batch_v20210101.BatchAccount),
 		Defaulter: &batch_v20210101w.BatchAccount{},
 		Validator: &batch_v20210101w.BatchAccount{},
@@ -5959,6 +5968,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
 	_ = authorization_v20220401s.AddToScheme(scheme)
+	_ = batch_v1api20210101.AddToScheme(scheme)
+	_ = batch_v1api20210101s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
 	_ = batch_v20210101s.AddToScheme(scheme)
 	_ = batch_v20240701.AddToScheme(scheme)
