@@ -8,7 +8,6 @@ package astmodel
 import (
 	"sort"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -257,7 +256,6 @@ func (imports *PackageImportSet) tryAssignImportAliases(
 		if gr, ok := imps[0].packageReference.(InternalPackageReference); ok {
 			if groupConflicts.Contains(gr.Group()) {
 				// This group had conflicts, skip it
-				result = false
 				continue
 			}
 		}
