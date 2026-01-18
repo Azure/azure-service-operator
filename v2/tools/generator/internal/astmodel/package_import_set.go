@@ -8,8 +8,9 @@ package astmodel
 import (
 	"sort"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // PackageImportSet represents a set of distinct PackageImport references
@@ -197,9 +198,10 @@ func (imports *PackageImportSet) orderImports(i PackageImport, j PackageImport) 
 	return i.packageReference.ImportPath() < j.packageReference.ImportPath()
 }
 
-// tryAssignImportAliases attempts to apply the specified PackageImportStyle to the specified imports.
-// Returns true if all the imports had unique names and were successfully updated, false otherwise.
-// Does not modify the set if it returns false.
+// tryAssignImportAliases attempts to apply the specified PackageImportStyle to the import set
+// Any local package references that already have explicit names are left unchanged.
+// Any local package references that can be uniquely identified using the supplied style have that style applied.
+// Returns true if all imports of local package references now have unique names, false otherwise.
 func (imports *PackageImportSet) tryAssignImportAliases(
 	style PackageImportStyle,
 ) bool {
@@ -218,7 +220,7 @@ func (imports *PackageImportSet) tryAssignImportAliases(
 			}
 		}
 
-		// We keep track of the import names we've used, even for external packages
+		// We keep track of the import names we've used, even for external packages, in case of conflicts
 		aliases[imp.name] = append(aliases[imp.name], imp)
 	}
 
@@ -238,18 +240,15 @@ func (imports *PackageImportSet) tryAssignImportAliases(
 	}
 
 	// Apply the aliases, but only where no conflict was found, and skipping any groups with conflicts
-	result := true // Assume success unless we find a conflict
 	for _, imps := range aliases {
 		if len(imps) > 1 {
 			// Alias conflict, can't assign this alias
-			result = false
 			continue
 		}
 
 		if gr, ok := imps[0].packageReference.(InternalPackageReference); ok {
 			if groupConflicts.Contains(gr.Group()) {
 				// This group had conflicts, skip it
-				result = false
 				continue
 			}
 		}
@@ -259,5 +258,5 @@ func (imports *PackageImportSet) tryAssignImportAliases(
 		imports.imports[imp.packageReference] = imp
 	}
 
-	return result
+	return len(groupConflicts) == 0
 }

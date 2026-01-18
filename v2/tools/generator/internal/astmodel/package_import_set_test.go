@@ -371,12 +371,10 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 	batch_v2022 := makeTestLocalPackageReference("batch", "2022-01-01")
 
 	// Legacy version package references using `v1api` as the prefix`
-	batch_legacy_v2020 :=
-		MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "batch", "2020-01-01").
-			WithVersionPrefix("v1api")
-	batch_legacy_v2021 :=
-		MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "batch", "2021-01-01").
-			WithVersionPrefix("v1api")
+	batch_legacy_v2020 := MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "batch", "2020-01-01").
+		WithVersionPrefix("v1api")
+	batch_legacy_v2021 := MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "batch", "2021-01-01").
+		WithVersionPrefix("v1api")
 
 	compute_v2020 := makeTestLocalPackageReference("compute", "2020-01-01")
 	compute_v2021 := makeTestLocalPackageReference("compute", "2021-01-01")
@@ -398,7 +396,6 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 		references map[PackageReference]string // Map of references to expected import names
 	}{
 		"Single version of Batch and nothing else": {
-
 			map[PackageReference]string{
 				batch_v2020: "v20200101",
 			},
