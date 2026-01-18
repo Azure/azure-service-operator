@@ -8,4 +8,4 @@ spec:
   branch: master
   isManualIntegration: true
   owner:
-    name: aso-sample-function-angtr
+    name: aso-sample-function-site
