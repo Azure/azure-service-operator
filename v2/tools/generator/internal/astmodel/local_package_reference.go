@@ -174,6 +174,12 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 			groupForAlias,
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
 			pr.simplifiedAPIVersion(pr.apiVersion))
+	case GroupAndFullVersion:
+		return fmt.Sprintf(
+			"%s_%s%s",
+			groupForAlias,
+			pr.generatorVersion,
+			pr.simplifiedAPIVersion(pr.apiVersion))
 	default:
 		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
 	}

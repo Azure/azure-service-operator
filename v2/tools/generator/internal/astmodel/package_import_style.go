@@ -11,10 +11,16 @@ type PackageImportStyle string
 const (
 	// Name is used when the name of the package is sufficient to uniquely identify it
 	Name PackageImportStyle = "Name"
+
 	// VersionOnly is used when using just the version of the package is sufficiently unique
 	VersionOnly PackageImportStyle = "VersionOnly"
+
 	// GroupOnly is used when using just the group of the package sufficiently unique
 	GroupOnly PackageImportStyle = "GroupOnly"
+
 	// GroupAndVersion is used when both the group and version of the package are required for it to be unique
 	GroupAndVersion PackageImportStyle = "GroupAndVersion"
+
+	// GroupAndFullVersion is a fallback for when more concise styles are not unique enough
+	GroupAndFullVersion PackageImportStyle = "GroupAndFullVersion"
 )

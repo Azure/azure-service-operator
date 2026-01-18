@@ -370,6 +370,14 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 	batch_v2021 := makeTestLocalPackageReference("batch", "2021-01-01")
 	batch_v2022 := makeTestLocalPackageReference("batch", "2022-01-01")
 
+	// Legacy version package references using `v1api` as the prefix`
+	batch_legacy_v2020 :=
+		MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "batch", "2020-01-01").
+			WithVersionPrefix("v1api")
+	batch_legacy_v2021 :=
+		MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "batch", "2021-01-01").
+			WithVersionPrefix("v1api")
+
 	compute_v2020 := makeTestLocalPackageReference("compute", "2020-01-01")
 	compute_v2021 := makeTestLocalPackageReference("compute", "2021-01-01")
 	compute_v2022 := makeTestLocalPackageReference("compute", "2022-01-01")
@@ -380,44 +388,41 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 
 	batch_storage_v2020 := MakeSubPackageReference("storage", batch_v2020)
 	batch_storage_v2021 := MakeSubPackageReference("storage", batch_v2021)
+	batch_storage_legacy_v2020 := MakeSubPackageReference("storage", batch_legacy_v2020)
+	batch_storage_legacy_v2021 := MakeSubPackageReference("storage", batch_legacy_v2021)
 
 	batch_compat_v2020 := MakeSubPackageReference("compat", batch_v2020)
 	// batch_compat_v2021 := MakeSubPackageReference("compat", batch_v2021)
 
-	cases := []struct {
-		name       string
-		references map[PackageReference]string
+	cases := map[string]struct {
+		references map[PackageReference]string // Map of references to expected import names
 	}{
-		{
-			"Single version of Batch and nothing else",
+		"Single version of Batch and nothing else": {
+
 			map[PackageReference]string{
 				batch_v2020: "v20200101",
 			},
 		},
-		{
-			"Single version of Compute and nothing else",
+		"Single version of Compute and nothing else": {
 			map[PackageReference]string{
 				compute_v2022: "v20220101",
 			},
 		},
-		{
-			"Multiple versions of Batch",
+		"Multiple versions of Batch": {
 			map[PackageReference]string{
 				batch_v2020: "v20200101",
 				batch_v2021: "v20210101",
 				batch_v2022: "v20220101",
 			},
 		},
-		{
-			"One import from each group",
+		"One import from each group": {
 			map[PackageReference]string{
 				batch_v2020:   "batch",
 				compute_v2020: "compute",
 				network_v2020: "network",
 			},
 		},
-		{
-			"Groups of different sizes",
+		"Groups of different sizes": {
 			map[PackageReference]string{
 				batch_v2020:   "batch",
 				compute_v2020: "compute_v20200101",
@@ -427,25 +432,30 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 				network_v2022: "network_v20220101",
 			},
 		},
-		{
-			"Sibling subpackages",
+		"Sibling subpackages": {
 			map[PackageReference]string{
 				batch_storage_v2020: "storage",
 				batch_compat_v2020:  "compat",
 			},
 		},
-		{
-			"Subpackages under different parents",
+		"Subpackages under different parents": {
 			map[PackageReference]string{
 				batch_storage_v2020: "v20200101s",
 				batch_storage_v2021: "v20210101s",
 			},
 		},
+		"Multiple storage versions of Batch including legacy versions": {
+			map[PackageReference]string{
+				batch_storage_v2020:        "batch_v20200101s",
+				batch_storage_v2021:        "batch_v20210101s",
+				batch_storage_legacy_v2020: "batch_v1api20200101s",
+				batch_storage_legacy_v2021: "batch_v1api20210101s",
+			},
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 

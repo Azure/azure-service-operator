@@ -122,6 +122,7 @@ func Test_StoragePackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T)
 		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901s"},
 		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
 		{"v1apiGroupAndVersion", "storage", "v1api", "20200901", GroupAndVersion, "storage_v20200901s"},
+		{"v1apiGroupAndFullVersion", "storage", "v1api", "20200901", GroupAndFullVersion, "storage_v1api20200901s"},
 	}
 
 	for _, c := range cases {
