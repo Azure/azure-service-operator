@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsQueueService{}
 
 // ConvertFrom populates our StorageAccountsQueueService from the provided hub StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsQueueService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsQueueService(source)
+	err = service.AssignProperties_From_StorageAccountsQueueService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueService from our StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsQueueService
+	err := service.AssignProperties_To_StorageAccountsQueueService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsQueueService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsQueueService{}
