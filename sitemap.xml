@@ -596,6 +596,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/storage/v20250601/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v20250701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20250801/</loc>
