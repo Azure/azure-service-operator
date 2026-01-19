@@ -107,8 +107,6 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 		},
 	}
 
-	tc.CreateResourceAndWait(acct)
-
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("qservice"),
 		Spec: storage.StorageAccountsQueueService_Spec{
@@ -120,16 +118,12 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&queueService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
-	tc.CreateResourceAndWait(queueService)
-
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
-
-	tc.CreateResourceAndWait(queue)
 
 	acctReference := tc.MakeReferenceFromResource(acct)
 	subscription := &eventgrid.EventSubscription{
@@ -146,5 +140,5 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 		},
 	}
 
-	tc.CreateResourceAndWait(subscription)
+	tc.CreateResourcesAndWait(acct, queueService, queue, subscription)
 }
