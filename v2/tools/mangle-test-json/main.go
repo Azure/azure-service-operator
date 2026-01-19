@@ -182,6 +182,11 @@ func sensitiveRound(d time.Duration) time.Duration {
 func printSummary(packages []string, byPackage map[string][]TestRun) {
 	fmt.Printf("## Package Summary\n\n")
 
+	commonPrefix := findCommonPackagePrefix(packages)
+
+	fmt.Printf("| Result | %s | Time |\n", commonPrefix)
+	fmt.Printf("|--------|:---|-----:|\n")
+
 	// output table-of-contents
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
@@ -196,7 +201,10 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 		}
 
 		overallOutcome := actionSymbol(tests[0])
-		fmt.Printf("* %s `%s` (runtime %s)\n", overallOutcome, pkg, totalRuntime)
+		shortPkgName := displayNameForPackage(pkg, commonPrefix)
+		totalRuntime = sensitiveRound(totalRuntime)
+
+		fmt.Printf("| %s | %s | %s |\n", overallOutcome, shortPkgName, totalRuntime)
 	}
 
 	fmt.Println()
@@ -280,7 +288,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 	}
 
 	if !anyFailed {
-		fmt.Println("**🎉 All tests passed. 🎉**")
+		fmt.Printf("**🎉 All tests passed. 🎉**\n\n")
 	}
 }
 
@@ -369,4 +377,36 @@ func logError(
 // key returns a unique key for a test run
 func (d JSONFormat) key() string {
 	return d.Package + "/" + d.Test
+}
+
+func commonPrefix(
+	left string,
+	right string,
+) string {
+	minLen := min(len(left), len(right))
+	i := 0
+	for i < minLen && left[i] == right[i] {
+		i++
+	}
+
+	return left[:i]
+}
+
+// findCommonPackagePrefix finds the common prefix of all package names, to shorten display
+func findCommonPackagePrefix(packages []string) string {
+	prefix := packages[0]
+	for _, pkg := range packages {
+		prefix = commonPrefix(prefix, pkg)
+	}
+	prefix = strings.TrimRight(prefix, "/")
+	return prefix
+}
+
+func displayNameForPackage(
+	pkg string,
+	commonPrefix string,
+) string {
+	name := strings.TrimPrefix(pkg, commonPrefix)
+	name = strings.TrimLeft(name, "/")
+	return name
 }
