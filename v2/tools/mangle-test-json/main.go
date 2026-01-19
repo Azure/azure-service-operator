@@ -6,6 +6,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -84,20 +85,22 @@ func loadJSON(
 	testOutputFile string,
 	log logr.Logger,
 ) map[string][]TestRun {
-	content, err := os.ReadFile(testOutputFile)
+	file, err := os.Open(testOutputFile)
 	if err != nil {
 		log.Error(
 			err,
-			"Unable to read file",
+			"Unable to open file",
 			"file", testOutputFile)
+		return make(map[string][]TestRun)
 	}
+	defer file.Close()
 
-	// Break into individual lines to make error reporting easier
-	lines := strings.Split(string(content), "\n")
-
+	scanner := bufio.NewScanner(file)
 	factory := newTestRunFactory()
 	errCount := 0
-	for row, line := range lines {
+	row := 0
+	for scanner.Scan() {
+		line := scanner.Text()
 		if len(line) == 0 {
 			// Skip empty lines
 			continue
@@ -121,6 +124,14 @@ func loadJSON(
 		}
 
 		factory.apply(d)
+		row++
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Error(
+			err,
+			"Error reading file",
+			"file", testOutputFile)
 	}
 
 	if errCount > 0 {
