@@ -323,11 +323,19 @@ func printSlowTests(byPackage map[string][]TestRun) {
 		return allTests[i].RunTime > allTests[j].RunTime
 	})
 
-	fmt.Println("| Package | Name | Time |")
+	pkgPrefix := allTests[0].Package
+	for _, test := range allTests {
+		pkgPrefix = commonPrefix(pkgPrefix, test.Package)
+	}
+
+	pkgPrefix = strings.TrimRight(pkgPrefix, "/")
+
+	fmt.Printf("| %s | Name | Time |\n", pkgPrefix)
 	fmt.Println("|---------|------|-----:|")
 	for i := 0; i < min(10, len(allTests)); i += 1 {
 		test := allTests[i]
-		fmt.Printf("| `%s` | `%s` | %s |\n", test.Package, test.Test, test.RunTime)
+		pkg := displayNameForPackage(test.Package, pkgPrefix)
+		fmt.Printf("| `%s` | `%s` | %s |\n", pkg, test.Test, test.RunTime)
 	}
 }
 
