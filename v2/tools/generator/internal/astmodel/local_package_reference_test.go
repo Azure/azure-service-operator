@@ -178,10 +178,11 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
-		group      string
-		apiVersion string
-		style      PackageImportStyle
-		expected   string
+		group            string
+		generatorVersion string
+		apiVersion       string
+		style            PackageImportStyle
+		expected         string
 	}{
 		// Current generator version
 		"GeneratorVersionOnly": {
@@ -259,10 +260,11 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 			expected:   "storage_v20200901",
 		},
 		"v1apiGroupAndFullVersion": {
-			group:      "storage",
-			apiVersion: "20200901",
-			style:      GroupAndFullVersion,
-			expected:   "storage_v1api20200901",
+			group:            "storage",
+			generatorVersion: "v1api",
+			apiVersion:       "20200901",
+			style:            GroupAndFullVersion,
+			expected:         "storage_v1api20200901",
 		},
 	}
 
@@ -272,6 +274,10 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			ref := MakeVersionedLocalPackageReference("v", c.group, c.apiVersion)
+			if c.generatorVersion != "" {
+				ref = ref.WithVersionPrefix(c.generatorVersion)
+			}
+
 			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
 		})
 	}
