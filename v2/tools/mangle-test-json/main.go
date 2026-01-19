@@ -87,23 +87,24 @@ func loadJSON(
 	errCount := 0
 	row := 0
 	for scanner.Scan() {
-		line := scanner.Text()
+		line := scanner.Bytes()
 		if len(line) == 0 {
 			// Skip empty lines
 			continue
 		}
 
 		var d JSONFormat
-		err := json.Unmarshal([]byte(line), &d)
+		err := json.Unmarshal(line, &d)
 		if err != nil {
 			// Write the line to the log so we don't lose the content
+			text := string(line)
 			log.Info(
 				"Unable to parse",
-				"line", line)
+				"line", text)
 
-			if line != "" && !strings.HasPrefix(line, "FAIL") {
+			if text != "" && !strings.HasPrefix(text, "FAIL") {
 				// It's a parse failure we care about, write details
-				logError(log, err, row, line)
+				logError(log, err, row, text)
 				errCount++
 			}
 
