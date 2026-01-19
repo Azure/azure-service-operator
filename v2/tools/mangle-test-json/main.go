@@ -95,7 +95,7 @@ func loadJSON(
 	// Break into individual lines to make error reporting easier
 	lines := strings.Split(string(content), "\n")
 
-	data := make([]JSONFormat, 0, len(lines))
+	factory := newTestRunFactory()
 	errCount := 0
 	for row, line := range lines {
 		if len(line) == 0 {
@@ -120,7 +120,7 @@ func loadJSON(
 			continue
 		}
 
-		data = append(data, d)
+		factory.apply(d)
 	}
 
 	if errCount > 0 {
@@ -129,42 +129,9 @@ func loadJSON(
 			"count", errCount)
 	}
 
-	// Track all the test runs
-	testRuns := make(map[string]*TestRun)
-	for _, d := range data {
-
-		// Find (or create) the test run for this item of data
-		testrun, found := testRuns[d.key()]
-		if !found {
-			testrun = &TestRun{
-				Package: d.Package,
-				Test:    d.Test,
-			}
-
-			testRuns[d.key()] = testrun
-		}
-
-		switch d.Action {
-		case "run":
-			testrun.run(d.Time)
-
-		case "pause":
-			testrun.pause(d.Time)
-
-		case "cont":
-			testrun.resume(d.Time)
-
-		case "output":
-			testrun.output(d.Output)
-
-		case "pass", "fail", "skip":
-			testrun.complete(d.Action, d.Time)
-		}
-	}
-
 	// package → list of tests
-	byPackage := make(map[string][]TestRun, len(data))
-	for _, v := range testRuns {
+	byPackage := make(map[string][]TestRun)
+	for _, v := range factory.runs {
 		byPackage[v.Package] = append(byPackage[v.Package], *v)
 	}
 
