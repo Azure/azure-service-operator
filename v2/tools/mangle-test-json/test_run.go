@@ -11,9 +11,42 @@ import (
 	"time"
 )
 
+type TestAction byte
+
+const (
+	Running    TestAction = 1 << iota // Test is running
+	Paused                            // Test is paused
+	Continuing                        // Test is continued
+	Output                            // Test has output
+	Passed                            // Test has passed
+	Failed                            // Test has failed
+	Skipped                           // Test was skipped
+)
+
+func (ta TestAction) String() string {
+	switch ta {
+	case Running:
+		return "Run"
+	case Paused:
+		return "Pause"
+	case Continuing:
+		return "Continue"
+	case Output:
+		return "Output"
+	case Passed:
+		return "Pass"
+	case Failed:
+		return "Fail"
+	case Skipped:
+		return "Skip"
+	default:
+		return "Unknown"
+	}
+}
+
 // TestRun captures the details of an individual test run
 type TestRun struct {
-	Action   string
+	Action   TestAction
 	Package  string
 	Test     string
 	Output   []string
@@ -29,7 +62,7 @@ func (tr *TestRun) run(started time.Time) {
 		tr.started = &started
 	}
 
-	tr.Action = "run"
+	tr.Action = Running
 }
 
 // pause is used to capture the instant when a test was paused and stopped running
@@ -45,7 +78,7 @@ func (tr *TestRun) pause(stopped time.Time) {
 
 	tr.RunTime += stopped.Sub(*tr.started)
 	tr.started = nil
-	tr.Action = "pause"
+	tr.Action = Paused
 }
 
 // resume indicates the test is continuing to run
@@ -57,7 +90,7 @@ func (tr *TestRun) resume(continued time.Time) {
 		tr.started = &continued
 	}
 
-	tr.Action = "run"
+	tr.Action = Running
 }
 
 // output adds a line of output to this test
@@ -77,7 +110,17 @@ func (tr *TestRun) complete(result string, completed time.Time) {
 	}
 
 	tr.RunTime = sensitiveRound(tr.RunTime)
-	tr.Action = result
+	switch strings.ToLower(result) {
+	case "pass":
+		tr.Action = Passed
+	case "fail":
+		tr.Action = Failed
+	case "skip":
+		tr.Action = Skipped
+	default:
+		msg := fmt.Sprintf("unhandled test result: %s", result)
+		panic(msg)
+	}
 }
 
 func (tr *TestRun) IsInteresting() bool {
@@ -85,17 +128,17 @@ func (tr *TestRun) IsInteresting() bool {
 
 	// Tests that pass, skip, or pause are not interesting
 	switch tr.Action {
-	case "pass":
+	case Passed:
 		// Tests that pass aren't interesting
 		result = false
-	case "skip":
+	case Skipped:
 		// Tests that are skipped aren't interesting
 		result = false
-	case "pause":
+	case Paused:
 		// Tests that are paused aren't interesting (another test will have been responsible for the terminating the
 		// test suite before they can resume)
 		result = false
-	case "run":
+	case Running:
 		// Tests that are running aren't interesting (another test will be responsible for the terminating the test
 		// suite while they're executing)
 		result = false
@@ -107,4 +150,17 @@ func (tr *TestRun) IsInteresting() bool {
 	}
 
 	return result
+}
+
+func (d TestRun) actionSymbol() string {
+	switch d.Action {
+	case Passed:
+		return "✅"
+	case Failed:
+		return "❌"
+	case Skipped:
+		return "⏭️"
+	default:
+		panic(fmt.Sprintf("unhandled action: %s", d.Action))
+	}
 }

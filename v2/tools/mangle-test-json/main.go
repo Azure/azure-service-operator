@@ -68,19 +68,6 @@ func min(i, j int) int {
 	return j
 }
 
-func actionSymbol(d TestRun) string {
-	switch d.Action {
-	case "pass":
-		return "✅"
-	case "fail":
-		return "❌"
-	case "skip":
-		return "⏭️"
-	default:
-		panic(fmt.Sprintf("unhandled action: %s", d.Action))
-	}
-}
-
 func loadJSON(
 	testOutputFile string,
 	log logr.Logger,
@@ -178,7 +165,7 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 			totalRuntime += t.RunTime
 		}
 
-		overallOutcome := actionSymbol(tests[0])
+		overallOutcome := tests[0].actionSymbol()
 		shortPkgName := displayNameForPackage(pkg, commonPrefix)
 		totalRuntime = sensitiveRound(totalRuntime)
 
@@ -196,7 +183,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
 		// check package-level indicator, which will be first ("" test name):
-		if tests[0].Action != "fail" {
+		if tests[0].Action != Failed {
 			continue // no failed tests, skip
 		} else {
 			anyFailed = true
@@ -237,7 +224,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 
 			fmt.Printf("#### Test `%s`\n", test.Test)
 
-			if test.Action == "fail" {
+			if test.Action == Failed {
 				fmt.Printf("Failed in %s:\n", test.RunTime)
 			} else {
 				fmt.Printf("Elapsed %s:\n", test.RunTime)
