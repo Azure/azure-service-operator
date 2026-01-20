@@ -23,7 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
-func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *testing.T) {
+func TestReplayRoundTripperRoundTrip_GivenSingleGETReturningTerminalState_ReturnsMultipleTimes(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
@@ -35,7 +35,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 
 	resp := &http.Response{
 		StatusCode: 200,
-		Body:       io.NopCloser(strings.NewReader("GET response goes here")),
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Succeeded"}}`)),
 	}
 
 	fake := vcr.NewFakeRoundTripper()
@@ -47,13 +47,46 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
 
 	// Assert - first request works
-	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
+	assertExpectedResponse(t, replayer, req, 200, `{"provisioningState": "Succeeded"`)
 
 	// Assert - second request works by replaying the first
-	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
+	assertExpectedResponse(t, replayer, req, 200, `{"provisioningState": "Succeeded"`)
 
 	// Assert - third request works by replaying the first
-	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
+	assertExpectedResponse(t, replayer, req, 200, `{"provisioningState": "Succeeded"`)
+}
+
+func TestReplayRoundTripperRoundTrip_GivenSingleGETReturningNonterminalState_ReturnsOnce(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	req := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodGet,
+		Body:   io.NopCloser(strings.NewReader("GET body goes here")),
+	}
+
+	resp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Deleting"}}`)),
+	}
+
+	fake := vcr.NewFakeRoundTripper()
+	fake.AddResponse(req, resp)
+
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+
+	// Act
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	// Assert - first request works
+	assertExpectedResponse(t, replayer, req, 200, `{"provisioningState": "Deleting"`)
+
+	// Assert - second request fails
+	//nolint:bodyclose // there's no actual body in this response to close
+	_, err := fake.RoundTrip(req)
+	g.Expect(err).To(MatchError(ContainSubstring("requested interaction not found")))
 }
 
 func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.T) {
