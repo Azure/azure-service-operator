@@ -158,8 +158,6 @@ func (pr LocalPackageReference) GroupVersion() (string, string) {
 
 // ImportAlias returns the import alias to use for this package reference
 func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
-	groupForAlias := strings.ReplaceAll(pr.group, ".", "")
-
 	switch style {
 	case Name, VersionOnly:
 		return fmt.Sprintf(
@@ -167,16 +165,30 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
 			pr.simplifiedAPIVersion(pr.apiVersion))
 	case GroupOnly:
-		return groupForAlias
+		return pr.simplifiedGroup(pr.group)
 	case GroupAndVersion:
+		// It's not idiomatic for Go to include an underscore in an import alias,
+		// but we judged that this improves readability enough to be worthwhile
+		// as these aliases are often both long and in groups that are similar to each other.
 		return fmt.Sprintf(
 			"%s_%s%s",
-			groupForAlias,
+			pr.simplifiedGroup(pr.group),
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
+			pr.simplifiedAPIVersion(pr.apiVersion))
+	case GroupAndFullVersion:
+		// As discussed above, it's not idiomatic but we do it anyway.
+		return fmt.Sprintf(
+			"%s_%s%s",
+			pr.simplifiedGroup(pr.group),
+			pr.generatorVersion,
 			pr.simplifiedAPIVersion(pr.apiVersion))
 	default:
 		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
 	}
+}
+
+func (pr LocalPackageReference) simplifiedGroup(group string) string {
+	return strings.ToLower(strings.ReplaceAll(group, ".", ""))
 }
 
 var apiVersionSimplifier = strings.NewReplacer(
