@@ -46,7 +46,7 @@ func main() {
 		for k, v := range byPackage {
 			packages = append(packages, k)
 			sort.Slice(v, func(i, j int) bool {
-				return v[i].Test < v[j].Test
+				return v[i].Test.Value() < v[j].Test.Value()
 			})
 		}
 
@@ -130,8 +130,13 @@ func loadJSON(
 
 	// package → list of tests
 	byPackage := make(map[string][]TestRun)
-	for _, v := range factory.runs {
-		byPackage[v.Package] = append(byPackage[v.Package], *v)
+	for pkg, pkgRuns := range factory.testRuns {
+		var runs []TestRun
+		for _, r := range pkgRuns {
+			runs = append(runs, *r)
+		}
+
+		byPackage[pkg] = runs
 	}
 
 	return byPackage
@@ -223,7 +228,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 				continue
 			}
 
-			fmt.Printf("#### Test `%s`\n", test.Test)
+			fmt.Printf("#### Test `%s`\n", test.Test.Value())
 
 			if test.Action == Failed {
 				fmt.Printf("Failed in %s:\n", test.RunTime)
@@ -242,7 +247,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 
 			// Output info on stderr, so that test failure isn’t silent on console
 			// when running `task ci`, and that full logs are available if they get trimmed
-			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test)
+			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test.Value())
 			fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
 			for _, outputLine := range test.Output {
 				fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
@@ -289,9 +294,9 @@ func printSlowTests(byPackage map[string][]TestRun) {
 		return allTests[i].RunTime > allTests[j].RunTime
 	})
 
-	pkgPrefix := allTests[0].Package
+	pkgPrefix := allTests[0].Package.Value()
 	for _, test := range allTests {
-		pkgPrefix = commonPrefix(pkgPrefix, test.Package)
+		pkgPrefix = commonPrefix(pkgPrefix, test.Package.Value())
 	}
 
 	pkgPrefix = strings.TrimRight(pkgPrefix, "/")
@@ -300,8 +305,8 @@ func printSlowTests(byPackage map[string][]TestRun) {
 	fmt.Println("|---------|------|-----:|")
 	for i := 0; i < min(10, len(allTests)); i += 1 {
 		test := allTests[i]
-		pkg := displayNameForPackage(test.Package, pkgPrefix)
-		fmt.Printf("| `%s` | `%s` | %s |\n", pkg, test.Test, test.RunTime)
+		pkg := displayNameForPackage(test.Package.Value(), pkgPrefix)
+		fmt.Printf("| `%s` | `%s` | %s |\n", pkg, test.Test.Value(), test.RunTime)
 	}
 }
 

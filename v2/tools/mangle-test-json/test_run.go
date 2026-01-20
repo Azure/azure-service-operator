@@ -9,9 +9,10 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"unique"
 )
 
-type TestAction byte
+type TestAction string
 
 const (
 	Running    = TestAction("Running")
@@ -26,8 +27,8 @@ const (
 // TestRun captures the details of an individual test run
 type TestRun struct {
 	Action   TestAction
-	Package  string
-	Test     string
+	Package  unique.Handle[string]
+	Test     unique.Handle[string]
 	Output   []string
 	RunTime  time.Duration
 	started  *time.Time
@@ -50,8 +51,8 @@ func (tr *TestRun) pause(stopped time.Time) {
 	if tr.started == nil {
 		msg := fmt.Sprintf(
 			"Test %s in package %s was paused when it was not running",
-			tr.Test,
-			tr.Package)
+			tr.Test.Value(),
+			tr.Package.Value())
 		panic(msg)
 	}
 
@@ -120,6 +121,10 @@ func (tr *TestRun) IsInteresting() bool {
 		// Tests that are running aren't interesting (another test will be responsible for the terminating the test
 		// suite while they're executing)
 		result = false
+	case Failed:
+		// Tests that fail are interesting
+	default:
+		// Tests with unknown status are interesting
 	}
 
 	// Tests that have a panic are interesting, regardless of the result
