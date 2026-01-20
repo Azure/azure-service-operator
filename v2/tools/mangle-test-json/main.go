@@ -348,11 +348,6 @@ func logError(
 	)
 }
 
-// key returns a unique key for a test run
-func (d JSONFormat) key() string {
-	return d.Package + "/" + d.Test
-}
-
 func commonPrefix(
 	left string,
 	right string,
