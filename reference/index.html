@@ -32,7 +32,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="7046">
+  <meta itemprop="wordCount" content="7086">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -913,6 +913,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-3">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-3">Other Supported Versions</a></li>
+        <li><a href="#deprecated">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#cache">Cache</a>
@@ -1707,6 +1708,28 @@ grouped by the originating ARM service.
 </table>
 <h3 id="other-supported-versions-3">Other Supported Versions</h3>
 <p>These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>BatchAccount</td>
+          <td>2021-01-01</td>
+          <td>v20210101</td>
+          <td>v2.0.0-alpha.1</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v20210101/v20210101_batchaccount.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="deprecated">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
       <tr>
