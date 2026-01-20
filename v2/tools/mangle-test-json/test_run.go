@@ -14,35 +14,14 @@ import (
 type TestAction byte
 
 const (
-	Running    TestAction = 1 << iota // Test is running
-	Paused                            // Test is paused
-	Continuing                        // Test is continued
-	Output                            // Test has output
-	Passed                            // Test has passed
-	Failed                            // Test has failed
-	Skipped                           // Test was skipped
+	Running    = TestAction("Running")
+	Paused     = TestAction("Paused")
+	Continuing = TestAction("Continuing")
+	Output     = TestAction("Output")
+	Passed     = TestAction("Passed")
+	Failed     = TestAction("Failed")
+	Skipped    = TestAction("Skipped")
 )
-
-func (ta TestAction) String() string {
-	switch ta {
-	case Running:
-		return "Run"
-	case Paused:
-		return "Pause"
-	case Continuing:
-		return "Continue"
-	case Output:
-		return "Output"
-	case Passed:
-		return "Pass"
-	case Failed:
-		return "Fail"
-	case Skipped:
-		return "Skip"
-	default:
-		return "Unknown"
-	}
-}
 
 // TestRun captures the details of an individual test run
 type TestRun struct {
@@ -118,8 +97,7 @@ func (tr *TestRun) complete(result string, completed time.Time) {
 	case "skip":
 		tr.Action = Skipped
 	default:
-		msg := fmt.Sprintf("unhandled test result: %s", result)
-		panic(msg)
+		tr.Action = TestAction(result) // capture unknown actions as-is
 	}
 }
 
