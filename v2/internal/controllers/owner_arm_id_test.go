@@ -64,7 +64,6 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 
 	// Now create a storage account
 	acct := newStorageAccount20230101(tc, rg)
-	tc.CreateResourceAndWait(acct)
 
 	// and a blob service
 	blobService := &storage.StorageAccountsBlobService{
@@ -78,7 +77,7 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&blobService.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
-	tc.CreateResourceAndWait(blobService)
+	tc.CreateResourcesAndWait(acct, blobService)
 
 	tc.Expect(blobService.Status.Id).ToNot(BeNil())
 	armID := *blobService.Status.Id

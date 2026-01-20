@@ -41,10 +41,9 @@ func Test_PostgreSQL_Combined(t *testing.T) {
 	tc.CreateResource(secret)
 
 	flexibleServer := newPostgreSQLServer(tc, rg, adminUsername, adminPasswordKey, secret.Name)
-	tc.CreateResourceAndWait(flexibleServer)
-
 	firewallRule := newPostgreSQLServerOpenFirewallRule(tc, flexibleServer)
-	tc.CreateResourceAndWait(firewallRule)
+
+	tc.CreateResourcesAndWait(flexibleServer, firewallRule)
 
 	tc.Expect(flexibleServer.Status.FullyQualifiedDomainName).ToNot(BeNil())
 	fqdn := *flexibleServer.Status.FullyQualifiedDomainName
