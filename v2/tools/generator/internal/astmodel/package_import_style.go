@@ -5,7 +5,9 @@
 
 package astmodel
 
-// PackageImportStyle is used to determine how to define a unique package import alias in a given context
+// PackageImportStyle is used to determine how to define a unique package import alias in a given context.
+// For examples on how these are applied, see LocalPackageReference.ImportAlias and the associated helper methods
+// simplifiedGroup(), simplifiedAPIVersion(), and simplifiedGeneratorVersion().
 type PackageImportStyle string
 
 const (
@@ -18,9 +20,10 @@ const (
 	// GroupOnly is used when using just the group of the package sufficiently unique
 	GroupOnly PackageImportStyle = "GroupOnly"
 
-	// GroupAndVersion is used when both the group and version of the package are required for it to be unique
+	// GroupAndVersion is used when both the group and version of the package are required for it to be unique.
 	GroupAndVersion PackageImportStyle = "GroupAndVersion"
 
-	// GroupAndFullVersion is a fallback for when more concise styles are not unique enough
+	// GroupAndFullVersion is a fallback for when more concise styles are not unique enough.
+	// This differs from GroupAndVersion in _not_ replacing the generator version with a simple `v` prefix.
 	GroupAndFullVersion PackageImportStyle = "GroupAndFullVersion"
 )
