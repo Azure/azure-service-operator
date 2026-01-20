@@ -5,6 +5,8 @@
 
 package main
 
+import "unique"
+
 type testRunFactory struct {
 	// testRuns contains all tests, keyed by package then test name
 	testRuns map[string]map[string]*TestRun
@@ -26,34 +28,28 @@ func (f *testRunFactory) apply(action JSONFormat) {
 
 	testRun, found := packageRuns[action.Test]
 	if !found {
-			Package: action.Package,
-			Test:    action.Test,
 		testRun = &TestRun{
+			Package: unique.Make(action.Package),
+			Test:    unique.Make(action.Test),
 		}
 
-		f.runs[action.key()] = testrun
 		packageRuns[action.Test] = testRun
 	}
 
 	switch action.Action {
 	case "run":
-		testrun.run(action.Time)
 		testRun.run(action.Time)
 
 	case "pause":
-		testrun.pause(action.Time)
 		testRun.pause(action.Time)
 
 	case "cont":
-		testrun.resume(action.Time)
 		testRun.resume(action.Time)
 
 	case "output":
-		testrun.output(action.Output)
 		testRun.output(action.Output)
 
 	case "pass", "fail", "skip":
-		testrun.complete(action.Action, action.Time)
 		testRun.complete(action.Action, action.Time)
 	}
 }
