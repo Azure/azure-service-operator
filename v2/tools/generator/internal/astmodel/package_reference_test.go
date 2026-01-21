@@ -32,78 +32,146 @@ func TestSortPackageReferencesByPathAndVersion(t *testing.T) {
 func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name     string
+	cases := map[string]struct {
 		left     string
 		right    string
 		expected int
 	}{
 		// Equality tests
-		{"grobo v1 is equal to self", "grobo/v1", "grobo/v1", 0},
-		{"grobo v2 is equal to self", "grobo/v2", "grobo/v2", 0},
+		"grobo v1 is equal to self": {
+			left:     "grobo/v1",
+			right:    "grobo/v1",
+			expected: 0,
+		},
+		"grobo v2 is equal to self": {
+			left:     "grobo/v2",
+			right:    "grobo/v2",
+			expected: 0,
+		},
 		// Different length tests
-		{"Shorter is less than longer", "abc", "abcdef", -1},
-		{"Longer is not less than shorter", "abcdef", "abc", 1},
+		"Shorter is less than longer": {
+			left:     "abc",
+			right:    "abcdef",
+			expected: -1,
+		},
+		"Longer is not less than shorter": {
+			left:     "abcdef",
+			right:    "abc",
+			expected: 1,
+		},
 		// Numeric tests
-		{"Number equal to self", "42", "42", 0},
-		{"grobo v1 is less than grobo v2", "grobo/v1", "grobo/v2", -1},
-		{"grobo v2 is not less than grobo v1", "grobo/v2", "grobo/v1", 1},
+		"Number equal to self": {
+			left:     "42",
+			right:    "42",
+			expected: 0,
+		},
+		"grobo v1 is less than grobo v2": {
+			left:     "grobo/v1",
+			right:    "grobo/v2",
+			expected: -1,
+		},
+		"grobo v2 is not less than grobo v1": {
+			left:     "grobo/v2",
+			right:    "grobo/v1",
+			expected: 1,
+		},
 		// Prerelease tests
-		{"Alpha comes before beta", "1alpha", "1beta", -1},
-		{"Alpha comes before aardvark", "1alpha", "1aardvark", -1},
-		{"Alpha comes before GA", "1alpha", "1", -1},
-		{"Beta comes before preview", "1beta", "1preview", -1},
-		{"Beta comes before baboon", "1beta", "1baboon", -1},
-		{"Beta comes before GA", "1beta", "1", -1},
-		{"Preview comes before storage", "1preview", "1storage", -1},
-		{"Preview comes before grape", "1preview", "1grape", -1},
-		{"Preview comes before GA", "1preview", "1", -1},
+		"Alpha comes before beta": {
+			left:     "1alpha",
+			right:    "1beta",
+			expected: -1,
+		},
+		"Alpha comes before aardvark": {
+			left:     "1alpha",
+			right:    "1aardvark",
+			expected: -1,
+		},
+		"Alpha comes before GA": {
+			left:     "1alpha",
+			right:    "1",
+			expected: -1,
+		},
+		"Beta comes before preview": {
+			left:     "1beta",
+			right:    "1preview",
+			expected: -1,
+		},
+		"Beta comes before baboon": {
+			left:     "1beta",
+			right:    "1baboon",
+			expected: -1,
+		},
+		"Beta comes before GA": {
+			left:     "1beta",
+			right:    "1",
+			expected: -1,
+		},
+		"Preview comes before storage": {
+			left:     "1preview",
+			right:    "1storage",
+			expected: -1,
+		},
+		"Preview comes before grape": {
+			left:     "1preview",
+			right:    "1grape",
+			expected: -1,
+		},
+		"Preview comes before GA": {
+			left:     "1preview",
+			right:    "1",
+			expected: -1,
+		},
 		// Version tests
-		{"v2.0.0 comes before v2.1.0", "v2.0.0", "v2.1.0", -1},
-		{"v2.1.0 comes before v2.9.0", "v2.1.0", "v2.9.0", -1},
-		{"v2.9.0 comes before v2.10.0", "v2.9.0", "v2.10.0", -1},
+		"v2.0.0 comes before v2.1.0": {
+			left:     "v2.0.0",
+			right:    "v2.1.0",
+			expected: -1,
+		},
+		"v2.1.0 comes before v2.9.0": {
+			left:     "v2.1.0",
+			right:    "v2.9.0",
+			expected: -1,
+		},
+		"v2.9.0 comes before v2.10.0": {
+			left:     "v2.9.0",
+			right:    "v2.10.0",
+			expected: -1,
+		},
 		// Consistency tests, based on observed weirdness
-		{
-			"Storage subpackage comes after base",
-			"github.com/Azure/azure-service-operator/testing/person/v20200101",
-			"github.com/Azure/azure-service-operator/testing/person/v20200101/storage",
-			-1,
+		"Storage subpackage comes after base": {
+			left:     "github.com/Azure/azure-service-operator/testing/person/v20200101",
+			right:    "github.com/Azure/azure-service-operator/testing/person/v20200101/storage",
+			expected: -1,
 		},
-		{
-			"Storage subpackage comes after base, reversed",
-			"github.com/Azure/azure-service-operator/testing/person/v20200101/storage",
-			"github.com/Azure/azure-service-operator/testing/person/v20200101",
-			1,
+		"Storage subpackage comes after base, reversed": {
+			left:     "github.com/Azure/azure-service-operator/testing/person/v20200101/storage",
+			right:    "github.com/Azure/azure-service-operator/testing/person/v20200101",
+			expected: 1,
 		},
-		{
-			"Storage subpackage comes after preview base",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231preview/storage",
-			-1,
+		"Storage subpackage comes after preview base": {
+			left:     "github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			right:    "github.com/Azure/azure-service-operator/testing/person/v20211231preview/storage",
+			expected: -1,
 		},
-		{
-			"Storage subpackage comes after preview base, reversed",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231preview/storage",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
-			1,
+		"Storage subpackage comes after preview base, reversed": {
+			left:     "github.com/Azure/azure-service-operator/testing/person/v20211231preview/storage",
+			right:    "github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			expected: 1,
 		},
-		{
-			"Storage subpackage of non-preview comes after preview base",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231/storage",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
-			1,
+		"Storage subpackage of non-preview comes after preview base": {
+			left:     "github.com/Azure/azure-service-operator/testing/person/v20211231/storage",
+			right:    "github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			expected: 1,
 		},
-		{
-			"Storage subpackage of non-preview comes after preview base, reversed",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
-			"github.com/Azure/azure-service-operator/testing/person/v20211231/storage",
-			-1,
+		"Storage subpackage of non-preview comes after preview base, reversed": {
+			left:     "github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			right:    "github.com/Azure/azure-service-operator/testing/person/v20211231/storage",
+			expected: -1,
 		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -120,24 +188,50 @@ func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
 func TestVersionComparerCompareNumeric(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name     string
+	cases := map[string]struct {
 		left     string
 		right    string
 		expected int
 	}{
-		{"Number equal to self", "42", "42", 0},
-		{"Leading zeros on left-hand value don't matter", "042", "42", 0},
-		{"Leading zeros on right-hand value don't matter", "42", "042", 0},
-		{"Longer numbers are greater", "142", "42", 1},
-		{"Shorter numbers are lesser", "42", "942", -1},
-		{"Really really long equal numbers are equal", "1099511627776", "1099511627776", 0},
-		{"Really really long non-equal numbers are comparable", "10995116277763", "10995116277769", -1},
+		"Number equal to self": {
+			left:     "42",
+			right:    "42",
+			expected: 0,
+		},
+		"Leading zeros on left-hand value don't matter": {
+			left:     "042",
+			right:    "42",
+			expected: 0,
+		},
+		"Leading zeros on right-hand value don't matter": {
+			left:     "42",
+			right:    "042",
+			expected: 0,
+		},
+		"Longer numbers are greater": {
+			left:     "142",
+			right:    "42",
+			expected: 1,
+		},
+		"Shorter numbers are lesser": {
+			left:     "42",
+			right:    "942",
+			expected: -1,
+		},
+		"Really really long equal numbers are equal": {
+			left:     "1099511627776",
+			right:    "1099511627776",
+			expected: 0,
+		},
+		"Really really long non-equal numbers are comparable": {
+			left:     "10995116277763",
+			right:    "10995116277769",
+			expected: -1,
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -154,20 +248,30 @@ func TestVersionComparerCompareNumeric(t *testing.T) {
 func TestContainsPreviewVersionLabel(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name     string
+	cases := map[string]struct {
 		version  string
 		expected bool
 	}{
-		{"Non-preview", "v20200201", false},
-		{"Alpha", "v20200201alpha", true},
-		{"Beta", "v20200201beta", true},
-		{"Preview", "v20200201preview", true},
+		"Non-preview": {
+			version:  "v20200201",
+			expected: false,
+		},
+		"Alpha": {
+			version:  "v20200201alpha",
+			expected: true,
+		},
+		"Beta": {
+			version:  "v20200201beta",
+			expected: true,
+		},
+		"Preview": {
+			version:  "v20200201preview",
+			expected: true,
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
