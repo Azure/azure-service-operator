@@ -24,20 +24,35 @@ func makeTestLocalPackageReference(group string, version string) LocalPackageRef
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name       string
+	cases := map[string]struct {
 		group      string
 		apiVersion string
 		pkg        string
 	}{
-		{"Networking", "network", "2020-09-01", "v20200901"},
-		{"Batch (new)", "batch", "2020-09-01", "v20200901"},
-		{"Batch (old)", "batch", "2015-01-01", "v20150101"},
-		{"Networking Frontdoor", "network.frontdoor", "2020-09-01", "v20200901"},
+		"Networking": {
+			group:      "network",
+			apiVersion: "2020-09-01",
+			pkg:        "v20200901",
+		},
+		"Batch (new)": {
+			group:      "batch",
+			apiVersion: "2020-09-01",
+			pkg:        "v20200901",
+		},
+		"Batch (old)": {
+			group:      "batch",
+			apiVersion: "2015-01-01",
+			pkg:        "v20150101",
+		},
+		"Networking Frontdoor": {
+			group:      "network.frontdoor",
+			apiVersion: "2020-09-01",
+			pkg:        "v20200901",
+		},
 	}
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -52,50 +67,45 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name        string
+	cases := map[string]struct {
 		group       string
 		version     string
 		pkg         string
 		packagePath string
 		folderPath  string
 	}{
-		{
-			"Network",
-			"network",
-			"2020-09-01",
-			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/network/v20200901",
-			"network/v20200901",
+		"Network": {
+			group:       "network",
+			version:     "2020-09-01",
+			pkg:         "v20200901",
+			packagePath: "github.com/Azure/azure-service-operator/v2/api/network/v20200901",
+			folderPath:  "network/v20200901",
 		},
-		{
-			"Batch (new)",
-			"batch",
-			"2020-09-01",
-			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/batch/v20200901",
-			"batch/v20200901",
+		"Batch (new)": {
+			group:       "batch",
+			version:     "2020-09-01",
+			pkg:         "v20200901",
+			packagePath: "github.com/Azure/azure-service-operator/v2/api/batch/v20200901",
+			folderPath:  "batch/v20200901",
 		},
-		{
-			"Batch (old)",
-			"batch",
-			"2015-01-01",
-			"v20150101",
-			"github.com/Azure/azure-service-operator/v2/api/batch/v20150101",
-			"batch/v20150101",
+		"Batch (old)": {
+			group:       "batch",
+			version:     "2015-01-01",
+			pkg:         "v20150101",
+			packagePath: "github.com/Azure/azure-service-operator/v2/api/batch/v20150101",
+			folderPath:  "batch/v20150101",
 		},
-		{
-			"Network Frontdoor",
-			"network.frontdoor",
-			"2020-09-01",
-			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v20200901",
-			"network.frontdoor/v20200901",
+		"Network Frontdoor": {
+			group:       "network.frontdoor",
+			version:     "2020-09-01",
+			pkg:         "v20200901",
+			packagePath: "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v20200901",
+			folderPath:  "network.frontdoor/v20200901",
 		},
 	}
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -117,25 +127,55 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 	networkRef := makeTestLocalPackageReference("network", "v20200901")
 	fmtRef := MakeExternalPackageReference("fmt")
 
-	cases := []struct {
-		name     string
+	cases := map[string]struct {
 		this     LocalPackageReference
 		other    PackageReference
 		areEqual bool
 	}{
-		{"Equal self", batchRef, batchRef, true},
-		{"Equal self", olderRef, olderRef, true},
-		{"Not equal other library name", batchRef, networkRef, false},
-		{"Not equal other library name", networkRef, batchRef, false},
-		{"Not equal other library version", batchRef, olderRef, false},
-		{"Not equal other library version", olderRef, batchRef, false},
-		{"Not equal other kind", batchRef, fmtRef, false},
-		{"Not equal other kind", networkRef, fmtRef, false},
+		"Equal self (batch)": {
+			this:     batchRef,
+			other:    batchRef,
+			areEqual: true,
+		},
+		"Equal self (older)": {
+			this:     olderRef,
+			other:    olderRef,
+			areEqual: true,
+		},
+		"Not equal other library name (batch vs network)": {
+			this:     batchRef,
+			other:    networkRef,
+			areEqual: false,
+		},
+		"Not equal other library name (network vs batch)": {
+			this:     networkRef,
+			other:    batchRef,
+			areEqual: false,
+		},
+		"Not equal other library version (batch vs older)": {
+			this:     batchRef,
+			other:    olderRef,
+			areEqual: false,
+		},
+		"Not equal other library version (older vs batch)": {
+			this:     olderRef,
+			other:    batchRef,
+			areEqual: false,
+		},
+		"Not equal other kind (batch vs fmt)": {
+			this:     batchRef,
+			other:    fmtRef,
+			areEqual: false,
+		},
+		"Not equal other kind (network vs fmt)": {
+			this:     networkRef,
+			other:    fmtRef,
+			areEqual: false,
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -148,21 +188,34 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 func TestLocalPackageReferenceIsPreview(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name      string
+	cases := map[string]struct {
 		version   string
 		isPreview bool
 	}{
-		{"GA Release is not preview", "v20200901", false},
-		{"Preview release is preview", "v20200901preview", true},
-		{"Preview rerelease is preview", "v20200901preview2", true},
-		{"Alpha release is preview", "v20200901alpha", true},
-		{"Beta release is preview", "v20200901beta", true},
+		"GA Release is not preview": {
+			version:   "v20200901",
+			isPreview: false,
+		},
+		"Preview release is preview": {
+			version:   "v20200901preview",
+			isPreview: true,
+		},
+		"Preview rerelease is preview": {
+			version:   "v20200901preview2",
+			isPreview: true,
+		},
+		"Alpha release is preview": {
+			version:   "v20200901alpha",
+			isPreview: true,
+		},
+		"Beta release is preview": {
+			version:   "v20200901beta",
+			isPreview: true,
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 

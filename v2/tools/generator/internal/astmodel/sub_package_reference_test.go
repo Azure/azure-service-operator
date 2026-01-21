@@ -17,29 +17,28 @@ func Test_NewSubPackageReference_GivenParentAndName_ReturnsExpectedProperties(t 
 	parent := makeTestLocalPackageReference("group", "version")
 	batch := makeTestLocalPackageReference("microsoft.batch", "2020-09-01")
 
-	cases := []struct {
+	cases := map[string]struct {
 		name                string
 		parent              InternalPackageReference
 		expectedPackageName string
 		expectedPackagePath string
 	}{
-		{
-			"simple",
-			parent,
-			"simple",
-			"github.com/Azure/azure-service-operator/v2/api/group/version/simple",
+		"simple parent returns expected package path": {
+			name:                "simple",
+			parent:              parent,
+			expectedPackageName: "simple",
+			expectedPackagePath: "github.com/Azure/azure-service-operator/v2/api/group/version/simple",
 		},
-		{
-			"sub",
-			batch,
-			"sub",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901/sub",
+		"versioned parent returns expected package path": {
+			name:                "sub",
+			parent:              batch,
+			expectedPackageName: "sub",
+			expectedPackagePath: "github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901/sub",
 		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -59,33 +58,28 @@ func Test_SubPackageReference_GivenParent_InheritsParentsProperties(t *testing.T
 	network := makeTestLocalPackageReference("microsoft.network", "2023-07-01")
 	networkPreview := makeTestLocalPackageReference("microsoft.network", "2023-07-01-preview")
 
-	cases := []struct {
-		name      string
+	cases := map[string]struct {
 		parent    InternalPackageReference
 		group     string
 		version   string
 		isPreview bool
 	}{
-		{
-			"Network",
-			network,
-			"microsoft.network",
-			"v20230701",
-			false,
+		"GA parent is not preview": {
+			parent:    network,
+			group:     "microsoft.network",
+			version:   "v20230701",
+			isPreview: false,
 		},
-		{
-			"NetworkPreview",
-			networkPreview,
-			"microsoft.network",
-			"v20230701preview",
-			true,
+		"preview parent is preview": {
+			parent:    networkPreview,
+			group:     "microsoft.network",
+			version:   "v20230701preview",
+			isPreview: true,
 		},
 	}
 
-	for _, c := range cases {
-		c := c
-
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
