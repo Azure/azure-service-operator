@@ -7,7 +7,9 @@ package testcommon
 
 import (
 	"context"
+	"strings"
 
+	"github.com/onsi/gomega"
 	"github.com/rotisserie/eris"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -71,7 +73,17 @@ func (e *Verify) HasState(
 
 	inGoalState := ready.Status == desiredState && ready.Severity == desiredSeverity
 	hasObservedGenerationChanged := oldGeneration != ready.ObservedGeneration
-	return inGoalState && hasObservedGenerationChanged, nil
+	if inGoalState && hasObservedGenerationChanged {
+		return true, nil
+	}
+
+	// If we ever get an error about a missing recording, the test has failed and we
+	// can abort early without waiting for a timeout
+	if strings.Contains(ready.Message, "cannot find go-vcr recording") {
+		return false, gomega.StopTrying(ready.Message)
+	}
+
+	return false, nil
 }
 
 // Deleted verifies that the object specified has been deleted
@@ -86,6 +98,25 @@ func (e *Verify) Deleted(ctx context.Context, obj client.Object) (bool, error) {
 	}
 	if err != nil {
 		return false, err
+	}
+
+	// Object hasn't been deleted, check its Condition for a terminal problem
+	conditioner, ok := obj.(conditions.Conditioner)
+	if !ok {
+		return false, eris.Errorf("result of get was not conditions.Conditioner, was: %T", obj)
+	}
+
+	ready, ok := conditions.GetCondition(conditioner, conditions.ConditionTypeReady)
+	if !ok {
+		return false, nil
+	}
+
+	// If we ever get an error about a missing recording, the test has failed and we
+	// can abort early without waiting for a timeout
+	if ready.Reason == "DeletionNotSupportedInAzure" {
+		if strings.Contains(ready.Message, "cannot find go-vcr recording") {
+			return false, gomega.StopTrying(ready.Message)
+		}
 	}
 
 	return false, nil

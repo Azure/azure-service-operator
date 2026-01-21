@@ -6,6 +6,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -45,7 +46,7 @@ func main() {
 		for k, v := range byPackage {
 			packages = append(packages, k)
 			sort.Slice(v, func(i, j int) bool {
-				return v[i].Test < v[j].Test
+				return v[i].Test.Value() < v[j].Test.Value()
 			})
 		}
 
@@ -67,60 +68,58 @@ func min(i, j int) int {
 	return j
 }
 
-func actionSymbol(d TestRun) string {
-	switch d.Action {
-	case "pass":
-		return "✅"
-	case "fail":
-		return "❌"
-	case "skip":
-		return "⏭️"
-	default:
-		panic(fmt.Sprintf("unhandled action: %s", d.Action))
-	}
-}
-
 func loadJSON(
 	testOutputFile string,
 	log logr.Logger,
 ) map[string][]TestRun {
-	content, err := os.ReadFile(testOutputFile)
+	file, err := os.Open(testOutputFile)
 	if err != nil {
 		log.Error(
 			err,
-			"Unable to read file",
+			"Unable to open file",
 			"file", testOutputFile)
+		return make(map[string][]TestRun)
 	}
+	defer file.Close()
 
-	// Break into individual lines to make error reporting easier
-	lines := strings.Split(string(content), "\n")
-
-	data := make([]JSONFormat, 0, len(lines))
+	scanner := bufio.NewScanner(file)
+	factory := newTestRunFactory()
 	errCount := 0
-	for row, line := range lines {
+	row := 0
+	for scanner.Scan() {
+		line := scanner.Bytes()
 		if len(line) == 0 {
 			// Skip empty lines
 			continue
 		}
 
 		var d JSONFormat
-		err := json.Unmarshal([]byte(line), &d)
+		err := json.Unmarshal(line, &d)
 		if err != nil {
 			// Write the line to the log so we don't lose the content
+			text := string(line)
 			log.Info(
 				"Unable to parse",
-				"line", line)
+				"line", text)
 
-			if line != "" && !strings.HasPrefix(line, "FAIL") {
+			if text != "" && !strings.HasPrefix(text, "FAIL") {
 				// It's a parse failure we care about, write details
-				logError(log, err, row, line)
+				logError(log, err, row, text)
 				errCount++
 			}
 
 			continue
 		}
 
-		data = append(data, d)
+		factory.apply(d)
+		row++
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Error(
+			err,
+			"Error reading file",
+			"file", testOutputFile)
 	}
 
 	if errCount > 0 {
@@ -129,43 +128,15 @@ func loadJSON(
 			"count", errCount)
 	}
 
-	// Track all the test runs
-	testRuns := make(map[string]*TestRun)
-	for _, d := range data {
-
-		// Find (or create) the test run for this item of data
-		testrun, found := testRuns[d.key()]
-		if !found {
-			testrun = &TestRun{
-				Package: d.Package,
-				Test:    d.Test,
-			}
-
-			testRuns[d.key()] = testrun
-		}
-
-		switch d.Action {
-		case "run":
-			testrun.run(d.Time)
-
-		case "pause":
-			testrun.pause(d.Time)
-
-		case "cont":
-			testrun.resume(d.Time)
-
-		case "output":
-			testrun.output(d.Output)
-
-		case "pass", "fail", "skip":
-			testrun.complete(d.Action, d.Time)
-		}
-	}
-
 	// package → list of tests
-	byPackage := make(map[string][]TestRun, len(data))
-	for _, v := range testRuns {
-		byPackage[v.Package] = append(byPackage[v.Package], *v)
+	byPackage := make(map[string][]TestRun)
+	for pkg, pkgRuns := range factory.testRuns {
+		var runs []TestRun
+		for _, r := range pkgRuns {
+			runs = append(runs, *r)
+		}
+
+		byPackage[pkg] = runs
 	}
 
 	return byPackage
@@ -182,6 +153,11 @@ func sensitiveRound(d time.Duration) time.Duration {
 func printSummary(packages []string, byPackage map[string][]TestRun) {
 	fmt.Printf("## Package Summary\n\n")
 
+	commonPrefix := findCommonPackagePrefix(packages)
+
+	fmt.Printf("| Result | %s | Time |\n", commonPrefix)
+	fmt.Printf("|--------|:---|-----:|\n")
+
 	// output table-of-contents
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
@@ -195,8 +171,11 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 			totalRuntime += t.RunTime
 		}
 
-		overallOutcome := actionSymbol(tests[0])
-		fmt.Printf("* %s `%s` (runtime %s)\n", overallOutcome, pkg, totalRuntime)
+		overallOutcome := tests[0].actionSymbol()
+		shortPkgName := displayNameForPackage(pkg, commonPrefix)
+		totalRuntime = sensitiveRound(totalRuntime)
+
+		fmt.Printf("| %s | %s | %s |\n", overallOutcome, shortPkgName, totalRuntime)
 	}
 
 	fmt.Println()
@@ -210,7 +189,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
 		// check package-level indicator, which will be first ("" test name):
-		if tests[0].Action != "fail" {
+		if tests[0].Action != Failed {
 			continue // no failed tests, skip
 		} else {
 			anyFailed = true
@@ -249,9 +228,9 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 				continue
 			}
 
-			fmt.Printf("#### Test `%s`\n", test.Test)
+			fmt.Printf("#### Test `%s`\n", test.Test.Value())
 
-			if test.Action == "fail" {
+			if test.Action == Failed {
 				fmt.Printf("Failed in %s:\n", test.RunTime)
 			} else {
 				fmt.Printf("Elapsed %s:\n", test.RunTime)
@@ -268,7 +247,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 
 			// Output info on stderr, so that test failure isn’t silent on console
 			// when running `task ci`, and that full logs are available if they get trimmed
-			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test)
+			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test.Value())
 			fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
 			for _, outputLine := range test.Output {
 				fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
@@ -280,7 +259,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 	}
 
 	if !anyFailed {
-		fmt.Println("**🎉 All tests passed. 🎉**")
+		fmt.Printf("**🎉 All tests passed. 🎉**\n\n")
 	}
 }
 
@@ -315,11 +294,19 @@ func printSlowTests(byPackage map[string][]TestRun) {
 		return allTests[i].RunTime > allTests[j].RunTime
 	})
 
-	fmt.Println("| Package | Name | Time |")
+	pkgPrefix := allTests[0].Package.Value()
+	for _, test := range allTests {
+		pkgPrefix = commonPrefix(pkgPrefix, test.Package.Value())
+	}
+
+	pkgPrefix = strings.TrimRight(pkgPrefix, "/")
+
+	fmt.Printf("| %s | Name | Time |\n", pkgPrefix)
 	fmt.Println("|---------|------|-----:|")
 	for i := 0; i < min(10, len(allTests)); i += 1 {
 		test := allTests[i]
-		fmt.Printf("| `%s` | `%s` | %s |\n", test.Package, test.Test, test.RunTime)
+		pkg := displayNameForPackage(test.Package.Value(), pkgPrefix)
+		fmt.Printf("| `%s` | `%s` | %s |\n", pkg, test.Test.Value(), test.RunTime)
 	}
 }
 
@@ -366,7 +353,34 @@ func logError(
 	)
 }
 
-// key returns a unique key for a test run
-func (d JSONFormat) key() string {
-	return d.Package + "/" + d.Test
+func commonPrefix(
+	left string,
+	right string,
+) string {
+	minLen := min(len(left), len(right))
+	i := 0
+	for i < minLen && left[i] == right[i] {
+		i++
+	}
+
+	return left[:i]
+}
+
+// findCommonPackagePrefix finds the common prefix of all package names, to shorten display
+func findCommonPackagePrefix(packages []string) string {
+	prefix := packages[0]
+	for _, pkg := range packages {
+		prefix = commonPrefix(prefix, pkg)
+	}
+	prefix = strings.TrimRight(prefix, "/")
+	return prefix
+}
+
+func displayNameForPackage(
+	pkg string,
+	commonPrefix string,
+) string {
+	name := strings.TrimPrefix(pkg, commonPrefix)
+	name = strings.TrimLeft(name, "/")
+	return name
 }

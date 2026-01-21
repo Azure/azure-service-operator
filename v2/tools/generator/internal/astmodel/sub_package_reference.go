@@ -124,7 +124,7 @@ func (s SubPackageReference) ImportAlias(style PackageImportStyle) string {
 		return base + s.name[0:1]
 	case GroupOnly:
 		return base
-	case GroupAndVersion:
+	case GroupAndVersion, GroupAndFullVersion:
 		return base + s.name[0:1]
 	default:
 		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
