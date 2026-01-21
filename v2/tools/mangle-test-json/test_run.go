@@ -9,13 +9,26 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"unique"
+)
+
+type TestAction string
+
+const (
+	Running    = TestAction("Running")
+	Paused     = TestAction("Paused")
+	Continuing = TestAction("Continuing")
+	Output     = TestAction("Output")
+	Passed     = TestAction("Passed")
+	Failed     = TestAction("Failed")
+	Skipped    = TestAction("Skipped")
 )
 
 // TestRun captures the details of an individual test run
 type TestRun struct {
-	Action   string
-	Package  string
-	Test     string
+	Action   TestAction
+	Package  unique.Handle[string]
+	Test     unique.Handle[string]
 	Output   []string
 	RunTime  time.Duration
 	started  *time.Time
@@ -29,7 +42,7 @@ func (tr *TestRun) run(started time.Time) {
 		tr.started = &started
 	}
 
-	tr.Action = "run"
+	tr.Action = Running
 }
 
 // pause is used to capture the instant when a test was paused and stopped running
@@ -38,14 +51,14 @@ func (tr *TestRun) pause(stopped time.Time) {
 	if tr.started == nil {
 		msg := fmt.Sprintf(
 			"Test %s in package %s was paused when it was not running",
-			tr.Test,
-			tr.Package)
+			tr.Test.Value(),
+			tr.Package.Value())
 		panic(msg)
 	}
 
 	tr.RunTime += stopped.Sub(*tr.started)
 	tr.started = nil
-	tr.Action = "pause"
+	tr.Action = Paused
 }
 
 // resume indicates the test is continuing to run
@@ -57,7 +70,7 @@ func (tr *TestRun) resume(continued time.Time) {
 		tr.started = &continued
 	}
 
-	tr.Action = "run"
+	tr.Action = Running
 }
 
 // output adds a line of output to this test
@@ -77,7 +90,16 @@ func (tr *TestRun) complete(result string, completed time.Time) {
 	}
 
 	tr.RunTime = sensitiveRound(tr.RunTime)
-	tr.Action = result
+	switch strings.ToLower(result) {
+	case "pass":
+		tr.Action = Passed
+	case "fail":
+		tr.Action = Failed
+	case "skip":
+		tr.Action = Skipped
+	default:
+		tr.Action = TestAction(result) // capture unknown actions as-is
+	}
 }
 
 func (tr *TestRun) IsInteresting() bool {
@@ -85,20 +107,24 @@ func (tr *TestRun) IsInteresting() bool {
 
 	// Tests that pass, skip, or pause are not interesting
 	switch tr.Action {
-	case "pass":
+	case Passed:
 		// Tests that pass aren't interesting
 		result = false
-	case "skip":
+	case Skipped:
 		// Tests that are skipped aren't interesting
 		result = false
-	case "pause":
+	case Paused:
 		// Tests that are paused aren't interesting (another test will have been responsible for the terminating the
 		// test suite before they can resume)
 		result = false
-	case "run":
+	case Running:
 		// Tests that are running aren't interesting (another test will be responsible for the terminating the test
 		// suite while they're executing)
 		result = false
+	case Failed:
+		// Tests that fail are interesting
+	default:
+		// Tests with unknown status are interesting
 	}
 
 	// Tests that have a panic are interesting, regardless of the result
@@ -107,4 +133,17 @@ func (tr *TestRun) IsInteresting() bool {
 	}
 
 	return result
+}
+
+func (d TestRun) actionSymbol() string {
+	switch d.Action {
+	case Passed:
+		return "✅"
+	case Failed:
+		return "❌"
+	case Skipped:
+		return "⏭️"
+	default:
+		panic(fmt.Sprintf("unhandled action: %s", d.Action))
+	}
 }
