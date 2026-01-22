@@ -94,6 +94,7 @@ func classifyCloudError(err *genericarmclient.CloudError) core.CloudErrorDetails
 		"InvalidValuesForRequestParameters",
 		"InvalidGatewaySkuProvidedForGatewayVpnType",
 		"InvalidGatewaySize",
+		"K8sVersionNotSupported",
 		"LocationRequired",
 		"MissingRequiredParameter",
 		"PasswordTooLong",
