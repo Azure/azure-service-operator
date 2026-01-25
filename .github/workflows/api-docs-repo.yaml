@@ -107,6 +107,7 @@ jobs:
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           base: main
           delete-branch: true
+          add-paths: ./docs/hugo/content/
           title: "[Automated] Add API Docs"
           body: |
             Update API documentation for ASO Custom Resource Definitions
