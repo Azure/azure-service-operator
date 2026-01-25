@@ -99,20 +99,10 @@ jobs:
         run: sudo chown -R $USER:$USER .
 
 
-      # Generating docs can take so long that the original token expires, so we create a new one
-      # and use that to create the PR
-      - name: Create token for PR
-        uses: actions/create-github-app-token@v1
-        id: pr-token
-        with:
-          # required
-          app-id: ${{ secrets.AUTOMATION_ID }}
-          private-key: ${{ secrets.AUTOMATION_KEY }}
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # pinned to v7.0.5
         with:
-          token: ${{ steps.pr-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: Update API Docs
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           base: main
