@@ -20,6 +20,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -52,6 +53,9 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 	}
 
 	g := NewGomegaWithT(t)
+
+	// Disable caching of built-in role definitions to ensure test isolation
+	customizations.DisableBuiltInRoleDefinitionsCaching()
 
 	regex, err := regexp.Compile("^v(1api)?[a-z0-9]*$")
 	g.Expect(err).To(BeNil())
