@@ -594,6 +594,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/batch/v20210101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20250601/</loc>

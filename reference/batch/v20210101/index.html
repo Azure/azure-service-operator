@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/reference/compute/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,29 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Compute Supported Resources | Azure Service Operator</title>
-<meta name="description" content="To install the CRDs for these resources, your ASO configuration must include compute.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-01 v1api20241101 v2.15.0 View CapacityReservation 2025-04-01 v1api20250401 v2.16.0 View CapacityReservationGroup 2025-04-01 v1api20250401 v2.16.0 View Disk 2024-03-02 v1api20240302 v2.9.0 View DiskAccess 2024-03-02 v1api20240302 v2.9.0 View DiskEncryptionSet 2024-03-02 v1api20240302 v2.9.0 View Image 2022-03-01 v1api20220301 v2.0.0 View Snapshot 2024-03-02 v1api20240302 v2.9.0 View VirtualMachine 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSet 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSetsExtension 2022-03-01 v1api20220301 v2.6.0 View VirtualMachinesExtension 2022-03-01 v1api20220301 v2.6.0 View Other Supported Versions These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/">
+<title>batch.azure.com/v20210101 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}
+Used by: BatchAccountList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/batch/v20210101/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Compute Supported Resources">
-  <meta property="og:description" content="To install the CRDs for these resources, your ASO configuration must include compute.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-01 v1api20241101 v2.15.0 View CapacityReservation 2025-04-01 v1api20250401 v2.16.0 View CapacityReservationGroup 2025-04-01 v1api20250401 v2.16.0 View Disk 2024-03-02 v1api20240302 v2.9.0 View DiskAccess 2024-03-02 v1api20240302 v2.9.0 View DiskEncryptionSet 2024-03-02 v1api20240302 v2.9.0 View Image 2022-03-01 v1api20220301 v2.0.0 View Snapshot 2024-03-02 v1api20240302 v2.9.0 View VirtualMachine 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSet 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSetsExtension 2022-03-01 v1api20220301 v2.6.0 View VirtualMachinesExtension 2022-03-01 v1api20220301 v2.6.0 View Other Supported Versions These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+  <meta property="og:title" content="batch.azure.com/v20210101">
+  <meta property="og:description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}
+Used by: BatchAccountList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="Compute Supported Resources">
-  <meta itemprop="description" content="To install the CRDs for these resources, your ASO configuration must include compute.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-01 v1api20241101 v2.15.0 View CapacityReservation 2025-04-01 v1api20250401 v2.16.0 View CapacityReservationGroup 2025-04-01 v1api20250401 v2.16.0 View Disk 2024-03-02 v1api20240302 v2.9.0 View DiskAccess 2024-03-02 v1api20240302 v2.9.0 View DiskEncryptionSet 2024-03-02 v1api20240302 v2.9.0 View Image 2022-03-01 v1api20220301 v2.0.0 View Snapshot 2024-03-02 v1api20240302 v2.9.0 View VirtualMachine 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSet 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSetsExtension 2022-03-01 v1api20220301 v2.6.0 View VirtualMachinesExtension 2022-03-01 v1api20220301 v2.6.0 View Other Supported Versions These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-  <meta itemprop="wordCount" content="218">
+  <meta itemprop="name" content="batch.azure.com/v20210101">
+  <meta itemprop="description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}
+Used by: BatchAccountList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}">
+  <meta itemprop="wordCount" content="2058">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Compute Supported Resources">
-  <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include compute.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-01 v1api20241101 v2.15.0 View CapacityReservation 2025-04-01 v1api20250401 v2.16.0 View CapacityReservationGroup 2025-04-01 v1api20250401 v2.16.0 View Disk 2024-03-02 v1api20240302 v2.9.0 View DiskAccess 2024-03-02 v1api20240302 v2.9.0 View DiskEncryptionSet 2024-03-02 v1api20240302 v2.9.0 View Image 2022-03-01 v1api20220301 v2.0.0 View Snapshot 2024-03-02 v1api20240302 v2.9.0 View VirtualMachine 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSet 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSetsExtension 2022-03-01 v1api20220301 v2.6.0 View VirtualMachinesExtension 2022-03-01 v1api20220301 v2.6.0 View Other Supported Versions These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+  <meta name="twitter:title" content="batch.azure.com/v20210101">
+  <meta name="twitter:description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}
+Used by: BatchAccountList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is enabled. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -49,7 +49,7 @@ Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-0
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -308,14 +308,14 @@ Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-0
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" title="authorization.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" title="batch.azure.com/v1api20210101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">v1api20210101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv20210101-li">
-  <a href="/azure-service-operator/reference/batch/v20210101/" title="batch.azure.com/v20210101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20210101"><span class="">v20210101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv20240701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencebatchv20210101-li">
+  <a href="/azure-service-operator/reference/batch/v20210101/" title="batch.azure.com/v20210101" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20210101"><span class="td-sidebar-nav-active-item">v20210101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencebatchv20240701-li">
   <a href="/azure-service-operator/reference/batch/v20240701/" title="batch.azure.com/v20240701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20240701"><span class="">v20240701</span></a>
 </li>
   </ul>
@@ -354,24 +354,24 @@ Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-0
   <a href="/azure-service-operator/reference/cognitiveservices/v1api20250601/" title="cognitiveservices.azure.com/v1api20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601"><span class="">v1api20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecompute-li">
-  <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="td-sidebar-nav-active-item">Compute</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+  <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20200930-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
   <a href="/azure-service-operator/reference/compute/v1api20200930/" title="compute.azure.com/v1api20200930" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">v1api20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20201201-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20201201-li">
   <a href="/azure-service-operator/reference/compute/v1api20201201/" title="compute.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">v1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20210701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20210701-li">
   <a href="/azure-service-operator/reference/compute/v1api20210701/" title="compute.azure.com/v1api20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">v1api20210701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220301-li">
   <a href="/azure-service-operator/reference/compute/v1api20220301/" title="compute.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">v1api20220301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220702-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220702-li">
   <a href="/azure-service-operator/reference/compute/v1api20220702/" title="compute.azure.com/v1api20220702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">v1api20220702</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20240302-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20240302-li">
   <a href="/azure-service-operator/reference/compute/v1api20240302/" title="compute.azure.com/v1api20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">v1api20240302</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20241101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20241101-li">
   <a href="/azure-service-operator/reference/compute/v1api20241101/" title="compute.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20241101"><span class="">v1api20241101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20250401-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20250401-li">
   <a href="/azure-service-operator/reference/compute/v1api20250401/" title="compute.azure.com/v1api20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20250401"><span class="">v1api20250401</span></a>
 </li>
   </ul>
@@ -887,12 +887,40 @@ Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-0
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#APIVersion">APIVersion</a></li>
+    <li><a href="#BatchAccount">BatchAccount</a>
       <ul>
-        <li><a href="#latest-released-versions">Latest Released Versions</a></li>
-        <li><a href="#other-supported-versions">Other Supported Versions</a></li>
+        <li><a href="#BatchAccount_Spec">BatchAccount_Spec</a></li>
+        <li><a href="#BatchAccount_STATUS">BatchAccount_STATUS</a></li>
       </ul>
     </li>
+    <li><a href="#BatchAccountList">BatchAccountList</a></li>
+    <li><a href="#BatchAccount_Spec">BatchAccount_Spec</a></li>
+    <li><a href="#BatchAccount_STATUS">BatchAccount_STATUS</a></li>
+    <li><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a></li>
+    <li><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a></li>
+    <li><a href="#BatchAccountIdentity">BatchAccountIdentity</a></li>
+    <li><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a></li>
+    <li><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a></li>
+    <li><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a></li>
+    <li><a href="#EncryptionProperties">EncryptionProperties</a></li>
+    <li><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a></li>
+    <li><a href="#KeyVaultReference">KeyVaultReference</a></li>
+    <li><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a></li>
+    <li><a href="#PoolAllocationMode">PoolAllocationMode</a></li>
+    <li><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a></li>
+    <li><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</a></li>
+    <li><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a></li>
+    <li><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a></li>
+    <li><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS</a></li>
+    <li><a href="#BatchAccountIdentity_Type">BatchAccountIdentity_Type</a></li>
+    <li><a href="#BatchAccountIdentity_Type_STATUS">BatchAccountIdentity_Type_STATUS</a></li>
+    <li><a href="#BatchAccountIdentity_UserAssignedIdentities_STATUS">BatchAccountIdentity_UserAssignedIdentities_STATUS</a></li>
+    <li><a href="#EncryptionProperties_KeySource">EncryptionProperties_KeySource</a></li>
+    <li><a href="#EncryptionProperties_KeySource_STATUS">EncryptionProperties_KeySource_STATUS</a></li>
+    <li><a href="#KeyVaultProperties">KeyVaultProperties</a></li>
+    <li><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a></li>
+    <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
   </ul>
 </nav>
       </div>
@@ -908,193 +936,1023 @@ Resource ARM Version CRD Version Supported From Sample AvailabilitySet 2024-11-0
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/reference/batch/">Batch</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Compute</li>
+    v20210101</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Compute Supported Resources</h1>
-  
+	<h1>batch.azure.com/v20210101</h1>
+	
 	<header class="article-meta">
 		
 </header>
-	<p>To install the CRDs for these resources, your ASO configuration must include <code>compute.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+	<hr>
+<h2 id="APIVersion">APIVersion</h2>
 <table>
   <thead>
       <tr>
-          <th>Resource</th>
-          <th>ARM Version</th>
-          <th>CRD Version</th>
-          <th>Supported From</th>
-          <th>Sample</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20241101/#AvailabilitySet">AvailabilitySet</a></td>
-          <td>2024-11-01</td>
-          <td>v1api20241101</td>
-          <td>v2.15.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20241101/v1api20241101_availabilityset.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20250401/#CapacityReservation">CapacityReservation</a></td>
-          <td>2025-04-01</td>
-          <td>v1api20250401</td>
-          <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservation.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20250401/#CapacityReservationGroup">CapacityReservationGroup</a></td>
-          <td>2025-04-01</td>
-          <td>v1api20250401</td>
-          <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api20250401/v1api20250401_capacityreservationgroup.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#Disk">Disk</a></td>
-          <td>2024-03-02</td>
-          <td>v1api20240302</td>
-          <td>v2.9.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#DiskAccess">DiskAccess</a></td>
-          <td>2024-03-02</td>
-          <td>v1api20240302</td>
-          <td>v2.9.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#DiskEncryptionSet">DiskEncryptionSet</a></td>
-          <td>2024-03-02</td>
-          <td>v1api20240302</td>
-          <td>v2.9.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#Image">Image</a></td>
-          <td>2022-03-01</td>
-          <td>v1api20220301</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_image.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#Snapshot">Snapshot</a></td>
-          <td>2024-03-02</td>
-          <td>v1api20240302</td>
-          <td>v2.9.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_snapshot.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachine">VirtualMachine</a></td>
-          <td>2022-03-01</td>
-          <td>v1api20220301</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachine.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
-          <td>2022-03-01</td>
-          <td>v1api20220301</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescaleset.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a></td>
-          <td>2022-03-01</td>
-          <td>v1api20220301</td>
-          <td>v2.6.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescalesetsextension.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachinesExtension">VirtualMachinesExtension</a></td>
-          <td>2022-03-01</td>
-          <td>v1api20220301</td>
-          <td>v2.6.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinesextension.yaml">View</a></td>
+          <td>&ldquo;2021-01-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions">Other Supported Versions</h3>
-<p>These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+<h2 id="BatchAccount">BatchAccount</h2>
+<p>Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}</p>
+<p>Used by: <a href="#BatchAccountList">BatchAccountList</a>.</p>
 <table>
   <thead>
       <tr>
-          <th>Resource</th>
-          <th>ARM Version</th>
-          <th>CRD Version</th>
-          <th>Supported From</th>
-          <th>Sample</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20200930/#Disk">Disk</a></td>
-          <td>2020-09-30</td>
-          <td>v1api20200930</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_disk.yaml">View</a></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20220702/#DiskEncryptionSet">DiskEncryptionSet</a></td>
-          <td>2022-07-02</td>
-          <td>v1api20220702</td>
-          <td>v2.3.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220702_diskencryptionset.yaml">View</a></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20210701/#Image">Image</a></td>
-          <td>2021-07-01</td>
-          <td>v1api20210701</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20210701_image.yaml">View</a></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#BatchAccount_Spec">BatchAccount_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20200930/#Snapshot">Snapshot</a></td>
-          <td>2020-09-30</td>
-          <td>v1api20200930</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_snapshot.yaml">View</a></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#BatchAccount_STATUS">BatchAccount_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="BatchAccount_Spec">BatchAccount_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoStorage</td>
+          <td>The properties related to the auto-storage account.</td>
+          <td><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachine">VirtualMachine</a></td>
-          <td>2020-12-01</td>
-          <td>v1api20201201</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml">View</a></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
-          <td>2020-12-01</td>
-          <td>v1api20201201</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescaleset.yaml">View</a></td>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties">EncryptionProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a></td>
-          <td>2020-12-01</td>
-          <td>v1api20201201</td>
-          <td>v2.6.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescalesetsextension.yaml">View</a></td>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity">BatchAccountIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachinesExtension">VirtualMachinesExtension</a></td>
-          <td>2020-12-01</td>
-          <td>v1api20201201</td>
-          <td>v2.6.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinesextension.yaml">View</a></td>
+          <td>keyVaultReference</td>
+          <td>A reference to the Azure key vault associated with the Batch account.</td>
+          <td><a href="#KeyVaultReference">KeyVaultReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The region in which to create the account.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>poolAllocationMode</td>
+          <td>The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.</td>
+          <td><a href="#PoolAllocationMode">PoolAllocationMode</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is <code>enabled</code>.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>The user-specified tags associated with the account.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="BatchAccount_STATUS">BatchAccount_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>accountEndpoint</td>
+          <td>The account endpoint used to interact with the Batch service.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>activeJobAndJobScheduleQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>autoStorage</td>
+          <td>Contains information about the auto-storage account associated with a Batch account.</td>
+          <td><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dedicatedCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dedicatedCoreQuotaPerVMFamily</td>
+          <td>A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dedicatedCoreQuotaPerVMFamilyEnforced</td>
+          <td>Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>The ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>keyVaultReference</td>
+          <td>Identifies the Azure key vault associated with a Batch account.</td>
+          <td><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The location of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lowPriorityCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>poolAllocationMode</td>
+          <td>The allocation mode for creating pools in the Batch account.</td>
+          <td><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>poolQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointConnections</td>
+          <td>List of private endpoint connections associated with the Batch account</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioned state of the resource</td>
+          <td><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is <code>enabled</code>.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountList">BatchAccountList</h2>
+<p>Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/​batchAccounts/​{accountName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#BatchAccount">BatchAccount[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccount_Spec">BatchAccount_Spec</h2>
+<p>Used by: <a href="#BatchAccount">BatchAccount</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoStorage</td>
+          <td>The properties related to the auto-storage account.</td>
+          <td><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties">EncryptionProperties</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity">BatchAccountIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>keyVaultReference</td>
+          <td>A reference to the Azure key vault associated with the Batch account.</td>
+          <td><a href="#KeyVaultReference">KeyVaultReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The region in which to create the account.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>poolAllocationMode</td>
+          <td>The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.</td>
+          <td><a href="#PoolAllocationMode">PoolAllocationMode</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is <code>enabled</code>.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>The user-specified tags associated with the account.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccount_STATUS">BatchAccount_STATUS</h2>
+<p>Contains information about an Azure Batch account.</p>
+<p>Used by: <a href="#BatchAccount">BatchAccount</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>accountEndpoint</td>
+          <td>The account endpoint used to interact with the Batch service.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>activeJobAndJobScheduleQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>autoStorage</td>
+          <td>Contains information about the auto-storage account associated with a Batch account.</td>
+          <td><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dedicatedCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dedicatedCoreQuotaPerVMFamily</td>
+          <td>A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dedicatedCoreQuotaPerVMFamilyEnforced</td>
+          <td>Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>The ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>keyVaultReference</td>
+          <td>Identifies the Azure key vault associated with a Batch account.</td>
+          <td><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The location of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lowPriorityCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>poolAllocationMode</td>
+          <td>The allocation mode for creating pools in the Batch account.</td>
+          <td><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>poolQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointConnections</td>
+          <td>List of private endpoint connections associated with the Batch account</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioned state of the resource</td>
+          <td><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is <code>enabled</code>.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AutoStorageBaseProperties">AutoStorageBaseProperties</h2>
+<p>The properties related to the auto-storage account.</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>storageAccountReference</td>
+          <td>The resource ID of the storage account to be used for auto-storage account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</h2>
+<p>Contains information about the auto-storage account associated with a Batch account.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>lastKeySync</td>
+          <td>The UTC time at which storage keys were last synchronized with the Batch account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageAccountId</td>
+          <td>The resource ID of the storage account to be used for auto-storage account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountIdentity">BatchAccountIdentity</h2>
+<p>The identity of the Batch account, if configured. This is only used when the user specifies <code>Microsoft.KeyVault</code> as their Batch account encryption configuration.</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>type</td>
+          <td>The type of identity used for the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_Type">BatchAccountIdentity_Type</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}&rsquo;.</td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</h2>
+<p>The identity of the Batch account, if configured. This is only used when the user specifies <code>Microsoft.KeyVault</code> as their Batch account encryption configuration.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>principalId</td>
+          <td>The principal id of the Batch account. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of identity used for the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_Type_STATUS">BatchAccountIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}&rsquo;.</td>
+          <td><a href="#BatchAccountIdentity_UserAssignedIdentities_STATUS">map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountOperatorSpec">BatchAccountOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</h2>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Cancelled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Invalid&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionProperties">EncryptionProperties</h2>
+<p>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>keySource</td>
+          <td>Type of the key source.</td>
+          <td><a href="#EncryptionProperties_KeySource">EncryptionProperties_KeySource</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>keyVaultProperties</td>
+          <td>Additional details when using Microsoft.KeyVault</td>
+          <td><a href="#KeyVaultProperties">KeyVaultProperties</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionProperties_STATUS">EncryptionProperties_STATUS</h2>
+<p>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>keySource</td>
+          <td>Type of the key source.</td>
+          <td><a href="#EncryptionProperties_KeySource_STATUS">EncryptionProperties_KeySource_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>keyVaultProperties</td>
+          <td>Additional details when using Microsoft.KeyVault</td>
+          <td><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KeyVaultReference">KeyVaultReference</h2>
+<p>Identifies the Azure key vault associated with a Batch account.</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>reference</td>
+          <td>The resource ID of the Azure key vault associated with the Batch account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>url</td>
+          <td>The URL of the Azure key vault associated with the Batch account.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KeyVaultReference_STATUS">KeyVaultReference_STATUS</h2>
+<p>Identifies the Azure key vault associated with a Batch account.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>id</td>
+          <td>The resource ID of the Azure key vault associated with the Batch account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>url</td>
+          <td>The URL of the Azure key vault associated with the Batch account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PoolAllocationMode">PoolAllocationMode</h2>
+<p>The allocation mode for creating pools in the Batch account.</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;BatchService&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserSubscription&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</h2>
+<p>The allocation mode for creating pools in the Batch account.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;BatchService&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserSubscription&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</h2>
+<p>Contains information about a private link resource.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>id</td>
+          <td>The ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PublicNetworkAccessType">PublicNetworkAccessType</h2>
+<p>The network access type for operating on the resources in the Batch account.</p>
+<p>Used by: <a href="#BatchAccount_Spec">BatchAccount_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</h2>
+<p>The network access type for operating on the resources in the Batch account.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS</h2>
+<p>A VM Family and its associated core quota for the Batch account.</p>
+<p>Used by: <a href="#BatchAccount_STATUS">BatchAccount_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>coreQuota</td>
+          <td>The core quota for the VM family for the Batch account.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The Virtual Machine family name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountIdentity_Type">BatchAccountIdentity_Type</h2>
+<p>Used by: <a href="#BatchAccountIdentity">BatchAccountIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountIdentity_Type_STATUS">BatchAccountIdentity_Type_STATUS</h2>
+<p>Used by: <a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="BatchAccountIdentity_UserAssignedIdentities_STATUS">BatchAccountIdentity_UserAssignedIdentities_STATUS</h2>
+<p>Used by: <a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clientId</td>
+          <td>The client id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>principalId</td>
+          <td>The principal id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionProperties_KeySource">EncryptionProperties_KeySource</h2>
+<p>Used by: <a href="#EncryptionProperties">EncryptionProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft.Batch&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft.KeyVault&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionProperties_KeySource_STATUS">EncryptionProperties_KeySource_STATUS</h2>
+<p>Used by: <a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft.Batch&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft.KeyVault&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KeyVaultProperties">KeyVaultProperties</h2>
+<p>KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.</p>
+<p>Used by: <a href="#EncryptionProperties">EncryptionProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>keyIdentifier</td>
+          <td>Full path to the versioned secret. Example <a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</h2>
+<p>KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.</p>
+<p>Used by: <a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>keyIdentifier</td>
+          <td>Full path to the versioned secret. Example <a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
+<p>Information about the user assigned identity for the resource</p>
+<p>Used by: <a href="#BatchAccountIdentity">BatchAccountIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 
-	<div class="section-index">
-    
-    
-    </div>
+	
 </div>
+
 
           </main>
         </div>
