@@ -43,7 +43,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
 	github.com/microsoft/go-mssqldb v1.9.6
-	github.com/microsoftgraph/msgraph-sdk-go v1.93.0
+	github.com/microsoftgraph/msgraph-sdk-go v1.94.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.4.0
 	github.com/onsi/gomega v1.39.0
 	github.com/prometheus/client_golang v1.23.2
