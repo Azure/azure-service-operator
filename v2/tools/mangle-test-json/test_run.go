@@ -135,7 +135,7 @@ func (tr *TestRun) IsInteresting() bool {
 	return result
 }
 
-func (d TestRun) actionSymbol() string {
+func (d *TestRun) actionSymbol() string {
 	switch d.Action {
 	case Passed:
 		return "✅"
