@@ -165,6 +165,7 @@ func DisableBuiltInRoleDefinitionsCaching() {
 	defer builtInRoleDefinitionsLock.Unlock()
 
 	builtInRoleDefinitionsCachingDisabled = true
+	clear(builtInRoleDefinitionsCache)
 }
 
 // builtInRoleDefinitions returns a map of built-in role definitions, keyed by lower case role name.
