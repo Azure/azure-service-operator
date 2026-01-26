@@ -119,12 +119,6 @@ import (
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
-	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
-	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
-	containerservice_v20230201w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/webhook"
-	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
-	containerservice_v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
-	containerservice_v20231001w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/webhook"
 	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
 	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
 	containerservice_v20240402pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/webhook"
@@ -3607,38 +3601,6 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(containerservice_v20230201.ManagedCluster),
-		Defaulter: &containerservice_v20230201w.ManagedCluster{},
-		Validator: &containerservice_v20230201w.ManagedCluster{},
-	}, &registration.KnownType{
-		Obj:       new(containerservice_v20230201.ManagedClustersAgentPool),
-		Defaulter: &containerservice_v20230201w.ManagedClustersAgentPool{},
-		Validator: &containerservice_v20230201w.ManagedClustersAgentPool{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(containerservice_v20230201s.ManagedCluster)}, &registration.KnownType{Obj: new(containerservice_v20230201s.ManagedClustersAgentPool)})
-	result = append(
-		result,
-		&registration.KnownType{
-			Obj:       new(containerservice_v20231001.ManagedCluster),
-			Defaulter: &containerservice_v20231001w.ManagedCluster{},
-			Validator: &containerservice_v20231001w.ManagedCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20231001.ManagedClustersAgentPool),
-			Defaulter: &containerservice_v20231001w.ManagedClustersAgentPool{},
-			Validator: &containerservice_v20231001w.ManagedClustersAgentPool{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20231001.TrustedAccessRoleBinding),
-			Defaulter: &containerservice_v20231001w.TrustedAccessRoleBinding{},
-			Validator: &containerservice_v20231001w.TrustedAccessRoleBinding{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v20231001s.ManagedCluster)},
-		&registration.KnownType{Obj: new(containerservice_v20231001s.ManagedClustersAgentPool)},
-		&registration.KnownType{Obj: new(containerservice_v20231001s.TrustedAccessRoleBinding)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6016,10 +5978,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
-	_ = containerservice_v20230201.AddToScheme(scheme)
-	_ = containerservice_v20230201s.AddToScheme(scheme)
-	_ = containerservice_v20231001.AddToScheme(scheme)
-	_ = containerservice_v20231001s.AddToScheme(scheme)
 	_ = containerservice_v20240402p.AddToScheme(scheme)
 	_ = containerservice_v20240402ps.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)

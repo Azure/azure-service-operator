@@ -4,8 +4,6 @@
 package storage
 
 import (
-	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
-	v20231001sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
 	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	v20240901sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage/compat"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
@@ -55,7 +53,7 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 // ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20231001s.ManagedClustersAgentPool
+	var source v20240901s.ManagedClustersAgentPool
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -73,7 +71,7 @@ func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20231001s.ManagedClustersAgentPool
+	var destination v20240901s.ManagedClustersAgentPool
 	err := pool.AssignProperties_To_ManagedClustersAgentPool(&destination)
 	if err != nil {
 		return eris.Wrap(err, "converting to destination from pool")
@@ -182,7 +180,7 @@ func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleSta
 }
 
 // AssignProperties_From_ManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgentPool(source *v20231001s.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgentPool(source *v20240901s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -217,13 +215,13 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 }
 
 // AssignProperties_To_ManagedClustersAgentPool populates the provided destination ManagedClustersAgentPool from our ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPool(destination *v20231001s.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPool(destination *v20240901s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20231001s.ManagedClustersAgentPool_Spec
+	var spec v20240901s.ManagedClustersAgentPool_Spec
 	err := pool.Spec.AssignProperties_To_ManagedClustersAgentPool_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_ManagedClustersAgentPool_Spec() to populate field Spec")
@@ -231,7 +229,7 @@ func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPo
 	destination.Spec = spec
 
 	// Status
-	var status v20231001s.ManagedClustersAgentPool_STATUS
+	var status v20240901s.ManagedClustersAgentPool_STATUS
 	err = pool.Status.AssignProperties_To_ManagedClustersAgentPool_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_ManagedClustersAgentPool_STATUS() to populate field Status")
@@ -272,8 +270,8 @@ type ManagedClustersAgentPoolList struct {
 }
 
 type augmentConversionForManagedClustersAgentPool interface {
-	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPool) error
-	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPool) error
+	AssignPropertiesFrom(src *v20240901s.ManagedClustersAgentPool) error
+	AssignPropertiesTo(dst *v20240901s.ManagedClustersAgentPool) error
 }
 
 // Storage version of v1api20240402preview.ManagedClustersAgentPool_Spec
@@ -367,14 +365,14 @@ var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPool_Spec{}
 
 // ConvertSpecFrom populates our ManagedClustersAgentPool_Spec from the provided source
 func (pool *ManagedClustersAgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20231001s.ManagedClustersAgentPool_Spec)
+	src, ok := source.(*v20240901s.ManagedClustersAgentPool_Spec)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_ManagedClustersAgentPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231001s.ManagedClustersAgentPool_Spec{}
+	src = &v20240901s.ManagedClustersAgentPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -391,14 +389,14 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertSpecFrom(source genruntime.Con
 
 // ConvertSpecTo populates the provided destination from our ManagedClustersAgentPool_Spec
 func (pool *ManagedClustersAgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20231001s.ManagedClustersAgentPool_Spec)
+	dst, ok := destination.(*v20240901s.ManagedClustersAgentPool_Spec)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_ManagedClustersAgentPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231001s.ManagedClustersAgentPool_Spec{}
+	dst = &v20240901s.ManagedClustersAgentPool_Spec{}
 	err := pool.AssignProperties_To_ManagedClustersAgentPool_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -414,7 +412,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertSpecTo(destination genruntime.
 }
 
 // AssignProperties_From_ManagedClustersAgentPool_Spec populates our ManagedClustersAgentPool_Spec from the provided source ManagedClustersAgentPool_Spec
-func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClustersAgentPool_Spec(source *v20231001s.ManagedClustersAgentPool_Spec) error {
+func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClustersAgentPool_Spec(source *v20240901s.ManagedClustersAgentPool_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -730,13 +728,12 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 	pool.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
 
 	// SecurityProfile
-	if propertyBag.Contains("SecurityProfile") {
+	if source.SecurityProfile != nil {
 		var securityProfile AgentPoolSecurityProfile
-		err := propertyBag.Pull("SecurityProfile", &securityProfile)
+		err := securityProfile.AssignProperties_From_AgentPoolSecurityProfile(source.SecurityProfile)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolSecurityProfile() to populate field SecurityProfile")
 		}
-
 		pool.SecurityProfile = &securityProfile
 	} else {
 		pool.SecurityProfile = nil
@@ -806,13 +803,12 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 	}
 
 	// WindowsProfile
-	if propertyBag.Contains("WindowsProfile") {
+	if source.WindowsProfile != nil {
 		var windowsProfile AgentPoolWindowsProfile
-		err := propertyBag.Pull("WindowsProfile", &windowsProfile)
+		err := windowsProfile.AssignProperties_From_AgentPoolWindowsProfile(source.WindowsProfile)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'WindowsProfile' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolWindowsProfile() to populate field WindowsProfile")
 		}
-
 		pool.WindowsProfile = &windowsProfile
 	} else {
 		pool.WindowsProfile = nil
@@ -842,7 +838,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 }
 
 // AssignProperties_To_ManagedClustersAgentPool_Spec populates the provided destination ManagedClustersAgentPool_Spec from our ManagedClustersAgentPool_Spec
-func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAgentPool_Spec(destination *v20231001s.ManagedClustersAgentPool_Spec) error {
+func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAgentPool_Spec(destination *v20240901s.ManagedClustersAgentPool_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
@@ -872,7 +868,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// CreationData
 	if pool.CreationData != nil {
-		var creationDatum v20231001s.CreationData
+		var creationDatum v20240901s.CreationData
 		err := pool.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
@@ -956,7 +952,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig v20231001s.KubeletConfig
+		var kubeletConfig v20240901s.KubeletConfig
 		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig(&kubeletConfig)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
@@ -971,7 +967,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig v20231001s.LinuxOSConfig
+		var linuxOSConfig v20240901s.LinuxOSConfig
 		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig(&linuxOSConfig)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
@@ -1002,7 +998,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// NetworkProfile
 	if pool.NetworkProfile != nil {
-		var networkProfile v20231001s.AgentPoolNetworkProfile
+		var networkProfile v20240901s.AgentPoolNetworkProfile
 		err := pool.NetworkProfile.AssignProperties_To_AgentPoolNetworkProfile(&networkProfile)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile() to populate field NetworkProfile")
@@ -1035,7 +1031,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// OperatorSpec
 	if pool.OperatorSpec != nil {
-		var operatorSpec v20231001s.ManagedClustersAgentPoolOperatorSpec
+		var operatorSpec v20240901s.ManagedClustersAgentPoolOperatorSpec
 		err := pool.OperatorSpec.AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ManagedClustersAgentPoolOperatorSpec() to populate field OperatorSpec")
@@ -1088,7 +1084,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// PowerState
 	if pool.PowerState != nil {
-		var powerState v20231001s.PowerState
+		var powerState v20240901s.PowerState
 		err := pool.PowerState.AssignProperties_To_PowerState(&powerState)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_PowerState() to populate field PowerState")
@@ -1117,9 +1113,14 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// SecurityProfile
 	if pool.SecurityProfile != nil {
-		propertyBag.Add("SecurityProfile", *pool.SecurityProfile)
+		var securityProfile v20240901s.AgentPoolSecurityProfile
+		err := pool.SecurityProfile.AssignProperties_To_AgentPoolSecurityProfile(&securityProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolSecurityProfile() to populate field SecurityProfile")
+		}
+		destination.SecurityProfile = &securityProfile
 	} else {
-		propertyBag.Remove("SecurityProfile")
+		destination.SecurityProfile = nil
 	}
 
 	// SpotMaxPrice
@@ -1138,7 +1139,7 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting v20231001s.AgentPoolUpgradeSettings
+		var upgradeSetting v20240901s.AgentPoolUpgradeSettings
 		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
@@ -1175,9 +1176,14 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// WindowsProfile
 	if pool.WindowsProfile != nil {
-		propertyBag.Add("WindowsProfile", *pool.WindowsProfile)
+		var windowsProfile v20240901s.AgentPoolWindowsProfile
+		err := pool.WindowsProfile.AssignProperties_To_AgentPoolWindowsProfile(&windowsProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolWindowsProfile() to populate field WindowsProfile")
+		}
+		destination.WindowsProfile = &windowsProfile
 	} else {
-		propertyBag.Remove("WindowsProfile")
+		destination.WindowsProfile = nil
 	}
 
 	// WorkloadRuntime
@@ -1271,14 +1277,14 @@ var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
 
 // ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
 func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20231001s.ManagedClustersAgentPool_STATUS)
+	src, ok := source.(*v20240901s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_ManagedClustersAgentPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231001s.ManagedClustersAgentPool_STATUS{}
+	src = &v20240901s.ManagedClustersAgentPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1295,14 +1301,14 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime
 
 // ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
 func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20231001s.ManagedClustersAgentPool_STATUS)
+	dst, ok := destination.(*v20240901s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_ManagedClustersAgentPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231001s.ManagedClustersAgentPool_STATUS{}
+	dst = &v20240901s.ManagedClustersAgentPool_STATUS{}
 	err := pool.AssignProperties_To_ManagedClustersAgentPool_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1318,7 +1324,7 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genrunt
 }
 
 // AssignProperties_From_ManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
-func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedClustersAgentPool_STATUS(source *v20231001s.ManagedClustersAgentPool_STATUS) error {
+func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedClustersAgentPool_STATUS(source *v20240901s.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1363,17 +1369,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 	pool.CurrentOrchestratorVersion = genruntime.ClonePointerToString(source.CurrentOrchestratorVersion)
 
 	// ETag
-	if propertyBag.Contains("ETag") {
-		var eTag string
-		err := propertyBag.Pull("ETag", &eTag)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ETag' from propertyBag")
-		}
-
-		pool.ETag = &eTag
-	} else {
-		pool.ETag = nil
-	}
+	pool.ETag = genruntime.ClonePointerToString(source.ETag)
 
 	// EnableAutoScaling
 	if source.EnableAutoScaling != nil {
@@ -1617,13 +1613,12 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 	pool.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
 
 	// SecurityProfile
-	if propertyBag.Contains("SecurityProfile") {
+	if source.SecurityProfile != nil {
 		var securityProfile AgentPoolSecurityProfile_STATUS
-		err := propertyBag.Pull("SecurityProfile", &securityProfile)
+		err := securityProfile.AssignProperties_From_AgentPoolSecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
-
 		pool.SecurityProfile = &securityProfile
 	} else {
 		pool.SecurityProfile = nil
@@ -1688,13 +1683,12 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 	pool.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
 
 	// WindowsProfile
-	if propertyBag.Contains("WindowsProfile") {
+	if source.WindowsProfile != nil {
 		var windowsProfile AgentPoolWindowsProfile_STATUS
-		err := propertyBag.Pull("WindowsProfile", &windowsProfile)
+		err := windowsProfile.AssignProperties_From_AgentPoolWindowsProfile_STATUS(source.WindowsProfile)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'WindowsProfile' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolWindowsProfile_STATUS() to populate field WindowsProfile")
 		}
-
 		pool.WindowsProfile = &windowsProfile
 	} else {
 		pool.WindowsProfile = nil
@@ -1724,7 +1718,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 }
 
 // AssignProperties_To_ManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
-func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClustersAgentPool_STATUS(destination *v20231001s.ManagedClustersAgentPool_STATUS) error {
+func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClustersAgentPool_STATUS(destination *v20240901s.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
@@ -1749,7 +1743,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// CreationData
 	if pool.CreationData != nil {
-		var creationDatum v20231001s.CreationData_STATUS
+		var creationDatum v20240901s.CreationData_STATUS
 		err := pool.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
@@ -1763,11 +1757,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 	destination.CurrentOrchestratorVersion = genruntime.ClonePointerToString(pool.CurrentOrchestratorVersion)
 
 	// ETag
-	if pool.ETag != nil {
-		propertyBag.Add("ETag", *pool.ETag)
-	} else {
-		propertyBag.Remove("ETag")
-	}
+	destination.ETag = genruntime.ClonePointerToString(pool.ETag)
 
 	// EnableAutoScaling
 	if pool.EnableAutoScaling != nil {
@@ -1841,7 +1831,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig v20231001s.KubeletConfig_STATUS
+		var kubeletConfig v20240901s.KubeletConfig_STATUS
 		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig_STATUS(&kubeletConfig)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_KubeletConfig_STATUS() to populate field KubeletConfig")
@@ -1856,7 +1846,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig v20231001s.LinuxOSConfig_STATUS
+		var linuxOSConfig v20240901s.LinuxOSConfig_STATUS
 		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig_STATUS(&linuxOSConfig)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
@@ -1890,7 +1880,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// NetworkProfile
 	if pool.NetworkProfile != nil {
-		var networkProfile v20231001s.AgentPoolNetworkProfile_STATUS
+		var networkProfile v20240901s.AgentPoolNetworkProfile_STATUS
 		err := pool.NetworkProfile.AssignProperties_To_AgentPoolNetworkProfile_STATUS(&networkProfile)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
@@ -1946,7 +1936,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// PowerState
 	if pool.PowerState != nil {
-		var powerState v20231001s.PowerState_STATUS
+		var powerState v20240901s.PowerState_STATUS
 		err := pool.PowerState.AssignProperties_To_PowerState_STATUS(&powerState)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_PowerState_STATUS() to populate field PowerState")
@@ -1976,9 +1966,14 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// SecurityProfile
 	if pool.SecurityProfile != nil {
-		propertyBag.Add("SecurityProfile", *pool.SecurityProfile)
+		var securityProfile v20240901s.AgentPoolSecurityProfile_STATUS
+		err := pool.SecurityProfile.AssignProperties_To_AgentPoolSecurityProfile_STATUS(&securityProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolSecurityProfile_STATUS() to populate field SecurityProfile")
+		}
+		destination.SecurityProfile = &securityProfile
 	} else {
-		propertyBag.Remove("SecurityProfile")
+		destination.SecurityProfile = nil
 	}
 
 	// SpotMaxPrice
@@ -1997,7 +1992,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting v20231001s.AgentPoolUpgradeSettings_STATUS
+		var upgradeSetting v20240901s.AgentPoolUpgradeSettings_STATUS
 		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&upgradeSetting)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
@@ -2029,9 +2024,14 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// WindowsProfile
 	if pool.WindowsProfile != nil {
-		propertyBag.Add("WindowsProfile", *pool.WindowsProfile)
+		var windowsProfile v20240901s.AgentPoolWindowsProfile_STATUS
+		err := pool.WindowsProfile.AssignProperties_To_AgentPoolWindowsProfile_STATUS(&windowsProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolWindowsProfile_STATUS() to populate field WindowsProfile")
+		}
+		destination.WindowsProfile = &windowsProfile
 	} else {
-		propertyBag.Remove("WindowsProfile")
+		destination.WindowsProfile = nil
 	}
 
 	// WorkloadRuntime
@@ -2349,7 +2349,7 @@ type AgentPoolNetworkProfile struct {
 }
 
 // AssignProperties_From_AgentPoolNetworkProfile populates our AgentPoolNetworkProfile from the provided source AgentPoolNetworkProfile
-func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkProfile(source *v20231001s.AgentPoolNetworkProfile) error {
+func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkProfile(source *v20240901s.AgentPoolNetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2417,15 +2417,15 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 }
 
 // AssignProperties_To_AgentPoolNetworkProfile populates the provided destination AgentPoolNetworkProfile from our AgentPoolNetworkProfile
-func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProfile(destination *v20231001s.AgentPoolNetworkProfile) error {
+func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProfile(destination *v20240901s.AgentPoolNetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AllowedHostPorts
 	if profile.AllowedHostPorts != nil {
-		allowedHostPortList := make([]v20231001s.PortRange, len(profile.AllowedHostPorts))
+		allowedHostPortList := make([]v20240901s.PortRange, len(profile.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
-			var allowedHostPort v20231001s.PortRange
+			var allowedHostPort v20240901s.PortRange
 			err := allowedHostPortItem.AssignProperties_To_PortRange(&allowedHostPort)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_PortRange() to populate field AllowedHostPorts")
@@ -2450,9 +2450,9 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 
 	// NodePublicIPTags
 	if profile.NodePublicIPTags != nil {
-		nodePublicIPTagList := make([]v20231001s.IPTag, len(profile.NodePublicIPTags))
+		nodePublicIPTagList := make([]v20240901s.IPTag, len(profile.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
-			var nodePublicIPTag v20231001s.IPTag
+			var nodePublicIPTag v20240901s.IPTag
 			err := nodePublicIPTagItem.AssignProperties_To_IPTag(&nodePublicIPTag)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_IPTag() to populate field NodePublicIPTags")
@@ -2494,7 +2494,7 @@ type AgentPoolNetworkProfile_STATUS struct {
 }
 
 // AssignProperties_From_AgentPoolNetworkProfile_STATUS populates our AgentPoolNetworkProfile_STATUS from the provided source AgentPoolNetworkProfile_STATUS
-func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNetworkProfile_STATUS(source *v20231001s.AgentPoolNetworkProfile_STATUS) error {
+func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNetworkProfile_STATUS(source *v20240901s.AgentPoolNetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2554,15 +2554,15 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 }
 
 // AssignProperties_To_AgentPoolNetworkProfile_STATUS populates the provided destination AgentPoolNetworkProfile_STATUS from our AgentPoolNetworkProfile_STATUS
-func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetworkProfile_STATUS(destination *v20231001s.AgentPoolNetworkProfile_STATUS) error {
+func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetworkProfile_STATUS(destination *v20240901s.AgentPoolNetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AllowedHostPorts
 	if profile.AllowedHostPorts != nil {
-		allowedHostPortList := make([]v20231001s.PortRange_STATUS, len(profile.AllowedHostPorts))
+		allowedHostPortList := make([]v20240901s.PortRange_STATUS, len(profile.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
-			var allowedHostPort v20231001s.PortRange_STATUS
+			var allowedHostPort v20240901s.PortRange_STATUS
 			err := allowedHostPortItem.AssignProperties_To_PortRange_STATUS(&allowedHostPort)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_PortRange_STATUS() to populate field AllowedHostPorts")
@@ -2579,9 +2579,9 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetw
 
 	// NodePublicIPTags
 	if profile.NodePublicIPTags != nil {
-		nodePublicIPTagList := make([]v20231001s.IPTag_STATUS, len(profile.NodePublicIPTags))
+		nodePublicIPTagList := make([]v20240901s.IPTag_STATUS, len(profile.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
-			var nodePublicIPTag v20231001s.IPTag_STATUS
+			var nodePublicIPTag v20240901s.IPTag_STATUS
 			err := nodePublicIPTagItem.AssignProperties_To_IPTag_STATUS(&nodePublicIPTag)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_IPTag_STATUS() to populate field NodePublicIPTags")
@@ -2623,7 +2623,7 @@ type AgentPoolSecurityProfile struct {
 }
 
 // AssignProperties_From_AgentPoolSecurityProfile populates our AgentPoolSecurityProfile from the provided source AgentPoolSecurityProfile
-func (profile *AgentPoolSecurityProfile) AssignProperties_From_AgentPoolSecurityProfile(source *v20231001sc.AgentPoolSecurityProfile) error {
+func (profile *AgentPoolSecurityProfile) AssignProperties_From_AgentPoolSecurityProfile(source *v20240901s.AgentPoolSecurityProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2644,7 +2644,17 @@ func (profile *AgentPoolSecurityProfile) AssignProperties_From_AgentPoolSecurity
 	}
 
 	// SshAccess
-	profile.SshAccess = genruntime.ClonePointerToString(source.SshAccess)
+	if propertyBag.Contains("SshAccess") {
+		var sshAccess string
+		err := propertyBag.Pull("SshAccess", &sshAccess)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SshAccess' from propertyBag")
+		}
+
+		profile.SshAccess = &sshAccess
+	} else {
+		profile.SshAccess = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2667,7 +2677,7 @@ func (profile *AgentPoolSecurityProfile) AssignProperties_From_AgentPoolSecurity
 }
 
 // AssignProperties_To_AgentPoolSecurityProfile populates the provided destination AgentPoolSecurityProfile from our AgentPoolSecurityProfile
-func (profile *AgentPoolSecurityProfile) AssignProperties_To_AgentPoolSecurityProfile(destination *v20231001sc.AgentPoolSecurityProfile) error {
+func (profile *AgentPoolSecurityProfile) AssignProperties_To_AgentPoolSecurityProfile(destination *v20240901s.AgentPoolSecurityProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2688,7 +2698,11 @@ func (profile *AgentPoolSecurityProfile) AssignProperties_To_AgentPoolSecurityPr
 	}
 
 	// SshAccess
-	destination.SshAccess = genruntime.ClonePointerToString(profile.SshAccess)
+	if profile.SshAccess != nil {
+		propertyBag.Add("SshAccess", *profile.SshAccess)
+	} else {
+		propertyBag.Remove("SshAccess")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2720,7 +2734,7 @@ type AgentPoolSecurityProfile_STATUS struct {
 }
 
 // AssignProperties_From_AgentPoolSecurityProfile_STATUS populates our AgentPoolSecurityProfile_STATUS from the provided source AgentPoolSecurityProfile_STATUS
-func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_From_AgentPoolSecurityProfile_STATUS(source *v20231001sc.AgentPoolSecurityProfile_STATUS) error {
+func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_From_AgentPoolSecurityProfile_STATUS(source *v20240901s.AgentPoolSecurityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2741,7 +2755,17 @@ func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_From_AgentPoolS
 	}
 
 	// SshAccess
-	profile.SshAccess = genruntime.ClonePointerToString(source.SshAccess)
+	if propertyBag.Contains("SshAccess") {
+		var sshAccess string
+		err := propertyBag.Pull("SshAccess", &sshAccess)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SshAccess' from propertyBag")
+		}
+
+		profile.SshAccess = &sshAccess
+	} else {
+		profile.SshAccess = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2764,7 +2788,7 @@ func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_From_AgentPoolS
 }
 
 // AssignProperties_To_AgentPoolSecurityProfile_STATUS populates the provided destination AgentPoolSecurityProfile_STATUS from our AgentPoolSecurityProfile_STATUS
-func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_To_AgentPoolSecurityProfile_STATUS(destination *v20231001sc.AgentPoolSecurityProfile_STATUS) error {
+func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_To_AgentPoolSecurityProfile_STATUS(destination *v20240901s.AgentPoolSecurityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2785,7 +2809,11 @@ func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_To_AgentPoolSec
 	}
 
 	// SshAccess
-	destination.SshAccess = genruntime.ClonePointerToString(profile.SshAccess)
+	if profile.SshAccess != nil {
+		propertyBag.Add("SshAccess", *profile.SshAccess)
+	} else {
+		propertyBag.Remove("SshAccess")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2818,7 +2846,7 @@ type AgentPoolUpgradeSettings struct {
 }
 
 // AssignProperties_From_AgentPoolUpgradeSettings populates our AgentPoolUpgradeSettings from the provided source AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *v20231001s.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *v20240901s.AgentPoolUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2829,17 +2857,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
 	// NodeSoakDurationInMinutes
-	if propertyBag.Contains("NodeSoakDurationInMinutes") {
-		var nodeSoakDurationInMinute int
-		err := propertyBag.Pull("NodeSoakDurationInMinutes", &nodeSoakDurationInMinute)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NodeSoakDurationInMinutes' from propertyBag")
-		}
-
-		settings.NodeSoakDurationInMinutes = &nodeSoakDurationInMinute
-	} else {
-		settings.NodeSoakDurationInMinutes = nil
-	}
+	settings.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(source.NodeSoakDurationInMinutes)
 
 	// UndrainableNodeBehavior
 	if propertyBag.Contains("UndrainableNodeBehavior") {
@@ -2875,7 +2893,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 }
 
 // AssignProperties_To_AgentPoolUpgradeSettings populates the provided destination AgentPoolUpgradeSettings from our AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSettings(destination *v20231001s.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSettings(destination *v20240901s.AgentPoolUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -2886,11 +2904,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 	destination.MaxSurge = genruntime.ClonePointerToString(settings.MaxSurge)
 
 	// NodeSoakDurationInMinutes
-	if settings.NodeSoakDurationInMinutes != nil {
-		propertyBag.Add("NodeSoakDurationInMinutes", *settings.NodeSoakDurationInMinutes)
-	} else {
-		propertyBag.Remove("NodeSoakDurationInMinutes")
-	}
+	destination.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(settings.NodeSoakDurationInMinutes)
 
 	// UndrainableNodeBehavior
 	if settings.UndrainableNodeBehavior != nil {
@@ -2930,7 +2944,7 @@ type AgentPoolUpgradeSettings_STATUS struct {
 }
 
 // AssignProperties_From_AgentPoolUpgradeSettings_STATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source *v20231001s.AgentPoolUpgradeSettings_STATUS) error {
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source *v20240901s.AgentPoolUpgradeSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2941,17 +2955,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
 	// NodeSoakDurationInMinutes
-	if propertyBag.Contains("NodeSoakDurationInMinutes") {
-		var nodeSoakDurationInMinute int
-		err := propertyBag.Pull("NodeSoakDurationInMinutes", &nodeSoakDurationInMinute)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NodeSoakDurationInMinutes' from propertyBag")
-		}
-
-		settings.NodeSoakDurationInMinutes = &nodeSoakDurationInMinute
-	} else {
-		settings.NodeSoakDurationInMinutes = nil
-	}
+	settings.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(source.NodeSoakDurationInMinutes)
 
 	// UndrainableNodeBehavior
 	if propertyBag.Contains("UndrainableNodeBehavior") {
@@ -2987,7 +2991,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 }
 
 // AssignProperties_To_AgentPoolUpgradeSettings_STATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUpgradeSettings_STATUS(destination *v20231001s.AgentPoolUpgradeSettings_STATUS) error {
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUpgradeSettings_STATUS(destination *v20240901s.AgentPoolUpgradeSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -2998,11 +3002,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 	destination.MaxSurge = genruntime.ClonePointerToString(settings.MaxSurge)
 
 	// NodeSoakDurationInMinutes
-	if settings.NodeSoakDurationInMinutes != nil {
-		propertyBag.Add("NodeSoakDurationInMinutes", *settings.NodeSoakDurationInMinutes)
-	} else {
-		propertyBag.Remove("NodeSoakDurationInMinutes")
-	}
+	destination.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(settings.NodeSoakDurationInMinutes)
 
 	// UndrainableNodeBehavior
 	if settings.UndrainableNodeBehavior != nil {
@@ -3178,13 +3178,13 @@ func (profile *AgentPoolWindowsProfile_STATUS) AssignProperties_To_AgentPoolWind
 }
 
 type augmentConversionForManagedClustersAgentPool_Spec interface {
-	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPool_Spec) error
-	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPool_Spec) error
+	AssignPropertiesFrom(src *v20240901s.ManagedClustersAgentPool_Spec) error
+	AssignPropertiesTo(dst *v20240901s.ManagedClustersAgentPool_Spec) error
 }
 
 type augmentConversionForManagedClustersAgentPool_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPool_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPool_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.ManagedClustersAgentPool_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.ManagedClustersAgentPool_STATUS) error
 }
 
 // Storage version of v1api20240402preview.KubeletConfig
@@ -3205,7 +3205,7 @@ type KubeletConfig struct {
 }
 
 // AssignProperties_From_KubeletConfig populates our KubeletConfig from the provided source KubeletConfig
-func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v20231001s.KubeletConfig) error {
+func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v20240901s.KubeletConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3273,7 +3273,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v202310
 }
 
 // AssignProperties_To_KubeletConfig populates the provided destination KubeletConfig from our KubeletConfig
-func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v20231001s.KubeletConfig) error {
+func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v20240901s.KubeletConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -3358,7 +3358,7 @@ type KubeletConfig_STATUS struct {
 }
 
 // AssignProperties_From_KubeletConfig_STATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(source *v20231001s.KubeletConfig_STATUS) error {
+func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(source *v20240901s.KubeletConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3426,7 +3426,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 }
 
 // AssignProperties_To_KubeletConfig_STATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(destination *v20231001s.KubeletConfig_STATUS) error {
+func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(destination *v20240901s.KubeletConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -3504,7 +3504,7 @@ type LinuxOSConfig struct {
 }
 
 // AssignProperties_From_LinuxOSConfig populates our LinuxOSConfig from the provided source LinuxOSConfig
-func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v20231001s.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v20240901s.LinuxOSConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3550,7 +3550,7 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v202310
 }
 
 // AssignProperties_To_LinuxOSConfig populates the provided destination LinuxOSConfig from our LinuxOSConfig
-func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v20231001s.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v20240901s.LinuxOSConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -3559,7 +3559,7 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v202
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl v20231001s.SysctlConfig
+		var sysctl v20240901s.SysctlConfig
 		err := config.Sysctls.AssignProperties_To_SysctlConfig(&sysctl)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SysctlConfig() to populate field Sysctls")
@@ -3606,7 +3606,7 @@ type LinuxOSConfig_STATUS struct {
 }
 
 // AssignProperties_From_LinuxOSConfig_STATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(source *v20231001s.LinuxOSConfig_STATUS) error {
+func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(source *v20240901s.LinuxOSConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3652,7 +3652,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 }
 
 // AssignProperties_To_LinuxOSConfig_STATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(destination *v20231001s.LinuxOSConfig_STATUS) error {
+func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(destination *v20240901s.LinuxOSConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -3661,7 +3661,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl v20231001s.SysctlConfig_STATUS
+		var sysctl v20240901s.SysctlConfig_STATUS
 		err := config.Sysctls.AssignProperties_To_SysctlConfig_STATUS(&sysctl)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SysctlConfig_STATUS() to populate field Sysctls")
@@ -3706,7 +3706,7 @@ type ManagedClustersAgentPoolOperatorSpec struct {
 }
 
 // AssignProperties_From_ManagedClustersAgentPoolOperatorSpec populates our ManagedClustersAgentPoolOperatorSpec from the provided source ManagedClustersAgentPoolOperatorSpec
-func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_From_ManagedClustersAgentPoolOperatorSpec(source *v20231001s.ManagedClustersAgentPoolOperatorSpec) error {
+func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_From_ManagedClustersAgentPoolOperatorSpec(source *v20240901s.ManagedClustersAgentPoolOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3763,7 +3763,7 @@ func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_From_Mana
 }
 
 // AssignProperties_To_ManagedClustersAgentPoolOperatorSpec populates the provided destination ManagedClustersAgentPoolOperatorSpec from our ManagedClustersAgentPoolOperatorSpec
-func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(destination *v20231001s.ManagedClustersAgentPoolOperatorSpec) error {
+func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(destination *v20240901s.ManagedClustersAgentPoolOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -3827,7 +3827,7 @@ type PowerState struct {
 }
 
 // AssignProperties_From_PowerState populates our PowerState from the provided source PowerState
-func (state *PowerState) AssignProperties_From_PowerState(source *v20231001s.PowerState) error {
+func (state *PowerState) AssignProperties_From_PowerState(source *v20240901s.PowerState) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3855,7 +3855,7 @@ func (state *PowerState) AssignProperties_From_PowerState(source *v20231001s.Pow
 }
 
 // AssignProperties_To_PowerState populates the provided destination PowerState from our PowerState
-func (state *PowerState) AssignProperties_To_PowerState(destination *v20231001s.PowerState) error {
+func (state *PowerState) AssignProperties_To_PowerState(destination *v20240901s.PowerState) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(state.PropertyBag)
 
@@ -4205,33 +4205,33 @@ type augmentConversionForAgentPoolGPUProfile_STATUS interface {
 }
 
 type augmentConversionForAgentPoolNetworkProfile interface {
-	AssignPropertiesFrom(src *v20231001s.AgentPoolNetworkProfile) error
-	AssignPropertiesTo(dst *v20231001s.AgentPoolNetworkProfile) error
+	AssignPropertiesFrom(src *v20240901s.AgentPoolNetworkProfile) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolNetworkProfile) error
 }
 
 type augmentConversionForAgentPoolNetworkProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.AgentPoolNetworkProfile_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.AgentPoolNetworkProfile_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.AgentPoolNetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolNetworkProfile_STATUS) error
 }
 
 type augmentConversionForAgentPoolSecurityProfile interface {
-	AssignPropertiesFrom(src *v20231001sc.AgentPoolSecurityProfile) error
-	AssignPropertiesTo(dst *v20231001sc.AgentPoolSecurityProfile) error
+	AssignPropertiesFrom(src *v20240901s.AgentPoolSecurityProfile) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolSecurityProfile) error
 }
 
 type augmentConversionForAgentPoolSecurityProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20231001sc.AgentPoolSecurityProfile_STATUS) error
-	AssignPropertiesTo(dst *v20231001sc.AgentPoolSecurityProfile_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.AgentPoolSecurityProfile_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolSecurityProfile_STATUS) error
 }
 
 type augmentConversionForAgentPoolUpgradeSettings interface {
-	AssignPropertiesFrom(src *v20231001s.AgentPoolUpgradeSettings) error
-	AssignPropertiesTo(dst *v20231001s.AgentPoolUpgradeSettings) error
+	AssignPropertiesFrom(src *v20240901s.AgentPoolUpgradeSettings) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolUpgradeSettings) error
 }
 
 type augmentConversionForAgentPoolUpgradeSettings_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.AgentPoolUpgradeSettings_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.AgentPoolUpgradeSettings_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.AgentPoolUpgradeSettings_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolUpgradeSettings_STATUS) error
 }
 
 type augmentConversionForAgentPoolWindowsProfile interface {
@@ -4245,33 +4245,33 @@ type augmentConversionForAgentPoolWindowsProfile_STATUS interface {
 }
 
 type augmentConversionForKubeletConfig interface {
-	AssignPropertiesFrom(src *v20231001s.KubeletConfig) error
-	AssignPropertiesTo(dst *v20231001s.KubeletConfig) error
+	AssignPropertiesFrom(src *v20240901s.KubeletConfig) error
+	AssignPropertiesTo(dst *v20240901s.KubeletConfig) error
 }
 
 type augmentConversionForKubeletConfig_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.KubeletConfig_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.KubeletConfig_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.KubeletConfig_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.KubeletConfig_STATUS) error
 }
 
 type augmentConversionForLinuxOSConfig interface {
-	AssignPropertiesFrom(src *v20231001s.LinuxOSConfig) error
-	AssignPropertiesTo(dst *v20231001s.LinuxOSConfig) error
+	AssignPropertiesFrom(src *v20240901s.LinuxOSConfig) error
+	AssignPropertiesTo(dst *v20240901s.LinuxOSConfig) error
 }
 
 type augmentConversionForLinuxOSConfig_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.LinuxOSConfig_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.LinuxOSConfig_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.LinuxOSConfig_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.LinuxOSConfig_STATUS) error
 }
 
 type augmentConversionForManagedClustersAgentPoolOperatorSpec interface {
-	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPoolOperatorSpec) error
-	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPoolOperatorSpec) error
+	AssignPropertiesFrom(src *v20240901s.ManagedClustersAgentPoolOperatorSpec) error
+	AssignPropertiesTo(dst *v20240901s.ManagedClustersAgentPoolOperatorSpec) error
 }
 
 type augmentConversionForPowerState interface {
-	AssignPropertiesFrom(src *v20231001s.PowerState) error
-	AssignPropertiesTo(dst *v20231001s.PowerState) error
+	AssignPropertiesFrom(src *v20240901s.PowerState) error
+	AssignPropertiesTo(dst *v20240901s.PowerState) error
 }
 
 type augmentConversionForVirtualMachineNodes interface {
@@ -4303,7 +4303,7 @@ type IPTag struct {
 }
 
 // AssignProperties_From_IPTag populates our IPTag from the provided source IPTag
-func (ipTag *IPTag) AssignProperties_From_IPTag(source *v20231001s.IPTag) error {
+func (ipTag *IPTag) AssignProperties_From_IPTag(source *v20240901s.IPTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4334,7 +4334,7 @@ func (ipTag *IPTag) AssignProperties_From_IPTag(source *v20231001s.IPTag) error 
 }
 
 // AssignProperties_To_IPTag populates the provided destination IPTag from our IPTag
-func (ipTag *IPTag) AssignProperties_To_IPTag(destination *v20231001s.IPTag) error {
+func (ipTag *IPTag) AssignProperties_To_IPTag(destination *v20240901s.IPTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
 
@@ -4373,7 +4373,7 @@ type IPTag_STATUS struct {
 }
 
 // AssignProperties_From_IPTag_STATUS populates our IPTag_STATUS from the provided source IPTag_STATUS
-func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *v20231001s.IPTag_STATUS) error {
+func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *v20240901s.IPTag_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4404,7 +4404,7 @@ func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *v20231001s
 }
 
 // AssignProperties_To_IPTag_STATUS populates the provided destination IPTag_STATUS from our IPTag_STATUS
-func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *v20231001s.IPTag_STATUS) error {
+func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *v20240901s.IPTag_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
 
@@ -4444,7 +4444,7 @@ type PortRange struct {
 }
 
 // AssignProperties_From_PortRange populates our PortRange from the provided source PortRange
-func (portRange *PortRange) AssignProperties_From_PortRange(source *v20231001s.PortRange) error {
+func (portRange *PortRange) AssignProperties_From_PortRange(source *v20240901s.PortRange) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4478,7 +4478,7 @@ func (portRange *PortRange) AssignProperties_From_PortRange(source *v20231001s.P
 }
 
 // AssignProperties_To_PortRange populates the provided destination PortRange from our PortRange
-func (portRange *PortRange) AssignProperties_To_PortRange(destination *v20231001s.PortRange) error {
+func (portRange *PortRange) AssignProperties_To_PortRange(destination *v20240901s.PortRange) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(portRange.PropertyBag)
 
@@ -4521,7 +4521,7 @@ type PortRange_STATUS struct {
 }
 
 // AssignProperties_From_PortRange_STATUS populates our PortRange_STATUS from the provided source PortRange_STATUS
-func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source *v20231001s.PortRange_STATUS) error {
+func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source *v20240901s.PortRange_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4555,7 +4555,7 @@ func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source
 }
 
 // AssignProperties_To_PortRange_STATUS populates the provided destination PortRange_STATUS from our PortRange_STATUS
-func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destination *v20231001s.PortRange_STATUS) error {
+func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destination *v20240901s.PortRange_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(portRange.PropertyBag)
 
@@ -4867,7 +4867,7 @@ type SysctlConfig struct {
 }
 
 // AssignProperties_From_SysctlConfig populates our SysctlConfig from the provided source SysctlConfig
-func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20231001s.SysctlConfig) error {
+func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20240901s.SysctlConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4981,7 +4981,7 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20231001
 }
 
 // AssignProperties_To_SysctlConfig populates the provided destination SysctlConfig from our SysctlConfig
-func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20231001s.SysctlConfig) error {
+func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20240901s.SysctlConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -5129,7 +5129,7 @@ type SysctlConfig_STATUS struct {
 }
 
 // AssignProperties_From_SysctlConfig_STATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(source *v20231001s.SysctlConfig_STATUS) error {
+func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(source *v20240901s.SysctlConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5243,7 +5243,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(sou
 }
 
 // AssignProperties_To_SysctlConfig_STATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(destination *v20231001s.SysctlConfig_STATUS) error {
+func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(destination *v20240901s.SysctlConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -5357,23 +5357,23 @@ func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(desti
 }
 
 type augmentConversionForIPTag interface {
-	AssignPropertiesFrom(src *v20231001s.IPTag) error
-	AssignPropertiesTo(dst *v20231001s.IPTag) error
+	AssignPropertiesFrom(src *v20240901s.IPTag) error
+	AssignPropertiesTo(dst *v20240901s.IPTag) error
 }
 
 type augmentConversionForIPTag_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.IPTag_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.IPTag_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.IPTag_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.IPTag_STATUS) error
 }
 
 type augmentConversionForPortRange interface {
-	AssignPropertiesFrom(src *v20231001s.PortRange) error
-	AssignPropertiesTo(dst *v20231001s.PortRange) error
+	AssignPropertiesFrom(src *v20240901s.PortRange) error
+	AssignPropertiesTo(dst *v20240901s.PortRange) error
 }
 
 type augmentConversionForPortRange_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.PortRange_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.PortRange_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.PortRange_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.PortRange_STATUS) error
 }
 
 type augmentConversionForScaleProfile interface {
@@ -5387,13 +5387,13 @@ type augmentConversionForScaleProfile_STATUS interface {
 }
 
 type augmentConversionForSysctlConfig interface {
-	AssignPropertiesFrom(src *v20231001s.SysctlConfig) error
-	AssignPropertiesTo(dst *v20231001s.SysctlConfig) error
+	AssignPropertiesFrom(src *v20240901s.SysctlConfig) error
+	AssignPropertiesTo(dst *v20240901s.SysctlConfig) error
 }
 
 type augmentConversionForSysctlConfig_STATUS interface {
-	AssignPropertiesFrom(src *v20231001s.SysctlConfig_STATUS) error
-	AssignPropertiesTo(dst *v20231001s.SysctlConfig_STATUS) error
+	AssignPropertiesFrom(src *v20240901s.SysctlConfig_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.SysctlConfig_STATUS) error
 }
 
 // Storage version of v1api20240402preview.AutoScaleProfile

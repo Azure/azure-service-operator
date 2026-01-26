@@ -106,7 +106,7 @@ func TestReconcileCRDs(t *testing.T) {
 			}
 
 			deprecatedCRDVersions := map[string][]string{
-				"managedclusters.containerservice.azure.com": {"v1api20230201storage"},
+				"managedclusters.containerservice.azure.com": {"v1api20240901storage"},
 			}
 
 			options := crd.Options{
@@ -130,9 +130,9 @@ func TestReconcileCRDs(t *testing.T) {
 				crd)).To(Succeed())
 
 			if tt.expectDeprecated {
-				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20230201storage"))
+				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20240901storage"))
 			} else {
-				g.Expect(crd.Status.StoredVersions).To(ContainElement("v1api20230201storage"))
+				g.Expect(crd.Status.StoredVersions).To(ContainElement("v1api20240901storage"))
 			}
 		})
 	}
