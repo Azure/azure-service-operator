@@ -14,18 +14,25 @@ import (
 func TestMakeStoragePackageReference(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
+	cases := map[string]struct {
 		group           string
 		version         string
 		expectedVersion string
 	}{
-		{"group", "1", "storage"},
-		{"microsoft.network", "2018-05-01", "storage"},
+		"group": {
+			group:           "group",
+			version:         "1",
+			expectedVersion: "storage",
+		},
+		"microsoft.network": {
+			group:           "microsoft.network",
+			version:         "2018-05-01",
+			expectedVersion: "storage",
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.group, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -45,21 +52,35 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 	storageRef := MakeStoragePackageReference(localRef)
 	otherRef := MakeStoragePackageReference(localRef)
 
-	cases := []struct {
-		name          string
+	cases := map[string]struct {
 		storageRef    InternalPackageReference
 		otherRef      InternalPackageReference
 		expectedEqual bool
 	}{
-		{"Equal to self", storageRef, storageRef, true},
-		{"Equal to other", storageRef, otherRef, true},
-		{"Equal to other (reversed)", otherRef, storageRef, true},
-		{"Not equal to local", storageRef, localRef, false},
+		"Equal to self": {
+			storageRef:    storageRef,
+			otherRef:      storageRef,
+			expectedEqual: true,
+		},
+		"Equal to other": {
+			storageRef:    storageRef,
+			otherRef:      otherRef,
+			expectedEqual: true,
+		},
+		"Equal to other (reversed)": {
+			storageRef:    otherRef,
+			otherRef:      storageRef,
+			expectedEqual: true,
+		},
+		"Not equal to local": {
+			storageRef:    storageRef,
+			otherRef:      localRef,
+			expectedEqual: false,
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
@@ -73,21 +94,34 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 func TestStoragePackageReferenceIsPreview(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name      string
+	cases := map[string]struct {
 		version   string
 		isPreview bool
 	}{
-		{"GA storage Release is not preview", "v20200901", false},
-		{"Preview storage release is preview", "v20200901preview", true},
-		{"Preview storage re-release is preview", "v20200901preview2", true},
-		{"Alpha storage release is preview", "v20200901alpha", true},
-		{"Beta storage release is preview", "v20200901betas", true},
+		"GA storage Release is not preview": {
+			version:   "v20200901",
+			isPreview: false,
+		},
+		"Preview storage release is preview": {
+			version:   "v20200901preview",
+			isPreview: true,
+		},
+		"Preview storage re-release is preview": {
+			version:   "v20200901preview2",
+			isPreview: true,
+		},
+		"Alpha storage release is preview": {
+			version:   "v20200901alpha",
+			isPreview: true,
+		},
+		"Beta storage release is preview": {
+			version:   "v20200901betas",
+			isPreview: true,
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
