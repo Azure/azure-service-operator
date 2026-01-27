@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Web_Site_CRUD(t *testing.T) {
+func Test_Web_Site_v20220301_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -24,9 +24,9 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	// Our default region (West US 2) is capacity constrained for web at the moment.
 	// location := tc.AzureRegion
-	location := "westus"
+	tc.AzureRegion = to.Ptr("westus3")
 
-	serverFarm := newServerFarm(tc, rg, location)
+	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 
 	// TODO: We need to add support for dynamically building siteConfig.appSettings.
 	// TODO: See https://github.com/Azure/azure-service-operator/pull/2465#discussion_r956475563 for more info
@@ -35,7 +35,7 @@ func Test_Web_Site_CRUD(t *testing.T) {
 		Spec: web.Site_Spec{
 			Enabled:             to.Ptr(true),
 			Owner:               testcommon.AsOwner(rg),
-			Location:            &location,
+			Location:            tc.AzureRegion,
 			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),
 		},
 	}
