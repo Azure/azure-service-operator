@@ -71,3 +71,13 @@ Workbook: Resource
     ├── UserId: *string
     └── Version: *string
 
+augmentConversionForManagedServiceIdentity: Interface
+
+augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForUserAssignedIdentity_STATUS: Interface
+

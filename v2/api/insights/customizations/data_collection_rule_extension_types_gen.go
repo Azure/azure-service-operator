@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20230311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311"
-	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20240311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311"
+	v20240311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type DataCollectionRuleExtension struct {
 func (extension *DataCollectionRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20230311.DataCollectionRule{},
-		&storage.DataCollectionRule{}}
+		&v20230311s.DataCollectionRule{},
+		&v20240311.DataCollectionRule{},
+		&v20240311s.DataCollectionRule{}}
 }

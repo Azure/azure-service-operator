@@ -240,6 +240,12 @@ import (
 	insights_v20230601 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601"
 	insights_v20230601s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/storage"
 	insights_v20230601w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/webhook"
+	insights_v20240311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311"
+	insights_v20240311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
+	insights_v20240311w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/webhook"
+	insights_v20250101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview"
+	insights_v20250101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/storage"
+	insights_v20250101pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/webhook"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
@@ -1394,10 +1400,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRule)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230601s.Workbook)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionRule)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
@@ -4536,6 +4542,34 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &insights_v20230601w.Workbook{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20230601s.Workbook)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(insights_v20240311.DataCollectionEndpoint),
+			Defaulter: &insights_v20240311w.DataCollectionEndpoint{},
+			Validator: &insights_v20240311w.DataCollectionEndpoint{},
+		},
+		&registration.KnownType{
+			Obj:       new(insights_v20240311.DataCollectionRule),
+			Defaulter: &insights_v20240311w.DataCollectionRule{},
+			Validator: &insights_v20240311w.DataCollectionRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(insights_v20240311.DataCollectionRuleAssociation),
+			Defaulter: &insights_v20240311w.DataCollectionRuleAssociation{},
+			Validator: &insights_v20240311w.DataCollectionRuleAssociation{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(insights_v20240311s.DataCollectionEndpoint)},
+		&registration.KnownType{Obj: new(insights_v20240311s.DataCollectionRule)},
+		&registration.KnownType{Obj: new(insights_v20240311s.DataCollectionRuleAssociation)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(insights_v20250101p.ScheduledQueryRule),
+		Defaulter: &insights_v20250101pw.ScheduledQueryRule{},
+		Validator: &insights_v20250101pw.ScheduledQueryRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(insights_v20250101ps.ScheduledQueryRule)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(keyvault_v20210401p.Vault),
 		Defaulter: &keyvault_v20210401pw.Vault{},
@@ -6043,6 +6077,10 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20230311s.AddToScheme(scheme)
 	_ = insights_v20230601.AddToScheme(scheme)
 	_ = insights_v20230601s.AddToScheme(scheme)
+	_ = insights_v20240311.AddToScheme(scheme)
+	_ = insights_v20240311s.AddToScheme(scheme)
+	_ = insights_v20250101p.AddToScheme(scheme)
+	_ = insights_v20250101ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
 	_ = keyvault_v20230701.AddToScheme(scheme)
