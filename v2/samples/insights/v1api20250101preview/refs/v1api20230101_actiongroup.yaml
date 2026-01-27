@@ -1,0 +1,12 @@
+apiVersion: insights.azure.com/v1api20230101
+kind: ActionGroup
+metadata:
+  name: aso-sample-actiongroup
+  namespace: default
+spec:
+  azureName: aso-sample-actiongroup
+  enabled: true
+  location: westus2
+  groupShortName: acgr
+  owner:
+    name: aso-sample-rg
