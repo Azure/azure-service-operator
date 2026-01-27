@@ -43,6 +43,10 @@ type testCredentialProviderResources struct {
 }
 
 func testCredentialProviderSetup(cloud *cloud.Configuration) (*testCredentialProviderResources, error) {
+	return testCredentialProviderSetupWithMultiEnv(cloud, false)
+}
+
+func testCredentialProviderSetupWithMultiEnv(cloud *cloud.Configuration, allowMultiEnvManagement bool) (*testCredentialProviderResources, error) {
 	s := createTestScheme()
 
 	if cloud == nil {
@@ -71,6 +75,8 @@ func testCredentialProviderSetup(cloud *cloud.Configuration) (*testCredentialPro
 		&CredentialProviderOptions{
 			TokenProvider: fakeTokenCredentialProvider,
 			Cloud:         cloud,
+			// Feature under test
+			AllowMultiEnvManagement: allowMultiEnvManagement,
 		})
 
 	return &testCredentialProviderResources{
@@ -511,6 +517,137 @@ func TestCredentialProvider_CrossNamespaceCredentials_Blocked(t *testing.T) {
 
 	_, err = res.Provider.GetCredential(ctx, rg)
 	g.Expect(err).To(MatchError(ContainSubstring("cannot contain '/'. Secret must be in same namespace as resource.")))
+}
+
+func TestCredentialProvider_AllowMultiEnvManagement_Disabled_RejectsCloudConfigInSecret(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetupWithMultiEnv(nil, false)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	clientSecret := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID:     []byte(testSubscriptionID),
+			config.AzureClientID:           []byte(clientID),
+			config.AzureTenantID:           []byte(tenantID),
+			config.AzureClientSecret:       []byte(clientSecret),
+			config.ResourceManagerEndpoint: []byte("https://management.usgovcloudapi.net"),
+			config.ResourceManagerAudience: []byte("https://management.core.usgovcloudapi.net/"),
+			config.AzureAuthorityHost:      []byte("https://login.microsoftonline.us/"),
+		},
+	}
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	_, err = res.Provider.GetCredential(ctx, rg)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring(config.AllowMultiEnvManagement))
+}
+
+func TestCredentialProvider_AllowMultiEnvManagement_Enabled_PartialCloudConfigRejected(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetupWithMultiEnv(nil, true)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	clientSecret := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID: []byte(testSubscriptionID),
+			config.AzureClientID:       []byte(clientID),
+			config.AzureTenantID:       []byte(tenantID),
+			config.AzureClientSecret:   []byte(clientSecret),
+			// Only 1 of 3 cloud config fields
+			config.ResourceManagerEndpoint: []byte("https://management.usgovcloudapi.net"),
+		},
+	}
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	_, err = res.Provider.GetCredential(ctx, rg)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("must specify ALL or NONE"))
+}
+
+func TestCredentialProvider_AllowMultiEnvManagement_Enabled_UsesCloudConfigFromSecret(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetupWithMultiEnv(nil, true)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	clientSecret := uuid.New().String()
+
+	customEndpoint := "https://management.usgovcloudapi.net"
+	customAudience := "https://management.core.usgovcloudapi.net/"
+	customAuthorityHost := "https://login.microsoftonline.us/"
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID:     []byte(testSubscriptionID),
+			config.AzureClientID:           []byte(clientID),
+			config.AzureTenantID:           []byte(tenantID),
+			config.AzureClientSecret:       []byte(clientSecret),
+			config.ResourceManagerEndpoint: []byte(customEndpoint),
+			config.ResourceManagerAudience: []byte(customAudience),
+			config.AzureAuthorityHost:      []byte(customAuthorityHost),
+		},
+	}
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.Provider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	// Credential should have cloud config matching what was supplied
+	cloudCfg := cred.CloudConfig()
+	g.Expect(cloudCfg).ToNot(BeNil())
+	g.Expect(cloudCfg.ActiveDirectoryAuthorityHost).To(Equal(customAuthorityHost))
+	g.Expect(cloudCfg.Services[cloud.ResourceManager].Endpoint).To(Equal(customEndpoint))
+	g.Expect(cloudCfg.Services[cloud.ResourceManager].Audience).To(Equal(customAudience))
+
+	// And the token credential provider should have been invoked with those settings
+	g.Expect(res.fakeTokenCredentialProvider.Cloud.ActiveDirectoryAuthorityHost).To(Equal(customAuthorityHost))
+	g.Expect(res.fakeTokenCredentialProvider.Cloud.Services[cloud.ResourceManager].Endpoint).To(Equal(customEndpoint))
+	g.Expect(res.fakeTokenCredentialProvider.Cloud.Services[cloud.ResourceManager].Audience).To(Equal(customAudience))
 }
 
 func newResourceGroup(namespace string) *resources.ResourceGroup {

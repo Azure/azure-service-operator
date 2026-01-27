@@ -112,6 +112,13 @@ type Values struct {
 	// DefaultReconcilePolicy allows to override the default reconcile policy that should be used by ASO
 	// when the annotation serviceoperator.azure.com/reconcile-policy is omitted
 	DefaultReconcilePolicy annotations.ReconcilePolicyValue
+
+	// AllowMultiEnvManagement determines whether per-namespace and per-resource credentials can specify
+	// their own Azure cloud environment settings (AZURE_RESOURCE_MANAGER_ENDPOINT, AZURE_RESOURCE_MANAGER_AUDIENCE,
+	// and AZURE_AUTHORITY_HOST). When enabled, credentials must specify ALL three of these settings or NONE of them.
+	// When disabled, any attempt to specify these settings in a credential will cause reconciliation to fail.
+	// This defaults to false for security reasons.
+	AllowMultiEnvManagement bool
 }
 
 type RateLimitMode string
@@ -191,8 +198,9 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("UseWorkloadIdentityAuth:%t/", v.UseWorkloadIdentityAuth))
 	builder.WriteString(fmt.Sprintf("UserAgentSuffix:%s/", v.UserAgentSuffix))
 	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d/", v.MaxConcurrentReconciles))
-	builder.WriteString(fmt.Sprintf("RateLimit:[%s]", v.RateLimit.String()))
-	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]", v.DefaultReconcilePolicy))
+	builder.WriteString(fmt.Sprintf("RateLimit:[%s]/", v.RateLimit.String()))
+	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]/", v.DefaultReconcilePolicy))
+	builder.WriteString(fmt.Sprintf("AllowMultiEnvManagement:%t", v.AllowMultiEnvManagement))
 
 	return builder.String()
 }
@@ -260,6 +268,9 @@ func ReadFromEnvironment() (Values, error) {
 		return result, err
 	}
 	result.DefaultReconcilePolicy = annotations.ReconcilePolicyValue(envOrDefault(config.DefaultReconcilePolicy, string(annotations.ReconcilePolicyManage)))
+
+	// Ignoring error here, as any other value or empty value means we should default to false
+	result.AllowMultiEnvManagement, _ = strconv.ParseBool(os.Getenv(config.AllowMultiEnvManagement))
 
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.

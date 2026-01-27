@@ -68,6 +68,13 @@ azureResourceManagerEndpoint: ""
 # audience is referred to as "activeDirectoryResourceId" in the Azure CLI.
 azureResourceManagerAudience: ""
 
+# allowMultiEnvManagement determines whether per-namespace and per-resource credentials can specify
+# their own Azure cloud environment settings (AZURE_RESOURCE_MANAGER_ENDPOINT, AZURE_RESOURCE_MANAGER_AUDIENCE,
+# and AZURE_AUTHORITY_HOST). When enabled, credentials must specify ALL three of these settings or NONE of them.
+# When disabled, any attempt to specify these settings in a credential will cause reconciliation to fail.
+# This defaults to false for security reasons.
+allowMultiEnvManagement: false
+
 # azureTargetNamespaces lists the namespaces the operator will watch
 # for Azure resources (if the mode includes running watchers). If
 # it's empty the operator will watch all namespaces.
