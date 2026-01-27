@@ -4,8 +4,8 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &StorageAccountsTableService{}
 
 // ConvertFrom populates our StorageAccountsTableService from the provided hub StorageAccountsTableService
 func (service *StorageAccountsTableService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsTableService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsTableService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220901s.StorageAccountsTableService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsTableService(source)
+	err = service.AssignProperties_From_StorageAccountsTableService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsTableService from our StorageAccountsTableService
 func (service *StorageAccountsTableService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsTableService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsTableService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220901s.StorageAccountsTableService
+	err := service.AssignProperties_To_StorageAccountsTableService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsTableService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsTableService{}
@@ -164,7 +178,7 @@ func (service *StorageAccountsTableService) SetStatus(status genruntime.Converti
 }
 
 // AssignProperties_From_StorageAccountsTableService populates our StorageAccountsTableService from the provided source StorageAccountsTableService
-func (service *StorageAccountsTableService) AssignProperties_From_StorageAccountsTableService(source *storage.StorageAccountsTableService) error {
+func (service *StorageAccountsTableService) AssignProperties_From_StorageAccountsTableService(source *v20220901s.StorageAccountsTableService) error {
 
 	// ObjectMeta
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -199,13 +213,13 @@ func (service *StorageAccountsTableService) AssignProperties_From_StorageAccount
 }
 
 // AssignProperties_To_StorageAccountsTableService populates the provided destination StorageAccountsTableService from our StorageAccountsTableService
-func (service *StorageAccountsTableService) AssignProperties_To_StorageAccountsTableService(destination *storage.StorageAccountsTableService) error {
+func (service *StorageAccountsTableService) AssignProperties_To_StorageAccountsTableService(destination *v20220901s.StorageAccountsTableService) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.StorageAccountsTableService_Spec
+	var spec v20220901s.StorageAccountsTableService_Spec
 	err := service.Spec.AssignProperties_To_StorageAccountsTableService_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsTableService_Spec() to populate field Spec")
@@ -213,7 +227,7 @@ func (service *StorageAccountsTableService) AssignProperties_To_StorageAccountsT
 	destination.Spec = spec
 
 	// Status
-	var status storage.StorageAccountsTableService_STATUS
+	var status v20220901s.StorageAccountsTableService_STATUS
 	err = service.Status.AssignProperties_To_StorageAccountsTableService_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsTableService_STATUS() to populate field Status")
@@ -254,8 +268,8 @@ type StorageAccountsTableServiceList struct {
 }
 
 type augmentConversionForStorageAccountsTableService interface {
-	AssignPropertiesFrom(src *storage.StorageAccountsTableService) error
-	AssignPropertiesTo(dst *storage.StorageAccountsTableService) error
+	AssignPropertiesFrom(src *v20220901s.StorageAccountsTableService) error
+	AssignPropertiesTo(dst *v20220901s.StorageAccountsTableService) error
 }
 
 // Storage version of v1api20230101.StorageAccountsTableService_Spec
@@ -276,14 +290,14 @@ var _ genruntime.ConvertibleSpec = &StorageAccountsTableService_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsTableService_Spec from the provided source
 func (service *StorageAccountsTableService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.StorageAccountsTableService_Spec)
+	src, ok := source.(*v20220901s.StorageAccountsTableService_Spec)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_StorageAccountsTableService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccountsTableService_Spec{}
+	src = &v20220901s.StorageAccountsTableService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -300,14 +314,14 @@ func (service *StorageAccountsTableService_Spec) ConvertSpecFrom(source genrunti
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsTableService_Spec
 func (service *StorageAccountsTableService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.StorageAccountsTableService_Spec)
+	dst, ok := destination.(*v20220901s.StorageAccountsTableService_Spec)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_StorageAccountsTableService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccountsTableService_Spec{}
+	dst = &v20220901s.StorageAccountsTableService_Spec{}
 	err := service.AssignProperties_To_StorageAccountsTableService_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -323,16 +337,21 @@ func (service *StorageAccountsTableService_Spec) ConvertSpecTo(destination genru
 }
 
 // AssignProperties_From_StorageAccountsTableService_Spec populates our StorageAccountsTableService_Spec from the provided source StorageAccountsTableService_Spec
-func (service *StorageAccountsTableService_Spec) AssignProperties_From_StorageAccountsTableService_Spec(source *storage.StorageAccountsTableService_Spec) error {
+func (service *StorageAccountsTableService_Spec) AssignProperties_From_StorageAccountsTableService_Spec(source *v20220901s.StorageAccountsTableService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Cors
 	if source.Cors != nil {
-		var cor CorsRules
-		err := cor.AssignProperties_From_CorsRules(source.Cors)
+		var corsRulesStash v20210401s.CorsRules
+		err := corsRulesStash.AssignProperties_From_CorsRules(source.Cors)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field CorsRulesStash from Cors")
+		}
+		var cor CorsRules
+		err = cor.AssignProperties_From_CorsRules(&corsRulesStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors from CorsRulesStash")
 		}
 		service.Cors = &cor
 	} else {
@@ -383,16 +402,21 @@ func (service *StorageAccountsTableService_Spec) AssignProperties_From_StorageAc
 }
 
 // AssignProperties_To_StorageAccountsTableService_Spec populates the provided destination StorageAccountsTableService_Spec from our StorageAccountsTableService_Spec
-func (service *StorageAccountsTableService_Spec) AssignProperties_To_StorageAccountsTableService_Spec(destination *storage.StorageAccountsTableService_Spec) error {
+func (service *StorageAccountsTableService_Spec) AssignProperties_To_StorageAccountsTableService_Spec(destination *v20220901s.StorageAccountsTableService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
 	// Cors
 	if service.Cors != nil {
-		var cor storage.CorsRules
-		err := service.Cors.AssignProperties_To_CorsRules(&cor)
+		var corsRulesStash v20210401s.CorsRules
+		err := service.Cors.AssignProperties_To_CorsRules(&corsRulesStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field CorsRulesStash from Cors")
+		}
+		var cor v20220901s.CorsRules
+		err = corsRulesStash.AssignProperties_To_CorsRules(&cor)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors from CorsRulesStash")
 		}
 		destination.Cors = &cor
 	} else {
@@ -401,7 +425,7 @@ func (service *StorageAccountsTableService_Spec) AssignProperties_To_StorageAcco
 
 	// OperatorSpec
 	if service.OperatorSpec != nil {
-		var operatorSpec storage.StorageAccountsTableServiceOperatorSpec
+		var operatorSpec v20220901s.StorageAccountsTableServiceOperatorSpec
 		err := service.OperatorSpec.AssignProperties_To_StorageAccountsTableServiceOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServiceOperatorSpec() to populate field OperatorSpec")
@@ -456,14 +480,14 @@ var _ genruntime.ConvertibleStatus = &StorageAccountsTableService_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccountsTableService_STATUS from the provided source
 func (service *StorageAccountsTableService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.StorageAccountsTableService_STATUS)
+	src, ok := source.(*v20220901s.StorageAccountsTableService_STATUS)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_StorageAccountsTableService_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccountsTableService_STATUS{}
+	src = &v20220901s.StorageAccountsTableService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -480,14 +504,14 @@ func (service *StorageAccountsTableService_STATUS) ConvertStatusFrom(source genr
 
 // ConvertStatusTo populates the provided destination from our StorageAccountsTableService_STATUS
 func (service *StorageAccountsTableService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.StorageAccountsTableService_STATUS)
+	dst, ok := destination.(*v20220901s.StorageAccountsTableService_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_StorageAccountsTableService_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccountsTableService_STATUS{}
+	dst = &v20220901s.StorageAccountsTableService_STATUS{}
 	err := service.AssignProperties_To_StorageAccountsTableService_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -503,7 +527,7 @@ func (service *StorageAccountsTableService_STATUS) ConvertStatusTo(destination g
 }
 
 // AssignProperties_From_StorageAccountsTableService_STATUS populates our StorageAccountsTableService_STATUS from the provided source StorageAccountsTableService_STATUS
-func (service *StorageAccountsTableService_STATUS) AssignProperties_From_StorageAccountsTableService_STATUS(source *storage.StorageAccountsTableService_STATUS) error {
+func (service *StorageAccountsTableService_STATUS) AssignProperties_From_StorageAccountsTableService_STATUS(source *v20220901s.StorageAccountsTableService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -512,10 +536,15 @@ func (service *StorageAccountsTableService_STATUS) AssignProperties_From_Storage
 
 	// Cors
 	if source.Cors != nil {
-		var cor CorsRules_STATUS
-		err := cor.AssignProperties_From_CorsRules_STATUS(source.Cors)
+		var corsRulesSTATUSStash v20210401s.CorsRules_STATUS
+		err := corsRulesSTATUSStash.AssignProperties_From_CorsRules_STATUS(source.Cors)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field CorsRules_STATUSStash from Cors")
+		}
+		var cor CorsRules_STATUS
+		err = cor.AssignProperties_From_CorsRules_STATUS(&corsRulesSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors from CorsRules_STATUSStash")
 		}
 		service.Cors = &cor
 	} else {
@@ -552,7 +581,7 @@ func (service *StorageAccountsTableService_STATUS) AssignProperties_From_Storage
 }
 
 // AssignProperties_To_StorageAccountsTableService_STATUS populates the provided destination StorageAccountsTableService_STATUS from our StorageAccountsTableService_STATUS
-func (service *StorageAccountsTableService_STATUS) AssignProperties_To_StorageAccountsTableService_STATUS(destination *storage.StorageAccountsTableService_STATUS) error {
+func (service *StorageAccountsTableService_STATUS) AssignProperties_To_StorageAccountsTableService_STATUS(destination *v20220901s.StorageAccountsTableService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -561,10 +590,15 @@ func (service *StorageAccountsTableService_STATUS) AssignProperties_To_StorageAc
 
 	// Cors
 	if service.Cors != nil {
-		var cor storage.CorsRules_STATUS
-		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&cor)
+		var corsRulesSTATUSStash v20210401s.CorsRules_STATUS
+		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&corsRulesSTATUSStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field CorsRules_STATUSStash from Cors")
+		}
+		var cor v20220901s.CorsRules_STATUS
+		err = corsRulesSTATUSStash.AssignProperties_To_CorsRules_STATUS(&cor)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors from CorsRules_STATUSStash")
 		}
 		destination.Cors = &cor
 	} else {
@@ -601,13 +635,13 @@ func (service *StorageAccountsTableService_STATUS) AssignProperties_To_StorageAc
 }
 
 type augmentConversionForStorageAccountsTableService_Spec interface {
-	AssignPropertiesFrom(src *storage.StorageAccountsTableService_Spec) error
-	AssignPropertiesTo(dst *storage.StorageAccountsTableService_Spec) error
+	AssignPropertiesFrom(src *v20220901s.StorageAccountsTableService_Spec) error
+	AssignPropertiesTo(dst *v20220901s.StorageAccountsTableService_Spec) error
 }
 
 type augmentConversionForStorageAccountsTableService_STATUS interface {
-	AssignPropertiesFrom(src *storage.StorageAccountsTableService_STATUS) error
-	AssignPropertiesTo(dst *storage.StorageAccountsTableService_STATUS) error
+	AssignPropertiesFrom(src *v20220901s.StorageAccountsTableService_STATUS) error
+	AssignPropertiesTo(dst *v20220901s.StorageAccountsTableService_STATUS) error
 }
 
 // Storage version of v1api20230101.StorageAccountsTableServiceOperatorSpec
@@ -619,7 +653,7 @@ type StorageAccountsTableServiceOperatorSpec struct {
 }
 
 // AssignProperties_From_StorageAccountsTableServiceOperatorSpec populates our StorageAccountsTableServiceOperatorSpec from the provided source StorageAccountsTableServiceOperatorSpec
-func (operator *StorageAccountsTableServiceOperatorSpec) AssignProperties_From_StorageAccountsTableServiceOperatorSpec(source *storage.StorageAccountsTableServiceOperatorSpec) error {
+func (operator *StorageAccountsTableServiceOperatorSpec) AssignProperties_From_StorageAccountsTableServiceOperatorSpec(source *v20220901s.StorageAccountsTableServiceOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -676,7 +710,7 @@ func (operator *StorageAccountsTableServiceOperatorSpec) AssignProperties_From_S
 }
 
 // AssignProperties_To_StorageAccountsTableServiceOperatorSpec populates the provided destination StorageAccountsTableServiceOperatorSpec from our StorageAccountsTableServiceOperatorSpec
-func (operator *StorageAccountsTableServiceOperatorSpec) AssignProperties_To_StorageAccountsTableServiceOperatorSpec(destination *storage.StorageAccountsTableServiceOperatorSpec) error {
+func (operator *StorageAccountsTableServiceOperatorSpec) AssignProperties_To_StorageAccountsTableServiceOperatorSpec(destination *v20220901s.StorageAccountsTableServiceOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -733,8 +767,8 @@ func (operator *StorageAccountsTableServiceOperatorSpec) AssignProperties_To_Sto
 }
 
 type augmentConversionForStorageAccountsTableServiceOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.StorageAccountsTableServiceOperatorSpec) error
-	AssignPropertiesTo(dst *storage.StorageAccountsTableServiceOperatorSpec) error
+	AssignPropertiesFrom(src *v20220901s.StorageAccountsTableServiceOperatorSpec) error
+	AssignPropertiesTo(dst *v20220901s.StorageAccountsTableServiceOperatorSpec) error
 }
 
 func init() {

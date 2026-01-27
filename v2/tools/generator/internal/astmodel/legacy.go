@@ -89,10 +89,12 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
 	"sql":                     VersionMigrationModeLegacy,
-	"storage":                 VersionMigrationModeLegacy,
-	"subscription":            VersionMigrationModeLegacy,
-	"synapse":                 VersionMigrationModeLegacy,
-	"web":                     VersionMigrationModeLegacy,
+
+	"storage": VersionMigrationModeHybrid,
+
+	"subscription": VersionMigrationModeLegacy,
+	"synapse":      VersionMigrationModeLegacy,
+	"web":          VersionMigrationModeLegacy,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.

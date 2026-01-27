@@ -253,6 +253,13 @@ func (imports *PackageImportSet) tryAssignImportAliases(
 			}
 		}
 
+		if gr, ok := imps[0].packageReference.(InternalPackageReference); ok {
+			if groupConflicts.Contains(gr.Group()) {
+				// This group had conflicts, skip it
+				continue
+			}
+		}
+
 		// Modify the map directly to bypass any rules enforced elsewhere
 		imp := imps[0]
 		imports.imports[imp.packageReference] = imp
