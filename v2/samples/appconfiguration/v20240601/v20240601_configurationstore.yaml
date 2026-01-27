@@ -1,0 +1,21 @@
+apiVersion: appconfiguration.azure.com/v20240601
+kind: ConfigurationStore
+metadata:
+  name: aso-sample-confstore-v2
+  namespace: default
+spec:
+  azureName: "asoconfstorev2"
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  publicNetworkAccess: Enabled
+  sku:
+    name: standard
+  createMode: Default
+  disableLocalAuth: false
+  enablePurgeProtection: false
+  operatorSpec:
+    secrets:
+      primaryConnectionString:
+        name: confstore-secrets
+        key: primaryConnectionString

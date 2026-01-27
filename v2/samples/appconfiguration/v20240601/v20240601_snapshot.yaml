@@ -1,0 +1,20 @@
+apiVersion: appconfiguration.azure.com/v20240601
+kind: Snapshot
+metadata:
+  name: aso-sample-snapshot
+  namespace: default
+spec:
+  azureName: "snapshotv1"
+  owner:
+    name: aso-sample-confstore-v2
+  compositionType: Key_Label
+  filters:
+  - key: "MyApp:Settings:*"
+    label: "production"
+  - key: "MyApp:Features:*" 
+    label: "production"
+  retentionPeriod: 2592000 # 30 days in seconds
+  tags:
+    Environment: "Production"
+    Version: "v1.0.0"
+    Purpose: "Backup"
