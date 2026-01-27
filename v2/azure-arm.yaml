@@ -3309,6 +3309,61 @@ objectModelConfiguration:
       ScheduledQueryRuleProperties:
         Scopes:
           $referenceType: arm
+    2024-03-11:
+      DataCollectionRule:
+        $exportAs: DataCollectionRule
+        $supportedFrom: v2.15.0
+      LogAnalyticsDestination:
+        WorkspaceResourceId:
+          $referenceType: arm
+      StorageBlobDestination:
+        StorageAccountResourceId:
+          $referenceType: arm
+      DataCollectionRuleSpec:
+        DataCollectionEndpointId:
+          $referenceType: arm
+      StorageTableDestination:
+        StorageAccountResourceId:
+          $referenceType: arm
+      EventHubDirectDestination:
+        EventHubResourceId:
+          $referenceType: arm
+      AdxDestination:
+        ResourceId:
+          $referenceType: arm
+      StorageBlob:
+        ResourceId:
+          $referenceType: arm
+      MonitoringAccountDestination:
+        AccountResourceId:
+          $referenceType: arm
+      EventHubDestination:
+        EventHubResourceId:
+          $referenceType: arm
+      DataCollectionEndpoint:
+        $exportAs: DataCollectionEndpoint
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociation:
+        $exportAs: DataCollectionRuleAssociation
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociationSpec:
+        DataCollectionEndpointId: 
+          $referenceType: arm
+        DataCollectionRuleId: 
+          $referenceType: arm
+    2025-01-01-preview:
+      ScheduledQueryRule:
+        $exportAs: ScheduledQueryRule
+        $supportedFrom: v2.12.0
+      Actions:
+        ActionGroups:
+          $referenceType: arm
+      Condition:
+        ResourceIdColumn:
+          $referenceType: arm
+      ScheduledQueryRuleProperties:
+        Scopes:
+          $referenceType: arm
 
   keyvault:
     2021-04-01-preview:
