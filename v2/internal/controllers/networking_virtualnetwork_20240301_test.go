@@ -95,8 +95,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_20240301_SubnetStillExists(t 
 		},
 	}
 
-	tc.CreateResourceAndWait(vnet)
-	tc.CreateResourceAndWait(subnet)
+	tc.CreateResourcesAndWait(vnet, subnet)
 	tc.Expect(subnet.Status.Id).ToNot(BeNil())
 	armId := *subnet.Status.Id
 
