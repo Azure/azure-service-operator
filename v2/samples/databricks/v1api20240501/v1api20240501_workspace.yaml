@@ -1,0 +1,12 @@
+apiVersion: databricks.azure.com/v1api20240501
+kind: Workspace
+metadata:
+  name: sample-databricks-workspace
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  managedResourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-databricks-managed-rg
+  sku:
+    name: premium

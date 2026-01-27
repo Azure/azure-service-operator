@@ -364,6 +364,28 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly in Swagger
 
+  #
+  # In the group 'databricks',
+  # from the type 'AccessConnector_Spec',
+  # Remove the property 'SystemData'
+  #
+  - group: databricks
+    name: AccessConnector_Spec
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+
+  #
+  # In the group 'databricks',
+  # from the type 'WorkspaceProperties',
+  # Remove the property 'CreatedDateTime'
+  #
+  - group: databricks
+    name: WorkspaceProperties
+    property: CreatedDateTime
+    remove: true
+    because: This property should be marked readonly in Swagger
+
   - name: IotHub_Spec
     group: devices
     property: Etag
@@ -2394,6 +2416,26 @@ objectModelConfiguration:
           $referenceType: arm
       AzureOperationalStoreParameters:
         ResourceGroupId:
+          $referenceType: arm
+  databricks:
+    2024-05-01:
+      AccessConnector:
+        $exportAs: AccessConnector
+        $supportedFrom: v2.17.0
+      Workspace:
+        $exportAs: Workspace
+        $supportedFrom: v2.17.0
+      Workspaces_PrivateEndpointConnection:
+        $exportAs: WorkspacesPrivateEndpointConnection
+        $supportedFrom: v2.17.0
+      Workspaces_VirtualNetworkPeering:
+        $exportAs: WorkspacesVirtualNetworkPeering
+        $supportedFrom: v2.17.0
+      VirtualNetworkPeeringPropertiesFormat_DatabricksVirtualNetwork:
+        Id:
+          $referenceType: arm
+      VirtualNetworkPeeringPropertiesFormat_RemoteVirtualNetwork:
+        Id:
           $referenceType: arm
   dbformariadb:
     2018-06-01:

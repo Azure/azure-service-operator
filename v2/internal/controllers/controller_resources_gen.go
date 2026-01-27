@@ -131,6 +131,10 @@ import (
 	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	containerservice_v20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/webhook"
+	databricks_customizations "github.com/Azure/azure-service-operator/v2/api/databricks/customizations"
+	databricks_v20240501 "github.com/Azure/azure-service-operator/v2/api/databricks/v1api20240501"
+	databricks_v20240501s "github.com/Azure/azure-service-operator/v2/api/databricks/v1api20240501/storage"
+	databricks_v20240501w "github.com/Azure/azure-service-operator/v2/api/databricks/v1api20240501/webhook"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -1104,6 +1108,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(databricks_v20240501s.AccessConnector)})
+	result = append(result, &registration.StorageType{Obj: new(databricks_v20240501s.Workspace)})
+	result = append(result, &registration.StorageType{Obj: new(databricks_v20240501s.WorkspacesPrivateEndpointConnection)})
+	result = append(result, &registration.StorageType{Obj: new(databricks_v20240501s.WorkspacesVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -3713,6 +3721,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20250801s.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(databricks_v20240501.AccessConnector),
+			Defaulter: &databricks_v20240501w.AccessConnector{},
+			Validator: &databricks_v20240501w.AccessConnector{},
+		},
+		&registration.KnownType{
+			Obj:       new(databricks_v20240501.Workspace),
+			Defaulter: &databricks_v20240501w.Workspace{},
+			Validator: &databricks_v20240501w.Workspace{},
+		},
+		&registration.KnownType{
+			Obj:       new(databricks_v20240501.WorkspacesPrivateEndpointConnection),
+			Defaulter: &databricks_v20240501w.WorkspacesPrivateEndpointConnection{},
+			Validator: &databricks_v20240501w.WorkspacesPrivateEndpointConnection{},
+		},
+		&registration.KnownType{
+			Obj:       new(databricks_v20240501.WorkspacesVirtualNetworkPeering),
+			Defaulter: &databricks_v20240501w.WorkspacesVirtualNetworkPeering{},
+			Validator: &databricks_v20240501w.WorkspacesVirtualNetworkPeering{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(databricks_v20240501s.AccessConnector)},
+		&registration.KnownType{Obj: new(databricks_v20240501s.Workspace)},
+		&registration.KnownType{Obj: new(databricks_v20240501s.WorkspacesPrivateEndpointConnection)},
+		&registration.KnownType{Obj: new(databricks_v20240501s.WorkspacesVirtualNetworkPeering)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(datafactory_v20180601.Factory),
 		Defaulter: &datafactory_v20180601w.Factory{},
@@ -5986,6 +6022,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250301s.AddToScheme(scheme)
 	_ = containerservice_v20250801.AddToScheme(scheme)
 	_ = containerservice_v20250801s.AddToScheme(scheme)
+	_ = databricks_v20240501.AddToScheme(scheme)
+	_ = databricks_v20240501s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -6219,6 +6257,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
+	result = append(result, &databricks_customizations.AccessConnectorExtension{})
+	result = append(result, &databricks_customizations.WorkspaceExtension{})
+	result = append(result, &databricks_customizations.WorkspacesPrivateEndpointConnectionExtension{})
+	result = append(result, &databricks_customizations.WorkspacesVirtualNetworkPeeringExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})
