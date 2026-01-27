@@ -51,22 +51,36 @@ var _ conversion.Convertible = &DataCollectionRuleAssociation{}
 
 // ConvertFrom populates our DataCollectionRuleAssociation from the provided hub DataCollectionRuleAssociation
 func (association *DataCollectionRuleAssociation) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DataCollectionRuleAssociation)
-	if !ok {
-		return fmt.Errorf("expected insights/v1api20230311/storage/DataCollectionRuleAssociation but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DataCollectionRuleAssociation
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return association.AssignProperties_From_DataCollectionRuleAssociation(source)
+	err = association.AssignProperties_From_DataCollectionRuleAssociation(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to association")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DataCollectionRuleAssociation from our DataCollectionRuleAssociation
 func (association *DataCollectionRuleAssociation) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DataCollectionRuleAssociation)
-	if !ok {
-		return fmt.Errorf("expected insights/v1api20230311/storage/DataCollectionRuleAssociation but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DataCollectionRuleAssociation
+	err := association.AssignProperties_To_DataCollectionRuleAssociation(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from association")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return association.AssignProperties_To_DataCollectionRuleAssociation(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DataCollectionRuleAssociation{}
@@ -87,17 +101,6 @@ func (association *DataCollectionRuleAssociation) SecretDestinationExpressions()
 		return nil
 	}
 	return association.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &DataCollectionRuleAssociation{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (association *DataCollectionRuleAssociation) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DataCollectionRuleAssociationProxyOnlyResource_STATUS); ok {
-		return association.Spec.Initialize_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DataCollectionRuleAssociationProxyOnlyResource_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DataCollectionRuleAssociation{}
@@ -503,32 +506,6 @@ func (association *DataCollectionRuleAssociation_Spec) AssignProperties_To_DataC
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS populates our DataCollectionRuleAssociation_Spec from the provided source DataCollectionRuleAssociationProxyOnlyResource_STATUS
-func (association *DataCollectionRuleAssociation_Spec) Initialize_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(source *DataCollectionRuleAssociationProxyOnlyResource_STATUS) error {
-
-	// DataCollectionEndpointReference
-	if source.DataCollectionEndpointId != nil {
-		dataCollectionEndpointReference := genruntime.CreateResourceReferenceFromARMID(*source.DataCollectionEndpointId)
-		association.DataCollectionEndpointReference = &dataCollectionEndpointReference
-	} else {
-		association.DataCollectionEndpointReference = nil
-	}
-
-	// DataCollectionRuleReference
-	if source.DataCollectionRuleId != nil {
-		dataCollectionRuleReference := genruntime.CreateResourceReferenceFromARMID(*source.DataCollectionRuleId)
-		association.DataCollectionRuleReference = &dataCollectionRuleReference
-	} else {
-		association.DataCollectionRuleReference = nil
-	}
-
-	// Description
-	association.Description = genruntime.ClonePointerToString(source.Description)
 
 	// No error
 	return nil

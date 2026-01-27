@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_DataCollectionRuleAssociation_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataCollectionRuleAssociation to hub returns original",
+		prop.ForAll(RunResourceConversionTestForDataCollectionRuleAssociation, DataCollectionRuleAssociationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForDataCollectionRuleAssociation tests if a specific instance of DataCollectionRuleAssociation round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForDataCollectionRuleAssociation(subject DataCollectionRuleAssociation) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.DataCollectionRuleAssociation
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual DataCollectionRuleAssociation
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DataCollectionRuleAssociation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataCollectionRuleAssociation to DataCollectionRuleAssociation via AssignProperties_To_DataCollectionRuleAssociation & AssignProperties_From_DataCollectionRuleAssociation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataCollectionRuleAssociation, DataCollectionRuleAssociationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataCollectionRuleAssociation tests if a specific instance of DataCollectionRuleAssociation can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataCollectionRuleAssociation(subject DataCollectionRuleAssociation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataCollectionRuleAssociation
+	err := copied.AssignProperties_To_DataCollectionRuleAssociation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataCollectionRuleAssociation
+	err = actual.AssignProperties_From_DataCollectionRuleAssociation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_DataCollectionRuleAssociation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +165,48 @@ func AddRelatedPropertyGeneratorsForDataCollectionRuleAssociation(gens map[strin
 	gens["Status"] = DataCollectionRuleAssociationProxyOnlyResource_STATUSGenerator()
 }
 
+func Test_DataCollectionRuleAssociationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataCollectionRuleAssociationOperatorSpec to DataCollectionRuleAssociationOperatorSpec via AssignProperties_To_DataCollectionRuleAssociationOperatorSpec & AssignProperties_From_DataCollectionRuleAssociationOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataCollectionRuleAssociationOperatorSpec, DataCollectionRuleAssociationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataCollectionRuleAssociationOperatorSpec tests if a specific instance of DataCollectionRuleAssociationOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataCollectionRuleAssociationOperatorSpec(subject DataCollectionRuleAssociationOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataCollectionRuleAssociationOperatorSpec
+	err := copied.AssignProperties_To_DataCollectionRuleAssociationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataCollectionRuleAssociationOperatorSpec
+	err = actual.AssignProperties_From_DataCollectionRuleAssociationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DataCollectionRuleAssociationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -132,6 +260,48 @@ func DataCollectionRuleAssociationOperatorSpecGenerator() gopter.Gen {
 	dataCollectionRuleAssociationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DataCollectionRuleAssociationOperatorSpec{}), generators)
 
 	return dataCollectionRuleAssociationOperatorSpecGenerator
+}
+
+func Test_DataCollectionRuleAssociationProxyOnlyResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataCollectionRuleAssociationProxyOnlyResource_STATUS to DataCollectionRuleAssociationProxyOnlyResource_STATUS via AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS & AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataCollectionRuleAssociationProxyOnlyResource_STATUS, DataCollectionRuleAssociationProxyOnlyResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataCollectionRuleAssociationProxyOnlyResource_STATUS tests if a specific instance of DataCollectionRuleAssociationProxyOnlyResource_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataCollectionRuleAssociationProxyOnlyResource_STATUS(subject DataCollectionRuleAssociationProxyOnlyResource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataCollectionRuleAssociationProxyOnlyResource_STATUS
+	err := copied.AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataCollectionRuleAssociationProxyOnlyResource_STATUS
+	err = actual.AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DataCollectionRuleAssociationProxyOnlyResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -215,6 +385,48 @@ func AddIndependentPropertyGeneratorsForDataCollectionRuleAssociationProxyOnlyRe
 func AddRelatedPropertyGeneratorsForDataCollectionRuleAssociationProxyOnlyResource_STATUS(gens map[string]gopter.Gen) {
 	gens["Metadata"] = gen.PtrOf(Metadata_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_DataCollectionRuleAssociation_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataCollectionRuleAssociation_Spec to DataCollectionRuleAssociation_Spec via AssignProperties_To_DataCollectionRuleAssociation_Spec & AssignProperties_From_DataCollectionRuleAssociation_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataCollectionRuleAssociation_Spec, DataCollectionRuleAssociation_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataCollectionRuleAssociation_Spec tests if a specific instance of DataCollectionRuleAssociation_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataCollectionRuleAssociation_Spec(subject DataCollectionRuleAssociation_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataCollectionRuleAssociation_Spec
+	err := copied.AssignProperties_To_DataCollectionRuleAssociation_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataCollectionRuleAssociation_Spec
+	err = actual.AssignProperties_From_DataCollectionRuleAssociation_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DataCollectionRuleAssociation_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

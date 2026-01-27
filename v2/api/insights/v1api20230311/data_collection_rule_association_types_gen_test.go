@@ -5,7 +5,8 @@ package v1api20230311
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20240311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForDataCollectionRuleAssociation(subject DataColle
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.DataCollectionRuleAssociation
+	var hub v20240311s.DataCollectionRuleAssociation
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociation(subject DataColle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionRuleAssociation
+	var other v20230311s.DataCollectionRuleAssociation
 	err := copied.AssignProperties_To_DataCollectionRuleAssociation(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociationOperatorSpec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionRuleAssociationOperatorSpec
+	var other v20230311s.DataCollectionRuleAssociationOperatorSpec
 	err := copied.AssignProperties_To_DataCollectionRuleAssociationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociationProxyOnlyResource_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionRuleAssociationProxyOnlyResource_STATUS
+	var other v20230311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS
 	err := copied.AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -410,7 +411,7 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociation_Spec(subject Data
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionRuleAssociation_Spec
+	var other v20230311s.DataCollectionRuleAssociation_Spec
 	err := copied.AssignProperties_To_DataCollectionRuleAssociation_Spec(&other)
 	if err != nil {
 		return err.Error()

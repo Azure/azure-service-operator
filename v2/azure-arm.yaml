@@ -98,6 +98,11 @@ typeFilters:
     because: We need ScheduledQueryRules from this.
 
   - action: include
+    group: insights
+    version: v*20250101preview
+    because: We need the latest ScheduledQueryRules from this.
+
+  - action: include
     group: common
     because: we need these for common resource properties
 

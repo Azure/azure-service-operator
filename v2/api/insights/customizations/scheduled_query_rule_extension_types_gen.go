@@ -8,6 +8,8 @@ import (
 	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	v20240101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview"
 	v20240101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/storage"
+	v20250101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview"
+	v20250101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *ScheduledQueryRuleExtension) GetExtendedResources() []genruntim
 		&v20220615.ScheduledQueryRule{},
 		&v20220615s.ScheduledQueryRule{},
 		&v20240101p.ScheduledQueryRule{},
-		&v20240101ps.ScheduledQueryRule{}}
+		&v20240101ps.ScheduledQueryRule{},
+		&v20250101p.ScheduledQueryRule{},
+		&v20250101ps.ScheduledQueryRule{}}
 }
