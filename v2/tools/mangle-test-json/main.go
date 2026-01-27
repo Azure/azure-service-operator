@@ -290,6 +290,11 @@ func printSlowTests(byPackage map[string][]TestRun) {
 		allTests = append(allTests, v[1:]...)
 	}
 
+	if len(allTests) == 0 {
+		fmt.Println("No tests found.")
+		return
+	}
+
 	sort.Slice(allTests, func(i, j int) bool {
 		return allTests[i].RunTime > allTests[j].RunTime
 	})
