@@ -98,6 +98,11 @@ typeFilters:
     because: We need ScheduledQueryRules from this.
 
   - action: include
+    group: insights
+    version: v*20250101preview
+    because: We need the latest ScheduledQueryRules from this.
+
+  - action: include
     group: common
     because: we need these for common resource properties
 
@@ -3297,6 +3302,61 @@ objectModelConfiguration:
         DataCollectionRuleId: 
           $referenceType: arm
     2024-01-01-preview:
+      ScheduledQueryRule:
+        $exportAs: ScheduledQueryRule
+        $supportedFrom: v2.12.0
+      Actions:
+        ActionGroups:
+          $referenceType: arm
+      Condition:
+        ResourceIdColumn:
+          $referenceType: arm
+      ScheduledQueryRuleProperties:
+        Scopes:
+          $referenceType: arm
+    2024-03-11:
+      DataCollectionRule:
+        $exportAs: DataCollectionRule
+        $supportedFrom: v2.15.0
+      LogAnalyticsDestination:
+        WorkspaceResourceId:
+          $referenceType: arm
+      StorageBlobDestination:
+        StorageAccountResourceId:
+          $referenceType: arm
+      DataCollectionRuleSpec:
+        DataCollectionEndpointId:
+          $referenceType: arm
+      StorageTableDestination:
+        StorageAccountResourceId:
+          $referenceType: arm
+      EventHubDirectDestination:
+        EventHubResourceId:
+          $referenceType: arm
+      AdxDestination:
+        ResourceId:
+          $referenceType: arm
+      StorageBlob:
+        ResourceId:
+          $referenceType: arm
+      MonitoringAccountDestination:
+        AccountResourceId:
+          $referenceType: arm
+      EventHubDestination:
+        EventHubResourceId:
+          $referenceType: arm
+      DataCollectionEndpoint:
+        $exportAs: DataCollectionEndpoint
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociation:
+        $exportAs: DataCollectionRuleAssociation
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociationSpec:
+        DataCollectionEndpointId: 
+          $referenceType: arm
+        DataCollectionRuleId: 
+          $referenceType: arm
+    2025-01-01-preview:
       ScheduledQueryRule:
         $exportAs: ScheduledQueryRule
         $supportedFrom: v2.12.0

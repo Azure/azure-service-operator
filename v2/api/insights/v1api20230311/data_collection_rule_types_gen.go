@@ -52,22 +52,36 @@ var _ conversion.Convertible = &DataCollectionRule{}
 
 // ConvertFrom populates our DataCollectionRule from the provided hub DataCollectionRule
 func (rule *DataCollectionRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DataCollectionRule)
-	if !ok {
-		return fmt.Errorf("expected insights/v1api20230311/storage/DataCollectionRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DataCollectionRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_DataCollectionRule(source)
+	err = rule.AssignProperties_From_DataCollectionRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DataCollectionRule from our DataCollectionRule
 func (rule *DataCollectionRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DataCollectionRule)
-	if !ok {
-		return fmt.Errorf("expected insights/v1api20230311/storage/DataCollectionRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DataCollectionRule
+	err := rule.AssignProperties_To_DataCollectionRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_DataCollectionRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DataCollectionRule{}
@@ -88,17 +102,6 @@ func (rule *DataCollectionRule) SecretDestinationExpressions() []*core.Destinati
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &DataCollectionRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *DataCollectionRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DataCollectionRuleResource_STATUS); ok {
-		return rule.Spec.Initialize_From_DataCollectionRuleResource_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DataCollectionRuleResource_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DataCollectionRule{}
@@ -929,130 +932,6 @@ func (rule *DataCollectionRule_Spec) AssignProperties_To_DataCollectionRule_Spec
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataCollectionRuleResource_STATUS populates our DataCollectionRule_Spec from the provided source DataCollectionRuleResource_STATUS
-func (rule *DataCollectionRule_Spec) Initialize_From_DataCollectionRuleResource_STATUS(source *DataCollectionRuleResource_STATUS) error {
-
-	// AgentSettings
-	if source.AgentSettings != nil {
-		var agentSetting AgentSettingsSpec
-		err := agentSetting.Initialize_From_AgentSettingsSpec_STATUS(source.AgentSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AgentSettingsSpec_STATUS() to populate field AgentSettings")
-		}
-		rule.AgentSettings = &agentSetting
-	} else {
-		rule.AgentSettings = nil
-	}
-
-	// DataCollectionEndpointReference
-	if source.DataCollectionEndpointId != nil {
-		dataCollectionEndpointReference := genruntime.CreateResourceReferenceFromARMID(*source.DataCollectionEndpointId)
-		rule.DataCollectionEndpointReference = &dataCollectionEndpointReference
-	} else {
-		rule.DataCollectionEndpointReference = nil
-	}
-
-	// DataFlows
-	if source.DataFlows != nil {
-		dataFlowList := make([]DataFlow, len(source.DataFlows))
-		for dataFlowIndex, dataFlowItem := range source.DataFlows {
-			var dataFlow DataFlow
-			err := dataFlow.Initialize_From_DataFlow_STATUS(&dataFlowItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_DataFlow_STATUS() to populate field DataFlows")
-			}
-			dataFlowList[dataFlowIndex] = dataFlow
-		}
-		rule.DataFlows = dataFlowList
-	} else {
-		rule.DataFlows = nil
-	}
-
-	// DataSources
-	if source.DataSources != nil {
-		var dataSource DataSourcesSpec
-		err := dataSource.Initialize_From_DataSourcesSpec_STATUS(source.DataSources)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DataSourcesSpec_STATUS() to populate field DataSources")
-		}
-		rule.DataSources = &dataSource
-	} else {
-		rule.DataSources = nil
-	}
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Destinations
-	if source.Destinations != nil {
-		var destination DestinationsSpec
-		err := destination.Initialize_From_DestinationsSpec_STATUS(source.Destinations)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DestinationsSpec_STATUS() to populate field Destinations")
-		}
-		rule.Destinations = &destination
-	} else {
-		rule.Destinations = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		rule.Identity = &identity
-	} else {
-		rule.Identity = nil
-	}
-
-	// Kind
-	if source.Kind != nil {
-		kind := genruntime.ToEnum(string(*source.Kind), dataCollectionRule_Kind_Spec_Values)
-		rule.Kind = &kind
-	} else {
-		rule.Kind = nil
-	}
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
-
-	// References
-	if source.References != nil {
-		var reference ReferencesSpec
-		err := reference.Initialize_From_ReferencesSpec_STATUS(source.References)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ReferencesSpec_STATUS() to populate field References")
-		}
-		rule.References = &reference
-	} else {
-		rule.References = nil
-	}
-
-	// StreamDeclarations
-	if source.StreamDeclarations != nil {
-		streamDeclarationMap := make(map[string]StreamDeclaration, len(source.StreamDeclarations))
-		for streamDeclarationKey, streamDeclarationValue := range source.StreamDeclarations {
-			var streamDeclaration StreamDeclaration
-			err := streamDeclaration.Initialize_From_StreamDeclaration_STATUS(&streamDeclarationValue)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StreamDeclaration_STATUS() to populate field StreamDeclarations")
-			}
-			streamDeclarationMap[streamDeclarationKey] = streamDeclaration
-		}
-		rule.StreamDeclarations = streamDeclarationMap
-	} else {
-		rule.StreamDeclarations = nil
-	}
-
-	// Tags
-	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1906,29 +1785,6 @@ func (settings *AgentSettingsSpec) AssignProperties_To_AgentSettingsSpec(destina
 	return nil
 }
 
-// Initialize_From_AgentSettingsSpec_STATUS populates our AgentSettingsSpec from the provided source AgentSettingsSpec_STATUS
-func (settings *AgentSettingsSpec) Initialize_From_AgentSettingsSpec_STATUS(source *AgentSettingsSpec_STATUS) error {
-
-	// Logs
-	if source.Logs != nil {
-		logList := make([]AgentSetting, len(source.Logs))
-		for logIndex, logItem := range source.Logs {
-			var log AgentSetting
-			err := log.Initialize_From_AgentSetting_STATUS(&logItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AgentSetting_STATUS() to populate field Logs")
-			}
-			logList[logIndex] = log
-		}
-		settings.Logs = logList
-	} else {
-		settings.Logs = nil
-	}
-
-	// No error
-	return nil
-}
-
 // An agent setting
 type AgentSettingsSpec_STATUS struct {
 	// Logs: All the settings that are applicable to the logs agent (AMA)
@@ -2362,45 +2218,6 @@ func (flow *DataFlow) AssignProperties_To_DataFlow(destination *storage.DataFlow
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataFlow_STATUS populates our DataFlow from the provided source DataFlow_STATUS
-func (flow *DataFlow) Initialize_From_DataFlow_STATUS(source *DataFlow_STATUS) error {
-
-	// BuiltInTransform
-	flow.BuiltInTransform = genruntime.ClonePointerToString(source.BuiltInTransform)
-
-	// CaptureOverflow
-	if source.CaptureOverflow != nil {
-		captureOverflow := *source.CaptureOverflow
-		flow.CaptureOverflow = &captureOverflow
-	} else {
-		flow.CaptureOverflow = nil
-	}
-
-	// Destinations
-	flow.Destinations = genruntime.CloneSliceOfString(source.Destinations)
-
-	// OutputStream
-	flow.OutputStream = genruntime.ClonePointerToString(source.OutputStream)
-
-	// Streams
-	if source.Streams != nil {
-		streamList := make([]DataFlow_Streams, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			stream := genruntime.ToEnum(string(streamItem), dataFlow_Streams_Values)
-			streamList[streamIndex] = stream
-		}
-		flow.Streams = streamList
-	} else {
-		flow.Streams = nil
-	}
-
-	// TransformKql
-	flow.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
 
 	// No error
 	return nil
@@ -3147,169 +2964,6 @@ func (sources *DataSourcesSpec) AssignProperties_To_DataSourcesSpec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataSourcesSpec_STATUS populates our DataSourcesSpec from the provided source DataSourcesSpec_STATUS
-func (sources *DataSourcesSpec) Initialize_From_DataSourcesSpec_STATUS(source *DataSourcesSpec_STATUS) error {
-
-	// DataImports
-	if source.DataImports != nil {
-		var dataImport DataImportSources
-		err := dataImport.Initialize_From_DataImportSources_STATUS(source.DataImports)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DataImportSources_STATUS() to populate field DataImports")
-		}
-		sources.DataImports = &dataImport
-	} else {
-		sources.DataImports = nil
-	}
-
-	// Extensions
-	if source.Extensions != nil {
-		extensionList := make([]ExtensionDataSource, len(source.Extensions))
-		for extensionIndex, extensionItem := range source.Extensions {
-			var extension ExtensionDataSource
-			err := extension.Initialize_From_ExtensionDataSource_STATUS(&extensionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ExtensionDataSource_STATUS() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		sources.Extensions = extensionList
-	} else {
-		sources.Extensions = nil
-	}
-
-	// IisLogs
-	if source.IisLogs != nil {
-		iisLogList := make([]IisLogsDataSource, len(source.IisLogs))
-		for iisLogIndex, iisLogItem := range source.IisLogs {
-			var iisLog IisLogsDataSource
-			err := iisLog.Initialize_From_IisLogsDataSource_STATUS(&iisLogItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IisLogsDataSource_STATUS() to populate field IisLogs")
-			}
-			iisLogList[iisLogIndex] = iisLog
-		}
-		sources.IisLogs = iisLogList
-	} else {
-		sources.IisLogs = nil
-	}
-
-	// LogFiles
-	if source.LogFiles != nil {
-		logFileList := make([]LogFilesDataSource, len(source.LogFiles))
-		for logFileIndex, logFileItem := range source.LogFiles {
-			var logFile LogFilesDataSource
-			err := logFile.Initialize_From_LogFilesDataSource_STATUS(&logFileItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_LogFilesDataSource_STATUS() to populate field LogFiles")
-			}
-			logFileList[logFileIndex] = logFile
-		}
-		sources.LogFiles = logFileList
-	} else {
-		sources.LogFiles = nil
-	}
-
-	// PerformanceCounters
-	if source.PerformanceCounters != nil {
-		performanceCounterList := make([]PerfCounterDataSource, len(source.PerformanceCounters))
-		for performanceCounterIndex, performanceCounterItem := range source.PerformanceCounters {
-			var performanceCounter PerfCounterDataSource
-			err := performanceCounter.Initialize_From_PerfCounterDataSource_STATUS(&performanceCounterItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PerfCounterDataSource_STATUS() to populate field PerformanceCounters")
-			}
-			performanceCounterList[performanceCounterIndex] = performanceCounter
-		}
-		sources.PerformanceCounters = performanceCounterList
-	} else {
-		sources.PerformanceCounters = nil
-	}
-
-	// PlatformTelemetry
-	if source.PlatformTelemetry != nil {
-		platformTelemetryList := make([]PlatformTelemetryDataSource, len(source.PlatformTelemetry))
-		for platformTelemetryIndex, platformTelemetryItem := range source.PlatformTelemetry {
-			var platformTelemetry PlatformTelemetryDataSource
-			err := platformTelemetry.Initialize_From_PlatformTelemetryDataSource_STATUS(&platformTelemetryItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PlatformTelemetryDataSource_STATUS() to populate field PlatformTelemetry")
-			}
-			platformTelemetryList[platformTelemetryIndex] = platformTelemetry
-		}
-		sources.PlatformTelemetry = platformTelemetryList
-	} else {
-		sources.PlatformTelemetry = nil
-	}
-
-	// PrometheusForwarder
-	if source.PrometheusForwarder != nil {
-		prometheusForwarderList := make([]PrometheusForwarderDataSource, len(source.PrometheusForwarder))
-		for prometheusForwarderIndex, prometheusForwarderItem := range source.PrometheusForwarder {
-			var prometheusForwarder PrometheusForwarderDataSource
-			err := prometheusForwarder.Initialize_From_PrometheusForwarderDataSource_STATUS(&prometheusForwarderItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PrometheusForwarderDataSource_STATUS() to populate field PrometheusForwarder")
-			}
-			prometheusForwarderList[prometheusForwarderIndex] = prometheusForwarder
-		}
-		sources.PrometheusForwarder = prometheusForwarderList
-	} else {
-		sources.PrometheusForwarder = nil
-	}
-
-	// Syslog
-	if source.Syslog != nil {
-		syslogList := make([]SyslogDataSource, len(source.Syslog))
-		for syslogIndex, syslogItem := range source.Syslog {
-			var syslog SyslogDataSource
-			err := syslog.Initialize_From_SyslogDataSource_STATUS(&syslogItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SyslogDataSource_STATUS() to populate field Syslog")
-			}
-			syslogList[syslogIndex] = syslog
-		}
-		sources.Syslog = syslogList
-	} else {
-		sources.Syslog = nil
-	}
-
-	// WindowsEventLogs
-	if source.WindowsEventLogs != nil {
-		windowsEventLogList := make([]WindowsEventLogDataSource, len(source.WindowsEventLogs))
-		for windowsEventLogIndex, windowsEventLogItem := range source.WindowsEventLogs {
-			var windowsEventLog WindowsEventLogDataSource
-			err := windowsEventLog.Initialize_From_WindowsEventLogDataSource_STATUS(&windowsEventLogItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_WindowsEventLogDataSource_STATUS() to populate field WindowsEventLogs")
-			}
-			windowsEventLogList[windowsEventLogIndex] = windowsEventLog
-		}
-		sources.WindowsEventLogs = windowsEventLogList
-	} else {
-		sources.WindowsEventLogs = nil
-	}
-
-	// WindowsFirewallLogs
-	if source.WindowsFirewallLogs != nil {
-		windowsFirewallLogList := make([]WindowsFirewallLogsDataSource, len(source.WindowsFirewallLogs))
-		for windowsFirewallLogIndex, windowsFirewallLogItem := range source.WindowsFirewallLogs {
-			var windowsFirewallLog WindowsFirewallLogsDataSource
-			err := windowsFirewallLog.Initialize_From_WindowsFirewallLogsDataSource_STATUS(&windowsFirewallLogItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_WindowsFirewallLogsDataSource_STATUS() to populate field WindowsFirewallLogs")
-			}
-			windowsFirewallLogList[windowsFirewallLogIndex] = windowsFirewallLog
-		}
-		sources.WindowsFirewallLogs = windowsFirewallLogList
-	} else {
-		sources.WindowsFirewallLogs = nil
 	}
 
 	// No error
@@ -4391,169 +4045,6 @@ func (destinations *DestinationsSpec) AssignProperties_To_DestinationsSpec(desti
 	return nil
 }
 
-// Initialize_From_DestinationsSpec_STATUS populates our DestinationsSpec from the provided source DestinationsSpec_STATUS
-func (destinations *DestinationsSpec) Initialize_From_DestinationsSpec_STATUS(source *DestinationsSpec_STATUS) error {
-
-	// AzureDataExplorer
-	if source.AzureDataExplorer != nil {
-		azureDataExplorerList := make([]AdxDestination, len(source.AzureDataExplorer))
-		for azureDataExplorerIndex, azureDataExplorerItem := range source.AzureDataExplorer {
-			var azureDataExplorer AdxDestination
-			err := azureDataExplorer.Initialize_From_AdxDestination_STATUS(&azureDataExplorerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AdxDestination_STATUS() to populate field AzureDataExplorer")
-			}
-			azureDataExplorerList[azureDataExplorerIndex] = azureDataExplorer
-		}
-		destinations.AzureDataExplorer = azureDataExplorerList
-	} else {
-		destinations.AzureDataExplorer = nil
-	}
-
-	// AzureMonitorMetrics
-	if source.AzureMonitorMetrics != nil {
-		var azureMonitorMetric AzureMonitorMetricsDestination
-		err := azureMonitorMetric.Initialize_From_AzureMonitorMetricsDestination_STATUS(source.AzureMonitorMetrics)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureMonitorMetricsDestination_STATUS() to populate field AzureMonitorMetrics")
-		}
-		destinations.AzureMonitorMetrics = &azureMonitorMetric
-	} else {
-		destinations.AzureMonitorMetrics = nil
-	}
-
-	// EventHubs
-	if source.EventHubs != nil {
-		eventHubList := make([]EventHubDestination, len(source.EventHubs))
-		for eventHubIndex, eventHubItem := range source.EventHubs {
-			var eventHub EventHubDestination
-			err := eventHub.Initialize_From_EventHubDestination_STATUS(&eventHubItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_EventHubDestination_STATUS() to populate field EventHubs")
-			}
-			eventHubList[eventHubIndex] = eventHub
-		}
-		destinations.EventHubs = eventHubList
-	} else {
-		destinations.EventHubs = nil
-	}
-
-	// EventHubsDirect
-	if source.EventHubsDirect != nil {
-		eventHubsDirectList := make([]EventHubDirectDestination, len(source.EventHubsDirect))
-		for eventHubsDirectIndex, eventHubsDirectItem := range source.EventHubsDirect {
-			var eventHubsDirect EventHubDirectDestination
-			err := eventHubsDirect.Initialize_From_EventHubDirectDestination_STATUS(&eventHubsDirectItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_EventHubDirectDestination_STATUS() to populate field EventHubsDirect")
-			}
-			eventHubsDirectList[eventHubsDirectIndex] = eventHubsDirect
-		}
-		destinations.EventHubsDirect = eventHubsDirectList
-	} else {
-		destinations.EventHubsDirect = nil
-	}
-
-	// LogAnalytics
-	if source.LogAnalytics != nil {
-		logAnalyticList := make([]LogAnalyticsDestination, len(source.LogAnalytics))
-		for logAnalyticIndex, logAnalyticItem := range source.LogAnalytics {
-			var logAnalytic LogAnalyticsDestination
-			err := logAnalytic.Initialize_From_LogAnalyticsDestination_STATUS(&logAnalyticItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_LogAnalyticsDestination_STATUS() to populate field LogAnalytics")
-			}
-			logAnalyticList[logAnalyticIndex] = logAnalytic
-		}
-		destinations.LogAnalytics = logAnalyticList
-	} else {
-		destinations.LogAnalytics = nil
-	}
-
-	// MicrosoftFabric
-	if source.MicrosoftFabric != nil {
-		microsoftFabricList := make([]MicrosoftFabricDestination, len(source.MicrosoftFabric))
-		for microsoftFabricIndex, microsoftFabricItem := range source.MicrosoftFabric {
-			var microsoftFabric MicrosoftFabricDestination
-			err := microsoftFabric.Initialize_From_MicrosoftFabricDestination_STATUS(&microsoftFabricItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_MicrosoftFabricDestination_STATUS() to populate field MicrosoftFabric")
-			}
-			microsoftFabricList[microsoftFabricIndex] = microsoftFabric
-		}
-		destinations.MicrosoftFabric = microsoftFabricList
-	} else {
-		destinations.MicrosoftFabric = nil
-	}
-
-	// MonitoringAccounts
-	if source.MonitoringAccounts != nil {
-		monitoringAccountList := make([]MonitoringAccountDestination, len(source.MonitoringAccounts))
-		for monitoringAccountIndex, monitoringAccountItem := range source.MonitoringAccounts {
-			var monitoringAccount MonitoringAccountDestination
-			err := monitoringAccount.Initialize_From_MonitoringAccountDestination_STATUS(&monitoringAccountItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_MonitoringAccountDestination_STATUS() to populate field MonitoringAccounts")
-			}
-			monitoringAccountList[monitoringAccountIndex] = monitoringAccount
-		}
-		destinations.MonitoringAccounts = monitoringAccountList
-	} else {
-		destinations.MonitoringAccounts = nil
-	}
-
-	// StorageAccounts
-	if source.StorageAccounts != nil {
-		storageAccountList := make([]StorageBlobDestination, len(source.StorageAccounts))
-		for storageAccountIndex, storageAccountItem := range source.StorageAccounts {
-			var storageAccount StorageBlobDestination
-			err := storageAccount.Initialize_From_StorageBlobDestination_STATUS(&storageAccountItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StorageBlobDestination_STATUS() to populate field StorageAccounts")
-			}
-			storageAccountList[storageAccountIndex] = storageAccount
-		}
-		destinations.StorageAccounts = storageAccountList
-	} else {
-		destinations.StorageAccounts = nil
-	}
-
-	// StorageBlobsDirect
-	if source.StorageBlobsDirect != nil {
-		storageBlobsDirectList := make([]StorageBlobDestination, len(source.StorageBlobsDirect))
-		for storageBlobsDirectIndex, storageBlobsDirectItem := range source.StorageBlobsDirect {
-			var storageBlobsDirect StorageBlobDestination
-			err := storageBlobsDirect.Initialize_From_StorageBlobDestination_STATUS(&storageBlobsDirectItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StorageBlobDestination_STATUS() to populate field StorageBlobsDirect")
-			}
-			storageBlobsDirectList[storageBlobsDirectIndex] = storageBlobsDirect
-		}
-		destinations.StorageBlobsDirect = storageBlobsDirectList
-	} else {
-		destinations.StorageBlobsDirect = nil
-	}
-
-	// StorageTablesDirect
-	if source.StorageTablesDirect != nil {
-		storageTablesDirectList := make([]StorageTableDestination, len(source.StorageTablesDirect))
-		for storageTablesDirectIndex, storageTablesDirectItem := range source.StorageTablesDirect {
-			var storageTablesDirect StorageTableDestination
-			err := storageTablesDirect.Initialize_From_StorageTableDestination_STATUS(&storageTablesDirectItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StorageTableDestination_STATUS() to populate field StorageTablesDirect")
-			}
-			storageTablesDirectList[storageTablesDirectIndex] = storageTablesDirect
-		}
-		destinations.StorageTablesDirect = storageTablesDirectList
-	} else {
-		destinations.StorageTablesDirect = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Specification of destinations that can be used in data flows.
 type DestinationsSpec_STATUS struct {
 	// AzureDataExplorer: List of Azure Data Explorer destinations.
@@ -5217,25 +4708,6 @@ func (references *ReferencesSpec) AssignProperties_To_ReferencesSpec(destination
 	return nil
 }
 
-// Initialize_From_ReferencesSpec_STATUS populates our ReferencesSpec from the provided source ReferencesSpec_STATUS
-func (references *ReferencesSpec) Initialize_From_ReferencesSpec_STATUS(source *ReferencesSpec_STATUS) error {
-
-	// EnrichmentData
-	if source.EnrichmentData != nil {
-		var enrichmentDatum EnrichmentData
-		err := enrichmentDatum.Initialize_From_EnrichmentData_STATUS(source.EnrichmentData)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EnrichmentData_STATUS() to populate field EnrichmentData")
-		}
-		references.EnrichmentData = &enrichmentDatum
-	} else {
-		references.EnrichmentData = nil
-	}
-
-	// No error
-	return nil
-}
-
 // This section defines all the references that may be used in other sections of the DCR
 type ReferencesSpec_STATUS struct {
 	// EnrichmentData: All the enrichment data sources referenced in data flows
@@ -5419,29 +4891,6 @@ func (declaration *StreamDeclaration) AssignProperties_To_StreamDeclaration(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StreamDeclaration_STATUS populates our StreamDeclaration from the provided source StreamDeclaration_STATUS
-func (declaration *StreamDeclaration) Initialize_From_StreamDeclaration_STATUS(source *StreamDeclaration_STATUS) error {
-
-	// Columns
-	if source.Columns != nil {
-		columnList := make([]ColumnDefinition, len(source.Columns))
-		for columnIndex, columnItem := range source.Columns {
-			var column ColumnDefinition
-			err := column.Initialize_From_ColumnDefinition_STATUS(&columnItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ColumnDefinition_STATUS() to populate field Columns")
-			}
-			columnList[columnIndex] = column
-		}
-		declaration.Columns = columnList
-	} else {
-		declaration.Columns = nil
 	}
 
 	// No error
@@ -5664,27 +5113,6 @@ func (destination *AdxDestination) AssignProperties_To_AdxDestination(target *st
 	return nil
 }
 
-// Initialize_From_AdxDestination_STATUS populates our AdxDestination from the provided source AdxDestination_STATUS
-func (destination *AdxDestination) Initialize_From_AdxDestination_STATUS(source *AdxDestination_STATUS) error {
-
-	// DatabaseName
-	destination.DatabaseName = genruntime.ClonePointerToString(source.DatabaseName)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Azure Data Explorer (Adx) destination.
 type AdxDestination_STATUS struct {
 	// DatabaseName: The name of the database to which data will be ingested.
@@ -5901,24 +5329,6 @@ func (setting *AgentSetting) AssignProperties_To_AgentSetting(destination *stora
 	return nil
 }
 
-// Initialize_From_AgentSetting_STATUS populates our AgentSetting from the provided source AgentSetting_STATUS
-func (setting *AgentSetting) Initialize_From_AgentSetting_STATUS(source *AgentSetting_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), agentSetting_Name_Values)
-		setting.Name = &name
-	} else {
-		setting.Name = nil
-	}
-
-	// Value
-	setting.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // A setting used to control an agent behavior on a host machine
 type AgentSetting_STATUS struct {
 	// Name: The name of the setting.
@@ -6077,16 +5487,6 @@ func (destination *AzureMonitorMetricsDestination) AssignProperties_To_AzureMoni
 	} else {
 		target.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureMonitorMetricsDestination_STATUS populates our AzureMonitorMetricsDestination from the provided source AzureMonitorMetricsDestination_STATUS
-func (destination *AzureMonitorMetricsDestination) Initialize_From_AzureMonitorMetricsDestination_STATUS(source *AzureMonitorMetricsDestination_STATUS) error {
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -6256,24 +5656,6 @@ func (definition *ColumnDefinition) AssignProperties_To_ColumnDefinition(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ColumnDefinition_STATUS populates our ColumnDefinition from the provided source ColumnDefinition_STATUS
-func (definition *ColumnDefinition) Initialize_From_ColumnDefinition_STATUS(source *ColumnDefinition_STATUS) error {
-
-	// Name
-	definition.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), columnDefinition_Type_Values)
-		definition.Type = &typeVar
-	} else {
-		definition.Type = nil
 	}
 
 	// No error
@@ -6506,25 +5888,6 @@ func (sources *DataImportSources) AssignProperties_To_DataImportSources(destinat
 	return nil
 }
 
-// Initialize_From_DataImportSources_STATUS populates our DataImportSources from the provided source DataImportSources_STATUS
-func (sources *DataImportSources) Initialize_From_DataImportSources_STATUS(source *DataImportSources_STATUS) error {
-
-	// EventHub
-	if source.EventHub != nil {
-		var eventHub EventHubDataSource
-		err := eventHub.Initialize_From_EventHubDataSource_STATUS(source.EventHub)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EventHubDataSource_STATUS() to populate field EventHub")
-		}
-		sources.EventHub = &eventHub
-	} else {
-		sources.EventHub = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DataImportSources_STATUS struct {
 	// EventHub: Definition of Event Hub configuration.
 	EventHub *EventHubDataSource_STATUS `json:"eventHub,omitempty"`
@@ -6707,29 +6070,6 @@ func (data *EnrichmentData) AssignProperties_To_EnrichmentData(destination *stor
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_EnrichmentData_STATUS populates our EnrichmentData from the provided source EnrichmentData_STATUS
-func (data *EnrichmentData) Initialize_From_EnrichmentData_STATUS(source *EnrichmentData_STATUS) error {
-
-	// StorageBlobs
-	if source.StorageBlobs != nil {
-		storageBlobList := make([]StorageBlob, len(source.StorageBlobs))
-		for storageBlobIndex, storageBlobItem := range source.StorageBlobs {
-			var storageBlob StorageBlob
-			err := storageBlob.Initialize_From_StorageBlob_STATUS(&storageBlobItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StorageBlob_STATUS() to populate field StorageBlobs")
-			}
-			storageBlobList[storageBlobIndex] = storageBlob
-		}
-		data.StorageBlobs = storageBlobList
-	} else {
-		data.StorageBlobs = nil
 	}
 
 	// No error
@@ -6930,24 +6270,6 @@ func (destination *EventHubDestination) AssignProperties_To_EventHubDestination(
 	return nil
 }
 
-// Initialize_From_EventHubDestination_STATUS populates our EventHubDestination from the provided source EventHubDestination_STATUS
-func (destination *EventHubDestination) Initialize_From_EventHubDestination_STATUS(source *EventHubDestination_STATUS) error {
-
-	// EventHubResourceReference
-	if source.EventHubResourceId != nil {
-		eventHubResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.EventHubResourceId)
-		destination.EventHubResourceReference = &eventHubResourceReference
-	} else {
-		destination.EventHubResourceReference = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 type EventHubDestination_STATUS struct {
 	// EventHubResourceId: The resource ID of the event hub.
 	EventHubResourceId *string `json:"eventHubResourceId,omitempty"`
@@ -7122,24 +6444,6 @@ func (destination *EventHubDirectDestination) AssignProperties_To_EventHubDirect
 	} else {
 		target.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_EventHubDirectDestination_STATUS populates our EventHubDirectDestination from the provided source EventHubDirectDestination_STATUS
-func (destination *EventHubDirectDestination) Initialize_From_EventHubDirectDestination_STATUS(source *EventHubDirectDestination_STATUS) error {
-
-	// EventHubResourceReference
-	if source.EventHubResourceId != nil {
-		eventHubResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.EventHubResourceId)
-		destination.EventHubResourceReference = &eventHubResourceReference
-	} else {
-		destination.EventHubResourceReference = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -7413,45 +6717,6 @@ func (source *ExtensionDataSource) AssignProperties_To_ExtensionDataSource(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ExtensionDataSource_STATUS populates our ExtensionDataSource from the provided source ExtensionDataSource_STATUS
-func (source *ExtensionDataSource) Initialize_From_ExtensionDataSource_STATUS(origin *ExtensionDataSource_STATUS) error {
-
-	// ExtensionName
-	source.ExtensionName = genruntime.ClonePointerToString(origin.ExtensionName)
-
-	// ExtensionSettings
-	if origin.ExtensionSettings != nil {
-		extensionSettingMap := make(map[string]v1.JSON, len(origin.ExtensionSettings))
-		for extensionSettingKey, extensionSettingValue := range origin.ExtensionSettings {
-			extensionSettingMap[extensionSettingKey] = *extensionSettingValue.DeepCopy()
-		}
-		source.ExtensionSettings = extensionSettingMap
-	} else {
-		source.ExtensionSettings = nil
-	}
-
-	// InputDataSources
-	source.InputDataSources = genruntime.CloneSliceOfString(origin.InputDataSources)
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Streams
-	if origin.Streams != nil {
-		streamList := make([]ExtensionDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), extensionDataSource_Streams_Values)
-			streamList[streamIndex] = stream
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
 	}
 
 	// No error
@@ -7751,25 +7016,6 @@ func (source *IisLogsDataSource) AssignProperties_To_IisLogsDataSource(destinati
 	return nil
 }
 
-// Initialize_From_IisLogsDataSource_STATUS populates our IisLogsDataSource from the provided source IisLogsDataSource_STATUS
-func (source *IisLogsDataSource) Initialize_From_IisLogsDataSource_STATUS(origin *IisLogsDataSource_STATUS) error {
-
-	// LogDirectories
-	source.LogDirectories = genruntime.CloneSliceOfString(origin.LogDirectories)
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Streams
-	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
-
-	// TransformKql
-	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
-
-	// No error
-	return nil
-}
-
 // Enables IIS logs to be collected by this data collection rule.
 type IisLogsDataSource_STATUS struct {
 	// LogDirectories: Absolute paths file location
@@ -7973,24 +7219,6 @@ func (destination *LogAnalyticsDestination) AssignProperties_To_LogAnalyticsDest
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LogAnalyticsDestination_STATUS populates our LogAnalyticsDestination from the provided source LogAnalyticsDestination_STATUS
-func (destination *LogAnalyticsDestination) Initialize_From_LogAnalyticsDestination_STATUS(source *LogAnalyticsDestination_STATUS) error {
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// WorkspaceResourceReference
-	if source.WorkspaceResourceId != nil {
-		workspaceResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.WorkspaceResourceId)
-		destination.WorkspaceResourceReference = &workspaceResourceReference
-	} else {
-		destination.WorkspaceResourceReference = nil
 	}
 
 	// No error
@@ -8304,45 +7532,6 @@ func (source *LogFilesDataSource) AssignProperties_To_LogFilesDataSource(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LogFilesDataSource_STATUS populates our LogFilesDataSource from the provided source LogFilesDataSource_STATUS
-func (source *LogFilesDataSource) Initialize_From_LogFilesDataSource_STATUS(origin *LogFilesDataSource_STATUS) error {
-
-	// FilePatterns
-	source.FilePatterns = genruntime.CloneSliceOfString(origin.FilePatterns)
-
-	// Format
-	if origin.Format != nil {
-		format := genruntime.ToEnum(string(*origin.Format), logFilesDataSource_Format_Values)
-		source.Format = &format
-	} else {
-		source.Format = nil
-	}
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Settings
-	if origin.Settings != nil {
-		var setting LogFileSettings
-		err := setting.Initialize_From_LogFileSettings_STATUS(origin.Settings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LogFileSettings_STATUS() to populate field Settings")
-		}
-		source.Settings = &setting
-	} else {
-		source.Settings = nil
-	}
-
-	// Streams
-	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
-
-	// TransformKql
-	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
 
 	// No error
 	return nil
@@ -8677,28 +7866,6 @@ func (destination *MicrosoftFabricDestination) AssignProperties_To_MicrosoftFabr
 	return nil
 }
 
-// Initialize_From_MicrosoftFabricDestination_STATUS populates our MicrosoftFabricDestination from the provided source MicrosoftFabricDestination_STATUS
-func (destination *MicrosoftFabricDestination) Initialize_From_MicrosoftFabricDestination_STATUS(source *MicrosoftFabricDestination_STATUS) error {
-
-	// ArtifactId
-	destination.ArtifactId = genruntime.ClonePointerToString(source.ArtifactId)
-
-	// DatabaseName
-	destination.DatabaseName = genruntime.ClonePointerToString(source.DatabaseName)
-
-	// IngestionUri
-	destination.IngestionUri = genruntime.ClonePointerToString(source.IngestionUri)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// No error
-	return nil
-}
-
 // Microsoft Fabric destination (non-Azure).
 type MicrosoftFabricDestination_STATUS struct {
 	// ArtifactId: The artifact id of the Microsoft Fabric resource.
@@ -8920,24 +8087,6 @@ func (destination *MonitoringAccountDestination) AssignProperties_To_MonitoringA
 	} else {
 		target.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MonitoringAccountDestination_STATUS populates our MonitoringAccountDestination from the provided source MonitoringAccountDestination_STATUS
-func (destination *MonitoringAccountDestination) Initialize_From_MonitoringAccountDestination_STATUS(source *MonitoringAccountDestination_STATUS) error {
-
-	// AccountResourceReference
-	if source.AccountResourceId != nil {
-		accountResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.AccountResourceId)
-		destination.AccountResourceReference = &accountResourceReference
-	} else {
-		destination.AccountResourceReference = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -9214,37 +8363,6 @@ func (source *PerfCounterDataSource) AssignProperties_To_PerfCounterDataSource(d
 	return nil
 }
 
-// Initialize_From_PerfCounterDataSource_STATUS populates our PerfCounterDataSource from the provided source PerfCounterDataSource_STATUS
-func (source *PerfCounterDataSource) Initialize_From_PerfCounterDataSource_STATUS(origin *PerfCounterDataSource_STATUS) error {
-
-	// CounterSpecifiers
-	source.CounterSpecifiers = genruntime.CloneSliceOfString(origin.CounterSpecifiers)
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// SamplingFrequencyInSeconds
-	source.SamplingFrequencyInSeconds = genruntime.ClonePointerToInt(origin.SamplingFrequencyInSeconds)
-
-	// Streams
-	if origin.Streams != nil {
-		streamList := make([]PerfCounterDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), perfCounterDataSource_Streams_Values)
-			streamList[streamIndex] = stream
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
-
-	// TransformKql
-	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
-
-	// No error
-	return nil
-}
-
 // Definition of which performance counters will be collected and how they will be collected by this data collection
 // rule.
 // Collected from both Windows and Linux machines where the counter is present.
@@ -9482,19 +8600,6 @@ func (source *PlatformTelemetryDataSource) AssignProperties_To_PlatformTelemetry
 	return nil
 }
 
-// Initialize_From_PlatformTelemetryDataSource_STATUS populates our PlatformTelemetryDataSource from the provided source PlatformTelemetryDataSource_STATUS
-func (source *PlatformTelemetryDataSource) Initialize_From_PlatformTelemetryDataSource_STATUS(origin *PlatformTelemetryDataSource_STATUS) error {
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Streams
-	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
-
-	// No error
-	return nil
-}
-
 // Definition of platform telemetry data source configuration
 type PlatformTelemetryDataSource_STATUS struct {
 	// Name: A friendly name for the data source.
@@ -9704,31 +8809,6 @@ func (source *PrometheusForwarderDataSource) AssignProperties_To_PrometheusForwa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrometheusForwarderDataSource_STATUS populates our PrometheusForwarderDataSource from the provided source PrometheusForwarderDataSource_STATUS
-func (source *PrometheusForwarderDataSource) Initialize_From_PrometheusForwarderDataSource_STATUS(origin *PrometheusForwarderDataSource_STATUS) error {
-
-	// LabelIncludeFilter
-	source.LabelIncludeFilter = genruntime.CloneMapOfStringToString(origin.LabelIncludeFilter)
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Streams
-	if origin.Streams != nil {
-		streamList := make([]PrometheusForwarderDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), prometheusForwarderDataSource_Streams_Values)
-			streamList[streamIndex] = stream
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
 	}
 
 	// No error
@@ -9972,27 +9052,6 @@ func (destination *StorageBlobDestination) AssignProperties_To_StorageBlobDestin
 	return nil
 }
 
-// Initialize_From_StorageBlobDestination_STATUS populates our StorageBlobDestination from the provided source StorageBlobDestination_STATUS
-func (destination *StorageBlobDestination) Initialize_From_StorageBlobDestination_STATUS(source *StorageBlobDestination_STATUS) error {
-
-	// ContainerName
-	destination.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// StorageAccountResourceReference
-	if source.StorageAccountResourceId != nil {
-		storageAccountResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.StorageAccountResourceId)
-		destination.StorageAccountResourceReference = &storageAccountResourceReference
-	} else {
-		destination.StorageAccountResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 type StorageBlobDestination_STATUS struct {
 	// ContainerName: The container name of the Storage Blob.
 	ContainerName *string `json:"containerName,omitempty"`
@@ -10203,27 +9262,6 @@ func (destination *StorageTableDestination) AssignProperties_To_StorageTableDest
 	} else {
 		target.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageTableDestination_STATUS populates our StorageTableDestination from the provided source StorageTableDestination_STATUS
-func (destination *StorageTableDestination) Initialize_From_StorageTableDestination_STATUS(source *StorageTableDestination_STATUS) error {
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// StorageAccountResourceReference
-	if source.StorageAccountResourceId != nil {
-		storageAccountResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.StorageAccountResourceId)
-		destination.StorageAccountResourceReference = &storageAccountResourceReference
-	} else {
-		destination.StorageAccountResourceReference = nil
-	}
-
-	// TableName
-	destination.TableName = genruntime.ClonePointerToString(source.TableName)
 
 	// No error
 	return nil
@@ -10529,55 +9567,6 @@ func (source *SyslogDataSource) AssignProperties_To_SyslogDataSource(destination
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SyslogDataSource_STATUS populates our SyslogDataSource from the provided source SyslogDataSource_STATUS
-func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *SyslogDataSource_STATUS) error {
-
-	// FacilityNames
-	if origin.FacilityNames != nil {
-		facilityNameList := make([]SyslogDataSource_FacilityNames, len(origin.FacilityNames))
-		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			facilityName := genruntime.ToEnum(string(facilityNameItem), syslogDataSource_FacilityNames_Values)
-			facilityNameList[facilityNameIndex] = facilityName
-		}
-		source.FacilityNames = facilityNameList
-	} else {
-		source.FacilityNames = nil
-	}
-
-	// LogLevels
-	if origin.LogLevels != nil {
-		logLevelList := make([]SyslogDataSource_LogLevels, len(origin.LogLevels))
-		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			logLevel := genruntime.ToEnum(string(logLevelItem), syslogDataSource_LogLevels_Values)
-			logLevelList[logLevelIndex] = logLevel
-		}
-		source.LogLevels = logLevelList
-	} else {
-		source.LogLevels = nil
-	}
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Streams
-	if origin.Streams != nil {
-		streamList := make([]SyslogDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), syslogDataSource_Streams_Values)
-			streamList[streamIndex] = stream
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
-
-	// TransformKql
-	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
 
 	// No error
 	return nil
@@ -10915,34 +9904,6 @@ func (source *WindowsEventLogDataSource) AssignProperties_To_WindowsEventLogData
 	return nil
 }
 
-// Initialize_From_WindowsEventLogDataSource_STATUS populates our WindowsEventLogDataSource from the provided source WindowsEventLogDataSource_STATUS
-func (source *WindowsEventLogDataSource) Initialize_From_WindowsEventLogDataSource_STATUS(origin *WindowsEventLogDataSource_STATUS) error {
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Streams
-	if origin.Streams != nil {
-		streamList := make([]WindowsEventLogDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), windowsEventLogDataSource_Streams_Values)
-			streamList[streamIndex] = stream
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
-
-	// TransformKql
-	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
-
-	// XPathQueries
-	source.XPathQueries = genruntime.CloneSliceOfString(origin.XPathQueries)
-
-	// No error
-	return nil
-}
-
 // Definition of which Windows Event Log events will be collected and how they will be collected.
 // Only collected from
 // Windows machines.
@@ -11197,31 +10158,6 @@ func (source *WindowsFirewallLogsDataSource) AssignProperties_To_WindowsFirewall
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_WindowsFirewallLogsDataSource_STATUS populates our WindowsFirewallLogsDataSource from the provided source WindowsFirewallLogsDataSource_STATUS
-func (source *WindowsFirewallLogsDataSource) Initialize_From_WindowsFirewallLogsDataSource_STATUS(origin *WindowsFirewallLogsDataSource_STATUS) error {
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// ProfileFilter
-	if origin.ProfileFilter != nil {
-		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter, len(origin.ProfileFilter))
-		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			profileFilter := genruntime.ToEnum(string(profileFilterItem), windowsFirewallLogsDataSource_ProfileFilter_Values)
-			profileFilterList[profileFilterIndex] = profileFilter
-		}
-		source.ProfileFilter = profileFilterList
-	} else {
-		source.ProfileFilter = nil
-	}
-
-	// Streams
-	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// No error
 	return nil
@@ -11523,22 +10459,6 @@ func (source *EventHubDataSource) AssignProperties_To_EventHubDataSource(destina
 	return nil
 }
 
-// Initialize_From_EventHubDataSource_STATUS populates our EventHubDataSource from the provided source EventHubDataSource_STATUS
-func (source *EventHubDataSource) Initialize_From_EventHubDataSource_STATUS(origin *EventHubDataSource_STATUS) error {
-
-	// ConsumerGroup
-	source.ConsumerGroup = genruntime.ClonePointerToString(origin.ConsumerGroup)
-
-	// Name
-	source.Name = genruntime.ClonePointerToString(origin.Name)
-
-	// Stream
-	source.Stream = genruntime.ClonePointerToString(origin.Stream)
-
-	// No error
-	return nil
-}
-
 type EventHubDataSource_STATUS struct {
 	// ConsumerGroup: Event Hub consumer group name
 	ConsumerGroup *string `json:"consumerGroup,omitempty"`
@@ -11789,25 +10709,6 @@ func (settings *LogFileSettings) AssignProperties_To_LogFileSettings(destination
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LogFileSettings_STATUS populates our LogFileSettings from the provided source LogFileSettings_STATUS
-func (settings *LogFileSettings) Initialize_From_LogFileSettings_STATUS(source *LogFileSettings_STATUS) error {
-
-	// Text
-	if source.Text != nil {
-		var text LogFileTextSettings
-		err := text.Initialize_From_LogFileTextSettings_STATUS(source.Text)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LogFileTextSettings_STATUS() to populate field Text")
-		}
-		settings.Text = &text
-	} else {
-		settings.Text = nil
 	}
 
 	// No error
@@ -12097,35 +10998,6 @@ func (blob *StorageBlob) AssignProperties_To_StorageBlob(destination *storage.St
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageBlob_STATUS populates our StorageBlob from the provided source StorageBlob_STATUS
-func (blob *StorageBlob) Initialize_From_StorageBlob_STATUS(source *StorageBlob_STATUS) error {
-
-	// BlobUrl
-	blob.BlobUrl = genruntime.ClonePointerToString(source.BlobUrl)
-
-	// LookupType
-	if source.LookupType != nil {
-		lookupType := genruntime.ToEnum(string(*source.LookupType), storageBlob_LookupType_Values)
-		blob.LookupType = &lookupType
-	} else {
-		blob.LookupType = nil
-	}
-
-	// Name
-	blob.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		blob.ResourceReference = &resourceReference
-	} else {
-		blob.ResourceReference = nil
 	}
 
 	// No error
@@ -12591,21 +11463,6 @@ func (settings *LogFileTextSettings) AssignProperties_To_LogFileTextSettings(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LogFileTextSettings_STATUS populates our LogFileTextSettings from the provided source LogFileTextSettings_STATUS
-func (settings *LogFileTextSettings) Initialize_From_LogFileTextSettings_STATUS(source *LogFileTextSettings_STATUS) error {
-
-	// RecordStartTimestampFormat
-	if source.RecordStartTimestampFormat != nil {
-		recordStartTimestampFormat := genruntime.ToEnum(string(*source.RecordStartTimestampFormat), logFileTextSettings_RecordStartTimestampFormat_Values)
-		settings.RecordStartTimestampFormat = &recordStartTimestampFormat
-	} else {
-		settings.RecordStartTimestampFormat = nil
 	}
 
 	// No error

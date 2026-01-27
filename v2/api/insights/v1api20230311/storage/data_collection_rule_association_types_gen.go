@@ -4,6 +4,9 @@
 package storage
 
 import (
+	"fmt"
+	v20230601s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/storage"
+	v20240311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +15,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=insights.azure.com,resources=datacollectionruleassociations,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=insights.azure.com,resources={datacollectionruleassociations/status,datacollectionruleassociations/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,insights}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +46,28 @@ func (association *DataCollectionRuleAssociation) GetConditions() conditions.Con
 // SetConditions sets the conditions on the resource status
 func (association *DataCollectionRuleAssociation) SetConditions(conditions conditions.Conditions) {
 	association.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &DataCollectionRuleAssociation{}
+
+// ConvertFrom populates our DataCollectionRuleAssociation from the provided hub DataCollectionRuleAssociation
+func (association *DataCollectionRuleAssociation) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20240311s.DataCollectionRuleAssociation)
+	if !ok {
+		return fmt.Errorf("expected insights/v1api20240311/storage/DataCollectionRuleAssociation but received %T instead", hub)
+	}
+
+	return association.AssignProperties_From_DataCollectionRuleAssociation(source)
+}
+
+// ConvertTo populates the provided hub DataCollectionRuleAssociation from our DataCollectionRuleAssociation
+func (association *DataCollectionRuleAssociation) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20240311s.DataCollectionRuleAssociation)
+	if !ok {
+		return fmt.Errorf("expected insights/v1api20240311/storage/DataCollectionRuleAssociation but received %T instead", hub)
+	}
+
+	return association.AssignProperties_To_DataCollectionRuleAssociation(destination)
 }
 
 var _ configmaps.Exporter = &DataCollectionRuleAssociation{}
@@ -142,8 +164,75 @@ func (association *DataCollectionRuleAssociation) SetStatus(status genruntime.Co
 	return nil
 }
 
-// Hub marks that this DataCollectionRuleAssociation is the hub type for conversion
-func (association *DataCollectionRuleAssociation) Hub() {}
+// AssignProperties_From_DataCollectionRuleAssociation populates our DataCollectionRuleAssociation from the provided source DataCollectionRuleAssociation
+func (association *DataCollectionRuleAssociation) AssignProperties_From_DataCollectionRuleAssociation(source *v20240311s.DataCollectionRuleAssociation) error {
+
+	// ObjectMeta
+	association.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec DataCollectionRuleAssociation_Spec
+	err := spec.AssignProperties_From_DataCollectionRuleAssociation_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_DataCollectionRuleAssociation_Spec() to populate field Spec")
+	}
+	association.Spec = spec
+
+	// Status
+	var status DataCollectionRuleAssociationProxyOnlyResource_STATUS
+	err = status.AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS() to populate field Status")
+	}
+	association.Status = status
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociation interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForDataCollectionRuleAssociation); ok {
+		err := augmentedAssociation.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DataCollectionRuleAssociation populates the provided destination DataCollectionRuleAssociation from our DataCollectionRuleAssociation
+func (association *DataCollectionRuleAssociation) AssignProperties_To_DataCollectionRuleAssociation(destination *v20240311s.DataCollectionRuleAssociation) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *association.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20240311s.DataCollectionRuleAssociation_Spec
+	err := association.Spec.AssignProperties_To_DataCollectionRuleAssociation_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_DataCollectionRuleAssociation_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS
+	err = association.Status.AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociation interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForDataCollectionRuleAssociation); ok {
+		err := augmentedAssociation.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (association *DataCollectionRuleAssociation) OriginalGVK() *schema.GroupVersionKind {
@@ -163,6 +252,11 @@ type DataCollectionRuleAssociationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DataCollectionRuleAssociation `json:"items"`
+}
+
+type augmentConversionForDataCollectionRuleAssociation interface {
+	AssignPropertiesFrom(src *v20240311s.DataCollectionRuleAssociation) error
+	AssignPropertiesTo(dst *v20240311s.DataCollectionRuleAssociation) error
 }
 
 // Storage version of v1api20230311.DataCollectionRuleAssociation_Spec
@@ -192,20 +286,190 @@ var _ genruntime.ConvertibleSpec = &DataCollectionRuleAssociation_Spec{}
 
 // ConvertSpecFrom populates our DataCollectionRuleAssociation_Spec from the provided source
 func (association *DataCollectionRuleAssociation_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == association {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20240311s.DataCollectionRuleAssociation_Spec)
+	if ok {
+		// Populate our instance from source
+		return association.AssignProperties_From_DataCollectionRuleAssociation_Spec(src)
 	}
 
-	return source.ConvertSpecTo(association)
+	// Convert to an intermediate form
+	src = &v20240311s.DataCollectionRuleAssociation_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = association.AssignProperties_From_DataCollectionRuleAssociation_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our DataCollectionRuleAssociation_Spec
 func (association *DataCollectionRuleAssociation_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == association {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20240311s.DataCollectionRuleAssociation_Spec)
+	if ok {
+		// Populate destination from our instance
+		return association.AssignProperties_To_DataCollectionRuleAssociation_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(association)
+	// Convert to an intermediate form
+	dst = &v20240311s.DataCollectionRuleAssociation_Spec{}
+	err := association.AssignProperties_To_DataCollectionRuleAssociation_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_DataCollectionRuleAssociation_Spec populates our DataCollectionRuleAssociation_Spec from the provided source DataCollectionRuleAssociation_Spec
+func (association *DataCollectionRuleAssociation_Spec) AssignProperties_From_DataCollectionRuleAssociation_Spec(source *v20240311s.DataCollectionRuleAssociation_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	association.AzureName = source.AzureName
+
+	// DataCollectionEndpointReference
+	if source.DataCollectionEndpointReference != nil {
+		dataCollectionEndpointReference := source.DataCollectionEndpointReference.Copy()
+		association.DataCollectionEndpointReference = &dataCollectionEndpointReference
+	} else {
+		association.DataCollectionEndpointReference = nil
+	}
+
+	// DataCollectionRuleReference
+	if source.DataCollectionRuleReference != nil {
+		dataCollectionRuleReference := source.DataCollectionRuleReference.Copy()
+		association.DataCollectionRuleReference = &dataCollectionRuleReference
+	} else {
+		association.DataCollectionRuleReference = nil
+	}
+
+	// Description
+	association.Description = genruntime.ClonePointerToString(source.Description)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DataCollectionRuleAssociationOperatorSpec
+		err := operatorSpec.AssignProperties_From_DataCollectionRuleAssociationOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DataCollectionRuleAssociationOperatorSpec() to populate field OperatorSpec")
+		}
+		association.OperatorSpec = &operatorSpec
+	} else {
+		association.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	association.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		association.Owner = &owner
+	} else {
+		association.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		association.PropertyBag = propertyBag
+	} else {
+		association.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociation_Spec interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForDataCollectionRuleAssociation_Spec); ok {
+		err := augmentedAssociation.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DataCollectionRuleAssociation_Spec populates the provided destination DataCollectionRuleAssociation_Spec from our DataCollectionRuleAssociation_Spec
+func (association *DataCollectionRuleAssociation_Spec) AssignProperties_To_DataCollectionRuleAssociation_Spec(destination *v20240311s.DataCollectionRuleAssociation_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(association.PropertyBag)
+
+	// AzureName
+	destination.AzureName = association.AzureName
+
+	// DataCollectionEndpointReference
+	if association.DataCollectionEndpointReference != nil {
+		dataCollectionEndpointReference := association.DataCollectionEndpointReference.Copy()
+		destination.DataCollectionEndpointReference = &dataCollectionEndpointReference
+	} else {
+		destination.DataCollectionEndpointReference = nil
+	}
+
+	// DataCollectionRuleReference
+	if association.DataCollectionRuleReference != nil {
+		dataCollectionRuleReference := association.DataCollectionRuleReference.Copy()
+		destination.DataCollectionRuleReference = &dataCollectionRuleReference
+	} else {
+		destination.DataCollectionRuleReference = nil
+	}
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(association.Description)
+
+	// OperatorSpec
+	if association.OperatorSpec != nil {
+		var operatorSpec v20240311s.DataCollectionRuleAssociationOperatorSpec
+		err := association.OperatorSpec.AssignProperties_To_DataCollectionRuleAssociationOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DataCollectionRuleAssociationOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = association.OriginalVersion
+
+	// Owner
+	if association.Owner != nil {
+		owner := association.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociation_Spec interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForDataCollectionRuleAssociation_Spec); ok {
+		err := augmentedAssociation.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230311.DataCollectionRuleAssociationProxyOnlyResource_STATUS
@@ -229,20 +493,222 @@ var _ genruntime.ConvertibleStatus = &DataCollectionRuleAssociationProxyOnlyReso
 
 // ConvertStatusFrom populates our DataCollectionRuleAssociationProxyOnlyResource_STATUS from the provided source
 func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == resource {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS)
+	if ok {
+		// Populate our instance from source
+		return resource.AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(resource)
+	// Convert to an intermediate form
+	src = &v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = resource.AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our DataCollectionRuleAssociationProxyOnlyResource_STATUS
 func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == resource {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return resource.AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(resource)
+	// Convert to an intermediate form
+	dst = &v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS{}
+	err := resource.AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS populates our DataCollectionRuleAssociationProxyOnlyResource_STATUS from the provided source DataCollectionRuleAssociationProxyOnlyResource_STATUS
+func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) AssignProperties_From_DataCollectionRuleAssociationProxyOnlyResource_STATUS(source *v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DataCollectionEndpointId
+	resource.DataCollectionEndpointId = genruntime.ClonePointerToString(source.DataCollectionEndpointId)
+
+	// DataCollectionRuleId
+	resource.DataCollectionRuleId = genruntime.ClonePointerToString(source.DataCollectionRuleId)
+
+	// Description
+	resource.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Metadata
+	if source.Metadata != nil {
+		var metadatum Metadata_STATUS
+		err := metadatum.AssignProperties_From_Metadata_STATUS(source.Metadata)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Metadata_STATUS() to populate field Metadata")
+		}
+		resource.Metadata = &metadatum
+	} else {
+		resource.Metadata = nil
+	}
+
+	// Name
+	resource.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	resource.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDataSTATUSStash v20230601s.SystemData_STATUS
+		err := systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDatum SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
+		}
+		resource.SystemData = &systemDatum
+	} else {
+		resource.SystemData = nil
+	}
+
+	// Type
+	resource.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociationProxyOnlyResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForDataCollectionRuleAssociationProxyOnlyResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS populates the provided destination DataCollectionRuleAssociationProxyOnlyResource_STATUS from our DataCollectionRuleAssociationProxyOnlyResource_STATUS
+func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) AssignProperties_To_DataCollectionRuleAssociationProxyOnlyResource_STATUS(destination *v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(resource.Conditions)
+
+	// DataCollectionEndpointId
+	destination.DataCollectionEndpointId = genruntime.ClonePointerToString(resource.DataCollectionEndpointId)
+
+	// DataCollectionRuleId
+	destination.DataCollectionRuleId = genruntime.ClonePointerToString(resource.DataCollectionRuleId)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(resource.Description)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Metadata
+	if resource.Metadata != nil {
+		var metadatum v20240311s.Metadata_STATUS
+		err := resource.Metadata.AssignProperties_To_Metadata_STATUS(&metadatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Metadata_STATUS() to populate field Metadata")
+		}
+		destination.Metadata = &metadatum
+	} else {
+		destination.Metadata = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(resource.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(resource.ProvisioningState)
+
+	// SystemData
+	if resource.SystemData != nil {
+		var systemDataSTATUSStash v20230601s.SystemData_STATUS
+		err := resource.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDatum v20240311s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(resource.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociationProxyOnlyResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForDataCollectionRuleAssociationProxyOnlyResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDataCollectionRuleAssociation_Spec interface {
+	AssignPropertiesFrom(src *v20240311s.DataCollectionRuleAssociation_Spec) error
+	AssignPropertiesTo(dst *v20240311s.DataCollectionRuleAssociation_Spec) error
+}
+
+type augmentConversionForDataCollectionRuleAssociationProxyOnlyResource_STATUS interface {
+	AssignPropertiesFrom(src *v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS) error
+	AssignPropertiesTo(dst *v20240311s.DataCollectionRuleAssociationProxyOnlyResource_STATUS) error
 }
 
 // Storage version of v1api20230311.DataCollectionRuleAssociationOperatorSpec
@@ -251,6 +717,125 @@ type DataCollectionRuleAssociationOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DataCollectionRuleAssociationOperatorSpec populates our DataCollectionRuleAssociationOperatorSpec from the provided source DataCollectionRuleAssociationOperatorSpec
+func (operator *DataCollectionRuleAssociationOperatorSpec) AssignProperties_From_DataCollectionRuleAssociationOperatorSpec(source *v20240311s.DataCollectionRuleAssociationOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociationOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDataCollectionRuleAssociationOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DataCollectionRuleAssociationOperatorSpec populates the provided destination DataCollectionRuleAssociationOperatorSpec from our DataCollectionRuleAssociationOperatorSpec
+func (operator *DataCollectionRuleAssociationOperatorSpec) AssignProperties_To_DataCollectionRuleAssociationOperatorSpec(destination *v20240311s.DataCollectionRuleAssociationOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDataCollectionRuleAssociationOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDataCollectionRuleAssociationOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDataCollectionRuleAssociationOperatorSpec interface {
+	AssignPropertiesFrom(src *v20240311s.DataCollectionRuleAssociationOperatorSpec) error
+	AssignPropertiesTo(dst *v20240311s.DataCollectionRuleAssociationOperatorSpec) error
 }
 
 func init() {

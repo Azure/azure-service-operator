@@ -483,13 +483,185 @@ DataCollectionRuleAssociation: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForAdxDestination: Interface
+
+augmentConversionForAdxDestination_STATUS: Interface
+
+augmentConversionForAgentSetting: Interface
+
+augmentConversionForAgentSetting_STATUS: Interface
+
+augmentConversionForAgentSettingsSpec: Interface
+
+augmentConversionForAgentSettingsSpec_STATUS: Interface
+
+augmentConversionForAzureMonitorMetricsDestination: Interface
+
+augmentConversionForAzureMonitorMetricsDestination_STATUS: Interface
+
+augmentConversionForColumnDefinition: Interface
+
+augmentConversionForColumnDefinition_STATUS: Interface
+
+augmentConversionForConfigurationAccessEndpointSpec_STATUS: Interface
+
+augmentConversionForDataCollectionEndpoint: Interface
+
+augmentConversionForDataCollectionEndpointOperatorSpec: Interface
+
+augmentConversionForDataCollectionEndpointResource_STATUS: Interface
+
+augmentConversionForDataCollectionEndpoint_Spec: Interface
+
+augmentConversionForDataCollectionRule: Interface
+
+augmentConversionForDataCollectionRuleAssociation: Interface
+
+augmentConversionForDataCollectionRuleAssociationOperatorSpec: Interface
+
+augmentConversionForDataCollectionRuleAssociationProxyOnlyResource_STATUS: Interface
+
+augmentConversionForDataCollectionRuleAssociation_Spec: Interface
+
+augmentConversionForDataCollectionRuleOperatorSpec: Interface
+
+augmentConversionForDataCollectionRuleResource_STATUS: Interface
+
+augmentConversionForDataCollectionRule_Spec: Interface
+
+augmentConversionForDataFlow: Interface
+
+augmentConversionForDataFlow_STATUS: Interface
+
+augmentConversionForDataImportSources: Interface
+
+augmentConversionForDataImportSources_STATUS: Interface
+
+augmentConversionForDataSourcesSpec: Interface
+
+augmentConversionForDataSourcesSpec_STATUS: Interface
+
+augmentConversionForDestinationsSpec: Interface
+
+augmentConversionForDestinationsSpec_STATUS: Interface
+
+augmentConversionForEndpointsSpec_STATUS: Interface
+
+augmentConversionForEnrichmentData: Interface
+
+augmentConversionForEnrichmentData_STATUS: Interface
+
+augmentConversionForEventHubDataSource: Interface
+
+augmentConversionForEventHubDataSource_STATUS: Interface
+
+augmentConversionForEventHubDestination: Interface
+
+augmentConversionForEventHubDestination_STATUS: Interface
+
+augmentConversionForEventHubDirectDestination: Interface
+
+augmentConversionForEventHubDirectDestination_STATUS: Interface
+
+augmentConversionForExtensionDataSource: Interface
+
+augmentConversionForExtensionDataSource_STATUS: Interface
+
+augmentConversionForFailoverConfigurationSpec_STATUS: Interface
+
+augmentConversionForIisLogsDataSource: Interface
+
+augmentConversionForIisLogsDataSource_STATUS: Interface
+
+augmentConversionForLocationSpec_STATUS: Interface
+
+augmentConversionForLogAnalyticsDestination: Interface
+
+augmentConversionForLogAnalyticsDestination_STATUS: Interface
+
+augmentConversionForLogFileSettings: Interface
+
+augmentConversionForLogFileSettings_STATUS: Interface
+
+augmentConversionForLogFileTextSettings: Interface
+
+augmentConversionForLogFileTextSettings_STATUS: Interface
+
+augmentConversionForLogFilesDataSource: Interface
+
+augmentConversionForLogFilesDataSource_STATUS: Interface
+
+augmentConversionForLogsIngestionEndpointSpec_STATUS: Interface
+
 augmentConversionForManagedServiceIdentity: Interface
 
 augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForMetadata_STATUS: Interface
+
+augmentConversionForMetricsIngestionEndpointSpec_STATUS: Interface
+
+augmentConversionForMicrosoftFabricDestination: Interface
+
+augmentConversionForMicrosoftFabricDestination_STATUS: Interface
+
+augmentConversionForMonitoringAccountDestination: Interface
+
+augmentConversionForMonitoringAccountDestination_STATUS: Interface
+
+augmentConversionForNetworkRuleSet: Interface
+
+augmentConversionForNetworkRuleSet_STATUS: Interface
+
+augmentConversionForPerfCounterDataSource: Interface
+
+augmentConversionForPerfCounterDataSource_STATUS: Interface
+
+augmentConversionForPlatformTelemetryDataSource: Interface
+
+augmentConversionForPlatformTelemetryDataSource_STATUS: Interface
+
+augmentConversionForPrivateLinkScopedResource_STATUS: Interface
+
+augmentConversionForPrometheusForwarderDataSource: Interface
+
+augmentConversionForPrometheusForwarderDataSource_STATUS: Interface
+
+augmentConversionForReferencesSpec: Interface
+
+augmentConversionForReferencesSpec_STATUS: Interface
+
+augmentConversionForStorageBlob: Interface
+
+augmentConversionForStorageBlobDestination: Interface
+
+augmentConversionForStorageBlobDestination_STATUS: Interface
+
+augmentConversionForStorageBlob_STATUS: Interface
+
+augmentConversionForStorageTableDestination: Interface
+
+augmentConversionForStorageTableDestination_STATUS: Interface
+
+augmentConversionForStreamDeclaration: Interface
+
+augmentConversionForStreamDeclaration_STATUS: Interface
+
+augmentConversionForSyslogDataSource: Interface
+
+augmentConversionForSyslogDataSource_STATUS: Interface
 
 augmentConversionForSystemData_STATUS: Interface
 
 augmentConversionForUserAssignedIdentityDetails: Interface
 
 augmentConversionForUserAssignedIdentity_STATUS: Interface
+
+augmentConversionForWindowsEventLogDataSource: Interface
+
+augmentConversionForWindowsEventLogDataSource_STATUS: Interface
+
+augmentConversionForWindowsFirewallLogsDataSource: Interface
+
+augmentConversionForWindowsFirewallLogsDataSource_STATUS: Interface
 

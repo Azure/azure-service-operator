@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20230311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311"
-	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20240311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311"
+	v20240311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type DataCollectionEndpointExtension struct {
 func (extension *DataCollectionEndpointExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20230311.DataCollectionEndpoint{},
-		&storage.DataCollectionEndpoint{}}
+		&v20230311s.DataCollectionEndpoint{},
+		&v20240311.DataCollectionEndpoint{},
+		&v20240311s.DataCollectionEndpoint{}}
 }
