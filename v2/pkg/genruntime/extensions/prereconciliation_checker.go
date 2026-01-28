@@ -26,8 +26,6 @@ type PreReconciliationChecker interface {
 	// Returns BlockReconcile and a human-readable reason if the reconciliation should be skipped.
 	// ctx is the current operation context.
 	// obj is the resource about to be reconciled. The resource's State will be freshly updated.
-	// owner is the owner of the resource about to be reconciled. The owner's State will be freshly updated. May be nil
-	// if the resource has no owner, or if it has been referenced via ARMID directly.
 	// kubeClient allows access to the cluster for any required queries.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
@@ -35,7 +33,6 @@ type PreReconciliationChecker interface {
 	PreReconcileCheck(
 		ctx context.Context,
 		obj genruntime.MetaObject,
-		owner genruntime.MetaObject,
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
@@ -46,7 +43,6 @@ type PreReconciliationChecker interface {
 type PreReconcileCheckFunc func(
 	ctx context.Context,
 	obj genruntime.MetaObject,
-	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
@@ -68,14 +64,13 @@ func CreatePreReconciliationChecker(
 	return func(
 		ctx context.Context,
 		obj genruntime.MetaObject,
-		owner genruntime.MetaObject,
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
 	) (PreReconcileCheckResult, error) {
 		log.V(Status).Info("Extension pre-reconcile check running")
 
-		result, err := impl.PreReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, preReconciliationCheckerAlways)
+		result, err := impl.PreReconcileCheck(ctx, obj, resourceResolver, armClient, log, preReconciliationCheckerAlways)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension pre-reconcile check failed",
@@ -99,7 +94,6 @@ func CreatePreReconciliationChecker(
 // When we start doing proper comparisons between Spec and Status, we'll have an actual chain of checkers.
 func preReconciliationCheckerAlways(
 	_ context.Context,
-	_ genruntime.MetaObject,
 	_ genruntime.MetaObject,
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
