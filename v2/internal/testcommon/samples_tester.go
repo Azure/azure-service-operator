@@ -43,7 +43,6 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
 	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
-	regexp.MustCompile(`dbforpostgresql/v20250801`),             // Fails due to a race condition saving owner updates that can result in children getting stalled. See #5062
 }
 
 var exclusions = []*regexp.Regexp{

@@ -8,7 +8,7 @@ spec:
   owner:
     name: aso-sample-rg
   dnsPrefix: aso
-  kubernetesVersion: 1.31.11
+  kubernetesVersion: 1.33.5
   agentPoolProfiles:
     - name: pool1
       count: 1

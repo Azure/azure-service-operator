@@ -40,7 +40,6 @@ var clusterTerminalStates = set.Make(
 func (ext *ClusterExtension) PreReconcileCheck(
 	ctx context.Context,
 	obj genruntime.MetaObject,
-	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
@@ -69,7 +68,7 @@ func (ext *ClusterExtension) PreReconcileCheck(
 			nil
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient, log)
+	return next(ctx, obj, resourceResolver, armClient, log)
 }
 
 func clusterProvisioningStateBlocksReconciliation(provisioningState *string) bool {

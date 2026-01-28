@@ -30,8 +30,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20221201_CRUD(t *testing.T) {
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
-	// location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
-	location := "eastus"
+	tc.AzureRegion = to.Ptr("uksouth")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -55,7 +54,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20221201_CRUD(t *testing.T) {
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
-			Location: &location,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{

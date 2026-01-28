@@ -38,24 +38,21 @@ func (ext *DatabaseExtension) PreReconcileOwnerCheck(
 	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if the owning cluster is in a state that will block us from reconciling
-	// Owner nil can happen if the owner of the database is referenced by armID
-	if owner != nil {
-		if cluster, ok := owner.(*kusto.Cluster); ok {
-			// If our owning *cluster* is in a state that will reject any PUT, then we should skip
-			// reconciliation of the database as there's no point in even trying.
-			// One way this can happen is when we reconcile the cluster, putting it into an `Updating`
-			// state for a period. While it's in that state, we can't even try to reconcile the database as
-			// the operation will fail with a `Conflict` error.
-			// Checking the state of our owning cluster allows us to "play nice with others" and not use up
-			// request quota attempting to make changes when we already know those attempts will fail.
-			state := cluster.Status.ProvisioningState
-			if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
-				return extensions.BlockReconcile(
-						fmt.Sprintf("Owning cluster is in provisioning state %q", *state)),
-					nil
-			}
-
+	if cluster, ok := owner.(*kusto.Cluster); ok {
+		// If our owning *cluster* is in a state that will reject any PUT, then we should skip
+		// reconciliation of the database as there's no point in even trying.
+		// One way this can happen is when we reconcile the cluster, putting it into an `Updating`
+		// state for a period. While it's in that state, we can't even try to reconcile the database as
+		// the operation will fail with a `Conflict` error.
+		// Checking the state of our owning cluster allows us to "play nice with others" and not use up
+		// request quota attempting to make changes when we already know those attempts will fail.
+		state := cluster.Status.ProvisioningState
+		if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
+			return extensions.BlockReconcile(
+					fmt.Sprintf("Owning cluster is in provisioning state %q", *state)),
+				nil
 		}
+
 	}
 
 	return next(ctx, owner, resourceResolver, armClient_, log)

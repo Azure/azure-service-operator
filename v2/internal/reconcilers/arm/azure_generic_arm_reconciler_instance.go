@@ -104,7 +104,7 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 }
 
 func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFromError(azureErr error) error {
-	apiVersion, verr := r.GetAPIVersion()
+	apiVersion, verr := genruntime.GetAPIVersion(r.Obj, r.ResourceResolver.Scheme())
 	if verr != nil {
 		return eris.Wrapf(verr, "error getting api version for resource %s while making Ready condition", r.Obj.GetName())
 	}
@@ -221,7 +221,7 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 		return ctrl.Result{}, nil
 	}
 
-	_, _, err := r.getStatus(ctx, resourceID)
+	_, _, err := r.getStatus(ctx, r.Obj, resourceID)
 	if err != nil && genericarmclient.IsNotFoundError(err) {
 		// Resource no longer exists
 		return ctrl.Result{}, nil
@@ -359,15 +359,27 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 
 	// Run the PreReconciliationOwnerChecker if we have one
 	if ownerExtensionFound {
-		check, checkErr := ownerChecker(ctx, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
-		if checkErr != nil {
-			// Something went wrong running the check.
-			return extensions.PreReconcileCheckResult{}, checkErr
-		}
+		// We need to deal with nil owner here because owner is an ARM ID
+		// TODO: We should be able to go to ARM even if owner is just an ARM ID.
+		// TODO: We need a test for that as well probably
+		if ownerDetails.Owner != nil {
+			// Note that this update is not committed back to api-server currently, so if we come back around here
+			// and run through this extension again, we will re-fetch the owner status from Azure again.
+			err := r.updateStatus(ctx, ownerDetails.Owner)
+			if err != nil {
+				return extensions.PreReconcileCheckResult{}, err
+			}
 
-		// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
-		if check.PostponeReconciliation() {
-			return extensions.PreReconcileCheckResult{}, nil
+			check, checkErr := ownerChecker(ctx, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
+			if checkErr != nil {
+				// Something went wrong running the check.
+				return extensions.PreReconcileCheckResult{}, checkErr
+			}
+
+			// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
+			if check.PostponeReconciliation() {
+				return extensions.PreReconcileCheckResult{}, nil
+			}
 		}
 	}
 
@@ -375,14 +387,14 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 	// We defer this until after we've done the owner check as if that says postpone
 	// we don't need to do this work.
 	// Plus, this avoids errors if the owner is in a state where going a GET on the resource will fail.
-	statusErr := r.updateStatus(ctx)
+	statusErr := r.updateStatus(ctx, r.Obj)
 	if statusErr != nil && !genericarmclient.IsNotFoundError(statusErr) {
 		// We have an error, and it's not because the resource doesn't exist yet
 		return extensions.PreReconcileCheckResult{}, statusErr
 	}
 
 	// Run our pre-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PreReconcileCheckResult{}, checkErr
@@ -448,7 +460,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx cont
 		"Resource successfully created/updated",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
 
-	err := r.updateStatus(ctx)
+	err := r.updateStatus(ctx, r.Obj)
 	if err != nil {
 		if mode == WatchResource {
 			if genericarmclient.IsNotFoundError(err) {
@@ -577,19 +589,19 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 
 var zeroDuration time.Duration = 0
 
-func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) { //nolint:unparam
-	armStatus, err := genruntime.NewEmptyARMStatus(r.Obj, r.ResourceResolver.Scheme())
+func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, obj genruntime.ARMMetaObject, id string) (genruntime.ConvertibleStatus, time.Duration, error) { //nolint:unparam
+	armStatus, err := genruntime.NewEmptyARMStatus(obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, eris.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
 
-	apiVersion, verr := r.GetAPIVersion()
+	apiVersion, verr := genruntime.GetAPIVersion(obj, r.ResourceResolver.Scheme())
 	if verr != nil {
-		return nil, zeroDuration, eris.Wrapf(verr, "error getting api version for resource %s while getting status", r.Obj.GetName())
+		return nil, zeroDuration, eris.Wrapf(verr, "error getting api version for resource %s while getting status", obj.GetName())
 	}
 
 	// Get the resource
-	if genruntime.ResourceOperationGet.IsSupportedBy(r.Obj) {
+	if genruntime.ResourceOperationGet.IsSupportedBy(obj) {
 		var retryAfter time.Duration
 		retryAfter, err = r.ARMConnection.Client().GetByID(ctx, id, apiVersion, armStatus)
 		if err != nil {
@@ -604,7 +616,7 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 
 			r.Log.V(Debug).Info("Got ARM status", "status", string(statusBytes))
 		}
-	} else if genruntime.ResourceOperationHead.IsSupportedBy(r.Obj) {
+	} else if genruntime.ResourceOperationHead.IsSupportedBy(obj) {
 		var retryAfter time.Duration
 		var exists bool
 		exists, retryAfter, err = r.ARMConnection.Client().CheckExistenceByID(ctx, id, apiVersion)
@@ -621,13 +633,13 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := genruntime.NewEmptyVersionedStatus(r.Obj, r.ResourceResolver.Scheme())
+	status, err := genruntime.NewEmptyVersionedStatus(obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, eris.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
 
 	// Create an owner reference
-	owner := r.Obj.Owner()
+	owner := obj.Owner()
 	var knownOwner genruntime.ArbitraryOwnerReference
 	if owner != nil {
 		knownOwner = genruntime.ArbitraryOwnerReference{
@@ -651,32 +663,33 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 	return status, zeroDuration, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) setStatus(status genruntime.ConvertibleStatus) error {
+// TODO: Move
+func (r *azureDeploymentReconcilerInstance) setStatus(obj genruntime.ARMMetaObject, status genruntime.ConvertibleStatus) error {
 	// Modifications that impact status have to happen after this because this performs a full
 	// replace of status
 	if status != nil {
 		// SetStatus() takes care of any required conversion to the right version
-		err := r.Obj.SetStatus(status)
+		err := obj.SetStatus(status)
 		if err != nil {
-			return eris.Wrapf(err, "setting status on %s", r.Obj.GetObjectKind().GroupVersionKind())
+			return eris.Wrapf(err, "setting status on %s", obj.GetObjectKind().GroupVersionKind())
 		}
 	}
 
 	return nil
 }
 
-func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) error {
-	resourceID, hasResourceID := genruntime.GetResourceID(r.Obj)
+func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context, obj genruntime.ARMMetaObject) error {
+	resourceID, hasResourceID := genruntime.GetResourceID(obj)
 	if !hasResourceID {
 		return eris.Errorf("resource has no resource id")
 	}
 
-	status, _, err := r.getStatus(ctx, resourceID)
+	status, _, err := r.getStatus(ctx, obj, resourceID)
 	if err != nil {
 		return eris.Wrapf(err, "error getting status for resource ID %q", resourceID)
 	}
 
-	if err = r.setStatus(status); err != nil {
+	if err = r.setStatus(obj, status); err != nil {
 		return err
 	}
 
@@ -835,14 +848,6 @@ func ConvertToARMResourceImpl(
 
 	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
 	return result, nil
-}
-
-// GetAPIVersion returns the ARM API version for the resource we're reconciling
-func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
-	metaObject := r.Obj
-	scheme := r.ResourceResolver.Scheme()
-
-	return genruntime.GetAPIVersion(metaObject, scheme)
 }
 
 // skipDeletionPrecheck is a set of resource groups for which we skip the pre-deletion existence check.
