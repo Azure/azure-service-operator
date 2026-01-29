@@ -15,6 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
@@ -346,4 +347,58 @@ func Test_CreateStorageAccountWithSkipReconcile_SecretsAreWritten(t *testing.T) 
 
 	tc.ExpectSecretHasKeys(secret1, "key")
 	tc.ExpectSecretHasKeys(secret2, "key")
+}
+
+func Test_OwnerARMID_ChildResourceImplementsPreReconcileHook(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+
+	cluster := &aks.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: aks.ManagedCluster_Spec{
+			Location:  tc.AzureRegion,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
+					OsType: to.Ptr(aks.OSType_Linux),
+					Mode:   to.Ptr(aks.AgentPoolMode_System),
+				},
+			},
+			Identity: &aks.ManagedClusterIdentity{
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(cluster)
+
+	tc.Expect(cluster.Status.Id).ToNot(BeNil())
+	armId := *cluster.Status.Id
+
+	agentPool := &aks.ManagedClustersAgentPool{
+		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
+		Spec: aks.ManagedClustersAgentPool_Spec{
+			Owner:  testcommon.AsARMIDOwner(armId),
+			Count:  to.Ptr(1),
+			VmSize: to.Ptr("Standard_DS2_v2"),
+			OsType: to.Ptr(aks.OSType_Linux),
+			Mode:   to.Ptr(aks.AgentPoolMode_System),
+		},
+	}
+
+	tc.CreateResourceAndWait(agentPool)
+
+	tc.Expect(agentPool.Status.Id).ToNot(BeNil())
+
+	// Delete the agent pool
+	tc.DeleteResourceAndWait(agentPool)
 }
