@@ -78,7 +78,7 @@ func kvListFormat(b *bytes.Buffer, keysAndValues ...interface{}) {
 }
 
 func (t *TestLogger) clone() *TestLogger {
-	clonedValues := make([]interface{}, 0, len(t.values))
+	clonedValues := make([]any, 0, len(t.values))
 	clonedValues = append(clonedValues, t.values...)
 
 	result := &TestLogger{
