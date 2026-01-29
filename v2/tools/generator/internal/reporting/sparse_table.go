@@ -37,7 +37,7 @@ func NewSparseTable(title string) *SparseTable {
 // Rows returns a slice containing the captions of all the rows of the table
 // A new slice is returned to avoid violations of encapsulation
 func (table *SparseTable) Rows() []string {
-	var result []string
+	result := make([]string, 0, len(table.rows))
 	result = append(result, table.rows...)
 	return result
 }
@@ -62,7 +62,7 @@ func (table *SparseTable) SortRows(less func(top string, bottom string) bool) {
 // Columns returns a slice containing the captions of all the columns of the table
 // A new slice is returned to avoid violations of encapsulation
 func (table *SparseTable) Columns() []string {
-	var result []string
+	result := make([]string, 0, len(table.cols))
 	result = append(result, table.cols...)
 	return result
 }
@@ -96,9 +96,8 @@ func (table *SparseTable) SetCell(row string, col string, cell string) {
 }
 
 func (table *SparseTable) WriteTo(buffer *strings.Builder) {
-	headings := []string{
-		table.title,
-	}
+	headings := make([]string, 0, 1+len(table.cols))
+	headings = append(headings, table.title)
 	headings = append(headings, table.cols...)
 
 	mt := NewMarkdownTable(headings...)
@@ -121,7 +120,8 @@ func (table *SparseTable) getRowCells(row string) map[string]string {
 }
 
 func (table *SparseTable) createRow(row string) []string {
-	result := []string{row}
+	result := make([]string, 0, 1+len(table.cols))
+	result = append(result, row)
 	cells := table.getRowCells(row)
 	for _, c := range table.cols {
 		content := cells[c]
