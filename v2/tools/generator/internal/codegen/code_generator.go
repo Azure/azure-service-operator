@@ -442,7 +442,7 @@ func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage *pi
 
 	for i, s := range generator.pipeline {
 		if s.HasID(existingStage) {
-			var p []*pipeline.Stage
+			p := make([]*pipeline.Stage, 0, len(generator.pipeline)+1)
 			p = append(p, generator.pipeline[:i+1]...)
 			p = append(p, stage)
 			p = append(p, generator.pipeline[i+1:]...)

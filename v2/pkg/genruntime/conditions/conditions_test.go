@@ -228,6 +228,7 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 		expectedOverwrite bool
 	}
 
+	//nolint:prealloc // not performance critical - test code
 	tests := []testStruct{
 		// Something overwrites nothing
 		{name: "True overwrites empty", initial: nil, new: trueGeneration1Condition, expectedOverwrite: true},

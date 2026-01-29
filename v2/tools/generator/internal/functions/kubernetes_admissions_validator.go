@@ -120,7 +120,14 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		version,
 		name)
 
-	funcs := []astmodel.Function{
+	// Count total validations for preallocation
+	totalValidations := 0
+	for _, validations := range v.validations {
+		totalValidations += len(validations)
+	}
+
+	funcs := make([]astmodel.Function, 0, 6+totalValidations)
+	funcs = append(funcs,
 		NewValidateFunction(
 			"ValidateCreate",
 			v.resourceName,
@@ -159,8 +166,7 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			"deleteValidations",
 			v.resourceName,
 			v.idFactory,
-			v.localDeleteValidations),
-	}
+			v.localDeleteValidations))
 
 	// Add the actual individual validation functions
 	for _, validations := range v.validations {
