@@ -9,6 +9,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -17,6 +18,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -359,18 +361,38 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 
 	// Run the PreReconciliationOwnerChecker if we have one
 	if ownerExtensionFound {
-		// We need to deal with nil owner here because owner is an ARM ID
-		// TODO: We should be able to go to ARM even if owner is just an ARM ID.
-		// TODO: We need a test for that as well probably
+		var ownerObj genruntime.ARMMetaObject
+
 		if ownerDetails.Owner != nil {
+			// Owner is a Kubernetes resource - update its status
 			// Note that this update is not committed back to api-server currently, so if we come back around here
 			// and run through this extension again, we will re-fetch the owner status from Azure again.
 			err := r.updateStatus(ctx, ownerDetails.Owner)
 			if err != nil {
 				return extensions.PreReconcileCheckResult{}, err
 			}
+			ownerObj = ownerDetails.Owner
+		} else if ownerDetails.Result == resolver.OwnerFoundARM {
+			// Owner is an ARM ID - create a temporary object and fetch status
 
-			check, checkErr := ownerChecker(ctx, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
+			// The version retrieved here is always the latest storage version of the owner type
+			// (not necessarily the same version as the child resource).
+			ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(r.Obj.GetSpec())
+			groupKind := schema.GroupKind{Group: ownerGroup, Kind: ownerKind}
+			ownerGVK, err := r.ResourceResolver.FindGVKForGroupKind(groupKind)
+			if err != nil {
+				return extensions.PreReconcileCheckResult{}, eris.Wrapf(err, "finding GVK for owner")
+			}
+
+			// Fetch the owner status from ARM
+			ownerObj, err = r.getStatusFromARMID(ctx, ownerDetails.ARMID, ownerGVK)
+			if err != nil {
+				return extensions.PreReconcileCheckResult{}, eris.Wrapf(err, "getting status for ARM owner %s", ownerDetails.ARMID)
+			}
+		}
+
+		if ownerObj != nil {
+			check, checkErr := ownerChecker(ctx, ownerObj, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 			if checkErr != nil {
 				// Something went wrong running the check.
 				return extensions.PreReconcileCheckResult{}, checkErr
@@ -378,7 +400,7 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 
 			// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
 			if check.PostponeReconciliation() {
-				return extensions.PreReconcileCheckResult{}, nil
+				return check, nil
 			}
 		}
 	}
@@ -589,7 +611,11 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 
 var zeroDuration time.Duration = 0
 
-func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, obj genruntime.ARMMetaObject, id string) (genruntime.ConvertibleStatus, time.Duration, error) { //nolint:unparam
+func (r *azureDeploymentReconcilerInstance) getStatus(
+	ctx context.Context,
+	obj genruntime.ARMMetaObject,
+	id string,
+) (genruntime.ConvertibleStatus, time.Duration, error) { //nolint:unparam
 	armStatus, err := genruntime.NewEmptyARMStatus(obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, eris.Wrapf(err, "constructing ARM status for resource: %q", id)
@@ -663,7 +689,6 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, obj g
 	return status, zeroDuration, nil
 }
 
-// TODO: Move
 func (r *azureDeploymentReconcilerInstance) setStatus(obj genruntime.ARMMetaObject, status genruntime.ConvertibleStatus) error {
 	// Modifications that impact status have to happen after this because this performs a full
 	// replace of status
@@ -694,6 +719,46 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context, ob
 	}
 
 	return nil
+}
+
+// getStatusFromARMID creates a temporary ARMMetaObject for the given GVK, sets the ARM ID on it,
+// and fetches its status from ARM. This is used when the owner is specified as an ARM ID rather than
+// a Kubernetes resource reference to populate its status details.
+func (r *azureDeploymentReconcilerInstance) getStatusFromARMID(
+	ctx context.Context,
+	armID string,
+	gvk schema.GroupVersionKind,
+) (genruntime.ARMMetaObject, error) {
+	// Create a new empty object of the appropriate type
+	obj, err := r.ResourceResolver.Scheme().New(gvk)
+	if err != nil {
+		return nil, eris.Wrapf(err, "creating new object for GVK %s", gvk)
+	}
+
+	// Ensure GVK is set on the object
+	obj.GetObjectKind().SetGroupVersionKind(gvk)
+
+	// Cast to ARMMetaObject
+	metaObj, ok := obj.(genruntime.ARMMetaObject)
+	if !ok {
+		return nil, eris.Errorf("object of type %T does not implement genruntime.ARMMetaObject", obj)
+	}
+
+	// Set the resource ID annotation so updateStatus can find it
+	genruntime.SetResourceID(metaObj, armID)
+	// Set the spec.OriginalVersion to the latest version
+	err = reflecthelpers.SetProperty(metaObj.GetSpec(), "OriginalVersion", strings.TrimSuffix(gvk.Version, "storage")) // This is real hacky
+	if err != nil {
+		return nil, eris.Wrapf(err, "setting Spec.OriginalVersion for ARM ID %s", armID)
+	}
+
+	// Fetch and populate status from ARM
+	err = r.updateStatus(ctx, metaObj)
+	if err != nil {
+		return nil, eris.Wrapf(err, "updating status for ARM ID %s", armID)
+	}
+
+	return metaObj, nil
 }
 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
@@ -924,7 +989,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	// This is to allow us to fix up remaining issues one by one instead of all at once.
 	group := obj.GetObjectKind().GroupVersionKind().Group
 	if !skipDeletionPrecheck.Has(group) {
-		if _, _, err := r.getStatus(ctx, resourceID); err != nil {
+		if _, _, err := r.getStatus(ctx, obj, resourceID); err != nil {
 			if genericarmclient.IsNotFoundError(err) {
 				// Resource no longer exists
 				log.V(Info).Info("Resource is already gone, skipping issue of DELETE to Azure")
