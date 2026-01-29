@@ -51,22 +51,36 @@ var _ conversion.Convertible = &DataCollectionEndpoint{}
 
 // ConvertFrom populates our DataCollectionEndpoint from the provided hub DataCollectionEndpoint
 func (endpoint *DataCollectionEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DataCollectionEndpoint)
-	if !ok {
-		return fmt.Errorf("expected insights/v1api20230311/storage/DataCollectionEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DataCollectionEndpoint
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return endpoint.AssignProperties_From_DataCollectionEndpoint(source)
+	err = endpoint.AssignProperties_From_DataCollectionEndpoint(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to endpoint")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DataCollectionEndpoint from our DataCollectionEndpoint
 func (endpoint *DataCollectionEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DataCollectionEndpoint)
-	if !ok {
-		return fmt.Errorf("expected insights/v1api20230311/storage/DataCollectionEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DataCollectionEndpoint
+	err := endpoint.AssignProperties_To_DataCollectionEndpoint(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from endpoint")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return endpoint.AssignProperties_To_DataCollectionEndpoint(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DataCollectionEndpoint{}
@@ -87,17 +101,6 @@ func (endpoint *DataCollectionEndpoint) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return endpoint.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &DataCollectionEndpoint{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (endpoint *DataCollectionEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DataCollectionEndpointResource_STATUS); ok {
-		return endpoint.Spec.Initialize_From_DataCollectionEndpointResource_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DataCollectionEndpointResource_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DataCollectionEndpoint{}
@@ -632,54 +635,6 @@ func (endpoint *DataCollectionEndpoint_Spec) AssignProperties_To_DataCollectionE
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataCollectionEndpointResource_STATUS populates our DataCollectionEndpoint_Spec from the provided source DataCollectionEndpointResource_STATUS
-func (endpoint *DataCollectionEndpoint_Spec) Initialize_From_DataCollectionEndpointResource_STATUS(source *DataCollectionEndpointResource_STATUS) error {
-
-	// Description
-	endpoint.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		endpoint.Identity = &identity
-	} else {
-		endpoint.Identity = nil
-	}
-
-	// Kind
-	if source.Kind != nil {
-		kind := genruntime.ToEnum(string(*source.Kind), dataCollectionEndpoint_Kind_Spec_Values)
-		endpoint.Kind = &kind
-	} else {
-		endpoint.Kind = nil
-	}
-
-	// Location
-	endpoint.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkAcls
-	if source.NetworkAcls != nil {
-		var networkAcl NetworkRuleSet
-		err := networkAcl.Initialize_From_NetworkRuleSet_STATUS(source.NetworkAcls)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkAcls")
-		}
-		endpoint.NetworkAcls = &networkAcl
-	} else {
-		endpoint.NetworkAcls = nil
-	}
-
-	// Tags
-	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1859,33 +1814,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
@@ -2267,21 +2195,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkRuleSet_STATUS populates our NetworkRuleSet from the provided source NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *NetworkRuleSet_STATUS) error {
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), networkRuleSet_PublicNetworkAccess_Values)
-		ruleSet.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		ruleSet.PublicNetworkAccess = nil
 	}
 
 	// No error
