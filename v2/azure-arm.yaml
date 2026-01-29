@@ -2148,57 +2148,6 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
   containerservice:
     $payloadType: explicitCollections
-    2023-02-01:
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.0.0
-        $stripDocumentation: true
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-          PrincipalId: $.Status.Identity.PrincipalId
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.0.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2025-03-01:
       Fleet:
         $exportAs: Fleet
@@ -2217,61 +2166,6 @@ objectModelConfiguration:
       Fleets_AutoUpgradeProfile:
         $exportAs: FleetsAutoUpgradeProfile
         $supportedFrom: v2.16.0
-    2023-10-01:
-      ContainerServiceNetworkProfile_NetworkPlugin:
-        $renameTo: NetworkPlugin
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      DelegatedResource:
-        ResourceId:
-          $referenceType: arm
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.5.0
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-          PrincipalId: $.Status.Identity.PrincipalId
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.5.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      ManagedClusters_TrustedAccessRoleBinding:
-        $exportAs: TrustedAccessRoleBinding
-        $supportedFrom: v2.8.0
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2024-04-02-preview:
       AgentPoolGPUProfile:
         $nameInNextVersion: GPUProfile
@@ -2294,6 +2188,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -2349,6 +2244,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -2413,6 +2309,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections

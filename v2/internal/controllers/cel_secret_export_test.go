@@ -12,7 +12,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
+	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -184,18 +184,16 @@ func Test_CELExportSecretPropertyOnDifferentVersion(t *testing.T) {
 					Mode:   to.Ptr(containerserviceold.AgentPoolMode_System),
 				},
 			},
+			EnablePodSecurityPolicy: to.Ptr(false),
 			Identity: &containerserviceold.ManagedClusterIdentity{
 				Type: to.Ptr(containerserviceold.ManagedClusterIdentity_Type_SystemAssigned),
-			},
-			NetworkProfile: &containerserviceold.ContainerServiceNetworkProfile{
-				DockerBridgeCidr: to.Ptr("172.17.0.1/16"), // This field doesn't do anything
 			},
 			OperatorSpec: &containerserviceold.ManagedClusterOperatorSpec{
 				SecretExpressions: []*core.DestinationExpression{
 					{
 						Name:  secretName,
-						Key:   "cidr",
-						Value: "self.spec.networkProfile.dockerBridgeCidr",
+						Key:   "policy",
+						Value: "string(self.spec.enablePodSecurityPolicy)",
 					},
 				},
 			},
@@ -204,5 +202,5 @@ func Test_CELExportSecretPropertyOnDifferentVersion(t *testing.T) {
 
 	tc.CreateResourceAndWait(cluster)
 
-	tc.ExpectSecretHasKeys(secretName, "cidr")
+	tc.ExpectSecretHasKeys(secretName, "policy")
 }

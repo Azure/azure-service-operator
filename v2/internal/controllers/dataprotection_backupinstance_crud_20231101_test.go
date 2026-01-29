@@ -14,8 +14,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
+	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"

@@ -161,6 +161,7 @@ func (cluster *ManagedCluster) validateConfigMapDestinations(ctx context.Context
 	if obj.Spec.OperatorSpec.ConfigMaps != nil {
 		toValidate = []*genruntime.ConfigMapDestination{
 			obj.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile,
+			obj.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 		}
 	}
 	return configmaps.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.ConfigMapExpressions)
