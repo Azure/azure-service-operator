@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
@@ -24,6 +25,9 @@ import (
 
 func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	t.Parallel()
+
+	// Disable caching of built-in role definitions to ensure test isolation
+	customizations.DisableBuiltInRoleDefinitionsCaching()
 
 	tc := globalTestContext.ForTest(t)
 
@@ -89,6 +93,9 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 func Test_Authorization_RoleAssignmentOfBuiltInRole_OnResourceGroup_CRUD(t *testing.T) {
 	t.Parallel()
 
+	// Disable caching of built-in role definitions to ensure test isolation
+	customizations.DisableBuiltInRoleDefinitionsCaching()
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -150,6 +157,9 @@ func Test_Authorization_RoleAssignmentOfBuiltInRole_OnResourceGroup_CRUD(t *test
 
 func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	t.Parallel()
+
+	// Disable caching of built-in role definitions to ensure test isolation
+	customizations.DisableBuiltInRoleDefinitionsCaching()
 
 	tc := globalTestContext.ForTest(t)
 
