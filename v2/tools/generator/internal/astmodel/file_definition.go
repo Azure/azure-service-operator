@@ -243,7 +243,7 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 			})
 	}
 
-	var header []string
+	header := make([]string, 0, len(CodeGenerationComments)+2)
 	header = append(header, CodeGenerationComments...)
 	header = append(header,
 		"// Copyright (c) Microsoft Corporation.",

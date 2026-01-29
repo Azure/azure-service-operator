@@ -207,7 +207,7 @@ func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, 
 	// Register cleanup
 	result.T.Cleanup(func() {
 		// Names to delete
-		var namesToDelete []string
+		namesToDelete := make([]string, 0, len(result.tracker.Resources()))
 		for _, obj := range result.tracker.Resources() {
 			namesToDelete = append(namesToDelete, fmt.Sprintf("%s/%s", obj.GetNamespace(), obj.GetName()))
 		}

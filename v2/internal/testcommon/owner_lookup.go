@@ -17,6 +17,7 @@ func objectRanksByOwner(objs ...client.Object) [][]client.Object {
 	toExamine := roots
 	for len(toExamine) != 0 {
 		result = append(result, toExamine)
+		//nolint:prealloc // simple append loop with unknown size
 		var owned []client.Object
 		for _, obj := range toExamine {
 			owned = append(owned, findOwnedResources(objs, obj)...)
