@@ -105,7 +105,8 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		ver,
 		name)
 
-	funcs := []astmodel.Function{
+	funcs := make([]astmodel.Function, 0, 2+len(d.defaults))
+	funcs = append(funcs,
 		NewDefaultFunction(
 			"Default",
 			d.resourceName,
@@ -120,8 +121,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			d.idFactory,
 			d.localDefault,
 			astmodel.FmtReference,
-			astmodel.GenRuntimeReference),
-	}
+			astmodel.GenRuntimeReference))
 
 	// Add the actual individual default functions
 	for _, def := range d.defaults {
