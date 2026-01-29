@@ -20,4 +20,4 @@ spec:
   keyVaultReference:
     group: keyvault.azure.com
     kind:  Vault
-    name:  aso-cs-vault
+    name:  aso-cs-vault-20240901
