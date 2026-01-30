@@ -76,6 +76,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/getting-started/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/arm-resource-modifier/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/before-you-begin/</loc>
@@ -95,15 +97,21 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tutorials/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/deleter/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/review-the-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/implement-extensions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/error-classifier/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/importer/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/write-a-test/</loc>
   </url><url>
@@ -111,7 +119,17 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/kubernetes-secret-exporter/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/post-reconciliation-checker/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/pre-reconciliation-checker/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/pre-reconciliation-owner-checker/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/successful-creation-handler/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/</loc>
     <lastmod>2025-12-19T00:00:00+00:00</lastmod>
@@ -271,6 +289,8 @@
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
@@ -490,8 +510,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230201/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20230301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20230311/</loc>
@@ -523,8 +541,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/kusto/v1api20230815/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/notificationhubs/v1api20230901/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v1api20231101/</loc>
   </url><url>
