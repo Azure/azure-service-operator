@@ -187,10 +187,6 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&alertPolicy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
-	tc.CreateResourceAndWait(alertPolicy)
-
-	tc.Expect(alertPolicy.Status.Id).ToNot(BeNil())
-
 	secret := tc.GetSecret(storageDetails.secretName)
 	blobEndpoint := string(secret.Data[storageDetails.blobEndpointSecretKey])
 
@@ -210,8 +206,9 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 		},
 	}
 
-	tc.CreateResourceAndWait(vulnerabilityAssessment)
+	tc.CreateResourcesAndWait(alertPolicy, vulnerabilityAssessment)
 
+	tc.Expect(alertPolicy.Status.Id).ToNot(BeNil())
 	tc.Expect(vulnerabilityAssessment.Status.Id).ToNot(BeNil())
 
 	tc.DeleteResourceAndWait(vulnerabilityAssessment)
@@ -511,10 +508,6 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&securityAlertPolicy.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
-	tc.CreateResourceAndWait(securityAlertPolicy)
-
-	tc.Expect(securityAlertPolicy.Status.Id).ToNot(BeNil())
-
 	secret := tc.GetSecret(storageDetails.secretName)
 	blobEndpoint := string(secret.Data[storageDetails.blobEndpointSecretKey])
 
@@ -534,8 +527,9 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 		},
 	}
 
-	tc.CreateResourceAndWait(vulnerabilityAssessment)
+	tc.CreateResourcesAndWait(securityAlertPolicy, vulnerabilityAssessment)
 
+	tc.Expect(securityAlertPolicy.Status.Id).ToNot(BeNil())
 	tc.Expect(vulnerabilityAssessment.Status.Id).ToNot(BeNil())
 
 	// This is an odd case - the DELETE is accepted by the service, but isn't actually honoured: the resource still exists after deletion
