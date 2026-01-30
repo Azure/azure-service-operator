@@ -183,6 +183,12 @@ func createSharedEnvTest(
 	if cfg.Replaying {
 		requeueDelay = 10 * time.Millisecond
 		minBackoff = 10 * time.Millisecond
+
+		// maxBackoff is the maximum length of time we wait to retry.
+		// This used to be 10ms during testing but this caused an extremely large number of rapid retries and
+		// effectively starved other resources of CPU, resulting in tests taking much longer to complete because they
+		// progressed slowly. Increasing this to 1 second seems to strike a better balance between fast retries and
+		// allowing other resources to make progress.
 		maxBackoff = 1000 * time.Millisecond
 	}
 

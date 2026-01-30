@@ -922,6 +922,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		if _, _, err := r.getStatus(ctx, resourceID); err != nil {
 			if genericarmclient.IsNotFoundError(err) {
 				// Resource no longer exists
+				log.V(Info).Info("Resource is already gone, skipping issue of DELETE to Azure")
 				return ctrl.Result{}, nil
 			}
 		}
