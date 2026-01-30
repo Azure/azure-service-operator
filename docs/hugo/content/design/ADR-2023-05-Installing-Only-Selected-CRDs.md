@@ -140,8 +140,8 @@ Open questions:
   to enable ASO as an Extension or Addon, as there everything must be done through Helm. For users of Helm itself we likely
   can just tell them to run a `kubectl` command afterwards to create the `ConfigMap`. That does make the Helm install
   experience worse though.
-* We may be able to create the `ConfigMap` as empty given Helms use of
-  [3 way strategic merge](https://helm.sh/docs/faq/changes_since_helm2/#improved-upgrade-strategy-3-way-strategic-merge-patches)
+* We may be able to create the `ConfigMap` as empty given Helms use of _3 way strategic merge_ 
+    <!-- Broken link to https://helm.sh/docs/faq/changes_since_helm2/#improved-upgrade-strategy-3-way-strategic-merge-patches removed -->
   and then patch it afterwards.
 * Is it OK that _providers_ would be patchable, but you would need to include all the resources when patching something
   like `microsoft.storage: "StorageAccount,StorageAccountsBlobService"`? We could just disallow individual resource selection
