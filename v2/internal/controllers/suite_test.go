@@ -15,6 +15,7 @@ import (
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
 
+	authcustomizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -63,6 +64,9 @@ func setup() error {
 	if err != nil {
 		return err
 	}
+
+	// Disable caching of built-in role definitions to ensure test isolation
+	authcustomizations.DisableBuiltInRoleDefinitionsCaching()
 
 	log.Print("Done with test setup")
 	globalTestContext = newGlobalTestContext
