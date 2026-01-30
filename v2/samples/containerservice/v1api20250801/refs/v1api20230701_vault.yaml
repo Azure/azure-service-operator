@@ -1,7 +1,7 @@
-apiVersion: keyvault.azure.com/v1api20210401preview
+apiVersion: keyvault.azure.com/v1api20230701
 kind: Vault
 metadata:
-  name: aso-cs-vault
+  name: aso-cs-vault-20250801
   namespace: default
 spec:
   location: westus3

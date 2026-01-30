@@ -10,12 +10,9 @@ ARG TARGETARCH
 # APT dependencies
 # including docker-cli for docker-from-docker pattern
 # and az-cli for interacting with azure resources
-# NOTE: The yarn gpg key expired and was rolled to a new key, see https://github.com/yarnpkg/yarn/issues/9218 and https://github.com/yarnpkg/yarn/issues/9216.
-# We don't actually install or use yarn but the fact that the key has issues causes problems when apt-get update is run so we just removed yarn from apt sources.
 ENV DEBIAN_FRONTEND=noninteractive
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
-    && rm /etc/apt/sources.list.d/yarn.list \
     && apt-get update \
     && apt-get -y install --no-install-recommends bash-completion lsb-release graphviz zip nodejs npm python3-pip docker-ce-cli docker-compose-plugin\
     # install az-cli

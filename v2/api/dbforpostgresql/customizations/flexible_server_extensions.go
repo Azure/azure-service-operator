@@ -101,7 +101,6 @@ var nonBlockingFlexibleServerStates = set.Make(
 func (ext *FlexibleServerExtension) PreReconcileCheck(
 	ctx context.Context,
 	obj genruntime.MetaObject,
-	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
@@ -127,7 +126,7 @@ func (ext *FlexibleServerExtension) PreReconcileCheck(
 				*state)), nil
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient, log)
+	return next(ctx, obj, resourceResolver, armClient, log)
 }
 
 func flexibleServerStateBlocksReconciliation(state string) bool {

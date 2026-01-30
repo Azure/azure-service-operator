@@ -22,7 +22,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &ManagedClustersAgentPoolExtension{}
+var (
+	_ extensions.PreReconciliationChecker      = &ManagedClustersAgentPoolExtension{}
+	_ extensions.PreReconciliationOwnerChecker = &ManagedClustersAgentPoolExtension{}
+)
 
 // If an agent pool has a provisioningState not in this set, it will reject any attempt to PUT a new state out of
 // hand; so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state
@@ -34,10 +37,30 @@ var nonBlockingManagedClustersAgentPoolProvisioningStates = set.Make(
 	"canceled",
 )
 
+func (ext *ManagedClustersAgentPoolExtension) PreReconcileOwnerCheck(
+	ctx context.Context,
+	owner genruntime.MetaObject,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	next extensions.PreReconcileOwnerCheckFunc,
+) (extensions.PreReconcileCheckResult, error) {
+	// Check to see if the owning cluster is in a state that will block us from reconciling
+	if managedCluster, ok := owner.(*containerservice.ManagedCluster); ok {
+		state := managedCluster.Status.ProvisioningState
+		if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
+			return extensions.BlockReconcile(
+					fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *state)),
+				nil
+		}
+	}
+
+	return next(ctx, owner, resourceResolver, armClient, log)
+}
+
 func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	ctx context.Context,
 	obj genruntime.MetaObject,
-	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
@@ -55,20 +78,6 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = agentPool
 
-	// Check to see if the owning cluster is in a state that will block us from reconciling
-	// Owner nil can happen if the owner of the agent pool is referenced by armID
-	if owner != nil {
-		if managedCluster, ok := owner.(*containerservice.ManagedCluster); ok {
-			state := managedCluster.Status.ProvisioningState
-			if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
-				return extensions.BlockReconcile(
-						fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *state)),
-					nil
-			}
-
-		}
-	}
-
 	// If the agent pool is in a state that will reject any PUT, then we should skip reconciliation
 	// as there's no point in even trying.
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
@@ -80,7 +89,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 			nil
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient, log)
+	return next(ctx, obj, resourceResolver, armClient, log)
 }
 
 func agentPoolProvisioningStateBlocksReconciliation(provisioningState *string) bool {
