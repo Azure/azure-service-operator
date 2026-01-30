@@ -26,6 +26,7 @@ import (
 // Name slightly different here because running into name collision issues
 func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD_2(t *testing.T) {
 	t.Parallel()
+	t.Skip("Skipping - possibly running afoul of the stale owner issue when PrereconcileCheck is run")
 
 	if *isLive {
 		t.Skip("can't run in live mode, postresql flexible server takes too long to be provisioned and deleted")

@@ -17,6 +17,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -844,6 +845,54 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 	return genruntime.GetAPIVersion(metaObject, scheme)
 }
 
+// skipDeletionPrecheck is a set of resource groups for which we skip the pre-deletion existence check.
+// This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
+var skipDeletionPrecheck = sets.NewString(
+	"alertsmanagement.azure.com",
+	"apimanagement.azure.com",
+	"app.azure.com",
+	"appconfiguration.azure.com",
+	"authorization.azure.com",
+	"cache.azure.com",
+	"cdn.azure.com",
+	"cognitiveservices.azure.com",
+	"compute.azure.com",
+	"containerinstance.azure.com",
+	"containerregistry.azure.com",
+	"containerservice.azure.com",
+	"datafactory.azure.com",
+	"dataprotection.azure.com",
+	"dbformariadb.azure.com",
+	"dbformysql.azure.com",
+	"dbforpostgresql.azure.com",
+	"devices.azure.com",
+	"documentdb.azure.com",
+	"eventgrid.azure.com",
+	"eventhub.azure.com",
+	"insights.azure.com",
+	"keyvault.azure.com",
+	"kubernetesconfiguration.azure.com",
+	"kusto.azure.com",
+	"machinelearningservices.azure.com",
+	"managedidentity.azure.com",
+	"monitor.azure.com",
+	"network.azure.com",
+	"network.frontdoor.azure.com",
+	"notificationhubs.azure.com",
+	"operationalinsights.azure.com",
+	"quota.azure.com",
+	"redhatopenshift.azure.com",
+	"resources.azure.com",
+	"search.azure.com",
+	"servicebus.azure.com",
+	"signalrservice.azure.com",
+	"sql.azure.com",
+	"storage.azure.com",
+	"subscription.azure.com",
+	"synapse.azure.com",
+	"web.azure.com",
+)
+
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
 // have its behavior modified by resources implementing the genruntime.Deleter extension
 func (r *azureDeploymentReconcilerInstance) deleteResource(
@@ -863,6 +912,20 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	err := r.checkSubscription(resourceID)
 	if err != nil {
 		return ctrl.Result{}, err
+	}
+
+	// Check to see if the resource has already been deleted from Azure - if so, we're done.
+	// But, first check to see if this resource is in a deny group, and skip the check if so.
+	// This is to allow us to fix up remaining issues one by one instead of all at once.
+	group := obj.GetObjectKind().GroupVersionKind().Group
+	if !skipDeletionPrecheck.Has(group) {
+		if _, _, err := r.getStatus(ctx, resourceID); err != nil {
+			if genericarmclient.IsNotFoundError(err) {
+				// Resource no longer exists
+				log.V(Info).Info("Resource is already gone, skipping issue of DELETE to Azure")
+				return ctrl.Result{}, nil
+			}
+		}
 	}
 
 	// Optimizations or complications of this delete path should be undertaken with care.
