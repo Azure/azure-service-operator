@@ -103,30 +103,78 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 func Test_StoragePackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 	t.Parallel()
 
-	cases := []struct {
-		name             string
-		group            string
-		generatorVersion string
-		apiVersion       string
-		style            PackageImportStyle
-		expected         string
+	cases := map[string]struct {
+		group      string
+		apiVersion string
+		style      PackageImportStyle
+		expected   string
 	}{
 		// Current generator version
-		{"GeneratorVersionOnly", "storage", GeneratorVersion, "20200901", VersionOnly, "v20200901s"},
-		{"GeneratorGroupOnly", "storage", GeneratorVersion, "20200901", GroupOnly, "storage"},
-		{"GeneratorGroupAndVersion", "storage", GeneratorVersion, "20200901", GroupAndVersion, "storage_v20200901s"},
-		{"GeneratorPreviewVersionOnly", "storage", GeneratorVersion, "20200901preview", VersionOnly, "v20200901ps"},
-		{"GeneratorPreviewGroupOnly", "storage", GeneratorVersion, "20200901preview", GroupOnly, "storage"},
-		{"GeneratorPreviewGroupAndVersion", "storage", GeneratorVersion, "20200901preview", GroupAndVersion, "storage_v20200901ps"},
+		"GeneratorVersionOnly": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      VersionOnly,
+			expected:   "v20200901s",
+		},
+		"GeneratorGroupOnly": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      GroupOnly,
+			expected:   "storage",
+		},
+		"GeneratorGroupAndVersion": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      GroupAndVersion,
+			expected:   "storage_v20200901s",
+		},
+		"GeneratorPreviewVersionOnly": {
+			group:      "storage",
+			apiVersion: "20200901preview",
+			style:      VersionOnly,
+			expected:   "v20200901ps",
+		},
+		"GeneratorPreviewGroupOnly": {
+			group:      "storage",
+			apiVersion: "20200901preview",
+			style:      GroupOnly,
+			expected:   "storage",
+		},
+		"GeneratorPreviewGroupAndVersion": {
+			group:      "storage",
+			apiVersion: "20200901preview",
+			style:      GroupAndVersion,
+			expected:   "storage_v20200901ps",
+		},
 		// Hard coded to v1api
-		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901s"},
-		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
-		{"v1apiGroupAndVersion", "storage", "v1api", "20200901", GroupAndVersion, "storage_v20200901s"},
+		"v1apiVersionOnly": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      VersionOnly,
+			expected:   "v20200901s",
+		},
+		"v1apiGroupOnly": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      GroupOnly,
+			expected:   "storage",
+		},
+		"v1apiGroupAndVersion": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      GroupAndVersion,
+			expected:   "storage_v20200901s",
+		},
+		"v1apiGroupAndFullVersion": {
+			group:      "storage",
+			apiVersion: "20200901",
+			style:      GroupAndFullVersion,
+			expected:   "storage_v1api20200901s",
+		},
 	}
 
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 

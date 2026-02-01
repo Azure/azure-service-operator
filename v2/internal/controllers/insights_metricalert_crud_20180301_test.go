@@ -24,7 +24,6 @@ func Test_Insights_MetricAlert_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sa := newStorageAccount(tc, rg)
-	tc.CreateResourceAndWait(sa)
 
 	alert := &insights.MetricAlert{
 		ObjectMeta: tc.MakeObjectMeta("alert"),
@@ -59,7 +58,7 @@ func Test_Insights_MetricAlert_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(alert)
+	tc.CreateResourcesAndWait(sa, alert)
 
 	tc.Expect(alert.Status.Id).ToNot(BeNil())
 	armId := *alert.Status.Id

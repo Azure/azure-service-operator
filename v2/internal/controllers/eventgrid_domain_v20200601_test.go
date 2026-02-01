@@ -65,8 +65,6 @@ func Test_EventGrid_Domain(t *testing.T) {
 	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
 	tc.AddAnnotation(&queueServices.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
 
-	tc.CreateResourceAndWait(queueServices)
-
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("dest-queue"),
 		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
@@ -74,7 +72,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(queue)
+	tc.CreateResourcesAndWait(queueServices, queue)
 	armId := *domain.Status.Id
 	acctReference := tc.MakeReferenceFromResource(acct)
 

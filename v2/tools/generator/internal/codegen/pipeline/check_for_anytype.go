@@ -106,7 +106,7 @@ func collectBadPackages(
 		grouped[packagePath] = append(grouped[packagePath], name.Name())
 	}
 
-	var groupNames []string //nolint:prealloc // unlikely case
+	var groupNames []string
 	for groupName := range grouped {
 		// Only complain about this package if it's one we don't know about.
 		if expectedPackages.Contains(groupName) {
@@ -121,7 +121,7 @@ func collectBadPackages(
 	// Complain if there were some packages where we expected problems
 	// but didn't see any.
 	if len(expectedPackages) > 0 {
-		var leftovers []string
+		leftovers := make([]string, 0, len(expectedPackages))
 		for value := range expectedPackages {
 			leftovers = append(leftovers, value)
 		}

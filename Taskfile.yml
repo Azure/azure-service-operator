@@ -1290,11 +1290,10 @@ tasks:
 
   doc:crd-api:
     desc: Generates API docs for CRDs
-    deps: 
-      - controller:generate-crds
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - "{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template"
+      - task controller:generate-types
 
   doc:frontmatter-check:
     desc: Ensure all Markdown documentation has frontmatter.

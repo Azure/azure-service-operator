@@ -19,32 +19,28 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &FlexibleServersDatabaseExtension{}
+var _ extensions.PreReconciliationOwnerChecker = &FlexibleServersDatabaseExtension{}
 
-func (extension *FlexibleServersDatabaseExtension) PreReconcileCheck(
+func (extension *FlexibleServersDatabaseExtension) PreReconcileOwnerCheck(
 	ctx context.Context,
-	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	next extensions.PreReconcileCheckFunc,
+	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
-	// Owner nil can happen if the server owner of the database is referenced by armID
-	if owner != nil {
-		if server, ok := owner.(*hub.FlexibleServer); ok {
-			serverState := server.Status.State
-			if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
-				return extensions.BlockReconcile(
-					fmt.Sprintf(
-						"Owning FlexibleServer is in state %q",
-						*serverState)), nil
-			}
+	if server, ok := owner.(*hub.FlexibleServer); ok {
+		serverState := server.Status.State
+		if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
+			return extensions.BlockReconcile(
+				fmt.Sprintf(
+					"Owning FlexibleServer is in state %q",
+					*serverState)), nil
 		}
 	}
 
-	return next(ctx, obj, owner, resourceResolver, armClient, log)
+	return next(ctx, owner, resourceResolver, armClient, log)
 }
 
 var _ extensions.Importer = &FlexibleServersDatabaseExtension{}

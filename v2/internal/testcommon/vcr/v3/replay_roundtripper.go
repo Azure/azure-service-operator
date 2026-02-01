@@ -8,10 +8,12 @@ package v3
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"sync"
 
 	"github.com/go-logr/logr"
@@ -30,12 +32,33 @@ import (
 // the original, which a GET then shows is complete.
 type replayRoundTripper struct {
 	inner    http.RoundTripper
-	gets     map[string]*http.Response
-	puts     map[string]*http.Response
+	gets     map[string]*replayResponse
+	puts     map[string]*replayResponse
 	log      logr.Logger
 	padlock  sync.Mutex
 	redactor *vcr.Redactor
 }
+
+type replayResponse struct {
+	response         *http.Response
+	remainingReplays int
+}
+
+const (
+	// Timing variations during test replay may result in a resource being reconciled an additional time - we don't
+	// want to fail the test in this situation because we've already successfully achieved our goal state.
+	// Thus we allow the last PUT for each resource to be replayed one extra time.
+	maxPutReplays = 1 // Maximum number of times to replay a PUT request
+
+	// GET requests may be replayed multiple times to allow multiple reconciles to observe the same stable final state.
+	// We set this to accommodate timing variations during test replay, while avoiding unbounded replays as they might
+	// result in a test getting stuck and continuing to run until the entire test suite times out.
+	//
+	// Currently we need to set this to an apparently comical limit because some of our tests requiring many many
+	// repetitions to work due to changes in timing used during test replay. Once we've addressed other issues causing
+	// test instability, we should be able to reduce this limit significantly.
+	maxGetReplays = 1000 // Maximum number of times to replay a GET request (effectively unlimited for now)
+)
 
 var _ http.RoundTripper = &replayRoundTripper{}
 
@@ -47,8 +70,8 @@ func NewReplayRoundTripper(
 ) http.RoundTripper {
 	return &replayRoundTripper{
 		inner:    inner,
-		gets:     make(map[string]*http.Response),
-		puts:     make(map[string]*http.Response),
+		gets:     make(map[string]*replayResponse),
+		puts:     make(map[string]*replayResponse),
 		log:      log,
 		redactor: redactor,
 	}
@@ -69,6 +92,8 @@ func (replayer *replayRoundTripper) RoundTrip(request *http.Request) (*http.Resp
 }
 
 func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.Response, error) {
+	requestURL := request.URL.RequestURI()
+
 	// First use our inner round tripper to get the response.
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
@@ -81,20 +106,37 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 		defer replayer.padlock.Unlock()
 
 		// We didn't find an interaction, see if we have a cached response to return
-		if cachedResponse, ok := replayer.gets[request.URL.String()]; ok {
-			replayer.log.Info("Replaying GET request", "url", request.URL.String())
-			return cachedResponse, nil
+		if cachedResponse, ok := replayer.gets[requestURL]; ok {
+			if cachedResponse.remainingReplays > 0 {
+				cachedResponse.remainingReplays--
+				replayer.log.Info("Replaying GET request", "url", requestURL)
+				return cachedResponse.response, nil
+			}
+
+			// It's expired, remove it from the cache to ensure we don't replay it again
+			delete(replayer.gets, requestURL)
 		}
 
 		// No cached response, return the original response and error
 		return response, err
 	}
 
-	replayer.padlock.Lock()
-	defer replayer.padlock.Unlock()
+	// We have a response; if it has a status, cache only if that represents a terminal state
+	cacheable := true
+	if state, ok := replayer.resourceStateFromBody(response); ok {
+		cacheable = replayer.isTerminalProvisioningState(state)
+	}
+	if status, ok := replayer.operationStatusFromBody(response); ok {
+		cacheable = replayer.isTerminalOperationStatus(status)
+	}
 
-	// We have a response, cache it and return it
-	replayer.gets[request.URL.String()] = response
+	if cacheable {
+		replayer.padlock.Lock()
+		defer replayer.padlock.Unlock()
+
+		replayer.gets[requestURL] = newReplayResponse(response, maxGetReplays)
+	}
+
 	return response, nil
 }
 
@@ -115,10 +157,15 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 
 		// We didn't find an interaction, see if we have a cached response to return
 		if cachedResponse, ok := replayer.puts[hash]; ok {
-			// Remove it from the cache to ensure we only replay it once
+			if cachedResponse.remainingReplays > 0 {
+				replayer.log.Info("Replaying PUT request", "url", request.URL.String(), "hash", hash)
+				cachedResponse.remainingReplays--
+				return cachedResponse.response, nil
+			}
+
+			// It's expired, remove it from the cache to ensure we don't replay it again
 			delete(replayer.puts, hash)
-			replayer.log.Info("Replaying PUT request", "url", request.URL.String(), "hash", hash)
-			return cachedResponse, nil
+
 		}
 
 		// No cached response, return the original response and error
@@ -129,7 +176,7 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 	defer replayer.padlock.Unlock()
 
 	// We have a response, cache it and return it
-	replayer.puts[hash] = response
+	replayer.puts[hash] = newReplayResponse(response, maxPutReplays)
 	return response, nil
 }
 
@@ -154,4 +201,78 @@ func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	request.Body = io.NopCloser(&body)
 
 	return fmt.Sprintf("%x", hash)
+}
+
+type operation struct {
+	Status string `json:"status"`
+}
+
+// operationStatusFromBody extracts the operation status from the response body, if present.
+func (replayer *replayRoundTripper) operationStatusFromBody(response *http.Response) (string, bool) {
+	body := replayer.bodyOfResponse(response)
+
+	var op operation
+	if err := json.Unmarshal([]byte(body), &op); err == nil {
+		if op.Status != "" {
+			return op.Status, true
+		}
+	}
+
+	return "", false
+}
+
+// isTerminalOperationStatus returns true if the specified status represents a terminal state for a long-running operation
+func (replayer *replayRoundTripper) isTerminalOperationStatus(status string) bool {
+	return !strings.EqualFold(status, "InProgress")
+}
+
+type resource struct {
+	Properties struct {
+		ProvisioningState string `json:"provisioningState"`
+	} `json:"properties"`
+}
+
+// resourceStateFromBody extracts the provisioning state from the response body, if present.
+func (replayer *replayRoundTripper) resourceStateFromBody(response *http.Response) (string, bool) {
+	body := replayer.bodyOfResponse(response)
+
+	// Treat the body as an operation and deserialize it
+
+	// Treat the body as a resource and deserialize it
+	var res resource
+	if err := json.Unmarshal([]byte(body), &res); err == nil {
+		if res.Properties.ProvisioningState != "" {
+			return res.Properties.ProvisioningState, true
+		}
+	}
+
+	return "", false
+}
+
+// isTerminalStatus returns true if the specified status represents a terminal state a resource
+func (*replayRoundTripper) isTerminalProvisioningState(status string) bool {
+	return strings.EqualFold(status, "Succeeded") ||
+		strings.EqualFold(status, "Failed") ||
+		strings.EqualFold(status, "Canceled")
+}
+
+func (replayer *replayRoundTripper) bodyOfResponse(response *http.Response) string {
+	// Read all the content of the response body
+	var body bytes.Buffer
+	_, err := body.ReadFrom(response.Body)
+	if err != nil {
+		// Should never fail
+		panic(fmt.Sprintf("reading response.Body failed: %s", err))
+	}
+
+	// Reset the body so it can be read again
+	response.Body = io.NopCloser(&body)
+	return body.String()
+}
+
+func newReplayResponse(resp *http.Response, maxReplays int) *replayResponse {
+	return &replayResponse{
+		response:         resp,
+		remainingReplays: maxReplays,
+	}
 }

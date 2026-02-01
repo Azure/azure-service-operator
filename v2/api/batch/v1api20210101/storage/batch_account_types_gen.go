@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/batch/v20210101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &BatchAccount{}
 
 // ConvertFrom populates our BatchAccount from the provided hub BatchAccount
 func (account *BatchAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BatchAccount)
-	if !ok {
-		return fmt.Errorf("expected batch/v20240701/storage/BatchAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BatchAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_BatchAccount(source)
+	err = account.AssignProperties_From_BatchAccount(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BatchAccount from our BatchAccount
 func (account *BatchAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BatchAccount)
-	if !ok {
-		return fmt.Errorf("expected batch/v20240701/storage/BatchAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BatchAccount
+	err := account.AssignProperties_To_BatchAccount(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_BatchAccount(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &BatchAccount{}
@@ -345,13 +358,6 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AllowedAuthenticationModes
-	if len(source.AllowedAuthenticationModes) > 0 {
-		propertyBag.Add("AllowedAuthenticationModes", source.AllowedAuthenticationModes)
-	} else {
-		propertyBag.Remove("AllowedAuthenticationModes")
-	}
-
 	// AutoStorage
 	if source.AutoStorage != nil {
 		var autoStorage AutoStorageBaseProperties
@@ -405,13 +411,6 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// Location
 	account.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		propertyBag.Add("NetworkProfile", *source.NetworkProfile)
-	} else {
-		propertyBag.Remove("NetworkProfile")
-	}
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -470,19 +469,6 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(account.PropertyBag)
 
-	// AllowedAuthenticationModes
-	if propertyBag.Contains("AllowedAuthenticationModes") {
-		var allowedAuthenticationMode []string
-		err := propertyBag.Pull("AllowedAuthenticationModes", &allowedAuthenticationMode)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowedAuthenticationModes' from propertyBag")
-		}
-
-		destination.AllowedAuthenticationModes = allowedAuthenticationMode
-	} else {
-		destination.AllowedAuthenticationModes = nil
-	}
-
 	// AutoStorage
 	if account.AutoStorage != nil {
 		var autoStorage storage.AutoStorageBaseProperties
@@ -536,19 +522,6 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(account.Location)
-
-	// NetworkProfile
-	if propertyBag.Contains("NetworkProfile") {
-		var networkProfile storage.NetworkProfile
-		err := propertyBag.Pull("NetworkProfile", &networkProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NetworkProfile' from propertyBag")
-		}
-
-		destination.NetworkProfile = &networkProfile
-	} else {
-		destination.NetworkProfile = nil
-	}
 
 	// OperatorSpec
 	if account.OperatorSpec != nil {
@@ -690,13 +663,6 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 	// ActiveJobAndJobScheduleQuota
 	account.ActiveJobAndJobScheduleQuota = genruntime.ClonePointerToInt(source.ActiveJobAndJobScheduleQuota)
 
-	// AllowedAuthenticationModes
-	if len(source.AllowedAuthenticationModes) > 0 {
-		propertyBag.Add("AllowedAuthenticationModes", source.AllowedAuthenticationModes)
-	} else {
-		propertyBag.Remove("AllowedAuthenticationModes")
-	}
-
 	// AutoStorage
 	if source.AutoStorage != nil {
 		var autoStorage AutoStorageProperties_STATUS
@@ -787,20 +753,6 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 	// Name
 	account.Name = genruntime.ClonePointerToString(source.Name)
 
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		propertyBag.Add("NetworkProfile", *source.NetworkProfile)
-	} else {
-		propertyBag.Remove("NetworkProfile")
-	}
-
-	// NodeManagementEndpoint
-	if source.NodeManagementEndpoint != nil {
-		propertyBag.Add("NodeManagementEndpoint", *source.NodeManagementEndpoint)
-	} else {
-		propertyBag.Remove("NodeManagementEndpoint")
-	}
-
 	// PoolAllocationMode
 	account.PoolAllocationMode = genruntime.ClonePointerToString(source.PoolAllocationMode)
 
@@ -865,19 +817,6 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// ActiveJobAndJobScheduleQuota
 	destination.ActiveJobAndJobScheduleQuota = genruntime.ClonePointerToInt(account.ActiveJobAndJobScheduleQuota)
-
-	// AllowedAuthenticationModes
-	if propertyBag.Contains("AllowedAuthenticationModes") {
-		var allowedAuthenticationMode []string
-		err := propertyBag.Pull("AllowedAuthenticationModes", &allowedAuthenticationMode)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowedAuthenticationModes' from propertyBag")
-		}
-
-		destination.AllowedAuthenticationModes = allowedAuthenticationMode
-	} else {
-		destination.AllowedAuthenticationModes = nil
-	}
 
 	// AutoStorage
 	if account.AutoStorage != nil {
@@ -969,32 +908,6 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 	// Name
 	destination.Name = genruntime.ClonePointerToString(account.Name)
 
-	// NetworkProfile
-	if propertyBag.Contains("NetworkProfile") {
-		var networkProfile storage.NetworkProfile_STATUS
-		err := propertyBag.Pull("NetworkProfile", &networkProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NetworkProfile' from propertyBag")
-		}
-
-		destination.NetworkProfile = &networkProfile
-	} else {
-		destination.NetworkProfile = nil
-	}
-
-	// NodeManagementEndpoint
-	if propertyBag.Contains("NodeManagementEndpoint") {
-		var nodeManagementEndpoint string
-		err := propertyBag.Pull("NodeManagementEndpoint", &nodeManagementEndpoint)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NodeManagementEndpoint' from propertyBag")
-		}
-
-		destination.NodeManagementEndpoint = &nodeManagementEndpoint
-	} else {
-		destination.NodeManagementEndpoint = nil
-	}
-
 	// PoolAllocationMode
 	destination.PoolAllocationMode = genruntime.ClonePointerToString(account.PoolAllocationMode)
 
@@ -1074,20 +987,6 @@ func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBa
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AuthenticationMode
-	if source.AuthenticationMode != nil {
-		propertyBag.Add("AuthenticationMode", *source.AuthenticationMode)
-	} else {
-		propertyBag.Remove("AuthenticationMode")
-	}
-
-	// NodeIdentityReference
-	if source.NodeIdentityReference != nil {
-		propertyBag.Add("NodeIdentityReference", *source.NodeIdentityReference)
-	} else {
-		propertyBag.Remove("NodeIdentityReference")
-	}
-
 	// StorageAccountReference
 	if source.StorageAccountReference != nil {
 		storageAccountReference := source.StorageAccountReference.Copy()
@@ -1120,32 +1019,6 @@ func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBa
 func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBaseProperties(destination *storage.AutoStorageBaseProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// AuthenticationMode
-	if propertyBag.Contains("AuthenticationMode") {
-		var authenticationMode string
-		err := propertyBag.Pull("AuthenticationMode", &authenticationMode)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AuthenticationMode' from propertyBag")
-		}
-
-		destination.AuthenticationMode = &authenticationMode
-	} else {
-		destination.AuthenticationMode = nil
-	}
-
-	// NodeIdentityReference
-	if propertyBag.Contains("NodeIdentityReference") {
-		var nodeIdentityReference storage.ComputeNodeIdentityReference
-		err := propertyBag.Pull("NodeIdentityReference", &nodeIdentityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NodeIdentityReference' from propertyBag")
-		}
-
-		destination.NodeIdentityReference = &nodeIdentityReference
-	} else {
-		destination.NodeIdentityReference = nil
-	}
 
 	// StorageAccountReference
 	if properties.StorageAccountReference != nil {
@@ -1188,22 +1061,8 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_From_AutoStorag
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AuthenticationMode
-	if source.AuthenticationMode != nil {
-		propertyBag.Add("AuthenticationMode", *source.AuthenticationMode)
-	} else {
-		propertyBag.Remove("AuthenticationMode")
-	}
-
 	// LastKeySync
 	properties.LastKeySync = genruntime.ClonePointerToString(source.LastKeySync)
-
-	// NodeIdentityReference
-	if source.NodeIdentityReference != nil {
-		propertyBag.Add("NodeIdentityReference", *source.NodeIdentityReference)
-	} else {
-		propertyBag.Remove("NodeIdentityReference")
-	}
 
 	// StorageAccountId
 	properties.StorageAccountId = genruntime.ClonePointerToString(source.StorageAccountId)
@@ -1233,34 +1092,8 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageP
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
-	// AuthenticationMode
-	if propertyBag.Contains("AuthenticationMode") {
-		var authenticationMode string
-		err := propertyBag.Pull("AuthenticationMode", &authenticationMode)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AuthenticationMode' from propertyBag")
-		}
-
-		destination.AuthenticationMode = &authenticationMode
-	} else {
-		destination.AuthenticationMode = nil
-	}
-
 	// LastKeySync
 	destination.LastKeySync = genruntime.ClonePointerToString(properties.LastKeySync)
-
-	// NodeIdentityReference
-	if propertyBag.Contains("NodeIdentityReference") {
-		var nodeIdentityReference storage.ComputeNodeIdentityReference_STATUS
-		err := propertyBag.Pull("NodeIdentityReference", &nodeIdentityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NodeIdentityReference' from propertyBag")
-		}
-
-		destination.NodeIdentityReference = &nodeIdentityReference
-	} else {
-		destination.NodeIdentityReference = nil
-	}
 
 	// StorageAccountId
 	destination.StorageAccountId = genruntime.ClonePointerToString(properties.StorageAccountId)
@@ -1412,9 +1245,9 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 		userAssignedIdentityMap := make(map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			var userAssignedIdentity BatchAccountIdentity_UserAssignedIdentities_STATUS
-			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
+			err := userAssignedIdentity.AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1459,12 +1292,12 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.BatchAccountIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			var userAssignedIdentity storage.UserAssignedIdentities_STATUS
-			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentities_STATUS(&userAssignedIdentity)
+			var userAssignedIdentity storage.BatchAccountIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2141,8 +1974,8 @@ type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_UserAssignedIdentities_STATUS populates our BatchAccountIdentity_UserAssignedIdentities_STATUS from the provided source UserAssignedIdentities_STATUS
-func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_UserAssignedIdentities_STATUS(source *storage.UserAssignedIdentities_STATUS) error {
+// AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS populates our BatchAccountIdentity_UserAssignedIdentities_STATUS from the provided source BatchAccountIdentity_UserAssignedIdentities_STATUS
+func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(source *storage.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2172,8 +2005,8 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 	return nil
 }
 
-// AssignProperties_To_UserAssignedIdentities_STATUS populates the provided destination UserAssignedIdentities_STATUS from our BatchAccountIdentity_UserAssignedIdentities_STATUS
-func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_UserAssignedIdentities_STATUS(destination *storage.UserAssignedIdentities_STATUS) error {
+// AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS populates the provided destination BatchAccountIdentity_UserAssignedIdentities_STATUS from our BatchAccountIdentity_UserAssignedIdentities_STATUS
+func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(destination *storage.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
 
@@ -2393,8 +2226,8 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 }
 
 type augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface {
-	AssignPropertiesFrom(src *storage.UserAssignedIdentities_STATUS) error
-	AssignPropertiesTo(dst *storage.UserAssignedIdentities_STATUS) error
+	AssignPropertiesFrom(src *storage.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesTo(dst *storage.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
 }
 
 type augmentConversionForKeyVaultProperties interface {

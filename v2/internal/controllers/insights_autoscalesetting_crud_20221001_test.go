@@ -30,7 +30,6 @@ func Test_Insights_Autoscalesetting_v20221001_CRUD(t *testing.T) {
 	tc.CreateResourcesAndWait(vnet, subnet, publicIP, lb)
 
 	vmss := newVMSS20220301(tc, rg, lb, subnet)
-	tc.CreateResourceAndWait(vmss)
 
 	objectMeta := tc.MakeObjectMeta("setting")
 	setting := &insights.AutoscaleSetting{
@@ -73,7 +72,7 @@ func Test_Insights_Autoscalesetting_v20221001_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(setting)
+	tc.CreateResourcesAndWait(vmss, setting)
 
 	tc.Expect(setting.Status.Id).ToNot(BeNil())
 	armId := *setting.Status.Id

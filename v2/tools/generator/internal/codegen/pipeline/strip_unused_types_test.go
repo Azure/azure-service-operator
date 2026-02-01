@@ -24,7 +24,7 @@ func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 	}
 
 	makeSet := func(names ...string) astmodel.TypeNameSet {
-		var typeNames []astmodel.TypeName
+		typeNames := make([]astmodel.TypeName, 0, len(names))
 		for _, n := range names {
 			typeNames = append(typeNames, makeName(n))
 		}
