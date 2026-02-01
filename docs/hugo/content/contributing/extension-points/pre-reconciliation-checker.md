@@ -19,124 +19,33 @@ See the [PreReconciliationChecker interface definition](https://github.com/Azure
 The `PreReconciliationChecker` extension exists to handle cases where:
 
 1. **Prerequisite validation**: Ensuring required conditions are met before attempting ARM operations
-2. **Owner readiness**: Verifying that parent resources are in a state suitable for child creation
-3. **Quota checking**: Validating that operation won't exceed limits
-4. **Preventing futile operations**: Blocking reconciliation attempts that cannot possibly succeed
-5. **External dependencies**: Waiting for external systems or resources to be ready
-6. **Resource state validation**: Ensuring the resource is in an appropriate state for reconciliation
+2. **Preventing futile operations**: Blocking reconciliation attempts that cannot possibly succeed
+3. **External dependencies**: Waiting for external systems or resources to be ready
 
-The default behavior attempts reconciliation immediately. Some resources need to verify prerequisites first to avoid unnecessary ARM calls, rate limiting, or error conditions.
+The default behavior of ASO is to attempt reconciliation immediately. Some resources need to verify prerequisites first to avoid unnecessary ARM calls, rate limiting, or error conditions.
 
 ## When to Use
 
 Implement `PreReconciliationChecker` when:
 
-- ✅ Parent/owner resources must reach certain states first
+- ✅ Resources must reach certain states first
 - ✅ External dependencies must be satisfied before reconciling
-- ✅ Spec validation requires complex logic beyond webhooks
 - ✅ Reconciliation would fail due to known prerequisites not being met
-- ✅ Rate limiting or quota concerns require gating
-- ✅ Resource configuration requires specific ordering
 
 Do **not** use `PreReconciliationChecker` when:
 
-- ❌ Simple validation can be done in admission webhooks
 - ❌ The check should happen after reconciliation (use PostReconciliationChecker)
 - ❌ You're trying to modify the resource (use other extensions)
 - ❌ The default behavior works correctly
 
-## Example: Waiting for Owner Ready State
+## Example: Validate referenced resources are ready
 
-A common pattern is waiting for the parent resource to be ready:
-
-```go
-// Simplified example
-func (ex *MyResourceExtension) PreReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    ...
-) (extensions.PreReconcileCheckResult, error) {
-    if owner != nil {
-        ready := conditions.IsReady(owner)
-        if !ready {
-            return extensions.BlockReconcile(
-                fmt.Sprintf("waiting for owner %s to be ready", owner.GetName())), nil
-        }
-    }
-    return extensions.ProceedWithReconcile(), nil
-}
-```
-
-**Key aspects:**
-
-1. **Type assertions**: For both resource type and hub version
-2. **Owner check**: Validates owner state before proceeding
-3. **Clear blocking messages**: Provides reason for blocking
-4. **No error**: Check succeeded, but reconciliation should wait
-5. **Proceeds when ready**: Returns proceed result when checks pass
-
-## Common Patterns
-
-### Pattern 1: Check Owner Ready Condition
+In this example, we block reconciliation if a referenced network resource is not found or not ready, preventing futile ARM calls.
 
 ```go
 func (ex *ResourceExtension) PreReconcileCheck(
     ctx context.Context,
     obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Ensure owner is ready before creating child
-    if owner == nil {
-        return extensions.BlockReconcile("owner not found"), nil
-    }
-
-    if !conditions.IsReady(owner) {
-        return extensions.BlockReconcile(
-            fmt.Sprintf("owner %s/%s not ready",
-                owner.GetNamespace(), owner.GetName())), nil
-    }
-
-    // Owner ready, call next checker in chain
-    return next(ctx, obj, owner, resourceResolver, armClient, log)
-}
-```
-
-#### Example 1: Virtual Machine Scale Set Instances
-
-**Problem:** Cannot manage individual VMSS instances when the scale set is updating or deleting.
-
-**Solution:** Check VMSS state before attempting instance operations.
-
-```go
-// Block on: Updating, Deallocating, Deleting
-// Allow on: Running, Succeeded
-```
-
-#### Example 2: Container Service Agent Pools
-
-**Problem:** Agent pools cannot be modified when the cluster is upgrading.
-
-**Solution:** Check AKS cluster upgrade state before pool operations.
-
-```go
-// Block on: Upgrading, Updating
-// Allow on: Succeeded, Running
-```
-
-### Pattern 2: Validate Required References
-
-```go
-func (ex *ResourceExtension) PreReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
@@ -161,75 +70,6 @@ func (ex *ResourceExtension) PreReconcileCheck(
             return extensions.BlockReconcile(
                 "required network not ready"), nil
         }
-    }
-
-    return extensions.ProceedWithReconcile(), nil
-}
-```
-
-### Pattern 3: Validate Configuration Prerequisites
-
-```go
-func (ex *ResourceExtension) PreReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Complex validation that can't be done in webhook
-    if resource.Spec.AdvancedConfig != nil {
-        if err := ex.validateAdvancedConfig(resource.Spec.AdvancedConfig); err != nil {
-            // Configuration is invalid, block permanently
-            return extensions.PreReconcileCheckResult{}, conditions.NewReadyConditionImpactingError(
-                err,
-                conditions.ConditionSeverityError,
-                conditions.ReasonFailed)
-        }
-    }
-
-    return extensions.ProceedWithReconcile(), nil
-}
-```
-
-### Pattern 4: Check Azure Resource State
-
-```go
-func (ex *ResourceExtension) PreReconcileCheck(
-    ctx context.Context,
-    obj genruntime.MetaObject,
-    owner genruntime.MetaObject,
-    resourceResolver *resolver.Resolver,
-    armClient *genericarmclient.GenericClient,
-    log logr.Logger,
-    next extensions.PreReconcileCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-    resource := obj.(*myservice.MyResource)
-
-    // Get resource ID if it exists
-    resourceID, hasID := genruntime.GetResourceID(resource)
-    if !hasID {
-        // Not claimed yet, proceed
-        return extensions.ProceedWithReconcile(), nil
-    }
-
-    // Query current state from Azure
-    var azureState MyResourceState
-    apiVersion := "2023-01-01"
-    _, err := armClient.GetByID(ctx, resourceID, apiVersion, &azureState)
-    if err != nil {
-        // Handle error appropriately
-        return extensions.PreReconcileCheckResult{}, err
-    }
-
-    // Check if resource is in a state that allows updates
-    if azureState.Status == "Locked" || azureState.Status == "Deleting" {
-        return extensions.BlockReconcile(
-            fmt.Sprintf("resource in %s state, cannot reconcile", azureState.Status)), nil
     }
 
     return extensions.ProceedWithReconcile(), nil
@@ -271,7 +111,7 @@ return extensions.PreReconcileCheckResult{}, fmt.Errorf("check failed: %w", err)
 - Error condition set on resource
 - Reconciliation blocked until error resolved
 
-## Block vs. Error
+## When to use Block vs. Error
 
 Understanding the difference is important:
 
@@ -304,8 +144,7 @@ When testing `PreReconciliationChecker` extensions:
 1. **Test proceed case**: Verify check passes when prerequisites met
 2. **Test block cases**: Cover all blocking scenarios
 3. **Test error handling**: Verify proper error handling
-4. **Test with nil owner**: Handle cases with no owner
-5. **Test check chain**: Verify calling next() works correctly
+4. **Test check chain**: Verify calling next() works correctly
 
 ## Performance Considerations
 
@@ -313,29 +152,27 @@ Pre-reconciliation checks run on **every** reconciliation attempt, so:
 
 - **Keep them fast**: Avoid expensive operations when possible
 - **Cache results**: If appropriate, cache validation results
-- **Minimize ARM calls**: Use status/cache over live queries
+- **Minimize ARM calls**: Use status/cache over live queries (status is refreshed for you)
 - **Fail fast**: Return quickly when blocking
 - **Be selective**: Only check what's necessary
 
 ## Common Use Cases
 
-1. **Owner/Parent Readiness**: Most common - wait for parent to be ready
-2. **Reference Resolution**: Ensure referenced resources exist and are ready
-3. **Ordering Dependencies**: Ensure resources created in correct order
-4. **State Validation**: Verify resource in appropriate state for updates
-5. **Quota/Limit Checks**: Prevent operations that would exceed limits
-6. **External System Dependencies**: Wait for external systems to be ready
+1. **Reference Resolution**: Ensure referenced resources exist and are ready
+2. **Ordering Dependencies**: Ensure resources created in correct order
+3. **External System Dependencies**: Wait for external systems to be ready
+
+> **Note:** For owner/parent readiness checks, use [PreReconciliationOwnerChecker]({{< relref "pre-reconciliation-owner-checker" >}}) instead.
 
 ## Important Notes
 
 - **Call `next()` when checks pass**: Allows for check chaining
-- **Don't modify the resource**: This is for validation only
+- **Don't modify the resource**: This extension is for validation only
 - **Provide clear reasons**: Blocking messages shown to users
 - **Be idempotent**: Checks may run many times
-- **Use factory methods**: Always uses the factory methods for `PreReconcileCheckResult` to ensure consistency
-- **Handle nil owner**: Owner can be nil for root resources
 - **Use conditions package**: For setting appropriate conditions
 - **Log decisions**: Help debugging by explaining why checks block
+- **Use PreReconciliationOwnerChecker for owner checks**: Owner validation should use a separate (dedicated) extension
 
 ## Related Extension Points
 
@@ -349,5 +186,5 @@ Pre-reconciliation checks run on **every** reconciliation attempt, so:
 3. **Appropriate blocking**: Only block when reconciliation would fail
 4. **Consider performance**: These run frequently
 5. **Use conditions**: Set appropriate conditions when blocking
-6. **Handle edge cases**: Nil owners, missing references, etc.
+6. **Handle edge cases**: Missing references, invalid states, etc.
 7. **Test thoroughly**: Cover all blocking scenarios
