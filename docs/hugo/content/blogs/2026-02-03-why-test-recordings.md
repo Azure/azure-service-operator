@@ -1,6 +1,6 @@
 ---
 title: "Why record our tests?"
-date: 2025-02-10
+date: 2026-02-03
 description: "Why do we use HTTP recordings for our tests?"
 type: blog
 ---
