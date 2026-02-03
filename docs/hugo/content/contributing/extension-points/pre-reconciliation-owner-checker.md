@@ -8,7 +8,7 @@ weight: 76
 
 `PreReconciliationOwnerChecker` allows resources to perform _owner_ validation or checks before ARM reconciliation begins. This extension is invoked _before_ `PreReconciliationChecker` and before sending any requests to Azure, giving resources the ability to block reconciliation based solely on the owner's state.
 
-If this extension blocks ther reconcile, ASO won't even attempt to GET the resource itself. This is critical for resources where the owner's state can completely block access to the child resource.
+If this extension blocks the reconcile, ASO won't even attempt to GET the resource itself. This is critical for resources where the owner's state can completely block access to the child resource.
 
 ## Interface Definition
 
@@ -34,9 +34,7 @@ The most notable example is **Azure Data Explorer (Kusto)**, where you cannot ev
 
 Implement `PreReconciliationOwnerChecker` when:
 
-- ✅ The owner's state can block **all** access to the child resource, including GET operations
-- ✅ Or, the owner's state can block **modification** of child resource (via PUT, PATCH or DELETE operations)
-- ✅ Attempting operations when the owner is in certain states always fails
+- ✅ The owner's state can block child resource operations, causing them to fail
 - ✅ You want to avoid wasting API quota on operations that will definitely fail
 
 Do **not** use `PreReconciliationOwnerChecker` when:
@@ -65,7 +63,7 @@ Assuming both extensions are implemented, the reconciliation flow is:
 **Solution:** Check cluster state before attempting any database operations.
 
 ```go
-****func (ext *DatabaseExtension) PreReconcileOwnerCheck(
+func (ext *DatabaseExtension) PreReconcileOwnerCheck(
  ctx context.Context,
  owner genruntime.MetaObject,
  resourceResolver *resolver.Resolver,
