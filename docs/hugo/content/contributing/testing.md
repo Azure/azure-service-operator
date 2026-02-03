@@ -25,7 +25,7 @@ These are sometimes also called `envtest` tests, because they use
 
 The task `controller:test-integration-envtest` runs the tests in a record/replay mode by default, so that it does not
 touch any live Azure resources. (This uses the [go-vcr](https://github.com/dnaeon/go-vcr) library.) If you change the controller or other code in
-such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post [Why record our tests?]({{< relref "blogs/2025-02-09-why-test-recordings" >}}) for more information on why we use recorded HTTP interactions for our tests.
+such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post [Why record our tests?]({{< relref "blogs/2026-02-03-why-test-recordings" >}}) for more information on why we use recorded HTTP interactions for our tests.
 
 To do this, delete the recordings for the failing tests (under `{test-dir}/recordings/{test-name}.yaml`), and re-run
 `controller:test-integration-envtest`. If the test passes, a new recording will be saved, which you can commit to

@@ -25,7 +25,7 @@ All test recordings are automatically redacted of sensitive content - this inclu
 
 See [the code generator test README]({{< relref "testing" >}}/#running-envtest-integration-tests) for more information on how to run tests and record their HTTP interactions to allow replay.
 
-See our blog post [Why record our tests?]({{< relref "blogs/2025-02-09-why-test-recordings" >}}) for more information on why we use recorded HTTP interactions for our tests.
+See our blog post [Why record our tests?]({{< relref "blogs/2026-02-03-why-test-recordings" >}}) for more information on why we use recorded HTTP interactions for our tests.
 
 ## Consider removing old tests
 
