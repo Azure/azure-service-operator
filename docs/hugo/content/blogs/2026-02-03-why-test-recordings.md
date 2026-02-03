@@ -13,7 +13,7 @@ Sometimes a test that successfully worked one day would fail the next. We'd spen
 
 We encountered quota issues, capacity limits, outages, and more.
 
-The chances of any particular test failing was remote - but as the number of supported resources grew, our test suite got larger and larger and the probability of all the tests passing at the same time declined. We also noticed that the cost of running our test suite was growing, as was the length of time for a successful run.
+The chances of any particular test failing was remote - but as the number of supported resources grew, our test suite got larger and larger and the probability of all the tests passing at the same time declined. We also noticed that the cost of running our test suite was growing, as was the length of time for a successful run, to the point where a full run might take many hours.
 
 To address these issues, one of our developers ([George Pollard](https://github.com/porges)) introduced HTTP recordings, improving the reliabilty and performance of our integration tests. These recordings capture the HTTP REST interactions between ASO and Azure.
 
