@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why record our tests?</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</link>
+      <pubDate>Tue, 03 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</guid>
+      <description>&lt;p&gt;Azure Service Operator v2 uses recorded HTTP interactions for many of its integration tests. This blog post explains why we do this, and the benefits it brings.&lt;/p&gt;&#xA;&lt;p&gt;Early in the development of ASO v2, we ran into problems with some of our end-to-end tests.&lt;/p&gt;&#xA;&lt;p&gt;Sometimes a test that successfully worked one day would fail the next. We&amp;rsquo;d spend time investigating, assuming that this was due to something we&amp;rsquo;d changed, only to find the failure was due to outside factors.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Developer Talks - Quality of Life Features with Bevan</title>
       <link>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</link>

@@ -32,7 +32,7 @@ These handwritten tests should validate that the controller can create, update, 
   <meta itemprop="name" content="Write a test for the resource">
   <meta itemprop="description" content="Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to new versions of existing resources.
 These handwritten tests should validate that the controller can create, update, and delete the resource. Often, they also validate that related resources can be created at the same time. All these tests live in the v2/internal/controllers. There’s a readme in that folder that describes the test structure and naming conventions.">
-  <meta itemprop="wordCount" content="646">
+  <meta itemprop="wordCount" content="668">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Write a test for the resource">
   <meta name="twitter:description" content="Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to new versions of existing resources.
@@ -224,7 +224,9 @@ These handwritten tests should validate that the controller can create, update, 
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
+  <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings"><span class="">Why record our tests?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
   <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan"><span class="">Developer Talks - Quality of Life Features with Bevan</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
   <a href="/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160"><span class="">ASO v2.16 Release Notes</span></a>
@@ -903,13 +905,10 @@ These handwritten tests should validate that the controller can create, update, 
         <nav id="TableOfContents">
   <ul>
     <li><a href="#record-the-test-passing">Record the test passing</a></li>
-    <li><a href="#consider-removing-old-tests">Consider removing old tests</a>
-      <ul>
-        <li><a href="#prefer-createresourcesandwait">Prefer CreateResourcesAndWait</a></li>
-        <li><a href="#prefer-parallel-tests">Prefer parallel tests</a></li>
-        <li><a href="#consider-extensions">Consider extensions</a></li>
-      </ul>
-    </li>
+    <li><a href="#consider-removing-old-tests">Consider removing old tests</a></li>
+    <li><a href="#prefer-createresourcesandwait">Prefer CreateResourcesAndWait</a></li>
+    <li><a href="#prefer-parallel-tests">Prefer parallel tests</a></li>
+    <li><a href="#consider-extensions">Consider extensions</a></li>
   </ul>
 </nav>
       </div>
@@ -955,6 +954,7 @@ All these tests live in the <a href="https://github.com/Azure/azure-service-oper
 </div>
 
 <p>See <a href="/azure-service-operator/contributing/testing//#running-envtest-integration-tests">the code generator test README</a> for more information on how to run tests and record their HTTP interactions to allow replay.</p>
+<p>See our blog post <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/">Why record our tests?</a> for more information on why we use recorded HTTP interactions for our tests.</p>
 <h2 id="consider-removing-old-tests">Consider removing old tests</h2>
 <p>Each of these integration tests can take up to a few minutes to run from recordings, and we&rsquo;re starting to see issues due to the large number of resources we&rsquo;re testing.</p>
 <p>If you are adding a new version for resource that already has <em>several</em> supported versions, we <em>may</em> request that you remove tests for older versions of the resource as a part of your PR.</p>
@@ -965,13 +965,13 @@ All these tests live in the <a href="https://github.com/Azure/azure-service-oper
 <li>the latest <code>preview</code> version of the resource.</li>
 </ul>
 <p>In most cases you won&rsquo;t need to worry about this.</p>
-<h3 id="prefer-createresourcesandwait">Prefer CreateResourcesAndWait</h3>
+<h2 id="prefer-createresourcesandwait">Prefer CreateResourcesAndWait</h2>
 <p>If your rest needs to create multiple resources, prefer using <code>CreateResourcesAndWait</code> (note the plural <code>Resources</code>) to create all the resources at once, rather than calling <code>CreateResourceAndWait</code> (singular <code>Resource</code>) once for each resource in turn.</p>
-<p>When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling <code>CreateResourcesAndWait</code> to create all the resources at once is a good way to ensure that the test is realistic.</p>
-<h3 id="prefer-parallel-tests">Prefer parallel tests</h3>
+<p>Why? When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling <code>CreateResourcesAndWait</code> to create all the resources at once is a good way to ensure that the test is realistic.</p>
+<h2 id="prefer-parallel-tests">Prefer parallel tests</h2>
 <p>Operation of ASO in a cluster is inherently concurrent, with a lot going on and an expectation that the state of the cluster will converge to the desired state.</p>
 <p>It can be useful to break independent subtests up into parallel tests to simulate this concurrency. Check out the use of <code>RunParallelSubtests</code> in existing tests to see how this is done.</p>
-<h3 id="consider-extensions">Consider extensions</h3>
+<h2 id="consider-extensions">Consider extensions</h2>
 <p>Odd behaviour in your test, this <em>may</em> indicate you need to <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/implement-extensions/">implement an extension</a> to customize the behaviour of the resource.</p>
 
 

@@ -17,30 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>EventHub | Azure Service Operator</title>
-<meta name="description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/">
+<title>Why record our tests? | Azure Service Operator</title>
+<meta name="description" content="Why do we use HTTP recordings for our tests?">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="EventHub">
-  <meta property="og:description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey">
+  <meta property="og:title" content="Why record our tests?">
+  <meta property="og:description" content="Why do we use HTTP recordings for our tests?">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+    <meta property="article:section" content="blogs">
+    <meta property="article:published_time" content="2026-02-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-02-03T00:00:00+00:00">
 
-  <meta itemprop="name" content="EventHub">
-  <meta itemprop="description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey">
-  <meta itemprop="wordCount" content="78">
+  <meta itemprop="name" content="Why record our tests?">
+  <meta itemprop="description" content="Why do we use HTTP recordings for our tests?">
+  <meta itemprop="datePublished" content="2026-02-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-03T00:00:00+00:00">
+  <meta itemprop="wordCount" content="561">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="EventHub">
-  <meta name="twitter:description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey">
+  <meta name="twitter:title" content="Why record our tests?">
+  <meta name="twitter:description" content="Why do we use HTTP recordings for our tests?">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -49,7 +45,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-page td-blog">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -57,10 +53,10 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
+        <a class="nav-link active" href="/azure-service-operator/blogs/"><span>Blog</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -105,20 +101,20 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
   <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -129,11 +125,11 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -146,14 +142,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
@@ -184,55 +180,55 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/azuresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql"><span class="">Azure SQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/databaseusers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers"><span class="">Database Users</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
-  <a href="/azure-service-operator/guide/asov1-asov2-migration/eventhub/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub"><span class="td-sidebar-nav-active-item">EventHub</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/eventhub/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub"><span class="">EventHub</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/mysql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationmysql"><span class="">MySQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/postgresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql"><span class="">PostgreSQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/redis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationredis"><span class="">Redis</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstorage"><span class="">Storage Account</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
-  <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings"><span class="">Why record our tests?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
+  <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings"><span class="td-sidebar-nav-active-item">Why record our tests?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
   <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan"><span class="">Developer Talks - Quality of Life Features with Bevan</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
   <a href="/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160"><span class="">ASO v2.16 Release Notes</span></a>
 </li>
   </ul>
@@ -905,92 +901,71 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
 
 </div>
 
-            <div class="td-toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li><a href="#secrets">Secrets</a></li>
-  </ul>
-</nav>
-      </div>
-    
+            
             
 
           </aside>
-          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
-            
-  
-
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5 pe-md-4" role="main">
+            <a class="td-rss-button" title="RSS" href="/azure-service-operator/blogs/index.xml" target="_blank" rel="noopener">
+              <i class="fa-solid fa-rss" aria-hidden="true"></i>
+            </a>
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/">Guide</a></li>
-  <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/asov1-asov2-migration/">ASOv1 to ASOv2 migration guide</a></li>
+    <a href="/azure-service-operator/blogs/">Blog</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    EventHub</li>
+    Why record our tests?</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>EventHub</h1>
-	
+	<h1>Why record our tests?</h1>
+	<div class="lead">Why do we use HTTP recordings for our tests?</div>
+	<div class="td-byline mb-4">
+		
+		<time datetime="2026-02-03" class="text-body-secondary">Tuesday, February 03, 2026</time>
+	</div>
 	<header class="article-meta">
 		
 </header>
-	<h2 id="secrets">Secrets</h2>
-<p>ASOv1 <code>EventHubs</code> save a Kubernetes secret:</p>
-<pre tabindex="0"><code>kubectl get secrets -n ns1
+	<p>Azure Service Operator v2 uses recorded HTTP interactions for many of its integration tests. This blog post explains why we do this, and the benefits it brings.</p>
+<p>Early in the development of ASO v2, we ran into problems with some of our end-to-end tests.</p>
+<p>Sometimes a test that successfully worked one day would fail the next. We&rsquo;d spend time investigating, assuming that this was due to something we&rsquo;d changed, only to find the failure was due to outside factors.</p>
+<p>We encountered quota issues, capacity limits, outages, and more.</p>
+<p>The chances of any particular test failing was remote - but as the number of supported resources grew, our test suite got larger and larger and the probability of all the tests passing at the same time declined. We also noticed that the cost of running our test suite was growing, as was the length of time for a successful run, to the point where a full run might take many hours.</p>
+<p>To address these issues, one of our developers (<a href="https://github.com/porges">George Pollard</a>) introduced HTTP recordings, improving the reliabilty and performance of our integration tests. These recordings capture the HTTP REST interactions between ASO and Azure.</p>
+<p>Once a test has passed once, the recording allows us to replay that test in isolation - without any need to interact with Azure proper. We get to verify that ASO issues the same REST API requests, and that it behaves consistently as it receives the responses.</p>
+<p>We&rsquo;ve also extended the recordings to our samples to verify that the samples work and can be used by new ASO users as a reference. I (<a href="https://github.com/theunrepentantgeek">@theunrepentantgeek</a>) have had some poor experiences with other projects where I spent several days trying to use their samples, failing, only to be told &ldquo;Yeah, those never worked&rdquo; when I reached out for help. We figured ASO could do better than that.</p>
+<p>Benefits of the approach include:</p>
+<ul>
+<li><strong>Consistency</strong> - tests will (mostly) only fail if we break ASO, not if there&rsquo;s a problem elsewhere</li>
+<li><strong>Performance</strong> - we can replay in a minute or so a test that might take 90 minutes to run &ldquo;in the real world&rdquo;<br>
+(The system&rsquo;s not perfect - timing differences from run to run very occasionally cause a test failure.)</li>
+<li><strong>Cost</strong> - because we&rsquo;re not creating actual Azure resources, we don&rsquo;t incur much in the way of actual cost</li>
+</ul>
+<p>Of course, nothing comes without a cost, and we&rsquo;ve had to tweak a few things to make this work well:</p>
+<ul>
+<li>
+<p><strong>Controllers aren&rsquo;t inherently deterministic</strong> - different test runs can do things slightly differently, due to variations in goroutine scheduling and timing. To allow for this, we&rsquo;ve implemented a <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/testcommon/vcr/v3/replay_roundtripper.go"><code>replayRoundTripper</code></a> to allow some flexibility in matching requests to recorded responses.</p>
+</li>
+<li>
+<p><strong>Caching can break our tests</strong> - any global cache we add (such as the one for Azure built-in RoleDefinitions in <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/authorization/customizations/role_assignment_extensions.go"><code>role_assignment_extensions.go</code></a>) can result in different behavior between test runs, forcing us to add controls so we can disable them during tests.</p>
+</li>
+<li>
+<p><strong>Disconnect from Azure</strong> - these tests ensure that ASO behaves correctly given a particular sequence of HTTP interactions, but they don&rsquo;t catch issues when changes to Azure itself happen. For example, our tests of <code>ScheduledQueryRules</code> from Microsoft.Insights version <code>2024-01-01preview</code> continued to pass even after the preview API was removed from Azure.</p>
+</li>
+</ul>
+<p>Overall though, the benefits have far outweighed the costs, and we&rsquo;re pleased with how this approach has worked out for us.</p>
 
-eventhub-eventhub-sample-1                   Opaque   7      22h
-</code></pre><p>This secret has the following 7 keys:</p>
-<table>
-  <thead>
-      <tr>
-          <th>Key</th>
-          <th>Source</th>
-          <th>ASOv2 equivalent</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>eventhubName</td>
-          <td>User</td>
-          <td>None</td>
-      </tr>
-      <tr>
-          <td>eventhubNamespace</td>
-          <td>User</td>
-          <td>None</td>
-      </tr>
-      <tr>
-          <td>primaryConnectionString</td>
-          <td>Azure</td>
-          <td><code>.spec.operatorSpec.secrets.primaryConnectionString</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td>primaryKey</td>
-          <td>Azure</td>
-          <td><code>.spec.operatorSpec.secrets.primaryKey</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td>secondaryConnectionString</td>
-          <td>Azure</td>
-          <td><code>.spec.operatorSpec.secrets.secondaryConnectionString</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td>secondaryKey</td>
-          <td>Azure</td>
-          <td><code>.spec.operatorSpec.secrets.secondaryKey</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td>sharedaccessKey</td>
-          <td>Azure</td>
-          <td>None, see ASOv2 <a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRules</a> for exporting keys for any authorization rule except the default <code>RootManageSharedAccessKey</code></td>
-      </tr>
-  </tbody>
-</table>
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" aria-label="Previous - Developer Talks - Quality of Life Features with Bevan" class="btn btn-primary"><span class="me-1">←</span>Previous</a>
+  </li>
+  <li>
+    <a class="btn btn-primary disabled">Next<span class="ms-1">→</span></a>
+  </li>
+</ul>
 
-	
-</div>
+	</div>
 
 
           </main>
