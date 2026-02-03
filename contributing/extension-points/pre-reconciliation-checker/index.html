@@ -35,7 +35,7 @@ Interface Definition See the PreReconciliationChecker interface definition in th
   <meta itemprop="description" content="Description PreReconciliationChecker allows resources to perform validation or checks before ARM reconciliation begins. This extension is invoked before sending any requests to Azure, giving resources the ability to block reconciliation until certain prerequisites are met.
 The interface is called early in the reconciliation process, after basic claim/validation but before any ARM GET/PUT/PATCH operations. It provides an opportunity to ensure that conditions necessary for successful reconciliation are satisfied.
 Interface Definition See the PreReconciliationChecker interface definition in the source code.">
-  <meta itemprop="wordCount" content="1281">
+  <meta itemprop="wordCount" content="754">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PreReconciliationChecker">
   <meta name="twitter:description" content="Description PreReconciliationChecker allows resources to perform validation or checks before ARM reconciliation begins. This extension is invoked before sending any requests to Azure, giving resources the ability to block reconciliation until certain prerequisites are met.
@@ -910,15 +910,7 @@ Interface Definition See the PreReconciliationChecker interface definition in th
     <li><a href="#interface-definition">Interface Definition</a></li>
     <li><a href="#motivation">Motivation</a></li>
     <li><a href="#when-to-use">When to Use</a></li>
-    <li><a href="#example-waiting-for-owner-ready-state">Example: Waiting for Owner Ready State</a></li>
-    <li><a href="#common-patterns">Common Patterns</a>
-      <ul>
-        <li><a href="#pattern-1-check-owner-ready-condition">Pattern 1: Check Owner Ready Condition</a></li>
-        <li><a href="#pattern-2-validate-required-references">Pattern 2: Validate Required References</a></li>
-        <li><a href="#pattern-3-validate-configuration-prerequisites">Pattern 3: Validate Configuration Prerequisites</a></li>
-        <li><a href="#pattern-4-check-azure-resource-state">Pattern 4: Check Azure Resource State</a></li>
-      </ul>
-    </li>
+    <li><a href="#example-validate-referenced-resources-are-ready">Example: Validate referenced resources are ready</a></li>
     <li><a href="#check-result">Check Result</a>
       <ul>
         <li><a href="#proceed">Proceed</a></li>
@@ -926,7 +918,7 @@ Interface Definition See the PreReconciliationChecker interface definition in th
         <li><a href="#error">Error</a></li>
       </ul>
     </li>
-    <li><a href="#block-vs-error">Block vs. Error</a></li>
+    <li><a href="#when-to-use-block-vs-error">When to use Block vs. Error</a></li>
     <li><a href="#reconciliation-impact">Reconciliation Impact</a></li>
     <li><a href="#testing">Testing</a></li>
     <li><a href="#performance-considerations">Performance Considerations</a></li>
@@ -970,98 +962,28 @@ Interface Definition See the PreReconciliationChecker interface definition in th
 <p>The <code>PreReconciliationChecker</code> extension exists to handle cases where:</p>
 <ol>
 <li><strong>Prerequisite validation</strong>: Ensuring required conditions are met before attempting ARM operations</li>
-<li><strong>Owner readiness</strong>: Verifying that parent resources are in a state suitable for child creation</li>
-<li><strong>Quota checking</strong>: Validating that operation won&rsquo;t exceed limits</li>
 <li><strong>Preventing futile operations</strong>: Blocking reconciliation attempts that cannot possibly succeed</li>
 <li><strong>External dependencies</strong>: Waiting for external systems or resources to be ready</li>
-<li><strong>Resource state validation</strong>: Ensuring the resource is in an appropriate state for reconciliation</li>
 </ol>
-<p>The default behavior attempts reconciliation immediately. Some resources need to verify prerequisites first to avoid unnecessary ARM calls, rate limiting, or error conditions.</p>
+<p>The default behavior of ASO is to attempt reconciliation immediately. Some resources need to verify prerequisites first to avoid unnecessary ARM calls, rate limiting, or error conditions.</p>
 <h2 id="when-to-use">When to Use</h2>
 <p>Implement <code>PreReconciliationChecker</code> when:</p>
 <ul>
-<li>✅ Parent/owner resources must reach certain states first</li>
+<li>✅ Resources must reach certain states first</li>
 <li>✅ External dependencies must be satisfied before reconciling</li>
-<li>✅ Spec validation requires complex logic beyond webhooks</li>
 <li>✅ Reconciliation would fail due to known prerequisites not being met</li>
-<li>✅ Rate limiting or quota concerns require gating</li>
-<li>✅ Resource configuration requires specific ordering</li>
 </ul>
 <p>Do <strong>not</strong> use <code>PreReconciliationChecker</code> when:</p>
 <ul>
-<li>❌ Simple validation can be done in admission webhooks</li>
 <li>❌ The check should happen after reconciliation (use PostReconciliationChecker)</li>
 <li>❌ You&rsquo;re trying to modify the resource (use other extensions)</li>
 <li>❌ The default behavior works correctly</li>
 </ul>
-<h2 id="example-waiting-for-owner-ready-state">Example: Waiting for Owner Ready State</h2>
-<p>A common pattern is waiting for the parent resource to be ready:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Simplified example</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ex</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyResourceExtension</span>) <span style="color:#a6e22e">PreReconcileCheck</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
-</span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">owner</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ready</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">IsReady</span>(<span style="color:#a6e22e">owner</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ready</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">BlockReconcile</span>(
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;waiting for owner %s to be ready&#34;</span>, <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">GetName</span>())), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ProceedWithReconcile</span>(), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Key aspects:</strong></p>
-<ol>
-<li><strong>Type assertions</strong>: For both resource type and hub version</li>
-<li><strong>Owner check</strong>: Validates owner state before proceeding</li>
-<li><strong>Clear blocking messages</strong>: Provides reason for blocking</li>
-<li><strong>No error</strong>: Check succeeded, but reconciliation should wait</li>
-<li><strong>Proceeds when ready</strong>: Returns proceed result when checks pass</li>
-</ol>
-<h2 id="common-patterns">Common Patterns</h2>
-<h3 id="pattern-1-check-owner-ready-condition">Pattern 1: Check Owner Ready Condition</h3>
+<h2 id="example-validate-referenced-resources-are-ready">Example: Validate referenced resources are ready</h2>
+<p>In this example, we block reconciliation if a referenced network resource is not found or not ready, preventing futile ARM calls.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ex</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceExtension</span>) <span style="color:#a6e22e">PreReconcileCheck</span>(
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckFunc</span>,
-</span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">myservice</span>.<span style="color:#a6e22e">MyResource</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Ensure owner is ready before creating child</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">owner</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">BlockReconcile</span>(<span style="color:#e6db74">&#34;owner not found&#34;</span>), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">IsReady</span>(<span style="color:#a6e22e">owner</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">BlockReconcile</span>(
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;owner %s/%s not ready&#34;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">GetNamespace</span>(), <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">GetName</span>())), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Owner ready, call next checker in chain</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">next</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">owner</span>, <span style="color:#a6e22e">resourceResolver</span>, <span style="color:#a6e22e">armClient</span>, <span style="color:#a6e22e">log</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="example-1-virtual-machine-scale-set-instances">Example 1: Virtual Machine Scale Set Instances</h4>
-<p><strong>Problem:</strong> Cannot manage individual VMSS instances when the scale set is updating or deleting.</p>
-<p><strong>Solution:</strong> Check VMSS state before attempting instance operations.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Block on: Updating, Deallocating, Deleting</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Allow on: Running, Succeeded</span>
-</span></span></code></pre></div><h4 id="example-2-container-service-agent-pools">Example 2: Container Service Agent Pools</h4>
-<p><strong>Problem:</strong> Agent pools cannot be modified when the cluster is upgrading.</p>
-<p><strong>Solution:</strong> Check AKS cluster upgrade state before pool operations.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Block on: Upgrading, Updating</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Allow on: Succeeded, Running</span>
-</span></span></code></pre></div><h3 id="pattern-2-validate-required-references">Pattern 2: Validate Required References</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ex</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceExtension</span>) <span style="color:#a6e22e">PreReconcileCheck</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
@@ -1090,67 +1012,6 @@ Interface Definition See the PreReconciliationChecker interface definition in th
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ProceedWithReconcile</span>(), <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="pattern-3-validate-configuration-prerequisites">Pattern 3: Validate Configuration Prerequisites</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ex</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceExtension</span>) <span style="color:#a6e22e">PreReconcileCheck</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckFunc</span>,
-</span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">myservice</span>.<span style="color:#a6e22e">MyResource</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Complex validation that can&#39;t be done in webhook</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">AdvancedConfig</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ex</span>.<span style="color:#a6e22e">validateAdvancedConfig</span>(<span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">AdvancedConfig</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Configuration is invalid, block permanently</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>{}, <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">NewReadyConditionImpactingError</span>(
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">err</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">ConditionSeverityError</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">ReasonFailed</span>)
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ProceedWithReconcile</span>(), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="pattern-4-check-azure-resource-state">Pattern 4: Check Azure Resource State</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ex</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceExtension</span>) <span style="color:#a6e22e">PreReconcileCheck</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckFunc</span>,
-</span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">myservice</span>.<span style="color:#a6e22e">MyResource</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Get resource ID if it exists</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceID</span>, <span style="color:#a6e22e">hasID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">GetResourceID</span>(<span style="color:#a6e22e">resource</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">hasID</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Not claimed yet, proceed</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ProceedWithReconcile</span>(), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Query current state from Azure</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">azureState</span> <span style="color:#a6e22e">MyResourceState</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">apiVersion</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;2023-01-01&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">armClient</span>.<span style="color:#a6e22e">GetByID</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">resourceID</span>, <span style="color:#a6e22e">apiVersion</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">azureState</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle error appropriately</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>{}, <span style="color:#a6e22e">err</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Check if resource is in a state that allows updates</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">azureState</span>.<span style="color:#a6e22e">Status</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Locked&#34;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">azureState</span>.<span style="color:#a6e22e">Status</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Deleting&#34;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">BlockReconcile</span>(
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;resource in %s state, cannot reconcile&#34;</span>, <span style="color:#a6e22e">azureState</span>.<span style="color:#a6e22e">Status</span>)), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ProceedWithReconcile</span>(), <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="check-result">Check Result</h2>
 <p>The extension returns one of two results, or an error.</p>
 <h3 id="proceed">Proceed</h3>
@@ -1175,7 +1036,7 @@ Interface Definition See the PreReconciliationChecker interface definition in th
 <li>Error condition set on resource</li>
 <li>Reconciliation blocked until error resolved</li>
 </ul>
-<h2 id="block-vs-error">Block vs. Error</h2>
+<h2 id="when-to-use-block-vs-error">When to use Block vs. Error</h2>
 <p>Understanding the difference is important:</p>
 <ul>
 <li>
@@ -1211,7 +1072,6 @@ Interface Definition See the PreReconciliationChecker interface definition in th
 <li><strong>Test proceed case</strong>: Verify check passes when prerequisites met</li>
 <li><strong>Test block cases</strong>: Cover all blocking scenarios</li>
 <li><strong>Test error handling</strong>: Verify proper error handling</li>
-<li><strong>Test with nil owner</strong>: Handle cases with no owner</li>
 <li><strong>Test check chain</strong>: Verify calling next() works correctly</li>
 </ol>
 <h2 id="performance-considerations">Performance Considerations</h2>
@@ -1219,29 +1079,28 @@ Interface Definition See the PreReconciliationChecker interface definition in th
 <ul>
 <li><strong>Keep them fast</strong>: Avoid expensive operations when possible</li>
 <li><strong>Cache results</strong>: If appropriate, cache validation results</li>
-<li><strong>Minimize ARM calls</strong>: Use status/cache over live queries</li>
+<li><strong>Minimize ARM calls</strong>: Use status/cache over live queries (status is refreshed for you)</li>
 <li><strong>Fail fast</strong>: Return quickly when blocking</li>
 <li><strong>Be selective</strong>: Only check what&rsquo;s necessary</li>
 </ul>
 <h2 id="common-use-cases">Common Use Cases</h2>
 <ol>
-<li><strong>Owner/Parent Readiness</strong>: Most common - wait for parent to be ready</li>
 <li><strong>Reference Resolution</strong>: Ensure referenced resources exist and are ready</li>
 <li><strong>Ordering Dependencies</strong>: Ensure resources created in correct order</li>
-<li><strong>State Validation</strong>: Verify resource in appropriate state for updates</li>
-<li><strong>Quota/Limit Checks</strong>: Prevent operations that would exceed limits</li>
 <li><strong>External System Dependencies</strong>: Wait for external systems to be ready</li>
 </ol>
+<blockquote>
+<p><strong>Note:</strong> For owner/parent readiness checks, use <a href="/azure-service-operator/contributing/extension-points/pre-reconciliation-owner-checker/">PreReconciliationOwnerChecker</a> instead.</p>
+</blockquote>
 <h2 id="important-notes">Important Notes</h2>
 <ul>
 <li><strong>Call <code>next()</code> when checks pass</strong>: Allows for check chaining</li>
-<li><strong>Don&rsquo;t modify the resource</strong>: This is for validation only</li>
+<li><strong>Don&rsquo;t modify the resource</strong>: This extension is for validation only</li>
 <li><strong>Provide clear reasons</strong>: Blocking messages shown to users</li>
 <li><strong>Be idempotent</strong>: Checks may run many times</li>
-<li><strong>Use factory methods</strong>: Always uses the factory methods for <code>PreReconcileCheckResult</code> to ensure consistency</li>
-<li><strong>Handle nil owner</strong>: Owner can be nil for root resources</li>
 <li><strong>Use conditions package</strong>: For setting appropriate conditions</li>
 <li><strong>Log decisions</strong>: Help debugging by explaining why checks block</li>
+<li><strong>Use PreReconciliationOwnerChecker for owner checks</strong>: Owner validation should use a separate (dedicated) extension</li>
 </ul>
 <h2 id="related-extension-points">Related Extension Points</h2>
 <ul>
@@ -1255,7 +1114,7 @@ Interface Definition See the PreReconciliationChecker interface definition in th
 <li><strong>Appropriate blocking</strong>: Only block when reconciliation would fail</li>
 <li><strong>Consider performance</strong>: These run frequently</li>
 <li><strong>Use conditions</strong>: Set appropriate conditions when blocking</li>
-<li><strong>Handle edge cases</strong>: Nil owners, missing references, etc.</li>
+<li><strong>Handle edge cases</strong>: Missing references, invalid states, etc.</li>
 <li><strong>Test thoroughly</strong>: Cover all blocking scenarios</li>
 </ol>
 

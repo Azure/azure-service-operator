@@ -18,25 +18,25 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>PreReconciliationOwnerChecker | Azure Service Operator</title>
-<meta name="description" content="Description PreReconciliationOwnerChecker is a specialized variant of PreReconciliationChecker that validates only the owner’s state before reconciliation, without accessing the resource itself. This extension is invoked before any ARM operations, including GET requests on the resource being reconciled.
-The key difference from PreReconciliationChecker is that this extension avoids performing GET operations on the resource itself, only checking the parent/owner resource. This is critical for resources where the owner’s state can completely block access to the child resource.">
+<meta name="description" content="Description PreReconciliationOwnerChecker allows resources to perform owner validation or checks before ARM reconciliation begins. This extension is invoked before PreReconciliationChecker and before sending any requests to Azure, giving resources the ability to block reconciliation based solely on the owner’s state.
+If this extension blocks the reconcile, ASO won’t even attempt to GET the resource itself. This is critical for resources where the owner’s state can completely block access to the child resource.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/extension-points/pre-reconciliation-owner-checker/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="PreReconciliationOwnerChecker">
-  <meta property="og:description" content="Description PreReconciliationOwnerChecker is a specialized variant of PreReconciliationChecker that validates only the owner’s state before reconciliation, without accessing the resource itself. This extension is invoked before any ARM operations, including GET requests on the resource being reconciled.
-The key difference from PreReconciliationChecker is that this extension avoids performing GET operations on the resource itself, only checking the parent/owner resource. This is critical for resources where the owner’s state can completely block access to the child resource.">
+  <meta property="og:description" content="Description PreReconciliationOwnerChecker allows resources to perform owner validation or checks before ARM reconciliation begins. This extension is invoked before PreReconciliationChecker and before sending any requests to Azure, giving resources the ability to block reconciliation based solely on the owner’s state.
+If this extension blocks the reconcile, ASO won’t even attempt to GET the resource itself. This is critical for resources where the owner’s state can completely block access to the child resource.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="contributing">
 
   <meta itemprop="name" content="PreReconciliationOwnerChecker">
-  <meta itemprop="description" content="Description PreReconciliationOwnerChecker is a specialized variant of PreReconciliationChecker that validates only the owner’s state before reconciliation, without accessing the resource itself. This extension is invoked before any ARM operations, including GET requests on the resource being reconciled.
-The key difference from PreReconciliationChecker is that this extension avoids performing GET operations on the resource itself, only checking the parent/owner resource. This is critical for resources where the owner’s state can completely block access to the child resource.">
-  <meta itemprop="wordCount" content="913">
+  <meta itemprop="description" content="Description PreReconciliationOwnerChecker allows resources to perform owner validation or checks before ARM reconciliation begins. This extension is invoked before PreReconciliationChecker and before sending any requests to Azure, giving resources the ability to block reconciliation based solely on the owner’s state.
+If this extension blocks the reconcile, ASO won’t even attempt to GET the resource itself. This is critical for resources where the owner’s state can completely block access to the child resource.">
+  <meta itemprop="wordCount" content="1153">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PreReconciliationOwnerChecker">
-  <meta name="twitter:description" content="Description PreReconciliationOwnerChecker is a specialized variant of PreReconciliationChecker that validates only the owner’s state before reconciliation, without accessing the resource itself. This extension is invoked before any ARM operations, including GET requests on the resource being reconciled.
-The key difference from PreReconciliationChecker is that this extension avoids performing GET operations on the resource itself, only checking the parent/owner resource. This is critical for resources where the owner’s state can completely block access to the child resource.">
+  <meta name="twitter:description" content="Description PreReconciliationOwnerChecker allows resources to perform owner validation or checks before ARM reconciliation begins. This extension is invoked before PreReconciliationChecker and before sending any requests to Azure, giving resources the ability to block reconciliation based solely on the owner’s state.
+If this extension blocks the reconcile, ASO won’t even attempt to GET the resource itself. This is critical for resources where the owner’s state can completely block access to the child resource.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -948,10 +948,15 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 		
 </header>
 	<h2 id="description">Description</h2>
-<p><code>PreReconciliationOwnerChecker</code> is a specialized variant of <code>PreReconciliationChecker</code> that validates only the owner&rsquo;s state before reconciliation, without accessing the resource itself. This extension is invoked before any ARM operations, including GET requests on the resource being reconciled.</p>
-<p>The key difference from <code>PreReconciliationChecker</code> is that this extension <strong>avoids</strong> performing GET operations on the resource itself, only checking the parent/owner resource. This is critical for resources where the owner&rsquo;s state can completely block access to the child resource.</p>
+<p><code>PreReconciliationOwnerChecker</code> allows resources to perform <em>owner</em> validation or checks before ARM reconciliation begins. This extension is invoked <em>before</em> <code>PreReconciliationChecker</code> and before sending any requests to Azure, giving resources the ability to block reconciliation based solely on the owner&rsquo;s state.</p>
+<p>If this extension blocks the reconcile, ASO won&rsquo;t even attempt to GET the resource itself. This is critical for resources where the owner&rsquo;s state can completely block access to the child resource.</p>
 <h2 id="interface-definition">Interface Definition</h2>
 <p>See the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/prereconciliation_owner_checker.go">PreReconciliationOwnerChecker interface definition</a> in the source code.</p>
+<p><strong>Key characteristics:</strong></p>
+<ul>
+<li>The <code>owner</code> parameter is <strong>guaranteed to be non-nil</strong> - the extension is not called if there is no owner</li>
+<li>The owner&rsquo;s status is <strong>freshly updated from Azure</strong> before the check is called (a GET is issued on the owner), ensuring you always have up-to-date owner state to make decisions</li>
+</ul>
 <h2 id="motivation">Motivation</h2>
 <p>The <code>PreReconciliationOwnerChecker</code> extension exists to handle a specific class of Azure resources where:</p>
 <ol>
@@ -960,14 +965,11 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 <li><strong>Avoid wasted API calls</strong>: Attempting to GET or PUT a child when the owner blocks access wastes API quota and generates errors</li>
 <li><strong>Owner-dependent access</strong>: Some Azure services completely shut down child resources when the parent is in maintenance, updating, or powered-off states</li>
 </ol>
-<p>The most notable example is <strong>Azure Data Explorer (Kusto)</strong>, where you cannot even GET a database when the cluster is powered off or updating. Without this extension, the controller would repeatedly attempt to access the database, failing each time and consuming request quota.</p>
+<p>The most notable example is <strong>Azure Data Explorer (Kusto)</strong>, where you cannot even GET a database when the cluster is powered off or updating. Without this extension, the controller would repeatedly attempt to access the database, failing each time, consuming request quota, and filling ASO logs with errors.</p>
 <h2 id="when-to-use">When to Use</h2>
 <p>Implement <code>PreReconciliationOwnerChecker</code> when:</p>
 <ul>
-<li>✅ The owner&rsquo;s state can block <strong>all</strong> access to the child resource, including GET operations</li>
-<li>✅ You need to avoid GET requests on the resource itself</li>
-<li>✅ The parent resource has states that completely prevent child access (powered off, updating, locked)</li>
-<li>✅ Attempting operations when the owner is in certain states always fails</li>
+<li>✅ The owner&rsquo;s state can block child resource operations, causing them to fail</li>
 <li>✅ You want to avoid wasting API quota on operations that will definitely fail</li>
 </ul>
 <p>Do <strong>not</strong> use <code>PreReconciliationOwnerChecker</code> when:</p>
@@ -978,55 +980,50 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 <li>❌ The check can be done after retrieving the resource</li>
 </ul>
 <h2 id="prereconciliationownerchecker-vs-prereconciliationchecker">PreReconciliationOwnerChecker vs PreReconciliationChecker</h2>
-<p>Understanding the difference is critical:</p>
-<table>
-  <thead>
-      <tr>
-          <th>Aspect</th>
-          <th>PreReconciliationOwnerChecker</th>
-          <th>PreReconciliationChecker</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>When invoked</strong></td>
-          <td>Before any ARM calls, including GET</td>
-          <td>After GET, before PUT/PATCH</td>
-      </tr>
-      <tr>
-          <td><strong>Resource access</strong></td>
-          <td>No - only owner checked</td>
-          <td>Yes - fresh resource status available</td>
-      </tr>
-      <tr>
-          <td><strong>Use case</strong></td>
-          <td>Owner blocks all access</td>
-          <td>Validation based on current state</td>
-      </tr>
-      <tr>
-          <td><strong>GET avoidance</strong></td>
-          <td>Yes - no GET performed</td>
-          <td>No - GET already performed</td>
-      </tr>
-      <tr>
-          <td><strong>Parameters</strong></td>
-          <td>Only <code>owner</code></td>
-          <td>Both <code>obj</code> and <code>owner</code></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>Rule of thumb:</strong> If you can GET the resource to check its state, use <code>PreReconciliationChecker</code>. If even GET fails when the owner is in certain states, use <code>PreReconciliationOwnerChecker</code>.</p>
+<p>These two extension points are similar, as each allows an advance check to block reconciliation attempts that are doomed to fail. However, they differ in <strong>when</strong> they are invoked and <strong>what information</strong> is available to make the decision. <code>PreReconciliationOwnerChecker</code> runs earlier and only has access to the owner, while <code>PreReconciliationChecker</code> runs later and has access to the resource itself.</p>
+<p>Assuming both extensions are implemented, the reconciliation flow is:</p>
+<ol>
+<li>GET updated owner status from Azure</li>
+<li>Invoke <code>PreReconciliationOwnerChecker</code> to check whether reconcile should proceed based on owner state</li>
+<li>If allowed, GET the resource from Azure</li>
+<li>Invoke <code>PreReconciliationChecker</code> to check whether reconcile should proceed based on resource state</li>
+<li>If allowed, continue with PUT/PATCH/DELETE as needed</li>
+</ol>
 <h2 id="example-kusto-database-owner-state-check">Example: Kusto Database Owner State Check</h2>
 <p><strong>Problem:</strong> Kusto databases cannot be accessed <em>at all</em> when the cluster is stopped or updating.</p>
 <p><strong>Solution:</strong> Check cluster state before attempting any database operations.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Block on: Creating, Updating, Deleting, Stopped, Stopping</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Allow on: Running, Succeeded</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ext</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">DatabaseExtension</span>) <span style="color:#a6e22e">PreReconcileOwnerCheck</span>(
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">armClient_</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileOwnerCheckFunc</span>,
+</span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// Check to see if the owning cluster is in a state that will block us from reconciling</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cluster</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">owner</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">kusto</span>.<span style="color:#a6e22e">Cluster</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// If our owning *cluster* is in a state that will reject any PUT, then we should skip</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// reconciliation of the database as there&#39;s no point in even trying.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// One way this can happen is when we reconcile the cluster, putting it into an `Updating`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// state for a period. While it&#39;s in that state, we can&#39;t even try to reconcile the database as</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// the operation will fail with a `Conflict` error.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Checking the state of our owning cluster allows us to &#34;play nice with others&#34; and not use up</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// request quota attempting to make changes when we already know those attempts will fail.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">state</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">ProvisioningState</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">state</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">clusterProvisioningStateBlocksReconciliation</span>(<span style="color:#a6e22e">state</span>) {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">BlockReconcile</span>(
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Owning cluster is in provisioning state %q&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">state</span>)),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">next</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">owner</span>, <span style="color:#a6e22e">resourceResolver</span>, <span style="color:#a6e22e">armClient_</span>, <span style="color:#a6e22e">log</span>)
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>See the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/kusto/customizations/database_extensions.go">full implementation in database_extensions.go</a>.</p>
 <p><strong>Key aspects of this implementation:</strong></p>
 <ol>
 <li><strong>Owner type assertion</strong>: Checks if owner is a Kusto Cluster</li>
-<li><strong>Nil handling</strong>: Gracefully handles nil owner (ARM ID references)</li>
-<li><strong>State checking</strong>: Examines cluster&rsquo;s provisioning state</li>
+<li><strong>State checking</strong>: Examines cluster&rsquo;s provisioning state (always up-to-date from Azure)</li>
 <li><strong>Clear blocking messages</strong>: Provides specific reason for blocking</li>
 <li><strong>Helper function</strong>: Encapsulates state-checking logic</li>
 <li><strong>Calls next</strong>: Proceeds when cluster is in acceptable state</li>
@@ -1037,17 +1034,20 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ProceedWithReconcile</span>(), <span style="color:#66d9ef">nil</span>
 </span></span></code></pre></div><ul>
 <li>Owner state permits reconciliation</li>
-<li>Reconciliation will continue (GET will be attempted)</li>
+<li>Reconciliation will continue (GET will be attempted on the resource)</li>
 <li>Normal reconciliation flow proceeds</li>
 </ul>
 <h3 id="block">Block</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">BlockReconcile</span>(<span style="color:#e6db74">&#34;parent is updating&#34;</span>), <span style="color:#66d9ef">nil</span>
 </span></span></code></pre></div><ul>
 <li>Owner state blocks reconciliation</li>
-<li>No GET or other operations attempted on the resource</li>
+<li>No GET or other operations attempted on the child resource</li>
 <li>Resource requeued to try again later</li>
 <li>Condition set with the blocking reason</li>
 </ul>
+<blockquote>
+<p><strong>Note:</strong> The owner itself has already been fetched from Azure before this check runs, ensuring the state you&rsquo;re checking is current.</p>
+</blockquote>
 <h3 id="error">Error</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PreReconcileCheckResult</span>{}, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;check failed: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
 </span></span></code></pre></div><ul>
@@ -1059,7 +1059,8 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 <p>Understanding where this fits in the reconciliation process:</p>
 <ol>
 <li><strong>Resource needs reconciliation</strong>: Controller picks up resource</li>
-<li><strong>Owner resolution</strong>: Owner resource identified and fetched</li>
+<li><strong>Owner resolution</strong>: Owner resource identified from Kubernetes</li>
+<li><strong>Owner refresh</strong>: GET issued to Azure to refresh owner status <strong>← Fresh state guaranteed</strong></li>
 <li><strong>PreReconciliationOwnerChecker invoked</strong>: Extension checks owner state <strong>← YOU ARE HERE</strong></li>
 <li><strong>Decision point</strong>:
 <ul>
@@ -1074,18 +1075,21 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 <h2 id="testing">Testing</h2>
 <p>When testing <code>PreReconciliationOwnerChecker</code> extensions:</p>
 <ol>
-<li><strong>Test with nil owner</strong>: Verify handling when owner is nil</li>
 <li><strong>Test with wrong owner type</strong>: Verify graceful handling</li>
 <li><strong>Test blocking states</strong>: Cover all states that should block</li>
 <li><strong>Test proceed states</strong>: Verify reconciliation proceeds when appropriate</li>
 <li><strong>Test error handling</strong>: Verify proper error returns</li>
 </ol>
+<blockquote>
+<p><strong>Note:</strong> You don&rsquo;t need to test with nil owner - the extension is never called when the owner is nil.</p>
+</blockquote>
 <h2 id="important-notes">Important Notes</h2>
 <ul>
 <li><strong>No resource access</strong>: You do <strong>not</strong> receive the resource being reconciled</li>
 <li><strong>Owner only</strong>: Make decisions based solely on owner state</li>
 <li><strong>Earlier in flow</strong>: Runs before GET, unlike PreReconciliationChecker</li>
-<li><strong>Nil owner</strong>: Always handle the nil owner case gracefully</li>
+<li><strong>Owner guaranteed non-nil</strong>: The extension is not called when there is no owner</li>
+<li><strong>Fresh owner state</strong>: Owner is fetched from Azure before check runs</li>
 <li><strong>Type assertions</strong>: Verify owner is expected type before accessing fields</li>
 <li><strong>Call next()</strong>: Call the next checker in the chain when checks pass</li>
 <li><strong>Clear reasons</strong>: Provide helpful blocking messages for users</li>
@@ -1093,13 +1097,11 @@ The key difference from PreReconciliationChecker is that this extension avoids p
 </ul>
 <h2 id="related-extension-points">Related Extension Points</h2>
 <ul>
-<li><a href="/azure-service-operator/contributing/extension-points/pre-reconciliation-checker/">PreReconciliationChecker</a>: Check resource state (use this unless you need owner-only checks)</li>
+<li><a href="/azure-service-operator/contributing/extension-points/pre-reconciliation-checker/">PreReconciliationChecker</a>: Check resource state</li>
 <li><a href="/azure-service-operator/contributing/extension-points/post-reconciliation-checker/">PostReconciliationChecker</a>: Validate after reconciliation</li>
 </ul>
 <h2 id="best-practices">Best Practices</h2>
 <ol>
-<li><strong>Prefer PreReconciliationChecker</strong>: Use this only when necessary</li>
-<li><strong>Handle nil owner</strong>: Always check for nil before dereferencing</li>
 <li><strong>Type assert safely</strong>: Verify owner type before accessing fields</li>
 <li><strong>Document blocking states</strong>: Comment which states block and why</li>
 <li><strong>Use helper functions</strong>: Encapsulate state-checking logic</li>
