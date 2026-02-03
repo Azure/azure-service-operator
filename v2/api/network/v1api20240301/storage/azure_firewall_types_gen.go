@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.AzureFirewall
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/azureFirewall.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/azureFirewall.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}
 type AzureFirewall struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (firewall *AzureFirewall) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.AzureFirewall
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/azureFirewall.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/azureFirewall.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}
 type AzureFirewallList struct {
 	metav1.TypeMeta `json:",inline"`

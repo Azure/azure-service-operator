@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_QueueServicePropertiesProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of QueueServicePropertiesProperties_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQueueServicePropertiesProperties_STATUS, QueueServicePropertiesProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForQueueServicePropertiesProperties_STATUS runs a test to see if a specific instance of QueueServicePropertiesProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForQueueServicePropertiesProperties_STATUS(subject QueueServicePropertiesProperties_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual QueueServicePropertiesProperties_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of QueueServicePropertiesProperties_STATUS instances for property testing - lazily instantiated by
+// QueueServicePropertiesProperties_STATUSGenerator()
+var queueServicePropertiesProperties_STATUSGenerator gopter.Gen
+
+// QueueServicePropertiesProperties_STATUSGenerator returns a generator of QueueServicePropertiesProperties_STATUS instances for property testing.
+func QueueServicePropertiesProperties_STATUSGenerator() gopter.Gen {
+	if queueServicePropertiesProperties_STATUSGenerator != nil {
+		return queueServicePropertiesProperties_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForQueueServicePropertiesProperties_STATUS(generators)
+	queueServicePropertiesProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(QueueServicePropertiesProperties_STATUS{}), generators)
+
+	return queueServicePropertiesProperties_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForQueueServicePropertiesProperties_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQueueServicePropertiesProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
+}
+
 func Test_StorageAccountsQueueService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -91,66 +152,6 @@ func AddIndependentPropertyGeneratorsForStorageAccountsQueueService_STATUS(gens 
 
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueService_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueService_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccounts_QueueService_Properties_STATUSGenerator())
-}
-
-func Test_StorageAccounts_QueueService_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_QueueService_Properties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_QueueService_Properties_STATUS, StorageAccounts_QueueService_Properties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_QueueService_Properties_STATUS runs a test to see if a specific instance of StorageAccounts_QueueService_Properties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_QueueService_Properties_STATUS(subject StorageAccounts_QueueService_Properties_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_QueueService_Properties_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_QueueService_Properties_STATUS instances for property testing - lazily instantiated by
-// StorageAccounts_QueueService_Properties_STATUSGenerator()
-var storageAccounts_QueueService_Properties_STATUSGenerator gopter.Gen
-
-// StorageAccounts_QueueService_Properties_STATUSGenerator returns a generator of StorageAccounts_QueueService_Properties_STATUS instances for property testing.
-func StorageAccounts_QueueService_Properties_STATUSGenerator() gopter.Gen {
-	if storageAccounts_QueueService_Properties_STATUSGenerator != nil {
-		return storageAccounts_QueueService_Properties_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccounts_QueueService_Properties_STATUS(generators)
-	storageAccounts_QueueService_Properties_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_QueueService_Properties_STATUS{}), generators)
-
-	return storageAccounts_QueueService_Properties_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_QueueService_Properties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_QueueService_Properties_STATUS(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
+	gens["Properties"] = gen.PtrOf(QueueServicePropertiesProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

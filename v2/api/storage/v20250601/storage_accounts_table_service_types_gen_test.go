@@ -379,6 +379,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsTableService_STATUS(gens 
 // AddRelatedPropertyGeneratorsForStorageAccountsTableService_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsTableService_STATUS(gens map[string]gopter.Gen) {
 	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_StorageAccountsTableService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -162,7 +162,7 @@ func BatchAccountCreatePropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountCreateProperties(gens map[string]gopter.Gen) {
 	gens["AllowedAuthenticationModes"] = gen.SliceOf(gen.OneConstOf(AuthenticationMode_AAD, AuthenticationMode_SharedKey, AuthenticationMode_TaskAuthenticationToken))
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled, PublicNetworkAccessType_SecuredByPerimeter))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreateProperties_PublicNetworkAccess_Disabled, BatchAccountCreateProperties_PublicNetworkAccess_Enabled, BatchAccountCreateProperties_PublicNetworkAccess_SecuredByPerimeter))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountCreateProperties is a factory method for creating gopter generators
@@ -240,7 +240,7 @@ func BatchAccountIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_None, BatchAccountIdentity_Type_SystemAssigned, BatchAccountIdentity_Type_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ResourceIdentityType_None, ResourceIdentityType_SystemAssigned, ResourceIdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity is a factory method for creating gopter generators
@@ -457,7 +457,7 @@ func EncryptionPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperties(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_MicrosoftBatch, EncryptionProperties_KeySource_MicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(KeySource_MicrosoftBatch, KeySource_MicrosoftKeyVault))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperties is a factory method for creating gopter generators
@@ -532,7 +532,7 @@ func EndpointAccessProfileGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEndpointAccessProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEndpointAccessProfile(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(EndpointAccessProfile_DefaultAction_Allow, EndpointAccessProfile_DefaultAction_Deny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(EndpointAccessDefaultAction_Allow, EndpointAccessDefaultAction_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForEndpointAccessProfile is a factory method for creating gopter generators
@@ -597,7 +597,7 @@ func IPRuleGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIPRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRule(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRule_Action_Allow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleAction_Allow))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

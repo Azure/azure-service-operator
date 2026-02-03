@@ -371,7 +371,7 @@ func FlexibleServersVirtualEndpoint_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointType_STATUS_ReadWrite))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Members"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -494,7 +494,7 @@ func FlexibleServersVirtualEndpoint_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointResourceProperties_EndpointType_ReadWrite))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointType_ReadWrite))
 	gens["Members"] = gen.SliceOf(gen.AlphaString())
 }
 

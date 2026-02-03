@@ -240,9 +240,6 @@ import (
 	insights_v20230601 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601"
 	insights_v20230601s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/storage"
 	insights_v20230601w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/webhook"
-	insights_v20240101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview"
-	insights_v20240101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/storage"
-	insights_v20240101pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/webhook"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
@@ -4540,12 +4537,6 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20230601s.Workbook)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(insights_v20240101p.ScheduledQueryRule),
-		Defaulter: &insights_v20240101pw.ScheduledQueryRule{},
-		Validator: &insights_v20240101pw.ScheduledQueryRule{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(insights_v20240101ps.ScheduledQueryRule)})
-	result = append(result, &registration.KnownType{
 		Obj:       new(keyvault_v20210401p.Vault),
 		Defaulter: &keyvault_v20210401pw.Vault{},
 		Validator: &keyvault_v20210401pw.Vault{},
@@ -6052,8 +6043,6 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20230311s.AddToScheme(scheme)
 	_ = insights_v20230601.AddToScheme(scheme)
 	_ = insights_v20230601s.AddToScheme(scheme)
-	_ = insights_v20240101p.AddToScheme(scheme)
-	_ = insights_v20240101ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
 	_ = keyvault_v20230701.AddToScheme(scheme)

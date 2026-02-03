@@ -65,7 +65,7 @@ type ServerProperties struct {
 	Cluster *Cluster `json:"cluster,omitempty"`
 
 	// CreateMode: Creation mode of a new server.
-	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *CreateMode `json:"createMode,omitempty"`
 
 	// DataEncryption: Data encryption properties of a server.
 	DataEncryption *DataEncryption `json:"dataEncryption,omitempty"`
@@ -99,7 +99,7 @@ type ServerProperties struct {
 	Storage *Storage `json:"storage,omitempty"`
 
 	// Version: Major version of PostgreSQL database engine.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *PostgresMajorVersion `json:"version,omitempty"`
 }
 
 // Compute information of a server.
@@ -108,7 +108,7 @@ type Sku struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: Tier of the compute assigned to a server.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Tier *SkuTier `json:"tier,omitempty"`
 }
 
 // Identities associated with a server.
@@ -117,14 +117,14 @@ type UserAssignedIdentity struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	// Type: Types of identities associated with a server.
-	Type                   *UserAssignedIdentity_Type             `json:"type,omitempty"`
+	Type                   *IdentityType                          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Authentication configuration properties of a server.
 type AuthConfig struct {
 	// ActiveDirectoryAuth: Indicates if the server supports Microsoft Entra authentication.
-	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth `json:"activeDirectoryAuth,omitempty"`
+	ActiveDirectoryAuth *MicrosoftEntraAuth `json:"activeDirectoryAuth,omitempty"`
 
 	// PasswordAuth: Indicates if the server supports password based authentication.
 	PasswordAuth *AuthConfig_PasswordAuth `json:"passwordAuth,omitempty"`
@@ -151,13 +151,33 @@ type Cluster struct {
 	DefaultDatabaseName *string `json:"defaultDatabaseName,omitempty"`
 }
 
+// Creation mode of a new server.
+// +kubebuilder:validation:Enum={"Create","Default","GeoRestore","PointInTimeRestore","Replica","ReviveDropped","Update"}
+type CreateMode string
+
+const (
+	CreateMode_Create             = CreateMode("Create")
+	CreateMode_Default            = CreateMode("Default")
+	CreateMode_GeoRestore         = CreateMode("GeoRestore")
+	CreateMode_PointInTimeRestore = CreateMode("PointInTimeRestore")
+	CreateMode_Replica            = CreateMode("Replica")
+	CreateMode_ReviveDropped      = CreateMode("ReviveDropped")
+	CreateMode_Update             = CreateMode("Update")
+)
+
+// Mapping from string to CreateMode
+var createMode_Values = map[string]CreateMode{
+	"create":             CreateMode_Create,
+	"default":            CreateMode_Default,
+	"georestore":         CreateMode_GeoRestore,
+	"pointintimerestore": CreateMode_PointInTimeRestore,
+	"replica":            CreateMode_Replica,
+	"revivedropped":      CreateMode_ReviveDropped,
+	"update":             CreateMode_Update,
+}
+
 // Data encryption properties of a server.
 type DataEncryption struct {
-	// GeoBackupEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
-	// key, to encrypt the geographically redundant storage associated to the server when it is configured to support
-	// geographically redundant backups.
-	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus `json:"geoBackupEncryptionKeyStatus,omitempty"`
-
 	// GeoBackupKeyURI: Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data
 	// encryption of the geographically redundant storage associated to a server that is configured to support geographically
 	// redundant backups.
@@ -168,10 +188,6 @@ type DataEncryption struct {
 	// geographically redundant backups.
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
-	// PrimaryEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
-	// key, to encrypt the primary storage associated to the server.
-	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus `json:"primaryEncryptionKeyStatus,omitempty"`
-
 	// PrimaryKeyURI: URI of the key in Azure Key Vault used for data encryption of the primary storage associated to a server.
 	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 
@@ -180,7 +196,7 @@ type DataEncryption struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type used by a server.
-	Type *DataEncryption_Type `json:"type,omitempty"`
+	Type *DataEncryptionType `json:"type,omitempty"`
 }
 
 // High availability properties of a server.
@@ -191,6 +207,25 @@ type HighAvailability struct {
 	// StandbyAvailabilityZone: Availability zone associated to the standby server created when high availability is set to
 	// SameZone or ZoneRedundant.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+}
+
+// Types of identities associated with a server.
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
+type IdentityType string
+
+const (
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
+)
+
+// Mapping from string to IdentityType
+var identityType_Values = map[string]IdentityType{
+	"none":                        IdentityType_None,
+	"systemassigned":              IdentityType_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_UserAssigned,
 }
 
 // Maintenance window properties of a server.
@@ -222,7 +257,34 @@ type Network struct {
 
 	// PublicNetworkAccess: Indicates if public network access is enabled or not. This is only supported for servers that are
 	// not integrated into a virtual network which is owned and provided by customer when server is deployed.
-	PublicNetworkAccess *Network_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerPublicNetworkAccessState `json:"publicNetworkAccess,omitempty"`
+}
+
+// Major version of PostgreSQL database engine.
+// +kubebuilder:validation:Enum={"11","12","13","14","15","16","17","18"}
+type PostgresMajorVersion string
+
+const (
+	PostgresMajorVersion_11 = PostgresMajorVersion("11")
+	PostgresMajorVersion_12 = PostgresMajorVersion("12")
+	PostgresMajorVersion_13 = PostgresMajorVersion("13")
+	PostgresMajorVersion_14 = PostgresMajorVersion("14")
+	PostgresMajorVersion_15 = PostgresMajorVersion("15")
+	PostgresMajorVersion_16 = PostgresMajorVersion("16")
+	PostgresMajorVersion_17 = PostgresMajorVersion("17")
+	PostgresMajorVersion_18 = PostgresMajorVersion("18")
+)
+
+// Mapping from string to PostgresMajorVersion
+var postgresMajorVersion_Values = map[string]PostgresMajorVersion{
+	"11": PostgresMajorVersion_11,
+	"12": PostgresMajorVersion_12,
+	"13": PostgresMajorVersion_13,
+	"14": PostgresMajorVersion_14,
+	"15": PostgresMajorVersion_15,
+	"16": PostgresMajorVersion_16,
+	"17": PostgresMajorVersion_17,
+	"18": PostgresMajorVersion_18,
 }
 
 // Replica properties of a server.
@@ -230,11 +292,11 @@ type Replica struct {
 	// PromoteMode: Type of operation to apply on the read replica. This property is write only. Standalone means that the read
 	// replica will be promoted to a standalone server, and will become a completely independent entity from the replication
 	// set. Switchover means that the read replica will roles with the primary server.
-	PromoteMode *Replica_PromoteMode `json:"promoteMode,omitempty"`
+	PromoteMode *ReadReplicaPromoteMode `json:"promoteMode,omitempty"`
 
 	// PromoteOption: Data synchronization option to use when processing the operation specified in the promoteMode property.
 	// This property is write only.
-	PromoteOption *Replica_PromoteOption `json:"promoteOption,omitempty"`
+	PromoteOption *ReadReplicaPromoteOption `json:"promoteOption,omitempty"`
 
 	// Role: Role of the server in a replication set.
 	Role *ReplicationRole `json:"role,omitempty"`
@@ -259,78 +321,28 @@ var replicationRole_Values = map[string]ReplicationRole{
 	"primary":         ReplicationRole_Primary,
 }
 
-// +kubebuilder:validation:Enum={"Create","Default","GeoRestore","PointInTimeRestore","Replica","ReviveDropped","Update"}
-type ServerProperties_CreateMode string
-
-const (
-	ServerProperties_CreateMode_Create             = ServerProperties_CreateMode("Create")
-	ServerProperties_CreateMode_Default            = ServerProperties_CreateMode("Default")
-	ServerProperties_CreateMode_GeoRestore         = ServerProperties_CreateMode("GeoRestore")
-	ServerProperties_CreateMode_PointInTimeRestore = ServerProperties_CreateMode("PointInTimeRestore")
-	ServerProperties_CreateMode_Replica            = ServerProperties_CreateMode("Replica")
-	ServerProperties_CreateMode_ReviveDropped      = ServerProperties_CreateMode("ReviveDropped")
-	ServerProperties_CreateMode_Update             = ServerProperties_CreateMode("Update")
-)
-
-// Mapping from string to ServerProperties_CreateMode
-var serverProperties_CreateMode_Values = map[string]ServerProperties_CreateMode{
-	"create":             ServerProperties_CreateMode_Create,
-	"default":            ServerProperties_CreateMode_Default,
-	"georestore":         ServerProperties_CreateMode_GeoRestore,
-	"pointintimerestore": ServerProperties_CreateMode_PointInTimeRestore,
-	"replica":            ServerProperties_CreateMode_Replica,
-	"revivedropped":      ServerProperties_CreateMode_ReviveDropped,
-	"update":             ServerProperties_CreateMode_Update,
-}
-
-// Major version of PostgreSQL database engine.
-// +kubebuilder:validation:Enum={"11","12","13","14","15","16","17","18"}
-type ServerVersion string
-
-const (
-	ServerVersion_11 = ServerVersion("11")
-	ServerVersion_12 = ServerVersion("12")
-	ServerVersion_13 = ServerVersion("13")
-	ServerVersion_14 = ServerVersion("14")
-	ServerVersion_15 = ServerVersion("15")
-	ServerVersion_16 = ServerVersion("16")
-	ServerVersion_17 = ServerVersion("17")
-	ServerVersion_18 = ServerVersion("18")
-)
-
-// Mapping from string to ServerVersion
-var serverVersion_Values = map[string]ServerVersion{
-	"11": ServerVersion_11,
-	"12": ServerVersion_12,
-	"13": ServerVersion_13,
-	"14": ServerVersion_14,
-	"15": ServerVersion_15,
-	"16": ServerVersion_16,
-	"17": ServerVersion_17,
-	"18": ServerVersion_18,
-}
-
+// Tier of the compute assigned to a server.
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
-type Sku_Tier string
+type SkuTier string
 
 const (
-	Sku_Tier_Burstable       = Sku_Tier("Burstable")
-	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
+	SkuTier_Burstable       = SkuTier("Burstable")
+	SkuTier_GeneralPurpose  = SkuTier("GeneralPurpose")
+	SkuTier_MemoryOptimized = SkuTier("MemoryOptimized")
 )
 
-// Mapping from string to Sku_Tier
-var sku_Tier_Values = map[string]Sku_Tier{
-	"burstable":       Sku_Tier_Burstable,
-	"generalpurpose":  Sku_Tier_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_MemoryOptimized,
+// Mapping from string to SkuTier
+var skuTier_Values = map[string]SkuTier{
+	"burstable":       SkuTier_Burstable,
+	"generalpurpose":  SkuTier_GeneralPurpose,
+	"memoryoptimized": SkuTier_MemoryOptimized,
 }
 
 // Storage properties of a server.
 type Storage struct {
 	// AutoGrow: Flag to enable or disable the automatic growth of storage size of a server when available space is nearing
 	// zero and conditions allow for automatically growing storage size.
-	AutoGrow *Storage_AutoGrow `json:"autoGrow,omitempty"`
+	AutoGrow *StorageAutoGrow `json:"autoGrow,omitempty"`
 
 	// Iops: Maximum IOPS supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS.
 	Iops *int `json:"iops,omitempty"`
@@ -342,47 +354,15 @@ type Storage struct {
 	Throughput *int `json:"throughput,omitempty"`
 
 	// Tier: Storage tier of a server.
-	Tier *Storage_Tier `json:"tier,omitempty"`
+	Tier *AzureManagedDiskPerformanceTier `json:"tier,omitempty"`
 
 	// Type: Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not
 	// specified, it defaults to Premium_LRS.
-	Type *Storage_Type `json:"type,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type UserAssignedIdentity_Type string
-
-const (
-	UserAssignedIdentity_Type_None                       = UserAssignedIdentity_Type("None")
-	UserAssignedIdentity_Type_SystemAssigned             = UserAssignedIdentity_Type("SystemAssigned")
-	UserAssignedIdentity_Type_SystemAssignedUserAssigned = UserAssignedIdentity_Type("SystemAssigned,UserAssigned")
-	UserAssignedIdentity_Type_UserAssigned               = UserAssignedIdentity_Type("UserAssigned")
-)
-
-// Mapping from string to UserAssignedIdentity_Type
-var userAssignedIdentity_Type_Values = map[string]UserAssignedIdentity_Type{
-	"none":                        UserAssignedIdentity_Type_None,
-	"systemassigned":              UserAssignedIdentity_Type_SystemAssigned,
-	"systemassigned,userassigned": UserAssignedIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                UserAssignedIdentity_Type_UserAssigned,
+	Type *StorageType `json:"type,omitempty"`
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type AuthConfig_ActiveDirectoryAuth string
-
-const (
-	AuthConfig_ActiveDirectoryAuth_Disabled = AuthConfig_ActiveDirectoryAuth("Disabled")
-	AuthConfig_ActiveDirectoryAuth_Enabled  = AuthConfig_ActiveDirectoryAuth("Enabled")
-)
-
-// Mapping from string to AuthConfig_ActiveDirectoryAuth
-var authConfig_ActiveDirectoryAuth_Values = map[string]AuthConfig_ActiveDirectoryAuth{
-	"disabled": AuthConfig_ActiveDirectoryAuth_Disabled,
-	"enabled":  AuthConfig_ActiveDirectoryAuth_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
@@ -399,6 +379,45 @@ var authConfig_PasswordAuth_Values = map[string]AuthConfig_PasswordAuth{
 	"enabled":  AuthConfig_PasswordAuth_Enabled,
 }
 
+// Storage tier of a server.
+// +kubebuilder:validation:Enum={"P1","P10","P15","P2","P20","P3","P30","P4","P40","P50","P6","P60","P70","P80"}
+type AzureManagedDiskPerformanceTier string
+
+const (
+	AzureManagedDiskPerformanceTier_P1  = AzureManagedDiskPerformanceTier("P1")
+	AzureManagedDiskPerformanceTier_P10 = AzureManagedDiskPerformanceTier("P10")
+	AzureManagedDiskPerformanceTier_P15 = AzureManagedDiskPerformanceTier("P15")
+	AzureManagedDiskPerformanceTier_P2  = AzureManagedDiskPerformanceTier("P2")
+	AzureManagedDiskPerformanceTier_P20 = AzureManagedDiskPerformanceTier("P20")
+	AzureManagedDiskPerformanceTier_P3  = AzureManagedDiskPerformanceTier("P3")
+	AzureManagedDiskPerformanceTier_P30 = AzureManagedDiskPerformanceTier("P30")
+	AzureManagedDiskPerformanceTier_P4  = AzureManagedDiskPerformanceTier("P4")
+	AzureManagedDiskPerformanceTier_P40 = AzureManagedDiskPerformanceTier("P40")
+	AzureManagedDiskPerformanceTier_P50 = AzureManagedDiskPerformanceTier("P50")
+	AzureManagedDiskPerformanceTier_P6  = AzureManagedDiskPerformanceTier("P6")
+	AzureManagedDiskPerformanceTier_P60 = AzureManagedDiskPerformanceTier("P60")
+	AzureManagedDiskPerformanceTier_P70 = AzureManagedDiskPerformanceTier("P70")
+	AzureManagedDiskPerformanceTier_P80 = AzureManagedDiskPerformanceTier("P80")
+)
+
+// Mapping from string to AzureManagedDiskPerformanceTier
+var azureManagedDiskPerformanceTier_Values = map[string]AzureManagedDiskPerformanceTier{
+	"p1":  AzureManagedDiskPerformanceTier_P1,
+	"p10": AzureManagedDiskPerformanceTier_P10,
+	"p15": AzureManagedDiskPerformanceTier_P15,
+	"p2":  AzureManagedDiskPerformanceTier_P2,
+	"p20": AzureManagedDiskPerformanceTier_P20,
+	"p3":  AzureManagedDiskPerformanceTier_P3,
+	"p30": AzureManagedDiskPerformanceTier_P30,
+	"p4":  AzureManagedDiskPerformanceTier_P4,
+	"p40": AzureManagedDiskPerformanceTier_P40,
+	"p50": AzureManagedDiskPerformanceTier_P50,
+	"p6":  AzureManagedDiskPerformanceTier_P6,
+	"p60": AzureManagedDiskPerformanceTier_P60,
+	"p70": AzureManagedDiskPerformanceTier_P70,
+	"p80": AzureManagedDiskPerformanceTier_P80,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type Backup_GeoRedundantBackup string
 
@@ -413,46 +432,19 @@ var backup_GeoRedundantBackup_Values = map[string]Backup_GeoRedundantBackup{
 	"enabled":  Backup_GeoRedundantBackup_Enabled,
 }
 
-// +kubebuilder:validation:Enum={"Invalid","Valid"}
-type DataEncryption_GeoBackupEncryptionKeyStatus string
-
-const (
-	DataEncryption_GeoBackupEncryptionKeyStatus_Invalid = DataEncryption_GeoBackupEncryptionKeyStatus("Invalid")
-	DataEncryption_GeoBackupEncryptionKeyStatus_Valid   = DataEncryption_GeoBackupEncryptionKeyStatus("Valid")
-)
-
-// Mapping from string to DataEncryption_GeoBackupEncryptionKeyStatus
-var dataEncryption_GeoBackupEncryptionKeyStatus_Values = map[string]DataEncryption_GeoBackupEncryptionKeyStatus{
-	"invalid": DataEncryption_GeoBackupEncryptionKeyStatus_Invalid,
-	"valid":   DataEncryption_GeoBackupEncryptionKeyStatus_Valid,
-}
-
-// +kubebuilder:validation:Enum={"Invalid","Valid"}
-type DataEncryption_PrimaryEncryptionKeyStatus string
-
-const (
-	DataEncryption_PrimaryEncryptionKeyStatus_Invalid = DataEncryption_PrimaryEncryptionKeyStatus("Invalid")
-	DataEncryption_PrimaryEncryptionKeyStatus_Valid   = DataEncryption_PrimaryEncryptionKeyStatus("Valid")
-)
-
-// Mapping from string to DataEncryption_PrimaryEncryptionKeyStatus
-var dataEncryption_PrimaryEncryptionKeyStatus_Values = map[string]DataEncryption_PrimaryEncryptionKeyStatus{
-	"invalid": DataEncryption_PrimaryEncryptionKeyStatus_Invalid,
-	"valid":   DataEncryption_PrimaryEncryptionKeyStatus_Valid,
-}
-
+// Data encryption type used by a server.
 // +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
-type DataEncryption_Type string
+type DataEncryptionType string
 
 const (
-	DataEncryption_Type_AzureKeyVault = DataEncryption_Type("AzureKeyVault")
-	DataEncryption_Type_SystemManaged = DataEncryption_Type("SystemManaged")
+	DataEncryptionType_AzureKeyVault = DataEncryptionType("AzureKeyVault")
+	DataEncryptionType_SystemManaged = DataEncryptionType("SystemManaged")
 )
 
-// Mapping from string to DataEncryption_Type
-var dataEncryption_Type_Values = map[string]DataEncryption_Type{
-	"azurekeyvault": DataEncryption_Type_AzureKeyVault,
-	"systemmanaged": DataEncryption_Type_SystemManaged,
+// Mapping from string to DataEncryptionType
+var dataEncryptionType_Values = map[string]DataEncryptionType{
+	"azurekeyvault": DataEncryptionType_AzureKeyVault,
+	"systemmanaged": DataEncryptionType_SystemManaged,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
@@ -471,112 +463,99 @@ var highAvailability_Mode_Values = map[string]HighAvailability_Mode{
 	"zoneredundant": HighAvailability_Mode_ZoneRedundant,
 }
 
+// Indicates if the server supports Microsoft Entra authentication.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Network_PublicNetworkAccess string
+type MicrosoftEntraAuth string
 
 const (
-	Network_PublicNetworkAccess_Disabled = Network_PublicNetworkAccess("Disabled")
-	Network_PublicNetworkAccess_Enabled  = Network_PublicNetworkAccess("Enabled")
+	MicrosoftEntraAuth_Disabled = MicrosoftEntraAuth("Disabled")
+	MicrosoftEntraAuth_Enabled  = MicrosoftEntraAuth("Enabled")
 )
 
-// Mapping from string to Network_PublicNetworkAccess
-var network_PublicNetworkAccess_Values = map[string]Network_PublicNetworkAccess{
-	"disabled": Network_PublicNetworkAccess_Disabled,
-	"enabled":  Network_PublicNetworkAccess_Enabled,
+// Mapping from string to MicrosoftEntraAuth
+var microsoftEntraAuth_Values = map[string]MicrosoftEntraAuth{
+	"disabled": MicrosoftEntraAuth_Disabled,
+	"enabled":  MicrosoftEntraAuth_Enabled,
 }
 
+// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
+// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
+// means that the read replica will roles with the primary server.
 // +kubebuilder:validation:Enum={"Standalone","Switchover"}
-type Replica_PromoteMode string
+type ReadReplicaPromoteMode string
 
 const (
-	Replica_PromoteMode_Standalone = Replica_PromoteMode("Standalone")
-	Replica_PromoteMode_Switchover = Replica_PromoteMode("Switchover")
+	ReadReplicaPromoteMode_Standalone = ReadReplicaPromoteMode("Standalone")
+	ReadReplicaPromoteMode_Switchover = ReadReplicaPromoteMode("Switchover")
 )
 
-// Mapping from string to Replica_PromoteMode
-var replica_PromoteMode_Values = map[string]Replica_PromoteMode{
-	"standalone": Replica_PromoteMode_Standalone,
-	"switchover": Replica_PromoteMode_Switchover,
+// Mapping from string to ReadReplicaPromoteMode
+var readReplicaPromoteMode_Values = map[string]ReadReplicaPromoteMode{
+	"standalone": ReadReplicaPromoteMode_Standalone,
+	"switchover": ReadReplicaPromoteMode_Switchover,
 }
 
+// Data synchronization option to use when processing the operation specified in the promoteMode property. This property is
+// write only.
 // +kubebuilder:validation:Enum={"Forced","Planned"}
-type Replica_PromoteOption string
+type ReadReplicaPromoteOption string
 
 const (
-	Replica_PromoteOption_Forced  = Replica_PromoteOption("Forced")
-	Replica_PromoteOption_Planned = Replica_PromoteOption("Planned")
+	ReadReplicaPromoteOption_Forced  = ReadReplicaPromoteOption("Forced")
+	ReadReplicaPromoteOption_Planned = ReadReplicaPromoteOption("Planned")
 )
 
-// Mapping from string to Replica_PromoteOption
-var replica_PromoteOption_Values = map[string]Replica_PromoteOption{
-	"forced":  Replica_PromoteOption_Forced,
-	"planned": Replica_PromoteOption_Planned,
+// Mapping from string to ReadReplicaPromoteOption
+var readReplicaPromoteOption_Values = map[string]ReadReplicaPromoteOption{
+	"forced":  ReadReplicaPromoteOption_Forced,
+	"planned": ReadReplicaPromoteOption_Planned,
 }
 
+// Indicates if public network access is enabled or not.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Storage_AutoGrow string
+type ServerPublicNetworkAccessState string
 
 const (
-	Storage_AutoGrow_Disabled = Storage_AutoGrow("Disabled")
-	Storage_AutoGrow_Enabled  = Storage_AutoGrow("Enabled")
+	ServerPublicNetworkAccessState_Disabled = ServerPublicNetworkAccessState("Disabled")
+	ServerPublicNetworkAccessState_Enabled  = ServerPublicNetworkAccessState("Enabled")
 )
 
-// Mapping from string to Storage_AutoGrow
-var storage_AutoGrow_Values = map[string]Storage_AutoGrow{
-	"disabled": Storage_AutoGrow_Disabled,
-	"enabled":  Storage_AutoGrow_Enabled,
+// Mapping from string to ServerPublicNetworkAccessState
+var serverPublicNetworkAccessState_Values = map[string]ServerPublicNetworkAccessState{
+	"disabled": ServerPublicNetworkAccessState_Disabled,
+	"enabled":  ServerPublicNetworkAccessState_Enabled,
 }
 
-// +kubebuilder:validation:Enum={"P1","P10","P15","P2","P20","P3","P30","P4","P40","P50","P6","P60","P70","P80"}
-type Storage_Tier string
+// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
+// conditions allow for automatically growing storage size.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type StorageAutoGrow string
 
 const (
-	Storage_Tier_P1  = Storage_Tier("P1")
-	Storage_Tier_P10 = Storage_Tier("P10")
-	Storage_Tier_P15 = Storage_Tier("P15")
-	Storage_Tier_P2  = Storage_Tier("P2")
-	Storage_Tier_P20 = Storage_Tier("P20")
-	Storage_Tier_P3  = Storage_Tier("P3")
-	Storage_Tier_P30 = Storage_Tier("P30")
-	Storage_Tier_P4  = Storage_Tier("P4")
-	Storage_Tier_P40 = Storage_Tier("P40")
-	Storage_Tier_P50 = Storage_Tier("P50")
-	Storage_Tier_P6  = Storage_Tier("P6")
-	Storage_Tier_P60 = Storage_Tier("P60")
-	Storage_Tier_P70 = Storage_Tier("P70")
-	Storage_Tier_P80 = Storage_Tier("P80")
+	StorageAutoGrow_Disabled = StorageAutoGrow("Disabled")
+	StorageAutoGrow_Enabled  = StorageAutoGrow("Enabled")
 )
 
-// Mapping from string to Storage_Tier
-var storage_Tier_Values = map[string]Storage_Tier{
-	"p1":  Storage_Tier_P1,
-	"p10": Storage_Tier_P10,
-	"p15": Storage_Tier_P15,
-	"p2":  Storage_Tier_P2,
-	"p20": Storage_Tier_P20,
-	"p3":  Storage_Tier_P3,
-	"p30": Storage_Tier_P30,
-	"p4":  Storage_Tier_P4,
-	"p40": Storage_Tier_P40,
-	"p50": Storage_Tier_P50,
-	"p6":  Storage_Tier_P6,
-	"p60": Storage_Tier_P60,
-	"p70": Storage_Tier_P70,
-	"p80": Storage_Tier_P80,
+// Mapping from string to StorageAutoGrow
+var storageAutoGrow_Values = map[string]StorageAutoGrow{
+	"disabled": StorageAutoGrow_Disabled,
+	"enabled":  StorageAutoGrow_Enabled,
 }
 
+// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
+// it defaults to Premium_LRS.
 // +kubebuilder:validation:Enum={"PremiumV2_LRS","Premium_LRS","UltraSSD_LRS"}
-type Storage_Type string
+type StorageType string
 
 const (
-	Storage_Type_PremiumV2_LRS = Storage_Type("PremiumV2_LRS")
-	Storage_Type_Premium_LRS   = Storage_Type("Premium_LRS")
-	Storage_Type_UltraSSD_LRS  = Storage_Type("UltraSSD_LRS")
+	StorageType_PremiumV2_LRS = StorageType("PremiumV2_LRS")
+	StorageType_Premium_LRS   = StorageType("Premium_LRS")
+	StorageType_UltraSSD_LRS  = StorageType("UltraSSD_LRS")
 )
 
-// Mapping from string to Storage_Type
-var storage_Type_Values = map[string]Storage_Type{
-	"premiumv2_lrs": Storage_Type_PremiumV2_LRS,
-	"premium_lrs":   Storage_Type_Premium_LRS,
-	"ultrassd_lrs":  Storage_Type_UltraSSD_LRS,
+// Mapping from string to StorageType
+var storageType_Values = map[string]StorageType{
+	"premiumv2_lrs": StorageType_PremiumV2_LRS,
+	"premium_lrs":   StorageType_Premium_LRS,
+	"ultrassd_lrs":  StorageType_UltraSSD_LRS,
 }

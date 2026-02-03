@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.LoadBalancer
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/loadBalancer.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/loadBalancer.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (balancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.LoadBalancer
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/loadBalancer.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/loadBalancer.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
 type LoadBalancerList struct {
 	metav1.TypeMeta `json:",inline"`

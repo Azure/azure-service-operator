@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.VirtualNetworksVirtualNetworkPeering
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/virtualNetwork.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/virtualNetwork.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.Group
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.VirtualNetworksVirtualNetworkPeering
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/virtualNetwork.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/virtualNetwork.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
 type VirtualNetworksVirtualNetworkPeeringList struct {
 	metav1.TypeMeta `json:",inline"`

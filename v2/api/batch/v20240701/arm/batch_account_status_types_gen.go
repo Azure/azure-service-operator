@@ -5,25 +5,29 @@ package arm
 
 // Contains information about an Azure Batch account.
 type BatchAccount_STATUS struct {
-	// Id: The ID of the resource.
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity_STATUS `json:"identity,omitempty"`
 
-	// Location: The location of the resource.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the account.
 	Properties *BatchAccountProperties_STATUS `json:"properties,omitempty"`
 
-	// Tags: The tags of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -38,7 +42,7 @@ type BatchAccountIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ResourceIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account.
 	UserAssignedIdentities map[string]UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -47,8 +51,10 @@ type BatchAccountIdentity_STATUS struct {
 // Account specific properties.
 type BatchAccountProperties_STATUS struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
-	AccountEndpoint              *string `json:"accountEndpoint,omitempty"`
-	ActiveJobAndJobScheduleQuota *int    `json:"activeJobAndJobScheduleQuota,omitempty"`
+	AccountEndpoint *string `json:"accountEndpoint,omitempty"`
+
+	// ActiveJobAndJobScheduleQuota: The active job and job schedule quota for the Batch account.
+	ActiveJobAndJobScheduleQuota *int `json:"activeJobAndJobScheduleQuota,omitempty"`
 
 	// AllowedAuthenticationModes: List of allowed authentication modes for the Batch account that can be used to authenticate
 	// with the data plane. This does not affect authentication with the control plane.
@@ -90,16 +96,39 @@ type BatchAccountProperties_STATUS struct {
 
 	// PoolAllocationMode: The allocation mode for creating pools in the Batch account.
 	PoolAllocationMode *PoolAllocationMode_STATUS `json:"poolAllocationMode,omitempty"`
-	PoolQuota          *int                       `json:"poolQuota,omitempty"`
+
+	// PoolQuota: The pool quota for the Batch account.
+	PoolQuota *int `json:"poolQuota,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
-	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType_STATUS `json:"publicNetworkAccess,omitempty"`
+	// PublicNetworkAccess: The network access type for operating on the resources in the Batch account.
+	PublicNetworkAccess *BatchAccountProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+}
+
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
 // The authentication mode for the Batch account.
@@ -134,47 +163,26 @@ type AutoStorageProperties_STATUS struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
-type BatchAccountIdentity_Type_STATUS string
+type BatchAccountProperties_PublicNetworkAccess_STATUS string
 
 const (
-	BatchAccountIdentity_Type_STATUS_None           = BatchAccountIdentity_Type_STATUS("None")
-	BatchAccountIdentity_Type_STATUS_SystemAssigned = BatchAccountIdentity_Type_STATUS("SystemAssigned")
-	BatchAccountIdentity_Type_STATUS_UserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
+	BatchAccountProperties_PublicNetworkAccess_STATUS_Disabled           = BatchAccountProperties_PublicNetworkAccess_STATUS("Disabled")
+	BatchAccountProperties_PublicNetworkAccess_STATUS_Enabled            = BatchAccountProperties_PublicNetworkAccess_STATUS("Enabled")
+	BatchAccountProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter = BatchAccountProperties_PublicNetworkAccess_STATUS("SecuredByPerimeter")
 )
 
-// Mapping from string to BatchAccountIdentity_Type_STATUS
-var batchAccountIdentity_Type_STATUS_Values = map[string]BatchAccountIdentity_Type_STATUS{
-	"none":           BatchAccountIdentity_Type_STATUS_None,
-	"systemassigned": BatchAccountIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   BatchAccountIdentity_Type_STATUS_UserAssigned,
-}
-
-type BatchAccountProperties_ProvisioningState_STATUS string
-
-const (
-	BatchAccountProperties_ProvisioningState_STATUS_Cancelled = BatchAccountProperties_ProvisioningState_STATUS("Cancelled")
-	BatchAccountProperties_ProvisioningState_STATUS_Creating  = BatchAccountProperties_ProvisioningState_STATUS("Creating")
-	BatchAccountProperties_ProvisioningState_STATUS_Deleting  = BatchAccountProperties_ProvisioningState_STATUS("Deleting")
-	BatchAccountProperties_ProvisioningState_STATUS_Failed    = BatchAccountProperties_ProvisioningState_STATUS("Failed")
-	BatchAccountProperties_ProvisioningState_STATUS_Invalid   = BatchAccountProperties_ProvisioningState_STATUS("Invalid")
-	BatchAccountProperties_ProvisioningState_STATUS_Succeeded = BatchAccountProperties_ProvisioningState_STATUS("Succeeded")
-)
-
-// Mapping from string to BatchAccountProperties_ProvisioningState_STATUS
-var batchAccountProperties_ProvisioningState_STATUS_Values = map[string]BatchAccountProperties_ProvisioningState_STATUS{
-	"cancelled": BatchAccountProperties_ProvisioningState_STATUS_Cancelled,
-	"creating":  BatchAccountProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  BatchAccountProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    BatchAccountProperties_ProvisioningState_STATUS_Failed,
-	"invalid":   BatchAccountProperties_ProvisioningState_STATUS_Invalid,
-	"succeeded": BatchAccountProperties_ProvisioningState_STATUS_Succeeded,
+// Mapping from string to BatchAccountProperties_PublicNetworkAccess_STATUS
+var batchAccountProperties_PublicNetworkAccess_STATUS_Values = map[string]BatchAccountProperties_PublicNetworkAccess_STATUS{
+	"disabled":           BatchAccountProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":            BatchAccountProperties_PublicNetworkAccess_STATUS_Enabled,
+	"securedbyperimeter": BatchAccountProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter,
 }
 
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
+	KeySource *KeySource_STATUS `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -215,24 +223,81 @@ var poolAllocationMode_STATUS_Values = map[string]PoolAllocationMode_STATUS{
 
 // Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: The ID of the resource.
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 }
 
-// The network access type for operating on the resources in the Batch account.
-type PublicNetworkAccessType_STATUS string
+// The provisioned state of the resource
+type ProvisioningState_STATUS string
 
 const (
-	PublicNetworkAccessType_STATUS_Disabled           = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUS_Enabled            = PublicNetworkAccessType_STATUS("Enabled")
-	PublicNetworkAccessType_STATUS_SecuredByPerimeter = PublicNetworkAccessType_STATUS("SecuredByPerimeter")
+	ProvisioningState_STATUS_Cancelled = ProvisioningState_STATUS("Cancelled")
+	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Invalid   = ProvisioningState_STATUS("Invalid")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
 )
 
-// Mapping from string to PublicNetworkAccessType_STATUS
-var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
-	"disabled":           PublicNetworkAccessType_STATUS_Disabled,
-	"enabled":            PublicNetworkAccessType_STATUS_Enabled,
-	"securedbyperimeter": PublicNetworkAccessType_STATUS_SecuredByPerimeter,
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"cancelled": ProvisioningState_STATUS_Cancelled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"invalid":   ProvisioningState_STATUS_Invalid,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+}
+
+// The type of identity used for the Batch account.
+type ResourceIdentityType_STATUS string
+
+const (
+	ResourceIdentityType_STATUS_None           = ResourceIdentityType_STATUS("None")
+	ResourceIdentityType_STATUS_SystemAssigned = ResourceIdentityType_STATUS("SystemAssigned")
+	ResourceIdentityType_STATUS_UserAssigned   = ResourceIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to ResourceIdentityType_STATUS
+var resourceIdentityType_STATUS_Values = map[string]ResourceIdentityType_STATUS{
+	"none":           ResourceIdentityType_STATUS_None,
+	"systemassigned": ResourceIdentityType_STATUS_SystemAssigned,
+	"userassigned":   ResourceIdentityType_STATUS_UserAssigned,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // The list of associated user identities.
@@ -272,26 +337,27 @@ type ComputeNodeIdentityReference_STATUS struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-type EncryptionProperties_KeySource_STATUS string
-
-const (
-	EncryptionProperties_KeySource_STATUS_MicrosoftBatch    = EncryptionProperties_KeySource_STATUS("Microsoft.Batch")
-	EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
-)
-
-// Mapping from string to EncryptionProperties_KeySource_STATUS
-var encryptionProperties_KeySource_STATUS_Values = map[string]EncryptionProperties_KeySource_STATUS{
-	"microsoft.batch":    EncryptionProperties_KeySource_STATUS_MicrosoftBatch,
-	"microsoft.keyvault": EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault,
-}
-
 // Network access profile for Batch endpoint.
 type EndpointAccessProfile_STATUS struct {
 	// DefaultAction: Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
-	DefaultAction *EndpointAccessProfile_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	DefaultAction *EndpointAccessDefaultAction_STATUS `json:"defaultAction,omitempty"`
 
 	// IpRules: Array of IP ranges to filter client IP address.
 	IpRules []IPRule_STATUS `json:"ipRules,omitempty"`
+}
+
+// Type of the key source.
+type KeySource_STATUS string
+
+const (
+	KeySource_STATUS_MicrosoftBatch    = KeySource_STATUS("Microsoft.Batch")
+	KeySource_STATUS_MicrosoftKeyVault = KeySource_STATUS("Microsoft.KeyVault")
+)
+
+// Mapping from string to KeySource_STATUS
+var keySource_STATUS_Values = map[string]KeySource_STATUS{
+	"microsoft.batch":    KeySource_STATUS_MicrosoftBatch,
+	"microsoft.keyvault": KeySource_STATUS_MicrosoftKeyVault,
 }
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
@@ -305,33 +371,35 @@ type KeyVaultProperties_STATUS struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
-type EndpointAccessProfile_DefaultAction_STATUS string
+// Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
+type EndpointAccessDefaultAction_STATUS string
 
 const (
-	EndpointAccessProfile_DefaultAction_STATUS_Allow = EndpointAccessProfile_DefaultAction_STATUS("Allow")
-	EndpointAccessProfile_DefaultAction_STATUS_Deny  = EndpointAccessProfile_DefaultAction_STATUS("Deny")
+	EndpointAccessDefaultAction_STATUS_Allow = EndpointAccessDefaultAction_STATUS("Allow")
+	EndpointAccessDefaultAction_STATUS_Deny  = EndpointAccessDefaultAction_STATUS("Deny")
 )
 
-// Mapping from string to EndpointAccessProfile_DefaultAction_STATUS
-var endpointAccessProfile_DefaultAction_STATUS_Values = map[string]EndpointAccessProfile_DefaultAction_STATUS{
-	"allow": EndpointAccessProfile_DefaultAction_STATUS_Allow,
-	"deny":  EndpointAccessProfile_DefaultAction_STATUS_Deny,
+// Mapping from string to EndpointAccessDefaultAction_STATUS
+var endpointAccessDefaultAction_STATUS_Values = map[string]EndpointAccessDefaultAction_STATUS{
+	"allow": EndpointAccessDefaultAction_STATUS_Allow,
+	"deny":  EndpointAccessDefaultAction_STATUS_Deny,
 }
 
 // Rule to filter client IP address.
 type IPRule_STATUS struct {
 	// Action: Action when client IP address is matched.
-	Action *IPRule_Action_STATUS `json:"action,omitempty"`
+	Action *IPRuleAction_STATUS `json:"action,omitempty"`
 
 	// Value: IPv4 address, or IPv4 address range in CIDR format.
 	Value *string `json:"value,omitempty"`
 }
 
-type IPRule_Action_STATUS string
+// The action when client IP address is matched.
+type IPRuleAction_STATUS string
 
-const IPRule_Action_STATUS_Allow = IPRule_Action_STATUS("Allow")
+const IPRuleAction_STATUS_Allow = IPRuleAction_STATUS("Allow")
 
-// Mapping from string to IPRule_Action_STATUS
-var iPRule_Action_STATUS_Values = map[string]IPRule_Action_STATUS{
-	"allow": IPRule_Action_STATUS_Allow,
+// Mapping from string to IPRuleAction_STATUS
+var iPRuleAction_STATUS_Values = map[string]IPRuleAction_STATUS{
+	"allow": IPRuleAction_STATUS_Allow,
 }

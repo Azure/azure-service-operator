@@ -30,25 +30,26 @@ type AdministratorMicrosoftEntraProperties_STATUS struct {
 	PrincipalName *string `json:"principalName,omitempty"`
 
 	// PrincipalType: Type of Microsoft Entra principal to which the server administrator is associated.
-	PrincipalType *AdministratorMicrosoftEntraProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
+	PrincipalType *PrincipalType_STATUS `json:"principalType,omitempty"`
 
 	// TenantId: Identifier of the tenant in which the Microsoft Entra principal exists.
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-type AdministratorMicrosoftEntraProperties_PrincipalType_STATUS string
+// Type of Microsoft Entra principal to which the server administrator is associated.
+type PrincipalType_STATUS string
 
 const (
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Group            = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("Group")
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_ServicePrincipal = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("ServicePrincipal")
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Unknown          = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("Unknown")
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_User             = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("User")
+	PrincipalType_STATUS_Group            = PrincipalType_STATUS("Group")
+	PrincipalType_STATUS_ServicePrincipal = PrincipalType_STATUS("ServicePrincipal")
+	PrincipalType_STATUS_Unknown          = PrincipalType_STATUS("Unknown")
+	PrincipalType_STATUS_User             = PrincipalType_STATUS("User")
 )
 
-// Mapping from string to AdministratorMicrosoftEntraProperties_PrincipalType_STATUS
-var administratorMicrosoftEntraProperties_PrincipalType_STATUS_Values = map[string]AdministratorMicrosoftEntraProperties_PrincipalType_STATUS{
-	"group":            AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Group,
-	"serviceprincipal": AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_ServicePrincipal,
-	"unknown":          AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Unknown,
-	"user":             AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_User,
+// Mapping from string to PrincipalType_STATUS
+var principalType_STATUS_Values = map[string]PrincipalType_STATUS{
+	"group":            PrincipalType_STATUS_Group,
+	"serviceprincipal": PrincipalType_STATUS_ServicePrincipal,
+	"unknown":          PrincipalType_STATUS_Unknown,
+	"user":             PrincipalType_STATUS_User,
 }

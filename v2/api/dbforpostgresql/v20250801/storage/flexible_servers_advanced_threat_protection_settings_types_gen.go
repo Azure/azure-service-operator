@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250801.FlexibleServersAdvancedThreatProtectionSettings
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdvancedThreatProtectionSettings.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
 type FlexibleServersAdvancedThreatProtectionSettings struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -157,7 +157,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings) OriginalGVK() *
 // +kubebuilder:object:root=true
 // Storage version of v20250801.FlexibleServersAdvancedThreatProtectionSettings
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdvancedThreatProtectionSettings.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
 type FlexibleServersAdvancedThreatProtectionSettingsList struct {
 	metav1.TypeMeta `json:",inline"`

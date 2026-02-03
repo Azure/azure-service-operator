@@ -1730,7 +1730,17 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// GeoBackupEncryptionKeyStatus
-	encryption.GeoBackupEncryptionKeyStatus = genruntime.ClonePointerToString(source.GeoBackupEncryptionKeyStatus)
+	if propertyBag.Contains("GeoBackupEncryptionKeyStatus") {
+		var geoBackupEncryptionKeyStatus string
+		err := propertyBag.Pull("GeoBackupEncryptionKeyStatus", &geoBackupEncryptionKeyStatus)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'GeoBackupEncryptionKeyStatus' from propertyBag")
+		}
+
+		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
+	} else {
+		encryption.GeoBackupEncryptionKeyStatus = nil
+	}
 
 	// GeoBackupKeyURI
 	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
@@ -1752,7 +1762,17 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	}
 
 	// PrimaryEncryptionKeyStatus
-	encryption.PrimaryEncryptionKeyStatus = genruntime.ClonePointerToString(source.PrimaryEncryptionKeyStatus)
+	if propertyBag.Contains("PrimaryEncryptionKeyStatus") {
+		var primaryEncryptionKeyStatus string
+		err := propertyBag.Pull("PrimaryEncryptionKeyStatus", &primaryEncryptionKeyStatus)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'PrimaryEncryptionKeyStatus' from propertyBag")
+		}
+
+		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
+	} else {
+		encryption.PrimaryEncryptionKeyStatus = nil
+	}
 
 	// PrimaryKeyURI
 	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
@@ -1802,7 +1822,11 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
 	// GeoBackupEncryptionKeyStatus
-	destination.GeoBackupEncryptionKeyStatus = genruntime.ClonePointerToString(encryption.GeoBackupEncryptionKeyStatus)
+	if encryption.GeoBackupEncryptionKeyStatus != nil {
+		propertyBag.Add("GeoBackupEncryptionKeyStatus", *encryption.GeoBackupEncryptionKeyStatus)
+	} else {
+		propertyBag.Remove("GeoBackupEncryptionKeyStatus")
+	}
 
 	// GeoBackupKeyURI
 	destination.GeoBackupKeyURI = genruntime.ClonePointerToString(encryption.GeoBackupKeyURI)
@@ -1824,7 +1848,11 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	}
 
 	// PrimaryEncryptionKeyStatus
-	destination.PrimaryEncryptionKeyStatus = genruntime.ClonePointerToString(encryption.PrimaryEncryptionKeyStatus)
+	if encryption.PrimaryEncryptionKeyStatus != nil {
+		propertyBag.Add("PrimaryEncryptionKeyStatus", *encryption.PrimaryEncryptionKeyStatus)
+	} else {
+		propertyBag.Remove("PrimaryEncryptionKeyStatus")
+	}
 
 	// PrimaryKeyURI
 	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)

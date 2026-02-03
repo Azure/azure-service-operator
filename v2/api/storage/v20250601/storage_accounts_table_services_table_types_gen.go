@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/table.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}
 type StorageAccountsTableServicesTable struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (table *StorageAccountsTableServicesTable) OriginalGVK() *schema.GroupVersi
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/table.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}
 type StorageAccountsTableServicesTableList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -525,8 +525,8 @@ type StorageAccountsTableServicesTable_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -534,6 +534,9 @@ type StorageAccountsTableServicesTable_STATUS struct {
 
 	// SignedIdentifiers: List of stored access policies specified on the table.
 	SignedIdentifiers []TableSignedIdentifier_STATUS `json:"signedIdentifiers,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// TableName: Table name under the specified account
 	TableName *string `json:"tableName,omitempty"`
@@ -633,6 +636,17 @@ func (table *StorageAccountsTableServicesTable_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		table.SystemData = &systemData
+	}
+
 	// Set property "TableName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -680,6 +694,18 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_From_Sto
 		table.SignedIdentifiers = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		table.SystemData = &systemDatum
+	} else {
+		table.SystemData = nil
+	}
+
 	// TableName
 	table.TableName = genruntime.ClonePointerToString(source.TableName)
 
@@ -718,6 +744,18 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_To_Stora
 		destination.SignedIdentifiers = signedIdentifierList
 	} else {
 		destination.SignedIdentifiers = nil
+	}
+
+	// SystemData
+	if table.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := table.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// TableName

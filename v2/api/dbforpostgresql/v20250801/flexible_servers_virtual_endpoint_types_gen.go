@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/VirtualEndpoints.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}
 type FlexibleServersVirtualEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (endpoint *FlexibleServersVirtualEndpoint) OriginalGVK() *schema.GroupVersi
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/VirtualEndpoints.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}
 type FlexibleServersVirtualEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -254,7 +254,7 @@ type FlexibleServersVirtualEndpoint_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// EndpointType: Type of endpoint for the virtual endpoints.
-	EndpointType *VirtualEndpointResourceProperties_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *VirtualEndpointType `json:"endpointType,omitempty"`
 
 	// Members: List of servers that one of the virtual endpoints can refer to.
 	Members []string `json:"members,omitempty"`
@@ -289,7 +289,7 @@ func (endpoint *FlexibleServersVirtualEndpoint_Spec) ConvertToARM(resolved genru
 	if endpoint.EndpointType != nil {
 		var temp string
 		temp = string(*endpoint.EndpointType)
-		endpointType := arm.VirtualEndpointResourceProperties_EndpointType(temp)
+		endpointType := arm.VirtualEndpointType(temp)
 		result.Properties.EndpointType = &endpointType
 	}
 	for _, item := range endpoint.Members {
@@ -319,7 +319,7 @@ func (endpoint *FlexibleServersVirtualEndpoint_Spec) PopulateFromARM(owner genru
 		if typedInput.Properties.EndpointType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.EndpointType)
-			endpointType := VirtualEndpointResourceProperties_EndpointType(temp)
+			endpointType := VirtualEndpointType(temp)
 			endpoint.EndpointType = &endpointType
 		}
 	}
@@ -403,7 +403,7 @@ func (endpoint *FlexibleServersVirtualEndpoint_Spec) AssignProperties_From_Flexi
 	// EndpointType
 	if source.EndpointType != nil {
 		endpointType := *source.EndpointType
-		endpointTypeTemp := genruntime.ToEnum(endpointType, virtualEndpointResourceProperties_EndpointType_Values)
+		endpointTypeTemp := genruntime.ToEnum(endpointType, virtualEndpointType_Values)
 		endpoint.EndpointType = &endpointTypeTemp
 	} else {
 		endpoint.EndpointType = nil
@@ -494,7 +494,7 @@ func (endpoint *FlexibleServersVirtualEndpoint_Spec) Initialize_From_FlexibleSer
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := genruntime.ToEnum(string(*source.EndpointType), virtualEndpointResourceProperties_EndpointType_Values)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), virtualEndpointType_Values)
 		endpoint.EndpointType = &endpointType
 	} else {
 		endpoint.EndpointType = nil
@@ -522,7 +522,7 @@ type FlexibleServersVirtualEndpoint_STATUS struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	// EndpointType: Type of endpoint for the virtual endpoints.
-	EndpointType *VirtualEndpointResourceProperties_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *VirtualEndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. E.g.
 	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
@@ -616,7 +616,7 @@ func (endpoint *FlexibleServersVirtualEndpoint_STATUS) PopulateFromARM(owner gen
 		if typedInput.Properties.EndpointType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.EndpointType)
-			endpointType := VirtualEndpointResourceProperties_EndpointType_STATUS(temp)
+			endpointType := VirtualEndpointType_STATUS(temp)
 			endpoint.EndpointType = &endpointType
 		}
 	}
@@ -679,7 +679,7 @@ func (endpoint *FlexibleServersVirtualEndpoint_STATUS) AssignProperties_From_Fle
 	// EndpointType
 	if source.EndpointType != nil {
 		endpointType := *source.EndpointType
-		endpointTypeTemp := genruntime.ToEnum(endpointType, virtualEndpointResourceProperties_EndpointType_STATUS_Values)
+		endpointTypeTemp := genruntime.ToEnum(endpointType, virtualEndpointType_STATUS_Values)
 		endpoint.EndpointType = &endpointTypeTemp
 	} else {
 		endpoint.EndpointType = nil
@@ -866,23 +866,25 @@ func (operator *FlexibleServersVirtualEndpointOperatorSpec) AssignProperties_To_
 	return nil
 }
 
+// Type of endpoint for the virtual endpoints.
 // +kubebuilder:validation:Enum={"ReadWrite"}
-type VirtualEndpointResourceProperties_EndpointType string
+type VirtualEndpointType string
 
-const VirtualEndpointResourceProperties_EndpointType_ReadWrite = VirtualEndpointResourceProperties_EndpointType("ReadWrite")
+const VirtualEndpointType_ReadWrite = VirtualEndpointType("ReadWrite")
 
-// Mapping from string to VirtualEndpointResourceProperties_EndpointType
-var virtualEndpointResourceProperties_EndpointType_Values = map[string]VirtualEndpointResourceProperties_EndpointType{
-	"readwrite": VirtualEndpointResourceProperties_EndpointType_ReadWrite,
+// Mapping from string to VirtualEndpointType
+var virtualEndpointType_Values = map[string]VirtualEndpointType{
+	"readwrite": VirtualEndpointType_ReadWrite,
 }
 
-type VirtualEndpointResourceProperties_EndpointType_STATUS string
+// Type of endpoint for the virtual endpoints.
+type VirtualEndpointType_STATUS string
 
-const VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite = VirtualEndpointResourceProperties_EndpointType_STATUS("ReadWrite")
+const VirtualEndpointType_STATUS_ReadWrite = VirtualEndpointType_STATUS("ReadWrite")
 
-// Mapping from string to VirtualEndpointResourceProperties_EndpointType_STATUS
-var virtualEndpointResourceProperties_EndpointType_STATUS_Values = map[string]VirtualEndpointResourceProperties_EndpointType_STATUS{
-	"readwrite": VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite,
+// Mapping from string to VirtualEndpointType_STATUS
+var virtualEndpointType_STATUS_Values = map[string]VirtualEndpointType_STATUS{
+	"readwrite": VirtualEndpointType_STATUS_ReadWrite,
 }
 
 func init() {

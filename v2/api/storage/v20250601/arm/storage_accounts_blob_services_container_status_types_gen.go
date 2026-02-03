@@ -7,8 +7,8 @@ type StorageAccountsBlobServicesContainer_STATUS struct {
 	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -16,6 +16,9 @@ type StorageAccountsBlobServicesContainer_STATUS struct {
 
 	// Properties: Properties of the blob container.
 	Properties *ContainerProperties_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -63,13 +66,13 @@ type ContainerProperties_STATUS struct {
 
 	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
 	// leased.
-	LeaseDuration *ContainerProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
+	LeaseDuration *LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
 
 	// LeaseState: Lease state of the container.
-	LeaseState *ContainerProperties_LeaseState_STATUS `json:"leaseState,omitempty"`
+	LeaseState *LeaseState_STATUS `json:"leaseState,omitempty"`
 
 	// LeaseStatus: The lease status of the container.
-	LeaseStatus *ContainerProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
+	LeaseStatus *LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// LegalHold: The LegalHold property of the container.
 	LegalHold *LegalHoldProperties_STATUS `json:"legalHold,omitempty"`
@@ -78,73 +81,13 @@ type ContainerProperties_STATUS struct {
 	Metadata map[string]string `json:"metadata"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess_STATUS `json:"publicAccess,omitempty"`
+	PublicAccess *PublicAccess_STATUS `json:"publicAccess,omitempty"`
 
 	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
 
 	// Version: The version of the deleted blob container.
 	Version *string `json:"version,omitempty"`
-}
-
-type ContainerProperties_LeaseDuration_STATUS string
-
-const (
-	ContainerProperties_LeaseDuration_STATUS_Fixed    = ContainerProperties_LeaseDuration_STATUS("Fixed")
-	ContainerProperties_LeaseDuration_STATUS_Infinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
-)
-
-// Mapping from string to ContainerProperties_LeaseDuration_STATUS
-var containerProperties_LeaseDuration_STATUS_Values = map[string]ContainerProperties_LeaseDuration_STATUS{
-	"fixed":    ContainerProperties_LeaseDuration_STATUS_Fixed,
-	"infinite": ContainerProperties_LeaseDuration_STATUS_Infinite,
-}
-
-type ContainerProperties_LeaseState_STATUS string
-
-const (
-	ContainerProperties_LeaseState_STATUS_Available = ContainerProperties_LeaseState_STATUS("Available")
-	ContainerProperties_LeaseState_STATUS_Breaking  = ContainerProperties_LeaseState_STATUS("Breaking")
-	ContainerProperties_LeaseState_STATUS_Broken    = ContainerProperties_LeaseState_STATUS("Broken")
-	ContainerProperties_LeaseState_STATUS_Expired   = ContainerProperties_LeaseState_STATUS("Expired")
-	ContainerProperties_LeaseState_STATUS_Leased    = ContainerProperties_LeaseState_STATUS("Leased")
-)
-
-// Mapping from string to ContainerProperties_LeaseState_STATUS
-var containerProperties_LeaseState_STATUS_Values = map[string]ContainerProperties_LeaseState_STATUS{
-	"available": ContainerProperties_LeaseState_STATUS_Available,
-	"breaking":  ContainerProperties_LeaseState_STATUS_Breaking,
-	"broken":    ContainerProperties_LeaseState_STATUS_Broken,
-	"expired":   ContainerProperties_LeaseState_STATUS_Expired,
-	"leased":    ContainerProperties_LeaseState_STATUS_Leased,
-}
-
-type ContainerProperties_LeaseStatus_STATUS string
-
-const (
-	ContainerProperties_LeaseStatus_STATUS_Locked   = ContainerProperties_LeaseStatus_STATUS("Locked")
-	ContainerProperties_LeaseStatus_STATUS_Unlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
-)
-
-// Mapping from string to ContainerProperties_LeaseStatus_STATUS
-var containerProperties_LeaseStatus_STATUS_Values = map[string]ContainerProperties_LeaseStatus_STATUS{
-	"locked":   ContainerProperties_LeaseStatus_STATUS_Locked,
-	"unlocked": ContainerProperties_LeaseStatus_STATUS_Unlocked,
-}
-
-type ContainerProperties_PublicAccess_STATUS string
-
-const (
-	ContainerProperties_PublicAccess_STATUS_Blob      = ContainerProperties_PublicAccess_STATUS("Blob")
-	ContainerProperties_PublicAccess_STATUS_Container = ContainerProperties_PublicAccess_STATUS("Container")
-	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
-)
-
-// Mapping from string to ContainerProperties_PublicAccess_STATUS
-var containerProperties_PublicAccess_STATUS_Values = map[string]ContainerProperties_PublicAccess_STATUS{
-	"blob":      ContainerProperties_PublicAccess_STATUS_Blob,
-	"container": ContainerProperties_PublicAccess_STATUS_Container,
-	"none":      ContainerProperties_PublicAccess_STATUS_None,
 }
 
 // The properties of an ImmutabilityPolicy of a blob container.
@@ -165,10 +108,58 @@ type ImmutableStorageWithVersioning_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
-	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
+	MigrationState *MigrationState_STATUS `json:"migrationState,omitempty"`
 
 	// TimeStamp: Returns the date and time the object level immutability was enabled.
 	TimeStamp *string `json:"timeStamp,omitempty"`
+}
+
+// Specifies whether the lease on a container is of infinite or fixed duration, only when the container is leased.
+type LeaseDuration_STATUS string
+
+const (
+	LeaseDuration_STATUS_Fixed    = LeaseDuration_STATUS("Fixed")
+	LeaseDuration_STATUS_Infinite = LeaseDuration_STATUS("Infinite")
+)
+
+// Mapping from string to LeaseDuration_STATUS
+var leaseDuration_STATUS_Values = map[string]LeaseDuration_STATUS{
+	"fixed":    LeaseDuration_STATUS_Fixed,
+	"infinite": LeaseDuration_STATUS_Infinite,
+}
+
+// Lease state of the container.
+type LeaseState_STATUS string
+
+const (
+	LeaseState_STATUS_Available = LeaseState_STATUS("Available")
+	LeaseState_STATUS_Breaking  = LeaseState_STATUS("Breaking")
+	LeaseState_STATUS_Broken    = LeaseState_STATUS("Broken")
+	LeaseState_STATUS_Expired   = LeaseState_STATUS("Expired")
+	LeaseState_STATUS_Leased    = LeaseState_STATUS("Leased")
+)
+
+// Mapping from string to LeaseState_STATUS
+var leaseState_STATUS_Values = map[string]LeaseState_STATUS{
+	"available": LeaseState_STATUS_Available,
+	"breaking":  LeaseState_STATUS_Breaking,
+	"broken":    LeaseState_STATUS_Broken,
+	"expired":   LeaseState_STATUS_Expired,
+	"leased":    LeaseState_STATUS_Leased,
+}
+
+// The lease status of the container.
+type LeaseStatus_STATUS string
+
+const (
+	LeaseStatus_STATUS_Locked   = LeaseStatus_STATUS("Locked")
+	LeaseStatus_STATUS_Unlocked = LeaseStatus_STATUS("Unlocked")
+)
+
+// Mapping from string to LeaseStatus_STATUS
+var leaseStatus_STATUS_Values = map[string]LeaseStatus_STATUS{
+	"locked":   LeaseStatus_STATUS_Locked,
+	"unlocked": LeaseStatus_STATUS_Unlocked,
 }
 
 // The LegalHold property of a blob container.
@@ -183,6 +174,22 @@ type LegalHoldProperties_STATUS struct {
 
 	// Tags: The list of LegalHold tags of a blob container.
 	Tags []TagProperty_STATUS `json:"tags"`
+}
+
+// Specifies whether data in the container may be accessed publicly and the level of access.
+type PublicAccess_STATUS string
+
+const (
+	PublicAccess_STATUS_Blob      = PublicAccess_STATUS("Blob")
+	PublicAccess_STATUS_Container = PublicAccess_STATUS("Container")
+	PublicAccess_STATUS_None      = PublicAccess_STATUS("None")
+)
+
+// Mapping from string to PublicAccess_STATUS
+var publicAccess_STATUS_Values = map[string]PublicAccess_STATUS{
+	"blob":      PublicAccess_STATUS_Blob,
+	"container": PublicAccess_STATUS_Container,
+	"none":      PublicAccess_STATUS_None,
 }
 
 // The properties of an ImmutabilityPolicy of a blob container.
@@ -205,20 +212,21 @@ type ImmutabilityPolicyProperty_STATUS struct {
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
 	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
-	State *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
+	State *ImmutabilityPolicyState_STATUS `json:"state,omitempty"`
 }
 
-type ImmutableStorageWithVersioning_MigrationState_STATUS string
+// This property denotes the container level immutability to object level immutability migration state.
+type MigrationState_STATUS string
 
 const (
-	ImmutableStorageWithVersioning_MigrationState_STATUS_Completed  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
-	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
+	MigrationState_STATUS_Completed  = MigrationState_STATUS("Completed")
+	MigrationState_STATUS_InProgress = MigrationState_STATUS("InProgress")
 )
 
-// Mapping from string to ImmutableStorageWithVersioning_MigrationState_STATUS
-var immutableStorageWithVersioning_MigrationState_STATUS_Values = map[string]ImmutableStorageWithVersioning_MigrationState_STATUS{
-	"completed":  ImmutableStorageWithVersioning_MigrationState_STATUS_Completed,
-	"inprogress": ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress,
+// Mapping from string to MigrationState_STATUS
+var migrationState_STATUS_Values = map[string]MigrationState_STATUS{
+	"completed":  MigrationState_STATUS_Completed,
+	"inprogress": MigrationState_STATUS_InProgress,
 }
 
 // Protected append writes history setting for the blob container with Legal holds.
@@ -278,36 +286,38 @@ type UpdateHistoryProperty_STATUS struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 
 	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
-	Update *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
+	Update *ImmutabilityPolicyUpdateType_STATUS `json:"update,omitempty"`
 
 	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
 	Upn *string `json:"upn,omitempty"`
 }
 
-type ImmutabilityPolicyProperty_State_STATUS string
+// The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
+type ImmutabilityPolicyState_STATUS string
 
 const (
-	ImmutabilityPolicyProperty_State_STATUS_Locked   = ImmutabilityPolicyProperty_State_STATUS("Locked")
-	ImmutabilityPolicyProperty_State_STATUS_Unlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
+	ImmutabilityPolicyState_STATUS_Locked   = ImmutabilityPolicyState_STATUS("Locked")
+	ImmutabilityPolicyState_STATUS_Unlocked = ImmutabilityPolicyState_STATUS("Unlocked")
 )
 
-// Mapping from string to ImmutabilityPolicyProperty_State_STATUS
-var immutabilityPolicyProperty_State_STATUS_Values = map[string]ImmutabilityPolicyProperty_State_STATUS{
-	"locked":   ImmutabilityPolicyProperty_State_STATUS_Locked,
-	"unlocked": ImmutabilityPolicyProperty_State_STATUS_Unlocked,
+// Mapping from string to ImmutabilityPolicyState_STATUS
+var immutabilityPolicyState_STATUS_Values = map[string]ImmutabilityPolicyState_STATUS{
+	"locked":   ImmutabilityPolicyState_STATUS_Locked,
+	"unlocked": ImmutabilityPolicyState_STATUS_Unlocked,
 }
 
-type UpdateHistoryProperty_Update_STATUS string
+// The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
+type ImmutabilityPolicyUpdateType_STATUS string
 
 const (
-	UpdateHistoryProperty_Update_STATUS_Extend = UpdateHistoryProperty_Update_STATUS("extend")
-	UpdateHistoryProperty_Update_STATUS_Lock   = UpdateHistoryProperty_Update_STATUS("lock")
-	UpdateHistoryProperty_Update_STATUS_Put    = UpdateHistoryProperty_Update_STATUS("put")
+	ImmutabilityPolicyUpdateType_STATUS_Extend = ImmutabilityPolicyUpdateType_STATUS("extend")
+	ImmutabilityPolicyUpdateType_STATUS_Lock   = ImmutabilityPolicyUpdateType_STATUS("lock")
+	ImmutabilityPolicyUpdateType_STATUS_Put    = ImmutabilityPolicyUpdateType_STATUS("put")
 )
 
-// Mapping from string to UpdateHistoryProperty_Update_STATUS
-var updateHistoryProperty_Update_STATUS_Values = map[string]UpdateHistoryProperty_Update_STATUS{
-	"extend": UpdateHistoryProperty_Update_STATUS_Extend,
-	"lock":   UpdateHistoryProperty_Update_STATUS_Lock,
-	"put":    UpdateHistoryProperty_Update_STATUS_Put,
+// Mapping from string to ImmutabilityPolicyUpdateType_STATUS
+var immutabilityPolicyUpdateType_STATUS_Values = map[string]ImmutabilityPolicyUpdateType_STATUS{
+	"extend": ImmutabilityPolicyUpdateType_STATUS_Extend,
+	"lock":   ImmutabilityPolicyUpdateType_STATUS_Lock,
+	"put":    ImmutabilityPolicyUpdateType_STATUS_Put,
 }

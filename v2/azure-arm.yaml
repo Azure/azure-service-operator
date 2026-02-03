@@ -110,6 +110,16 @@ typeFilters:
     group: resources
     because: Terrifying.
 
+  - action: prune
+    name: DeploymentStacks
+    group: resources
+    because: Terrifying.
+
+  - action: prune
+    name: DeploymentStacksWhatIfPropertyChange
+    group: resources
+    because: Terrifying.
+
   # TODO: I believe this type exists at
   # TODO : https://github.com/Azure/azure-rest-api-specs/blob/88e7838a09868a51de3894114355c75929847a46/specification/azsadmin/resource-manager/compute/Microsoft.Compute.Admin/stable/2021-04-01/Disks.json#L224
   # TODO: If we ever want access to the assadmin Microsoft.Compute.Admin RP we'll need to bring this back
@@ -2739,14 +2749,6 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         # AzureName:  # TODO: Does this work? Nope.
         #   $importConfigMapMode: optional
-      ServerProperties:
-        SourceServerResourceId:
-          $referenceType: arm
-      Network:
-        DelegatedSubnetResourceId:
-          $referenceType: arm
-        PrivateDnsZoneArmResourceId:
-          $referenceType: arm
   devices:
     2021-07-02:
       IotHub:
@@ -3295,19 +3297,6 @@ objectModelConfiguration:
         DataCollectionEndpointId: 
           $referenceType: arm
         DataCollectionRuleId: 
-          $referenceType: arm
-    2024-01-01-preview:
-      ScheduledQueryRule:
-        $exportAs: ScheduledQueryRule
-        $supportedFrom: v2.12.0
-      Actions:
-        ActionGroups:
-          $referenceType: arm
-      Condition:
-        ResourceIdColumn:
-          $referenceType: arm
-      ScheduledQueryRuleProperties:
-        Scopes:
           $referenceType: arm
 
   keyvault:

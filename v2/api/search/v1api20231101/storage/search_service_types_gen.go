@@ -32,7 +32,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20231101.SearchService
 // Generator information:
-// - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json
+// - Generated from: /search/resource-manager/Microsoft.Search/Search/stable/2023-11-01/search.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}
 type SearchService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -189,7 +189,7 @@ func (service *SearchService) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20231101.SearchService
 // Generator information:
-// - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json
+// - Generated from: /search/resource-manager/Microsoft.Search/Search/stable/2023-11-01/search.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}
 type SearchServiceList struct {
 	metav1.TypeMeta `json:",inline"`

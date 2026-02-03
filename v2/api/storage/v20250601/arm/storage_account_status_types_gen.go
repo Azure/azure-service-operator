@@ -8,15 +8,15 @@ type StorageAccount_STATUS struct {
 	// ExtendedLocation: The extendedLocation of the resource.
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
 	Identity *Identity_STATUS `json:"identity,omitempty"`
 
 	// Kind: Gets the Kind.
-	Kind *StorageAccount_Kind_STATUS `json:"kind,omitempty"`
+	Kind *Kind_STATUS `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -33,13 +33,16 @@ type StorageAccount_STATUS struct {
 	// Sku: Gets the SKU.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	// Zones: Optional. Gets or sets the pinned logical availability zone for the storage account.
+	// Zones: The availability zones.
 	Zones []string `json:"zones"`
 }
 
@@ -49,7 +52,7 @@ type ExtendedLocation_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationTypes_STATUS `json:"type,omitempty"`
 }
 
 // Identity for the resource.
@@ -61,7 +64,7 @@ type Identity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *IdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	// will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
@@ -69,39 +72,40 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities"`
 }
 
+// Indicates the type of storage account.
+type Kind_STATUS string
+
+const (
+	Kind_STATUS_BlobStorage      = Kind_STATUS("BlobStorage")
+	Kind_STATUS_BlockBlobStorage = Kind_STATUS("BlockBlobStorage")
+	Kind_STATUS_FileStorage      = Kind_STATUS("FileStorage")
+	Kind_STATUS_Storage          = Kind_STATUS("Storage")
+	Kind_STATUS_StorageV2        = Kind_STATUS("StorageV2")
+)
+
+// Mapping from string to Kind_STATUS
+var kind_STATUS_Values = map[string]Kind_STATUS{
+	"blobstorage":      Kind_STATUS_BlobStorage,
+	"blockblobstorage": Kind_STATUS_BlockBlobStorage,
+	"filestorage":      Kind_STATUS_FileStorage,
+	"storage":          Kind_STATUS_Storage,
+	"storagev2":        Kind_STATUS_StorageV2,
+}
+
 // The complex type of the zonal placement details.
 type Placement_STATUS struct {
 	// ZonePlacementPolicy: The availability zone pinning policy for the storage account.
-	ZonePlacementPolicy *Placement_ZonePlacementPolicy_STATUS `json:"zonePlacementPolicy,omitempty"`
+	ZonePlacementPolicy *ZonePlacementPolicy_STATUS `json:"zonePlacementPolicy,omitempty"`
 }
 
 // The SKU of the storage account.
 type Sku_STATUS struct {
 	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
-	//  accountType.
+	// accountType.
 	Name *SkuName_STATUS `json:"name,omitempty"`
 
 	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier_STATUS `json:"tier,omitempty"`
-}
-
-type StorageAccount_Kind_STATUS string
-
-const (
-	StorageAccount_Kind_STATUS_BlobStorage      = StorageAccount_Kind_STATUS("BlobStorage")
-	StorageAccount_Kind_STATUS_BlockBlobStorage = StorageAccount_Kind_STATUS("BlockBlobStorage")
-	StorageAccount_Kind_STATUS_FileStorage      = StorageAccount_Kind_STATUS("FileStorage")
-	StorageAccount_Kind_STATUS_Storage          = StorageAccount_Kind_STATUS("Storage")
-	StorageAccount_Kind_STATUS_StorageV2        = StorageAccount_Kind_STATUS("StorageV2")
-)
-
-// Mapping from string to StorageAccount_Kind_STATUS
-var storageAccount_Kind_STATUS_Values = map[string]StorageAccount_Kind_STATUS{
-	"blobstorage":      StorageAccount_Kind_STATUS_BlobStorage,
-	"blockblobstorage": StorageAccount_Kind_STATUS_BlockBlobStorage,
-	"filestorage":      StorageAccount_Kind_STATUS_FileStorage,
-	"storage":          StorageAccount_Kind_STATUS_Storage,
-	"storagev2":        StorageAccount_Kind_STATUS_StorageV2,
+	Tier *SkuTier_STATUS `json:"tier,omitempty"`
 }
 
 // Properties of the storage account.
@@ -109,7 +113,7 @@ type StorageAccountProperties_STATUS struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
 	// access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium
 	// block blobs storage account type.
-	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
+	AccessTier *AccessTier_STATUS `json:"accessTier,omitempty"`
 
 	// AccountMigrationInProgress: If customer initiated account migration is in progress, the value will be true else it will
 	// be null.
@@ -130,7 +134,7 @@ type StorageAccountProperties_STATUS struct {
 	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
 
 	// AllowedCopyScope: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
-	AllowedCopyScope *StorageAccountProperties_AllowedCopyScope_STATUS `json:"allowedCopyScope,omitempty"`
+	AllowedCopyScope *AllowedCopyScope_STATUS `json:"allowedCopyScope,omitempty"`
 
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS `json:"azureFilesIdentityBasedAuthentication,omitempty"`
@@ -151,7 +155,7 @@ type StorageAccountProperties_STATUS struct {
 	// DnsEndpointType: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of
 	// accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an
 	// alphanumeric DNS Zone identifier.
-	DnsEndpointType *StorageAccountProperties_DnsEndpointType_STATUS `json:"dnsEndpointType,omitempty"`
+	DnsEndpointType *DnsEndpointType_STATUS `json:"dnsEndpointType,omitempty"`
 
 	// DualStackEndpointPreference: Maintains information about the Internet protocol opted by the user.
 	DualStackEndpointPreference *DualStackEndpointPreference_STATUS `json:"dualStackEndpointPreference,omitempty"`
@@ -198,7 +202,7 @@ type StorageAccountProperties_STATUS struct {
 	KeyPolicy *KeyPolicy_STATUS `json:"keyPolicy,omitempty"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
 
 	// LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
 	// most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
@@ -207,7 +211,7 @@ type StorageAccountProperties_STATUS struct {
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_STATUS `json:"networkAcls,omitempty"`
@@ -223,7 +227,7 @@ type StorageAccountProperties_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections"`
 
 	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
-	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Allow, disallow, or let Network Security Perimeter configuration to evaluate public network access
 	// to Storage Account.
@@ -245,11 +249,11 @@ type StorageAccountProperties_STATUS struct {
 
 	// StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
 	// unavailable.
-	StatusOfPrimary *StorageAccountProperties_StatusOfPrimary_STATUS `json:"statusOfPrimary,omitempty"`
+	StatusOfPrimary *AccountStatus_STATUS `json:"statusOfPrimary,omitempty"`
 
 	// StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
 	// unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.
-	StatusOfSecondary *StorageAccountProperties_StatusOfSecondary_STATUS `json:"statusOfSecondary,omitempty"`
+	StatusOfSecondary *AccountStatus_STATUS `json:"statusOfSecondary,omitempty"`
 
 	// StorageAccountSkuConversionStatus: This property is readOnly and is set by server during asynchronous storage account
 	// sku conversion operations.
@@ -257,6 +261,75 @@ type StorageAccountProperties_STATUS struct {
 
 	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
+}
+
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+// Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier
+// is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs
+// storage account type.
+type AccessTier_STATUS string
+
+const (
+	AccessTier_STATUS_Cold    = AccessTier_STATUS("Cold")
+	AccessTier_STATUS_Cool    = AccessTier_STATUS("Cool")
+	AccessTier_STATUS_Hot     = AccessTier_STATUS("Hot")
+	AccessTier_STATUS_Premium = AccessTier_STATUS("Premium")
+)
+
+// Mapping from string to AccessTier_STATUS
+var accessTier_STATUS_Values = map[string]AccessTier_STATUS{
+	"cold":    AccessTier_STATUS_Cold,
+	"cool":    AccessTier_STATUS_Cool,
+	"hot":     AccessTier_STATUS_Hot,
+	"premium": AccessTier_STATUS_Premium,
+}
+
+// Gets the status indicating whether the primary location of the storage account is available or unavailable.
+type AccountStatus_STATUS string
+
+const (
+	AccountStatus_STATUS_Available   = AccountStatus_STATUS("available")
+	AccountStatus_STATUS_Unavailable = AccountStatus_STATUS("unavailable")
+)
+
+// Mapping from string to AccountStatus_STATUS
+var accountStatus_STATUS_Values = map[string]AccountStatus_STATUS{
+	"available":   AccountStatus_STATUS_Available,
+	"unavailable": AccountStatus_STATUS_Unavailable,
+}
+
+// Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+type AllowedCopyScope_STATUS string
+
+const (
+	AllowedCopyScope_STATUS_AAD         = AllowedCopyScope_STATUS("AAD")
+	AllowedCopyScope_STATUS_PrivateLink = AllowedCopyScope_STATUS("PrivateLink")
+)
+
+// Mapping from string to AllowedCopyScope_STATUS
+var allowedCopyScope_STATUS_Values = map[string]AllowedCopyScope_STATUS{
+	"aad":         AllowedCopyScope_STATUS_AAD,
+	"privatelink": AllowedCopyScope_STATUS_PrivateLink,
 }
 
 // Settings for Azure Files identity based authentication.
@@ -267,10 +340,10 @@ type AzureFilesIdentityBasedAuthentication_STATUS struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS `json:"activeDirectoryProperties,omitempty"`
 
 	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *DefaultSharePermission_STATUS `json:"defaultSharePermission,omitempty"`
 
 	// DirectoryServiceOptions: Indicates the directory service used. Note that this enum may be extended in the future.
-	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
+	DirectoryServiceOptions *DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
 
 	// SmbOAuthSettings: Required for Managed Identities access using OAuth over SMB.
 	SmbOAuthSettings *SmbOAuthSettings_STATUS `json:"smbOAuthSettings,omitempty"`
@@ -289,7 +362,7 @@ type BlobRestoreStatus_STATUS struct {
 
 	// Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
 	// - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
-	Status *BlobRestoreStatus_Status_STATUS `json:"status,omitempty"`
+	Status *BlobRestoreProgressStatus_STATUS `json:"status,omitempty"`
 }
 
 // The custom domain assigned to this storage account. This can be set via Update.
@@ -300,6 +373,22 @@ type CustomDomain_STATUS struct {
 	// UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	// set on updates.
 	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
+}
+
+// Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single
+// subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone
+// identifier.
+type DnsEndpointType_STATUS string
+
+const (
+	DnsEndpointType_STATUS_AzureDnsZone = DnsEndpointType_STATUS("AzureDnsZone")
+	DnsEndpointType_STATUS_Standard     = DnsEndpointType_STATUS("Standard")
+)
+
+// Mapping from string to DnsEndpointType_STATUS
+var dnsEndpointType_STATUS_Values = map[string]DnsEndpointType_STATUS{
+	"azurednszone": DnsEndpointType_STATUS_AzureDnsZone,
+	"standard":     DnsEndpointType_STATUS_Standard,
 }
 
 // Dual-stack endpoint preference defines whether IPv6 endpoints are going to be published.
@@ -359,13 +448,13 @@ type Endpoints_STATUS struct {
 }
 
 // The type of extendedLocation.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationTypes_STATUS string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationTypes_STATUS_EdgeZone = ExtendedLocationTypes_STATUS("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationTypes_STATUS
+var extendedLocationTypes_STATUS_Values = map[string]ExtendedLocationTypes_STATUS{
+	"edgezone": ExtendedLocationTypes_STATUS_EdgeZone,
 }
 
 // Geo Priority Replication enablement status for the storage account.
@@ -389,33 +478,34 @@ type GeoReplicationStats_STATUS struct {
 	LastSyncTime *string `json:"lastSyncTime,omitempty"`
 
 	// PostFailoverRedundancy: The redundancy type of the account after an account failover is performed.
-	PostFailoverRedundancy *GeoReplicationStats_PostFailoverRedundancy_STATUS `json:"postFailoverRedundancy,omitempty"`
+	PostFailoverRedundancy *PostFailoverRedundancy_STATUS `json:"postFailoverRedundancy,omitempty"`
 
 	// PostPlannedFailoverRedundancy: The redundancy type of the account after a planned account failover is performed.
-	PostPlannedFailoverRedundancy *GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS `json:"postPlannedFailoverRedundancy,omitempty"`
+	PostPlannedFailoverRedundancy *PostPlannedFailoverRedundancy_STATUS `json:"postPlannedFailoverRedundancy,omitempty"`
 
 	// Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
 	// active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
 	// location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
 	// secondary location is temporarily unavailable.
-	Status *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
+	Status *GeoReplicationStatus_STATUS `json:"status,omitempty"`
 }
 
-type Identity_Type_STATUS string
+// The identity type.
+type IdentityType_STATUS string
 
 const (
-	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
-	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
+	IdentityType_STATUS_None                       = IdentityType_STATUS("None")
+	IdentityType_STATUS_SystemAssigned             = IdentityType_STATUS("SystemAssigned")
+	IdentityType_STATUS_SystemAssignedUserAssigned = IdentityType_STATUS("SystemAssigned,UserAssigned")
+	IdentityType_STATUS_UserAssigned               = IdentityType_STATUS("UserAssigned")
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":                        Identity_Type_STATUS_None,
-	"systemassigned":              Identity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                Identity_Type_STATUS_UserAssigned,
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"none":                        IdentityType_STATUS_None,
+	"systemassigned":              IdentityType_STATUS_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_STATUS_UserAssigned,
 }
 
 // This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning.
@@ -443,6 +533,39 @@ type KeyPolicy_STATUS struct {
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
+// Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
+type LargeFileSharesState_STATUS string
+
+const (
+	LargeFileSharesState_STATUS_Disabled = LargeFileSharesState_STATUS("Disabled")
+	LargeFileSharesState_STATUS_Enabled  = LargeFileSharesState_STATUS("Enabled")
+)
+
+// Mapping from string to LargeFileSharesState_STATUS
+var largeFileSharesState_STATUS_Values = map[string]LargeFileSharesState_STATUS{
+	"disabled": LargeFileSharesState_STATUS_Disabled,
+	"enabled":  LargeFileSharesState_STATUS_Enabled,
+}
+
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this
+// property.
+type MinimumTlsVersion_STATUS string
+
+const (
+	MinimumTlsVersion_STATUS_TLS1_0 = MinimumTlsVersion_STATUS("TLS1_0")
+	MinimumTlsVersion_STATUS_TLS1_1 = MinimumTlsVersion_STATUS("TLS1_1")
+	MinimumTlsVersion_STATUS_TLS1_2 = MinimumTlsVersion_STATUS("TLS1_2")
+	MinimumTlsVersion_STATUS_TLS1_3 = MinimumTlsVersion_STATUS("TLS1_3")
+)
+
+// Mapping from string to MinimumTlsVersion_STATUS
+var minimumTlsVersion_STATUS_Values = map[string]MinimumTlsVersion_STATUS{
+	"tls1_0": MinimumTlsVersion_STATUS_TLS1_0,
+	"tls1_1": MinimumTlsVersion_STATUS_TLS1_1,
+	"tls1_2": MinimumTlsVersion_STATUS_TLS1_2,
+	"tls1_3": MinimumTlsVersion_STATUS_TLS1_3,
+}
+
 // Network rule set
 type NetworkRuleSet_STATUS struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
@@ -465,24 +588,27 @@ type NetworkRuleSet_STATUS struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules"`
 }
 
-type Placement_ZonePlacementPolicy_STATUS string
-
-const (
-	Placement_ZonePlacementPolicy_STATUS_Any  = Placement_ZonePlacementPolicy_STATUS("Any")
-	Placement_ZonePlacementPolicy_STATUS_None = Placement_ZonePlacementPolicy_STATUS("None")
-)
-
-// Mapping from string to Placement_ZonePlacementPolicy_STATUS
-var placement_ZonePlacementPolicy_STATUS_Values = map[string]Placement_ZonePlacementPolicy_STATUS{
-	"any":  Placement_ZonePlacementPolicy_STATUS_Any,
-	"none": Placement_ZonePlacementPolicy_STATUS_None,
-}
-
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
+}
+
+// Gets the status of the storage account at the time the operation was called.
+type ProvisioningState_STATUS string
+
+const (
+	ProvisioningState_STATUS_Creating     = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_ResolvingDNS = ProvisioningState_STATUS("ResolvingDNS")
+	ProvisioningState_STATUS_Succeeded    = ProvisioningState_STATUS("Succeeded")
+)
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"creating":     ProvisioningState_STATUS_Creating,
+	"resolvingdns": ProvisioningState_STATUS_ResolvingDNS,
+	"succeeded":    ProvisioningState_STATUS_Succeeded,
 }
 
 // Allow, disallow, or let Network Security Perimeter configuration to evaluate public network access to Storage Account.
@@ -512,7 +638,7 @@ type RoutingPreference_STATUS struct {
 	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
 
 	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingChoice_STATUS `json:"routingChoice,omitempty"`
 }
 
 // SasPolicy assigned to the storage account.
@@ -565,118 +691,18 @@ var skuName_STATUS_Values = map[string]SkuName_STATUS{
 	"standard_zrs":    SkuName_STATUS_Standard_ZRS,
 }
 
-type StorageAccountProperties_AccessTier_STATUS string
+// The SKU tier. This is based on the SKU name.
+type SkuTier_STATUS string
 
 const (
-	StorageAccountProperties_AccessTier_STATUS_Cold    = StorageAccountProperties_AccessTier_STATUS("Cold")
-	StorageAccountProperties_AccessTier_STATUS_Cool    = StorageAccountProperties_AccessTier_STATUS("Cool")
-	StorageAccountProperties_AccessTier_STATUS_Hot     = StorageAccountProperties_AccessTier_STATUS("Hot")
-	StorageAccountProperties_AccessTier_STATUS_Premium = StorageAccountProperties_AccessTier_STATUS("Premium")
+	SkuTier_STATUS_Premium  = SkuTier_STATUS("Premium")
+	SkuTier_STATUS_Standard = SkuTier_STATUS("Standard")
 )
 
-// Mapping from string to StorageAccountProperties_AccessTier_STATUS
-var storageAccountProperties_AccessTier_STATUS_Values = map[string]StorageAccountProperties_AccessTier_STATUS{
-	"cold":    StorageAccountProperties_AccessTier_STATUS_Cold,
-	"cool":    StorageAccountProperties_AccessTier_STATUS_Cool,
-	"hot":     StorageAccountProperties_AccessTier_STATUS_Hot,
-	"premium": StorageAccountProperties_AccessTier_STATUS_Premium,
-}
-
-type StorageAccountProperties_AllowedCopyScope_STATUS string
-
-const (
-	StorageAccountProperties_AllowedCopyScope_STATUS_AAD         = StorageAccountProperties_AllowedCopyScope_STATUS("AAD")
-	StorageAccountProperties_AllowedCopyScope_STATUS_PrivateLink = StorageAccountProperties_AllowedCopyScope_STATUS("PrivateLink")
-)
-
-// Mapping from string to StorageAccountProperties_AllowedCopyScope_STATUS
-var storageAccountProperties_AllowedCopyScope_STATUS_Values = map[string]StorageAccountProperties_AllowedCopyScope_STATUS{
-	"aad":         StorageAccountProperties_AllowedCopyScope_STATUS_AAD,
-	"privatelink": StorageAccountProperties_AllowedCopyScope_STATUS_PrivateLink,
-}
-
-type StorageAccountProperties_DnsEndpointType_STATUS string
-
-const (
-	StorageAccountProperties_DnsEndpointType_STATUS_AzureDnsZone = StorageAccountProperties_DnsEndpointType_STATUS("AzureDnsZone")
-	StorageAccountProperties_DnsEndpointType_STATUS_Standard     = StorageAccountProperties_DnsEndpointType_STATUS("Standard")
-)
-
-// Mapping from string to StorageAccountProperties_DnsEndpointType_STATUS
-var storageAccountProperties_DnsEndpointType_STATUS_Values = map[string]StorageAccountProperties_DnsEndpointType_STATUS{
-	"azurednszone": StorageAccountProperties_DnsEndpointType_STATUS_AzureDnsZone,
-	"standard":     StorageAccountProperties_DnsEndpointType_STATUS_Standard,
-}
-
-type StorageAccountProperties_LargeFileSharesState_STATUS string
-
-const (
-	StorageAccountProperties_LargeFileSharesState_STATUS_Disabled = StorageAccountProperties_LargeFileSharesState_STATUS("Disabled")
-	StorageAccountProperties_LargeFileSharesState_STATUS_Enabled  = StorageAccountProperties_LargeFileSharesState_STATUS("Enabled")
-)
-
-// Mapping from string to StorageAccountProperties_LargeFileSharesState_STATUS
-var storageAccountProperties_LargeFileSharesState_STATUS_Values = map[string]StorageAccountProperties_LargeFileSharesState_STATUS{
-	"disabled": StorageAccountProperties_LargeFileSharesState_STATUS_Disabled,
-	"enabled":  StorageAccountProperties_LargeFileSharesState_STATUS_Enabled,
-}
-
-type StorageAccountProperties_MinimumTlsVersion_STATUS string
-
-const (
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_0 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_0")
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_1 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_1")
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_2")
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_3 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_3")
-)
-
-// Mapping from string to StorageAccountProperties_MinimumTlsVersion_STATUS
-var storageAccountProperties_MinimumTlsVersion_STATUS_Values = map[string]StorageAccountProperties_MinimumTlsVersion_STATUS{
-	"tls1_0": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_0,
-	"tls1_1": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_1,
-	"tls1_2": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2,
-	"tls1_3": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_3,
-}
-
-type StorageAccountProperties_ProvisioningState_STATUS string
-
-const (
-	StorageAccountProperties_ProvisioningState_STATUS_Creating     = StorageAccountProperties_ProvisioningState_STATUS("Creating")
-	StorageAccountProperties_ProvisioningState_STATUS_ResolvingDNS = StorageAccountProperties_ProvisioningState_STATUS("ResolvingDNS")
-	StorageAccountProperties_ProvisioningState_STATUS_Succeeded    = StorageAccountProperties_ProvisioningState_STATUS("Succeeded")
-)
-
-// Mapping from string to StorageAccountProperties_ProvisioningState_STATUS
-var storageAccountProperties_ProvisioningState_STATUS_Values = map[string]StorageAccountProperties_ProvisioningState_STATUS{
-	"creating":     StorageAccountProperties_ProvisioningState_STATUS_Creating,
-	"resolvingdns": StorageAccountProperties_ProvisioningState_STATUS_ResolvingDNS,
-	"succeeded":    StorageAccountProperties_ProvisioningState_STATUS_Succeeded,
-}
-
-type StorageAccountProperties_StatusOfPrimary_STATUS string
-
-const (
-	StorageAccountProperties_StatusOfPrimary_STATUS_Available   = StorageAccountProperties_StatusOfPrimary_STATUS("available")
-	StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable = StorageAccountProperties_StatusOfPrimary_STATUS("unavailable")
-)
-
-// Mapping from string to StorageAccountProperties_StatusOfPrimary_STATUS
-var storageAccountProperties_StatusOfPrimary_STATUS_Values = map[string]StorageAccountProperties_StatusOfPrimary_STATUS{
-	"available":   StorageAccountProperties_StatusOfPrimary_STATUS_Available,
-	"unavailable": StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable,
-}
-
-type StorageAccountProperties_StatusOfSecondary_STATUS string
-
-const (
-	StorageAccountProperties_StatusOfSecondary_STATUS_Available   = StorageAccountProperties_StatusOfSecondary_STATUS("available")
-	StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable = StorageAccountProperties_StatusOfSecondary_STATUS("unavailable")
-)
-
-// Mapping from string to StorageAccountProperties_StatusOfSecondary_STATUS
-var storageAccountProperties_StatusOfSecondary_STATUS_Values = map[string]StorageAccountProperties_StatusOfSecondary_STATUS{
-	"available":   StorageAccountProperties_StatusOfSecondary_STATUS_Available,
-	"unavailable": StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable,
+// Mapping from string to SkuTier_STATUS
+var skuTier_STATUS_Values = map[string]SkuTier_STATUS{
+	"premium":  SkuTier_STATUS_Premium,
+	"standard": SkuTier_STATUS_Standard,
 }
 
 // This defines the sku conversion status object for asynchronous sku conversions.
@@ -685,7 +711,7 @@ type StorageAccountSkuConversionStatus_STATUS struct {
 	EndTime *string `json:"endTime,omitempty"`
 
 	// SkuConversionStatus: This property indicates the current sku conversion status.
-	SkuConversionStatus *StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS `json:"skuConversionStatus,omitempty"`
+	SkuConversionStatus *SkuConversionStatus_STATUS `json:"skuConversionStatus,omitempty"`
 
 	// StartTime: This property represents the sku conversion start time.
 	StartTime *string `json:"startTime,omitempty"`
@@ -694,18 +720,38 @@ type StorageAccountSkuConversionStatus_STATUS struct {
 	TargetSkuName *SkuName_STATUS `json:"targetSkuName,omitempty"`
 }
 
-// The SKU tier. This is based on the SKU name.
-type Tier_STATUS string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	Tier_STATUS_Premium  = Tier_STATUS("Premium")
-	Tier_STATUS_Standard = Tier_STATUS("Standard")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-// Mapping from string to Tier_STATUS
-var tier_STATUS_Values = map[string]Tier_STATUS{
-	"premium":  Tier_STATUS_Premium,
-	"standard": Tier_STATUS_Standard,
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // UserAssignedIdentity for the resource.
@@ -715,6 +761,20 @@ type UserAssignedIdentity_STATUS struct {
 
 	// PrincipalId: The principal ID of the identity.
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+// The availability zone pinning policy for the storage account.
+type ZonePlacementPolicy_STATUS string
+
+const (
+	ZonePlacementPolicy_STATUS_Any  = ZonePlacementPolicy_STATUS("Any")
+	ZonePlacementPolicy_STATUS_None = ZonePlacementPolicy_STATUS("None")
+)
+
+// Mapping from string to ZonePlacementPolicy_STATUS
+var zonePlacementPolicy_STATUS_Values = map[string]ZonePlacementPolicy_STATUS{
+	"any":  ZonePlacementPolicy_STATUS_Any,
+	"none": ZonePlacementPolicy_STATUS_None,
 }
 
 // This defines account-level immutability policy properties.
@@ -733,7 +793,7 @@ type AccountImmutabilityPolicyProperties_STATUS struct {
 	// property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a
 	// Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition
 	// to a Locked state which cannot be reverted.
-	State *AccountImmutabilityPolicyProperties_State_STATUS `json:"state,omitempty"`
+	State *AccountImmutabilityPolicyState_STATUS `json:"state,omitempty"`
 }
 
 // Settings properties for Active Directory (AD).
@@ -741,7 +801,7 @@ type ActiveDirectoryProperties_STATUS struct {
 	// AccountType: Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is optional. If provided, samAccountName should also be provided. For
 	// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
-	AccountType *ActiveDirectoryProperties_AccountType_STATUS `json:"accountType,omitempty"`
+	AccountType *AccountType_STATUS `json:"accountType,omitempty"`
 
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is required. Otherwise, it can be omitted.
@@ -778,40 +838,6 @@ type ActiveDirectoryProperties_STATUS struct {
 	SamAccountName *string `json:"samAccountName,omitempty"`
 }
 
-type AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS string
-
-const (
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_None                                       = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("None")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareReader")
-)
-
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS
-var azureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_Values = map[string]AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS{
-	"none":                               AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_None,
-	"storagefiledatasmbsharecontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor,
-	"storagefiledatasmbshareelevatedcontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor,
-	"storagefiledatasmbsharereader":              AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader,
-}
-
-type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS string
-
-const (
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADDS   = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AADDS")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADKERB = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AADKERB")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AD      = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AD")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("None")
-)
-
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS
-var azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_Values = map[string]AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS{
-	"aadds":   AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADDS,
-	"aadkerb": AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADKERB,
-	"ad":      AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AD,
-	"none":    AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None,
-}
-
 // Blob restore parameters
 type BlobRestoreParameters_STATUS struct {
 	// BlobRanges: Blob ranges to restore.
@@ -821,19 +847,57 @@ type BlobRestoreParameters_STATUS struct {
 	TimeToRestore *string `json:"timeToRestore,omitempty"`
 }
 
-type BlobRestoreStatus_Status_STATUS string
+// The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. -
+// Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
+type BlobRestoreProgressStatus_STATUS string
 
 const (
-	BlobRestoreStatus_Status_STATUS_Complete   = BlobRestoreStatus_Status_STATUS("Complete")
-	BlobRestoreStatus_Status_STATUS_Failed     = BlobRestoreStatus_Status_STATUS("Failed")
-	BlobRestoreStatus_Status_STATUS_InProgress = BlobRestoreStatus_Status_STATUS("InProgress")
+	BlobRestoreProgressStatus_STATUS_Complete   = BlobRestoreProgressStatus_STATUS("Complete")
+	BlobRestoreProgressStatus_STATUS_Failed     = BlobRestoreProgressStatus_STATUS("Failed")
+	BlobRestoreProgressStatus_STATUS_InProgress = BlobRestoreProgressStatus_STATUS("InProgress")
 )
 
-// Mapping from string to BlobRestoreStatus_Status_STATUS
-var blobRestoreStatus_Status_STATUS_Values = map[string]BlobRestoreStatus_Status_STATUS{
-	"complete":   BlobRestoreStatus_Status_STATUS_Complete,
-	"failed":     BlobRestoreStatus_Status_STATUS_Failed,
-	"inprogress": BlobRestoreStatus_Status_STATUS_InProgress,
+// Mapping from string to BlobRestoreProgressStatus_STATUS
+var blobRestoreProgressStatus_STATUS_Values = map[string]BlobRestoreProgressStatus_STATUS{
+	"complete":   BlobRestoreProgressStatus_STATUS_Complete,
+	"failed":     BlobRestoreProgressStatus_STATUS_Failed,
+	"inprogress": BlobRestoreProgressStatus_STATUS_InProgress,
+}
+
+// Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+type DefaultSharePermission_STATUS string
+
+const (
+	DefaultSharePermission_STATUS_None                                       = DefaultSharePermission_STATUS("None")
+	DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor         = DefaultSharePermission_STATUS("StorageFileDataSmbShareContributor")
+	DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor = DefaultSharePermission_STATUS("StorageFileDataSmbShareElevatedContributor")
+	DefaultSharePermission_STATUS_StorageFileDataSmbShareReader              = DefaultSharePermission_STATUS("StorageFileDataSmbShareReader")
+)
+
+// Mapping from string to DefaultSharePermission_STATUS
+var defaultSharePermission_STATUS_Values = map[string]DefaultSharePermission_STATUS{
+	"none":                               DefaultSharePermission_STATUS_None,
+	"storagefiledatasmbsharecontributor": DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor,
+	"storagefiledatasmbshareelevatedcontributor": DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor,
+	"storagefiledatasmbsharereader":              DefaultSharePermission_STATUS_StorageFileDataSmbShareReader,
+}
+
+// Indicates the directory service used. Note that this enum may be extended in the future.
+type DirectoryServiceOptions_STATUS string
+
+const (
+	DirectoryServiceOptions_STATUS_AADDS   = DirectoryServiceOptions_STATUS("AADDS")
+	DirectoryServiceOptions_STATUS_AADKERB = DirectoryServiceOptions_STATUS("AADKERB")
+	DirectoryServiceOptions_STATUS_AD      = DirectoryServiceOptions_STATUS("AD")
+	DirectoryServiceOptions_STATUS_None    = DirectoryServiceOptions_STATUS("None")
+)
+
+// Mapping from string to DirectoryServiceOptions_STATUS
+var directoryServiceOptions_STATUS_Values = map[string]DirectoryServiceOptions_STATUS{
+	"aadds":   DirectoryServiceOptions_STATUS_AADDS,
+	"aadkerb": DirectoryServiceOptions_STATUS_AADKERB,
+	"ad":      DirectoryServiceOptions_STATUS_AD,
+	"none":    DirectoryServiceOptions_STATUS_None,
 }
 
 type Encryption_KeySource_STATUS string
@@ -875,49 +939,23 @@ type EncryptionServices_STATUS struct {
 	Table *EncryptionService_STATUS `json:"table,omitempty"`
 }
 
-type GeoReplicationStats_PostFailoverRedundancy_STATUS string
+// The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and
+// operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in
+// progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location
+// is temporarily unavailable.
+type GeoReplicationStatus_STATUS string
 
 const (
-	GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_LRS = GeoReplicationStats_PostFailoverRedundancy_STATUS("Standard_LRS")
-	GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_ZRS = GeoReplicationStats_PostFailoverRedundancy_STATUS("Standard_ZRS")
+	GeoReplicationStatus_STATUS_Bootstrap   = GeoReplicationStatus_STATUS("Bootstrap")
+	GeoReplicationStatus_STATUS_Live        = GeoReplicationStatus_STATUS("Live")
+	GeoReplicationStatus_STATUS_Unavailable = GeoReplicationStatus_STATUS("Unavailable")
 )
 
-// Mapping from string to GeoReplicationStats_PostFailoverRedundancy_STATUS
-var geoReplicationStats_PostFailoverRedundancy_STATUS_Values = map[string]GeoReplicationStats_PostFailoverRedundancy_STATUS{
-	"standard_lrs": GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_LRS,
-	"standard_zrs": GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_ZRS,
-}
-
-type GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS string
-
-const (
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GRS    = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_GRS")
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GZRS   = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_GZRS")
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS  = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_RAGRS")
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_RAGZRS")
-)
-
-// Mapping from string to GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS
-var geoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Values = map[string]GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS{
-	"standard_grs":    GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GRS,
-	"standard_gzrs":   GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GZRS,
-	"standard_ragrs":  GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS,
-	"standard_ragzrs": GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS,
-}
-
-type GeoReplicationStats_Status_STATUS string
-
-const (
-	GeoReplicationStats_Status_STATUS_Bootstrap   = GeoReplicationStats_Status_STATUS("Bootstrap")
-	GeoReplicationStats_Status_STATUS_Live        = GeoReplicationStats_Status_STATUS("Live")
-	GeoReplicationStats_Status_STATUS_Unavailable = GeoReplicationStats_Status_STATUS("Unavailable")
-)
-
-// Mapping from string to GeoReplicationStats_Status_STATUS
-var geoReplicationStats_Status_STATUS_Values = map[string]GeoReplicationStats_Status_STATUS{
-	"bootstrap":   GeoReplicationStats_Status_STATUS_Bootstrap,
-	"live":        GeoReplicationStats_Status_STATUS_Live,
-	"unavailable": GeoReplicationStats_Status_STATUS_Unavailable,
+// Mapping from string to GeoReplicationStatus_STATUS
+var geoReplicationStatus_STATUS_Values = map[string]GeoReplicationStatus_STATUS{
+	"bootstrap":   GeoReplicationStatus_STATUS_Bootstrap,
+	"live":        GeoReplicationStatus_STATUS_Live,
+	"unavailable": GeoReplicationStatus_STATUS_Unavailable,
 }
 
 // IP rule with specific IP or IP range in CIDR format.
@@ -981,6 +1019,38 @@ var networkRuleSet_DefaultAction_STATUS_Values = map[string]NetworkRuleSet_Defau
 	"deny":  NetworkRuleSet_DefaultAction_STATUS_Deny,
 }
 
+// The redundancy type of the account after an account failover is performed.
+type PostFailoverRedundancy_STATUS string
+
+const (
+	PostFailoverRedundancy_STATUS_Standard_LRS = PostFailoverRedundancy_STATUS("Standard_LRS")
+	PostFailoverRedundancy_STATUS_Standard_ZRS = PostFailoverRedundancy_STATUS("Standard_ZRS")
+)
+
+// Mapping from string to PostFailoverRedundancy_STATUS
+var postFailoverRedundancy_STATUS_Values = map[string]PostFailoverRedundancy_STATUS{
+	"standard_lrs": PostFailoverRedundancy_STATUS_Standard_LRS,
+	"standard_zrs": PostFailoverRedundancy_STATUS_Standard_ZRS,
+}
+
+// The redundancy type of the account after a planned account failover is performed.
+type PostPlannedFailoverRedundancy_STATUS string
+
+const (
+	PostPlannedFailoverRedundancy_STATUS_Standard_GRS    = PostPlannedFailoverRedundancy_STATUS("Standard_GRS")
+	PostPlannedFailoverRedundancy_STATUS_Standard_GZRS   = PostPlannedFailoverRedundancy_STATUS("Standard_GZRS")
+	PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS  = PostPlannedFailoverRedundancy_STATUS("Standard_RAGRS")
+	PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS = PostPlannedFailoverRedundancy_STATUS("Standard_RAGZRS")
+)
+
+// Mapping from string to PostPlannedFailoverRedundancy_STATUS
+var postPlannedFailoverRedundancy_STATUS_Values = map[string]PostPlannedFailoverRedundancy_STATUS{
+	"standard_grs":    PostPlannedFailoverRedundancy_STATUS_Standard_GRS,
+	"standard_gzrs":   PostPlannedFailoverRedundancy_STATUS_Standard_GZRS,
+	"standard_ragrs":  PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS,
+	"standard_ragzrs": PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS,
+}
+
 // Resource Access Rule.
 type ResourceAccessRule_STATUS struct {
 	// ResourceId: Resource Id
@@ -990,17 +1060,18 @@ type ResourceAccessRule_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-type RoutingPreference_RoutingChoice_STATUS string
+// Routing Choice defines the kind of network routing opted by the user.
+type RoutingChoice_STATUS string
 
 const (
-	RoutingPreference_RoutingChoice_STATUS_InternetRouting  = RoutingPreference_RoutingChoice_STATUS("InternetRouting")
-	RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting = RoutingPreference_RoutingChoice_STATUS("MicrosoftRouting")
+	RoutingChoice_STATUS_InternetRouting  = RoutingChoice_STATUS("InternetRouting")
+	RoutingChoice_STATUS_MicrosoftRouting = RoutingChoice_STATUS("MicrosoftRouting")
 )
 
-// Mapping from string to RoutingPreference_RoutingChoice_STATUS
-var routingPreference_RoutingChoice_STATUS_Values = map[string]RoutingPreference_RoutingChoice_STATUS{
-	"internetrouting":  RoutingPreference_RoutingChoice_STATUS_InternetRouting,
-	"microsoftrouting": RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting,
+// Mapping from string to RoutingChoice_STATUS
+var routingChoice_STATUS_Values = map[string]RoutingChoice_STATUS{
+	"internetrouting":  RoutingChoice_STATUS_InternetRouting,
+	"microsoftrouting": RoutingChoice_STATUS_MicrosoftRouting,
 }
 
 type SasPolicy_ExpirationAction_STATUS string
@@ -1014,6 +1085,22 @@ const (
 var sasPolicy_ExpirationAction_STATUS_Values = map[string]SasPolicy_ExpirationAction_STATUS{
 	"block": SasPolicy_ExpirationAction_STATUS_Block,
 	"log":   SasPolicy_ExpirationAction_STATUS_Log,
+}
+
+// This property indicates the current sku conversion status.
+type SkuConversionStatus_STATUS string
+
+const (
+	SkuConversionStatus_STATUS_Failed     = SkuConversionStatus_STATUS("Failed")
+	SkuConversionStatus_STATUS_InProgress = SkuConversionStatus_STATUS("InProgress")
+	SkuConversionStatus_STATUS_Succeeded  = SkuConversionStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to SkuConversionStatus_STATUS
+var skuConversionStatus_STATUS_Values = map[string]SkuConversionStatus_STATUS{
+	"failed":     SkuConversionStatus_STATUS_Failed,
+	"inprogress": SkuConversionStatus_STATUS_InProgress,
+	"succeeded":  SkuConversionStatus_STATUS_Succeeded,
 }
 
 // Setting property for Managed Identity access over SMB using OAuth
@@ -1087,21 +1174,6 @@ type StorageAccountMicrosoftEndpoints_STATUS struct {
 	Web *string `json:"web,omitempty"`
 }
 
-type StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS string
-
-const (
-	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Failed     = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("Failed")
-	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_InProgress = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("InProgress")
-	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded  = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("Succeeded")
-)
-
-// Mapping from string to StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS
-var storageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Values = map[string]StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS{
-	"failed":     StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Failed,
-	"inprogress": StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_InProgress,
-	"succeeded":  StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded,
-}
-
 // Virtual Network rule.
 type VirtualNetworkRule_STATUS struct {
 	// Action: The action of virtual network rule.
@@ -1112,35 +1184,43 @@ type VirtualNetworkRule_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State_STATUS `json:"state,omitempty"`
+	State *State_STATUS `json:"state,omitempty"`
 }
 
-type AccountImmutabilityPolicyProperties_State_STATUS string
+// The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows
+// increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property,
+// Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or
+// Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked
+// state which cannot be reverted.
+type AccountImmutabilityPolicyState_STATUS string
 
 const (
-	AccountImmutabilityPolicyProperties_State_STATUS_Disabled = AccountImmutabilityPolicyProperties_State_STATUS("Disabled")
-	AccountImmutabilityPolicyProperties_State_STATUS_Locked   = AccountImmutabilityPolicyProperties_State_STATUS("Locked")
-	AccountImmutabilityPolicyProperties_State_STATUS_Unlocked = AccountImmutabilityPolicyProperties_State_STATUS("Unlocked")
+	AccountImmutabilityPolicyState_STATUS_Disabled = AccountImmutabilityPolicyState_STATUS("Disabled")
+	AccountImmutabilityPolicyState_STATUS_Locked   = AccountImmutabilityPolicyState_STATUS("Locked")
+	AccountImmutabilityPolicyState_STATUS_Unlocked = AccountImmutabilityPolicyState_STATUS("Unlocked")
 )
 
-// Mapping from string to AccountImmutabilityPolicyProperties_State_STATUS
-var accountImmutabilityPolicyProperties_State_STATUS_Values = map[string]AccountImmutabilityPolicyProperties_State_STATUS{
-	"disabled": AccountImmutabilityPolicyProperties_State_STATUS_Disabled,
-	"locked":   AccountImmutabilityPolicyProperties_State_STATUS_Locked,
-	"unlocked": AccountImmutabilityPolicyProperties_State_STATUS_Unlocked,
+// Mapping from string to AccountImmutabilityPolicyState_STATUS
+var accountImmutabilityPolicyState_STATUS_Values = map[string]AccountImmutabilityPolicyState_STATUS{
+	"disabled": AccountImmutabilityPolicyState_STATUS_Disabled,
+	"locked":   AccountImmutabilityPolicyState_STATUS_Locked,
+	"unlocked": AccountImmutabilityPolicyState_STATUS_Unlocked,
 }
 
-type ActiveDirectoryProperties_AccountType_STATUS string
+// Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD DS
+// authentication), this property is optional. If provided, samAccountName should also be provided. For
+// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
+type AccountType_STATUS string
 
 const (
-	ActiveDirectoryProperties_AccountType_STATUS_Computer = ActiveDirectoryProperties_AccountType_STATUS("Computer")
-	ActiveDirectoryProperties_AccountType_STATUS_User     = ActiveDirectoryProperties_AccountType_STATUS("User")
+	AccountType_STATUS_Computer = AccountType_STATUS("Computer")
+	AccountType_STATUS_User     = AccountType_STATUS("User")
 )
 
-// Mapping from string to ActiveDirectoryProperties_AccountType_STATUS
-var activeDirectoryProperties_AccountType_STATUS_Values = map[string]ActiveDirectoryProperties_AccountType_STATUS{
-	"computer": ActiveDirectoryProperties_AccountType_STATUS_Computer,
-	"user":     ActiveDirectoryProperties_AccountType_STATUS_User,
+// Mapping from string to AccountType_STATUS
+var accountType_STATUS_Values = map[string]AccountType_STATUS{
+	"computer": AccountType_STATUS_Computer,
+	"user":     AccountType_STATUS_User,
 }
 
 // Blob range
@@ -1160,7 +1240,7 @@ type EncryptionService_STATUS struct {
 
 	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
 	// encryption key will be used. 'Service' key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType_STATUS `json:"keyType,omitempty"`
+	KeyType *KeyType_STATUS `json:"keyType,omitempty"`
 
 	// LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is
 	// encrypted at rest by default today and cannot be disabled.
@@ -1176,6 +1256,26 @@ var iPRule_Action_STATUS_Values = map[string]IPRule_Action_STATUS{
 	"allow": IPRule_Action_STATUS_Allow,
 }
 
+// Gets the state of virtual network rule.
+type State_STATUS string
+
+const (
+	State_STATUS_Deprovisioning       = State_STATUS("Deprovisioning")
+	State_STATUS_Failed               = State_STATUS("Failed")
+	State_STATUS_NetworkSourceDeleted = State_STATUS("NetworkSourceDeleted")
+	State_STATUS_Provisioning         = State_STATUS("Provisioning")
+	State_STATUS_Succeeded            = State_STATUS("Succeeded")
+)
+
+// Mapping from string to State_STATUS
+var state_STATUS_Values = map[string]State_STATUS{
+	"deprovisioning":       State_STATUS_Deprovisioning,
+	"failed":               State_STATUS_Failed,
+	"networksourcedeleted": State_STATUS_NetworkSourceDeleted,
+	"provisioning":         State_STATUS_Provisioning,
+	"succeeded":            State_STATUS_Succeeded,
+}
+
 type VirtualNetworkRule_Action_STATUS string
 
 const VirtualNetworkRule_Action_STATUS_Allow = VirtualNetworkRule_Action_STATUS("Allow")
@@ -1185,34 +1285,17 @@ var virtualNetworkRule_Action_STATUS_Values = map[string]VirtualNetworkRule_Acti
 	"allow": VirtualNetworkRule_Action_STATUS_Allow,
 }
 
-type VirtualNetworkRule_State_STATUS string
+// Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption
+// key will be used. 'Service' key type implies that a default service key is used.
+type KeyType_STATUS string
 
 const (
-	VirtualNetworkRule_State_STATUS_Deprovisioning       = VirtualNetworkRule_State_STATUS("Deprovisioning")
-	VirtualNetworkRule_State_STATUS_Failed               = VirtualNetworkRule_State_STATUS("Failed")
-	VirtualNetworkRule_State_STATUS_NetworkSourceDeleted = VirtualNetworkRule_State_STATUS("NetworkSourceDeleted")
-	VirtualNetworkRule_State_STATUS_Provisioning         = VirtualNetworkRule_State_STATUS("Provisioning")
-	VirtualNetworkRule_State_STATUS_Succeeded            = VirtualNetworkRule_State_STATUS("Succeeded")
+	KeyType_STATUS_Account = KeyType_STATUS("Account")
+	KeyType_STATUS_Service = KeyType_STATUS("Service")
 )
 
-// Mapping from string to VirtualNetworkRule_State_STATUS
-var virtualNetworkRule_State_STATUS_Values = map[string]VirtualNetworkRule_State_STATUS{
-	"deprovisioning":       VirtualNetworkRule_State_STATUS_Deprovisioning,
-	"failed":               VirtualNetworkRule_State_STATUS_Failed,
-	"networksourcedeleted": VirtualNetworkRule_State_STATUS_NetworkSourceDeleted,
-	"provisioning":         VirtualNetworkRule_State_STATUS_Provisioning,
-	"succeeded":            VirtualNetworkRule_State_STATUS_Succeeded,
-}
-
-type EncryptionService_KeyType_STATUS string
-
-const (
-	EncryptionService_KeyType_STATUS_Account = EncryptionService_KeyType_STATUS("Account")
-	EncryptionService_KeyType_STATUS_Service = EncryptionService_KeyType_STATUS("Service")
-)
-
-// Mapping from string to EncryptionService_KeyType_STATUS
-var encryptionService_KeyType_STATUS_Values = map[string]EncryptionService_KeyType_STATUS{
-	"account": EncryptionService_KeyType_STATUS_Account,
-	"service": EncryptionService_KeyType_STATUS_Service,
+// Mapping from string to KeyType_STATUS
+var keyType_STATUS_Values = map[string]KeyType_STATUS{
+	"account": KeyType_STATUS_Account,
+	"service": KeyType_STATUS_Service,
 }

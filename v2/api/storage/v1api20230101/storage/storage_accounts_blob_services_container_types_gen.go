@@ -731,6 +731,13 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 	// RemainingRetentionDays
 	container.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Type
 	container.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -884,6 +891,19 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 
 	// RemainingRetentionDays
 	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(container.RemainingRetentionDays)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(container.Type)

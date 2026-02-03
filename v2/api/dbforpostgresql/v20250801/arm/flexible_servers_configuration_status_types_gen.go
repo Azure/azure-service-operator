@@ -27,7 +27,7 @@ type ConfigurationProperties_STATUS struct {
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// DataType: Data type of the configuration (also known as server parameter).
-	DataType *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
+	DataType *ConfigurationDataType_STATUS `json:"dataType,omitempty"`
 
 	// DefaultValue: Value assigned by default to the configuration (also known as server parameter).
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -63,23 +63,24 @@ type ConfigurationProperties_STATUS struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type ConfigurationProperties_DataType_STATUS string
+// Data type of the configuration (also known as server parameter).
+type ConfigurationDataType_STATUS string
 
 const (
-	ConfigurationProperties_DataType_STATUS_Boolean     = ConfigurationProperties_DataType_STATUS("Boolean")
-	ConfigurationProperties_DataType_STATUS_Enumeration = ConfigurationProperties_DataType_STATUS("Enumeration")
-	ConfigurationProperties_DataType_STATUS_Integer     = ConfigurationProperties_DataType_STATUS("Integer")
-	ConfigurationProperties_DataType_STATUS_Numeric     = ConfigurationProperties_DataType_STATUS("Numeric")
-	ConfigurationProperties_DataType_STATUS_Set         = ConfigurationProperties_DataType_STATUS("Set")
-	ConfigurationProperties_DataType_STATUS_String      = ConfigurationProperties_DataType_STATUS("String")
+	ConfigurationDataType_STATUS_Boolean     = ConfigurationDataType_STATUS("Boolean")
+	ConfigurationDataType_STATUS_Enumeration = ConfigurationDataType_STATUS("Enumeration")
+	ConfigurationDataType_STATUS_Integer     = ConfigurationDataType_STATUS("Integer")
+	ConfigurationDataType_STATUS_Numeric     = ConfigurationDataType_STATUS("Numeric")
+	ConfigurationDataType_STATUS_Set         = ConfigurationDataType_STATUS("Set")
+	ConfigurationDataType_STATUS_String      = ConfigurationDataType_STATUS("String")
 )
 
-// Mapping from string to ConfigurationProperties_DataType_STATUS
-var configurationProperties_DataType_STATUS_Values = map[string]ConfigurationProperties_DataType_STATUS{
-	"boolean":     ConfigurationProperties_DataType_STATUS_Boolean,
-	"enumeration": ConfigurationProperties_DataType_STATUS_Enumeration,
-	"integer":     ConfigurationProperties_DataType_STATUS_Integer,
-	"numeric":     ConfigurationProperties_DataType_STATUS_Numeric,
-	"set":         ConfigurationProperties_DataType_STATUS_Set,
-	"string":      ConfigurationProperties_DataType_STATUS_String,
+// Mapping from string to ConfigurationDataType_STATUS
+var configurationDataType_STATUS_Values = map[string]ConfigurationDataType_STATUS{
+	"boolean":     ConfigurationDataType_STATUS_Boolean,
+	"enumeration": ConfigurationDataType_STATUS_Enumeration,
+	"integer":     ConfigurationDataType_STATUS_Integer,
+	"numeric":     ConfigurationDataType_STATUS_Numeric,
+	"set":         ConfigurationDataType_STATUS_Set,
+	"string":      ConfigurationDataType_STATUS_String,
 }

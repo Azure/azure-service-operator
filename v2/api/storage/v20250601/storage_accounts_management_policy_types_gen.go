@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default
 type StorageAccountsManagementPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -496,8 +496,8 @@ type StorageAccountsManagementPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.
@@ -509,6 +509,9 @@ type StorageAccountsManagementPolicy_STATUS struct {
 	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
 	// https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview.
 	Policy *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -615,6 +618,17 @@ func (policy *StorageAccountsManagementPolicy_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		policy.SystemData = &systemData
+	}
+
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -652,6 +666,18 @@ func (policy *StorageAccountsManagementPolicy_STATUS) AssignProperties_From_Stor
 		policy.Policy = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		policy.SystemData = &systemDatum
+	} else {
+		policy.SystemData = nil
+	}
+
 	// Type
 	policy.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -686,6 +712,18 @@ func (policy *StorageAccountsManagementPolicy_STATUS) AssignProperties_To_Storag
 		destination.Policy = &policyLocal
 	} else {
 		destination.Policy = nil
+	}
+
+	// SystemData
+	if policy.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Type
@@ -1038,7 +1076,7 @@ type ManagementPolicyRule struct {
 
 	// +kubebuilder:validation:Required
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type `json:"type,omitempty"`
+	Type *RuleType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyRule{}
@@ -1076,7 +1114,7 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	if rule.Type != nil {
 		var temp string
 		temp = string(*rule.Type)
-		typeVar := arm.ManagementPolicyRule_Type(temp)
+		typeVar := arm.RuleType(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -1121,7 +1159,7 @@ func (rule *ManagementPolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := ManagementPolicyRule_Type(temp)
+		typeVar := RuleType(temp)
 		rule.Type = &typeVar
 	}
 
@@ -1158,7 +1196,7 @@ func (rule *ManagementPolicyRule) AssignProperties_From_ManagementPolicyRule(sou
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, managementPolicyRule_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, ruleType_Values)
 		rule.Type = &typeTemp
 	} else {
 		rule.Type = nil
@@ -1243,7 +1281,7 @@ func (rule *ManagementPolicyRule) Initialize_From_ManagementPolicyRule_STATUS(so
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managementPolicyRule_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), ruleType_Values)
 		rule.Type = &typeVar
 	} else {
 		rule.Type = nil
@@ -1266,7 +1304,7 @@ type ManagementPolicyRule_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
+	Type *RuleType_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_STATUS{}
@@ -1310,7 +1348,7 @@ func (rule *ManagementPolicyRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := ManagementPolicyRule_Type_STATUS(temp)
+		typeVar := RuleType_STATUS(temp)
 		rule.Type = &typeVar
 	}
 
@@ -1347,7 +1385,7 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_From_ManagementPolicyR
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, managementPolicyRule_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, ruleType_STATUS_Values)
 		rule.Type = &typeTemp
 	} else {
 		rule.Type = nil
@@ -1705,23 +1743,25 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_To_Managem
 	return nil
 }
 
+// The valid value is Lifecycle
 // +kubebuilder:validation:Enum={"Lifecycle"}
-type ManagementPolicyRule_Type string
+type RuleType string
 
-const ManagementPolicyRule_Type_Lifecycle = ManagementPolicyRule_Type("Lifecycle")
+const RuleType_Lifecycle = RuleType("Lifecycle")
 
-// Mapping from string to ManagementPolicyRule_Type
-var managementPolicyRule_Type_Values = map[string]ManagementPolicyRule_Type{
-	"lifecycle": ManagementPolicyRule_Type_Lifecycle,
+// Mapping from string to RuleType
+var ruleType_Values = map[string]RuleType{
+	"lifecycle": RuleType_Lifecycle,
 }
 
-type ManagementPolicyRule_Type_STATUS string
+// The valid value is Lifecycle
+type RuleType_STATUS string
 
-const ManagementPolicyRule_Type_STATUS_Lifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
+const RuleType_STATUS_Lifecycle = RuleType_STATUS("Lifecycle")
 
-// Mapping from string to ManagementPolicyRule_Type_STATUS
-var managementPolicyRule_Type_STATUS_Values = map[string]ManagementPolicyRule_Type_STATUS{
-	"lifecycle": ManagementPolicyRule_Type_STATUS_Lifecycle,
+// Mapping from string to RuleType_STATUS
+var ruleType_STATUS_Values = map[string]RuleType_STATUS{
+	"lifecycle": RuleType_STATUS_Lifecycle,
 }
 
 // Actions are applied to the filtered blobs when the execution condition is met.
@@ -4506,12 +4546,10 @@ func (filter *TagFilter_STATUS) AssignProperties_To_TagFilter_STATUS(destination
 type DateAfterCreation struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:MultipleOf=1
 	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:MultipleOf=1
 	// DaysAfterLastTierChangeGreaterThan: Value indicating the age in days after last blob tier change time. This property is
 	// only applicable for tierToArchive actions and requires daysAfterCreationGreaterThan to be set for snapshots and blob
 	// version based actions. The blob will be archived if both the conditions are satisfied.
@@ -4730,25 +4768,21 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_To_DateAfterCreation_
 // daysAfterLastAccessTimeGreaterThan or daysAfterCreationGreaterThan.
 type DateAfterModification struct {
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:MultipleOf=1
 	// DaysAfterCreationGreaterThan: Value indicating the age in days after blob creation.
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:MultipleOf=1
 	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
 	// used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:MultipleOf=1
 	// DaysAfterLastTierChangeGreaterThan: Value indicating the age in days after last blob tier change time. This property is
 	// only applicable for tierToArchive actions and requires daysAfterModificationGreaterThan to be set for baseBlobs based
 	// actions. The blob will be archived if both the conditions are satisfied.
 	DaysAfterLastTierChangeGreaterThan *int `json:"daysAfterLastTierChangeGreaterThan,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:MultipleOf=1
 	// DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
 	DaysAfterModificationGreaterThan *int `json:"daysAfterModificationGreaterThan,omitempty"`
 }

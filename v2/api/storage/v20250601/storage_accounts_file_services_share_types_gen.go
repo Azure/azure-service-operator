@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}
 type StorageAccountsFileServicesShare struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (share *StorageAccountsFileServicesShare) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}
 type StorageAccountsFileServicesShareList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -249,7 +249,7 @@ type StorageAccountsFileServicesShareList struct {
 type StorageAccountsFileServicesShare_Spec struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
-	AccessTier *FileShareProperties_AccessTier `json:"accessTier,omitempty"`
+	AccessTier *ShareAccessTier `json:"accessTier,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
@@ -259,10 +259,10 @@ type StorageAccountsFileServicesShare_Spec struct {
 
 	// EnabledProtocols: The authentication protocol that is used for the file share. Can only be specified when creating a
 	// share.
-	EnabledProtocols *FileShareProperties_EnabledProtocols `json:"enabledProtocols,omitempty"`
+	EnabledProtocols *EnabledProtocols `json:"enabledProtocols,omitempty"`
 
 	// FileSharePaidBursting: File Share Paid Bursting properties.
-	FileSharePaidBursting *FileShareProperties_FileSharePaidBursting `json:"fileSharePaidBursting,omitempty"`
+	FileSharePaidBursting *FileSharePropertiesFileSharePaidBursting `json:"fileSharePaidBursting,omitempty"`
 
 	// Metadata: A name-value pair to associate with the share as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -288,7 +288,7 @@ type StorageAccountsFileServicesShare_Spec struct {
 	ProvisionedIops *int `json:"provisionedIops,omitempty"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
-	RootSquash *FileShareProperties_RootSquash `json:"rootSquash,omitempty"`
+	RootSquash *RootSquashType `json:"rootSquash,omitempty"`
 
 	// ShareQuota: The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB
 	// (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account
@@ -326,13 +326,13 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 	if share.AccessTier != nil {
 		var temp string
 		temp = string(*share.AccessTier)
-		accessTier := arm.FileShareProperties_AccessTier(temp)
+		accessTier := arm.ShareAccessTier(temp)
 		result.Properties.AccessTier = &accessTier
 	}
 	if share.EnabledProtocols != nil {
 		var temp string
 		temp = string(*share.EnabledProtocols)
-		enabledProtocols := arm.FileShareProperties_EnabledProtocols(temp)
+		enabledProtocols := arm.EnabledProtocols(temp)
 		result.Properties.EnabledProtocols = &enabledProtocols
 	}
 	if share.FileSharePaidBursting != nil {
@@ -340,7 +340,7 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		fileSharePaidBursting := *fileSharePaidBursting_ARM.(*arm.FileShareProperties_FileSharePaidBursting)
+		fileSharePaidBursting := *fileSharePaidBursting_ARM.(*arm.FileSharePropertiesFileSharePaidBursting)
 		result.Properties.FileSharePaidBursting = &fileSharePaidBursting
 	}
 	if share.Metadata != nil {
@@ -360,7 +360,7 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 	if share.RootSquash != nil {
 		var temp string
 		temp = string(*share.RootSquash)
-		rootSquash := arm.FileShareProperties_RootSquash(temp)
+		rootSquash := arm.RootSquashType(temp)
 		result.Properties.RootSquash = &rootSquash
 	}
 	if share.ShareQuota != nil {
@@ -395,7 +395,7 @@ func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genrun
 		if typedInput.Properties.AccessTier != nil {
 			var temp string
 			temp = string(*typedInput.Properties.AccessTier)
-			accessTier := FileShareProperties_AccessTier(temp)
+			accessTier := ShareAccessTier(temp)
 			share.AccessTier = &accessTier
 		}
 	}
@@ -409,7 +409,7 @@ func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genrun
 		if typedInput.Properties.EnabledProtocols != nil {
 			var temp string
 			temp = string(*typedInput.Properties.EnabledProtocols)
-			enabledProtocols := FileShareProperties_EnabledProtocols(temp)
+			enabledProtocols := EnabledProtocols(temp)
 			share.EnabledProtocols = &enabledProtocols
 		}
 	}
@@ -418,7 +418,7 @@ func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genrun
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FileSharePaidBursting != nil {
-			var fileSharePaidBursting1 FileShareProperties_FileSharePaidBursting
+			var fileSharePaidBursting1 FileSharePropertiesFileSharePaidBursting
 			err := fileSharePaidBursting1.PopulateFromARM(owner, *typedInput.Properties.FileSharePaidBursting)
 			if err != nil {
 				return err
@@ -471,7 +471,7 @@ func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genrun
 		if typedInput.Properties.RootSquash != nil {
 			var temp string
 			temp = string(*typedInput.Properties.RootSquash)
-			rootSquash := FileShareProperties_RootSquash(temp)
+			rootSquash := RootSquashType(temp)
 			share.RootSquash = &rootSquash
 		}
 	}
@@ -558,7 +558,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 	// AccessTier
 	if source.AccessTier != nil {
 		accessTier := *source.AccessTier
-		accessTierTemp := genruntime.ToEnum(accessTier, fileShareProperties_AccessTier_Values)
+		accessTierTemp := genruntime.ToEnum(accessTier, shareAccessTier_Values)
 		share.AccessTier = &accessTierTemp
 	} else {
 		share.AccessTier = nil
@@ -570,7 +570,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 	// EnabledProtocols
 	if source.EnabledProtocols != nil {
 		enabledProtocol := *source.EnabledProtocols
-		enabledProtocolTemp := genruntime.ToEnum(enabledProtocol, fileShareProperties_EnabledProtocols_Values)
+		enabledProtocolTemp := genruntime.ToEnum(enabledProtocol, enabledProtocols_Values)
 		share.EnabledProtocols = &enabledProtocolTemp
 	} else {
 		share.EnabledProtocols = nil
@@ -578,10 +578,10 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 
 	// FileSharePaidBursting
 	if source.FileSharePaidBursting != nil {
-		var fileSharePaidBursting FileShareProperties_FileSharePaidBursting
-		err := fileSharePaidBursting.AssignProperties_From_FileShareProperties_FileSharePaidBursting(source.FileSharePaidBursting)
+		var fileSharePaidBursting FileSharePropertiesFileSharePaidBursting
+		err := fileSharePaidBursting.AssignProperties_From_FileSharePropertiesFileSharePaidBursting(source.FileSharePaidBursting)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_FileShareProperties_FileSharePaidBursting() to populate field FileSharePaidBursting")
+			return eris.Wrap(err, "calling AssignProperties_From_FileSharePropertiesFileSharePaidBursting() to populate field FileSharePaidBursting")
 		}
 		share.FileSharePaidBursting = &fileSharePaidBursting
 	} else {
@@ -620,7 +620,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 	// RootSquash
 	if source.RootSquash != nil {
 		rootSquash := *source.RootSquash
-		rootSquashTemp := genruntime.ToEnum(rootSquash, fileShareProperties_RootSquash_Values)
+		rootSquashTemp := genruntime.ToEnum(rootSquash, rootSquashType_Values)
 		share.RootSquash = &rootSquashTemp
 	} else {
 		share.RootSquash = nil
@@ -675,10 +675,10 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 
 	// FileSharePaidBursting
 	if share.FileSharePaidBursting != nil {
-		var fileSharePaidBursting storage.FileShareProperties_FileSharePaidBursting
-		err := share.FileSharePaidBursting.AssignProperties_To_FileShareProperties_FileSharePaidBursting(&fileSharePaidBursting)
+		var fileSharePaidBursting storage.FileSharePropertiesFileSharePaidBursting
+		err := share.FileSharePaidBursting.AssignProperties_To_FileSharePropertiesFileSharePaidBursting(&fileSharePaidBursting)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_FileShareProperties_FileSharePaidBursting() to populate field FileSharePaidBursting")
+			return eris.Wrap(err, "calling AssignProperties_To_FileSharePropertiesFileSharePaidBursting() to populate field FileSharePaidBursting")
 		}
 		destination.FileSharePaidBursting = &fileSharePaidBursting
 	} else {
@@ -760,7 +760,7 @@ func (share *StorageAccountsFileServicesShare_Spec) Initialize_From_StorageAccou
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := genruntime.ToEnum(string(*source.AccessTier), fileShareProperties_AccessTier_Values)
+		accessTier := genruntime.ToEnum(string(*source.AccessTier), shareAccessTier_Values)
 		share.AccessTier = &accessTier
 	} else {
 		share.AccessTier = nil
@@ -768,7 +768,7 @@ func (share *StorageAccountsFileServicesShare_Spec) Initialize_From_StorageAccou
 
 	// EnabledProtocols
 	if source.EnabledProtocols != nil {
-		enabledProtocol := genruntime.ToEnum(string(*source.EnabledProtocols), fileShareProperties_EnabledProtocols_Values)
+		enabledProtocol := genruntime.ToEnum(string(*source.EnabledProtocols), enabledProtocols_Values)
 		share.EnabledProtocols = &enabledProtocol
 	} else {
 		share.EnabledProtocols = nil
@@ -776,10 +776,10 @@ func (share *StorageAccountsFileServicesShare_Spec) Initialize_From_StorageAccou
 
 	// FileSharePaidBursting
 	if source.FileSharePaidBursting != nil {
-		var fileSharePaidBursting FileShareProperties_FileSharePaidBursting
-		err := fileSharePaidBursting.Initialize_From_FileShareProperties_FileSharePaidBursting_STATUS(source.FileSharePaidBursting)
+		var fileSharePaidBursting FileSharePropertiesFileSharePaidBursting
+		err := fileSharePaidBursting.Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS(source.FileSharePaidBursting)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FileShareProperties_FileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
+			return eris.Wrap(err, "calling Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
 		}
 		share.FileSharePaidBursting = &fileSharePaidBursting
 	} else {
@@ -797,7 +797,7 @@ func (share *StorageAccountsFileServicesShare_Spec) Initialize_From_StorageAccou
 
 	// RootSquash
 	if source.RootSquash != nil {
-		rootSquash := genruntime.ToEnum(string(*source.RootSquash), fileShareProperties_RootSquash_Values)
+		rootSquash := genruntime.ToEnum(string(*source.RootSquash), rootSquashType_Values)
 		share.RootSquash = &rootSquash
 	} else {
 		share.RootSquash = nil
@@ -839,7 +839,7 @@ func (share *StorageAccountsFileServicesShare_Spec) SetAzureName(azureName strin
 type StorageAccountsFileServicesShare_STATUS struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
-	AccessTier *FileShareProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
+	AccessTier *ShareAccessTier_STATUS `json:"accessTier,omitempty"`
 
 	// AccessTierChangeTime: Indicates the last modification time for share access tier.
 	AccessTierChangeTime *string `json:"accessTierChangeTime,omitempty"`
@@ -858,16 +858,16 @@ type StorageAccountsFileServicesShare_STATUS struct {
 
 	// EnabledProtocols: The authentication protocol that is used for the file share. Can only be specified when creating a
 	// share.
-	EnabledProtocols *FileShareProperties_EnabledProtocols_STATUS `json:"enabledProtocols,omitempty"`
+	EnabledProtocols *EnabledProtocols_STATUS `json:"enabledProtocols,omitempty"`
 
 	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 
 	// FileSharePaidBursting: File Share Paid Bursting properties.
-	FileSharePaidBursting *FileShareProperties_FileSharePaidBursting_STATUS `json:"fileSharePaidBursting,omitempty"`
+	FileSharePaidBursting *FileSharePropertiesFileSharePaidBursting_STATUS `json:"fileSharePaidBursting,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// IncludedBurstIops: The calculated burst IOPS of the share. This property is only for file shares created under Files
@@ -878,13 +878,13 @@ type StorageAccountsFileServicesShare_STATUS struct {
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
 
 	// LeaseDuration: Specifies whether the lease on a share is of infinite or fixed duration, only when the share is leased.
-	LeaseDuration *FileShareProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
+	LeaseDuration *LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
 
 	// LeaseState: Lease state of the share.
-	LeaseState *FileShareProperties_LeaseState_STATUS `json:"leaseState,omitempty"`
+	LeaseState *LeaseState_STATUS `json:"leaseState,omitempty"`
 
 	// LeaseStatus: The lease status of the share.
-	LeaseStatus *FileShareProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
+	LeaseStatus *LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// MaxBurstCreditsForIops: The calculated maximum burst credits for the share. This property is only for file shares
 	// created under Files Provisioned v2 account type.
@@ -922,7 +922,7 @@ type StorageAccountsFileServicesShare_STATUS struct {
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
-	RootSquash *FileShareProperties_RootSquash_STATUS `json:"rootSquash,omitempty"`
+	RootSquash *RootSquashType_STATUS `json:"rootSquash,omitempty"`
 
 	// ShareQuota: The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB
 	// (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account
@@ -938,6 +938,9 @@ type StorageAccountsFileServicesShare_STATUS struct {
 
 	// SnapshotTime: Creation time of share snapshot returned in the response of list shares with expand param "snapshots".
 	SnapshotTime *string `json:"snapshotTime,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -1016,7 +1019,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		if typedInput.Properties.AccessTier != nil {
 			var temp string
 			temp = string(*typedInput.Properties.AccessTier)
-			accessTier := FileShareProperties_AccessTier_STATUS(temp)
+			accessTier := ShareAccessTier_STATUS(temp)
 			share.AccessTier = &accessTier
 		}
 	}
@@ -1065,7 +1068,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		if typedInput.Properties.EnabledProtocols != nil {
 			var temp string
 			temp = string(*typedInput.Properties.EnabledProtocols)
-			enabledProtocols := FileShareProperties_EnabledProtocols_STATUS(temp)
+			enabledProtocols := EnabledProtocols_STATUS(temp)
 			share.EnabledProtocols = &enabledProtocols
 		}
 	}
@@ -1080,7 +1083,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FileSharePaidBursting != nil {
-			var fileSharePaidBursting1 FileShareProperties_FileSharePaidBursting_STATUS
+			var fileSharePaidBursting1 FileSharePropertiesFileSharePaidBursting_STATUS
 			err := fileSharePaidBursting1.PopulateFromARM(owner, *typedInput.Properties.FileSharePaidBursting)
 			if err != nil {
 				return err
@@ -1120,7 +1123,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		if typedInput.Properties.LeaseDuration != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LeaseDuration)
-			leaseDuration := FileShareProperties_LeaseDuration_STATUS(temp)
+			leaseDuration := LeaseDuration_STATUS(temp)
 			share.LeaseDuration = &leaseDuration
 		}
 	}
@@ -1131,7 +1134,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		if typedInput.Properties.LeaseState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LeaseState)
-			leaseState := FileShareProperties_LeaseState_STATUS(temp)
+			leaseState := LeaseState_STATUS(temp)
 			share.LeaseState = &leaseState
 		}
 	}
@@ -1142,7 +1145,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		if typedInput.Properties.LeaseStatus != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LeaseStatus)
-			leaseStatus := FileShareProperties_LeaseStatus_STATUS(temp)
+			leaseStatus := LeaseStatus_STATUS(temp)
 			share.LeaseStatus = &leaseStatus
 		}
 	}
@@ -1233,7 +1236,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		if typedInput.Properties.RootSquash != nil {
 			var temp string
 			temp = string(*typedInput.Properties.RootSquash)
-			rootSquash := FileShareProperties_RootSquash_STATUS(temp)
+			rootSquash := RootSquashType_STATUS(temp)
 			share.RootSquash = &rootSquash
 		}
 	}
@@ -1278,6 +1281,17 @@ func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		share.SystemData = &systemData
+	}
+
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -1303,7 +1317,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// AccessTier
 	if source.AccessTier != nil {
 		accessTier := *source.AccessTier
-		accessTierTemp := genruntime.ToEnum(accessTier, fileShareProperties_AccessTier_STATUS_Values)
+		accessTierTemp := genruntime.ToEnum(accessTier, shareAccessTier_STATUS_Values)
 		share.AccessTier = &accessTierTemp
 	} else {
 		share.AccessTier = nil
@@ -1332,7 +1346,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// EnabledProtocols
 	if source.EnabledProtocols != nil {
 		enabledProtocol := *source.EnabledProtocols
-		enabledProtocolTemp := genruntime.ToEnum(enabledProtocol, fileShareProperties_EnabledProtocols_STATUS_Values)
+		enabledProtocolTemp := genruntime.ToEnum(enabledProtocol, enabledProtocols_STATUS_Values)
 		share.EnabledProtocols = &enabledProtocolTemp
 	} else {
 		share.EnabledProtocols = nil
@@ -1343,10 +1357,10 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 
 	// FileSharePaidBursting
 	if source.FileSharePaidBursting != nil {
-		var fileSharePaidBursting FileShareProperties_FileSharePaidBursting_STATUS
-		err := fileSharePaidBursting.AssignProperties_From_FileShareProperties_FileSharePaidBursting_STATUS(source.FileSharePaidBursting)
+		var fileSharePaidBursting FileSharePropertiesFileSharePaidBursting_STATUS
+		err := fileSharePaidBursting.AssignProperties_From_FileSharePropertiesFileSharePaidBursting_STATUS(source.FileSharePaidBursting)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_FileShareProperties_FileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
+			return eris.Wrap(err, "calling AssignProperties_From_FileSharePropertiesFileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
 		}
 		share.FileSharePaidBursting = &fileSharePaidBursting
 	} else {
@@ -1365,7 +1379,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// LeaseDuration
 	if source.LeaseDuration != nil {
 		leaseDuration := *source.LeaseDuration
-		leaseDurationTemp := genruntime.ToEnum(leaseDuration, fileShareProperties_LeaseDuration_STATUS_Values)
+		leaseDurationTemp := genruntime.ToEnum(leaseDuration, leaseDuration_STATUS_Values)
 		share.LeaseDuration = &leaseDurationTemp
 	} else {
 		share.LeaseDuration = nil
@@ -1374,7 +1388,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// LeaseState
 	if source.LeaseState != nil {
 		leaseState := *source.LeaseState
-		leaseStateTemp := genruntime.ToEnum(leaseState, fileShareProperties_LeaseState_STATUS_Values)
+		leaseStateTemp := genruntime.ToEnum(leaseState, leaseState_STATUS_Values)
 		share.LeaseState = &leaseStateTemp
 	} else {
 		share.LeaseState = nil
@@ -1383,7 +1397,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// LeaseStatus
 	if source.LeaseStatus != nil {
 		leaseStatus := *source.LeaseStatus
-		leaseStatusTemp := genruntime.ToEnum(leaseStatus, fileShareProperties_LeaseStatus_STATUS_Values)
+		leaseStatusTemp := genruntime.ToEnum(leaseStatus, leaseStatus_STATUS_Values)
 		share.LeaseStatus = &leaseStatusTemp
 	} else {
 		share.LeaseStatus = nil
@@ -1419,7 +1433,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// RootSquash
 	if source.RootSquash != nil {
 		rootSquash := *source.RootSquash
-		rootSquashTemp := genruntime.ToEnum(rootSquash, fileShareProperties_RootSquash_STATUS_Values)
+		rootSquashTemp := genruntime.ToEnum(rootSquash, rootSquashType_STATUS_Values)
 		share.RootSquash = &rootSquashTemp
 	} else {
 		share.RootSquash = nil
@@ -1449,6 +1463,18 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 
 	// SnapshotTime
 	share.SnapshotTime = genruntime.ClonePointerToString(source.SnapshotTime)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		share.SystemData = &systemDatum
+	} else {
+		share.SystemData = nil
+	}
 
 	// Type
 	share.Type = genruntime.ClonePointerToString(source.Type)
@@ -1506,10 +1532,10 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 
 	// FileSharePaidBursting
 	if share.FileSharePaidBursting != nil {
-		var fileSharePaidBursting storage.FileShareProperties_FileSharePaidBursting_STATUS
-		err := share.FileSharePaidBursting.AssignProperties_To_FileShareProperties_FileSharePaidBursting_STATUS(&fileSharePaidBursting)
+		var fileSharePaidBursting storage.FileSharePropertiesFileSharePaidBursting_STATUS
+		err := share.FileSharePaidBursting.AssignProperties_To_FileSharePropertiesFileSharePaidBursting_STATUS(&fileSharePaidBursting)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_FileShareProperties_FileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
+			return eris.Wrap(err, "calling AssignProperties_To_FileSharePropertiesFileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
 		}
 		destination.FileSharePaidBursting = &fileSharePaidBursting
 	} else {
@@ -1609,6 +1635,18 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 	// SnapshotTime
 	destination.SnapshotTime = genruntime.ClonePointerToString(share.SnapshotTime)
 
+	// SystemData
+	if share.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := share.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Type
 	destination.Type = genruntime.ClonePointerToString(share.Type)
 
@@ -1626,69 +1664,37 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Cool","Hot","Premium","TransactionOptimized"}
-type FileShareProperties_AccessTier string
-
-const (
-	FileShareProperties_AccessTier_Cool                 = FileShareProperties_AccessTier("Cool")
-	FileShareProperties_AccessTier_Hot                  = FileShareProperties_AccessTier("Hot")
-	FileShareProperties_AccessTier_Premium              = FileShareProperties_AccessTier("Premium")
-	FileShareProperties_AccessTier_TransactionOptimized = FileShareProperties_AccessTier("TransactionOptimized")
-)
-
-// Mapping from string to FileShareProperties_AccessTier
-var fileShareProperties_AccessTier_Values = map[string]FileShareProperties_AccessTier{
-	"cool":                 FileShareProperties_AccessTier_Cool,
-	"hot":                  FileShareProperties_AccessTier_Hot,
-	"premium":              FileShareProperties_AccessTier_Premium,
-	"transactionoptimized": FileShareProperties_AccessTier_TransactionOptimized,
-}
-
-type FileShareProperties_AccessTier_STATUS string
-
-const (
-	FileShareProperties_AccessTier_STATUS_Cool                 = FileShareProperties_AccessTier_STATUS("Cool")
-	FileShareProperties_AccessTier_STATUS_Hot                  = FileShareProperties_AccessTier_STATUS("Hot")
-	FileShareProperties_AccessTier_STATUS_Premium              = FileShareProperties_AccessTier_STATUS("Premium")
-	FileShareProperties_AccessTier_STATUS_TransactionOptimized = FileShareProperties_AccessTier_STATUS("TransactionOptimized")
-)
-
-// Mapping from string to FileShareProperties_AccessTier_STATUS
-var fileShareProperties_AccessTier_STATUS_Values = map[string]FileShareProperties_AccessTier_STATUS{
-	"cool":                 FileShareProperties_AccessTier_STATUS_Cool,
-	"hot":                  FileShareProperties_AccessTier_STATUS_Hot,
-	"premium":              FileShareProperties_AccessTier_STATUS_Premium,
-	"transactionoptimized": FileShareProperties_AccessTier_STATUS_TransactionOptimized,
-}
-
+// The authentication protocol that is used for the file share. Can only be specified when creating a share.
 // +kubebuilder:validation:Enum={"NFS","SMB"}
-type FileShareProperties_EnabledProtocols string
+type EnabledProtocols string
 
 const (
-	FileShareProperties_EnabledProtocols_NFS = FileShareProperties_EnabledProtocols("NFS")
-	FileShareProperties_EnabledProtocols_SMB = FileShareProperties_EnabledProtocols("SMB")
+	EnabledProtocols_NFS = EnabledProtocols("NFS")
+	EnabledProtocols_SMB = EnabledProtocols("SMB")
 )
 
-// Mapping from string to FileShareProperties_EnabledProtocols
-var fileShareProperties_EnabledProtocols_Values = map[string]FileShareProperties_EnabledProtocols{
-	"nfs": FileShareProperties_EnabledProtocols_NFS,
-	"smb": FileShareProperties_EnabledProtocols_SMB,
+// Mapping from string to EnabledProtocols
+var enabledProtocols_Values = map[string]EnabledProtocols{
+	"nfs": EnabledProtocols_NFS,
+	"smb": EnabledProtocols_SMB,
 }
 
-type FileShareProperties_EnabledProtocols_STATUS string
+// The authentication protocol that is used for the file share. Can only be specified when creating a share.
+type EnabledProtocols_STATUS string
 
 const (
-	FileShareProperties_EnabledProtocols_STATUS_NFS = FileShareProperties_EnabledProtocols_STATUS("NFS")
-	FileShareProperties_EnabledProtocols_STATUS_SMB = FileShareProperties_EnabledProtocols_STATUS("SMB")
+	EnabledProtocols_STATUS_NFS = EnabledProtocols_STATUS("NFS")
+	EnabledProtocols_STATUS_SMB = EnabledProtocols_STATUS("SMB")
 )
 
-// Mapping from string to FileShareProperties_EnabledProtocols_STATUS
-var fileShareProperties_EnabledProtocols_STATUS_Values = map[string]FileShareProperties_EnabledProtocols_STATUS{
-	"nfs": FileShareProperties_EnabledProtocols_STATUS_NFS,
-	"smb": FileShareProperties_EnabledProtocols_STATUS_SMB,
+// Mapping from string to EnabledProtocols_STATUS
+var enabledProtocols_STATUS_Values = map[string]EnabledProtocols_STATUS{
+	"nfs": EnabledProtocols_STATUS_NFS,
+	"smb": EnabledProtocols_STATUS_SMB,
 }
 
-type FileShareProperties_FileSharePaidBursting struct {
+// File Share Paid Bursting properties.
+type FileSharePropertiesFileSharePaidBursting struct {
 	// PaidBurstingEnabled: Indicates whether paid bursting is enabled for the share. This property is only for file shares
 	// created under Files Provisioned v1 SSD account type.
 	PaidBurstingEnabled *bool `json:"paidBurstingEnabled,omitempty"`
@@ -1703,14 +1709,14 @@ type FileShareProperties_FileSharePaidBursting struct {
 	PaidBurstingMaxIops *int `json:"paidBurstingMaxIops,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &FileShareProperties_FileSharePaidBursting{}
+var _ genruntime.ARMTransformer = &FileSharePropertiesFileSharePaidBursting{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (bursting *FileShareProperties_FileSharePaidBursting) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (bursting *FileSharePropertiesFileSharePaidBursting) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if bursting == nil {
 		return nil, nil
 	}
-	result := &arm.FileShareProperties_FileSharePaidBursting{}
+	result := &arm.FileSharePropertiesFileSharePaidBursting{}
 
 	// Set property "PaidBurstingEnabled":
 	if bursting.PaidBurstingEnabled != nil {
@@ -1733,15 +1739,15 @@ func (bursting *FileShareProperties_FileSharePaidBursting) ConvertToARM(resolved
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bursting *FileShareProperties_FileSharePaidBursting) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.FileShareProperties_FileSharePaidBursting{}
+func (bursting *FileSharePropertiesFileSharePaidBursting) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FileSharePropertiesFileSharePaidBursting{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (bursting *FileShareProperties_FileSharePaidBursting) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.FileShareProperties_FileSharePaidBursting)
+func (bursting *FileSharePropertiesFileSharePaidBursting) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FileSharePropertiesFileSharePaidBursting)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FileShareProperties_FileSharePaidBursting, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FileSharePropertiesFileSharePaidBursting, got %T", armInput)
 	}
 
 	// Set property "PaidBurstingEnabled":
@@ -1766,8 +1772,8 @@ func (bursting *FileShareProperties_FileSharePaidBursting) PopulateFromARM(owner
 	return nil
 }
 
-// AssignProperties_From_FileShareProperties_FileSharePaidBursting populates our FileShareProperties_FileSharePaidBursting from the provided source FileShareProperties_FileSharePaidBursting
-func (bursting *FileShareProperties_FileSharePaidBursting) AssignProperties_From_FileShareProperties_FileSharePaidBursting(source *storage.FileShareProperties_FileSharePaidBursting) error {
+// AssignProperties_From_FileSharePropertiesFileSharePaidBursting populates our FileSharePropertiesFileSharePaidBursting from the provided source FileSharePropertiesFileSharePaidBursting
+func (bursting *FileSharePropertiesFileSharePaidBursting) AssignProperties_From_FileSharePropertiesFileSharePaidBursting(source *storage.FileSharePropertiesFileSharePaidBursting) error {
 
 	// PaidBurstingEnabled
 	if source.PaidBurstingEnabled != nil {
@@ -1787,8 +1793,8 @@ func (bursting *FileShareProperties_FileSharePaidBursting) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_FileShareProperties_FileSharePaidBursting populates the provided destination FileShareProperties_FileSharePaidBursting from our FileShareProperties_FileSharePaidBursting
-func (bursting *FileShareProperties_FileSharePaidBursting) AssignProperties_To_FileShareProperties_FileSharePaidBursting(destination *storage.FileShareProperties_FileSharePaidBursting) error {
+// AssignProperties_To_FileSharePropertiesFileSharePaidBursting populates the provided destination FileSharePropertiesFileSharePaidBursting from our FileSharePropertiesFileSharePaidBursting
+func (bursting *FileSharePropertiesFileSharePaidBursting) AssignProperties_To_FileSharePropertiesFileSharePaidBursting(destination *storage.FileSharePropertiesFileSharePaidBursting) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1817,8 +1823,8 @@ func (bursting *FileShareProperties_FileSharePaidBursting) AssignProperties_To_F
 	return nil
 }
 
-// Initialize_From_FileShareProperties_FileSharePaidBursting_STATUS populates our FileShareProperties_FileSharePaidBursting from the provided source FileShareProperties_FileSharePaidBursting_STATUS
-func (bursting *FileShareProperties_FileSharePaidBursting) Initialize_From_FileShareProperties_FileSharePaidBursting_STATUS(source *FileShareProperties_FileSharePaidBursting_STATUS) error {
+// Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS populates our FileSharePropertiesFileSharePaidBursting from the provided source FileSharePropertiesFileSharePaidBursting_STATUS
+func (bursting *FileSharePropertiesFileSharePaidBursting) Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS(source *FileSharePropertiesFileSharePaidBursting_STATUS) error {
 
 	// PaidBurstingEnabled
 	if source.PaidBurstingEnabled != nil {
@@ -1838,7 +1844,8 @@ func (bursting *FileShareProperties_FileSharePaidBursting) Initialize_From_FileS
 	return nil
 }
 
-type FileShareProperties_FileSharePaidBursting_STATUS struct {
+// File Share Paid Bursting properties.
+type FileSharePropertiesFileSharePaidBursting_STATUS struct {
 	// PaidBurstingEnabled: Indicates whether paid bursting is enabled for the share. This property is only for file shares
 	// created under Files Provisioned v1 SSD account type.
 	PaidBurstingEnabled *bool `json:"paidBurstingEnabled,omitempty"`
@@ -1853,18 +1860,18 @@ type FileShareProperties_FileSharePaidBursting_STATUS struct {
 	PaidBurstingMaxIops *int `json:"paidBurstingMaxIops,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &FileShareProperties_FileSharePaidBursting_STATUS{}
+var _ genruntime.FromARMConverter = &FileSharePropertiesFileSharePaidBursting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.FileShareProperties_FileSharePaidBursting_STATUS{}
+func (bursting *FileSharePropertiesFileSharePaidBursting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FileSharePropertiesFileSharePaidBursting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.FileShareProperties_FileSharePaidBursting_STATUS)
+func (bursting *FileSharePropertiesFileSharePaidBursting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FileSharePropertiesFileSharePaidBursting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FileShareProperties_FileSharePaidBursting_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FileSharePropertiesFileSharePaidBursting_STATUS, got %T", armInput)
 	}
 
 	// Set property "PaidBurstingEnabled":
@@ -1889,8 +1896,8 @@ func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) PopulateFromAR
 	return nil
 }
 
-// AssignProperties_From_FileShareProperties_FileSharePaidBursting_STATUS populates our FileShareProperties_FileSharePaidBursting_STATUS from the provided source FileShareProperties_FileSharePaidBursting_STATUS
-func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) AssignProperties_From_FileShareProperties_FileSharePaidBursting_STATUS(source *storage.FileShareProperties_FileSharePaidBursting_STATUS) error {
+// AssignProperties_From_FileSharePropertiesFileSharePaidBursting_STATUS populates our FileSharePropertiesFileSharePaidBursting_STATUS from the provided source FileSharePropertiesFileSharePaidBursting_STATUS
+func (bursting *FileSharePropertiesFileSharePaidBursting_STATUS) AssignProperties_From_FileSharePropertiesFileSharePaidBursting_STATUS(source *storage.FileSharePropertiesFileSharePaidBursting_STATUS) error {
 
 	// PaidBurstingEnabled
 	if source.PaidBurstingEnabled != nil {
@@ -1910,8 +1917,8 @@ func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) AssignProperti
 	return nil
 }
 
-// AssignProperties_To_FileShareProperties_FileSharePaidBursting_STATUS populates the provided destination FileShareProperties_FileSharePaidBursting_STATUS from our FileShareProperties_FileSharePaidBursting_STATUS
-func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) AssignProperties_To_FileShareProperties_FileSharePaidBursting_STATUS(destination *storage.FileShareProperties_FileSharePaidBursting_STATUS) error {
+// AssignProperties_To_FileSharePropertiesFileSharePaidBursting_STATUS populates the provided destination FileSharePropertiesFileSharePaidBursting_STATUS from our FileSharePropertiesFileSharePaidBursting_STATUS
+func (bursting *FileSharePropertiesFileSharePaidBursting_STATUS) AssignProperties_To_FileSharePropertiesFileSharePaidBursting_STATUS(destination *storage.FileSharePropertiesFileSharePaidBursting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1940,80 +1947,76 @@ func (bursting *FileShareProperties_FileSharePaidBursting_STATUS) AssignProperti
 	return nil
 }
 
-type FileShareProperties_LeaseDuration_STATUS string
-
-const (
-	FileShareProperties_LeaseDuration_STATUS_Fixed    = FileShareProperties_LeaseDuration_STATUS("Fixed")
-	FileShareProperties_LeaseDuration_STATUS_Infinite = FileShareProperties_LeaseDuration_STATUS("Infinite")
-)
-
-// Mapping from string to FileShareProperties_LeaseDuration_STATUS
-var fileShareProperties_LeaseDuration_STATUS_Values = map[string]FileShareProperties_LeaseDuration_STATUS{
-	"fixed":    FileShareProperties_LeaseDuration_STATUS_Fixed,
-	"infinite": FileShareProperties_LeaseDuration_STATUS_Infinite,
-}
-
-type FileShareProperties_LeaseState_STATUS string
-
-const (
-	FileShareProperties_LeaseState_STATUS_Available = FileShareProperties_LeaseState_STATUS("Available")
-	FileShareProperties_LeaseState_STATUS_Breaking  = FileShareProperties_LeaseState_STATUS("Breaking")
-	FileShareProperties_LeaseState_STATUS_Broken    = FileShareProperties_LeaseState_STATUS("Broken")
-	FileShareProperties_LeaseState_STATUS_Expired   = FileShareProperties_LeaseState_STATUS("Expired")
-	FileShareProperties_LeaseState_STATUS_Leased    = FileShareProperties_LeaseState_STATUS("Leased")
-)
-
-// Mapping from string to FileShareProperties_LeaseState_STATUS
-var fileShareProperties_LeaseState_STATUS_Values = map[string]FileShareProperties_LeaseState_STATUS{
-	"available": FileShareProperties_LeaseState_STATUS_Available,
-	"breaking":  FileShareProperties_LeaseState_STATUS_Breaking,
-	"broken":    FileShareProperties_LeaseState_STATUS_Broken,
-	"expired":   FileShareProperties_LeaseState_STATUS_Expired,
-	"leased":    FileShareProperties_LeaseState_STATUS_Leased,
-}
-
-type FileShareProperties_LeaseStatus_STATUS string
-
-const (
-	FileShareProperties_LeaseStatus_STATUS_Locked   = FileShareProperties_LeaseStatus_STATUS("Locked")
-	FileShareProperties_LeaseStatus_STATUS_Unlocked = FileShareProperties_LeaseStatus_STATUS("Unlocked")
-)
-
-// Mapping from string to FileShareProperties_LeaseStatus_STATUS
-var fileShareProperties_LeaseStatus_STATUS_Values = map[string]FileShareProperties_LeaseStatus_STATUS{
-	"locked":   FileShareProperties_LeaseStatus_STATUS_Locked,
-	"unlocked": FileShareProperties_LeaseStatus_STATUS_Unlocked,
-}
-
+// The property is for NFS share only. The default is NoRootSquash.
 // +kubebuilder:validation:Enum={"AllSquash","NoRootSquash","RootSquash"}
-type FileShareProperties_RootSquash string
+type RootSquashType string
 
 const (
-	FileShareProperties_RootSquash_AllSquash    = FileShareProperties_RootSquash("AllSquash")
-	FileShareProperties_RootSquash_NoRootSquash = FileShareProperties_RootSquash("NoRootSquash")
-	FileShareProperties_RootSquash_RootSquash   = FileShareProperties_RootSquash("RootSquash")
+	RootSquashType_AllSquash    = RootSquashType("AllSquash")
+	RootSquashType_NoRootSquash = RootSquashType("NoRootSquash")
+	RootSquashType_RootSquash   = RootSquashType("RootSquash")
 )
 
-// Mapping from string to FileShareProperties_RootSquash
-var fileShareProperties_RootSquash_Values = map[string]FileShareProperties_RootSquash{
-	"allsquash":    FileShareProperties_RootSquash_AllSquash,
-	"norootsquash": FileShareProperties_RootSquash_NoRootSquash,
-	"rootsquash":   FileShareProperties_RootSquash_RootSquash,
+// Mapping from string to RootSquashType
+var rootSquashType_Values = map[string]RootSquashType{
+	"allsquash":    RootSquashType_AllSquash,
+	"norootsquash": RootSquashType_NoRootSquash,
+	"rootsquash":   RootSquashType_RootSquash,
 }
 
-type FileShareProperties_RootSquash_STATUS string
+// The property is for NFS share only. The default is NoRootSquash.
+type RootSquashType_STATUS string
 
 const (
-	FileShareProperties_RootSquash_STATUS_AllSquash    = FileShareProperties_RootSquash_STATUS("AllSquash")
-	FileShareProperties_RootSquash_STATUS_NoRootSquash = FileShareProperties_RootSquash_STATUS("NoRootSquash")
-	FileShareProperties_RootSquash_STATUS_RootSquash   = FileShareProperties_RootSquash_STATUS("RootSquash")
+	RootSquashType_STATUS_AllSquash    = RootSquashType_STATUS("AllSquash")
+	RootSquashType_STATUS_NoRootSquash = RootSquashType_STATUS("NoRootSquash")
+	RootSquashType_STATUS_RootSquash   = RootSquashType_STATUS("RootSquash")
 )
 
-// Mapping from string to FileShareProperties_RootSquash_STATUS
-var fileShareProperties_RootSquash_STATUS_Values = map[string]FileShareProperties_RootSquash_STATUS{
-	"allsquash":    FileShareProperties_RootSquash_STATUS_AllSquash,
-	"norootsquash": FileShareProperties_RootSquash_STATUS_NoRootSquash,
-	"rootsquash":   FileShareProperties_RootSquash_STATUS_RootSquash,
+// Mapping from string to RootSquashType_STATUS
+var rootSquashType_STATUS_Values = map[string]RootSquashType_STATUS{
+	"allsquash":    RootSquashType_STATUS_AllSquash,
+	"norootsquash": RootSquashType_STATUS_NoRootSquash,
+	"rootsquash":   RootSquashType_STATUS_RootSquash,
+}
+
+// Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool.
+// FileStorage account can choose Premium.
+// +kubebuilder:validation:Enum={"Cool","Hot","Premium","TransactionOptimized"}
+type ShareAccessTier string
+
+const (
+	ShareAccessTier_Cool                 = ShareAccessTier("Cool")
+	ShareAccessTier_Hot                  = ShareAccessTier("Hot")
+	ShareAccessTier_Premium              = ShareAccessTier("Premium")
+	ShareAccessTier_TransactionOptimized = ShareAccessTier("TransactionOptimized")
+)
+
+// Mapping from string to ShareAccessTier
+var shareAccessTier_Values = map[string]ShareAccessTier{
+	"cool":                 ShareAccessTier_Cool,
+	"hot":                  ShareAccessTier_Hot,
+	"premium":              ShareAccessTier_Premium,
+	"transactionoptimized": ShareAccessTier_TransactionOptimized,
+}
+
+// Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool.
+// FileStorage account can choose Premium.
+type ShareAccessTier_STATUS string
+
+const (
+	ShareAccessTier_STATUS_Cool                 = ShareAccessTier_STATUS("Cool")
+	ShareAccessTier_STATUS_Hot                  = ShareAccessTier_STATUS("Hot")
+	ShareAccessTier_STATUS_Premium              = ShareAccessTier_STATUS("Premium")
+	ShareAccessTier_STATUS_TransactionOptimized = ShareAccessTier_STATUS("TransactionOptimized")
+)
+
+// Mapping from string to ShareAccessTier_STATUS
+var shareAccessTier_STATUS_Values = map[string]ShareAccessTier_STATUS{
+	"cool":                 ShareAccessTier_STATUS_Cool,
+	"hot":                  ShareAccessTier_STATUS_Hot,
+	"premium":              ShareAccessTier_STATUS_Premium,
+	"transactionoptimized": ShareAccessTier_STATUS_TransactionOptimized,
 }
 
 type SignedIdentifier struct {

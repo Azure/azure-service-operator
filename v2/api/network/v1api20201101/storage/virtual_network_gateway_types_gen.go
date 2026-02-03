@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20201101.VirtualNetworkGateway
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetworkGateway.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -248,7 +248,7 @@ func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20201101.VirtualNetworkGateway
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetworkGateway.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
 type VirtualNetworkGatewayList struct {
 	metav1.TypeMeta `json:",inline"`

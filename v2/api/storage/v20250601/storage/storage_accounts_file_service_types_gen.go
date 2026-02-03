@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250601.StorageAccountsFileService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default
 type StorageAccountsFileService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -157,7 +157,7 @@ func (service *StorageAccountsFileService) OriginalGVK() *schema.GroupVersionKin
 // +kubebuilder:object:root=true
 // Storage version of v20250601.StorageAccountsFileService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default
 type StorageAccountsFileServiceList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -211,6 +211,7 @@ type StorageAccountsFileService_STATUS struct {
 	ProtocolSettings           *ProtocolSettings_STATUS      `json:"protocolSettings,omitempty"`
 	ShareDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS `json:"shareDeleteRetentionPolicy,omitempty"`
 	Sku                        *Sku_STATUS                   `json:"sku,omitempty"`
+	SystemData                 *SystemData_STATUS            `json:"systemData,omitempty"`
 	Type                       *string                       `json:"type,omitempty"`
 }
 

@@ -78,6 +78,69 @@ func AddIndependentPropertyGeneratorsForEncryptionInTransit_STATUS(gens map[stri
 	gens["Required"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_FileServicePropertiesProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FileServicePropertiesProperties_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFileServicePropertiesProperties_STATUS, FileServicePropertiesProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFileServicePropertiesProperties_STATUS runs a test to see if a specific instance of FileServicePropertiesProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFileServicePropertiesProperties_STATUS(subject FileServicePropertiesProperties_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FileServicePropertiesProperties_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FileServicePropertiesProperties_STATUS instances for property testing - lazily instantiated by
+// FileServicePropertiesProperties_STATUSGenerator()
+var fileServicePropertiesProperties_STATUSGenerator gopter.Gen
+
+// FileServicePropertiesProperties_STATUSGenerator returns a generator of FileServicePropertiesProperties_STATUS instances for property testing.
+func FileServicePropertiesProperties_STATUSGenerator() gopter.Gen {
+	if fileServicePropertiesProperties_STATUSGenerator != nil {
+		return fileServicePropertiesProperties_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForFileServicePropertiesProperties_STATUS(generators)
+	fileServicePropertiesProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(FileServicePropertiesProperties_STATUS{}), generators)
+
+	return fileServicePropertiesProperties_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForFileServicePropertiesProperties_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFileServicePropertiesProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
+	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_STATUSGenerator())
+	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_STATUSGenerator())
+}
+
 func Test_Multichannel_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -413,69 +476,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsFileService_STATUS(gens m
 
 // AddRelatedPropertyGeneratorsForStorageAccountsFileService_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsFileService_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccounts_FileService_Properties_STATUSGenerator())
+	gens["Properties"] = gen.PtrOf(FileServicePropertiesProperties_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
-}
-
-func Test_StorageAccounts_FileService_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_FileService_Properties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Properties_STATUS, StorageAccounts_FileService_Properties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_FileService_Properties_STATUS runs a test to see if a specific instance of StorageAccounts_FileService_Properties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileService_Properties_STATUS(subject StorageAccounts_FileService_Properties_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_FileService_Properties_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_FileService_Properties_STATUS instances for property testing - lazily instantiated by
-// StorageAccounts_FileService_Properties_STATUSGenerator()
-var storageAccounts_FileService_Properties_STATUSGenerator gopter.Gen
-
-// StorageAccounts_FileService_Properties_STATUSGenerator returns a generator of StorageAccounts_FileService_Properties_STATUS instances for property testing.
-func StorageAccounts_FileService_Properties_STATUSGenerator() gopter.Gen {
-	if storageAccounts_FileService_Properties_STATUSGenerator != nil {
-		return storageAccounts_FileService_Properties_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_STATUS(generators)
-	storageAccounts_FileService_Properties_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Properties_STATUS{}), generators)
-
-	return storageAccounts_FileService_Properties_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_STATUS(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
-	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_STATUSGenerator())
-	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

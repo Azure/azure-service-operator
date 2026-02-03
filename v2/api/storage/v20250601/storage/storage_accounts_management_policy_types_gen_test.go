@@ -1557,6 +1557,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(g
 // AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Policy"] = gen.PtrOf(ManagementPolicySchema_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_StorageAccountsManagementPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

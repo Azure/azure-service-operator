@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240101.ApplicationSecurityGroup
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-01-01/applicationSecurityGroup.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-01-01/applicationSecurityGroup.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}
 type ApplicationSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (group *ApplicationSecurityGroup) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240101.ApplicationSecurityGroup
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-01-01/applicationSecurityGroup.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-01-01/applicationSecurityGroup.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}
 type ApplicationSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`

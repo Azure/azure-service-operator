@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/queue.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (service *StorageAccountsQueueService) OriginalGVK() *schema.GroupVersionKi
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/queue.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
 type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -276,7 +276,7 @@ func (service *StorageAccountsQueueService_Spec) ConvertToARM(resolved genruntim
 
 	// Set property "Properties":
 	if service.Cors != nil {
-		result.Properties = &arm.StorageAccounts_QueueService_Properties_Spec{}
+		result.Properties = &arm.QueueServicePropertiesProperties{}
 	}
 	if service.Cors != nil {
 		cors_ARM, err := service.Cors.ConvertToARM(resolved)
@@ -500,12 +500,15 @@ type StorageAccountsQueueService_STATUS struct {
 	// Queue service.
 	Cors *CorsRules_STATUS `json:"cors,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -603,6 +606,17 @@ func (service *StorageAccountsQueueService_STATUS) PopulateFromARM(owner genrunt
 		service.Name = &name
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		service.SystemData = &systemData
+	}
+
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -637,6 +651,18 @@ func (service *StorageAccountsQueueService_STATUS) AssignProperties_From_Storage
 	// Name
 	service.Name = genruntime.ClonePointerToString(source.Name)
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		service.SystemData = &systemDatum
+	} else {
+		service.SystemData = nil
+	}
+
 	// Type
 	service.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -669,6 +695,18 @@ func (service *StorageAccountsQueueService_STATUS) AssignProperties_To_StorageAc
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(service.Name)
+
+	// SystemData
+	if service.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := service.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(service.Type)

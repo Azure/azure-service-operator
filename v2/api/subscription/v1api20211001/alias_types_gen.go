@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
+// - Generated from: /subscription/resource-manager/Microsoft.Subscription/Subscription/stable/2021-10-01/subscriptions.json
 // - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -233,7 +233,7 @@ func (alias *Alias) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
+// - Generated from: /subscription/resource-manager/Microsoft.Subscription/Subscription/stable/2021-10-01/subscriptions.json
 // - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
 type AliasList struct {
 	metav1.TypeMeta `json:",inline"`

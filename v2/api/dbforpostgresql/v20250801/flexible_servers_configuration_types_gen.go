@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Configurations.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (configuration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVe
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Configurations.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
 type FlexibleServersConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -509,7 +509,7 @@ type FlexibleServersConfiguration_STATUS struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	// DataType: Data type of the configuration (also known as server parameter).
-	DataType *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
+	DataType *ConfigurationDataType_STATUS `json:"dataType,omitempty"`
 
 	// DefaultValue: Value assigned by default to the configuration (also known as server parameter).
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -639,7 +639,7 @@ func (configuration *FlexibleServersConfiguration_STATUS) PopulateFromARM(owner 
 		if typedInput.Properties.DataType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.DataType)
-			dataType := ConfigurationProperties_DataType_STATUS(temp)
+			dataType := ConfigurationDataType_STATUS(temp)
 			configuration.DataType = &dataType
 		}
 	}
@@ -770,7 +770,7 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignProperties_From_
 	// DataType
 	if source.DataType != nil {
 		dataType := *source.DataType
-		dataTypeTemp := genruntime.ToEnum(dataType, configurationProperties_DataType_STATUS_Values)
+		dataTypeTemp := genruntime.ToEnum(dataType, configurationDataType_STATUS_Values)
 		configuration.DataType = &dataTypeTemp
 	} else {
 		configuration.DataType = nil
@@ -936,25 +936,26 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignProperties_To_Fl
 	return nil
 }
 
-type ConfigurationProperties_DataType_STATUS string
+// Data type of the configuration (also known as server parameter).
+type ConfigurationDataType_STATUS string
 
 const (
-	ConfigurationProperties_DataType_STATUS_Boolean     = ConfigurationProperties_DataType_STATUS("Boolean")
-	ConfigurationProperties_DataType_STATUS_Enumeration = ConfigurationProperties_DataType_STATUS("Enumeration")
-	ConfigurationProperties_DataType_STATUS_Integer     = ConfigurationProperties_DataType_STATUS("Integer")
-	ConfigurationProperties_DataType_STATUS_Numeric     = ConfigurationProperties_DataType_STATUS("Numeric")
-	ConfigurationProperties_DataType_STATUS_Set         = ConfigurationProperties_DataType_STATUS("Set")
-	ConfigurationProperties_DataType_STATUS_String      = ConfigurationProperties_DataType_STATUS("String")
+	ConfigurationDataType_STATUS_Boolean     = ConfigurationDataType_STATUS("Boolean")
+	ConfigurationDataType_STATUS_Enumeration = ConfigurationDataType_STATUS("Enumeration")
+	ConfigurationDataType_STATUS_Integer     = ConfigurationDataType_STATUS("Integer")
+	ConfigurationDataType_STATUS_Numeric     = ConfigurationDataType_STATUS("Numeric")
+	ConfigurationDataType_STATUS_Set         = ConfigurationDataType_STATUS("Set")
+	ConfigurationDataType_STATUS_String      = ConfigurationDataType_STATUS("String")
 )
 
-// Mapping from string to ConfigurationProperties_DataType_STATUS
-var configurationProperties_DataType_STATUS_Values = map[string]ConfigurationProperties_DataType_STATUS{
-	"boolean":     ConfigurationProperties_DataType_STATUS_Boolean,
-	"enumeration": ConfigurationProperties_DataType_STATUS_Enumeration,
-	"integer":     ConfigurationProperties_DataType_STATUS_Integer,
-	"numeric":     ConfigurationProperties_DataType_STATUS_Numeric,
-	"set":         ConfigurationProperties_DataType_STATUS_Set,
-	"string":      ConfigurationProperties_DataType_STATUS_String,
+// Mapping from string to ConfigurationDataType_STATUS
+var configurationDataType_STATUS_Values = map[string]ConfigurationDataType_STATUS{
+	"boolean":     ConfigurationDataType_STATUS_Boolean,
+	"enumeration": ConfigurationDataType_STATUS_Enumeration,
+	"integer":     ConfigurationDataType_STATUS_Integer,
+	"numeric":     ConfigurationDataType_STATUS_Numeric,
+	"set":         ConfigurationDataType_STATUS_Set,
+	"string":      ConfigurationDataType_STATUS_String,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

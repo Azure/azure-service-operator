@@ -24,7 +24,7 @@ type FlexibleServersVirtualEndpoint_STATUS struct {
 // Properties of a pair of virtual endpoints.
 type VirtualEndpointResourceProperties_STATUS struct {
 	// EndpointType: Type of endpoint for the virtual endpoints.
-	EndpointType *VirtualEndpointResourceProperties_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *VirtualEndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// Members: List of servers that one of the virtual endpoints can refer to.
 	Members []string `json:"members,omitempty"`
@@ -33,11 +33,12 @@ type VirtualEndpointResourceProperties_STATUS struct {
 	VirtualEndpoints []string `json:"virtualEndpoints,omitempty"`
 }
 
-type VirtualEndpointResourceProperties_EndpointType_STATUS string
+// Type of endpoint for the virtual endpoints.
+type VirtualEndpointType_STATUS string
 
-const VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite = VirtualEndpointResourceProperties_EndpointType_STATUS("ReadWrite")
+const VirtualEndpointType_STATUS_ReadWrite = VirtualEndpointType_STATUS("ReadWrite")
 
-// Mapping from string to VirtualEndpointResourceProperties_EndpointType_STATUS
-var virtualEndpointResourceProperties_EndpointType_STATUS_Values = map[string]VirtualEndpointResourceProperties_EndpointType_STATUS{
-	"readwrite": VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite,
+// Mapping from string to VirtualEndpointType_STATUS
+var virtualEndpointType_STATUS_Values = map[string]VirtualEndpointType_STATUS{
+	"readwrite": VirtualEndpointType_STATUS_ReadWrite,
 }

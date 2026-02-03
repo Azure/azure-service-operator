@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220701.PublicIPPrefix
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/publicIpPrefix.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/publicIpPrefix.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}
 type PublicIPPrefix struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -247,7 +247,7 @@ func (prefix *PublicIPPrefix) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20220701.PublicIPPrefix
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/publicIpPrefix.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/publicIpPrefix.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}
 type PublicIPPrefixList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -14,7 +14,7 @@ type StorageAccount_Spec struct {
 	Identity *Identity `json:"identity,omitempty"`
 
 	// Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccount_Kind_Spec `json:"kind,omitempty"`
+	Kind *Kind `json:"kind,omitempty"`
 
 	// Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
 	// Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
@@ -63,50 +63,48 @@ type ExtendedLocation struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Type *ExtendedLocationTypes `json:"type,omitempty"`
 }
 
 // Identity for the resource.
 type Identity struct {
 	// Type: The identity type.
-	Type                   *Identity_Type                         `json:"type,omitempty"`
+	Type                   *IdentityType                          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
+}
+
+// Indicates the type of storage account.
+// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
+type Kind string
+
+const (
+	Kind_BlobStorage      = Kind("BlobStorage")
+	Kind_BlockBlobStorage = Kind("BlockBlobStorage")
+	Kind_FileStorage      = Kind("FileStorage")
+	Kind_Storage          = Kind("Storage")
+	Kind_StorageV2        = Kind("StorageV2")
+)
+
+// Mapping from string to Kind
+var kind_Values = map[string]Kind{
+	"blobstorage":      Kind_BlobStorage,
+	"blockblobstorage": Kind_BlockBlobStorage,
+	"filestorage":      Kind_FileStorage,
+	"storage":          Kind_Storage,
+	"storagev2":        Kind_StorageV2,
 }
 
 // The complex type of the zonal placement details.
 type Placement struct {
 	// ZonePlacementPolicy: The availability zone pinning policy for the storage account.
-	ZonePlacementPolicy *Placement_ZonePlacementPolicy `json:"zonePlacementPolicy,omitempty"`
+	ZonePlacementPolicy *ZonePlacementPolicy `json:"zonePlacementPolicy,omitempty"`
 }
 
 // The SKU of the storage account.
 type Sku struct {
 	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
-	//  accountType.
+	// accountType.
 	Name *SkuName `json:"name,omitempty"`
-
-	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier `json:"tier,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
-type StorageAccount_Kind_Spec string
-
-const (
-	StorageAccount_Kind_Spec_BlobStorage      = StorageAccount_Kind_Spec("BlobStorage")
-	StorageAccount_Kind_Spec_BlockBlobStorage = StorageAccount_Kind_Spec("BlockBlobStorage")
-	StorageAccount_Kind_Spec_FileStorage      = StorageAccount_Kind_Spec("FileStorage")
-	StorageAccount_Kind_Spec_Storage          = StorageAccount_Kind_Spec("Storage")
-	StorageAccount_Kind_Spec_StorageV2        = StorageAccount_Kind_Spec("StorageV2")
-)
-
-// Mapping from string to StorageAccount_Kind_Spec
-var storageAccount_Kind_Spec_Values = map[string]StorageAccount_Kind_Spec{
-	"blobstorage":      StorageAccount_Kind_Spec_BlobStorage,
-	"blockblobstorage": StorageAccount_Kind_Spec_BlockBlobStorage,
-	"filestorage":      StorageAccount_Kind_Spec_FileStorage,
-	"storage":          StorageAccount_Kind_Spec_Storage,
-	"storagev2":        StorageAccount_Kind_Spec_StorageV2,
 }
 
 // The parameters used to create the storage account.
@@ -114,7 +112,7 @@ type StorageAccountPropertiesCreateParameters struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
 	// access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium
 	// block blobs storage account type.
-	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
+	AccessTier *AccessTier `json:"accessTier,omitempty"`
 
 	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
 	// interpretation is false for this property.
@@ -131,7 +129,7 @@ type StorageAccountPropertiesCreateParameters struct {
 	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
 
 	// AllowedCopyScope: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
-	AllowedCopyScope *StorageAccountPropertiesCreateParameters_AllowedCopyScope `json:"allowedCopyScope,omitempty"`
+	AllowedCopyScope *AllowedCopyScope `json:"allowedCopyScope,omitempty"`
 
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
@@ -148,7 +146,7 @@ type StorageAccountPropertiesCreateParameters struct {
 	// DnsEndpointType: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of
 	// accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an
 	// alphanumeric DNS Zone identifier.
-	DnsEndpointType *StorageAccountPropertiesCreateParameters_DnsEndpointType `json:"dnsEndpointType,omitempty"`
+	DnsEndpointType *DnsEndpointType `json:"dnsEndpointType,omitempty"`
 
 	// DualStackEndpointPreference: Maintains information about the Internet protocol opted by the user.
 	DualStackEndpointPreference *DualStackEndpointPreference `json:"dualStackEndpointPreference,omitempty"`
@@ -182,11 +180,11 @@ type StorageAccountPropertiesCreateParameters struct {
 	KeyPolicy *KeyPolicy `json:"keyPolicy,omitempty"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *LargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesCreateParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
@@ -206,6 +204,42 @@ type StorageAccountPropertiesCreateParameters struct {
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
+// Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier
+// is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs
+// storage account type.
+// +kubebuilder:validation:Enum={"Cold","Cool","Hot","Premium"}
+type AccessTier string
+
+const (
+	AccessTier_Cold    = AccessTier("Cold")
+	AccessTier_Cool    = AccessTier("Cool")
+	AccessTier_Hot     = AccessTier("Hot")
+	AccessTier_Premium = AccessTier("Premium")
+)
+
+// Mapping from string to AccessTier
+var accessTier_Values = map[string]AccessTier{
+	"cold":    AccessTier_Cold,
+	"cool":    AccessTier_Cool,
+	"hot":     AccessTier_Hot,
+	"premium": AccessTier_Premium,
+}
+
+// Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+// +kubebuilder:validation:Enum={"AAD","PrivateLink"}
+type AllowedCopyScope string
+
+const (
+	AllowedCopyScope_AAD         = AllowedCopyScope("AAD")
+	AllowedCopyScope_PrivateLink = AllowedCopyScope("PrivateLink")
+)
+
+// Mapping from string to AllowedCopyScope
+var allowedCopyScope_Values = map[string]AllowedCopyScope{
+	"aad":         AllowedCopyScope_AAD,
+	"privatelink": AllowedCopyScope_PrivateLink,
+}
+
 // Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication struct {
 	// ActiveDirectoryProperties: Additional information about the directory service. Required if directoryServiceOptions is AD
@@ -214,10 +248,10 @@ type AzureFilesIdentityBasedAuthentication struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
 
 	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *DefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
 	// DirectoryServiceOptions: Indicates the directory service used. Note that this enum may be extended in the future.
-	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
+	DirectoryServiceOptions *DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 
 	// SmbOAuthSettings: Required for Managed Identities access using OAuth over SMB.
 	SmbOAuthSettings *SmbOAuthSettings `json:"smbOAuthSettings,omitempty"`
@@ -231,6 +265,23 @@ type CustomDomain struct {
 	// UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	// set on updates.
 	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
+}
+
+// Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single
+// subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone
+// identifier.
+// +kubebuilder:validation:Enum={"AzureDnsZone","Standard"}
+type DnsEndpointType string
+
+const (
+	DnsEndpointType_AzureDnsZone = DnsEndpointType("AzureDnsZone")
+	DnsEndpointType_Standard     = DnsEndpointType("Standard")
+)
+
+// Mapping from string to DnsEndpointType
+var dnsEndpointType_Values = map[string]DnsEndpointType{
+	"azurednszone": DnsEndpointType_AzureDnsZone,
+	"standard":     DnsEndpointType_Standard,
 }
 
 // Dual-stack endpoint preference defines whether IPv6 endpoints are going to be published.
@@ -261,13 +312,13 @@ type Encryption struct {
 
 // The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
+type ExtendedLocationTypes string
 
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationTypes_EdgeZone = ExtendedLocationTypes("EdgeZone")
 
-// Mapping from string to ExtendedLocationType
-var extendedLocationType_Values = map[string]ExtendedLocationType{
-	"edgezone": ExtendedLocationType_EdgeZone,
+// Mapping from string to ExtendedLocationTypes
+var extendedLocationTypes_Values = map[string]ExtendedLocationTypes{
+	"edgezone": ExtendedLocationTypes_EdgeZone,
 }
 
 // Geo Priority Replication enablement status for the storage account.
@@ -276,22 +327,23 @@ type GeoPriorityReplicationStatus struct {
 	IsBlobEnabled *bool `json:"isBlobEnabled,omitempty"`
 }
 
+// The identity type.
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type Identity_Type string
+type IdentityType string
 
 const (
-	Identity_Type_None                       = Identity_Type("None")
-	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
-	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":                        Identity_Type_None,
-	"systemassigned":              Identity_Type_SystemAssigned,
-	"systemassigned,userassigned": Identity_Type_SystemAssignedUserAssigned,
-	"userassigned":                Identity_Type_UserAssigned,
+// Mapping from string to IdentityType
+var identityType_Values = map[string]IdentityType{
+	"none":                        IdentityType_None,
+	"systemassigned":              IdentityType_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_UserAssigned,
 }
 
 // This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning.
@@ -311,6 +363,41 @@ type ImmutableStorageAccount struct {
 type KeyPolicy struct {
 	// KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
+}
+
+// Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type LargeFileSharesState string
+
+const (
+	LargeFileSharesState_Disabled = LargeFileSharesState("Disabled")
+	LargeFileSharesState_Enabled  = LargeFileSharesState("Enabled")
+)
+
+// Mapping from string to LargeFileSharesState
+var largeFileSharesState_Values = map[string]LargeFileSharesState{
+	"disabled": LargeFileSharesState_Disabled,
+	"enabled":  LargeFileSharesState_Enabled,
+}
+
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this
+// property.
+// +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLS1_3"}
+type MinimumTlsVersion string
+
+const (
+	MinimumTlsVersion_TLS1_0 = MinimumTlsVersion("TLS1_0")
+	MinimumTlsVersion_TLS1_1 = MinimumTlsVersion("TLS1_1")
+	MinimumTlsVersion_TLS1_2 = MinimumTlsVersion("TLS1_2")
+	MinimumTlsVersion_TLS1_3 = MinimumTlsVersion("TLS1_3")
+)
+
+// Mapping from string to MinimumTlsVersion
+var minimumTlsVersion_Values = map[string]MinimumTlsVersion{
+	"tls1_0": MinimumTlsVersion_TLS1_0,
+	"tls1_1": MinimumTlsVersion_TLS1_1,
+	"tls1_2": MinimumTlsVersion_TLS1_2,
+	"tls1_3": MinimumTlsVersion_TLS1_3,
 }
 
 // Network rule set
@@ -333,20 +420,6 @@ type NetworkRuleSet struct {
 
 	// VirtualNetworkRules: Sets the virtual network rules
 	VirtualNetworkRules []VirtualNetworkRule `json:"virtualNetworkRules"`
-}
-
-// +kubebuilder:validation:Enum={"Any","None"}
-type Placement_ZonePlacementPolicy string
-
-const (
-	Placement_ZonePlacementPolicy_Any  = Placement_ZonePlacementPolicy("Any")
-	Placement_ZonePlacementPolicy_None = Placement_ZonePlacementPolicy("None")
-)
-
-// Mapping from string to Placement_ZonePlacementPolicy
-var placement_ZonePlacementPolicy_Values = map[string]Placement_ZonePlacementPolicy{
-	"any":  Placement_ZonePlacementPolicy_Any,
-	"none": Placement_ZonePlacementPolicy_None,
 }
 
 // Allow, disallow, or let Network Security Perimeter configuration to evaluate public network access to Storage Account.
@@ -377,7 +450,7 @@ type RoutingPreference struct {
 	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
 
 	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingChoice `json:"routingChoice,omitempty"`
 }
 
 // SasPolicy assigned to the storage account.
@@ -431,101 +504,23 @@ var skuName_Values = map[string]SkuName{
 	"standard_zrs":    SkuName_Standard_ZRS,
 }
 
-// +kubebuilder:validation:Enum={"Cold","Cool","Hot","Premium"}
-type StorageAccountPropertiesCreateParameters_AccessTier string
-
-const (
-	StorageAccountPropertiesCreateParameters_AccessTier_Cold    = StorageAccountPropertiesCreateParameters_AccessTier("Cold")
-	StorageAccountPropertiesCreateParameters_AccessTier_Cool    = StorageAccountPropertiesCreateParameters_AccessTier("Cool")
-	StorageAccountPropertiesCreateParameters_AccessTier_Hot     = StorageAccountPropertiesCreateParameters_AccessTier("Hot")
-	StorageAccountPropertiesCreateParameters_AccessTier_Premium = StorageAccountPropertiesCreateParameters_AccessTier("Premium")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_AccessTier
-var storageAccountPropertiesCreateParameters_AccessTier_Values = map[string]StorageAccountPropertiesCreateParameters_AccessTier{
-	"cold":    StorageAccountPropertiesCreateParameters_AccessTier_Cold,
-	"cool":    StorageAccountPropertiesCreateParameters_AccessTier_Cool,
-	"hot":     StorageAccountPropertiesCreateParameters_AccessTier_Hot,
-	"premium": StorageAccountPropertiesCreateParameters_AccessTier_Premium,
-}
-
-// +kubebuilder:validation:Enum={"AAD","PrivateLink"}
-type StorageAccountPropertiesCreateParameters_AllowedCopyScope string
-
-const (
-	StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD         = StorageAccountPropertiesCreateParameters_AllowedCopyScope("AAD")
-	StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink = StorageAccountPropertiesCreateParameters_AllowedCopyScope("PrivateLink")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_AllowedCopyScope
-var storageAccountPropertiesCreateParameters_AllowedCopyScope_Values = map[string]StorageAccountPropertiesCreateParameters_AllowedCopyScope{
-	"aad":         StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD,
-	"privatelink": StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink,
-}
-
-// +kubebuilder:validation:Enum={"AzureDnsZone","Standard"}
-type StorageAccountPropertiesCreateParameters_DnsEndpointType string
-
-const (
-	StorageAccountPropertiesCreateParameters_DnsEndpointType_AzureDnsZone = StorageAccountPropertiesCreateParameters_DnsEndpointType("AzureDnsZone")
-	StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard     = StorageAccountPropertiesCreateParameters_DnsEndpointType("Standard")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_DnsEndpointType
-var storageAccountPropertiesCreateParameters_DnsEndpointType_Values = map[string]StorageAccountPropertiesCreateParameters_DnsEndpointType{
-	"azurednszone": StorageAccountPropertiesCreateParameters_DnsEndpointType_AzureDnsZone,
-	"standard":     StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard,
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type StorageAccountPropertiesCreateParameters_LargeFileSharesState string
-
-const (
-	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Disabled")
-	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled  = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Enabled")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_LargeFileSharesState
-var storageAccountPropertiesCreateParameters_LargeFileSharesState_Values = map[string]StorageAccountPropertiesCreateParameters_LargeFileSharesState{
-	"disabled": StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled,
-	"enabled":  StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled,
-}
-
-// +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLS1_3"}
-type StorageAccountPropertiesCreateParameters_MinimumTlsVersion string
-
-const (
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_2")
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_3 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_3")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_MinimumTlsVersion
-var storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values = map[string]StorageAccountPropertiesCreateParameters_MinimumTlsVersion{
-	"tls1_0": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0,
-	"tls1_1": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1,
-	"tls1_2": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2,
-	"tls1_3": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_3,
-}
-
-// The SKU tier. This is based on the SKU name.
-// +kubebuilder:validation:Enum={"Premium","Standard"}
-type Tier string
-
-const (
-	Tier_Premium  = Tier("Premium")
-	Tier_Standard = Tier("Standard")
-)
-
-// Mapping from string to Tier
-var tier_Values = map[string]Tier{
-	"premium":  Tier_Premium,
-	"standard": Tier_Standard,
-}
-
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
+}
+
+// The availability zone pinning policy for the storage account.
+// +kubebuilder:validation:Enum={"Any","None"}
+type ZonePlacementPolicy string
+
+const (
+	ZonePlacementPolicy_Any  = ZonePlacementPolicy("Any")
+	ZonePlacementPolicy_None = ZonePlacementPolicy("None")
+)
+
+// Mapping from string to ZonePlacementPolicy
+var zonePlacementPolicy_Values = map[string]ZonePlacementPolicy{
+	"any":  ZonePlacementPolicy_Any,
+	"none": ZonePlacementPolicy_None,
 }
 
 // This defines account-level immutability policy properties.
@@ -544,7 +539,7 @@ type AccountImmutabilityPolicyProperties struct {
 	// property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a
 	// Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition
 	// to a Locked state which cannot be reverted.
-	State *AccountImmutabilityPolicyProperties_State `json:"state,omitempty"`
+	State *AccountImmutabilityPolicyState `json:"state,omitempty"`
 }
 
 // Settings properties for Active Directory (AD).
@@ -552,7 +547,7 @@ type ActiveDirectoryProperties struct {
 	// AccountType: Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is optional. If provided, samAccountName should also be provided. For
 	// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
-	AccountType *ActiveDirectoryProperties_AccountType `json:"accountType,omitempty"`
+	AccountType *AccountType `json:"accountType,omitempty"`
 
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is required. Otherwise, it can be omitted.
@@ -589,40 +584,42 @@ type ActiveDirectoryProperties struct {
 	SamAccountName *string `json:"samAccountName,omitempty"`
 }
 
+// Default share permission for users using Kerberos authentication if RBAC role is not assigned.
 // +kubebuilder:validation:Enum={"None","StorageFileDataSmbShareContributor","StorageFileDataSmbShareElevatedContributor","StorageFileDataSmbShareReader"}
-type AzureFilesIdentityBasedAuthentication_DefaultSharePermission string
+type DefaultSharePermission string
 
 const (
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_None                                       = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareReader")
+	DefaultSharePermission_None                                       = DefaultSharePermission("None")
+	DefaultSharePermission_StorageFileDataSmbShareContributor         = DefaultSharePermission("StorageFileDataSmbShareContributor")
+	DefaultSharePermission_StorageFileDataSmbShareElevatedContributor = DefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
+	DefaultSharePermission_StorageFileDataSmbShareReader              = DefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DefaultSharePermission
-var azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values = map[string]AzureFilesIdentityBasedAuthentication_DefaultSharePermission{
-	"none":                               AzureFilesIdentityBasedAuthentication_DefaultSharePermission_None,
-	"storagefiledatasmbsharecontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareContributor,
-	"storagefiledatasmbshareelevatedcontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
-	"storagefiledatasmbsharereader":              AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader,
+// Mapping from string to DefaultSharePermission
+var defaultSharePermission_Values = map[string]DefaultSharePermission{
+	"none":                               DefaultSharePermission_None,
+	"storagefiledatasmbsharecontributor": DefaultSharePermission_StorageFileDataSmbShareContributor,
+	"storagefiledatasmbshareelevatedcontributor": DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
+	"storagefiledatasmbsharereader":              DefaultSharePermission_StorageFileDataSmbShareReader,
 }
 
+// Indicates the directory service used. Note that this enum may be extended in the future.
 // +kubebuilder:validation:Enum={"AADDS","AADKERB","AD","None"}
-type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions string
+type DirectoryServiceOptions string
 
 const (
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADDS   = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADKERB = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("AADKERB")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AD      = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("None")
+	DirectoryServiceOptions_AADDS   = DirectoryServiceOptions("AADDS")
+	DirectoryServiceOptions_AADKERB = DirectoryServiceOptions("AADKERB")
+	DirectoryServiceOptions_AD      = DirectoryServiceOptions("AD")
+	DirectoryServiceOptions_None    = DirectoryServiceOptions("None")
 )
 
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
-var azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values = map[string]AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions{
-	"aadds":   AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADDS,
-	"aadkerb": AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADKERB,
-	"ad":      AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AD,
-	"none":    AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None,
+// Mapping from string to DirectoryServiceOptions
+var directoryServiceOptions_Values = map[string]DirectoryServiceOptions{
+	"aadds":   DirectoryServiceOptions_AADDS,
+	"aadkerb": DirectoryServiceOptions_AADKERB,
+	"ad":      DirectoryServiceOptions_AD,
+	"none":    DirectoryServiceOptions_None,
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.Keyvault","Microsoft.Storage"}
@@ -709,18 +706,19 @@ type ResourceAccessRule struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// Routing Choice defines the kind of network routing opted by the user.
 // +kubebuilder:validation:Enum={"InternetRouting","MicrosoftRouting"}
-type RoutingPreference_RoutingChoice string
+type RoutingChoice string
 
 const (
-	RoutingPreference_RoutingChoice_InternetRouting  = RoutingPreference_RoutingChoice("InternetRouting")
-	RoutingPreference_RoutingChoice_MicrosoftRouting = RoutingPreference_RoutingChoice("MicrosoftRouting")
+	RoutingChoice_InternetRouting  = RoutingChoice("InternetRouting")
+	RoutingChoice_MicrosoftRouting = RoutingChoice("MicrosoftRouting")
 )
 
-// Mapping from string to RoutingPreference_RoutingChoice
-var routingPreference_RoutingChoice_Values = map[string]RoutingPreference_RoutingChoice{
-	"internetrouting":  RoutingPreference_RoutingChoice_InternetRouting,
-	"microsoftrouting": RoutingPreference_RoutingChoice_MicrosoftRouting,
+// Mapping from string to RoutingChoice
+var routingChoice_Values = map[string]RoutingChoice{
+	"internetrouting":  RoutingChoice_InternetRouting,
+	"microsoftrouting": RoutingChoice_MicrosoftRouting,
 }
 
 // +kubebuilder:validation:Enum={"Block","Log"}
@@ -754,37 +752,45 @@ type VirtualNetworkRule struct {
 	Id *string `json:"id,omitempty"`
 
 	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State `json:"state,omitempty"`
+	State *State `json:"state,omitempty"`
 }
 
+// The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows
+// increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property,
+// Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or
+// Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked
+// state which cannot be reverted.
 // +kubebuilder:validation:Enum={"Disabled","Locked","Unlocked"}
-type AccountImmutabilityPolicyProperties_State string
+type AccountImmutabilityPolicyState string
 
 const (
-	AccountImmutabilityPolicyProperties_State_Disabled = AccountImmutabilityPolicyProperties_State("Disabled")
-	AccountImmutabilityPolicyProperties_State_Locked   = AccountImmutabilityPolicyProperties_State("Locked")
-	AccountImmutabilityPolicyProperties_State_Unlocked = AccountImmutabilityPolicyProperties_State("Unlocked")
+	AccountImmutabilityPolicyState_Disabled = AccountImmutabilityPolicyState("Disabled")
+	AccountImmutabilityPolicyState_Locked   = AccountImmutabilityPolicyState("Locked")
+	AccountImmutabilityPolicyState_Unlocked = AccountImmutabilityPolicyState("Unlocked")
 )
 
-// Mapping from string to AccountImmutabilityPolicyProperties_State
-var accountImmutabilityPolicyProperties_State_Values = map[string]AccountImmutabilityPolicyProperties_State{
-	"disabled": AccountImmutabilityPolicyProperties_State_Disabled,
-	"locked":   AccountImmutabilityPolicyProperties_State_Locked,
-	"unlocked": AccountImmutabilityPolicyProperties_State_Unlocked,
+// Mapping from string to AccountImmutabilityPolicyState
+var accountImmutabilityPolicyState_Values = map[string]AccountImmutabilityPolicyState{
+	"disabled": AccountImmutabilityPolicyState_Disabled,
+	"locked":   AccountImmutabilityPolicyState_Locked,
+	"unlocked": AccountImmutabilityPolicyState_Unlocked,
 }
 
+// Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD DS
+// authentication), this property is optional. If provided, samAccountName should also be provided. For
+// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
 // +kubebuilder:validation:Enum={"Computer","User"}
-type ActiveDirectoryProperties_AccountType string
+type AccountType string
 
 const (
-	ActiveDirectoryProperties_AccountType_Computer = ActiveDirectoryProperties_AccountType("Computer")
-	ActiveDirectoryProperties_AccountType_User     = ActiveDirectoryProperties_AccountType("User")
+	AccountType_Computer = AccountType("Computer")
+	AccountType_User     = AccountType("User")
 )
 
-// Mapping from string to ActiveDirectoryProperties_AccountType
-var activeDirectoryProperties_AccountType_Values = map[string]ActiveDirectoryProperties_AccountType{
-	"computer": ActiveDirectoryProperties_AccountType_Computer,
-	"user":     ActiveDirectoryProperties_AccountType_User,
+// Mapping from string to AccountType
+var accountType_Values = map[string]AccountType{
+	"computer": AccountType_Computer,
+	"user":     AccountType_User,
 }
 
 // A service that allows server-side encryption to be used.
@@ -795,7 +801,7 @@ type EncryptionService struct {
 
 	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
 	// encryption key will be used. 'Service' key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
+	KeyType *KeyType `json:"keyType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Allow"}
@@ -808,6 +814,27 @@ var iPRule_Action_Values = map[string]IPRule_Action{
 	"allow": IPRule_Action_Allow,
 }
 
+// Gets the state of virtual network rule.
+// +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
+type State string
+
+const (
+	State_Deprovisioning       = State("Deprovisioning")
+	State_Failed               = State("Failed")
+	State_NetworkSourceDeleted = State("NetworkSourceDeleted")
+	State_Provisioning         = State("Provisioning")
+	State_Succeeded            = State("Succeeded")
+)
+
+// Mapping from string to State
+var state_Values = map[string]State{
+	"deprovisioning":       State_Deprovisioning,
+	"failed":               State_Failed,
+	"networksourcedeleted": State_NetworkSourceDeleted,
+	"provisioning":         State_Provisioning,
+	"succeeded":            State_Succeeded,
+}
+
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRule_Action string
 
@@ -818,36 +845,18 @@ var virtualNetworkRule_Action_Values = map[string]VirtualNetworkRule_Action{
 	"allow": VirtualNetworkRule_Action_Allow,
 }
 
-// +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
-type VirtualNetworkRule_State string
-
-const (
-	VirtualNetworkRule_State_Deprovisioning       = VirtualNetworkRule_State("Deprovisioning")
-	VirtualNetworkRule_State_Failed               = VirtualNetworkRule_State("Failed")
-	VirtualNetworkRule_State_NetworkSourceDeleted = VirtualNetworkRule_State("NetworkSourceDeleted")
-	VirtualNetworkRule_State_Provisioning         = VirtualNetworkRule_State("Provisioning")
-	VirtualNetworkRule_State_Succeeded            = VirtualNetworkRule_State("Succeeded")
-)
-
-// Mapping from string to VirtualNetworkRule_State
-var virtualNetworkRule_State_Values = map[string]VirtualNetworkRule_State{
-	"deprovisioning":       VirtualNetworkRule_State_Deprovisioning,
-	"failed":               VirtualNetworkRule_State_Failed,
-	"networksourcedeleted": VirtualNetworkRule_State_NetworkSourceDeleted,
-	"provisioning":         VirtualNetworkRule_State_Provisioning,
-	"succeeded":            VirtualNetworkRule_State_Succeeded,
-}
-
+// Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption
+// key will be used. 'Service' key type implies that a default service key is used.
 // +kubebuilder:validation:Enum={"Account","Service"}
-type EncryptionService_KeyType string
+type KeyType string
 
 const (
-	EncryptionService_KeyType_Account = EncryptionService_KeyType("Account")
-	EncryptionService_KeyType_Service = EncryptionService_KeyType("Service")
+	KeyType_Account = KeyType("Account")
+	KeyType_Service = KeyType("Service")
 )
 
-// Mapping from string to EncryptionService_KeyType
-var encryptionService_KeyType_Values = map[string]EncryptionService_KeyType{
-	"account": EncryptionService_KeyType_Account,
-	"service": EncryptionService_KeyType_Service,
+// Mapping from string to KeyType
+var keyType_Values = map[string]KeyType{
+	"account": KeyType_Account,
+	"service": KeyType_Service,
 }

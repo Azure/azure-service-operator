@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20240701.BatchAccount
 // Generator information:
-// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2024-07-01/BatchManagement.json
+// - Generated from: /batch/resource-manager/Microsoft.Batch/Batch/stable/2024-07-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20240701.BatchAccount
 // Generator information:
-// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2024-07-01/BatchManagement.json
+// - Generated from: /batch/resource-manager/Microsoft.Batch/Batch/stable/2024-07-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -245,6 +245,7 @@ type BatchAccount_STATUS struct {
 	PropertyBag                           genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	ProvisioningState                     *string                                `json:"provisioningState,omitempty"`
 	PublicNetworkAccess                   *string                                `json:"publicNetworkAccess,omitempty"`
+	SystemData                            *SystemData_STATUS                     `json:"systemData,omitempty"`
 	Tags                                  map[string]string                      `json:"tags,omitempty"`
 	Type                                  *string                                `json:"type,omitempty"`
 }
@@ -377,6 +378,18 @@ type NetworkProfile_STATUS struct {
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v20240701.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20240701.VirtualMachineFamilyCoreQuota_STATUS

@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210101.BatchAccount
 // Generator information:
-// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json
+// - Generated from: /batch/resource-manager/Microsoft.Batch/Batch/stable/2021-01-01/BatchManagement.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210101.BatchAccount
 // Generator information:
-// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json
+// - Generated from: /batch/resource-manager/Microsoft.Batch/Batch/stable/2021-01-01/BatchManagement.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -376,10 +376,10 @@ func AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS(gens
 	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Group,
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_ServicePrincipal,
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Unknown,
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_User))
+		PrincipalType_STATUS_Group,
+		PrincipalType_STATUS_ServicePrincipal,
+		PrincipalType_STATUS_Unknown,
+		PrincipalType_STATUS_User))
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -501,10 +501,10 @@ func AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_Spec(gens m
 	gens["AzureName"] = gen.AlphaString()
 	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Group,
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal,
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Unknown,
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_User))
+		PrincipalType_Group,
+		PrincipalType_ServicePrincipal,
+		PrincipalType_Unknown,
+		PrincipalType_User))
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 

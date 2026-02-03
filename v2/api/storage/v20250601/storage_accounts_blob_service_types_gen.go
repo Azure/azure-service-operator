@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -309,7 +309,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		service.IsVersioningEnabled != nil ||
 		service.LastAccessTimeTrackingPolicy != nil ||
 		service.RestorePolicy != nil {
-		result.Properties = &arm.StorageAccounts_BlobService_Properties_Spec{}
+		result.Properties = &arm.BlobServicePropertiesProperties{}
 	}
 	if service.AutomaticSnapshotPolicyEnabled != nil {
 		automaticSnapshotPolicyEnabled := *service.AutomaticSnapshotPolicyEnabled
@@ -935,8 +935,8 @@ type StorageAccountsBlobService_STATUS struct {
 	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
 	DeleteRetentionPolicy *DeleteRetentionPolicy_STATUS `json:"deleteRetentionPolicy,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// IsVersioningEnabled: Versioning is enabled if set to true.
@@ -953,6 +953,9 @@ type StorageAccountsBlobService_STATUS struct {
 
 	// Sku: Sku name and tier.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -1158,6 +1161,17 @@ func (service *StorageAccountsBlobService_STATUS) PopulateFromARM(owner genrunti
 		service.Sku = &sku
 	}
 
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		service.SystemData = &systemData
+	}
+
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -1283,6 +1297,18 @@ func (service *StorageAccountsBlobService_STATUS) AssignProperties_From_StorageA
 		service.Sku = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		service.SystemData = &systemDatum
+	} else {
+		service.SystemData = nil
+	}
+
 	// Type
 	service.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -1405,6 +1431,18 @@ func (service *StorageAccountsBlobService_STATUS) AssignProperties_To_StorageAcc
 		destination.Sku = &sku
 	} else {
 		destination.Sku = nil
+	}
+
+	// SystemData
+	if service.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := service.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Type
@@ -2141,7 +2179,7 @@ type LastAccessTimeTrackingPolicy struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
+	Name *Name `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -2172,7 +2210,7 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 	if policy.Name != nil {
 		var temp string
 		temp = string(*policy.Name)
-		name := arm.LastAccessTimeTrackingPolicy_Name(temp)
+		name := arm.Name(temp)
 		result.Name = &name
 	}
 
@@ -2211,7 +2249,7 @@ func (policy *LastAccessTimeTrackingPolicy) PopulateFromARM(owner genruntime.Arb
 	if typedInput.Name != nil {
 		var temp string
 		temp = string(*typedInput.Name)
-		name := LastAccessTimeTrackingPolicy_Name(temp)
+		name := Name(temp)
 		policy.Name = &name
 	}
 
@@ -2242,7 +2280,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_From_LastAccessTime
 	// Name
 	if source.Name != nil {
 		name := *source.Name
-		nameTemp := genruntime.ToEnum(name, lastAccessTimeTrackingPolicy_Name_Values)
+		nameTemp := genruntime.ToEnum(name, name_Values)
 		policy.Name = &nameTemp
 	} else {
 		policy.Name = nil
@@ -2309,7 +2347,7 @@ func (policy *LastAccessTimeTrackingPolicy) Initialize_From_LastAccessTimeTracki
 
 	// Name
 	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), lastAccessTimeTrackingPolicy_Name_Values)
+		name := genruntime.ToEnum(string(*source.Name), name_Values)
 		policy.Name = &name
 	} else {
 		policy.Name = nil
@@ -2332,7 +2370,7 @@ type LastAccessTimeTrackingPolicy_STATUS struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
+	Name *Name_STATUS `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -2368,7 +2406,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) PopulateFromARM(owner genrunt
 	if typedInput.Name != nil {
 		var temp string
 		temp = string(*typedInput.Name)
-		name := LastAccessTimeTrackingPolicy_Name_STATUS(temp)
+		name := Name_STATUS(temp)
 		policy.Name = &name
 	}
 
@@ -2399,7 +2437,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_From_LastAcc
 	// Name
 	if source.Name != nil {
 		name := *source.Name
-		nameTemp := genruntime.ToEnum(name, lastAccessTimeTrackingPolicy_Name_STATUS_Values)
+		nameTemp := genruntime.ToEnum(name, name_STATUS_Values)
 		policy.Name = &nameTemp
 	} else {
 		policy.Name = nil
@@ -2796,7 +2834,7 @@ type CorsRule struct {
 	// +kubebuilder:validation:Required
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_AllowedMethods `json:"allowedMethods,omitempty"`
+	AllowedMethods []AllowedMethods `json:"allowedMethods,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
@@ -2831,7 +2869,7 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	for _, item := range rule.AllowedMethods {
 		var temp string
 		temp = string(item)
-		result.AllowedMethods = append(result.AllowedMethods, arm.CorsRule_AllowedMethods(temp))
+		result.AllowedMethods = append(result.AllowedMethods, arm.AllowedMethods(temp))
 	}
 
 	// Set property "AllowedOrigins":
@@ -2873,7 +2911,7 @@ func (rule *CorsRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	for _, item := range typedInput.AllowedMethods {
 		var temp string
 		temp = string(item)
-		rule.AllowedMethods = append(rule.AllowedMethods, CorsRule_AllowedMethods(temp))
+		rule.AllowedMethods = append(rule.AllowedMethods, AllowedMethods(temp))
 	}
 
 	// Set property "AllowedOrigins":
@@ -2904,9 +2942,9 @@ func (rule *CorsRule) AssignProperties_From_CorsRule(source *storage.CorsRule) e
 
 	// AllowedMethods
 	if source.AllowedMethods != nil {
-		allowedMethodList := make([]CorsRule_AllowedMethods, len(source.AllowedMethods))
+		allowedMethodList := make([]AllowedMethods, len(source.AllowedMethods))
 		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
-			allowedMethodList[allowedMethodIndex] = genruntime.ToEnum(allowedMethodItem, corsRule_AllowedMethods_Values)
+			allowedMethodList[allowedMethodIndex] = genruntime.ToEnum(allowedMethodItem, allowedMethods_Values)
 		}
 		rule.AllowedMethods = allowedMethodList
 	} else {
@@ -2973,9 +3011,9 @@ func (rule *CorsRule) Initialize_From_CorsRule_STATUS(source *CorsRule_STATUS) e
 
 	// AllowedMethods
 	if source.AllowedMethods != nil {
-		allowedMethodList := make([]CorsRule_AllowedMethods, len(source.AllowedMethods))
+		allowedMethodList := make([]AllowedMethods, len(source.AllowedMethods))
 		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
-			allowedMethod := genruntime.ToEnum(string(allowedMethodItem), corsRule_AllowedMethods_Values)
+			allowedMethod := genruntime.ToEnum(string(allowedMethodItem), allowedMethods_Values)
 			allowedMethodList[allowedMethodIndex] = allowedMethod
 		}
 		rule.AllowedMethods = allowedMethodList
@@ -3004,7 +3042,7 @@ type CorsRule_STATUS struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
+	AllowedMethods []AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -3041,7 +3079,7 @@ func (rule *CorsRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	for _, item := range typedInput.AllowedMethods {
 		var temp string
 		temp = string(item)
-		rule.AllowedMethods = append(rule.AllowedMethods, CorsRule_AllowedMethods_STATUS(temp))
+		rule.AllowedMethods = append(rule.AllowedMethods, AllowedMethods_STATUS(temp))
 	}
 
 	// Set property "AllowedOrigins":
@@ -3072,9 +3110,9 @@ func (rule *CorsRule_STATUS) AssignProperties_From_CorsRule_STATUS(source *stora
 
 	// AllowedMethods
 	if source.AllowedMethods != nil {
-		allowedMethodList := make([]CorsRule_AllowedMethods_STATUS, len(source.AllowedMethods))
+		allowedMethodList := make([]AllowedMethods_STATUS, len(source.AllowedMethods))
 		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
-			allowedMethodList[allowedMethodIndex] = genruntime.ToEnum(allowedMethodItem, corsRule_AllowedMethods_STATUS_Values)
+			allowedMethodList[allowedMethodIndex] = genruntime.ToEnum(allowedMethodItem, allowedMethods_STATUS_Values)
 		}
 		rule.AllowedMethods = allowedMethodList
 	} else {
@@ -3133,82 +3171,84 @@ func (rule *CorsRule_STATUS) AssignProperties_To_CorsRule_STATUS(destination *st
 	return nil
 }
 
+// Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 // +kubebuilder:validation:Enum={"AccessTimeTracking"}
-type LastAccessTimeTrackingPolicy_Name string
+type Name string
 
-const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name("AccessTimeTracking")
+const Name_AccessTimeTracking = Name("AccessTimeTracking")
 
-// Mapping from string to LastAccessTimeTrackingPolicy_Name
-var lastAccessTimeTrackingPolicy_Name_Values = map[string]LastAccessTimeTrackingPolicy_Name{
-	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_AccessTimeTracking,
+// Mapping from string to Name
+var name_Values = map[string]Name{
+	"accesstimetracking": Name_AccessTimeTracking,
 }
 
-type LastAccessTimeTrackingPolicy_Name_STATUS string
+// Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
+type Name_STATUS string
 
-const LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
+const Name_STATUS_AccessTimeTracking = Name_STATUS("AccessTimeTracking")
 
-// Mapping from string to LastAccessTimeTrackingPolicy_Name_STATUS
-var lastAccessTimeTrackingPolicy_Name_STATUS_Values = map[string]LastAccessTimeTrackingPolicy_Name_STATUS{
-	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking,
+// Mapping from string to Name_STATUS
+var name_STATUS_Values = map[string]Name_STATUS{
+	"accesstimetracking": Name_STATUS_AccessTimeTracking,
 }
 
 // +kubebuilder:validation:Enum={"CONNECT","DELETE","GET","HEAD","MERGE","OPTIONS","PATCH","POST","PUT","TRACE"}
-type CorsRule_AllowedMethods string
+type AllowedMethods string
 
 const (
-	CorsRule_AllowedMethods_CONNECT = CorsRule_AllowedMethods("CONNECT")
-	CorsRule_AllowedMethods_DELETE  = CorsRule_AllowedMethods("DELETE")
-	CorsRule_AllowedMethods_GET     = CorsRule_AllowedMethods("GET")
-	CorsRule_AllowedMethods_HEAD    = CorsRule_AllowedMethods("HEAD")
-	CorsRule_AllowedMethods_MERGE   = CorsRule_AllowedMethods("MERGE")
-	CorsRule_AllowedMethods_OPTIONS = CorsRule_AllowedMethods("OPTIONS")
-	CorsRule_AllowedMethods_PATCH   = CorsRule_AllowedMethods("PATCH")
-	CorsRule_AllowedMethods_POST    = CorsRule_AllowedMethods("POST")
-	CorsRule_AllowedMethods_PUT     = CorsRule_AllowedMethods("PUT")
-	CorsRule_AllowedMethods_TRACE   = CorsRule_AllowedMethods("TRACE")
+	AllowedMethods_CONNECT = AllowedMethods("CONNECT")
+	AllowedMethods_DELETE  = AllowedMethods("DELETE")
+	AllowedMethods_GET     = AllowedMethods("GET")
+	AllowedMethods_HEAD    = AllowedMethods("HEAD")
+	AllowedMethods_MERGE   = AllowedMethods("MERGE")
+	AllowedMethods_OPTIONS = AllowedMethods("OPTIONS")
+	AllowedMethods_PATCH   = AllowedMethods("PATCH")
+	AllowedMethods_POST    = AllowedMethods("POST")
+	AllowedMethods_PUT     = AllowedMethods("PUT")
+	AllowedMethods_TRACE   = AllowedMethods("TRACE")
 )
 
-// Mapping from string to CorsRule_AllowedMethods
-var corsRule_AllowedMethods_Values = map[string]CorsRule_AllowedMethods{
-	"connect": CorsRule_AllowedMethods_CONNECT,
-	"delete":  CorsRule_AllowedMethods_DELETE,
-	"get":     CorsRule_AllowedMethods_GET,
-	"head":    CorsRule_AllowedMethods_HEAD,
-	"merge":   CorsRule_AllowedMethods_MERGE,
-	"options": CorsRule_AllowedMethods_OPTIONS,
-	"patch":   CorsRule_AllowedMethods_PATCH,
-	"post":    CorsRule_AllowedMethods_POST,
-	"put":     CorsRule_AllowedMethods_PUT,
-	"trace":   CorsRule_AllowedMethods_TRACE,
+// Mapping from string to AllowedMethods
+var allowedMethods_Values = map[string]AllowedMethods{
+	"connect": AllowedMethods_CONNECT,
+	"delete":  AllowedMethods_DELETE,
+	"get":     AllowedMethods_GET,
+	"head":    AllowedMethods_HEAD,
+	"merge":   AllowedMethods_MERGE,
+	"options": AllowedMethods_OPTIONS,
+	"patch":   AllowedMethods_PATCH,
+	"post":    AllowedMethods_POST,
+	"put":     AllowedMethods_PUT,
+	"trace":   AllowedMethods_TRACE,
 }
 
-type CorsRule_AllowedMethods_STATUS string
+type AllowedMethods_STATUS string
 
 const (
-	CorsRule_AllowedMethods_STATUS_CONNECT = CorsRule_AllowedMethods_STATUS("CONNECT")
-	CorsRule_AllowedMethods_STATUS_DELETE  = CorsRule_AllowedMethods_STATUS("DELETE")
-	CorsRule_AllowedMethods_STATUS_GET     = CorsRule_AllowedMethods_STATUS("GET")
-	CorsRule_AllowedMethods_STATUS_HEAD    = CorsRule_AllowedMethods_STATUS("HEAD")
-	CorsRule_AllowedMethods_STATUS_MERGE   = CorsRule_AllowedMethods_STATUS("MERGE")
-	CorsRule_AllowedMethods_STATUS_OPTIONS = CorsRule_AllowedMethods_STATUS("OPTIONS")
-	CorsRule_AllowedMethods_STATUS_PATCH   = CorsRule_AllowedMethods_STATUS("PATCH")
-	CorsRule_AllowedMethods_STATUS_POST    = CorsRule_AllowedMethods_STATUS("POST")
-	CorsRule_AllowedMethods_STATUS_PUT     = CorsRule_AllowedMethods_STATUS("PUT")
-	CorsRule_AllowedMethods_STATUS_TRACE   = CorsRule_AllowedMethods_STATUS("TRACE")
+	AllowedMethods_STATUS_CONNECT = AllowedMethods_STATUS("CONNECT")
+	AllowedMethods_STATUS_DELETE  = AllowedMethods_STATUS("DELETE")
+	AllowedMethods_STATUS_GET     = AllowedMethods_STATUS("GET")
+	AllowedMethods_STATUS_HEAD    = AllowedMethods_STATUS("HEAD")
+	AllowedMethods_STATUS_MERGE   = AllowedMethods_STATUS("MERGE")
+	AllowedMethods_STATUS_OPTIONS = AllowedMethods_STATUS("OPTIONS")
+	AllowedMethods_STATUS_PATCH   = AllowedMethods_STATUS("PATCH")
+	AllowedMethods_STATUS_POST    = AllowedMethods_STATUS("POST")
+	AllowedMethods_STATUS_PUT     = AllowedMethods_STATUS("PUT")
+	AllowedMethods_STATUS_TRACE   = AllowedMethods_STATUS("TRACE")
 )
 
-// Mapping from string to CorsRule_AllowedMethods_STATUS
-var corsRule_AllowedMethods_STATUS_Values = map[string]CorsRule_AllowedMethods_STATUS{
-	"connect": CorsRule_AllowedMethods_STATUS_CONNECT,
-	"delete":  CorsRule_AllowedMethods_STATUS_DELETE,
-	"get":     CorsRule_AllowedMethods_STATUS_GET,
-	"head":    CorsRule_AllowedMethods_STATUS_HEAD,
-	"merge":   CorsRule_AllowedMethods_STATUS_MERGE,
-	"options": CorsRule_AllowedMethods_STATUS_OPTIONS,
-	"patch":   CorsRule_AllowedMethods_STATUS_PATCH,
-	"post":    CorsRule_AllowedMethods_STATUS_POST,
-	"put":     CorsRule_AllowedMethods_STATUS_PUT,
-	"trace":   CorsRule_AllowedMethods_STATUS_TRACE,
+// Mapping from string to AllowedMethods_STATUS
+var allowedMethods_STATUS_Values = map[string]AllowedMethods_STATUS{
+	"connect": AllowedMethods_STATUS_CONNECT,
+	"delete":  AllowedMethods_STATUS_DELETE,
+	"get":     AllowedMethods_STATUS_GET,
+	"head":    AllowedMethods_STATUS_HEAD,
+	"merge":   AllowedMethods_STATUS_MERGE,
+	"options": AllowedMethods_STATUS_OPTIONS,
+	"patch":   AllowedMethods_STATUS_PATCH,
+	"post":    AllowedMethods_STATUS_POST,
+	"put":     AllowedMethods_STATUS_PUT,
+	"trace":   AllowedMethods_STATUS_TRACE,
 }
 
 func init() {

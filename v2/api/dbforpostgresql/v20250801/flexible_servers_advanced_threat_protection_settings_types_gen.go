@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdvancedThreatProtectionSettings.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
 type FlexibleServersAdvancedThreatProtectionSettings struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings) OriginalGVK() *
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdvancedThreatProtectionSettings.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
 type FlexibleServersAdvancedThreatProtectionSettingsList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -259,7 +259,7 @@ type FlexibleServersAdvancedThreatProtectionSettings_Spec struct {
 	// +kubebuilder:validation:Required
 	// State: Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been
 	// applied yet on the server.
-	State *AdvancedThreatProtectionSettingsProperties_State `json:"state,omitempty"`
+	State *ThreatProtectionState `json:"state,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersAdvancedThreatProtectionSettings_Spec{}
@@ -281,7 +281,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) ConvertToA
 	if settings.State != nil {
 		var temp string
 		temp = string(*settings.State)
-		state := arm.AdvancedThreatProtectionSettingsProperties_State(temp)
+		state := arm.ThreatProtectionState(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -313,7 +313,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) PopulateFr
 		if typedInput.Properties.State != nil {
 			var temp string
 			temp = string(*typedInput.Properties.State)
-			state := AdvancedThreatProtectionSettingsProperties_State(temp)
+			state := ThreatProtectionState(temp)
 			settings.State = &state
 		}
 	}
@@ -398,7 +398,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) AssignProp
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, advancedThreatProtectionSettingsProperties_State_Values)
+		stateTemp := genruntime.ToEnum(state, threatProtectionState_Values)
 		settings.State = &stateTemp
 	} else {
 		settings.State = nil
@@ -460,7 +460,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) Initialize
 
 	// State
 	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), advancedThreatProtectionSettingsProperties_State_Values)
+		state := genruntime.ToEnum(string(*source.State), threatProtectionState_Values)
 		settings.State = &state
 	} else {
 		settings.State = nil
@@ -491,7 +491,7 @@ type FlexibleServersAdvancedThreatProtectionSettings_STATUS struct {
 
 	// State: Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been
 	// applied yet on the server.
-	State *AdvancedThreatProtectionSettingsProperties_State_STATUS `json:"state,omitempty"`
+	State *ThreatProtectionState_STATUS `json:"state,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
@@ -593,7 +593,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_STATUS) Populate
 		if typedInput.Properties.State != nil {
 			var temp string
 			temp = string(*typedInput.Properties.State)
-			state := AdvancedThreatProtectionSettingsProperties_State_STATUS(temp)
+			state := ThreatProtectionState_STATUS(temp)
 			settings.State = &state
 		}
 	}
@@ -637,7 +637,7 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_STATUS) AssignPr
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, advancedThreatProtectionSettingsProperties_State_STATUS_Values)
+		stateTemp := genruntime.ToEnum(state, threatProtectionState_STATUS_Values)
 		settings.State = &stateTemp
 	} else {
 		settings.State = nil
@@ -711,33 +711,6 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_STATUS) AssignPr
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type AdvancedThreatProtectionSettingsProperties_State string
-
-const (
-	AdvancedThreatProtectionSettingsProperties_State_Disabled = AdvancedThreatProtectionSettingsProperties_State("Disabled")
-	AdvancedThreatProtectionSettingsProperties_State_Enabled  = AdvancedThreatProtectionSettingsProperties_State("Enabled")
-)
-
-// Mapping from string to AdvancedThreatProtectionSettingsProperties_State
-var advancedThreatProtectionSettingsProperties_State_Values = map[string]AdvancedThreatProtectionSettingsProperties_State{
-	"disabled": AdvancedThreatProtectionSettingsProperties_State_Disabled,
-	"enabled":  AdvancedThreatProtectionSettingsProperties_State_Enabled,
-}
-
-type AdvancedThreatProtectionSettingsProperties_State_STATUS string
-
-const (
-	AdvancedThreatProtectionSettingsProperties_State_STATUS_Disabled = AdvancedThreatProtectionSettingsProperties_State_STATUS("Disabled")
-	AdvancedThreatProtectionSettingsProperties_State_STATUS_Enabled  = AdvancedThreatProtectionSettingsProperties_State_STATUS("Enabled")
-)
-
-// Mapping from string to AdvancedThreatProtectionSettingsProperties_State_STATUS
-var advancedThreatProtectionSettingsProperties_State_STATUS_Values = map[string]AdvancedThreatProtectionSettingsProperties_State_STATUS{
-	"disabled": AdvancedThreatProtectionSettingsProperties_State_STATUS_Disabled,
-	"enabled":  AdvancedThreatProtectionSettingsProperties_State_STATUS_Enabled,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -834,6 +807,37 @@ func (operator *FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec) Ass
 
 	// No error
 	return nil
+}
+
+// Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied
+// yet on the server.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ThreatProtectionState string
+
+const (
+	ThreatProtectionState_Disabled = ThreatProtectionState("Disabled")
+	ThreatProtectionState_Enabled  = ThreatProtectionState("Enabled")
+)
+
+// Mapping from string to ThreatProtectionState
+var threatProtectionState_Values = map[string]ThreatProtectionState{
+	"disabled": ThreatProtectionState_Disabled,
+	"enabled":  ThreatProtectionState_Enabled,
+}
+
+// Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied
+// yet on the server.
+type ThreatProtectionState_STATUS string
+
+const (
+	ThreatProtectionState_STATUS_Disabled = ThreatProtectionState_STATUS("Disabled")
+	ThreatProtectionState_STATUS_Enabled  = ThreatProtectionState_STATUS("Enabled")
+)
+
+// Mapping from string to ThreatProtectionState_STATUS
+var threatProtectionState_STATUS_Values = map[string]ThreatProtectionState_STATUS{
+	"disabled": ThreatProtectionState_STATUS_Disabled,
+	"enabled":  ThreatProtectionState_STATUS_Enabled,
 }
 
 func init() {

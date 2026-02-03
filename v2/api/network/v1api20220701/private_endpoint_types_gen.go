@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/privateEndpoint.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/privateEndpoint.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}
 type PrivateEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -241,7 +241,7 @@ func (endpoint *PrivateEndpoint) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/privateEndpoint.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/privateEndpoint.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}
 type PrivateEndpointList struct {
 	metav1.TypeMeta `json:",inline"`

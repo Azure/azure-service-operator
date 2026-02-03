@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_EndpointProperties_CustomHeaders_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EndpointPropertiesCustomHeadersItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EndpointProperties_CustomHeaders via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEndpointProperties_CustomHeaders, EndpointProperties_CustomHeadersGenerator()))
+		"Round trip of EndpointPropertiesCustomHeadersItem via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEndpointPropertiesCustomHeadersItem, EndpointPropertiesCustomHeadersItemGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEndpointProperties_CustomHeaders runs a test to see if a specific instance of EndpointProperties_CustomHeaders round trips to JSON and back losslessly
-func RunJSONSerializationTestForEndpointProperties_CustomHeaders(subject EndpointProperties_CustomHeaders) string {
+// RunJSONSerializationTestForEndpointPropertiesCustomHeadersItem runs a test to see if a specific instance of EndpointPropertiesCustomHeadersItem round trips to JSON and back losslessly
+func RunJSONSerializationTestForEndpointPropertiesCustomHeadersItem(subject EndpointPropertiesCustomHeadersItem) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForEndpointProperties_CustomHeaders(subject Endpoin
 	}
 
 	// Deserialize back into memory
-	var actual EndpointProperties_CustomHeaders
+	var actual EndpointPropertiesCustomHeadersItem
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,43 +56,43 @@ func RunJSONSerializationTestForEndpointProperties_CustomHeaders(subject Endpoin
 	return ""
 }
 
-// Generator of EndpointProperties_CustomHeaders instances for property testing - lazily instantiated by
-// EndpointProperties_CustomHeadersGenerator()
-var endpointProperties_CustomHeadersGenerator gopter.Gen
+// Generator of EndpointPropertiesCustomHeadersItem instances for property testing - lazily instantiated by
+// EndpointPropertiesCustomHeadersItemGenerator()
+var endpointPropertiesCustomHeadersItemGenerator gopter.Gen
 
-// EndpointProperties_CustomHeadersGenerator returns a generator of EndpointProperties_CustomHeaders instances for property testing.
-func EndpointProperties_CustomHeadersGenerator() gopter.Gen {
-	if endpointProperties_CustomHeadersGenerator != nil {
-		return endpointProperties_CustomHeadersGenerator
+// EndpointPropertiesCustomHeadersItemGenerator returns a generator of EndpointPropertiesCustomHeadersItem instances for property testing.
+func EndpointPropertiesCustomHeadersItemGenerator() gopter.Gen {
+	if endpointPropertiesCustomHeadersItemGenerator != nil {
+		return endpointPropertiesCustomHeadersItemGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders(generators)
-	endpointProperties_CustomHeadersGenerator = gen.Struct(reflect.TypeOf(EndpointProperties_CustomHeaders{}), generators)
+	AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem(generators)
+	endpointPropertiesCustomHeadersItemGenerator = gen.Struct(reflect.TypeOf(EndpointPropertiesCustomHeadersItem{}), generators)
 
-	return endpointProperties_CustomHeadersGenerator
+	return endpointPropertiesCustomHeadersItemGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_EndpointProperties_CustomHeaders_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EndpointPropertiesCustomHeadersItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EndpointProperties_CustomHeaders_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS, EndpointProperties_CustomHeaders_STATUSGenerator()))
+		"Round trip of EndpointPropertiesCustomHeadersItem_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEndpointPropertiesCustomHeadersItem_STATUS, EndpointPropertiesCustomHeadersItem_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS runs a test to see if a specific instance of EndpointProperties_CustomHeaders_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS(subject EndpointProperties_CustomHeaders_STATUS) string {
+// RunJSONSerializationTestForEndpointPropertiesCustomHeadersItem_STATUS runs a test to see if a specific instance of EndpointPropertiesCustomHeadersItem_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForEndpointPropertiesCustomHeadersItem_STATUS(subject EndpointPropertiesCustomHeadersItem_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS(subject 
 	}
 
 	// Deserialize back into memory
-	var actual EndpointProperties_CustomHeaders_STATUS
+	var actual EndpointPropertiesCustomHeadersItem_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,43 +118,43 @@ func RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS(subject 
 	return ""
 }
 
-// Generator of EndpointProperties_CustomHeaders_STATUS instances for property testing - lazily instantiated by
-// EndpointProperties_CustomHeaders_STATUSGenerator()
-var endpointProperties_CustomHeaders_STATUSGenerator gopter.Gen
+// Generator of EndpointPropertiesCustomHeadersItem_STATUS instances for property testing - lazily instantiated by
+// EndpointPropertiesCustomHeadersItem_STATUSGenerator()
+var endpointPropertiesCustomHeadersItem_STATUSGenerator gopter.Gen
 
-// EndpointProperties_CustomHeaders_STATUSGenerator returns a generator of EndpointProperties_CustomHeaders_STATUS instances for property testing.
-func EndpointProperties_CustomHeaders_STATUSGenerator() gopter.Gen {
-	if endpointProperties_CustomHeaders_STATUSGenerator != nil {
-		return endpointProperties_CustomHeaders_STATUSGenerator
+// EndpointPropertiesCustomHeadersItem_STATUSGenerator returns a generator of EndpointPropertiesCustomHeadersItem_STATUS instances for property testing.
+func EndpointPropertiesCustomHeadersItem_STATUSGenerator() gopter.Gen {
+	if endpointPropertiesCustomHeadersItem_STATUSGenerator != nil {
+		return endpointPropertiesCustomHeadersItem_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS(generators)
-	endpointProperties_CustomHeaders_STATUSGenerator = gen.Struct(reflect.TypeOf(EndpointProperties_CustomHeaders_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem_STATUS(generators)
+	endpointPropertiesCustomHeadersItem_STATUSGenerator = gen.Struct(reflect.TypeOf(EndpointPropertiesCustomHeadersItem_STATUS{}), generators)
 
-	return endpointProperties_CustomHeaders_STATUSGenerator
+	return endpointPropertiesCustomHeadersItem_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_EndpointProperties_Subnets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EndpointPropertiesSubnetsItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EndpointProperties_Subnets via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEndpointProperties_Subnets, EndpointProperties_SubnetsGenerator()))
+		"Round trip of EndpointPropertiesSubnetsItem via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEndpointPropertiesSubnetsItem, EndpointPropertiesSubnetsItemGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEndpointProperties_Subnets runs a test to see if a specific instance of EndpointProperties_Subnets round trips to JSON and back losslessly
-func RunJSONSerializationTestForEndpointProperties_Subnets(subject EndpointProperties_Subnets) string {
+// RunJSONSerializationTestForEndpointPropertiesSubnetsItem runs a test to see if a specific instance of EndpointPropertiesSubnetsItem round trips to JSON and back losslessly
+func RunJSONSerializationTestForEndpointPropertiesSubnetsItem(subject EndpointPropertiesSubnetsItem) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -162,7 +162,7 @@ func RunJSONSerializationTestForEndpointProperties_Subnets(subject EndpointPrope
 	}
 
 	// Deserialize back into memory
-	var actual EndpointProperties_Subnets
+	var actual EndpointPropertiesSubnetsItem
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -180,44 +180,44 @@ func RunJSONSerializationTestForEndpointProperties_Subnets(subject EndpointPrope
 	return ""
 }
 
-// Generator of EndpointProperties_Subnets instances for property testing - lazily instantiated by
-// EndpointProperties_SubnetsGenerator()
-var endpointProperties_SubnetsGenerator gopter.Gen
+// Generator of EndpointPropertiesSubnetsItem instances for property testing - lazily instantiated by
+// EndpointPropertiesSubnetsItemGenerator()
+var endpointPropertiesSubnetsItemGenerator gopter.Gen
 
-// EndpointProperties_SubnetsGenerator returns a generator of EndpointProperties_Subnets instances for property testing.
-func EndpointProperties_SubnetsGenerator() gopter.Gen {
-	if endpointProperties_SubnetsGenerator != nil {
-		return endpointProperties_SubnetsGenerator
+// EndpointPropertiesSubnetsItemGenerator returns a generator of EndpointPropertiesSubnetsItem instances for property testing.
+func EndpointPropertiesSubnetsItemGenerator() gopter.Gen {
+	if endpointPropertiesSubnetsItemGenerator != nil {
+		return endpointPropertiesSubnetsItemGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEndpointProperties_Subnets(generators)
-	endpointProperties_SubnetsGenerator = gen.Struct(reflect.TypeOf(EndpointProperties_Subnets{}), generators)
+	AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem(generators)
+	endpointPropertiesSubnetsItemGenerator = gen.Struct(reflect.TypeOf(EndpointPropertiesSubnetsItem{}), generators)
 
-	return endpointProperties_SubnetsGenerator
+	return endpointPropertiesSubnetsItemGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEndpointProperties_Subnets is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEndpointProperties_Subnets(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem(gens map[string]gopter.Gen) {
 	gens["First"] = gen.PtrOf(gen.AlphaString())
 	gens["Last"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.Int())
 }
 
-func Test_EndpointProperties_Subnets_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EndpointPropertiesSubnetsItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EndpointProperties_Subnets_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEndpointProperties_Subnets_STATUS, EndpointProperties_Subnets_STATUSGenerator()))
+		"Round trip of EndpointPropertiesSubnetsItem_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEndpointPropertiesSubnetsItem_STATUS, EndpointPropertiesSubnetsItem_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEndpointProperties_Subnets_STATUS runs a test to see if a specific instance of EndpointProperties_Subnets_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEndpointProperties_Subnets_STATUS(subject EndpointProperties_Subnets_STATUS) string {
+// RunJSONSerializationTestForEndpointPropertiesSubnetsItem_STATUS runs a test to see if a specific instance of EndpointPropertiesSubnetsItem_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForEndpointPropertiesSubnetsItem_STATUS(subject EndpointPropertiesSubnetsItem_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -225,7 +225,7 @@ func RunJSONSerializationTestForEndpointProperties_Subnets_STATUS(subject Endpoi
 	}
 
 	// Deserialize back into memory
-	var actual EndpointProperties_Subnets_STATUS
+	var actual EndpointPropertiesSubnetsItem_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -243,25 +243,25 @@ func RunJSONSerializationTestForEndpointProperties_Subnets_STATUS(subject Endpoi
 	return ""
 }
 
-// Generator of EndpointProperties_Subnets_STATUS instances for property testing - lazily instantiated by
-// EndpointProperties_Subnets_STATUSGenerator()
-var endpointProperties_Subnets_STATUSGenerator gopter.Gen
+// Generator of EndpointPropertiesSubnetsItem_STATUS instances for property testing - lazily instantiated by
+// EndpointPropertiesSubnetsItem_STATUSGenerator()
+var endpointPropertiesSubnetsItem_STATUSGenerator gopter.Gen
 
-// EndpointProperties_Subnets_STATUSGenerator returns a generator of EndpointProperties_Subnets_STATUS instances for property testing.
-func EndpointProperties_Subnets_STATUSGenerator() gopter.Gen {
-	if endpointProperties_Subnets_STATUSGenerator != nil {
-		return endpointProperties_Subnets_STATUSGenerator
+// EndpointPropertiesSubnetsItem_STATUSGenerator returns a generator of EndpointPropertiesSubnetsItem_STATUS instances for property testing.
+func EndpointPropertiesSubnetsItem_STATUSGenerator() gopter.Gen {
+	if endpointPropertiesSubnetsItem_STATUSGenerator != nil {
+		return endpointPropertiesSubnetsItem_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEndpointProperties_Subnets_STATUS(generators)
-	endpointProperties_Subnets_STATUSGenerator = gen.Struct(reflect.TypeOf(EndpointProperties_Subnets_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem_STATUS(generators)
+	endpointPropertiesSubnetsItem_STATUSGenerator = gen.Struct(reflect.TypeOf(EndpointPropertiesSubnetsItem_STATUS{}), generators)
 
-	return endpointProperties_Subnets_STATUSGenerator
+	return endpointPropertiesSubnetsItem_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEndpointProperties_Subnets_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEndpointProperties_Subnets_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem_STATUS(gens map[string]gopter.Gen) {
 	gens["First"] = gen.PtrOf(gen.AlphaString())
 	gens["Last"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.Int())
@@ -470,8 +470,8 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STAT
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeaders_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointProperties_Subnets_STATUSGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItem_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItem_STATUSGenerator())
 }
 
 func Test_TrafficManagerProfilesAzureEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -559,7 +559,7 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeadersGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItemGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(TrafficManagerProfilesAzureEndpointOperatorSpecGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointProperties_SubnetsGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItemGenerator())
 }

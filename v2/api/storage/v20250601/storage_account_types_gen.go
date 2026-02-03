@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -296,7 +296,7 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -313,7 +313,7 @@ type StorageAccount_Spec struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
 	// access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium
 	// block blobs storage account type.
-	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
+	AccessTier *AccessTier `json:"accessTier,omitempty"`
 
 	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
 	// interpretation is false for this property.
@@ -330,7 +330,7 @@ type StorageAccount_Spec struct {
 	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
 
 	// AllowedCopyScope: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
-	AllowedCopyScope *StorageAccountPropertiesCreateParameters_AllowedCopyScope `json:"allowedCopyScope,omitempty"`
+	AllowedCopyScope *AllowedCopyScope `json:"allowedCopyScope,omitempty"`
 
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
@@ -354,7 +354,7 @@ type StorageAccount_Spec struct {
 	// DnsEndpointType: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of
 	// accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an
 	// alphanumeric DNS Zone identifier.
-	DnsEndpointType *StorageAccountPropertiesCreateParameters_DnsEndpointType `json:"dnsEndpointType,omitempty"`
+	DnsEndpointType *DnsEndpointType `json:"dnsEndpointType,omitempty"`
 
 	// DualStackEndpointPreference: Maintains information about the Internet protocol opted by the user.
 	DualStackEndpointPreference *DualStackEndpointPreference `json:"dualStackEndpointPreference,omitempty"`
@@ -396,10 +396,10 @@ type StorageAccount_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccount_Kind_Spec `json:"kind,omitempty"`
+	Kind *Kind `json:"kind,omitempty"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *LargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
@@ -409,7 +409,7 @@ type StorageAccount_Spec struct {
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesCreateParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
@@ -487,7 +487,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if account.Kind != nil {
 		var temp string
 		temp = string(*account.Kind)
-		kind := arm.StorageAccount_Kind_Spec(temp)
+		kind := arm.Kind(temp)
 		result.Kind = &kind
 	}
 
@@ -542,7 +542,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if account.AccessTier != nil {
 		var temp string
 		temp = string(*account.AccessTier)
-		accessTier := arm.StorageAccountPropertiesCreateParameters_AccessTier(temp)
+		accessTier := arm.AccessTier(temp)
 		result.Properties.AccessTier = &accessTier
 	}
 	if account.AllowBlobPublicAccess != nil {
@@ -560,7 +560,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if account.AllowedCopyScope != nil {
 		var temp string
 		temp = string(*account.AllowedCopyScope)
-		allowedCopyScope := arm.StorageAccountPropertiesCreateParameters_AllowedCopyScope(temp)
+		allowedCopyScope := arm.AllowedCopyScope(temp)
 		result.Properties.AllowedCopyScope = &allowedCopyScope
 	}
 	if account.AzureFilesIdentityBasedAuthentication != nil {
@@ -586,7 +586,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if account.DnsEndpointType != nil {
 		var temp string
 		temp = string(*account.DnsEndpointType)
-		dnsEndpointType := arm.StorageAccountPropertiesCreateParameters_DnsEndpointType(temp)
+		dnsEndpointType := arm.DnsEndpointType(temp)
 		result.Properties.DnsEndpointType = &dnsEndpointType
 	}
 	if account.DualStackEndpointPreference != nil {
@@ -652,13 +652,13 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if account.LargeFileSharesState != nil {
 		var temp string
 		temp = string(*account.LargeFileSharesState)
-		largeFileSharesState := arm.StorageAccountPropertiesCreateParameters_LargeFileSharesState(temp)
+		largeFileSharesState := arm.LargeFileSharesState(temp)
 		result.Properties.LargeFileSharesState = &largeFileSharesState
 	}
 	if account.MinimumTlsVersion != nil {
 		var temp string
 		temp = string(*account.MinimumTlsVersion)
-		minimumTlsVersion := arm.StorageAccountPropertiesCreateParameters_MinimumTlsVersion(temp)
+		minimumTlsVersion := arm.MinimumTlsVersion(temp)
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 	if account.NetworkAcls != nil {
@@ -739,7 +739,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.AccessTier != nil {
 			var temp string
 			temp = string(*typedInput.Properties.AccessTier)
-			accessTier := StorageAccountPropertiesCreateParameters_AccessTier(temp)
+			accessTier := AccessTier(temp)
 			account.AccessTier = &accessTier
 		}
 	}
@@ -777,7 +777,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.AllowedCopyScope != nil {
 			var temp string
 			temp = string(*typedInput.Properties.AllowedCopyScope)
-			allowedCopyScope := StorageAccountPropertiesCreateParameters_AllowedCopyScope(temp)
+			allowedCopyScope := AllowedCopyScope(temp)
 			account.AllowedCopyScope = &allowedCopyScope
 		}
 	}
@@ -828,7 +828,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.DnsEndpointType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.DnsEndpointType)
-			dnsEndpointType := StorageAccountPropertiesCreateParameters_DnsEndpointType(temp)
+			dnsEndpointType := DnsEndpointType(temp)
 			account.DnsEndpointType = &dnsEndpointType
 		}
 	}
@@ -974,7 +974,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := StorageAccount_Kind_Spec(temp)
+		kind := Kind(temp)
 		account.Kind = &kind
 	}
 
@@ -984,7 +984,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.LargeFileSharesState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LargeFileSharesState)
-			largeFileSharesState := StorageAccountPropertiesCreateParameters_LargeFileSharesState(temp)
+			largeFileSharesState := LargeFileSharesState(temp)
 			account.LargeFileSharesState = &largeFileSharesState
 		}
 	}
@@ -1001,7 +1001,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.MinimumTlsVersion != nil {
 			var temp string
 			temp = string(*typedInput.Properties.MinimumTlsVersion)
-			minimumTlsVersion := StorageAccountPropertiesCreateParameters_MinimumTlsVersion(temp)
+			minimumTlsVersion := MinimumTlsVersion(temp)
 			account.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -1171,7 +1171,7 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 	// AccessTier
 	if source.AccessTier != nil {
 		accessTier := *source.AccessTier
-		accessTierTemp := genruntime.ToEnum(accessTier, storageAccountPropertiesCreateParameters_AccessTier_Values)
+		accessTierTemp := genruntime.ToEnum(accessTier, accessTier_Values)
 		account.AccessTier = &accessTierTemp
 	} else {
 		account.AccessTier = nil
@@ -1204,7 +1204,7 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 	// AllowedCopyScope
 	if source.AllowedCopyScope != nil {
 		allowedCopyScope := *source.AllowedCopyScope
-		allowedCopyScopeTemp := genruntime.ToEnum(allowedCopyScope, storageAccountPropertiesCreateParameters_AllowedCopyScope_Values)
+		allowedCopyScopeTemp := genruntime.ToEnum(allowedCopyScope, allowedCopyScope_Values)
 		account.AllowedCopyScope = &allowedCopyScopeTemp
 	} else {
 		account.AllowedCopyScope = nil
@@ -1248,7 +1248,7 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 	// DnsEndpointType
 	if source.DnsEndpointType != nil {
 		dnsEndpointType := *source.DnsEndpointType
-		dnsEndpointTypeTemp := genruntime.ToEnum(dnsEndpointType, storageAccountPropertiesCreateParameters_DnsEndpointType_Values)
+		dnsEndpointTypeTemp := genruntime.ToEnum(dnsEndpointType, dnsEndpointType_Values)
 		account.DnsEndpointType = &dnsEndpointTypeTemp
 	} else {
 		account.DnsEndpointType = nil
@@ -1381,7 +1381,7 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, storageAccount_Kind_Spec_Values)
+		kindTemp := genruntime.ToEnum(kind, kind_Values)
 		account.Kind = &kindTemp
 	} else {
 		account.Kind = nil
@@ -1390,7 +1390,7 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
 		largeFileSharesState := *source.LargeFileSharesState
-		largeFileSharesStateTemp := genruntime.ToEnum(largeFileSharesState, storageAccountPropertiesCreateParameters_LargeFileSharesState_Values)
+		largeFileSharesStateTemp := genruntime.ToEnum(largeFileSharesState, largeFileSharesState_Values)
 		account.LargeFileSharesState = &largeFileSharesStateTemp
 	} else {
 		account.LargeFileSharesState = nil
@@ -1402,7 +1402,7 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
 		minimumTlsVersion := *source.MinimumTlsVersion
-		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values)
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, minimumTlsVersion_Values)
 		account.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		account.MinimumTlsVersion = nil
@@ -1875,7 +1875,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := genruntime.ToEnum(string(*source.AccessTier), storageAccountPropertiesCreateParameters_AccessTier_Values)
+		accessTier := genruntime.ToEnum(string(*source.AccessTier), accessTier_Values)
 		account.AccessTier = &accessTier
 	} else {
 		account.AccessTier = nil
@@ -1907,7 +1907,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// AllowedCopyScope
 	if source.AllowedCopyScope != nil {
-		allowedCopyScope := genruntime.ToEnum(string(*source.AllowedCopyScope), storageAccountPropertiesCreateParameters_AllowedCopyScope_Values)
+		allowedCopyScope := genruntime.ToEnum(string(*source.AllowedCopyScope), allowedCopyScope_Values)
 		account.AllowedCopyScope = &allowedCopyScope
 	} else {
 		account.AllowedCopyScope = nil
@@ -1947,7 +1947,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// DnsEndpointType
 	if source.DnsEndpointType != nil {
-		dnsEndpointType := genruntime.ToEnum(string(*source.DnsEndpointType), storageAccountPropertiesCreateParameters_DnsEndpointType_Values)
+		dnsEndpointType := genruntime.ToEnum(string(*source.DnsEndpointType), dnsEndpointType_Values)
 		account.DnsEndpointType = &dnsEndpointType
 	} else {
 		account.DnsEndpointType = nil
@@ -2079,7 +2079,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// Kind
 	if source.Kind != nil {
-		kind := genruntime.ToEnum(string(*source.Kind), storageAccount_Kind_Spec_Values)
+		kind := genruntime.ToEnum(string(*source.Kind), kind_Values)
 		account.Kind = &kind
 	} else {
 		account.Kind = nil
@@ -2087,7 +2087,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
-		largeFileSharesState := genruntime.ToEnum(string(*source.LargeFileSharesState), storageAccountPropertiesCreateParameters_LargeFileSharesState_Values)
+		largeFileSharesState := genruntime.ToEnum(string(*source.LargeFileSharesState), largeFileSharesState_Values)
 		account.LargeFileSharesState = &largeFileSharesState
 	} else {
 		account.LargeFileSharesState = nil
@@ -2098,7 +2098,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values)
+		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), minimumTlsVersion_Values)
 		account.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		account.MinimumTlsVersion = nil
@@ -2203,7 +2203,7 @@ type StorageAccount_STATUS struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
 	// access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium
 	// block blobs storage account type.
-	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
+	AccessTier *AccessTier_STATUS `json:"accessTier,omitempty"`
 
 	// AccountMigrationInProgress: If customer initiated account migration is in progress, the value will be true else it will
 	// be null.
@@ -2224,7 +2224,7 @@ type StorageAccount_STATUS struct {
 	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
 
 	// AllowedCopyScope: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
-	AllowedCopyScope *StorageAccountProperties_AllowedCopyScope_STATUS `json:"allowedCopyScope,omitempty"`
+	AllowedCopyScope *AllowedCopyScope_STATUS `json:"allowedCopyScope,omitempty"`
 
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS `json:"azureFilesIdentityBasedAuthentication,omitempty"`
@@ -2248,7 +2248,7 @@ type StorageAccount_STATUS struct {
 	// DnsEndpointType: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of
 	// accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an
 	// alphanumeric DNS Zone identifier.
-	DnsEndpointType *StorageAccountProperties_DnsEndpointType_STATUS `json:"dnsEndpointType,omitempty"`
+	DnsEndpointType *DnsEndpointType_STATUS `json:"dnsEndpointType,omitempty"`
 
 	// DualStackEndpointPreference: Maintains information about the Internet protocol opted by the user.
 	DualStackEndpointPreference *DualStackEndpointPreference_STATUS `json:"dualStackEndpointPreference,omitempty"`
@@ -2271,8 +2271,8 @@ type StorageAccount_STATUS struct {
 	// GeoReplicationStats: Geo Replication Stats
 	GeoReplicationStats *GeoReplicationStats_STATUS `json:"geoReplicationStats,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
@@ -2305,10 +2305,10 @@ type StorageAccount_STATUS struct {
 	KeyPolicy *KeyPolicy_STATUS `json:"keyPolicy,omitempty"`
 
 	// Kind: Gets the Kind.
-	Kind *StorageAccount_Kind_STATUS `json:"kind,omitempty"`
+	Kind *Kind_STATUS `json:"kind,omitempty"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
 
 	// LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
 	// most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
@@ -2320,7 +2320,7 @@ type StorageAccount_STATUS struct {
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -2342,7 +2342,7 @@ type StorageAccount_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
-	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Allow, disallow, or let Network Security Perimeter configuration to evaluate public network access
 	// to Storage Account.
@@ -2367,11 +2367,11 @@ type StorageAccount_STATUS struct {
 
 	// StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
 	// unavailable.
-	StatusOfPrimary *StorageAccountProperties_StatusOfPrimary_STATUS `json:"statusOfPrimary,omitempty"`
+	StatusOfPrimary *AccountStatus_STATUS `json:"statusOfPrimary,omitempty"`
 
 	// StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
 	// unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.
-	StatusOfSecondary *StorageAccountProperties_StatusOfSecondary_STATUS `json:"statusOfSecondary,omitempty"`
+	StatusOfSecondary *AccountStatus_STATUS `json:"statusOfSecondary,omitempty"`
 
 	// StorageAccountSkuConversionStatus: This property is readOnly and is set by server during asynchronous storage account
 	// sku conversion operations.
@@ -2380,13 +2380,16 @@ type StorageAccount_STATUS struct {
 	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	// Zones: Optional. Gets or sets the pinned logical availability zone for the storage account.
+	// Zones: The availability zones.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -2460,7 +2463,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.AccessTier != nil {
 			var temp string
 			temp = string(*typedInput.Properties.AccessTier)
-			accessTier := StorageAccountProperties_AccessTier_STATUS(temp)
+			accessTier := AccessTier_STATUS(temp)
 			account.AccessTier = &accessTier
 		}
 	}
@@ -2507,7 +2510,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.AllowedCopyScope != nil {
 			var temp string
 			temp = string(*typedInput.Properties.AllowedCopyScope)
-			allowedCopyScope := StorageAccountProperties_AllowedCopyScope_STATUS(temp)
+			allowedCopyScope := AllowedCopyScope_STATUS(temp)
 			account.AllowedCopyScope = &allowedCopyScope
 		}
 	}
@@ -2580,7 +2583,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.DnsEndpointType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.DnsEndpointType)
-			dnsEndpointType := StorageAccountProperties_DnsEndpointType_STATUS(temp)
+			dnsEndpointType := DnsEndpointType_STATUS(temp)
 			account.DnsEndpointType = &dnsEndpointType
 		}
 	}
@@ -2778,7 +2781,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := StorageAccount_Kind_STATUS(temp)
+		kind := Kind_STATUS(temp)
 		account.Kind = &kind
 	}
 
@@ -2788,7 +2791,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.LargeFileSharesState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LargeFileSharesState)
-			largeFileSharesState := StorageAccountProperties_LargeFileSharesState_STATUS(temp)
+			largeFileSharesState := LargeFileSharesState_STATUS(temp)
 			account.LargeFileSharesState = &largeFileSharesState
 		}
 	}
@@ -2814,7 +2817,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.MinimumTlsVersion != nil {
 			var temp string
 			temp = string(*typedInput.Properties.MinimumTlsVersion)
-			minimumTlsVersion := StorageAccountProperties_MinimumTlsVersion_STATUS(temp)
+			minimumTlsVersion := MinimumTlsVersion_STATUS(temp)
 			account.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -2892,7 +2895,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.ProvisioningState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
-			provisioningState := StorageAccountProperties_ProvisioningState_STATUS(temp)
+			provisioningState := ProvisioningState_STATUS(temp)
 			account.ProvisioningState = &provisioningState
 		}
 	}
@@ -2976,7 +2979,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.StatusOfPrimary != nil {
 			var temp string
 			temp = string(*typedInput.Properties.StatusOfPrimary)
-			statusOfPrimary := StorageAccountProperties_StatusOfPrimary_STATUS(temp)
+			statusOfPrimary := AccountStatus_STATUS(temp)
 			account.StatusOfPrimary = &statusOfPrimary
 		}
 	}
@@ -2987,7 +2990,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		if typedInput.Properties.StatusOfSecondary != nil {
 			var temp string
 			temp = string(*typedInput.Properties.StatusOfSecondary)
-			statusOfSecondary := StorageAccountProperties_StatusOfSecondary_STATUS(temp)
+			statusOfSecondary := AccountStatus_STATUS(temp)
 			account.StatusOfSecondary = &statusOfSecondary
 		}
 	}
@@ -3013,6 +3016,17 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 			supportsHttpsTrafficOnly := *typedInput.Properties.SupportsHttpsTrafficOnly
 			account.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 		}
+	}
+
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		account.SystemData = &systemData
 	}
 
 	// Set property "Tags":
@@ -3044,7 +3058,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// AccessTier
 	if source.AccessTier != nil {
 		accessTier := *source.AccessTier
-		accessTierTemp := genruntime.ToEnum(accessTier, storageAccountProperties_AccessTier_STATUS_Values)
+		accessTierTemp := genruntime.ToEnum(accessTier, accessTier_STATUS_Values)
 		account.AccessTier = &accessTierTemp
 	} else {
 		account.AccessTier = nil
@@ -3085,7 +3099,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// AllowedCopyScope
 	if source.AllowedCopyScope != nil {
 		allowedCopyScope := *source.AllowedCopyScope
-		allowedCopyScopeTemp := genruntime.ToEnum(allowedCopyScope, storageAccountProperties_AllowedCopyScope_STATUS_Values)
+		allowedCopyScopeTemp := genruntime.ToEnum(allowedCopyScope, allowedCopyScope_STATUS_Values)
 		account.AllowedCopyScope = &allowedCopyScopeTemp
 	} else {
 		account.AllowedCopyScope = nil
@@ -3144,7 +3158,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// DnsEndpointType
 	if source.DnsEndpointType != nil {
 		dnsEndpointType := *source.DnsEndpointType
-		dnsEndpointTypeTemp := genruntime.ToEnum(dnsEndpointType, storageAccountProperties_DnsEndpointType_STATUS_Values)
+		dnsEndpointTypeTemp := genruntime.ToEnum(dnsEndpointType, dnsEndpointType_STATUS_Values)
 		account.DnsEndpointType = &dnsEndpointTypeTemp
 	} else {
 		account.DnsEndpointType = nil
@@ -3320,7 +3334,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, storageAccount_Kind_STATUS_Values)
+		kindTemp := genruntime.ToEnum(kind, kind_STATUS_Values)
 		account.Kind = &kindTemp
 	} else {
 		account.Kind = nil
@@ -3329,7 +3343,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
 		largeFileSharesState := *source.LargeFileSharesState
-		largeFileSharesStateTemp := genruntime.ToEnum(largeFileSharesState, storageAccountProperties_LargeFileSharesState_STATUS_Values)
+		largeFileSharesStateTemp := genruntime.ToEnum(largeFileSharesState, largeFileSharesState_STATUS_Values)
 		account.LargeFileSharesState = &largeFileSharesStateTemp
 	} else {
 		account.LargeFileSharesState = nil
@@ -3344,7 +3358,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
 		minimumTlsVersion := *source.MinimumTlsVersion
-		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, storageAccountProperties_MinimumTlsVersion_STATUS_Values)
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, minimumTlsVersion_STATUS_Values)
 		account.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		account.MinimumTlsVersion = nil
@@ -3411,7 +3425,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, storageAccountProperties_ProvisioningState_STATUS_Values)
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
 		account.ProvisioningState = &provisioningStateTemp
 	} else {
 		account.ProvisioningState = nil
@@ -3480,7 +3494,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// StatusOfPrimary
 	if source.StatusOfPrimary != nil {
 		statusOfPrimary := *source.StatusOfPrimary
-		statusOfPrimaryTemp := genruntime.ToEnum(statusOfPrimary, storageAccountProperties_StatusOfPrimary_STATUS_Values)
+		statusOfPrimaryTemp := genruntime.ToEnum(statusOfPrimary, accountStatus_STATUS_Values)
 		account.StatusOfPrimary = &statusOfPrimaryTemp
 	} else {
 		account.StatusOfPrimary = nil
@@ -3489,7 +3503,7 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// StatusOfSecondary
 	if source.StatusOfSecondary != nil {
 		statusOfSecondary := *source.StatusOfSecondary
-		statusOfSecondaryTemp := genruntime.ToEnum(statusOfSecondary, storageAccountProperties_StatusOfSecondary_STATUS_Values)
+		statusOfSecondaryTemp := genruntime.ToEnum(statusOfSecondary, accountStatus_STATUS_Values)
 		account.StatusOfSecondary = &statusOfSecondaryTemp
 	} else {
 		account.StatusOfSecondary = nil
@@ -3513,6 +3527,18 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 	} else {
 		account.SupportsHttpsTrafficOnly = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		account.SystemData = &systemDatum
+	} else {
+		account.SystemData = nil
 	}
 
 	// Tags
@@ -3997,6 +4023,18 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.SupportsHttpsTrafficOnly = nil
 	}
 
+	// SystemData
+	if account.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := account.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
 
@@ -4017,6 +4055,90 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	return nil
 }
 
+// Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier
+// is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs
+// storage account type.
+// +kubebuilder:validation:Enum={"Cold","Cool","Hot","Premium"}
+type AccessTier string
+
+const (
+	AccessTier_Cold    = AccessTier("Cold")
+	AccessTier_Cool    = AccessTier("Cool")
+	AccessTier_Hot     = AccessTier("Hot")
+	AccessTier_Premium = AccessTier("Premium")
+)
+
+// Mapping from string to AccessTier
+var accessTier_Values = map[string]AccessTier{
+	"cold":    AccessTier_Cold,
+	"cool":    AccessTier_Cool,
+	"hot":     AccessTier_Hot,
+	"premium": AccessTier_Premium,
+}
+
+// Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier
+// is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs
+// storage account type.
+type AccessTier_STATUS string
+
+const (
+	AccessTier_STATUS_Cold    = AccessTier_STATUS("Cold")
+	AccessTier_STATUS_Cool    = AccessTier_STATUS("Cool")
+	AccessTier_STATUS_Hot     = AccessTier_STATUS("Hot")
+	AccessTier_STATUS_Premium = AccessTier_STATUS("Premium")
+)
+
+// Mapping from string to AccessTier_STATUS
+var accessTier_STATUS_Values = map[string]AccessTier_STATUS{
+	"cold":    AccessTier_STATUS_Cold,
+	"cool":    AccessTier_STATUS_Cool,
+	"hot":     AccessTier_STATUS_Hot,
+	"premium": AccessTier_STATUS_Premium,
+}
+
+// Gets the status indicating whether the primary location of the storage account is available or unavailable.
+type AccountStatus_STATUS string
+
+const (
+	AccountStatus_STATUS_Available   = AccountStatus_STATUS("available")
+	AccountStatus_STATUS_Unavailable = AccountStatus_STATUS("unavailable")
+)
+
+// Mapping from string to AccountStatus_STATUS
+var accountStatus_STATUS_Values = map[string]AccountStatus_STATUS{
+	"available":   AccountStatus_STATUS_Available,
+	"unavailable": AccountStatus_STATUS_Unavailable,
+}
+
+// Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+// +kubebuilder:validation:Enum={"AAD","PrivateLink"}
+type AllowedCopyScope string
+
+const (
+	AllowedCopyScope_AAD         = AllowedCopyScope("AAD")
+	AllowedCopyScope_PrivateLink = AllowedCopyScope("PrivateLink")
+)
+
+// Mapping from string to AllowedCopyScope
+var allowedCopyScope_Values = map[string]AllowedCopyScope{
+	"aad":         AllowedCopyScope_AAD,
+	"privatelink": AllowedCopyScope_PrivateLink,
+}
+
+// Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+type AllowedCopyScope_STATUS string
+
+const (
+	AllowedCopyScope_STATUS_AAD         = AllowedCopyScope_STATUS("AAD")
+	AllowedCopyScope_STATUS_PrivateLink = AllowedCopyScope_STATUS("PrivateLink")
+)
+
+// Mapping from string to AllowedCopyScope_STATUS
+var allowedCopyScope_STATUS_Values = map[string]AllowedCopyScope_STATUS{
+	"aad":         AllowedCopyScope_STATUS_AAD,
+	"privatelink": AllowedCopyScope_STATUS_PrivateLink,
+}
+
 // Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication struct {
 	// ActiveDirectoryProperties: Additional information about the directory service. Required if directoryServiceOptions is AD
@@ -4025,11 +4147,11 @@ type AzureFilesIdentityBasedAuthentication struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
 
 	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *DefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// DirectoryServiceOptions: Indicates the directory service used. Note that this enum may be extended in the future.
-	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
+	DirectoryServiceOptions *DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 
 	// SmbOAuthSettings: Required for Managed Identities access using OAuth over SMB.
 	SmbOAuthSettings *SmbOAuthSettings `json:"smbOAuthSettings,omitempty"`
@@ -4058,7 +4180,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 	if authentication.DefaultSharePermission != nil {
 		var temp string
 		temp = string(*authentication.DefaultSharePermission)
-		defaultSharePermission := arm.AzureFilesIdentityBasedAuthentication_DefaultSharePermission(temp)
+		defaultSharePermission := arm.DefaultSharePermission(temp)
 		result.DefaultSharePermission = &defaultSharePermission
 	}
 
@@ -4066,7 +4188,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 	if authentication.DirectoryServiceOptions != nil {
 		var temp string
 		temp = string(*authentication.DirectoryServiceOptions)
-		directoryServiceOptions := arm.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions(temp)
+		directoryServiceOptions := arm.DirectoryServiceOptions(temp)
 		result.DirectoryServiceOptions = &directoryServiceOptions
 	}
 
@@ -4109,7 +4231,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) PopulateFromARM(own
 	if typedInput.DefaultSharePermission != nil {
 		var temp string
 		temp = string(*typedInput.DefaultSharePermission)
-		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission(temp)
+		defaultSharePermission := DefaultSharePermission(temp)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	}
 
@@ -4117,7 +4239,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) PopulateFromARM(own
 	if typedInput.DirectoryServiceOptions != nil {
 		var temp string
 		temp = string(*typedInput.DirectoryServiceOptions)
-		directoryServiceOptions := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions(temp)
+		directoryServiceOptions := DirectoryServiceOptions(temp)
 		authentication.DirectoryServiceOptions = &directoryServiceOptions
 	}
 
@@ -4154,7 +4276,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignProperties_Fr
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
 		defaultSharePermission := *source.DefaultSharePermission
-		defaultSharePermissionTemp := genruntime.ToEnum(defaultSharePermission, azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values)
+		defaultSharePermissionTemp := genruntime.ToEnum(defaultSharePermission, defaultSharePermission_Values)
 		authentication.DefaultSharePermission = &defaultSharePermissionTemp
 	} else {
 		authentication.DefaultSharePermission = nil
@@ -4163,7 +4285,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignProperties_Fr
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
 		directoryServiceOption := *source.DirectoryServiceOptions
-		directoryServiceOptionTemp := genruntime.ToEnum(directoryServiceOption, azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values)
+		directoryServiceOptionTemp := genruntime.ToEnum(directoryServiceOption, directoryServiceOptions_Values)
 		authentication.DirectoryServiceOptions = &directoryServiceOptionTemp
 	} else {
 		authentication.DirectoryServiceOptions = nil
@@ -4258,7 +4380,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) Initialize_From_Azu
 
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
-		defaultSharePermission := genruntime.ToEnum(string(*source.DefaultSharePermission), azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values)
+		defaultSharePermission := genruntime.ToEnum(string(*source.DefaultSharePermission), defaultSharePermission_Values)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	} else {
 		authentication.DefaultSharePermission = nil
@@ -4266,7 +4388,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) Initialize_From_Azu
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		directoryServiceOption := genruntime.ToEnum(string(*source.DirectoryServiceOptions), azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values)
+		directoryServiceOption := genruntime.ToEnum(string(*source.DirectoryServiceOptions), directoryServiceOptions_Values)
 		authentication.DirectoryServiceOptions = &directoryServiceOption
 	} else {
 		authentication.DirectoryServiceOptions = nil
@@ -4296,10 +4418,10 @@ type AzureFilesIdentityBasedAuthentication_STATUS struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS `json:"activeDirectoryProperties,omitempty"`
 
 	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *DefaultSharePermission_STATUS `json:"defaultSharePermission,omitempty"`
 
 	// DirectoryServiceOptions: Indicates the directory service used. Note that this enum may be extended in the future.
-	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
+	DirectoryServiceOptions *DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
 
 	// SmbOAuthSettings: Required for Managed Identities access using OAuth over SMB.
 	SmbOAuthSettings *SmbOAuthSettings_STATUS `json:"smbOAuthSettings,omitempty"`
@@ -4334,7 +4456,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) PopulateFrom
 	if typedInput.DefaultSharePermission != nil {
 		var temp string
 		temp = string(*typedInput.DefaultSharePermission)
-		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS(temp)
+		defaultSharePermission := DefaultSharePermission_STATUS(temp)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	}
 
@@ -4342,7 +4464,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) PopulateFrom
 	if typedInput.DirectoryServiceOptions != nil {
 		var temp string
 		temp = string(*typedInput.DirectoryServiceOptions)
-		directoryServiceOptions := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS(temp)
+		directoryServiceOptions := DirectoryServiceOptions_STATUS(temp)
 		authentication.DirectoryServiceOptions = &directoryServiceOptions
 	}
 
@@ -4379,7 +4501,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) AssignProper
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
 		defaultSharePermission := *source.DefaultSharePermission
-		defaultSharePermissionTemp := genruntime.ToEnum(defaultSharePermission, azureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_Values)
+		defaultSharePermissionTemp := genruntime.ToEnum(defaultSharePermission, defaultSharePermission_STATUS_Values)
 		authentication.DefaultSharePermission = &defaultSharePermissionTemp
 	} else {
 		authentication.DefaultSharePermission = nil
@@ -4388,7 +4510,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) AssignProper
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
 		directoryServiceOption := *source.DirectoryServiceOptions
-		directoryServiceOptionTemp := genruntime.ToEnum(directoryServiceOption, azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_Values)
+		directoryServiceOptionTemp := genruntime.ToEnum(directoryServiceOption, directoryServiceOptions_STATUS_Values)
 		authentication.DirectoryServiceOptions = &directoryServiceOptionTemp
 	} else {
 		authentication.DirectoryServiceOptions = nil
@@ -4479,7 +4601,7 @@ type BlobRestoreStatus_STATUS struct {
 
 	// Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
 	// - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
-	Status *BlobRestoreStatus_Status_STATUS `json:"status,omitempty"`
+	Status *BlobRestoreProgressStatus_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BlobRestoreStatus_STATUS{}
@@ -4523,7 +4645,7 @@ func (status *BlobRestoreStatus_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	if typedInput.Status != nil {
 		var temp string
 		temp = string(*typedInput.Status)
-		status1 := BlobRestoreStatus_Status_STATUS(temp)
+		status1 := BlobRestoreProgressStatus_STATUS(temp)
 		status.Status = &status1
 	}
 
@@ -4555,7 +4677,7 @@ func (status *BlobRestoreStatus_STATUS) AssignProperties_From_BlobRestoreStatus_
 	// Status
 	if source.Status != nil {
 		statusValue := *source.Status
-		statusTemp := genruntime.ToEnum(statusValue, blobRestoreStatus_Status_STATUS_Values)
+		statusTemp := genruntime.ToEnum(statusValue, blobRestoreProgressStatus_STATUS_Values)
 		status.Status = &statusTemp
 	} else {
 		status.Status = nil
@@ -4815,6 +4937,39 @@ func (domain *CustomDomain_STATUS) AssignProperties_To_CustomDomain_STATUS(desti
 
 	// No error
 	return nil
+}
+
+// Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single
+// subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone
+// identifier.
+// +kubebuilder:validation:Enum={"AzureDnsZone","Standard"}
+type DnsEndpointType string
+
+const (
+	DnsEndpointType_AzureDnsZone = DnsEndpointType("AzureDnsZone")
+	DnsEndpointType_Standard     = DnsEndpointType("Standard")
+)
+
+// Mapping from string to DnsEndpointType
+var dnsEndpointType_Values = map[string]DnsEndpointType{
+	"azurednszone": DnsEndpointType_AzureDnsZone,
+	"standard":     DnsEndpointType_Standard,
+}
+
+// Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single
+// subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone
+// identifier.
+type DnsEndpointType_STATUS string
+
+const (
+	DnsEndpointType_STATUS_AzureDnsZone = DnsEndpointType_STATUS("AzureDnsZone")
+	DnsEndpointType_STATUS_Standard     = DnsEndpointType_STATUS("Standard")
+)
+
+// Mapping from string to DnsEndpointType_STATUS
+var dnsEndpointType_STATUS_Values = map[string]DnsEndpointType_STATUS{
+	"azurednszone": DnsEndpointType_STATUS_AzureDnsZone,
+	"standard":     DnsEndpointType_STATUS_Standard,
 }
 
 // Dual-stack endpoint preference defines whether IPv6 endpoints are going to be published.
@@ -5777,7 +5932,7 @@ type ExtendedLocation struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Type *ExtendedLocationTypes `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -5799,7 +5954,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location.Type != nil {
 		var temp string
 		temp = string(*location.Type)
-		typeVar := arm.ExtendedLocationType(temp)
+		typeVar := arm.ExtendedLocationTypes(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -5827,7 +5982,7 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := ExtendedLocationType(temp)
+		typeVar := ExtendedLocationTypes(temp)
 		location.Type = &typeVar
 	}
 
@@ -5844,7 +5999,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationTypes_Values)
 		location.Type = &typeTemp
 	} else {
 		location.Type = nil
@@ -5889,7 +6044,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationTypes_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -5905,7 +6060,7 @@ type ExtendedLocation_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationTypes_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_STATUS{}
@@ -5932,7 +6087,7 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := ExtendedLocationType_STATUS(temp)
+		typeVar := ExtendedLocationTypes_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -5949,7 +6104,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationTypes_STATUS_Values)
 		location.Type = &typeTemp
 	} else {
 		location.Type = nil
@@ -6169,16 +6324,16 @@ type GeoReplicationStats_STATUS struct {
 	LastSyncTime *string `json:"lastSyncTime,omitempty"`
 
 	// PostFailoverRedundancy: The redundancy type of the account after an account failover is performed.
-	PostFailoverRedundancy *GeoReplicationStats_PostFailoverRedundancy_STATUS `json:"postFailoverRedundancy,omitempty"`
+	PostFailoverRedundancy *PostFailoverRedundancy_STATUS `json:"postFailoverRedundancy,omitempty"`
 
 	// PostPlannedFailoverRedundancy: The redundancy type of the account after a planned account failover is performed.
-	PostPlannedFailoverRedundancy *GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS `json:"postPlannedFailoverRedundancy,omitempty"`
+	PostPlannedFailoverRedundancy *PostPlannedFailoverRedundancy_STATUS `json:"postPlannedFailoverRedundancy,omitempty"`
 
 	// Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
 	// active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
 	// location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
 	// secondary location is temporarily unavailable.
-	Status *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
+	Status *GeoReplicationStatus_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GeoReplicationStats_STATUS{}
@@ -6217,7 +6372,7 @@ func (stats *GeoReplicationStats_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.PostFailoverRedundancy != nil {
 		var temp string
 		temp = string(*typedInput.PostFailoverRedundancy)
-		postFailoverRedundancy := GeoReplicationStats_PostFailoverRedundancy_STATUS(temp)
+		postFailoverRedundancy := PostFailoverRedundancy_STATUS(temp)
 		stats.PostFailoverRedundancy = &postFailoverRedundancy
 	}
 
@@ -6225,7 +6380,7 @@ func (stats *GeoReplicationStats_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.PostPlannedFailoverRedundancy != nil {
 		var temp string
 		temp = string(*typedInput.PostPlannedFailoverRedundancy)
-		postPlannedFailoverRedundancy := GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS(temp)
+		postPlannedFailoverRedundancy := PostPlannedFailoverRedundancy_STATUS(temp)
 		stats.PostPlannedFailoverRedundancy = &postPlannedFailoverRedundancy
 	}
 
@@ -6233,7 +6388,7 @@ func (stats *GeoReplicationStats_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Status != nil {
 		var temp string
 		temp = string(*typedInput.Status)
-		status := GeoReplicationStats_Status_STATUS(temp)
+		status := GeoReplicationStatus_STATUS(temp)
 		stats.Status = &status
 	}
 
@@ -6266,7 +6421,7 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_From_GeoReplicationSta
 	// PostFailoverRedundancy
 	if source.PostFailoverRedundancy != nil {
 		postFailoverRedundancy := *source.PostFailoverRedundancy
-		postFailoverRedundancyTemp := genruntime.ToEnum(postFailoverRedundancy, geoReplicationStats_PostFailoverRedundancy_STATUS_Values)
+		postFailoverRedundancyTemp := genruntime.ToEnum(postFailoverRedundancy, postFailoverRedundancy_STATUS_Values)
 		stats.PostFailoverRedundancy = &postFailoverRedundancyTemp
 	} else {
 		stats.PostFailoverRedundancy = nil
@@ -6275,7 +6430,7 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_From_GeoReplicationSta
 	// PostPlannedFailoverRedundancy
 	if source.PostPlannedFailoverRedundancy != nil {
 		postPlannedFailoverRedundancy := *source.PostPlannedFailoverRedundancy
-		postPlannedFailoverRedundancyTemp := genruntime.ToEnum(postPlannedFailoverRedundancy, geoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Values)
+		postPlannedFailoverRedundancyTemp := genruntime.ToEnum(postPlannedFailoverRedundancy, postPlannedFailoverRedundancy_STATUS_Values)
 		stats.PostPlannedFailoverRedundancy = &postPlannedFailoverRedundancyTemp
 	} else {
 		stats.PostPlannedFailoverRedundancy = nil
@@ -6284,7 +6439,7 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_From_GeoReplicationSta
 	// Status
 	if source.Status != nil {
 		status := *source.Status
-		statusTemp := genruntime.ToEnum(status, geoReplicationStats_Status_STATUS_Values)
+		statusTemp := genruntime.ToEnum(status, geoReplicationStatus_STATUS_Values)
 		stats.Status = &statusTemp
 	} else {
 		stats.Status = nil
@@ -6357,7 +6512,7 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_To_GeoReplicationStats
 type Identity struct {
 	// +kubebuilder:validation:Required
 	// Type: The identity type.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type *IdentityType `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	// will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
@@ -6378,7 +6533,7 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := arm.Identity_Type(temp)
+		typeVar := arm.IdentityType(temp)
 		result.Type = &typeVar
 	}
 
@@ -6411,7 +6566,7 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := Identity_Type(temp)
+		typeVar := IdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6427,7 +6582,7 @@ func (identity *Identity) AssignProperties_From_Identity(source *storage.Identit
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, identityType_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -6498,7 +6653,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), identityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -6529,7 +6684,7 @@ type Identity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *IdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	// will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
@@ -6567,7 +6722,7 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := Identity_Type_STATUS(temp)
+		typeVar := IdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6600,7 +6755,7 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, identityType_STATUS_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -7159,6 +7314,115 @@ func (policy *KeyPolicy_STATUS) AssignProperties_To_KeyPolicy_STATUS(destination
 
 	// No error
 	return nil
+}
+
+// Indicates the type of storage account.
+// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
+type Kind string
+
+const (
+	Kind_BlobStorage      = Kind("BlobStorage")
+	Kind_BlockBlobStorage = Kind("BlockBlobStorage")
+	Kind_FileStorage      = Kind("FileStorage")
+	Kind_Storage          = Kind("Storage")
+	Kind_StorageV2        = Kind("StorageV2")
+)
+
+// Mapping from string to Kind
+var kind_Values = map[string]Kind{
+	"blobstorage":      Kind_BlobStorage,
+	"blockblobstorage": Kind_BlockBlobStorage,
+	"filestorage":      Kind_FileStorage,
+	"storage":          Kind_Storage,
+	"storagev2":        Kind_StorageV2,
+}
+
+// Indicates the type of storage account.
+type Kind_STATUS string
+
+const (
+	Kind_STATUS_BlobStorage      = Kind_STATUS("BlobStorage")
+	Kind_STATUS_BlockBlobStorage = Kind_STATUS("BlockBlobStorage")
+	Kind_STATUS_FileStorage      = Kind_STATUS("FileStorage")
+	Kind_STATUS_Storage          = Kind_STATUS("Storage")
+	Kind_STATUS_StorageV2        = Kind_STATUS("StorageV2")
+)
+
+// Mapping from string to Kind_STATUS
+var kind_STATUS_Values = map[string]Kind_STATUS{
+	"blobstorage":      Kind_STATUS_BlobStorage,
+	"blockblobstorage": Kind_STATUS_BlockBlobStorage,
+	"filestorage":      Kind_STATUS_FileStorage,
+	"storage":          Kind_STATUS_Storage,
+	"storagev2":        Kind_STATUS_StorageV2,
+}
+
+// Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type LargeFileSharesState string
+
+const (
+	LargeFileSharesState_Disabled = LargeFileSharesState("Disabled")
+	LargeFileSharesState_Enabled  = LargeFileSharesState("Enabled")
+)
+
+// Mapping from string to LargeFileSharesState
+var largeFileSharesState_Values = map[string]LargeFileSharesState{
+	"disabled": LargeFileSharesState_Disabled,
+	"enabled":  LargeFileSharesState_Enabled,
+}
+
+// Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
+type LargeFileSharesState_STATUS string
+
+const (
+	LargeFileSharesState_STATUS_Disabled = LargeFileSharesState_STATUS("Disabled")
+	LargeFileSharesState_STATUS_Enabled  = LargeFileSharesState_STATUS("Enabled")
+)
+
+// Mapping from string to LargeFileSharesState_STATUS
+var largeFileSharesState_STATUS_Values = map[string]LargeFileSharesState_STATUS{
+	"disabled": LargeFileSharesState_STATUS_Disabled,
+	"enabled":  LargeFileSharesState_STATUS_Enabled,
+}
+
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this
+// property.
+// +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLS1_3"}
+type MinimumTlsVersion string
+
+const (
+	MinimumTlsVersion_TLS1_0 = MinimumTlsVersion("TLS1_0")
+	MinimumTlsVersion_TLS1_1 = MinimumTlsVersion("TLS1_1")
+	MinimumTlsVersion_TLS1_2 = MinimumTlsVersion("TLS1_2")
+	MinimumTlsVersion_TLS1_3 = MinimumTlsVersion("TLS1_3")
+)
+
+// Mapping from string to MinimumTlsVersion
+var minimumTlsVersion_Values = map[string]MinimumTlsVersion{
+	"tls1_0": MinimumTlsVersion_TLS1_0,
+	"tls1_1": MinimumTlsVersion_TLS1_1,
+	"tls1_2": MinimumTlsVersion_TLS1_2,
+	"tls1_3": MinimumTlsVersion_TLS1_3,
+}
+
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this
+// property.
+type MinimumTlsVersion_STATUS string
+
+const (
+	MinimumTlsVersion_STATUS_TLS1_0 = MinimumTlsVersion_STATUS("TLS1_0")
+	MinimumTlsVersion_STATUS_TLS1_1 = MinimumTlsVersion_STATUS("TLS1_1")
+	MinimumTlsVersion_STATUS_TLS1_2 = MinimumTlsVersion_STATUS("TLS1_2")
+	MinimumTlsVersion_STATUS_TLS1_3 = MinimumTlsVersion_STATUS("TLS1_3")
+)
+
+// Mapping from string to MinimumTlsVersion_STATUS
+var minimumTlsVersion_STATUS_Values = map[string]MinimumTlsVersion_STATUS{
+	"tls1_0": MinimumTlsVersion_STATUS_TLS1_0,
+	"tls1_1": MinimumTlsVersion_STATUS_TLS1_1,
+	"tls1_2": MinimumTlsVersion_STATUS_TLS1_2,
+	"tls1_3": MinimumTlsVersion_STATUS_TLS1_3,
 }
 
 // Network rule set
@@ -7860,7 +8124,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 // The complex type of the zonal placement details.
 type Placement struct {
 	// ZonePlacementPolicy: The availability zone pinning policy for the storage account.
-	ZonePlacementPolicy *Placement_ZonePlacementPolicy `json:"zonePlacementPolicy,omitempty"`
+	ZonePlacementPolicy *ZonePlacementPolicy `json:"zonePlacementPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Placement{}
@@ -7876,7 +8140,7 @@ func (placement *Placement) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if placement.ZonePlacementPolicy != nil {
 		var temp string
 		temp = string(*placement.ZonePlacementPolicy)
-		zonePlacementPolicy := arm.Placement_ZonePlacementPolicy(temp)
+		zonePlacementPolicy := arm.ZonePlacementPolicy(temp)
 		result.ZonePlacementPolicy = &zonePlacementPolicy
 	}
 	return result, nil
@@ -7898,7 +8162,7 @@ func (placement *Placement) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.ZonePlacementPolicy != nil {
 		var temp string
 		temp = string(*typedInput.ZonePlacementPolicy)
-		zonePlacementPolicy := Placement_ZonePlacementPolicy(temp)
+		zonePlacementPolicy := ZonePlacementPolicy(temp)
 		placement.ZonePlacementPolicy = &zonePlacementPolicy
 	}
 
@@ -7912,7 +8176,7 @@ func (placement *Placement) AssignProperties_From_Placement(source *storage.Plac
 	// ZonePlacementPolicy
 	if source.ZonePlacementPolicy != nil {
 		zonePlacementPolicy := *source.ZonePlacementPolicy
-		zonePlacementPolicyTemp := genruntime.ToEnum(zonePlacementPolicy, placement_ZonePlacementPolicy_Values)
+		zonePlacementPolicyTemp := genruntime.ToEnum(zonePlacementPolicy, zonePlacementPolicy_Values)
 		placement.ZonePlacementPolicy = &zonePlacementPolicyTemp
 	} else {
 		placement.ZonePlacementPolicy = nil
@@ -7951,7 +8215,7 @@ func (placement *Placement) Initialize_From_Placement_STATUS(source *Placement_S
 
 	// ZonePlacementPolicy
 	if source.ZonePlacementPolicy != nil {
-		zonePlacementPolicy := genruntime.ToEnum(string(*source.ZonePlacementPolicy), placement_ZonePlacementPolicy_Values)
+		zonePlacementPolicy := genruntime.ToEnum(string(*source.ZonePlacementPolicy), zonePlacementPolicy_Values)
 		placement.ZonePlacementPolicy = &zonePlacementPolicy
 	} else {
 		placement.ZonePlacementPolicy = nil
@@ -7964,7 +8228,7 @@ func (placement *Placement) Initialize_From_Placement_STATUS(source *Placement_S
 // The complex type of the zonal placement details.
 type Placement_STATUS struct {
 	// ZonePlacementPolicy: The availability zone pinning policy for the storage account.
-	ZonePlacementPolicy *Placement_ZonePlacementPolicy_STATUS `json:"zonePlacementPolicy,omitempty"`
+	ZonePlacementPolicy *ZonePlacementPolicy_STATUS `json:"zonePlacementPolicy,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Placement_STATUS{}
@@ -7985,7 +8249,7 @@ func (placement *Placement_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.ZonePlacementPolicy != nil {
 		var temp string
 		temp = string(*typedInput.ZonePlacementPolicy)
-		zonePlacementPolicy := Placement_ZonePlacementPolicy_STATUS(temp)
+		zonePlacementPolicy := ZonePlacementPolicy_STATUS(temp)
 		placement.ZonePlacementPolicy = &zonePlacementPolicy
 	}
 
@@ -7999,7 +8263,7 @@ func (placement *Placement_STATUS) AssignProperties_From_Placement_STATUS(source
 	// ZonePlacementPolicy
 	if source.ZonePlacementPolicy != nil {
 		zonePlacementPolicy := *source.ZonePlacementPolicy
-		zonePlacementPolicyTemp := genruntime.ToEnum(zonePlacementPolicy, placement_ZonePlacementPolicy_STATUS_Values)
+		zonePlacementPolicyTemp := genruntime.ToEnum(zonePlacementPolicy, zonePlacementPolicy_STATUS_Values)
 		placement.ZonePlacementPolicy = &zonePlacementPolicyTemp
 	} else {
 		placement.ZonePlacementPolicy = nil
@@ -8035,8 +8299,8 @@ func (placement *Placement_STATUS) AssignProperties_To_Placement_STATUS(destinat
 
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 }
 
@@ -8093,6 +8357,22 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Gets the status of the storage account at the time the operation was called.
+type ProvisioningState_STATUS string
+
+const (
+	ProvisioningState_STATUS_Creating     = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_ResolvingDNS = ProvisioningState_STATUS("ResolvingDNS")
+	ProvisioningState_STATUS_Succeeded    = ProvisioningState_STATUS("Succeeded")
+)
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"creating":     ProvisioningState_STATUS_Creating,
+	"resolvingdns": ProvisioningState_STATUS_ResolvingDNS,
+	"succeeded":    ProvisioningState_STATUS_Succeeded,
+}
+
 // Allow, disallow, or let Network Security Perimeter configuration to evaluate public network access to Storage Account.
 // Value is optional but if passed in, must be 'Enabled', 'Disabled' or 'SecuredByPerimeter'.
 // +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
@@ -8138,7 +8418,7 @@ type RoutingPreference struct {
 	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
 
 	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingChoice `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoutingPreference{}
@@ -8166,7 +8446,7 @@ func (preference *RoutingPreference) ConvertToARM(resolved genruntime.ConvertToA
 	if preference.RoutingChoice != nil {
 		var temp string
 		temp = string(*preference.RoutingChoice)
-		routingChoice := arm.RoutingPreference_RoutingChoice(temp)
+		routingChoice := arm.RoutingChoice(temp)
 		result.RoutingChoice = &routingChoice
 	}
 	return result, nil
@@ -8200,7 +8480,7 @@ func (preference *RoutingPreference) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.RoutingChoice != nil {
 		var temp string
 		temp = string(*typedInput.RoutingChoice)
-		routingChoice := RoutingPreference_RoutingChoice(temp)
+		routingChoice := RoutingChoice(temp)
 		preference.RoutingChoice = &routingChoice
 	}
 
@@ -8230,7 +8510,7 @@ func (preference *RoutingPreference) AssignProperties_From_RoutingPreference(sou
 	// RoutingChoice
 	if source.RoutingChoice != nil {
 		routingChoice := *source.RoutingChoice
-		routingChoiceTemp := genruntime.ToEnum(routingChoice, routingPreference_RoutingChoice_Values)
+		routingChoiceTemp := genruntime.ToEnum(routingChoice, routingChoice_Values)
 		preference.RoutingChoice = &routingChoiceTemp
 	} else {
 		preference.RoutingChoice = nil
@@ -8301,7 +8581,7 @@ func (preference *RoutingPreference) Initialize_From_RoutingPreference_STATUS(so
 
 	// RoutingChoice
 	if source.RoutingChoice != nil {
-		routingChoice := genruntime.ToEnum(string(*source.RoutingChoice), routingPreference_RoutingChoice_Values)
+		routingChoice := genruntime.ToEnum(string(*source.RoutingChoice), routingChoice_Values)
 		preference.RoutingChoice = &routingChoice
 	} else {
 		preference.RoutingChoice = nil
@@ -8321,7 +8601,7 @@ type RoutingPreference_STATUS struct {
 	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
 
 	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingChoice_STATUS `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RoutingPreference_STATUS{}
@@ -8354,7 +8634,7 @@ func (preference *RoutingPreference_STATUS) PopulateFromARM(owner genruntime.Arb
 	if typedInput.RoutingChoice != nil {
 		var temp string
 		temp = string(*typedInput.RoutingChoice)
-		routingChoice := RoutingPreference_RoutingChoice_STATUS(temp)
+		routingChoice := RoutingChoice_STATUS(temp)
 		preference.RoutingChoice = &routingChoice
 	}
 
@@ -8384,7 +8664,7 @@ func (preference *RoutingPreference_STATUS) AssignProperties_From_RoutingPrefere
 	// RoutingChoice
 	if source.RoutingChoice != nil {
 		routingChoice := *source.RoutingChoice
-		routingChoiceTemp := genruntime.ToEnum(routingChoice, routingPreference_RoutingChoice_STATUS_Values)
+		routingChoiceTemp := genruntime.ToEnum(routingChoice, routingChoice_STATUS_Values)
 		preference.RoutingChoice = &routingChoiceTemp
 	} else {
 		preference.RoutingChoice = nil
@@ -8659,11 +8939,8 @@ func (policy *SasPolicy_STATUS) AssignProperties_To_SasPolicy_STATUS(destination
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
-	//  accountType.
+	// accountType.
 	Name *SkuName `json:"name,omitempty"`
-
-	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -8681,14 +8958,6 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 		temp = string(*sku.Name)
 		name := arm.SkuName(temp)
 		result.Name = &name
-	}
-
-	// Set property "Tier":
-	if sku.Tier != nil {
-		var temp string
-		temp = string(*sku.Tier)
-		tier := arm.Tier(temp)
-		result.Tier = &tier
 	}
 	return result, nil
 }
@@ -8713,14 +8982,6 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		sku.Name = &name
 	}
 
-	// Set property "Tier":
-	if typedInput.Tier != nil {
-		var temp string
-		temp = string(*typedInput.Tier)
-		tier := Tier(temp)
-		sku.Tier = &tier
-	}
-
 	// No error
 	return nil
 }
@@ -8735,15 +8996,6 @@ func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := *source.Tier
-		tierTemp := genruntime.ToEnum(tier, tier_Values)
-		sku.Tier = &tierTemp
-	} else {
-		sku.Tier = nil
 	}
 
 	// No error
@@ -8761,14 +9013,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		destination.Name = &name
 	} else {
 		destination.Name = nil
-	}
-
-	// Tier
-	if sku.Tier != nil {
-		tier := string(*sku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
 	}
 
 	// Update the property bag
@@ -8793,14 +9037,6 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 		sku.Name = nil
 	}
 
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), tier_Values)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
-
 	// No error
 	return nil
 }
@@ -8808,11 +9044,11 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 // The SKU of the storage account.
 type Sku_STATUS struct {
 	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
-	//  accountType.
+	// accountType.
 	Name *SkuName_STATUS `json:"name,omitempty"`
 
 	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier_STATUS `json:"tier,omitempty"`
+	Tier *SkuTier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -8841,7 +9077,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	if typedInput.Tier != nil {
 		var temp string
 		temp = string(*typedInput.Tier)
-		tier := Tier_STATUS(temp)
+		tier := SkuTier_STATUS(temp)
 		sku.Tier = &tier
 	}
 
@@ -8864,7 +9100,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STAT
 	// Tier
 	if source.Tier != nil {
 		tier := *source.Tier
-		tierTemp := genruntime.ToEnum(tier, tier_STATUS_Values)
+		tierTemp := genruntime.ToEnum(tier, skuTier_STATUS_Values)
 		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
@@ -8904,45 +9140,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
-type StorageAccount_Kind_Spec string
-
-const (
-	StorageAccount_Kind_Spec_BlobStorage      = StorageAccount_Kind_Spec("BlobStorage")
-	StorageAccount_Kind_Spec_BlockBlobStorage = StorageAccount_Kind_Spec("BlockBlobStorage")
-	StorageAccount_Kind_Spec_FileStorage      = StorageAccount_Kind_Spec("FileStorage")
-	StorageAccount_Kind_Spec_Storage          = StorageAccount_Kind_Spec("Storage")
-	StorageAccount_Kind_Spec_StorageV2        = StorageAccount_Kind_Spec("StorageV2")
-)
-
-// Mapping from string to StorageAccount_Kind_Spec
-var storageAccount_Kind_Spec_Values = map[string]StorageAccount_Kind_Spec{
-	"blobstorage":      StorageAccount_Kind_Spec_BlobStorage,
-	"blockblobstorage": StorageAccount_Kind_Spec_BlockBlobStorage,
-	"filestorage":      StorageAccount_Kind_Spec_FileStorage,
-	"storage":          StorageAccount_Kind_Spec_Storage,
-	"storagev2":        StorageAccount_Kind_Spec_StorageV2,
-}
-
-type StorageAccount_Kind_STATUS string
-
-const (
-	StorageAccount_Kind_STATUS_BlobStorage      = StorageAccount_Kind_STATUS("BlobStorage")
-	StorageAccount_Kind_STATUS_BlockBlobStorage = StorageAccount_Kind_STATUS("BlockBlobStorage")
-	StorageAccount_Kind_STATUS_FileStorage      = StorageAccount_Kind_STATUS("FileStorage")
-	StorageAccount_Kind_STATUS_Storage          = StorageAccount_Kind_STATUS("Storage")
-	StorageAccount_Kind_STATUS_StorageV2        = StorageAccount_Kind_STATUS("StorageV2")
-)
-
-// Mapping from string to StorageAccount_Kind_STATUS
-var storageAccount_Kind_STATUS_Values = map[string]StorageAccount_Kind_STATUS{
-	"blobstorage":      StorageAccount_Kind_STATUS_BlobStorage,
-	"blockblobstorage": StorageAccount_Kind_STATUS_BlockBlobStorage,
-	"filestorage":      StorageAccount_Kind_STATUS_FileStorage,
-	"storage":          StorageAccount_Kind_STATUS_Storage,
-	"storagev2":        StorageAccount_Kind_STATUS_StorageV2,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -9095,205 +9292,13 @@ func (operator *StorageAccountOperatorSpec) AssignProperties_To_StorageAccountOp
 	return nil
 }
 
-type StorageAccountProperties_AccessTier_STATUS string
-
-const (
-	StorageAccountProperties_AccessTier_STATUS_Cold    = StorageAccountProperties_AccessTier_STATUS("Cold")
-	StorageAccountProperties_AccessTier_STATUS_Cool    = StorageAccountProperties_AccessTier_STATUS("Cool")
-	StorageAccountProperties_AccessTier_STATUS_Hot     = StorageAccountProperties_AccessTier_STATUS("Hot")
-	StorageAccountProperties_AccessTier_STATUS_Premium = StorageAccountProperties_AccessTier_STATUS("Premium")
-)
-
-// Mapping from string to StorageAccountProperties_AccessTier_STATUS
-var storageAccountProperties_AccessTier_STATUS_Values = map[string]StorageAccountProperties_AccessTier_STATUS{
-	"cold":    StorageAccountProperties_AccessTier_STATUS_Cold,
-	"cool":    StorageAccountProperties_AccessTier_STATUS_Cool,
-	"hot":     StorageAccountProperties_AccessTier_STATUS_Hot,
-	"premium": StorageAccountProperties_AccessTier_STATUS_Premium,
-}
-
-type StorageAccountProperties_AllowedCopyScope_STATUS string
-
-const (
-	StorageAccountProperties_AllowedCopyScope_STATUS_AAD         = StorageAccountProperties_AllowedCopyScope_STATUS("AAD")
-	StorageAccountProperties_AllowedCopyScope_STATUS_PrivateLink = StorageAccountProperties_AllowedCopyScope_STATUS("PrivateLink")
-)
-
-// Mapping from string to StorageAccountProperties_AllowedCopyScope_STATUS
-var storageAccountProperties_AllowedCopyScope_STATUS_Values = map[string]StorageAccountProperties_AllowedCopyScope_STATUS{
-	"aad":         StorageAccountProperties_AllowedCopyScope_STATUS_AAD,
-	"privatelink": StorageAccountProperties_AllowedCopyScope_STATUS_PrivateLink,
-}
-
-type StorageAccountProperties_DnsEndpointType_STATUS string
-
-const (
-	StorageAccountProperties_DnsEndpointType_STATUS_AzureDnsZone = StorageAccountProperties_DnsEndpointType_STATUS("AzureDnsZone")
-	StorageAccountProperties_DnsEndpointType_STATUS_Standard     = StorageAccountProperties_DnsEndpointType_STATUS("Standard")
-)
-
-// Mapping from string to StorageAccountProperties_DnsEndpointType_STATUS
-var storageAccountProperties_DnsEndpointType_STATUS_Values = map[string]StorageAccountProperties_DnsEndpointType_STATUS{
-	"azurednszone": StorageAccountProperties_DnsEndpointType_STATUS_AzureDnsZone,
-	"standard":     StorageAccountProperties_DnsEndpointType_STATUS_Standard,
-}
-
-type StorageAccountProperties_LargeFileSharesState_STATUS string
-
-const (
-	StorageAccountProperties_LargeFileSharesState_STATUS_Disabled = StorageAccountProperties_LargeFileSharesState_STATUS("Disabled")
-	StorageAccountProperties_LargeFileSharesState_STATUS_Enabled  = StorageAccountProperties_LargeFileSharesState_STATUS("Enabled")
-)
-
-// Mapping from string to StorageAccountProperties_LargeFileSharesState_STATUS
-var storageAccountProperties_LargeFileSharesState_STATUS_Values = map[string]StorageAccountProperties_LargeFileSharesState_STATUS{
-	"disabled": StorageAccountProperties_LargeFileSharesState_STATUS_Disabled,
-	"enabled":  StorageAccountProperties_LargeFileSharesState_STATUS_Enabled,
-}
-
-type StorageAccountProperties_MinimumTlsVersion_STATUS string
-
-const (
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_0 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_0")
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_1 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_1")
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_2")
-	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_3 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_3")
-)
-
-// Mapping from string to StorageAccountProperties_MinimumTlsVersion_STATUS
-var storageAccountProperties_MinimumTlsVersion_STATUS_Values = map[string]StorageAccountProperties_MinimumTlsVersion_STATUS{
-	"tls1_0": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_0,
-	"tls1_1": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_1,
-	"tls1_2": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2,
-	"tls1_3": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_3,
-}
-
-type StorageAccountProperties_ProvisioningState_STATUS string
-
-const (
-	StorageAccountProperties_ProvisioningState_STATUS_Creating     = StorageAccountProperties_ProvisioningState_STATUS("Creating")
-	StorageAccountProperties_ProvisioningState_STATUS_ResolvingDNS = StorageAccountProperties_ProvisioningState_STATUS("ResolvingDNS")
-	StorageAccountProperties_ProvisioningState_STATUS_Succeeded    = StorageAccountProperties_ProvisioningState_STATUS("Succeeded")
-)
-
-// Mapping from string to StorageAccountProperties_ProvisioningState_STATUS
-var storageAccountProperties_ProvisioningState_STATUS_Values = map[string]StorageAccountProperties_ProvisioningState_STATUS{
-	"creating":     StorageAccountProperties_ProvisioningState_STATUS_Creating,
-	"resolvingdns": StorageAccountProperties_ProvisioningState_STATUS_ResolvingDNS,
-	"succeeded":    StorageAccountProperties_ProvisioningState_STATUS_Succeeded,
-}
-
-type StorageAccountProperties_StatusOfPrimary_STATUS string
-
-const (
-	StorageAccountProperties_StatusOfPrimary_STATUS_Available   = StorageAccountProperties_StatusOfPrimary_STATUS("available")
-	StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable = StorageAccountProperties_StatusOfPrimary_STATUS("unavailable")
-)
-
-// Mapping from string to StorageAccountProperties_StatusOfPrimary_STATUS
-var storageAccountProperties_StatusOfPrimary_STATUS_Values = map[string]StorageAccountProperties_StatusOfPrimary_STATUS{
-	"available":   StorageAccountProperties_StatusOfPrimary_STATUS_Available,
-	"unavailable": StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable,
-}
-
-type StorageAccountProperties_StatusOfSecondary_STATUS string
-
-const (
-	StorageAccountProperties_StatusOfSecondary_STATUS_Available   = StorageAccountProperties_StatusOfSecondary_STATUS("available")
-	StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable = StorageAccountProperties_StatusOfSecondary_STATUS("unavailable")
-)
-
-// Mapping from string to StorageAccountProperties_StatusOfSecondary_STATUS
-var storageAccountProperties_StatusOfSecondary_STATUS_Values = map[string]StorageAccountProperties_StatusOfSecondary_STATUS{
-	"available":   StorageAccountProperties_StatusOfSecondary_STATUS_Available,
-	"unavailable": StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable,
-}
-
-// +kubebuilder:validation:Enum={"Cold","Cool","Hot","Premium"}
-type StorageAccountPropertiesCreateParameters_AccessTier string
-
-const (
-	StorageAccountPropertiesCreateParameters_AccessTier_Cold    = StorageAccountPropertiesCreateParameters_AccessTier("Cold")
-	StorageAccountPropertiesCreateParameters_AccessTier_Cool    = StorageAccountPropertiesCreateParameters_AccessTier("Cool")
-	StorageAccountPropertiesCreateParameters_AccessTier_Hot     = StorageAccountPropertiesCreateParameters_AccessTier("Hot")
-	StorageAccountPropertiesCreateParameters_AccessTier_Premium = StorageAccountPropertiesCreateParameters_AccessTier("Premium")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_AccessTier
-var storageAccountPropertiesCreateParameters_AccessTier_Values = map[string]StorageAccountPropertiesCreateParameters_AccessTier{
-	"cold":    StorageAccountPropertiesCreateParameters_AccessTier_Cold,
-	"cool":    StorageAccountPropertiesCreateParameters_AccessTier_Cool,
-	"hot":     StorageAccountPropertiesCreateParameters_AccessTier_Hot,
-	"premium": StorageAccountPropertiesCreateParameters_AccessTier_Premium,
-}
-
-// +kubebuilder:validation:Enum={"AAD","PrivateLink"}
-type StorageAccountPropertiesCreateParameters_AllowedCopyScope string
-
-const (
-	StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD         = StorageAccountPropertiesCreateParameters_AllowedCopyScope("AAD")
-	StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink = StorageAccountPropertiesCreateParameters_AllowedCopyScope("PrivateLink")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_AllowedCopyScope
-var storageAccountPropertiesCreateParameters_AllowedCopyScope_Values = map[string]StorageAccountPropertiesCreateParameters_AllowedCopyScope{
-	"aad":         StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD,
-	"privatelink": StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink,
-}
-
-// +kubebuilder:validation:Enum={"AzureDnsZone","Standard"}
-type StorageAccountPropertiesCreateParameters_DnsEndpointType string
-
-const (
-	StorageAccountPropertiesCreateParameters_DnsEndpointType_AzureDnsZone = StorageAccountPropertiesCreateParameters_DnsEndpointType("AzureDnsZone")
-	StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard     = StorageAccountPropertiesCreateParameters_DnsEndpointType("Standard")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_DnsEndpointType
-var storageAccountPropertiesCreateParameters_DnsEndpointType_Values = map[string]StorageAccountPropertiesCreateParameters_DnsEndpointType{
-	"azurednszone": StorageAccountPropertiesCreateParameters_DnsEndpointType_AzureDnsZone,
-	"standard":     StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard,
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type StorageAccountPropertiesCreateParameters_LargeFileSharesState string
-
-const (
-	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Disabled")
-	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled  = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Enabled")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_LargeFileSharesState
-var storageAccountPropertiesCreateParameters_LargeFileSharesState_Values = map[string]StorageAccountPropertiesCreateParameters_LargeFileSharesState{
-	"disabled": StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled,
-	"enabled":  StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled,
-}
-
-// +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLS1_3"}
-type StorageAccountPropertiesCreateParameters_MinimumTlsVersion string
-
-const (
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_2")
-	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_3 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_3")
-)
-
-// Mapping from string to StorageAccountPropertiesCreateParameters_MinimumTlsVersion
-var storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values = map[string]StorageAccountPropertiesCreateParameters_MinimumTlsVersion{
-	"tls1_0": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0,
-	"tls1_1": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1,
-	"tls1_2": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2,
-	"tls1_3": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_3,
-}
-
 // This defines the sku conversion status object for asynchronous sku conversions.
 type StorageAccountSkuConversionStatus_STATUS struct {
 	// EndTime: This property represents the sku conversion end time.
 	EndTime *string `json:"endTime,omitempty"`
 
 	// SkuConversionStatus: This property indicates the current sku conversion status.
-	SkuConversionStatus *StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS `json:"skuConversionStatus,omitempty"`
+	SkuConversionStatus *SkuConversionStatus_STATUS `json:"skuConversionStatus,omitempty"`
 
 	// StartTime: This property represents the sku conversion start time.
 	StartTime *string `json:"startTime,omitempty"`
@@ -9326,7 +9331,7 @@ func (status *StorageAccountSkuConversionStatus_STATUS) PopulateFromARM(owner ge
 	if typedInput.SkuConversionStatus != nil {
 		var temp string
 		temp = string(*typedInput.SkuConversionStatus)
-		skuConversionStatus := StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS(temp)
+		skuConversionStatus := SkuConversionStatus_STATUS(temp)
 		status.SkuConversionStatus = &skuConversionStatus
 	}
 
@@ -9357,7 +9362,7 @@ func (status *StorageAccountSkuConversionStatus_STATUS) AssignProperties_From_St
 	// SkuConversionStatus
 	if source.SkuConversionStatus != nil {
 		skuConversionStatus := *source.SkuConversionStatus
-		skuConversionStatusTemp := genruntime.ToEnum(skuConversionStatus, storageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Values)
+		skuConversionStatusTemp := genruntime.ToEnum(skuConversionStatus, skuConversionStatus_STATUS_Values)
 		status.SkuConversionStatus = &skuConversionStatusTemp
 	} else {
 		status.SkuConversionStatus = nil
@@ -9417,6 +9422,166 @@ func (status *StorageAccountSkuConversionStatus_STATUS) AssignProperties_To_Stor
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SystemData_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SystemData_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
+	}
+
+	// Set property "CreatedAt":
+	if typedInput.CreatedAt != nil {
+		createdAt := *typedInput.CreatedAt
+		data.CreatedAt = &createdAt
+	}
+
+	// Set property "CreatedBy":
+	if typedInput.CreatedBy != nil {
+		createdBy := *typedInput.CreatedBy
+		data.CreatedBy = &createdBy
+	}
+
+	// Set property "CreatedByType":
+	if typedInput.CreatedByType != nil {
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
+		data.CreatedByType = &createdByType
+	}
+
+	// Set property "LastModifiedAt":
+	if typedInput.LastModifiedAt != nil {
+		lastModifiedAt := *typedInput.LastModifiedAt
+		data.LastModifiedAt = &lastModifiedAt
+	}
+
+	// Set property "LastModifiedBy":
+	if typedInput.LastModifiedBy != nil {
+		lastModifiedBy := *typedInput.LastModifiedBy
+		data.LastModifiedBy = &lastModifiedBy
+	}
+
+	// Set property "LastModifiedByType":
+	if typedInput.LastModifiedByType != nil {
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
+		data.LastModifiedByType = &lastModifiedByType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	if source.CreatedByType != nil {
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
+	} else {
+		data.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	if source.LastModifiedByType != nil {
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
+	} else {
+		data.LastModifiedByType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	if data.CreatedByType != nil {
+		createdByType := string(*data.CreatedByType)
+		destination.CreatedByType = &createdByType
+	} else {
+		destination.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	if data.LastModifiedByType != nil {
+		lastModifiedByType := string(*data.LastModifiedByType)
+		destination.LastModifiedByType = &lastModifiedByType
+	} else {
+		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // This defines account-level immutability policy properties.
 type AccountImmutabilityPolicyProperties struct {
 	// AllowProtectedAppendWrites: This property can only be changed for disabled and unlocked time-based retention policies.
@@ -9435,7 +9600,7 @@ type AccountImmutabilityPolicyProperties struct {
 	// property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a
 	// Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition
 	// to a Locked state which cannot be reverted.
-	State *AccountImmutabilityPolicyProperties_State `json:"state,omitempty"`
+	State *AccountImmutabilityPolicyState `json:"state,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AccountImmutabilityPolicyProperties{}
@@ -9463,7 +9628,7 @@ func (properties *AccountImmutabilityPolicyProperties) ConvertToARM(resolved gen
 	if properties.State != nil {
 		var temp string
 		temp = string(*properties.State)
-		state := arm.AccountImmutabilityPolicyProperties_State(temp)
+		state := arm.AccountImmutabilityPolicyState(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -9497,7 +9662,7 @@ func (properties *AccountImmutabilityPolicyProperties) PopulateFromARM(owner gen
 	if typedInput.State != nil {
 		var temp string
 		temp = string(*typedInput.State)
-		state := AccountImmutabilityPolicyProperties_State(temp)
+		state := AccountImmutabilityPolicyState(temp)
 		properties.State = &state
 	}
 
@@ -9522,7 +9687,7 @@ func (properties *AccountImmutabilityPolicyProperties) AssignProperties_From_Acc
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, accountImmutabilityPolicyProperties_State_Values)
+		stateTemp := genruntime.ToEnum(state, accountImmutabilityPolicyState_Values)
 		properties.State = &stateTemp
 	} else {
 		properties.State = nil
@@ -9583,7 +9748,7 @@ func (properties *AccountImmutabilityPolicyProperties) Initialize_From_AccountIm
 
 	// State
 	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), accountImmutabilityPolicyProperties_State_Values)
+		state := genruntime.ToEnum(string(*source.State), accountImmutabilityPolicyState_Values)
 		properties.State = &state
 	} else {
 		properties.State = nil
@@ -9609,7 +9774,7 @@ type AccountImmutabilityPolicyProperties_STATUS struct {
 	// property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a
 	// Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition
 	// to a Locked state which cannot be reverted.
-	State *AccountImmutabilityPolicyProperties_State_STATUS `json:"state,omitempty"`
+	State *AccountImmutabilityPolicyState_STATUS `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AccountImmutabilityPolicyProperties_STATUS{}
@@ -9642,7 +9807,7 @@ func (properties *AccountImmutabilityPolicyProperties_STATUS) PopulateFromARM(ow
 	if typedInput.State != nil {
 		var temp string
 		temp = string(*typedInput.State)
-		state := AccountImmutabilityPolicyProperties_State_STATUS(temp)
+		state := AccountImmutabilityPolicyState_STATUS(temp)
 		properties.State = &state
 	}
 
@@ -9667,7 +9832,7 @@ func (properties *AccountImmutabilityPolicyProperties_STATUS) AssignProperties_F
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, accountImmutabilityPolicyProperties_State_STATUS_Values)
+		stateTemp := genruntime.ToEnum(state, accountImmutabilityPolicyState_STATUS_Values)
 		properties.State = &stateTemp
 	} else {
 		properties.State = nil
@@ -9717,7 +9882,7 @@ type ActiveDirectoryProperties struct {
 	// AccountType: Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is optional. If provided, samAccountName should also be provided. For
 	// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
-	AccountType *ActiveDirectoryProperties_AccountType `json:"accountType,omitempty"`
+	AccountType *AccountType `json:"accountType,omitempty"`
 
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is required. Otherwise, it can be omitted.
@@ -9767,7 +9932,7 @@ func (properties *ActiveDirectoryProperties) ConvertToARM(resolved genruntime.Co
 	if properties.AccountType != nil {
 		var temp string
 		temp = string(*properties.AccountType)
-		accountType := arm.ActiveDirectoryProperties_AccountType(temp)
+		accountType := arm.AccountType(temp)
 		result.AccountType = &accountType
 	}
 
@@ -9831,7 +9996,7 @@ func (properties *ActiveDirectoryProperties) PopulateFromARM(owner genruntime.Ar
 	if typedInput.AccountType != nil {
 		var temp string
 		temp = string(*typedInput.AccountType)
-		accountType := ActiveDirectoryProperties_AccountType(temp)
+		accountType := AccountType(temp)
 		properties.AccountType = &accountType
 	}
 
@@ -9887,7 +10052,7 @@ func (properties *ActiveDirectoryProperties) AssignProperties_From_ActiveDirecto
 	// AccountType
 	if source.AccountType != nil {
 		accountType := *source.AccountType
-		accountTypeTemp := genruntime.ToEnum(accountType, activeDirectoryProperties_AccountType_Values)
+		accountTypeTemp := genruntime.ToEnum(accountType, accountType_Values)
 		properties.AccountType = &accountTypeTemp
 	} else {
 		properties.AccountType = nil
@@ -9968,7 +10133,7 @@ func (properties *ActiveDirectoryProperties) Initialize_From_ActiveDirectoryProp
 
 	// AccountType
 	if source.AccountType != nil {
-		accountType := genruntime.ToEnum(string(*source.AccountType), activeDirectoryProperties_AccountType_Values)
+		accountType := genruntime.ToEnum(string(*source.AccountType), accountType_Values)
 		properties.AccountType = &accountType
 	} else {
 		properties.AccountType = nil
@@ -10004,7 +10169,7 @@ type ActiveDirectoryProperties_STATUS struct {
 	// AccountType: Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is optional. If provided, samAccountName should also be provided. For
 	// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
-	AccountType *ActiveDirectoryProperties_AccountType_STATUS `json:"accountType,omitempty"`
+	AccountType *AccountType_STATUS `json:"accountType,omitempty"`
 
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage. If directoryServiceOptions is set to AD (AD
 	// DS authentication), this property is required. Otherwise, it can be omitted.
@@ -10059,7 +10224,7 @@ func (properties *ActiveDirectoryProperties_STATUS) PopulateFromARM(owner genrun
 	if typedInput.AccountType != nil {
 		var temp string
 		temp = string(*typedInput.AccountType)
-		accountType := ActiveDirectoryProperties_AccountType_STATUS(temp)
+		accountType := AccountType_STATUS(temp)
 		properties.AccountType = &accountType
 	}
 
@@ -10115,7 +10280,7 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_From_Active
 	// AccountType
 	if source.AccountType != nil {
 		accountType := *source.AccountType
-		accountTypeTemp := genruntime.ToEnum(accountType, activeDirectoryProperties_AccountType_STATUS_Values)
+		accountTypeTemp := genruntime.ToEnum(accountType, accountType_STATUS_Values)
 		properties.AccountType = &accountTypeTemp
 	} else {
 		properties.AccountType = nil
@@ -10189,76 +10354,6 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_To_ActiveDi
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"None","StorageFileDataSmbShareContributor","StorageFileDataSmbShareElevatedContributor","StorageFileDataSmbShareReader"}
-type AzureFilesIdentityBasedAuthentication_DefaultSharePermission string
-
-const (
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_None                                       = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareReader")
-)
-
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DefaultSharePermission
-var azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values = map[string]AzureFilesIdentityBasedAuthentication_DefaultSharePermission{
-	"none":                               AzureFilesIdentityBasedAuthentication_DefaultSharePermission_None,
-	"storagefiledatasmbsharecontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareContributor,
-	"storagefiledatasmbshareelevatedcontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
-	"storagefiledatasmbsharereader":              AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader,
-}
-
-type AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS string
-
-const (
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_None                                       = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("None")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareReader")
-)
-
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS
-var azureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_Values = map[string]AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS{
-	"none":                               AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_None,
-	"storagefiledatasmbsharecontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor,
-	"storagefiledatasmbshareelevatedcontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor,
-	"storagefiledatasmbsharereader":              AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader,
-}
-
-// +kubebuilder:validation:Enum={"AADDS","AADKERB","AD","None"}
-type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions string
-
-const (
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADDS   = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADKERB = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("AADKERB")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AD      = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("None")
-)
-
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
-var azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values = map[string]AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions{
-	"aadds":   AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADDS,
-	"aadkerb": AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADKERB,
-	"ad":      AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AD,
-	"none":    AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None,
-}
-
-type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS string
-
-const (
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADDS   = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AADDS")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADKERB = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AADKERB")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AD      = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AD")
-	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("None")
-)
-
-// Mapping from string to AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS
-var azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_Values = map[string]AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS{
-	"aadds":   AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADDS,
-	"aadkerb": AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADKERB,
-	"ad":      AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AD,
-	"none":    AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None,
 }
 
 // Blob restore parameters
@@ -10365,19 +10460,95 @@ func (parameters *BlobRestoreParameters_STATUS) AssignProperties_To_BlobRestoreP
 	return nil
 }
 
-type BlobRestoreStatus_Status_STATUS string
+// The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. -
+// Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
+type BlobRestoreProgressStatus_STATUS string
 
 const (
-	BlobRestoreStatus_Status_STATUS_Complete   = BlobRestoreStatus_Status_STATUS("Complete")
-	BlobRestoreStatus_Status_STATUS_Failed     = BlobRestoreStatus_Status_STATUS("Failed")
-	BlobRestoreStatus_Status_STATUS_InProgress = BlobRestoreStatus_Status_STATUS("InProgress")
+	BlobRestoreProgressStatus_STATUS_Complete   = BlobRestoreProgressStatus_STATUS("Complete")
+	BlobRestoreProgressStatus_STATUS_Failed     = BlobRestoreProgressStatus_STATUS("Failed")
+	BlobRestoreProgressStatus_STATUS_InProgress = BlobRestoreProgressStatus_STATUS("InProgress")
 )
 
-// Mapping from string to BlobRestoreStatus_Status_STATUS
-var blobRestoreStatus_Status_STATUS_Values = map[string]BlobRestoreStatus_Status_STATUS{
-	"complete":   BlobRestoreStatus_Status_STATUS_Complete,
-	"failed":     BlobRestoreStatus_Status_STATUS_Failed,
-	"inprogress": BlobRestoreStatus_Status_STATUS_InProgress,
+// Mapping from string to BlobRestoreProgressStatus_STATUS
+var blobRestoreProgressStatus_STATUS_Values = map[string]BlobRestoreProgressStatus_STATUS{
+	"complete":   BlobRestoreProgressStatus_STATUS_Complete,
+	"failed":     BlobRestoreProgressStatus_STATUS_Failed,
+	"inprogress": BlobRestoreProgressStatus_STATUS_InProgress,
+}
+
+// Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+// +kubebuilder:validation:Enum={"None","StorageFileDataSmbShareContributor","StorageFileDataSmbShareElevatedContributor","StorageFileDataSmbShareReader"}
+type DefaultSharePermission string
+
+const (
+	DefaultSharePermission_None                                       = DefaultSharePermission("None")
+	DefaultSharePermission_StorageFileDataSmbShareContributor         = DefaultSharePermission("StorageFileDataSmbShareContributor")
+	DefaultSharePermission_StorageFileDataSmbShareElevatedContributor = DefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
+	DefaultSharePermission_StorageFileDataSmbShareReader              = DefaultSharePermission("StorageFileDataSmbShareReader")
+)
+
+// Mapping from string to DefaultSharePermission
+var defaultSharePermission_Values = map[string]DefaultSharePermission{
+	"none":                               DefaultSharePermission_None,
+	"storagefiledatasmbsharecontributor": DefaultSharePermission_StorageFileDataSmbShareContributor,
+	"storagefiledatasmbshareelevatedcontributor": DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
+	"storagefiledatasmbsharereader":              DefaultSharePermission_StorageFileDataSmbShareReader,
+}
+
+// Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+type DefaultSharePermission_STATUS string
+
+const (
+	DefaultSharePermission_STATUS_None                                       = DefaultSharePermission_STATUS("None")
+	DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor         = DefaultSharePermission_STATUS("StorageFileDataSmbShareContributor")
+	DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor = DefaultSharePermission_STATUS("StorageFileDataSmbShareElevatedContributor")
+	DefaultSharePermission_STATUS_StorageFileDataSmbShareReader              = DefaultSharePermission_STATUS("StorageFileDataSmbShareReader")
+)
+
+// Mapping from string to DefaultSharePermission_STATUS
+var defaultSharePermission_STATUS_Values = map[string]DefaultSharePermission_STATUS{
+	"none":                               DefaultSharePermission_STATUS_None,
+	"storagefiledatasmbsharecontributor": DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor,
+	"storagefiledatasmbshareelevatedcontributor": DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor,
+	"storagefiledatasmbsharereader":              DefaultSharePermission_STATUS_StorageFileDataSmbShareReader,
+}
+
+// Indicates the directory service used. Note that this enum may be extended in the future.
+// +kubebuilder:validation:Enum={"AADDS","AADKERB","AD","None"}
+type DirectoryServiceOptions string
+
+const (
+	DirectoryServiceOptions_AADDS   = DirectoryServiceOptions("AADDS")
+	DirectoryServiceOptions_AADKERB = DirectoryServiceOptions("AADKERB")
+	DirectoryServiceOptions_AD      = DirectoryServiceOptions("AD")
+	DirectoryServiceOptions_None    = DirectoryServiceOptions("None")
+)
+
+// Mapping from string to DirectoryServiceOptions
+var directoryServiceOptions_Values = map[string]DirectoryServiceOptions{
+	"aadds":   DirectoryServiceOptions_AADDS,
+	"aadkerb": DirectoryServiceOptions_AADKERB,
+	"ad":      DirectoryServiceOptions_AD,
+	"none":    DirectoryServiceOptions_None,
+}
+
+// Indicates the directory service used. Note that this enum may be extended in the future.
+type DirectoryServiceOptions_STATUS string
+
+const (
+	DirectoryServiceOptions_STATUS_AADDS   = DirectoryServiceOptions_STATUS("AADDS")
+	DirectoryServiceOptions_STATUS_AADKERB = DirectoryServiceOptions_STATUS("AADKERB")
+	DirectoryServiceOptions_STATUS_AD      = DirectoryServiceOptions_STATUS("AD")
+	DirectoryServiceOptions_STATUS_None    = DirectoryServiceOptions_STATUS("None")
+)
+
+// Mapping from string to DirectoryServiceOptions_STATUS
+var directoryServiceOptions_STATUS_Values = map[string]DirectoryServiceOptions_STATUS{
+	"aadds":   DirectoryServiceOptions_STATUS_AADDS,
+	"aadkerb": DirectoryServiceOptions_STATUS_AADKERB,
+	"ad":      DirectoryServiceOptions_STATUS_AD,
+	"none":    DirectoryServiceOptions_STATUS_None,
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.Keyvault","Microsoft.Storage"}
@@ -11128,103 +11299,79 @@ func (services *EncryptionServices_STATUS) AssignProperties_To_EncryptionService
 
 // The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
+type ExtendedLocationTypes string
 
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationTypes_EdgeZone = ExtendedLocationTypes("EdgeZone")
 
-// Mapping from string to ExtendedLocationType
-var extendedLocationType_Values = map[string]ExtendedLocationType{
-	"edgezone": ExtendedLocationType_EdgeZone,
+// Mapping from string to ExtendedLocationTypes
+var extendedLocationTypes_Values = map[string]ExtendedLocationTypes{
+	"edgezone": ExtendedLocationTypes_EdgeZone,
 }
 
 // The type of extendedLocation.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationTypes_STATUS string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationTypes_STATUS_EdgeZone = ExtendedLocationTypes_STATUS("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationTypes_STATUS
+var extendedLocationTypes_STATUS_Values = map[string]ExtendedLocationTypes_STATUS{
+	"edgezone": ExtendedLocationTypes_STATUS_EdgeZone,
 }
 
-type GeoReplicationStats_PostFailoverRedundancy_STATUS string
+// The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and
+// operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in
+// progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location
+// is temporarily unavailable.
+type GeoReplicationStatus_STATUS string
 
 const (
-	GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_LRS = GeoReplicationStats_PostFailoverRedundancy_STATUS("Standard_LRS")
-	GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_ZRS = GeoReplicationStats_PostFailoverRedundancy_STATUS("Standard_ZRS")
+	GeoReplicationStatus_STATUS_Bootstrap   = GeoReplicationStatus_STATUS("Bootstrap")
+	GeoReplicationStatus_STATUS_Live        = GeoReplicationStatus_STATUS("Live")
+	GeoReplicationStatus_STATUS_Unavailable = GeoReplicationStatus_STATUS("Unavailable")
 )
 
-// Mapping from string to GeoReplicationStats_PostFailoverRedundancy_STATUS
-var geoReplicationStats_PostFailoverRedundancy_STATUS_Values = map[string]GeoReplicationStats_PostFailoverRedundancy_STATUS{
-	"standard_lrs": GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_LRS,
-	"standard_zrs": GeoReplicationStats_PostFailoverRedundancy_STATUS_Standard_ZRS,
+// Mapping from string to GeoReplicationStatus_STATUS
+var geoReplicationStatus_STATUS_Values = map[string]GeoReplicationStatus_STATUS{
+	"bootstrap":   GeoReplicationStatus_STATUS_Bootstrap,
+	"live":        GeoReplicationStatus_STATUS_Live,
+	"unavailable": GeoReplicationStatus_STATUS_Unavailable,
 }
 
-type GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS string
-
-const (
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GRS    = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_GRS")
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GZRS   = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_GZRS")
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS  = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_RAGRS")
-	GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS = GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS("Standard_RAGZRS")
-)
-
-// Mapping from string to GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS
-var geoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Values = map[string]GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS{
-	"standard_grs":    GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GRS,
-	"standard_gzrs":   GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_GZRS,
-	"standard_ragrs":  GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS,
-	"standard_ragzrs": GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS,
-}
-
-type GeoReplicationStats_Status_STATUS string
-
-const (
-	GeoReplicationStats_Status_STATUS_Bootstrap   = GeoReplicationStats_Status_STATUS("Bootstrap")
-	GeoReplicationStats_Status_STATUS_Live        = GeoReplicationStats_Status_STATUS("Live")
-	GeoReplicationStats_Status_STATUS_Unavailable = GeoReplicationStats_Status_STATUS("Unavailable")
-)
-
-// Mapping from string to GeoReplicationStats_Status_STATUS
-var geoReplicationStats_Status_STATUS_Values = map[string]GeoReplicationStats_Status_STATUS{
-	"bootstrap":   GeoReplicationStats_Status_STATUS_Bootstrap,
-	"live":        GeoReplicationStats_Status_STATUS_Live,
-	"unavailable": GeoReplicationStats_Status_STATUS_Unavailable,
-}
-
+// The identity type.
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type Identity_Type string
+type IdentityType string
 
 const (
-	Identity_Type_None                       = Identity_Type("None")
-	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
-	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":                        Identity_Type_None,
-	"systemassigned":              Identity_Type_SystemAssigned,
-	"systemassigned,userassigned": Identity_Type_SystemAssignedUserAssigned,
-	"userassigned":                Identity_Type_UserAssigned,
+// Mapping from string to IdentityType
+var identityType_Values = map[string]IdentityType{
+	"none":                        IdentityType_None,
+	"systemassigned":              IdentityType_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_UserAssigned,
 }
 
-type Identity_Type_STATUS string
+// The identity type.
+type IdentityType_STATUS string
 
 const (
-	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
-	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
+	IdentityType_STATUS_None                       = IdentityType_STATUS("None")
+	IdentityType_STATUS_SystemAssigned             = IdentityType_STATUS("SystemAssigned")
+	IdentityType_STATUS_SystemAssignedUserAssigned = IdentityType_STATUS("SystemAssigned,UserAssigned")
+	IdentityType_STATUS_UserAssigned               = IdentityType_STATUS("UserAssigned")
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":                        Identity_Type_STATUS_None,
-	"systemassigned":              Identity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                Identity_Type_STATUS_UserAssigned,
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"none":                        IdentityType_STATUS_None,
+	"systemassigned":              IdentityType_STATUS_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_STATUS_UserAssigned,
 }
 
 // IP rule with specific IP or IP range in CIDR format.
@@ -11869,31 +12016,36 @@ var networkRuleSet_DefaultAction_STATUS_Values = map[string]NetworkRuleSet_Defau
 	"deny":  NetworkRuleSet_DefaultAction_STATUS_Deny,
 }
 
-// +kubebuilder:validation:Enum={"Any","None"}
-type Placement_ZonePlacementPolicy string
+// The redundancy type of the account after an account failover is performed.
+type PostFailoverRedundancy_STATUS string
 
 const (
-	Placement_ZonePlacementPolicy_Any  = Placement_ZonePlacementPolicy("Any")
-	Placement_ZonePlacementPolicy_None = Placement_ZonePlacementPolicy("None")
+	PostFailoverRedundancy_STATUS_Standard_LRS = PostFailoverRedundancy_STATUS("Standard_LRS")
+	PostFailoverRedundancy_STATUS_Standard_ZRS = PostFailoverRedundancy_STATUS("Standard_ZRS")
 )
 
-// Mapping from string to Placement_ZonePlacementPolicy
-var placement_ZonePlacementPolicy_Values = map[string]Placement_ZonePlacementPolicy{
-	"any":  Placement_ZonePlacementPolicy_Any,
-	"none": Placement_ZonePlacementPolicy_None,
+// Mapping from string to PostFailoverRedundancy_STATUS
+var postFailoverRedundancy_STATUS_Values = map[string]PostFailoverRedundancy_STATUS{
+	"standard_lrs": PostFailoverRedundancy_STATUS_Standard_LRS,
+	"standard_zrs": PostFailoverRedundancy_STATUS_Standard_ZRS,
 }
 
-type Placement_ZonePlacementPolicy_STATUS string
+// The redundancy type of the account after a planned account failover is performed.
+type PostPlannedFailoverRedundancy_STATUS string
 
 const (
-	Placement_ZonePlacementPolicy_STATUS_Any  = Placement_ZonePlacementPolicy_STATUS("Any")
-	Placement_ZonePlacementPolicy_STATUS_None = Placement_ZonePlacementPolicy_STATUS("None")
+	PostPlannedFailoverRedundancy_STATUS_Standard_GRS    = PostPlannedFailoverRedundancy_STATUS("Standard_GRS")
+	PostPlannedFailoverRedundancy_STATUS_Standard_GZRS   = PostPlannedFailoverRedundancy_STATUS("Standard_GZRS")
+	PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS  = PostPlannedFailoverRedundancy_STATUS("Standard_RAGRS")
+	PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS = PostPlannedFailoverRedundancy_STATUS("Standard_RAGZRS")
 )
 
-// Mapping from string to Placement_ZonePlacementPolicy_STATUS
-var placement_ZonePlacementPolicy_STATUS_Values = map[string]Placement_ZonePlacementPolicy_STATUS{
-	"any":  Placement_ZonePlacementPolicy_STATUS_Any,
-	"none": Placement_ZonePlacementPolicy_STATUS_None,
+// Mapping from string to PostPlannedFailoverRedundancy_STATUS
+var postPlannedFailoverRedundancy_STATUS_Values = map[string]PostPlannedFailoverRedundancy_STATUS{
+	"standard_grs":    PostPlannedFailoverRedundancy_STATUS_Standard_GRS,
+	"standard_gzrs":   PostPlannedFailoverRedundancy_STATUS_Standard_GZRS,
+	"standard_ragrs":  PostPlannedFailoverRedundancy_STATUS_Standard_RAGRS,
+	"standard_ragzrs": PostPlannedFailoverRedundancy_STATUS_Standard_RAGZRS,
 }
 
 // Resource Access Rule.
@@ -12093,31 +12245,33 @@ func (rule *ResourceAccessRule_STATUS) AssignProperties_To_ResourceAccessRule_ST
 	return nil
 }
 
+// Routing Choice defines the kind of network routing opted by the user.
 // +kubebuilder:validation:Enum={"InternetRouting","MicrosoftRouting"}
-type RoutingPreference_RoutingChoice string
+type RoutingChoice string
 
 const (
-	RoutingPreference_RoutingChoice_InternetRouting  = RoutingPreference_RoutingChoice("InternetRouting")
-	RoutingPreference_RoutingChoice_MicrosoftRouting = RoutingPreference_RoutingChoice("MicrosoftRouting")
+	RoutingChoice_InternetRouting  = RoutingChoice("InternetRouting")
+	RoutingChoice_MicrosoftRouting = RoutingChoice("MicrosoftRouting")
 )
 
-// Mapping from string to RoutingPreference_RoutingChoice
-var routingPreference_RoutingChoice_Values = map[string]RoutingPreference_RoutingChoice{
-	"internetrouting":  RoutingPreference_RoutingChoice_InternetRouting,
-	"microsoftrouting": RoutingPreference_RoutingChoice_MicrosoftRouting,
+// Mapping from string to RoutingChoice
+var routingChoice_Values = map[string]RoutingChoice{
+	"internetrouting":  RoutingChoice_InternetRouting,
+	"microsoftrouting": RoutingChoice_MicrosoftRouting,
 }
 
-type RoutingPreference_RoutingChoice_STATUS string
+// Routing Choice defines the kind of network routing opted by the user.
+type RoutingChoice_STATUS string
 
 const (
-	RoutingPreference_RoutingChoice_STATUS_InternetRouting  = RoutingPreference_RoutingChoice_STATUS("InternetRouting")
-	RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting = RoutingPreference_RoutingChoice_STATUS("MicrosoftRouting")
+	RoutingChoice_STATUS_InternetRouting  = RoutingChoice_STATUS("InternetRouting")
+	RoutingChoice_STATUS_MicrosoftRouting = RoutingChoice_STATUS("MicrosoftRouting")
 )
 
-// Mapping from string to RoutingPreference_RoutingChoice_STATUS
-var routingPreference_RoutingChoice_STATUS_Values = map[string]RoutingPreference_RoutingChoice_STATUS{
-	"internetrouting":  RoutingPreference_RoutingChoice_STATUS_InternetRouting,
-	"microsoftrouting": RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting,
+// Mapping from string to RoutingChoice_STATUS
+var routingChoice_STATUS_Values = map[string]RoutingChoice_STATUS{
+	"internetrouting":  RoutingChoice_STATUS_InternetRouting,
+	"microsoftrouting": RoutingChoice_STATUS_MicrosoftRouting,
 }
 
 // +kubebuilder:validation:Enum={"Block","Log"}
@@ -12145,6 +12299,22 @@ const (
 var sasPolicy_ExpirationAction_STATUS_Values = map[string]SasPolicy_ExpirationAction_STATUS{
 	"block": SasPolicy_ExpirationAction_STATUS_Block,
 	"log":   SasPolicy_ExpirationAction_STATUS_Log,
+}
+
+// This property indicates the current sku conversion status.
+type SkuConversionStatus_STATUS string
+
+const (
+	SkuConversionStatus_STATUS_Failed     = SkuConversionStatus_STATUS("Failed")
+	SkuConversionStatus_STATUS_InProgress = SkuConversionStatus_STATUS("InProgress")
+	SkuConversionStatus_STATUS_Succeeded  = SkuConversionStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to SkuConversionStatus_STATUS
+var skuConversionStatus_STATUS_Values = map[string]SkuConversionStatus_STATUS{
+	"failed":     SkuConversionStatus_STATUS_Failed,
+	"inprogress": SkuConversionStatus_STATUS_InProgress,
+	"succeeded":  SkuConversionStatus_STATUS_Succeeded,
 }
 
 // The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
@@ -12224,6 +12394,20 @@ var skuName_STATUS_Values = map[string]SkuName_STATUS{
 	"standard_ragrs":  SkuName_STATUS_Standard_RAGRS,
 	"standard_ragzrs": SkuName_STATUS_Standard_RAGZRS,
 	"standard_zrs":    SkuName_STATUS_Standard_ZRS,
+}
+
+// The SKU tier. This is based on the SKU name.
+type SkuTier_STATUS string
+
+const (
+	SkuTier_STATUS_Premium  = SkuTier_STATUS("Premium")
+	SkuTier_STATUS_Standard = SkuTier_STATUS("Standard")
+)
+
+// Mapping from string to SkuTier_STATUS
+var skuTier_STATUS_Values = map[string]SkuTier_STATUS{
+	"premium":  SkuTier_STATUS_Premium,
+	"standard": SkuTier_STATUS_Standard,
 }
 
 // Setting property for Managed Identity access over SMB using OAuth
@@ -13167,48 +13351,38 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 	return nil
 }
 
-type StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Failed     = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("Failed")
-	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_InProgress = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("InProgress")
-	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded  = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("Succeeded")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-// Mapping from string to StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS
-var storageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Values = map[string]StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS{
-	"failed":     StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Failed,
-	"inprogress": StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_InProgress,
-	"succeeded":  StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded,
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
 }
 
-// The SKU tier. This is based on the SKU name.
-// +kubebuilder:validation:Enum={"Premium","Standard"}
-type Tier string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	Tier_Premium  = Tier("Premium")
-	Tier_Standard = Tier("Standard")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-// Mapping from string to Tier
-var tier_Values = map[string]Tier{
-	"premium":  Tier_Premium,
-	"standard": Tier_Standard,
-}
-
-// The SKU tier. This is based on the SKU name.
-type Tier_STATUS string
-
-const (
-	Tier_STATUS_Premium  = Tier_STATUS("Premium")
-	Tier_STATUS_Standard = Tier_STATUS("Standard")
-)
-
-// Mapping from string to Tier_STATUS
-var tier_STATUS_Values = map[string]Tier_STATUS{
-	"premium":  Tier_STATUS_Premium,
-	"standard": Tier_STATUS_Standard,
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // UserAssignedIdentity for the resource.
@@ -13330,7 +13504,7 @@ type VirtualNetworkRule struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State `json:"state,omitempty"`
+	State *State `json:"state,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
@@ -13364,7 +13538,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if rule.State != nil {
 		var temp string
 		temp = string(*rule.State)
-		state := arm.VirtualNetworkRule_State(temp)
+		state := arm.State(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -13396,7 +13570,7 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	if typedInput.State != nil {
 		var temp string
 		temp = string(*typedInput.State)
-		state := VirtualNetworkRule_State(temp)
+		state := State(temp)
 		rule.State = &state
 	}
 
@@ -13427,7 +13601,7 @@ func (rule *VirtualNetworkRule) AssignProperties_From_VirtualNetworkRule(source 
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, virtualNetworkRule_State_Values)
+		stateTemp := genruntime.ToEnum(state, state_Values)
 		rule.State = &stateTemp
 	} else {
 		rule.State = nil
@@ -13498,7 +13672,7 @@ func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source
 
 	// State
 	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), virtualNetworkRule_State_Values)
+		state := genruntime.ToEnum(string(*source.State), state_Values)
 		rule.State = &state
 	} else {
 		rule.State = nil
@@ -13518,7 +13692,7 @@ type VirtualNetworkRule_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State_STATUS `json:"state,omitempty"`
+	State *State_STATUS `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkRule_STATUS{}
@@ -13553,7 +13727,7 @@ func (rule *VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.State != nil {
 		var temp string
 		temp = string(*typedInput.State)
-		state := VirtualNetworkRule_State_STATUS(temp)
+		state := State_STATUS(temp)
 		rule.State = &state
 	}
 
@@ -13579,7 +13753,7 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_From_VirtualNetworkRule_
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, virtualNetworkRule_State_STATUS_Values)
+		stateTemp := genruntime.ToEnum(state, state_STATUS_Values)
 		rule.State = &stateTemp
 	} else {
 		rule.State = nil
@@ -13624,62 +13798,107 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 	return nil
 }
 
+// The availability zone pinning policy for the storage account.
+// +kubebuilder:validation:Enum={"Any","None"}
+type ZonePlacementPolicy string
+
+const (
+	ZonePlacementPolicy_Any  = ZonePlacementPolicy("Any")
+	ZonePlacementPolicy_None = ZonePlacementPolicy("None")
+)
+
+// Mapping from string to ZonePlacementPolicy
+var zonePlacementPolicy_Values = map[string]ZonePlacementPolicy{
+	"any":  ZonePlacementPolicy_Any,
+	"none": ZonePlacementPolicy_None,
+}
+
+// The availability zone pinning policy for the storage account.
+type ZonePlacementPolicy_STATUS string
+
+const (
+	ZonePlacementPolicy_STATUS_Any  = ZonePlacementPolicy_STATUS("Any")
+	ZonePlacementPolicy_STATUS_None = ZonePlacementPolicy_STATUS("None")
+)
+
+// Mapping from string to ZonePlacementPolicy_STATUS
+var zonePlacementPolicy_STATUS_Values = map[string]ZonePlacementPolicy_STATUS{
+	"any":  ZonePlacementPolicy_STATUS_Any,
+	"none": ZonePlacementPolicy_STATUS_None,
+}
+
+// The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows
+// increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property,
+// Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or
+// Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked
+// state which cannot be reverted.
 // +kubebuilder:validation:Enum={"Disabled","Locked","Unlocked"}
-type AccountImmutabilityPolicyProperties_State string
+type AccountImmutabilityPolicyState string
 
 const (
-	AccountImmutabilityPolicyProperties_State_Disabled = AccountImmutabilityPolicyProperties_State("Disabled")
-	AccountImmutabilityPolicyProperties_State_Locked   = AccountImmutabilityPolicyProperties_State("Locked")
-	AccountImmutabilityPolicyProperties_State_Unlocked = AccountImmutabilityPolicyProperties_State("Unlocked")
+	AccountImmutabilityPolicyState_Disabled = AccountImmutabilityPolicyState("Disabled")
+	AccountImmutabilityPolicyState_Locked   = AccountImmutabilityPolicyState("Locked")
+	AccountImmutabilityPolicyState_Unlocked = AccountImmutabilityPolicyState("Unlocked")
 )
 
-// Mapping from string to AccountImmutabilityPolicyProperties_State
-var accountImmutabilityPolicyProperties_State_Values = map[string]AccountImmutabilityPolicyProperties_State{
-	"disabled": AccountImmutabilityPolicyProperties_State_Disabled,
-	"locked":   AccountImmutabilityPolicyProperties_State_Locked,
-	"unlocked": AccountImmutabilityPolicyProperties_State_Unlocked,
+// Mapping from string to AccountImmutabilityPolicyState
+var accountImmutabilityPolicyState_Values = map[string]AccountImmutabilityPolicyState{
+	"disabled": AccountImmutabilityPolicyState_Disabled,
+	"locked":   AccountImmutabilityPolicyState_Locked,
+	"unlocked": AccountImmutabilityPolicyState_Unlocked,
 }
 
-type AccountImmutabilityPolicyProperties_State_STATUS string
+// The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows
+// increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property,
+// Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or
+// Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked
+// state which cannot be reverted.
+type AccountImmutabilityPolicyState_STATUS string
 
 const (
-	AccountImmutabilityPolicyProperties_State_STATUS_Disabled = AccountImmutabilityPolicyProperties_State_STATUS("Disabled")
-	AccountImmutabilityPolicyProperties_State_STATUS_Locked   = AccountImmutabilityPolicyProperties_State_STATUS("Locked")
-	AccountImmutabilityPolicyProperties_State_STATUS_Unlocked = AccountImmutabilityPolicyProperties_State_STATUS("Unlocked")
+	AccountImmutabilityPolicyState_STATUS_Disabled = AccountImmutabilityPolicyState_STATUS("Disabled")
+	AccountImmutabilityPolicyState_STATUS_Locked   = AccountImmutabilityPolicyState_STATUS("Locked")
+	AccountImmutabilityPolicyState_STATUS_Unlocked = AccountImmutabilityPolicyState_STATUS("Unlocked")
 )
 
-// Mapping from string to AccountImmutabilityPolicyProperties_State_STATUS
-var accountImmutabilityPolicyProperties_State_STATUS_Values = map[string]AccountImmutabilityPolicyProperties_State_STATUS{
-	"disabled": AccountImmutabilityPolicyProperties_State_STATUS_Disabled,
-	"locked":   AccountImmutabilityPolicyProperties_State_STATUS_Locked,
-	"unlocked": AccountImmutabilityPolicyProperties_State_STATUS_Unlocked,
+// Mapping from string to AccountImmutabilityPolicyState_STATUS
+var accountImmutabilityPolicyState_STATUS_Values = map[string]AccountImmutabilityPolicyState_STATUS{
+	"disabled": AccountImmutabilityPolicyState_STATUS_Disabled,
+	"locked":   AccountImmutabilityPolicyState_STATUS_Locked,
+	"unlocked": AccountImmutabilityPolicyState_STATUS_Unlocked,
 }
 
+// Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD DS
+// authentication), this property is optional. If provided, samAccountName should also be provided. For
+// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
 // +kubebuilder:validation:Enum={"Computer","User"}
-type ActiveDirectoryProperties_AccountType string
+type AccountType string
 
 const (
-	ActiveDirectoryProperties_AccountType_Computer = ActiveDirectoryProperties_AccountType("Computer")
-	ActiveDirectoryProperties_AccountType_User     = ActiveDirectoryProperties_AccountType("User")
+	AccountType_Computer = AccountType("Computer")
+	AccountType_User     = AccountType("User")
 )
 
-// Mapping from string to ActiveDirectoryProperties_AccountType
-var activeDirectoryProperties_AccountType_Values = map[string]ActiveDirectoryProperties_AccountType{
-	"computer": ActiveDirectoryProperties_AccountType_Computer,
-	"user":     ActiveDirectoryProperties_AccountType_User,
+// Mapping from string to AccountType
+var accountType_Values = map[string]AccountType{
+	"computer": AccountType_Computer,
+	"user":     AccountType_User,
 }
 
-type ActiveDirectoryProperties_AccountType_STATUS string
+// Specifies the Active Directory account type for Azure Storage. If directoryServiceOptions is set to AD (AD DS
+// authentication), this property is optional. If provided, samAccountName should also be provided. For
+// directoryServiceOptions AADDS (Entra DS authentication) or AADKERB (Entra authentication), this property can be omitted.
+type AccountType_STATUS string
 
 const (
-	ActiveDirectoryProperties_AccountType_STATUS_Computer = ActiveDirectoryProperties_AccountType_STATUS("Computer")
-	ActiveDirectoryProperties_AccountType_STATUS_User     = ActiveDirectoryProperties_AccountType_STATUS("User")
+	AccountType_STATUS_Computer = AccountType_STATUS("Computer")
+	AccountType_STATUS_User     = AccountType_STATUS("User")
 )
 
-// Mapping from string to ActiveDirectoryProperties_AccountType_STATUS
-var activeDirectoryProperties_AccountType_STATUS_Values = map[string]ActiveDirectoryProperties_AccountType_STATUS{
-	"computer": ActiveDirectoryProperties_AccountType_STATUS_Computer,
-	"user":     ActiveDirectoryProperties_AccountType_STATUS_User,
+// Mapping from string to AccountType_STATUS
+var accountType_STATUS_Values = map[string]AccountType_STATUS{
+	"computer": AccountType_STATUS_Computer,
+	"user":     AccountType_STATUS_User,
 }
 
 // Blob range
@@ -13764,7 +13983,7 @@ type EncryptionService struct {
 
 	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
 	// encryption key will be used. 'Service' key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
+	KeyType *KeyType `json:"keyType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionService{}
@@ -13786,7 +14005,7 @@ func (service *EncryptionService) ConvertToARM(resolved genruntime.ConvertToARMR
 	if service.KeyType != nil {
 		var temp string
 		temp = string(*service.KeyType)
-		keyType := arm.EncryptionService_KeyType(temp)
+		keyType := arm.KeyType(temp)
 		result.KeyType = &keyType
 	}
 	return result, nil
@@ -13814,7 +14033,7 @@ func (service *EncryptionService) PopulateFromARM(owner genruntime.ArbitraryOwne
 	if typedInput.KeyType != nil {
 		var temp string
 		temp = string(*typedInput.KeyType)
-		keyType := EncryptionService_KeyType(temp)
+		keyType := KeyType(temp)
 		service.KeyType = &keyType
 	}
 
@@ -13836,7 +14055,7 @@ func (service *EncryptionService) AssignProperties_From_EncryptionService(source
 	// KeyType
 	if source.KeyType != nil {
 		keyType := *source.KeyType
-		keyTypeTemp := genruntime.ToEnum(keyType, encryptionService_KeyType_Values)
+		keyTypeTemp := genruntime.ToEnum(keyType, keyType_Values)
 		service.KeyType = &keyTypeTemp
 	} else {
 		service.KeyType = nil
@@ -13891,7 +14110,7 @@ func (service *EncryptionService) Initialize_From_EncryptionService_STATUS(sourc
 
 	// KeyType
 	if source.KeyType != nil {
-		keyType := genruntime.ToEnum(string(*source.KeyType), encryptionService_KeyType_Values)
+		keyType := genruntime.ToEnum(string(*source.KeyType), keyType_Values)
 		service.KeyType = &keyType
 	} else {
 		service.KeyType = nil
@@ -13909,7 +14128,7 @@ type EncryptionService_STATUS struct {
 
 	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
 	// encryption key will be used. 'Service' key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType_STATUS `json:"keyType,omitempty"`
+	KeyType *KeyType_STATUS `json:"keyType,omitempty"`
 
 	// LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is
 	// encrypted at rest by default today and cannot be disabled.
@@ -13940,7 +14159,7 @@ func (service *EncryptionService_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.KeyType != nil {
 		var temp string
 		temp = string(*typedInput.KeyType)
-		keyType := EncryptionService_KeyType_STATUS(temp)
+		keyType := KeyType_STATUS(temp)
 		service.KeyType = &keyType
 	}
 
@@ -13968,7 +14187,7 @@ func (service *EncryptionService_STATUS) AssignProperties_From_EncryptionService
 	// KeyType
 	if source.KeyType != nil {
 		keyType := *source.KeyType
-		keyTypeTemp := genruntime.ToEnum(keyType, encryptionService_KeyType_STATUS_Values)
+		keyTypeTemp := genruntime.ToEnum(keyType, keyType_STATUS_Values)
 		service.KeyType = &keyTypeTemp
 	} else {
 		service.KeyType = nil
@@ -14035,6 +14254,47 @@ var iPRule_Action_STATUS_Values = map[string]IPRule_Action_STATUS{
 	"allow": IPRule_Action_STATUS_Allow,
 }
 
+// Gets the state of virtual network rule.
+// +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
+type State string
+
+const (
+	State_Deprovisioning       = State("Deprovisioning")
+	State_Failed               = State("Failed")
+	State_NetworkSourceDeleted = State("NetworkSourceDeleted")
+	State_Provisioning         = State("Provisioning")
+	State_Succeeded            = State("Succeeded")
+)
+
+// Mapping from string to State
+var state_Values = map[string]State{
+	"deprovisioning":       State_Deprovisioning,
+	"failed":               State_Failed,
+	"networksourcedeleted": State_NetworkSourceDeleted,
+	"provisioning":         State_Provisioning,
+	"succeeded":            State_Succeeded,
+}
+
+// Gets the state of virtual network rule.
+type State_STATUS string
+
+const (
+	State_STATUS_Deprovisioning       = State_STATUS("Deprovisioning")
+	State_STATUS_Failed               = State_STATUS("Failed")
+	State_STATUS_NetworkSourceDeleted = State_STATUS("NetworkSourceDeleted")
+	State_STATUS_Provisioning         = State_STATUS("Provisioning")
+	State_STATUS_Succeeded            = State_STATUS("Succeeded")
+)
+
+// Mapping from string to State_STATUS
+var state_STATUS_Values = map[string]State_STATUS{
+	"deprovisioning":       State_STATUS_Deprovisioning,
+	"failed":               State_STATUS_Failed,
+	"networksourcedeleted": State_STATUS_NetworkSourceDeleted,
+	"provisioning":         State_STATUS_Provisioning,
+	"succeeded":            State_STATUS_Succeeded,
+}
+
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRule_Action string
 
@@ -14054,70 +14314,35 @@ var virtualNetworkRule_Action_STATUS_Values = map[string]VirtualNetworkRule_Acti
 	"allow": VirtualNetworkRule_Action_STATUS_Allow,
 }
 
-// +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
-type VirtualNetworkRule_State string
-
-const (
-	VirtualNetworkRule_State_Deprovisioning       = VirtualNetworkRule_State("Deprovisioning")
-	VirtualNetworkRule_State_Failed               = VirtualNetworkRule_State("Failed")
-	VirtualNetworkRule_State_NetworkSourceDeleted = VirtualNetworkRule_State("NetworkSourceDeleted")
-	VirtualNetworkRule_State_Provisioning         = VirtualNetworkRule_State("Provisioning")
-	VirtualNetworkRule_State_Succeeded            = VirtualNetworkRule_State("Succeeded")
-)
-
-// Mapping from string to VirtualNetworkRule_State
-var virtualNetworkRule_State_Values = map[string]VirtualNetworkRule_State{
-	"deprovisioning":       VirtualNetworkRule_State_Deprovisioning,
-	"failed":               VirtualNetworkRule_State_Failed,
-	"networksourcedeleted": VirtualNetworkRule_State_NetworkSourceDeleted,
-	"provisioning":         VirtualNetworkRule_State_Provisioning,
-	"succeeded":            VirtualNetworkRule_State_Succeeded,
-}
-
-type VirtualNetworkRule_State_STATUS string
-
-const (
-	VirtualNetworkRule_State_STATUS_Deprovisioning       = VirtualNetworkRule_State_STATUS("Deprovisioning")
-	VirtualNetworkRule_State_STATUS_Failed               = VirtualNetworkRule_State_STATUS("Failed")
-	VirtualNetworkRule_State_STATUS_NetworkSourceDeleted = VirtualNetworkRule_State_STATUS("NetworkSourceDeleted")
-	VirtualNetworkRule_State_STATUS_Provisioning         = VirtualNetworkRule_State_STATUS("Provisioning")
-	VirtualNetworkRule_State_STATUS_Succeeded            = VirtualNetworkRule_State_STATUS("Succeeded")
-)
-
-// Mapping from string to VirtualNetworkRule_State_STATUS
-var virtualNetworkRule_State_STATUS_Values = map[string]VirtualNetworkRule_State_STATUS{
-	"deprovisioning":       VirtualNetworkRule_State_STATUS_Deprovisioning,
-	"failed":               VirtualNetworkRule_State_STATUS_Failed,
-	"networksourcedeleted": VirtualNetworkRule_State_STATUS_NetworkSourceDeleted,
-	"provisioning":         VirtualNetworkRule_State_STATUS_Provisioning,
-	"succeeded":            VirtualNetworkRule_State_STATUS_Succeeded,
-}
-
+// Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption
+// key will be used. 'Service' key type implies that a default service key is used.
 // +kubebuilder:validation:Enum={"Account","Service"}
-type EncryptionService_KeyType string
+type KeyType string
 
 const (
-	EncryptionService_KeyType_Account = EncryptionService_KeyType("Account")
-	EncryptionService_KeyType_Service = EncryptionService_KeyType("Service")
+	KeyType_Account = KeyType("Account")
+	KeyType_Service = KeyType("Service")
 )
 
-// Mapping from string to EncryptionService_KeyType
-var encryptionService_KeyType_Values = map[string]EncryptionService_KeyType{
-	"account": EncryptionService_KeyType_Account,
-	"service": EncryptionService_KeyType_Service,
+// Mapping from string to KeyType
+var keyType_Values = map[string]KeyType{
+	"account": KeyType_Account,
+	"service": KeyType_Service,
 }
 
-type EncryptionService_KeyType_STATUS string
+// Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption
+// key will be used. 'Service' key type implies that a default service key is used.
+type KeyType_STATUS string
 
 const (
-	EncryptionService_KeyType_STATUS_Account = EncryptionService_KeyType_STATUS("Account")
-	EncryptionService_KeyType_STATUS_Service = EncryptionService_KeyType_STATUS("Service")
+	KeyType_STATUS_Account = KeyType_STATUS("Account")
+	KeyType_STATUS_Service = KeyType_STATUS("Service")
 )
 
-// Mapping from string to EncryptionService_KeyType_STATUS
-var encryptionService_KeyType_STATUS_Values = map[string]EncryptionService_KeyType_STATUS{
-	"account": EncryptionService_KeyType_STATUS_Account,
-	"service": EncryptionService_KeyType_STATUS_Service,
+// Mapping from string to KeyType_STATUS
+var keyType_STATUS_Values = map[string]KeyType_STATUS{
+	"account": KeyType_STATUS_Account,
+	"service": KeyType_STATUS_Service,
 }
 
 func init() {
