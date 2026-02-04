@@ -34,7 +34,7 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 			},
 			Location: to.Ptr("global"),
 			MonitorConfig: &network.MonitorConfig{
-				Protocol: to.Ptr(network.MonitorConfig_Protocol_TCP),
+				Protocol: to.Ptr(network.MonitorProtocol_TCP),
 				Port:     to.Ptr(443),
 			},
 			OperatorSpec: &network.TrafficManagerProfileOperatorSpec{
@@ -46,7 +46,7 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 				},
 			},
 			Owner:                testcommon.AsOwner(rg),
-			TrafficRoutingMethod: to.Ptr(network.ProfileProperties_TrafficRoutingMethod_Performance),
+			TrafficRoutingMethod: to.Ptr(network.TrafficRoutingMethod_Performance),
 		},
 	}
 
@@ -102,11 +102,11 @@ func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTest
 			},
 			Location: to.Ptr("global"),
 			MonitorConfig: &network.MonitorConfig{
-				Protocol: to.Ptr(network.MonitorConfig_Protocol_TCP),
+				Protocol: to.Ptr(network.MonitorProtocol_TCP),
 				Port:     to.Ptr(443),
 			},
 			Owner:                testcommon.AsOwner(rg),
-			TrafficRoutingMethod: to.Ptr(network.ProfileProperties_TrafficRoutingMethod_Performance),
+			TrafficRoutingMethod: to.Ptr(network.TrafficRoutingMethod_Performance),
 		},
 	}
 
@@ -128,7 +128,7 @@ func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTe
 	endpoint := &network.TrafficManagerProfilesExternalEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("external-ep"),
 		Spec: network.TrafficManagerProfilesExternalEndpoint_Spec{
-			AlwaysServe:      to.Ptr(network.EndpointProperties_AlwaysServe_Enabled),
+			AlwaysServe:      to.Ptr(network.AlwaysServe_Enabled),
 			EndpointLocation: tc.AzureRegion,
 			Owner:            testcommon.AsOwner(tmp),
 			Target:           to.Ptr("contoso.com"),
@@ -148,7 +148,7 @@ func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestC
 	endpoint := &network.TrafficManagerProfilesAzureEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("azure-ep"),
 		Spec: network.TrafficManagerProfilesAzureEndpoint_Spec{
-			AlwaysServe:             to.Ptr(network.EndpointProperties_AlwaysServe_Enabled),
+			AlwaysServe:             to.Ptr(network.AlwaysServe_Enabled),
 			Owner:                   testcommon.AsOwner(tmp),
 			TargetResourceReference: tc.MakeReferenceFromResource(publicIp),
 		},
