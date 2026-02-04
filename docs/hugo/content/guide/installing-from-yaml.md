@@ -3,8 +3,8 @@ title: "Installation: From YAML"
 weight: -4
 ---
 ## Prerequisites
-1. You have installed Cert Manager as per the [installation instructions](../../#installation) up to the "install from Helm" step.
-2. You have followed the [instructions for creating a Managed Identity or Service Principal](../../#create-a-managed-identity-or-service-principal)
+1. You have installed Cert Manager as per the [installation instructions](../../getting-started/#installation) up to the "install from Helm" step.
+2. You have followed the [instructions for creating a Managed Identity or Service Principal](../../getting-started/#create-a-managed-identity-or-service-principal)
    and set the appropriate environment variables.
 
 ## Installation (operator)
@@ -21,7 +21,7 @@ weight: -4
 
 3. Create the Azure Service Operator v2 global secret. This secret contains the identity that Azure Service Operator will run as. 
    Make sure that you have the 4 environment variables from the 
-   [create a service principal step of the Helm instructions](../../#create-a-managed-identity-or-service-principal) set.
+   [create a service principal step of the Helm instructions](../../getting-started/#create-a-managed-identity-or-service-principal) set.
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1

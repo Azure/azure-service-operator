@@ -24,7 +24,6 @@ func Test_Insights_ScheduledQueryRule_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	component := newAppInsightsComponent(tc, rg)
-	tc.CreateResourceAndWait(component)
 
 	rule := &insights.ScheduledQueryRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
@@ -55,7 +54,7 @@ func Test_Insights_ScheduledQueryRule_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(rule)
+	tc.CreateResourcesAndWait(component, rule)
 
 	tc.Expect(rule.Status.Id).ToNot(BeNil())
 	armId := *rule.Status.Id

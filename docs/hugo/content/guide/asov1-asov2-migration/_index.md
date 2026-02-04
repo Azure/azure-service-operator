@@ -51,7 +51,7 @@ the v1 versions of the cert-manager resources.
 
 ### Install ASOv2
 
-Follow the [standard instructions](../../#installation). We recommend you use the same credentials as ASOv1 is currently using.
+Follow the [standard instructions](../../getting-started/#installation). We recommend you use the same credentials as ASOv1 is currently using.
 
 {{% alert title="Note" %}}
 Make sure to follow the [guidelines](../crd-management/) for setting the `--crdPattern`. Configure ASOv2

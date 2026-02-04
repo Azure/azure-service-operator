@@ -18,7 +18,7 @@ Azure Service Operator supports five different styles of authentication today.
 2. [Service Principal using a Client Secret]( {{< relref "credential-format#service-principal-using-a-client-secret" >}} )
 3. [Service Principal using a Client Certificate]( {{< relref "credential-format#service-principal-using-a-client-certificate" >}} )
 4. [Deprecated] [aad-pod-identity authentication (Managed Identity)]( {{< relref "credential-format#deprecated-managed-identity-aad-pod-identity" >}} )
-5. [User Assigned Identity Credentials] ( {{< relref "credential-format#user-assigned-identity-credentials" >}} )
+5. [User Assigned Identity Credentials]( {{< relref "credential-format#user-assigned-identity-credentials" >}} )
 
 ## Credential scope
 

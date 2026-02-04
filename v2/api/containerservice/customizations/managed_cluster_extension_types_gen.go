@@ -4,10 +4,6 @@
 package customizations
 
 import (
-	v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
-	v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
-	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
 	v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
 	v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
@@ -23,10 +19,6 @@ type ManagedClusterExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ManagedClusterExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20230201.ManagedCluster{},
-		&v20230201s.ManagedCluster{},
-		&v20231001.ManagedCluster{},
-		&v20231001s.ManagedCluster{},
 		&v20240402p.ManagedCluster{},
 		&v20240402ps.ManagedCluster{},
 		&v20240901.ManagedCluster{},

@@ -111,9 +111,21 @@ func RegisterAll(
 	}
 	mgr.GetLogger().V(Info).Info("Registering informer for type", "type", secretGVK.String())
 	// We don't need to block until synced, we just want to make sure the informer is going to start
-	_, err := mgr.GetCache().GetInformerForKind(context.Background(), secretGVK, cache.BlockUntilSynced(false))
-	if err != nil {
+	if _, err := mgr.GetCache().GetInformerForKind(context.Background(), secretGVK, cache.BlockUntilSynced(false)); err != nil {
 		return eris.Wrapf(err, "failed to start informer for secrets")
+	}
+
+	// Start informer for configmaps. Not all ASO resources have registered for events from configmaps, but we always need the ability
+	// to read configmaps. This ensures the cache is populated since ReaderFailOnMissingInformer is true.
+	configMapGVK := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "ConfigMap",
+	}
+	mgr.GetLogger().V(Info).Info("Registering informer for type", "type", configMapGVK.String())
+	// We don't need to block until synced, we just want to make sure the informer is going to start
+	if _, err := mgr.GetCache().GetInformerForKind(context.Background(), configMapGVK, cache.BlockUntilSynced(false)); err != nil {
+		return eris.Wrapf(err, "failed to start informer for configmaps")
 	}
 
 	var errs []error

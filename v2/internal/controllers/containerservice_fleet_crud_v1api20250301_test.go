@@ -10,8 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
 	fleet "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -89,7 +89,7 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
 				Enabled: to.Ptr(true),
 			},
-			KubernetesVersion: to.Ptr("1.31.11"),
+			KubernetesVersion: to.Ptr("1.33.5"),
 		},
 	}
 	tc.CreateResourceAndWait(cluster)

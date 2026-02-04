@@ -671,7 +671,7 @@ func AssignFromOptional(
 		return nil, nil // unable to build inner conversion
 	}
 
-	var result []dst.Stmt
+	result := make([]dst.Stmt, 0, 2+len(conversion))
 	destinationTypeExpr, err := params.DestinationType.AsTypeExpr(builder.CodeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating destination type expression")

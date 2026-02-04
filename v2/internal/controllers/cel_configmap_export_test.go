@@ -12,7 +12,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
+	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -209,18 +209,16 @@ func Test_CELExportConfigMapPropertyOnDifferentVersion(t *testing.T) {
 					Mode:   to.Ptr(containerserviceold.AgentPoolMode_System),
 				},
 			},
+			EnablePodSecurityPolicy: to.Ptr(false),
 			Identity: &containerserviceold.ManagedClusterIdentity{
 				Type: to.Ptr(containerserviceold.ManagedClusterIdentity_Type_SystemAssigned),
-			},
-			NetworkProfile: &containerserviceold.ContainerServiceNetworkProfile{
-				DockerBridgeCidr: to.Ptr("172.17.0.1/16"), // This field doesn't do anything
 			},
 			OperatorSpec: &containerserviceold.ManagedClusterOperatorSpec{
 				ConfigMapExpressions: []*core.DestinationExpression{
 					{
 						Name:  configMapName,
-						Key:   "cidr",
-						Value: "self.spec.networkProfile.dockerBridgeCidr",
+						Key:   "policy",
+						Value: "string(self.spec.enablePodSecurityPolicy)",
 					},
 				},
 			},
@@ -232,5 +230,5 @@ func Test_CELExportConfigMapPropertyOnDifferentVersion(t *testing.T) {
 	// The ConfigMap should exist with the expected values
 	tc.ExpectConfigMapHasKeysAndValues(
 		configMapName,
-		"cidr", "172.17.0.1/16")
+		"policy", "false")
 }

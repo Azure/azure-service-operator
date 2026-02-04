@@ -91,6 +91,7 @@ func (s *State) Definitions() astmodel.TypeDefinitionSet {
 
 // CheckFinalState checks that our final state is valid, returning an error if not
 func (s *State) CheckFinalState() error {
+	//nolint:prealloc // simple append loop
 	var errs []error
 	for required, requiredBy := range s.stagesExpected {
 		for stageID := range requiredBy {

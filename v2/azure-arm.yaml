@@ -2148,57 +2148,6 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
   containerservice:
     $payloadType: explicitCollections
-    2023-02-01:
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.0.0
-        $stripDocumentation: true
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-          PrincipalId: $.Status.Identity.PrincipalId
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.0.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2025-03-01:
       Fleet:
         $exportAs: Fleet
@@ -2217,61 +2166,6 @@ objectModelConfiguration:
       Fleets_AutoUpgradeProfile:
         $exportAs: FleetsAutoUpgradeProfile
         $supportedFrom: v2.16.0
-    2023-10-01:
-      ContainerServiceNetworkProfile_NetworkPlugin:
-        $renameTo: NetworkPlugin
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      DelegatedResource:
-        ResourceId:
-          $referenceType: arm
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.5.0
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-          PrincipalId: $.Status.Identity.PrincipalId
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.5.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      ManagedClusters_TrustedAccessRoleBinding:
-        $exportAs: TrustedAccessRoleBinding
-        $supportedFrom: v2.8.0
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2024-04-02-preview:
       AgentPoolGPUProfile:
         $nameInNextVersion: GPUProfile
@@ -2294,6 +2188,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -2349,6 +2244,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -2413,6 +2309,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -5096,6 +4993,80 @@ objectModelConfiguration:
       StorageAccounts_FileServices_Share:
         $exportAs: StorageAccountsFileServicesShare
         $supportedFrom: v2.5.0
+      SignedIdentifier:
+        Id:
+          $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
+    2025-06-01:
+      StorageAccount:
+        $exportAs: StorageAccount
+        $supportedFrom: v2.18.0
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+          - WebEndpoint
+          - BlobEndpoint
+          - FileEndpoint
+          - QueueEndpoint
+          - TableEndpoint
+          - DfsEndpoint
+        $generatedConfigs:
+          WebEndpoint: $.Status.PrimaryEndpoints.Web
+          BlobEndpoint: $.Status.PrimaryEndpoints.Blob
+          FileEndpoint: $.Status.PrimaryEndpoints.File
+          QueueEndpoint: $.Status.PrimaryEndpoints.Queue
+          TableEndpoint: $.Status.PrimaryEndpoints.Table
+          DfsEndpoint: $.Status.PrimaryEndpoints.Dfs
+      StorageAccounts_BlobService:
+        $exportAs: StorageAccountsBlobService
+        $supportedFrom: v2.18.0
+      StorageAccounts_BlobServices_Container:
+        $exportAs: StorageAccountsBlobServicesContainer
+        $supportedFrom: v2.18.0
+      StorageAccounts_QueueService:
+        $exportAs: StorageAccountsQueueService
+        $supportedFrom: v2.18.0
+      StorageAccounts_QueueServices_Queue:
+        $exportAs: StorageAccountsQueueServicesQueue
+        $supportedFrom: v2.18.0
+      StorageAccounts_ManagementPolicy:
+        $exportAs: StorageAccountsManagementPolicy
+        $supportedFrom: v2.18.0
+      VirtualNetworkRule:
+        Id:
+          $referenceType: arm
+      EncryptionIdentity:
+        FederatedIdentityClientId:
+          $importConfigMapMode: optional
+        UserAssignedIdentity:
+          $referenceType: arm
+      KeyvaultProperties:
+        Keyname:
+          $importConfigMapMode: optional
+        Keyvaulturi:
+          $importConfigMapMode: optional
+        Keyversion:
+          $importConfigMapMode: optional
+      ResourceAccessRule:
+        ResourceId:
+          $referenceType: arm
+      StorageAccounts_TableService:
+        $exportAs: StorageAccountsTableService
+        $supportedFrom: v2.18.0
+      StorageAccounts_TableServices_Table:
+        $exportAs: StorageAccountsTableServicesTable
+        $supportedFrom: v2.18.0
+      TableSignedIdentifier:
+        Id:
+          $referenceType: arm
+      StorageAccounts_FileService:
+        $exportAs: StorageAccountsFileService
+        $supportedFrom: v2.18.0
+      StorageAccounts_FileServices_Share:
+        $exportAs: StorageAccountsFileServicesShare
+        $supportedFrom: v2.18.0
       SignedIdentifier:
         Id:
           $referenceType: arm

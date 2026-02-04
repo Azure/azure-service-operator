@@ -20,11 +20,12 @@ When the test passes, you'll find a new recording file in the `recordings` folde
 Once you're finished, include the recording file in your PR. This is important because it allows other developers to run the test without needing to make real API calls to Azure.
 
 {{% alert title="Test Redaction" color="warning" %}}
-All test recordings are automatically redacted of sensitive content - this includes passwords, authentication headers & keys, API tokens, subscription & tenant IDs, SSH keys, and so on. See [`redact.go`](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/testcommon/vcr/redact.go) for all the details. 
+All test recordings are automatically redacted of sensitive content - this includes passwords, authentication headers & keys, API tokens, subscription & tenant IDs, SSH keys, and so on. See [`redact.go`](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/testcommon/vcr/redact.go) for all the details.
 {{% /alert %}}
 
-
 See [the code generator test README]({{< relref "testing" >}}/#running-envtest-integration-tests) for more information on how to run tests and record their HTTP interactions to allow replay.
+
+See our blog post [Why record our tests?]({{< relref "blogs/2026-02-03-why-test-recordings" >}}) for more information on why we use recorded HTTP interactions for our tests.
 
 ## Consider removing old tests
 
@@ -40,19 +41,19 @@ As an absolute minimum, we want to have tests for
 
 In most cases you won't need to worry about this.
 
-### Prefer CreateResourcesAndWait
+## Prefer CreateResourcesAndWait
 
 If your rest needs to create multiple resources, prefer using `CreateResourcesAndWait` (note the plural `Resources`) to create all the resources at once, rather than calling `CreateResourceAndWait` (singular `Resource`) once for each resource in turn.
 
-When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
+Why? When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
 
-### Prefer parallel tests
+## Prefer parallel tests
 
 Operation of ASO in a cluster is inherently concurrent, with a lot going on and an expectation that the state of the cluster will converge to the desired state.
 
 It can be useful to break independent subtests up into parallel tests to simulate this concurrency. Check out the use of `RunParallelSubtests` in existing tests to see how this is done.
 
-### Consider extensions
+## Consider extensions
 
 Odd behaviour in your test, this _may_ indicate you need to [implement an extension]({{< relref "implement-extensions" >}}) to customize the behaviour of the resource.
 

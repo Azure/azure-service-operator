@@ -45,7 +45,7 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 			Identity: &aks.ManagedClusterIdentity{
 				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
 			},
-			KubernetesVersion: to.Ptr("1.30.0"),
+			KubernetesVersion: to.Ptr("1.33.5"),
 		},
 	}
 
@@ -59,14 +59,14 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 			VmSize:              to.Ptr("Standard_DS2_v2"),
 			OsType:              to.Ptr(aks.OSType_Linux),
 			Mode:                to.Ptr(aks.AgentPoolMode_User),
-			OrchestratorVersion: to.Ptr("1.29.5"),
+			OrchestratorVersion: to.Ptr("1.32.9"),
 		},
 	}
 
 	tc.CreateResourceAndWait(agentPool)
 
 	old := agentPool.DeepCopy()
-	agentPool.Spec.OrchestratorVersion = to.Ptr("1.30.0") // Start an upgrade that we know will take a bit
+	agentPool.Spec.OrchestratorVersion = to.Ptr("1.33.5") // Start an upgrade that we know will take a bit
 
 	tc.PatchResourceAndWaitForState(old, agentPool, metav1.ConditionFalse, conditions.ConditionSeverityInfo)
 
@@ -80,7 +80,7 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 	tc.Eventually(func() bool {
 		var updated aks.ManagedClustersAgentPool
 		tc.GetResource(objectKey, &updated)
-		return *updated.Status.OrchestratorVersion == "1.30.0" && *updated.Status.Count == 2
+		return *updated.Status.OrchestratorVersion == "1.33.5" && *updated.Status.Count == 2
 	}).Should(BeTrue())
 
 	tc.DeleteResourcesAndWait(agentPool, cluster)

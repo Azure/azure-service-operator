@@ -6,13 +6,13 @@ title: Testing
 
 **Basic use:** `task controller:test-integration-envtest`.
 
-These are sometimes also called `envtest` tests, because they use 
+These are sometimes also called `envtest` tests, because they use
 [envtest](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest).
 
 ### Required variables
 
 | Environment Variable  | Value                                                                                                   | Needed for CI (Github Actions) | Needed for local testing                     |
-|-----------------------|---------------------------------------------------------------------------------------------------------|--------------------------------|----------------------------------------------|
+| --------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------- |
 | AZURE_SUBSCRIPTION_ID | The Azure Subscription ID                                                                               | Yes                            | Yes (when recording)                         |
 | AZURE_TENANT_ID       | The Azure Tenant ID                                                                                     | Yes                            | Yes (when recording)                         |
 | TEST_BILLING_ID       | The Azure billing ID                                                                                    | No                             | Yes (when recording SubscriptionAlias tests) |
@@ -25,7 +25,7 @@ These are sometimes also called `envtest` tests, because they use
 
 The task `controller:test-integration-envtest` runs the tests in a record/replay mode by default, so that it does not
 touch any live Azure resources. (This uses the [go-vcr](https://github.com/dnaeon/go-vcr) library.) If you change the controller or other code in
-such a way that the required requests/responses from ARM change, you will need to update the recordings.
+such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post [Why record our tests?]({{< relref "blogs/2026-02-03-why-test-recordings" >}}) for more information on why we use recorded HTTP interactions for our tests.
 
 To do this, delete the recordings for the failing tests (under `{test-dir}/recordings/{test-name}.yaml`), and re-run
 `controller:test-integration-envtest`. If the test passes, a new recording will be saved, which you can commit to
@@ -71,13 +71,14 @@ TIMEOUT=10m TEST_FILTER=<test_name_regex> task controller:test-integration-envte
 ## Running integration tests in a KIND cluster
 
 | Environment Variable         | Value                                                                          |
-|------------------------------|--------------------------------------------------------------------------------|
+| ---------------------------- | ------------------------------------------------------------------------------ |
 | AZURE_SUBSCRIPTION_ID        | The Azure Subscription ID                                                      |
 | AZURE_TENANT_ID              | The Azure Tenant ID                                                            |
 | KIND_OIDC_STORAGE_ACCOUNT_RG | The resource group containing the Azure storage account for OIDC federation    |
 | KIND_OIDC_STORAGE_ACCOUNT    | The Azure storage account name. Storage account names must be globally unique. |
 
 ASO CI uses:
+
 ```
 KIND_OIDC_STORAGE_ACCOUNT_RG=asov2-ci
 KIND_OIDC_STORAGE_ACCOUNT=asowistorage

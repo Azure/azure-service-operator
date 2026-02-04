@@ -101,7 +101,6 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	} else {
 		result, err = gr.createOrUpdate(ctx, log, metaObj)
 	}
-
 	if err != nil {
 		err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
 		result, err = gr.RequeueIntervalCalculator.NextInterval(req, result, err)
@@ -283,10 +282,10 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 // NewRateLimiter creates a new workqueue.Ratelimiter for use controlling the speed of reconciliation.
 // It throttles individual requests exponentially and also controls for multiple requests.
 func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, additionalLimiters ...workqueue.TypedRateLimiter[reconcile.Request]) workqueue.TypedRateLimiter[reconcile.Request] {
-	limiters := []workqueue.TypedRateLimiter[reconcile.Request]{
-		workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](minBackoff, maxBackoff),
-	}
-
+	limiters := make([]workqueue.TypedRateLimiter[reconcile.Request], 0, len(additionalLimiters)+1)
+	limiters = append(
+		limiters,
+		workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](minBackoff, maxBackoff))
 	limiters = append(limiters, additionalLimiters...)
 	return workqueue.NewTypedMaxOfRateLimiter(limiters...)
 }

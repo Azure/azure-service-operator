@@ -5,6 +5,14 @@ on:
       - main
     paths:
       - "docs/**"
+
+  workflow_dispatch:
+    # no content, allows manual triggering
+
+  schedule:
+    # 5:35 pm every Sunday (UTC)
+    # to ensure the site is rebuilt weekly to publish scheduled blog posts
+    - cron: "35 17 * * 0"
   
 jobs:
   deploy-site:

@@ -51,22 +51,36 @@ var _ conversion.Convertible = &StorageAccountsBlobServicesContainer{}
 
 // ConvertFrom populates our StorageAccountsBlobServicesContainer from the provided hub StorageAccountsBlobServicesContainer
 func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsBlobServicesContainer)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsBlobServicesContainer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return container.AssignProperties_From_StorageAccountsBlobServicesContainer(source)
+	err = container.AssignProperties_From_StorageAccountsBlobServicesContainer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to container")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsBlobServicesContainer from our StorageAccountsBlobServicesContainer
 func (container *StorageAccountsBlobServicesContainer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsBlobServicesContainer)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsBlobServicesContainer
+	err := container.AssignProperties_To_StorageAccountsBlobServicesContainer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from container")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return container.AssignProperties_To_StorageAccountsBlobServicesContainer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsBlobServicesContainer{}
@@ -87,17 +101,6 @@ func (container *StorageAccountsBlobServicesContainer) SecretDestinationExpressi
 		return nil
 	}
 	return container.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &StorageAccountsBlobServicesContainer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (container *StorageAccountsBlobServicesContainer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccountsBlobServicesContainer_STATUS); ok {
-		return container.Spec.Initialize_From_StorageAccountsBlobServicesContainer_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccountsBlobServicesContainer_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobServicesContainer{}
@@ -663,63 +666,6 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_To_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageAccountsBlobServicesContainer_STATUS populates our StorageAccountsBlobServicesContainer_Spec from the provided source StorageAccountsBlobServicesContainer_STATUS
-func (container *StorageAccountsBlobServicesContainer_Spec) Initialize_From_StorageAccountsBlobServicesContainer_STATUS(source *StorageAccountsBlobServicesContainer_STATUS) error {
-
-	// DefaultEncryptionScope
-	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
-
-	// DenyEncryptionScopeOverride
-	if source.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
-		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
-	} else {
-		container.DenyEncryptionScopeOverride = nil
-	}
-
-	// EnableNfsV3AllSquash
-	if source.EnableNfsV3AllSquash != nil {
-		enableNfsV3AllSquash := *source.EnableNfsV3AllSquash
-		container.EnableNfsV3AllSquash = &enableNfsV3AllSquash
-	} else {
-		container.EnableNfsV3AllSquash = nil
-	}
-
-	// EnableNfsV3RootSquash
-	if source.EnableNfsV3RootSquash != nil {
-		enableNfsV3RootSquash := *source.EnableNfsV3RootSquash
-		container.EnableNfsV3RootSquash = &enableNfsV3RootSquash
-	} else {
-		container.EnableNfsV3RootSquash = nil
-	}
-
-	// ImmutableStorageWithVersioning
-	if source.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning ImmutableStorageWithVersioning
-		err := immutableStorageWithVersioning.Initialize_From_ImmutableStorageWithVersioning_STATUS(source.ImmutableStorageWithVersioning)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
-		}
-		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
-	} else {
-		container.ImmutableStorageWithVersioning = nil
-	}
-
-	// Metadata
-	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// PublicAccess
-	if source.PublicAccess != nil {
-		publicAccess := genruntime.ToEnum(string(*source.PublicAccess), containerProperties_PublicAccess_Values)
-		container.PublicAccess = &publicAccess
-	} else {
-		container.PublicAccess = nil
 	}
 
 	// No error
@@ -1803,21 +1749,6 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableS
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ImmutableStorageWithVersioning_STATUS populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning_STATUS
-func (versioning *ImmutableStorageWithVersioning) Initialize_From_ImmutableStorageWithVersioning_STATUS(source *ImmutableStorageWithVersioning_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		versioning.Enabled = &enabled
-	} else {
-		versioning.Enabled = nil
 	}
 
 	// No error

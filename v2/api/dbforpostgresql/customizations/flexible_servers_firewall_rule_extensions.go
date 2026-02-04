@@ -29,16 +29,13 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileOwnerCheck(
 	next extensions.PreReconcileOwnerCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
-	// Owner nil can happen if the server/owner of the firewall rule is referenced by armID
-	if owner != nil {
-		if server, ok := owner.(*postgresql.FlexibleServer); ok {
-			serverState := server.Status.State
-			if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
-				return extensions.BlockReconcile(
-					fmt.Sprintf(
-						"Owning FlexibleServer is in state %q",
-						*serverState)), nil
-			}
+	if server, ok := owner.(*postgresql.FlexibleServer); ok {
+		serverState := server.Status.State
+		if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
+			return extensions.BlockReconcile(
+				fmt.Sprintf(
+					"Owning FlexibleServer is in state %q",
+					*serverState)), nil
 		}
 	}
 

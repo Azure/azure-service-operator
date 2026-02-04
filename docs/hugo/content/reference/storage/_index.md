@@ -5,6 +5,23 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `storage.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                   | ARM Version | CRD Version | Supported From | Sample                                                                                                                                             |
+|----------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [StorageAccount]({{< relref "/reference/storage/v20250601#StorageAccount" >}})                                             | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccount.yaml)                       |
+| [StorageAccountsBlobService]({{< relref "/reference/storage/v20250601#StorageAccountsBlobService" >}})                     | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsblobservice.yaml)           |
+| [StorageAccountsBlobServicesContainer]({{< relref "/reference/storage/v20250601#StorageAccountsBlobServicesContainer" >}}) | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsblobservicescontainer.yaml) |
+| [StorageAccountsFileService]({{< relref "/reference/storage/v20250601#StorageAccountsFileService" >}})                     | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsfileservice.yaml)           |
+| [StorageAccountsFileServicesShare]({{< relref "/reference/storage/v20250601#StorageAccountsFileServicesShare" >}})         | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsfileservicesshare.yaml)     |
+| [StorageAccountsManagementPolicy]({{< relref "/reference/storage/v20250601#StorageAccountsManagementPolicy" >}})           | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsmanagementpolicy.yaml)      |
+| [StorageAccountsQueueService]({{< relref "/reference/storage/v20250601#StorageAccountsQueueService" >}})                   | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsqueueservice.yaml)          |
+| [StorageAccountsQueueServicesQueue]({{< relref "/reference/storage/v20250601#StorageAccountsQueueServicesQueue" >}})       | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsqueueservicesqueue.yaml)    |
+| [StorageAccountsTableService]({{< relref "/reference/storage/v20250601#StorageAccountsTableService" >}})                   | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountstableservice.yaml)          |
+| [StorageAccountsTableServicesTable]({{< relref "/reference/storage/v20250601#StorageAccountsTableServicesTable" >}})       | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountstableservicestable.yaml)    |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

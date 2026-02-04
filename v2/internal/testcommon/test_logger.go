@@ -78,7 +78,7 @@ func kvListFormat(b *bytes.Buffer, keysAndValues ...interface{}) {
 }
 
 func (t *TestLogger) clone() *TestLogger {
-	var clonedValues []interface{}
+	clonedValues := make([]any, 0, len(t.values))
 	clonedValues = append(clonedValues, t.values...)
 
 	result := &TestLogger{
@@ -89,6 +89,7 @@ func (t *TestLogger) clone() *TestLogger {
 		ignoredPanicMax:   t.ignoredPanicMax,
 		ignoredPanicCount: t.ignoredPanicCount,
 	}
+
 	return result
 }
 

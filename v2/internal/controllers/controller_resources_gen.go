@@ -40,9 +40,12 @@ import (
 	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/webhook"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
-	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
-	batch_v20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/webhook"
+	batch_v1api20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	batch_v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
+	batch_v1api20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/webhook"
+	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v20210101"
+	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v20210101/storage"
+	batch_v20210101w "github.com/Azure/azure-service-operator/v2/api/batch/v20210101/webhook"
 	batch_v20240701 "github.com/Azure/azure-service-operator/v2/api/batch/v20240701"
 	batch_v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
 	batch_v20240701w "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/webhook"
@@ -116,12 +119,6 @@ import (
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
-	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
-	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
-	containerservice_v20230201w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/webhook"
-	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
-	containerservice_v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
-	containerservice_v20231001w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/webhook"
 	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
 	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
 	containerservice_v20240402pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/webhook"
@@ -387,6 +384,9 @@ import (
 	storage_v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	storage_v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	storage_v20230101w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/webhook"
+	storage_v20250601 "github.com/Azure/azure-service-operator/v2/api/storage/v20250601"
+	storage_v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	storage_v20250601w "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/webhook"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
@@ -2711,11 +2711,31 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20230101s.StorageAccount),
+		Obj: new(storage_v20250601s.StorageAccount),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.encryption.identity.federatedIdentityClientIdFromConfig",
+				Func: indexStorageStorageAccountFederatedIdentityClientIdFromConfig,
+			},
+			{
 				Key:  ".spec.networkAcls.ipRules.valueFromConfig",
-				Func: indexStorageStorageAccountValueFromConfig,
+				Func: indexStorageStorageAccountIpRulesValueFromConfig,
+			},
+			{
+				Key:  ".spec.networkAcls.ipv6Rules.valueFromConfig",
+				Func: indexStorageStorageAccountIpv6RulesValueFromConfig,
+			},
+			{
+				Key:  ".spec.encryption.keyvaultproperties.keynameFromConfig",
+				Func: indexStorageStorageAccountKeynameFromConfig,
+			},
+			{
+				Key:  ".spec.encryption.keyvaultproperties.keyvaulturiFromConfig",
+				Func: indexStorageStorageAccountKeyvaulturiFromConfig,
+			},
+			{
+				Key:  ".spec.encryption.keyvaultproperties.keyversionFromConfig",
+				Func: indexStorageStorageAccountKeyversionFromConfig,
 			},
 		},
 		Watches: []registration.Watch{
@@ -2723,21 +2743,26 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.encryption.identity.federatedIdentityClientIdFromConfig",
+						".spec.encryption.keyvaultproperties.keynameFromConfig",
+						".spec.encryption.keyvaultproperties.keyvaulturiFromConfig",
+						".spec.encryption.keyvaultproperties.keyversionFromConfig",
 						".spec.networkAcls.ipRules.valueFromConfig",
+						".spec.networkAcls.ipv6Rules.valueFromConfig",
 					},
-					&storage_v20230101s.StorageAccountList{}),
+					&storage_v20250601s.StorageAccountList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobServicesContainer)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileServicesShare)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsManagementPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsQueueService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsQueueServicesQueue)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsTableService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsTableServicesTable)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsBlobService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsBlobServicesContainer)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsFileService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsManagementPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsQueueService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsTableService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.StorageType{
 		Obj: new(synapse_v20210601s.Workspace),
@@ -3171,6 +3196,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(authorization_v20220401s.RoleAssignment)}, &registration.KnownType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(batch_v1api20210101.BatchAccount),
+		Defaulter: &batch_v1api20210101w.BatchAccount{},
+		Validator: &batch_v1api20210101w.BatchAccount{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(batch_v1api20210101s.BatchAccount)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(batch_v20210101.BatchAccount),
 		Defaulter: &batch_v20210101w.BatchAccount{},
 		Validator: &batch_v20210101w.BatchAccount{},
@@ -3570,38 +3601,6 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(containerservice_v20230201.ManagedCluster),
-		Defaulter: &containerservice_v20230201w.ManagedCluster{},
-		Validator: &containerservice_v20230201w.ManagedCluster{},
-	}, &registration.KnownType{
-		Obj:       new(containerservice_v20230201.ManagedClustersAgentPool),
-		Defaulter: &containerservice_v20230201w.ManagedClustersAgentPool{},
-		Validator: &containerservice_v20230201w.ManagedClustersAgentPool{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(containerservice_v20230201s.ManagedCluster)}, &registration.KnownType{Obj: new(containerservice_v20230201s.ManagedClustersAgentPool)})
-	result = append(
-		result,
-		&registration.KnownType{
-			Obj:       new(containerservice_v20231001.ManagedCluster),
-			Defaulter: &containerservice_v20231001w.ManagedCluster{},
-			Validator: &containerservice_v20231001w.ManagedCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20231001.ManagedClustersAgentPool),
-			Defaulter: &containerservice_v20231001w.ManagedClustersAgentPool{},
-			Validator: &containerservice_v20231001w.ManagedClustersAgentPool{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20231001.TrustedAccessRoleBinding),
-			Defaulter: &containerservice_v20231001w.TrustedAccessRoleBinding{},
-			Validator: &containerservice_v20231001w.TrustedAccessRoleBinding{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v20231001s.ManagedCluster)},
-		&registration.KnownType{Obj: new(containerservice_v20231001s.ManagedClustersAgentPool)},
-		&registration.KnownType{Obj: new(containerservice_v20231001s.TrustedAccessRoleBinding)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5802,6 +5801,70 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(storage_v20230101s.StorageAccountsQueueServicesQueue)},
 		&registration.KnownType{Obj: new(storage_v20230101s.StorageAccountsTableService)},
 		&registration.KnownType{Obj: new(storage_v20230101s.StorageAccountsTableServicesTable)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccount),
+			Defaulter: &storage_v20250601w.StorageAccount{},
+			Validator: &storage_v20250601w.StorageAccount{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsBlobService),
+			Defaulter: &storage_v20250601w.StorageAccountsBlobService{},
+			Validator: &storage_v20250601w.StorageAccountsBlobService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsBlobServicesContainer),
+			Defaulter: &storage_v20250601w.StorageAccountsBlobServicesContainer{},
+			Validator: &storage_v20250601w.StorageAccountsBlobServicesContainer{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsFileService),
+			Defaulter: &storage_v20250601w.StorageAccountsFileService{},
+			Validator: &storage_v20250601w.StorageAccountsFileService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsFileServicesShare),
+			Defaulter: &storage_v20250601w.StorageAccountsFileServicesShare{},
+			Validator: &storage_v20250601w.StorageAccountsFileServicesShare{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsManagementPolicy),
+			Defaulter: &storage_v20250601w.StorageAccountsManagementPolicy{},
+			Validator: &storage_v20250601w.StorageAccountsManagementPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsQueueService),
+			Defaulter: &storage_v20250601w.StorageAccountsQueueService{},
+			Validator: &storage_v20250601w.StorageAccountsQueueService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsQueueServicesQueue),
+			Defaulter: &storage_v20250601w.StorageAccountsQueueServicesQueue{},
+			Validator: &storage_v20250601w.StorageAccountsQueueServicesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsTableService),
+			Defaulter: &storage_v20250601w.StorageAccountsTableService{},
+			Validator: &storage_v20250601w.StorageAccountsTableService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20250601.StorageAccountsTableServicesTable),
+			Defaulter: &storage_v20250601w.StorageAccountsTableServicesTable{},
+			Validator: &storage_v20250601w.StorageAccountsTableServicesTable{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccount)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsBlobService)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsBlobServicesContainer)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsFileService)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsFileServicesShare)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsManagementPolicy)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsQueueService)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsQueueServicesQueue)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableService)},
+		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(subscription_v20211001.Alias),
 		Defaulter: &subscription_v20211001w.Alias{},
@@ -5867,6 +5930,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
 	_ = authorization_v20220401s.AddToScheme(scheme)
+	_ = batch_v1api20210101.AddToScheme(scheme)
+	_ = batch_v1api20210101s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
 	_ = batch_v20210101s.AddToScheme(scheme)
 	_ = batch_v20240701.AddToScheme(scheme)
@@ -5913,10 +5978,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
-	_ = containerservice_v20230201.AddToScheme(scheme)
-	_ = containerservice_v20230201s.AddToScheme(scheme)
-	_ = containerservice_v20231001.AddToScheme(scheme)
-	_ = containerservice_v20231001s.AddToScheme(scheme)
 	_ = containerservice_v20240402p.AddToScheme(scheme)
 	_ = containerservice_v20240402ps.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
@@ -6075,6 +6136,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20220901s.AddToScheme(scheme)
 	_ = storage_v20230101.AddToScheme(scheme)
 	_ = storage_v20230101s.AddToScheme(scheme)
+	_ = storage_v20250601.AddToScheme(scheme)
+	_ = storage_v20250601s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)
@@ -10643,9 +10706,27 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 	return obj.Spec.StorageContainerSasKey.Index()
 }
 
-// indexStorageStorageAccountValueFromConfig an index function for storage_v20230101s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig
-func indexStorageStorageAccountValueFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20230101s.StorageAccount)
+// indexStorageStorageAccountFederatedIdentityClientIdFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.identity.federatedIdentityClientIdFromConfig
+func indexStorageStorageAccountFederatedIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Identity == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Identity.FederatedIdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Identity.FederatedIdentityClientIdFromConfig.Index()
+}
+
+// indexStorageStorageAccountIpRulesValueFromConfig an index function for storage_v20250601s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig
+func indexStorageStorageAccountIpRulesValueFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
 	if !ok {
 		return nil
 	}
@@ -10660,6 +10741,79 @@ func indexStorageStorageAccountValueFromConfig(rawObj client.Object) []string {
 		result = append(result, ipRuleItem.ValueFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexStorageStorageAccountIpv6RulesValueFromConfig an index function for storage_v20250601s.StorageAccount .spec.networkAcls.ipv6Rules.valueFromConfig
+func indexStorageStorageAccountIpv6RulesValueFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.NetworkAcls == nil {
+		return nil
+	}
+	for _, ipv6RuleItem := range obj.Spec.NetworkAcls.Ipv6Rules {
+		if ipv6RuleItem.ValueFromConfig == nil {
+			continue
+		}
+		result = append(result, ipv6RuleItem.ValueFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexStorageStorageAccountKeynameFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keynameFromConfig
+func indexStorageStorageAccountKeynameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties.KeynameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Keyvaultproperties.KeynameFromConfig.Index()
+}
+
+// indexStorageStorageAccountKeyvaulturiFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keyvaulturiFromConfig
+func indexStorageStorageAccountKeyvaulturiFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties.KeyvaulturiFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Keyvaultproperties.KeyvaulturiFromConfig.Index()
+}
+
+// indexStorageStorageAccountKeyversionFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keyversionFromConfig
+func indexStorageStorageAccountKeyversionFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.Keyvaultproperties.KeyversionFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.Keyvaultproperties.KeyversionFromConfig.Index()
 }
 
 // indexSynapseWorkspaceAccountUrlFromConfig an index function for synapse_v20210601s.Workspace .spec.defaultDataLakeStorage.accountUrlFromConfig

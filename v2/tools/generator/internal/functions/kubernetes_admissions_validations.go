@@ -131,7 +131,7 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
-	var body []dst.Stmt
+	body := make([]dst.Stmt, 0, 3)
 
 	body = append(
 		body,
@@ -202,7 +202,7 @@ func validateOwnerReferences(
 func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, objIdent string) []dst.Stmt {
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
-	var body []dst.Stmt
+	body := make([]dst.Stmt, 0, 1)
 
 	body = append(
 		body,
@@ -335,7 +335,7 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
 	genRuntimeConfigMaps := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
-	var body []dst.Stmt
+	body := make([]dst.Stmt, 0, 3)
 
 	body = append(
 		body,

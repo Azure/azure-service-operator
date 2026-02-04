@@ -1,4 +1,4 @@
-apiVersion: containerservice.azure.com/v1api20231001
+apiVersion: containerservice.azure.com/v1api20250801
 kind: ManagedCluster
 metadata:
   name: aso-sample-aks

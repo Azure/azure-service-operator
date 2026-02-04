@@ -38,10 +38,9 @@ func Test_MySQL_Combined(t *testing.T) {
 	tc.CreateResource(secret)
 
 	flexibleServer := newMySQLServer(tc, rg, adminUsername, adminPasswordKey, secret.Name)
-	tc.CreateResourceAndWait(flexibleServer)
-
 	firewallRule := newMySQLServerOpenFirewallRule(tc, flexibleServer)
-	tc.CreateResourceAndWait(firewallRule)
+
+	tc.CreateResourcesAndWait(flexibleServer, firewallRule)
 
 	tc.Expect(flexibleServer.Status.FullyQualifiedDomainName).ToNot(BeNil())
 	fqdn := *flexibleServer.Status.FullyQualifiedDomainName

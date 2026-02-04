@@ -94,7 +94,7 @@ fi
 
 # Ensure we have the right version of GO
 
-#doc# | Go | 1.23 | https://golang.org/doc/install #
+#doc# | Go | 1.25 | https://golang.org/doc/install #
 if ! command -v go > /dev/null 2>&1; then
     write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
@@ -104,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREGEX=".*go1.([0-9]+).([0-9]+).*"
-GOVERREQUIRED="go1.24.*"
+GOVERREQUIRED="go1.25.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 
 if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
@@ -113,7 +113,7 @@ if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
 fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
-GOMINORREQUIRED=24
+GOMINORREQUIRED=25
 
 # We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
 if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
@@ -223,13 +223,13 @@ fi
 go-install gofumpt mvdan.cc/gofumpt@latest
 
 # Install golangci-lint
-#doc# | golangci-lint | 2.6.1 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.8.0 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.6.1 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.8.0 2>&1
 fi
 
 # Install Task

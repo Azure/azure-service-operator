@@ -214,7 +214,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			os.Exit(1)
 		}
 
-		if errs := generic.RegisterWebhooks(mgr, objs); errs != nil {
+		if err = generic.RegisterWebhooks(mgr, objs); err != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
@@ -522,9 +522,9 @@ func makeControllerOptions(cfg config.Values) generic.Options {
 			})
 	}
 
-	// If sync period isn't set, set verySlow delay at 24h, otherwise set it
-	// to the sync period.
-	verySlowDelay := 24 * time.Hour
+	// If sync period isn't set, set verySlow delay at DefaultSyncInterval (1h), otherwise set it
+	// to the sync period
+	verySlowDelay := config.DefaultSyncInterval
 	if cfg.SyncPeriod != nil {
 		verySlowDelay = *cfg.SyncPeriod
 	}

@@ -450,7 +450,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	if len(toProp.FlattenedFrom()) > 2 {
 		// this doesn't appear to happen anywhere in the JSON schemas currently
 
-		var props []string
+		props := make([]string, 0, len(toProp.FlattenedFrom()))
 		for _, ff := range toProp.FlattenedFrom() {
 			props = append(props, string(ff))
 		}

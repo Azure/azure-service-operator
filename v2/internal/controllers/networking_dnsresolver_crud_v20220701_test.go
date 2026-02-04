@@ -1,0 +1,155 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
+package controllers_test
+
+import (
+	"testing"
+
+	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+)
+
+func Test_Networking_DnsResolver_CRUD(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	vnet := newVNet20201101(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
+
+	resolver := newDnsResolver(tc, rg, vnet)
+
+	tc.CreateResourcesAndWait(vnet, resolver)
+	tc.Expect(vnet.Status.Id).ToNot(BeNil())
+	tc.Expect(resolver.Status.Id).ToNot(BeNil())
+	armId := *resolver.Status.Id
+
+	old := resolver.DeepCopy()
+	key := "foo"
+	resolver.Spec.Tags = map[string]string{key: "bar"}
+
+	tc.PatchResourceAndWait(old, resolver)
+	tc.Expect(resolver.Status.Tags).To(HaveKey(key))
+
+	// Run sub-tests on storage account
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "DnsResolver InboundEndpoint CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				DnsResolver_InboundEndpoint_CRUD(tc, resolver, vnet)
+			},
+		},
+		testcommon.Subtest{
+			Name: "DnsResolver OutboundEndpoint CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				DnsResolver_OutboundEndpoint_CRUD(tc, resolver, vnet)
+			},
+		},
+	)
+
+	tc.DeleteResourceAndWait(resolver)
+
+	// Ensure delete
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
+	subnet := newSubnet20201101(tc, vnet, "10.0.0.0/24")
+	inbound := &network.DnsResolversInboundEndpoint{
+		ObjectMeta: tc.MakeObjectMeta("inbound"),
+		Spec: network.DnsResolversInboundEndpoint_Spec{
+			IpConfigurations: []network.IpConfiguration{
+				{
+					PrivateIpAllocationMethod: to.Ptr(network.IpConfiguration_PrivateIpAllocationMethod_Dynamic),
+					Subnet:                    &network.SubResource{Reference: tc.MakeReferenceFromResource(subnet)},
+				},
+			},
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(resolver),
+		},
+	}
+
+	tc.CreateResourcesAndWait(subnet, inbound)
+	defer tc.DeleteResourceAndWait(subnet)
+
+	tc.Expect(inbound.Status.Id).ToNot(BeNil())
+	armId := *inbound.Status.Id
+
+	old := inbound.DeepCopy()
+	key := "foo"
+	inbound.Spec.Tags = map[string]string{key: "bar"}
+
+	tc.PatchResourceAndWait(old, inbound)
+	tc.Expect(inbound.Status.Tags).To(HaveKey(key))
+
+	tc.DeleteResourceAndWait(inbound)
+
+	// Ensure delete
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
+	subnet := newSubnet20201101(tc, vnet, "10.225.0.0/28")
+
+	outbound := newDnsResolversOutboundEndpoint(tc, resolver, subnet)
+
+	tc.CreateResourcesAndWait(subnet, outbound)
+	defer tc.DeleteResourceAndWait(subnet)
+
+	tc.Expect(outbound.Status.Id).ToNot(BeNil())
+	armId := *outbound.Status.Id
+
+	old := outbound.DeepCopy()
+	key := "foo"
+	outbound.Spec.Tags = map[string]string{key: "bar"}
+
+	tc.PatchResourceAndWait(old, outbound)
+	tc.Expect(outbound.Status.Tags).To(HaveKey(key))
+
+	tc.DeleteResourceAndWait(outbound)
+
+	// Ensure delete
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func newDnsResolversOutboundEndpoint(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, subnet *v1api20201101.VirtualNetworksSubnet) *network.DnsResolversOutboundEndpoint {
+	outbound := &network.DnsResolversOutboundEndpoint{
+		ObjectMeta: tc.MakeObjectMeta("outbound"),
+		Spec: network.DnsResolversOutboundEndpoint_Spec{
+			Subnet:   &network.SubResource{Reference: tc.MakeReferenceFromResource(subnet)},
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(resolver),
+		},
+	}
+	return outbound
+}
+
+func newDnsResolver(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, vnet *v1api20201101.VirtualNetwork) *network.DnsResolver {
+	resolver := &network.DnsResolver{
+		ObjectMeta: tc.MakeObjectMeta("resolver"),
+		Spec: network.DnsResolver_Spec{
+			Location:       tc.AzureRegion,
+			Owner:          testcommon.AsOwner(rg),
+			VirtualNetwork: &network.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},
+		},
+	}
+	return resolver
+}
