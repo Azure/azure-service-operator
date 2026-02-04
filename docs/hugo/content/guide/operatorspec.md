@@ -14,9 +14,7 @@ All resources support these properties by default:
 - `configMapExpressions`: Export values from the resource's spec or status to a `ConfigMap`. See the [ConfigMaps documentation](../configmaps/) for details.
 - `secretExpressions`: Export values to a `Secret`. See the [Secrets documentation](../secrets/) for details.
 
-Some resources include additional properties:
-
-- `configMaps` and `secrets`: Pre-defined export destinations for specific Azure-generated values. These only appear on resources configured to support them.
+Many resources include the additional properties `configMaps` and `secrets`, based on configuration provided to our code generator. These are pre-defined export destinations for specific Azure-generated values.
 - `namingConvention`: Controls how ASO generates names. For example, [`RoleAssignment`](https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#RoleAssignmentOperatorSpec) uses this to configure how the GUID for the assignment name is generated.
 
 ASO only retrieves properties that you explicitly configure in `operatorSpec`. If you don't specify an export destination, the value won't be fetched.
