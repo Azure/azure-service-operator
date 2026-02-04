@@ -13,6 +13,8 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 type ArrayValidations struct {
@@ -104,9 +106,9 @@ func (sv StringValidations) MergeWith(other Validations) (Validations, error) {
 	result.MaxLength = min(sv.MaxLength, o.MaxLength)
 	// Merge MinLength by taking the more restrictive (larger) value
 	result.MinLength = max(sv.MinLength, o.MinLength)
-	// Merge Patterns by concatenating the slices
+	// Merge Patterns by concatenating the slices, keeping only unique patterns
 	// TODO: It may be possible for two conflicting patterns to make something impossible to set... ideally we would fix that upstream in the REST API specification though
-	result.Patterns = append(sv.Patterns, o.Patterns...)
+	result.Patterns = appendUniquePatterns(sv.Patterns, o.Patterns)
 	return result, nil
 }
 
@@ -380,4 +382,34 @@ func maxRat(a, b *big.Rat) *big.Rat {
 	}
 
 	return nil
+}
+
+// appendUniquePatterns combines two pattern slices, keeping only unique patterns
+// based on their string representation.
+func appendUniquePatterns(existing, new []*regexp.Regexp) []*regexp.Regexp {
+	if len(new) == 0 {
+		return existing
+	}
+	if len(existing) == 0 {
+		return new
+	}
+
+	// Build a set of existing pattern strings
+	seen := set.Make[string]()
+	for _, p := range existing {
+		seen.Add(p.String())
+	}
+
+	// Start with existing patterns
+	result := existing
+	for _, p := range new {
+		patternStr := p.String()
+		if seen.Contains(patternStr) {
+			continue
+		}
+		seen.Add(patternStr)
+		result = append(result, p)
+	}
+
+	return result
 }
