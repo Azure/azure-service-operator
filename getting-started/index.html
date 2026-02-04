@@ -29,7 +29,7 @@
 
   <meta itemprop="name" content="Getting Started">
   <meta itemprop="description" content="Install and get started with Azure Service Operator">
-  <meta itemprop="wordCount" content="1279">
+  <meta itemprop="wordCount" content="1305">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Getting Started">
   <meta name="twitter:description" content="Install and get started with Azure Service Operator">
@@ -1024,7 +1024,14 @@ See the <a href="/azure-service-operator/guide/authentication/credential-format/
     </div>
 </div>
 
-
+<p>If you are using a values file, you can set the <code>crdPattern</code> variable as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">crdPattern</span>: 
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">resources.azure.com/*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">containerservice.azure.com/*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">keyvault.azure.com/*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">managedidentity.azure.com/*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">eventhub.azure.com/*</span>
+</span></span></code></pre></div>
 
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">Warning</h4>
