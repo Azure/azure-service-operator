@@ -17,26 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2023-02: Adoption Policy | Azure Service Operator</title>
-<meta name="description" content="Context Resources which exist in Azure prior to being created in Kubernetes are “adopted” by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn’t an easy way to tell if a resource you’re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
-We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy’s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-02-adoption-policy/">
+<title>ASO v2.17 Release Notes | Azure Service Operator</title>
+<meta name="description" content="Release notes for Azure Service Operator v2.17.0">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="2023-02: Adoption Policy">
-  <meta property="og:description" content="Context Resources which exist in Azure prior to being created in Kubernetes are “adopted” by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn’t an easy way to tell if a resource you’re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
-We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy’s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
+  <meta property="og:title" content="ASO v2.17 Release Notes">
+  <meta property="og:description" content="Release notes for Azure Service Operator v2.17.0">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="design">
+    <meta property="article:section" content="blogs">
+    <meta property="article:published_time" content="2025-12-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-08T00:00:00+00:00">
 
-  <meta itemprop="name" content="2023-02: Adoption Policy">
-  <meta itemprop="description" content="Context Resources which exist in Azure prior to being created in Kubernetes are “adopted” by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn’t an easy way to tell if a resource you’re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
-We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy’s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
-  <meta itemprop="wordCount" content="2285">
+  <meta itemprop="name" content="ASO v2.17 Release Notes">
+  <meta itemprop="description" content="Release notes for Azure Service Operator v2.17.0">
+  <meta itemprop="datePublished" content="2025-12-08T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-12-08T00:00:00+00:00">
+  <meta itemprop="wordCount" content="432">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="2023-02: Adoption Policy">
-  <meta name="twitter:description" content="Context Resources which exist in Azure prior to being created in Kubernetes are “adopted” by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn’t an easy way to tell if a resource you’re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
-We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy’s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
+  <meta name="twitter:title" content="ASO v2.17 Release Notes">
+  <meta name="twitter:description" content="Release notes for Azure Service Operator v2.17.0">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -45,7 +45,7 @@ We already have support for reconcile-policy which is related to adoption. Some 
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-page td-blog">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -56,7 +56,7 @@ We already have support for reconcile-policy which is related to adoption. Some 
         <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
+        <a class="nav-link active" href="/azure-service-operator/blogs/"><span>Blog</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -71,7 +71,7 @@ We already have support for reconcile-policy which is related to adoption. Some 
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
       </li>
       </ul>
   </div>
@@ -221,16 +221,16 @@ We already have support for reconcile-policy which is related to adoption. Some 
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
   <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings"><span class="">Why record our tests?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
   <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan"><span class="">Developer Talks - Quality of Life Features with Bevan</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170-li">
-  <a href="/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170"><span class="">ASO v2.17 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170-li">
+  <a href="/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170"><span class="td-sidebar-nav-active-item">ASO v2.17 Release Notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
   <a href="/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160"><span class="">ASO v2.16 Release Notes</span></a>
 </li>
   </ul>
@@ -797,80 +797,80 @@ We already have support for reconcile-policy which is related to adoption. Some 
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
-  <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="td-sidebar-nav-active-item">2023-02: Adoption Policy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
+  <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
   <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
   <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="">2023-04: Preventing Resource Drift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
   <a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds"><span class="">2023-05: Installing only selected CRDs</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
   <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
   <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
   <a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation"><span class="">2024-04: RoleAssignments UUID Generation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
   <a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties"><span class="">2024-05 OperatorSpec Custom Properties</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
   <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
   <a href="/azure-service-operator/design/adr-2024-10-oneof-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-10-oneof-resources"><span class="">2024-10 OneOf Resouces</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -886,7 +886,7 @@ We already have support for reconcile-policy which is related to adoption. Some 
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -906,17 +906,21 @@ We already have support for reconcile-policy which is related to adoption. Some 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#context">Context</a>
+    <li><a href="#-headline-features">🎇 Headline Features</a></li>
+    <li><a href="#-breaking-changes">⚠️ Breaking changes</a>
       <ul>
-        <li><a href="#open-question-what-should-the-default-reconcile-policy-be-for-resources-which-are-adopted">Open question: what should the default <code>reconcile-policy</code> be for resources which are adopted?</a></li>
-        <li><a href="#open-question-should-the-adoption-behavior-be-configurable-at-the-operator-global-or-per-resource-level">Open question: Should the adoption behavior be configurable at the operator (global) or per-resource level?</a></li>
+        <li><a href="#removed-fleet-api-version">Removed Fleet API version</a></li>
+        <li><a href="#upcoming-breaking-changes">Upcoming breaking changes</a></li>
       </ul>
     </li>
-    <li><a href="#decision">Decision</a></li>
-    <li><a href="#status">Status</a></li>
-    <li><a href="#consequences">Consequences</a></li>
-    <li><a href="#experience-report">Experience Report</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#-new-and-improved-resource-support">🎉 New and improved resource support</a>
+      <ul>
+        <li><a href="#new-resources-and-api-versions">New resources and API versions</a></li>
+        <li><a href="#enhanced-secret-exports">Enhanced secret exports</a></li>
+        <li><a href="#improved-resource-references">Improved resource references</a></li>
+      </ul>
+    </li>
+    <li><a href="#-thank-you">🙏 Thank You</a></li>
   </ul>
 </nav>
       </div>
@@ -924,356 +928,85 @@ We already have support for reconcile-policy which is related to adoption. Some 
             
 
           </aside>
-          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
-            
-  
-
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5 pe-md-4" role="main">
+            <a class="td-rss-button" title="RSS" href="/azure-service-operator/blogs/index.xml" target="_blank" rel="noopener">
+              <i class="fa-solid fa-rss" aria-hidden="true"></i>
+            </a>
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/design/">Design</a></li>
+    <a href="/azure-service-operator/blogs/">Blog</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    2023-02: Adoption Policy</li>
+    ASO v2.17 Release Notes</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>2023-02: Adoption Policy</h1>
-	
+	<h1>ASO v2.17 Release Notes</h1>
+	<div class="lead">Release notes for Azure Service Operator v2.17.0</div>
+	<div class="td-byline mb-4">
+		
+		<time datetime="2025-12-08" class="text-body-secondary">Monday, December 08, 2025</time>
+	</div>
 	<header class="article-meta">
 		
 </header>
-	<h2 id="context">Context</h2>
-<p>Resources which exist in Azure prior to being created in Kubernetes are &ldquo;adopted&rdquo; by the operator when the resource
-is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn&rsquo;t an easy way
-to tell if a resource you&rsquo;re about to <code>kubectl apply</code> already exists in Azure (will be adopted) or does not exist in
-Azure (will be created).</p>
-<p>We already have support for <a href="https://github.com/Azure/azure-service-operator/pull/2060">reconcile-policy</a> which
-is related to adoption. Some of <code>reconcile-policy</code>&rsquo;s primary use cases are for when the user does not want ASO to
-fully manage an adopted resource.</p>
-<p>The following are principles we should follow related to resource adoption:</p>
-<ol>
-<li>
-<p><strong>The operator should adopt resources by default:</strong> This is standard goal-seeking/desired-state behavior.
-If you create a resource in Kubernetes that says: &ldquo;I expect there to be a Virtual Machine that looks like this
-at location X&rdquo; and that Virtual Machine already exists, then we are in the desired state.
-The alternative would be to error if the resource already exists, which goes against the Kubernetes model.</p>
-</li>
-<li>
-<p><strong>Users must be able to instruct the operator to stop making changes to the backing Azure resource:</strong>
-This is enabled by <code>reconcile-policy</code>.</p>
-<p>This is useful for the following scenarios:</p>
+	<p>We&rsquo;re pleased to announce the release of Azure Service Operator v2.17.0! This release brings new PostgreSQL and Log Analytics resources, improved secret exports across several services, and the beginning of our transition to simplified API versioning.</p>
+<p><em>Administrative note: This blog post written in early February 2026 and backdated to the actual release date for v2.17.</em></p>
+<h2 id="-headline-features">🎇 Headline Features</h2>
+<p>Resources introduced in this release are using simplified versioning, as we&rsquo;re deprecating the <code>v1api</code> prefix (see <a href="https://github.com/Azure/azure-service-operator/issues/4831">#4831</a>). We&rsquo;ve laid the <a href="https://github.com/Azure/azure-service-operator/pull/5031">foundation for migration</a> to the new versioning style, with <a href="https://github.com/Azure/azure-service-operator/pull/5032">batch resources</a> being the first to migrate.</p>
+<p>ASO will <a href="https://github.com/Azure/azure-service-operator/pull/4987">no longer attempt to delete</a> Azure sub-resources that become a permanent part of their parent resource (such as <code>FlexibleServersConfiguration</code> for a PostgreSQL server). Instead of filling the ASO log with deletion errors, you&rsquo;ll now see a warning that can be disabled by setting an annotation.</p>
+<p>The operator now applies a <a href="https://github.com/Azure/azure-service-operator/pull/5044">default reconcile policy</a> when one isn&rsquo;t explicitly configured.</p>
+<h2 id="-breaking-changes">⚠️ Breaking changes</h2>
+<p>This release includes breaking changes. Please review the <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">breaking changes documentation</a> before upgrading.</p>
+<h3 id="removed-fleet-api-version">Removed Fleet API version</h3>
+<p>We&rsquo;ve removed the <code>containerservice</code> v20230315preview versions of Fleet resources, as the API has been deprecated by Azure.</p>
 <ul>
-<li>The operator is doing something wrong and the user needs a way to stop the operator from acting.</li>
-<li>Pausing the operator temporarily while they make some manual fix via the Azure portal.</li>
-<li>Creating a resource in ASO purely to get ownership references to work. The resource in question is not managed
-by ASO at all. It was created and managed some other way (portal, terraform, az-cli, etc).</li>
+<li>If you allow the operator to manage its own CRDs via <code>--crd-pattern</code>, no action is needed—the operator will take care of removing these versions automatically.</li>
+<li>If you manage the CRD versions yourself, you&rsquo;ll need to run <a href="https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds">asoctl clean crds</a> before upgrading.</li>
+</ul>
+<h3 id="upcoming-breaking-changes">Upcoming breaking changes</h3>
+<p>We have some deprecations coming up in future ASO versions that should be taken into account:</p>
+<ul>
+<li>In <a href="https://github.com/Azure/azure-service-operator/milestone/37">ASO v2.18</a>, we will remove <code>containerservice</code> ManagedCluster and AgentPool API versions <code>v1api20230201</code> and <code>v1api20231001</code>.</li>
+<li>In <a href="https://github.com/Azure/azure-service-operator/milestone/38">ASO v2.19</a>, we will remove <code>containerservice</code> ManagedCluster and AgentPool API version <code>v1api20240402preview</code>.</li>
+</ul>
+<h2 id="-new-and-improved-resource-support">🎉 New and improved resource support</h2>
+<h3 id="new-resources-and-api-versions">New resources and API versions</h3>
+<p>We&rsquo;ve added support for several new resources and updated API versions:</p>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/5041">PostgreSQL Flexible Server Administrator</a> resource for managing database administrators.</li>
+<li>New <a href="https://github.com/Azure/azure-service-operator/pull/5018">dbforpostgresql API version v1api20250801</a> with the latest PostgreSQL features.
+<ul>
+<li><em>Special thanks to <a href="https://github.com/tjololo">tjololo</a> for his contribution!</em></li>
 </ul>
 </li>
-<li>
-<p><strong>Users must be able to instruct the operator to skip deletion of the backing resource:</strong>
-This is useful for scenarios such as moving ownership of resources from ASO in cluster A to ASO in cluster B,
-or as a safety net to protect stateful resources such as databases from accidental deletion.
-This is enabled by <code>reconcile-policy</code>.</p>
-</li>
-</ol>
-<h3 id="open-question-what-should-the-default-reconcile-policy-be-for-resources-which-are-adopted">Open question: what should the default <code>reconcile-policy</code> be for resources which are adopted?</h3>
-<p>There are two main options.</p>
-<h4 id="option-1-the-default-reconcile-policy-for-adopted-resources-is-manage">Option 1: The default <code>reconcile-policy</code> for adopted resources is <code>manage</code></h4>
-<p><code>manage</code> is also the default <code>reconcile-policy</code> for resources ASO creates, so there is no difference between
-creation and adoption with this option.
-This means ASO automatically adopts, updates, and will delete backing Azure resources as normal unless the user
-explicitly sets <code>reconcile-policy</code>.</p>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>It&rsquo;s easy to explain what the behavior is. Simplistic users don&rsquo;t have to understand <code>reconcile-policy</code> (they won&rsquo;t
-ever see it unless they set it themselves).</li>
-<li>Matches ARM/BICEP, raw REST, and SDK behavior, as well as some of our competitors (Crossplane and Google Config Connector)
-as spelled out below.</li>
-<li>Is the current default</li>
+<li>New <a href="https://github.com/Azure/azure-service-operator/pull/5026">operationalinsights API version v1api20250701</a> for Log Analytics workspaces.</li>
 </ul>
-<p><strong>Disadvantages:</strong></p>
+<h3 id="enhanced-secret-exports">Enhanced secret exports</h3>
+<p>We&rsquo;ve expanded the ability to export secrets across several services:</p>
 <ul>
-<li>Users have no good way to know their resource existed previously. They may <code>kubectl delete</code> it without realizing that
-other things depend on this resource. Deletion (and some mutation) is destructive in Azure so lost data, etc cannot
-easily be recovered.</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/5010">RedisEnterprise keys</a> can now be exported to Kubernetes secrets.</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/5011">Shared keys for operationalinsights workspaces</a> are now available for export.</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/5039">Service Bus TopicAuthorizationRule</a> now supports secret exports.</li>
 </ul>
-<p><strong>Thoughts/comments:</strong></p>
-<p>This sort-of matches the behavior of ARM templates and SDKs. If you call the <code>DELETE</code> API the resource is gone.</p>
-<p>Some discussion of this topic has happened over in <a href="https://github.com/aws-controllers-k8s/community/issues/82">ACK</a>.</p>
-<p><a href="https://github.com/crossplane/crossplane/issues/2590">Crossplane</a> doesn&rsquo;t support any notion of <code>reconcile-policy</code> at all.
-<code>kubectl delete</code> always deletes the backing resource no matter what.</p>
-<p><a href="https://cloud.google.com/config-connector/docs/how-to/managing-deleting-resources#creating_a_resource">GCP</a> does it this way:</p>
-<blockquote>
-<p>When you create a resource, Config Connector creates the resource if it doesn&rsquo;t exist. If a Google Cloud resource
-already exists with the same name, then Config Connector acquires the resource and manages it.</p>
-</blockquote>
-<p>GCP also <a href="https://cloud.google.com/config-connector/docs/how-to/managing-deleting-resources">supports</a> a
-<code>reconcile-policy</code>-like annotation, so doing it like this would basically be doing it exactly like GCP.</p>
-<p>Kubernetes has a similar concept for <code>StorageClasses</code>/<code>PersistentVolumes</code> called
-<a href="https://kubernetes.io/docs/concepts/storage/storage-classes/#reclaim-policy">reclaimPolicy</a>, whose default
-is <code>Delete</code> for dynamically provisioned PVs, but <code>Retain</code> for manually created PVs.</p>
-<h4 id="option-2-the-default-reconcile-policy-for-adopted-resource-is-abandon-on-delete">Option 2: The default <code>reconcile-policy</code> for adopted resource is <code>abandon-on-delete</code>.</h4>
-<p>ASO detects that a resource previously existed and sets <code>reconcile-policy</code> automatically to <code>abandon-on-delete</code>.</p>
-<p><strong>Advantages:</strong></p>
+<h3 id="improved-resource-references">Improved resource references</h3>
 <ul>
-<li>Defaults to a more conservative <code>reconcile-policy</code> to protect users from accidentally deleting things they may not
-have wanted to delete.</li>
+<li>PrivateDns <a href="https://github.com/Azure/azure-service-operator/pull/5027">A and AAAA record IP addresses</a> can now be read from ConfigMaps.</li>
 </ul>
-<p><strong>Disadvantages:</strong></p>
-<ul>
-<li>Higher complexity. Users will be exposed to <code>reconcile-policy</code> as set by the operator (when a resource is adopted)
-so need to understand it.</li>
-<li>Bias towards safety may cause resource user thinks was deleted to continue existing (and billing) in Azure. Not a data
-loss though.</li>
-<li><code>reconcile-policy</code> would have split ownership between user and operator, which means deciding if
-we should trigger reconciliation events on its change is tricky (we don&rsquo;t want our defaulting of it to trigger an event).</li>
-</ul>
-<p><strong>Thoughts/comments:</strong></p>
-<p>There&rsquo;s some discussion of a similar feature over in <a href="https://github.com/aws-controllers-k8s/community/pull/1148#discussion_r794605821">ACK</a>.
-Jay Pipes had an interesting comment:</p>
-<blockquote>
-<p>In the case of ACK and the user experience of resource deletion, I posit that the behaviour of our interface has
-no surprises and is actually hard to misuse. It doesn&rsquo;t have surprises because our interface to delete a resource
-is to call kubectl delete on that resource. This is as non-surprising as it gets. It is hard to misuse because
-calling kubectl delete is an explicit action the user has to take and it&rsquo;s not a confusing verb or semantic.
-&ldquo;delete&rdquo; means to remove the resource.</p>
-</blockquote>
-<p>It&rsquo;s important to note that ACK does adoption differently than ASO though (see
-<a href="https://github.com/aws-controllers-k8s/sagemaker-controller#60-adopt-resources">example</a>), so adoption is much more
-explicit for them. We don&rsquo;t want to have such explicit adoption though as covered in
-principle #1: The operator should adopt resources by default</p>
-<p>CAPZ does something sort-of like this using Azure <code>tags</code>, but only for a select set of resources which they support
-&ldquo;BYO-resource&rdquo; for. Things like VNET. Since some child resources don&rsquo;t support tags they apply the parent tag to
-all of the children automatically, which makes sense for their use-case but doesn&rsquo;t make as much sense for ASO.</p>
-<h3 id="open-question-should-the-adoption-behavior-be-configurable-at-the-operator-global-or-per-resource-level">Open question: Should the adoption behavior be configurable at the operator (global) or per-resource level?</h3>
-<p>Some users (such as CAPZ) may want adoption semantics different than the defaults we choose. Even on
-<a href="https://github.com/Azure/azure-service-operator/pull/2067">the PR that added this design proposal</a> different users disagreed
-on the behavior they wanted.</p>
-<h4 id="option-3-no-configuration-at-the-operator-or-per-resource-level">Option 3: No configuration at the operator or per-resource level</h4>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>Simple - value of this cannot be understated. The more configuration users <em>have</em> to understand the harder the operator
-becomes to adopt or understand.</li>
-</ul>
-<p><strong>Disadvantages:</strong></p>
-<ul>
-<li>Fails to cater to some legitimate use-cases.</li>
-</ul>
-<h4 id="option-4-allow-configuration-at-the-operator-or-per-resource-level">Option 4: Allow configuration at the operator or per-resource level</h4>
-<p>This option would just be configuring the behavior of the operator in case it found an existing resource
-in Azure. The behavior if ASO created the resource is unchanged.</p>
-<p>The 3 scenarios here are, if the resource already exists in Azure when ASO goes to create it:</p>
-<ol>
-<li>Fully adopt the resource, mutate it if its configuration is different in ASO than in Azure, and delete
-it when <code>kubectl delete</code> is run.</li>
-<li>Partially adopt the resource. Mutations of the resource would be performed by ASO but <code>kubectl delete</code> will only
-delete the resource in Kubernetes and <em>not</em> in Azure.</li>
-<li>Use the existing resource and don&rsquo;t make any changes to it to make it match the ASO shape, and do not delete it
-when <code>kubectl delete</code> is run.</li>
-</ol>
-<p>This is discussed in <a href="https://github.com/Azure/azure-service-operator/issues/2703">#2703</a></p>
-<h5 id="option-41-adoption-policy-annotation">Option 4.1: adoption-policy annotation</h5>
-<p>A new property <code>ADOPTION_POLICY</code> in the operator global secret, and an annotation on each
-resource <code>serviceoperator.azure.com/adoption-policy</code> would allow users to control this behavior.
-As with our other configurations, the more specific configuration would win.</p>
-<p>Possible <code>adoption-policy</code>&rsquo;s are:</p>
-<ul>
-<li><code>adopt-if-exists</code>: Corresponding to scenario 1 above.</li>
-<li><code>detach-on-delete-if-exists</code>: Corresponding to scenario 2 above.</li>
-<li><code>skip-if-exists</code>: Corresponding to scenario 3 above.</li>
-</ul>
-<p>This would exist alongside the existing <code>reconcile-policy</code> annotation. The most restrictive of the two options would
-be used.
-The full matrix of possibilities (where there is overlap) is:</p>
-<table>
-  <thead>
-      <tr>
-          <th><code>reconcile-policy</code></th>
-          <th><code>adoption-policy</code></th>
-          <th>Resource already exists in Azure?</th>
-          <th>Behavior</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Unspecified</td>
-          <td>Unspecified</td>
-          <td>Yes</td>
-          <td>Fully manages the resource¹</td>
-      </tr>
-      <tr>
-          <td>Unspecified</td>
-          <td>skip-if-exists</td>
-          <td>Yes</td>
-          <td>Skips managing the resource</td>
-      </tr>
-      <tr>
-          <td>Unspecified</td>
-          <td>skip-if-exists</td>
-          <td>No</td>
-          <td>Fully manages the resource</td>
-      </tr>
-      <tr>
-          <td>detach-on-delete</td>
-          <td>skip-if-exists</td>
-          <td>Yes</td>
-          <td>Skips managing the resource</td>
-      </tr>
-      <tr>
-          <td>detach-on-delete</td>
-          <td>skip-if-exists</td>
-          <td>No</td>
-          <td>Manages the resource, detaches on delete</td>
-      </tr>
-      <tr>
-          <td>skip</td>
-          <td>skip-if-exists</td>
-          <td>Yes</td>
-          <td>Skips managing the resource</td>
-      </tr>
-      <tr>
-          <td>skip</td>
-          <td>skip-if-exists</td>
-          <td>No</td>
-          <td>Skips managing the resource</td>
-      </tr>
-      <tr>
-          <td>Unspecified</td>
-          <td>detach-on-delete-if-exists</td>
-          <td>Yes</td>
-          <td>Manages the resource, detaches on delete</td>
-      </tr>
-      <tr>
-          <td>Unspecified</td>
-          <td>detach-on-delete-if-exists</td>
-          <td>No</td>
-          <td>Fully manages the resource</td>
-      </tr>
-      <tr>
-          <td>detach-on-delete</td>
-          <td>detach-on-delete-if-exists</td>
-          <td>Yes</td>
-          <td>Manages the resource, detaches on delete</td>
-      </tr>
-      <tr>
-          <td>detach-on-delete</td>
-          <td>detach-on-delete-if-exists</td>
-          <td>No</td>
-          <td>Manages the resource, detaches on delete</td>
-      </tr>
-      <tr>
-          <td>skip</td>
-          <td>detach-on-delete-if-exists</td>
-          <td>Yes</td>
-          <td>Skips managing the resource</td>
-      </tr>
-      <tr>
-          <td>skip</td>
-          <td>detach-on-delete-if-exists</td>
-          <td>No</td>
-          <td>Skips managing the resource</td>
-      </tr>
-  </tbody>
-</table>
-<p>¹: Actual behavior depends on earlier sections of this design</p>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>???</li>
-</ul>
-<p><strong>Disadvantages:</strong></p>
-<ul>
-<li>Users need to understand this complicated table to figure out what is actually happening to their resource, it&rsquo;s not
-immediately obvious based on the annotations.</li>
-<li>There&rsquo;s no way to tell which option was actually chosen for users.</li>
-<li>We need to somehow remember which option we chose so we don&rsquo;t think that a resource we created needs to be adopted after
-a crash or pod restart. That further increases the number of annotations used by this feature&hellip;</li>
-</ul>
-<h5 id="option-42-reconcile-policy-if-exists-annotation">Option 4.2: reconcile-policy-if-exists annotation</h5>
-<p>A new property <code>RECONCILE_POLICY_IF_EXISTS</code> in the operator global secret, and an annotation on each
-resource <code>serviceoperator.azure.com/reconcile-policy-if-exists</code> would allow users to control this behavior.</p>
-<p>Possible <code>reconcile-policy-if-exists</code>&rsquo;s are the same as the existing <code>reconcile-policy</code></p>
-<ul>
-<li><code>manage</code>: Corresponding to scenario 1 above.</li>
-<li><code>detach-on-delete</code>: Corresponding to scenario 2 above.</li>
-<li><code>skip</code>: Corresponding to scenario 3 above.</li>
-</ul>
-<p>The implementation of <code>reconcile-policy-if-exists</code> would basically be a delayed defaulting of <code>reconcile-policy</code> applied
-when reconciliation ran for the first time. The operator would check if the resource already exists and write the corresponding
-<code>reconcile-policy</code> annotation to the resource if the resource existed.</p>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>Uses a concept we already have.</li>
-</ul>
-<p><strong>Disadvantages:</strong></p>
-<ul>
-<li>Possibility of collision between user specified <code>reconcile-policy</code> and the <code>reconcile-policy</code> written by the operator because
-of <code>reconcile-policy-if-exists</code>.
-<ul>
-<li>We can mitigate this issue by rejecting some configurations with a webhook, although we have to be careful how we craft
-that webhook because the operator itself needs to be able to set both. The easiest way to accomplish this would be with
-a webhook that rejects requests that include both  <code>reconcile-policy</code> and <code>reconcile-policy-if-exists</code> annotations
-if the finalizer has not been added yet. Once the finalizer has been set, changing <code>reconcile-policy-if-exists</code> has no
-effect, and all changes to the policy should flow via the <code>reconcile-policy</code> annotation.</li>
-<li>An alternative mitigation would be that <code>reconcile-policy-if-exists</code> always overwrites <code>reconcile-policy</code> if the
-resource exists. This has the advantage of allowing configurations like <code>reconcile-policy: skip</code> and
-<code>reconcile-policy-if-exists: manage</code>, where a resource wouldn&rsquo;t be created if it didn&rsquo;t exist, but <em>would</em> be adopted
-and managed if it did already exist. This would also allow <code>reconcile-policy: detach-on-delete</code> and
-<code>reconcile-policy-if-exists: skip</code>. Possible downsides here include us modifying user-specified annotations. It&rsquo;s
-possible that this will cause problems with GitOps workflows as the users checked-in spec will have
-<code>reconcile-policy: &lt;value&gt;</code>, but that may have been overwritten by the operator dynamically. Subsequent applications
-of the resource would likely overwrite <code>reconcile-policy</code> back to its original value.</li>
-</ul>
-</li>
-<li>Excess events generated by us setting <code>reconcile-policy</code>, which is an annotation we watch for updates. We can deal with this:
-<ul>
-<li>If the <code>reconcile-policy-if-exists</code> is <code>skip</code> this is safe as we don&rsquo;t have to trigger reconciliation if the
-only modification to the resource is that the <code>reconcile-policy</code> is being set to <code>skip</code>. This helps avoid a situation
-where we reconcile once, issue a GET to Azure, see that the resource exists and update the <code>reconcile-policy</code> annotation
-to be <code>skip</code>, which then triggers another reconciliation and another GET to Azure.</li>
-<li>If the <code>reconcile-policy-if-exists</code> is <code>detach-on-delete</code> we&rsquo;re safe as those events only matter for delete
-so also don&rsquo;t trigger reconciliation.</li>
-</ul>
-</li>
-</ul>
-<h4 id="an-implementation-note-on-fault-tolerance">An implementation note on fault tolerance</h4>
-<p>If we choose either flavor of <a href="#option-4-allow-configuration-at-the-operator-or-per-resource-level">option 4</a> we need to
-ensure that we are fault-tolerant. We must avoid a situation where the operator:</p>
-<ul>
-<li>Checks if the resource in Azure exists and determines it does not</li>
-<li>Creates the resource in Azure</li>
-<li>Crashes or is restarted and does not ever persist to etcd the fact the resource didn&rsquo;t already exist</li>
-<li>Restarts and thinks that the resource already existed, triggering the adoption logic on a resource ASO itself just created</li>
-</ul>
-<p>This means there must be an etcd write after checking if the resource exists, before we actually issue a PUT to Azure.
-The existing <code>Claim</code> step in the operator reconcile path already caters to exactly this problem.</p>
-<p>Unfortunately because ARM resources don&rsquo;t universally support <code>If-Match</code> headers + <code>etag</code> we are open to a race where
-the resource is created between the GET and the following PUT. There&rsquo;s nothing we can do about that without optimistic
-concurrency support on the server side.</p>
-<h2 id="decision">Decision</h2>
-<p>I propose we choose <a href="#option-1-the-default-reconcile-policy-for-adopted-resources-is-manage">option 1: Default <code>reconcile-policy</code> is <code>manage</code></a>.
-As mentioned in the discussion of that topic, it&rsquo;s the default we currently have and so is non-breaking to adopt, and is how
-ARM templates/BICEP, raw REST and the SDKs work today already. Extra protection against adoption/updating a resource that
-already exists can be achieved with some of those technologies, but it&rsquo;s not the default and requires the user to opt-in
-to it.</p>
-<p>Alongside that, I propose we choose <a href="#option-42-reconcile-policy-if-exists-annotation">option 4.2: <code>reconcile-policy-if-exists</code> annotation</a>
-to allow users to configure this behavior at the operator level or at the per-resource level. This is the other side of the
-coin, if we&rsquo;re going to default to adopting we should give users who do <em>not</em> want that as the default a way to configure
-the behavior they do want.</p>
-<p>As part of option 4.2, we should also implement one of the mitigations for the issue of <code>reconcile-policy-if-exists</code>
-colliding with <code>reconcile-policy</code>. The obvious choice is the webhook rejecting overlap. While this limits certain scenarios
-such as <code>reconcile-policy-if-exists: manage</code> + <code>reconcile-policy: skip</code>, there&rsquo;s no known use-case for these scenarios.
-The advantage of rejecting things now is that we can always open it up and be less restrictive in the future if there is
-customer need. If instead we allowed both to be set then it&rsquo;s hard to take it away.</p>
-<h2 id="status">Status</h2>
-<p>Proposed.</p>
-<h2 id="consequences">Consequences</h2>
-<p>TBC.</p>
-<h2 id="experience-report">Experience Report</h2>
-<p>TBC.</p>
-<h2 id="references">References</h2>
+<h2 id="-thank-you">🙏 Thank You</h2>
+<p>Thank you to all our contributors for making this release possible! We&rsquo;re especially grateful to our new contributors <a href="https://github.com/jakjang">jakjang</a> and <a href="https://github.com/tjololo">tjololo</a> for their first contributions to ASO. Your engagement helps make ASO better for everyone!</p>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/Azure/azure-service-operator/compare/v2.16.0...v2.17.0">v2.16.0&hellip;v2.17.0</a></p>
 
-	
-</div>
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/" aria-label="Previous - ASO v2.16 Release Notes" class="btn btn-primary"><span class="me-1">←</span>Previous</a>
+  </li>
+  <li>
+    <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" aria-label="Next - Developer Talks - Quality of Life Features with Bevan" class="btn btn-primary">Next<span class="ms-1">→</span></a>
+  </li>
+</ul>
+
+	</div>
 
 
           </main>

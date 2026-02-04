@@ -380,6 +380,13 @@
       <description>&lt;p&gt;With the release of ASO v2.17 coming soon, this felt like a great time to go behind the curtain and get a better idea of what us devs have been working on, both landed and upcoming, and how they contribute to a smoother user experience for ASO users.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll go over two exciting features, one landing in v2.17 and one that shipped in v2.16. Alongside our other host of improvements, we hope these features make using ASO that much smoother for our users.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>ASO v2.17 Release Notes</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/</link>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;re pleased to announce the release of Azure Service Operator v2.17.0! This release brings new PostgreSQL and Log Analytics resources, improved secret exports across several services, and the beginning of our transition to simplified API versioning.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Administrative note: This blog post written in early February 2026 and backdated to the actual release date for v2.17.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Resources introduced in this release are using simplified versioning, as we&amp;rsquo;re deprecating the &lt;code&gt;v1api&lt;/code&gt; prefix (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;#4831&lt;/a&gt;). We&amp;rsquo;ve laid the &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5031&#34;&gt;foundation for migration&lt;/a&gt; to the new versioning style, with &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5032&#34;&gt;batch resources&lt;/a&gt; being the first to migrate.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>ASO v2.16 Release Notes</title>
       <link>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</link>
       <pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate>
