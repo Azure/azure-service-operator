@@ -68,6 +68,8 @@ func (c *Credential) AdditionalTenants() []string {
 	return c.additionalTenants
 }
 
+// NewDefaultCredential creates a Credential representing the default/global credential
+// from aso-controller-settings.
 func NewDefaultCredential(
 	tokenCred azcore.TokenCredential,
 	namespace string,
