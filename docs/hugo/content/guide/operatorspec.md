@@ -1,19 +1,22 @@
 ---
-title: Passing values directly to ASO through the operatorSpec
+title: Configuring OperatorSpec
 weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
-There may be instances where a user may want to configure where to place certain properties that will be used by the operator. Utilizing `OperatorSpec` allows users to specify where to place specific properties. Fields in the `OperatorSpec` struct will be interpreted directly by the operator instead of being passed to Azure. 
+The `operatorSpec` field lets you control how ASO handles a resource—independent of what gets sent to Azure. Use it to export values from your resources to `ConfigMaps` or `Secrets`, or to configure resource-specific operator behaviour.
 
-Each resource has an `OperatorSpec` that allows a user to configure additional behavior which ASO will apply as it reconciles the resource. Values from the spec or status of the resource can be exported to `configmaps` or `secrets` by populating the `configMapExpressions` and/or `secretExpressions` accordingly. 
+Every ASO resource includes an `operatorSpec` field in its spec. ASO interprets these fields directly during reconciliation rather than passing them to Azure.
 
-Unless the field is specifically configured to request the property, ASO will not retrieve it.
+## Available properties
 
-## How to configure OperatorSpec in ASO
+All resources support these properties by default:
 
-You can consider fields under the `operatorSpec` field under certain resources with values that you wish to populate.
+- `configMapExpressions`: Export values from the resource's spec or status to a `ConfigMap`. See the [ConfigMaps documentation](../configmaps/) for details.
+- `secretExpressions`: Export values to a `Secret`. See the [Secrets documentation](../secrets/) for details.
 
-At the moment, some common properties the `operatorSpec` supports include `configMapExpressions`, `secretExpressions`, `secrets`, and `configMaps`. Every resource has `configMapExpressions` and `secretExpressions` by default, while `configMaps` and `secrets` will only appear if they are configured to do so via the generator. Some resources, such as the [`RoleAssignmentOperatorSpec`](https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#RoleAssignmentOperatorSpec), has the `namingConvention` field that is used to configure how the GUID used for the assignment name is generated. 
+Some resources include additional properties:
 
-- `configMapExpressions` allows uers to configuire where to place operator written dynamic ConfigMaps. You can learn more about `configMap` and walk through a sample [here](../configmaps/). 
-- `secretExpressions` configures where to place operator written dynamic secrets, while `secrets` configure where to place Azure generated secrets. You can learn more about `secretExpressions`/`secrets` and walk through an example [here](../secrets/).
+- `configMaps` and `secrets`: Pre-defined export destinations for specific Azure-generated values. These only appear on resources configured to support them.
+- `namingConvention`: Controls how ASO generates names. For example, [`RoleAssignment`](https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#RoleAssignmentOperatorSpec) uses this to configure how the GUID for the assignment name is generated.
+
+ASO only retrieves properties that you explicitly configure in `operatorSpec`. If you don't specify an export destination, the value won't be fetched.
