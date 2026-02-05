@@ -76,7 +76,7 @@ func AdvancedThreatProtectionSettingsProperties_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedThreatProtectionSettingsProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedThreatProtectionSettingsProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["CreationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionSettingsProperties_State_STATUS_Disabled, AdvancedThreatProtectionSettingsProperties_State_STATUS_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ThreatProtectionState_STATUS_Disabled, ThreatProtectionState_STATUS_Enabled))
 }
 
 func Test_FlexibleServersAdvancedThreatProtectionSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

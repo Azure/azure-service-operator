@@ -458,12 +458,13 @@ func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (as
 var intersector *astmodel.TypeMerger
 
 func init() {
-	i := astmodel.NewTypeMerger(func(_ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
+	i := astmodel.NewTypeMerger(func(_ctx any, left, right astmodel.Type) (astmodel.Type, error) {
 		return nil, eris.Errorf("don't know how to intersect types: %s and %s", left, right)
 	})
 
 	i.Add(synthesizer.handleEqualTypes)
 	i.AddUnordered(synthesizer.handleValidatedAndNonValidated)
+	i.Add(synthesizer.handleValidatedAndValidated)
 	i.AddUnordered(synthesizer.handleAnyType)
 	i.AddUnordered(synthesizer.handleAllOfType)
 	i.AddUnordered(synthesizer.handleTypeName)
@@ -859,6 +860,7 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 
 // a validated and non-validated version of the same type become the validated version
 func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedType, right astmodel.Type) (astmodel.Type, error) {
+	// validated(T) with T becomes validated(T)
 	if astmodel.TypeEquals(validated.ElementType(), right) {
 		return validated, nil
 	}
@@ -869,6 +871,26 @@ func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedT
 	}
 
 	return nil, nil
+}
+
+// two validations are merged
+func (s synthesizer) handleValidatedAndValidated(left *astmodel.ValidatedType, right *astmodel.ValidatedType) (astmodel.Type, error) {
+	element, err := s.intersectTypes(left.ElementType(), right.ElementType())
+	if err != nil {
+		// attempting to merge two validated types with non-matching elements is an error
+		return nil, err
+	}
+
+	// combined validated type becomes the strictest options of both
+	leftValidations := left.Validations()
+	rightValidations := right.Validations()
+
+	mergedValidations, err := leftValidations.MergeWith(rightValidations)
+	if err != nil {
+		return nil, eris.Wrapf(err, "merging validations for %s and %s", left, right)
+	}
+
+	return astmodel.NewValidatedType(element, mergedValidations), nil
 }
 
 // An ARM ID and a string become the ARM ID

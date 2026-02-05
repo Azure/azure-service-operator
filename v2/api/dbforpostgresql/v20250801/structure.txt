@@ -39,16 +39,10 @@ FlexibleServer: Resource
 │   │   ├── "Replica"
 │   │   ├── "ReviveDropped"
 │   │   └── "Update"
-│   ├── DataEncryption: *Object (9 properties)
-│   │   ├── GeoBackupEncryptionKeyStatus: *Enum (2 values)
-│   │   │   ├── "Invalid"
-│   │   │   └── "Valid"
+│   ├── DataEncryption: *Object (7 properties)
 │   │   ├── GeoBackupKeyURI: *string
 │   │   ├── GeoBackupKeyURIFromConfig: *genruntime.ConfigMapReference
 │   │   ├── GeoBackupUserAssignedIdentityReference: *genruntime.ResourceReference
-│   │   ├── PrimaryEncryptionKeyStatus: *Enum (2 values)
-│   │   │   ├── "Invalid"
-│   │   │   └── "Valid"
 │   │   ├── PrimaryKeyURI: *string
 │   │   ├── PrimaryKeyURIFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference

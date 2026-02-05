@@ -178,6 +178,9 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS(subject
 var storageAccountsQueueServicesQueue_STATUSGenerator gopter.Gen
 
 // StorageAccountsQueueServicesQueue_STATUSGenerator returns a generator of StorageAccountsQueueServicesQueue_STATUS instances for property testing.
+// We first initialize storageAccountsQueueServicesQueue_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func StorageAccountsQueueServicesQueue_STATUSGenerator() gopter.Gen {
 	if storageAccountsQueueServicesQueue_STATUSGenerator != nil {
 		return storageAccountsQueueServicesQueue_STATUSGenerator
@@ -185,6 +188,12 @@ func StorageAccountsQueueServicesQueue_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS(generators)
+	storageAccountsQueueServicesQueue_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServicesQueue_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS(generators)
 	storageAccountsQueueServicesQueue_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServicesQueue_STATUS{}), generators)
 
 	return storageAccountsQueueServicesQueue_STATUSGenerator
@@ -199,6 +208,11 @@ func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS
 		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_StorageAccountsQueueServicesQueue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

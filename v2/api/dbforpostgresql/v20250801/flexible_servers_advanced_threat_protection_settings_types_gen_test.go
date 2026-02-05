@@ -374,7 +374,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionS
 	gens["CreationTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionSettingsProperties_State_STATUS_Disabled, AdvancedThreatProtectionSettingsProperties_State_STATUS_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ThreatProtectionState_STATUS_Disabled, ThreatProtectionState_STATUS_Enabled))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -492,7 +492,7 @@ func FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator() gopter.Gen 
 
 // AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionSettingsProperties_State_Disabled, AdvancedThreatProtectionSettingsProperties_State_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ThreatProtectionState_Disabled, ThreatProtectionState_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec is a factory method for creating gopter generators

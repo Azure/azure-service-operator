@@ -70,6 +70,16 @@ C:\> helm upgrade --install aso2 aso2/azure-service-operator ^
 {{% /tab %}}
 {{< /tabpane >}}
 
+If you are using a values file, you can set the `crdPattern` variable as follows:
+``` yaml
+crdPattern: 
+  - resources.azure.com/*
+  - containerservice.azure.com/*
+  - keyvault.azure.com/*
+  - managedidentity.azure.com/*
+  - eventhub.azure.com/*
+```
+
 {{% alert title="Warning" color="warning" %}}
 Make sure to set the `crdPattern` variable to include the CRDs you are interested in using.
 You can use `--set crdPattern=*` to install all the CRDs, but be aware of the

@@ -7,8 +7,8 @@ type StorageAccountsFileServicesShare_STATUS struct {
 	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -16,6 +16,9 @@ type StorageAccountsFileServicesShare_STATUS struct {
 
 	// Properties: Properties of the file share.
 	Properties *FileShareProperties_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -25,7 +28,7 @@ type StorageAccountsFileServicesShare_STATUS struct {
 type FileShareProperties_STATUS struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
-	AccessTier *FileShareProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
+	AccessTier *ShareAccessTier_STATUS `json:"accessTier,omitempty"`
 
 	// AccessTierChangeTime: Indicates the last modification time for share access tier.
 	AccessTierChangeTime *string `json:"accessTierChangeTime,omitempty"`
@@ -41,10 +44,10 @@ type FileShareProperties_STATUS struct {
 
 	// EnabledProtocols: The authentication protocol that is used for the file share. Can only be specified when creating a
 	// share.
-	EnabledProtocols *FileShareProperties_EnabledProtocols_STATUS `json:"enabledProtocols,omitempty"`
+	EnabledProtocols *EnabledProtocols_STATUS `json:"enabledProtocols,omitempty"`
 
 	// FileSharePaidBursting: File Share Paid Bursting properties.
-	FileSharePaidBursting *FileShareProperties_FileSharePaidBursting_STATUS `json:"fileSharePaidBursting,omitempty"`
+	FileSharePaidBursting *FileSharePropertiesFileSharePaidBursting_STATUS `json:"fileSharePaidBursting,omitempty"`
 
 	// IncludedBurstIops: The calculated burst IOPS of the share. This property is only for file shares created under Files
 	// Provisioned v2 account type.
@@ -54,13 +57,13 @@ type FileShareProperties_STATUS struct {
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
 
 	// LeaseDuration: Specifies whether the lease on a share is of infinite or fixed duration, only when the share is leased.
-	LeaseDuration *FileShareProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
+	LeaseDuration *LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
 
 	// LeaseState: Lease state of the share.
-	LeaseState *FileShareProperties_LeaseState_STATUS `json:"leaseState,omitempty"`
+	LeaseState *LeaseState_STATUS `json:"leaseState,omitempty"`
 
 	// LeaseStatus: The lease status of the share.
-	LeaseStatus *FileShareProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
+	LeaseStatus *LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// MaxBurstCreditsForIops: The calculated maximum burst credits for the share. This property is only for file shares
 	// created under Files Provisioned v2 account type.
@@ -95,7 +98,7 @@ type FileShareProperties_STATUS struct {
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
-	RootSquash *FileShareProperties_RootSquash_STATUS `json:"rootSquash,omitempty"`
+	RootSquash *RootSquashType_STATUS `json:"rootSquash,omitempty"`
 
 	// ShareQuota: The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB
 	// (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account
@@ -116,37 +119,22 @@ type FileShareProperties_STATUS struct {
 	Version *string `json:"version,omitempty"`
 }
 
-type FileShareProperties_AccessTier_STATUS string
+// The authentication protocol that is used for the file share. Can only be specified when creating a share.
+type EnabledProtocols_STATUS string
 
 const (
-	FileShareProperties_AccessTier_STATUS_Cool                 = FileShareProperties_AccessTier_STATUS("Cool")
-	FileShareProperties_AccessTier_STATUS_Hot                  = FileShareProperties_AccessTier_STATUS("Hot")
-	FileShareProperties_AccessTier_STATUS_Premium              = FileShareProperties_AccessTier_STATUS("Premium")
-	FileShareProperties_AccessTier_STATUS_TransactionOptimized = FileShareProperties_AccessTier_STATUS("TransactionOptimized")
+	EnabledProtocols_STATUS_NFS = EnabledProtocols_STATUS("NFS")
+	EnabledProtocols_STATUS_SMB = EnabledProtocols_STATUS("SMB")
 )
 
-// Mapping from string to FileShareProperties_AccessTier_STATUS
-var fileShareProperties_AccessTier_STATUS_Values = map[string]FileShareProperties_AccessTier_STATUS{
-	"cool":                 FileShareProperties_AccessTier_STATUS_Cool,
-	"hot":                  FileShareProperties_AccessTier_STATUS_Hot,
-	"premium":              FileShareProperties_AccessTier_STATUS_Premium,
-	"transactionoptimized": FileShareProperties_AccessTier_STATUS_TransactionOptimized,
+// Mapping from string to EnabledProtocols_STATUS
+var enabledProtocols_STATUS_Values = map[string]EnabledProtocols_STATUS{
+	"nfs": EnabledProtocols_STATUS_NFS,
+	"smb": EnabledProtocols_STATUS_SMB,
 }
 
-type FileShareProperties_EnabledProtocols_STATUS string
-
-const (
-	FileShareProperties_EnabledProtocols_STATUS_NFS = FileShareProperties_EnabledProtocols_STATUS("NFS")
-	FileShareProperties_EnabledProtocols_STATUS_SMB = FileShareProperties_EnabledProtocols_STATUS("SMB")
-)
-
-// Mapping from string to FileShareProperties_EnabledProtocols_STATUS
-var fileShareProperties_EnabledProtocols_STATUS_Values = map[string]FileShareProperties_EnabledProtocols_STATUS{
-	"nfs": FileShareProperties_EnabledProtocols_STATUS_NFS,
-	"smb": FileShareProperties_EnabledProtocols_STATUS_SMB,
-}
-
-type FileShareProperties_FileSharePaidBursting_STATUS struct {
+// File Share Paid Bursting properties.
+type FileSharePropertiesFileSharePaidBursting_STATUS struct {
 	// PaidBurstingEnabled: Indicates whether paid bursting is enabled for the share. This property is only for file shares
 	// created under Files Provisioned v1 SSD account type.
 	PaidBurstingEnabled *bool `json:"paidBurstingEnabled,omitempty"`
@@ -161,64 +149,39 @@ type FileShareProperties_FileSharePaidBursting_STATUS struct {
 	PaidBurstingMaxIops *int `json:"paidBurstingMaxIops,omitempty"`
 }
 
-type FileShareProperties_LeaseDuration_STATUS string
+// The property is for NFS share only. The default is NoRootSquash.
+type RootSquashType_STATUS string
 
 const (
-	FileShareProperties_LeaseDuration_STATUS_Fixed    = FileShareProperties_LeaseDuration_STATUS("Fixed")
-	FileShareProperties_LeaseDuration_STATUS_Infinite = FileShareProperties_LeaseDuration_STATUS("Infinite")
+	RootSquashType_STATUS_AllSquash    = RootSquashType_STATUS("AllSquash")
+	RootSquashType_STATUS_NoRootSquash = RootSquashType_STATUS("NoRootSquash")
+	RootSquashType_STATUS_RootSquash   = RootSquashType_STATUS("RootSquash")
 )
 
-// Mapping from string to FileShareProperties_LeaseDuration_STATUS
-var fileShareProperties_LeaseDuration_STATUS_Values = map[string]FileShareProperties_LeaseDuration_STATUS{
-	"fixed":    FileShareProperties_LeaseDuration_STATUS_Fixed,
-	"infinite": FileShareProperties_LeaseDuration_STATUS_Infinite,
+// Mapping from string to RootSquashType_STATUS
+var rootSquashType_STATUS_Values = map[string]RootSquashType_STATUS{
+	"allsquash":    RootSquashType_STATUS_AllSquash,
+	"norootsquash": RootSquashType_STATUS_NoRootSquash,
+	"rootsquash":   RootSquashType_STATUS_RootSquash,
 }
 
-type FileShareProperties_LeaseState_STATUS string
+// Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool.
+// FileStorage account can choose Premium.
+type ShareAccessTier_STATUS string
 
 const (
-	FileShareProperties_LeaseState_STATUS_Available = FileShareProperties_LeaseState_STATUS("Available")
-	FileShareProperties_LeaseState_STATUS_Breaking  = FileShareProperties_LeaseState_STATUS("Breaking")
-	FileShareProperties_LeaseState_STATUS_Broken    = FileShareProperties_LeaseState_STATUS("Broken")
-	FileShareProperties_LeaseState_STATUS_Expired   = FileShareProperties_LeaseState_STATUS("Expired")
-	FileShareProperties_LeaseState_STATUS_Leased    = FileShareProperties_LeaseState_STATUS("Leased")
+	ShareAccessTier_STATUS_Cool                 = ShareAccessTier_STATUS("Cool")
+	ShareAccessTier_STATUS_Hot                  = ShareAccessTier_STATUS("Hot")
+	ShareAccessTier_STATUS_Premium              = ShareAccessTier_STATUS("Premium")
+	ShareAccessTier_STATUS_TransactionOptimized = ShareAccessTier_STATUS("TransactionOptimized")
 )
 
-// Mapping from string to FileShareProperties_LeaseState_STATUS
-var fileShareProperties_LeaseState_STATUS_Values = map[string]FileShareProperties_LeaseState_STATUS{
-	"available": FileShareProperties_LeaseState_STATUS_Available,
-	"breaking":  FileShareProperties_LeaseState_STATUS_Breaking,
-	"broken":    FileShareProperties_LeaseState_STATUS_Broken,
-	"expired":   FileShareProperties_LeaseState_STATUS_Expired,
-	"leased":    FileShareProperties_LeaseState_STATUS_Leased,
-}
-
-type FileShareProperties_LeaseStatus_STATUS string
-
-const (
-	FileShareProperties_LeaseStatus_STATUS_Locked   = FileShareProperties_LeaseStatus_STATUS("Locked")
-	FileShareProperties_LeaseStatus_STATUS_Unlocked = FileShareProperties_LeaseStatus_STATUS("Unlocked")
-)
-
-// Mapping from string to FileShareProperties_LeaseStatus_STATUS
-var fileShareProperties_LeaseStatus_STATUS_Values = map[string]FileShareProperties_LeaseStatus_STATUS{
-	"locked":   FileShareProperties_LeaseStatus_STATUS_Locked,
-	"unlocked": FileShareProperties_LeaseStatus_STATUS_Unlocked,
-}
-
-type FileShareProperties_RootSquash_STATUS string
-
-const (
-	FileShareProperties_RootSquash_STATUS_AllSquash    = FileShareProperties_RootSquash_STATUS("AllSquash")
-	FileShareProperties_RootSquash_STATUS_NoRootSquash = FileShareProperties_RootSquash_STATUS("NoRootSquash")
-	FileShareProperties_RootSquash_STATUS_RootSquash   = FileShareProperties_RootSquash_STATUS("RootSquash")
-)
-
-// Mapping from string to FileShareProperties_RootSquash_STATUS
-var fileShareProperties_RootSquash_STATUS_Values = map[string]FileShareProperties_RootSquash_STATUS{
-	"allsquash":    FileShareProperties_RootSquash_STATUS_AllSquash,
-	"norootsquash": FileShareProperties_RootSquash_STATUS_NoRootSquash,
-	"rootsquash":   FileShareProperties_RootSquash_STATUS_RootSquash,
+// Mapping from string to ShareAccessTier_STATUS
+var shareAccessTier_STATUS_Values = map[string]ShareAccessTier_STATUS{
+	"cool":                 ShareAccessTier_STATUS_Cool,
+	"hot":                  ShareAccessTier_STATUS_Hot,
+	"premium":              ShareAccessTier_STATUS_Premium,
+	"transactionoptimized": ShareAccessTier_STATUS_TransactionOptimized,
 }
 
 type SignedIdentifier_STATUS struct {

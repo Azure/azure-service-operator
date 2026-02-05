@@ -26,12 +26,10 @@ FlexibleServer: Resource
 │   │   ├── DefaultDatabaseName: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── CreateMode: *string
-│   ├── DataEncryption: *Object (10 properties)
-│   │   ├── GeoBackupEncryptionKeyStatus: *string
+│   ├── DataEncryption: *Object (8 properties)
 │   │   ├── GeoBackupKeyURI: *string
 │   │   ├── GeoBackupKeyURIFromConfig: *genruntime.ConfigMapReference
 │   │   ├── GeoBackupUserAssignedIdentityReference: *genruntime.ResourceReference
-│   │   ├── PrimaryEncryptionKeyStatus: *string
 │   │   ├── PrimaryKeyURI: *string
 │   │   ├── PrimaryKeyURIFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference

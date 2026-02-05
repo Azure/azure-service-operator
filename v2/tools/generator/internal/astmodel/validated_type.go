@@ -12,6 +12,9 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/rotisserie/eris"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 type ArrayValidations struct {
@@ -40,6 +43,21 @@ func (av ArrayValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 	}
 
 	return result
+}
+
+func (av ArrayValidations) MergeWith(other Validations) (Validations, error) {
+	o, ok := other.(ArrayValidations)
+	if !ok {
+		return nil, eris.New(fmt.Sprintf("cannot merge different validation types %T and %T", av, other))
+	}
+
+	result := ArrayValidations{}
+
+	// Merge MaxItems by taking the more restrictive (smaller) value
+	result.MaxItems = min(av.MaxItems, o.MaxItems)
+	// Merge MinItems by taking the more restrictive (larger) value
+	result.MinItems = max(av.MinItems, o.MinItems)
+	return result, nil
 }
 
 type StringValidations struct {
@@ -74,6 +92,24 @@ func (sv StringValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 	}
 
 	return result
+}
+
+func (sv StringValidations) MergeWith(other Validations) (Validations, error) {
+	o, ok := other.(StringValidations)
+	if !ok {
+		return nil, eris.New(fmt.Sprintf("cannot merge different validation types %T and %T", sv, other))
+	}
+
+	result := StringValidations{}
+
+	// Merge MaxLength by taking the more restrictive (smaller) value
+	result.MaxLength = min(sv.MaxLength, o.MaxLength)
+	// Merge MinLength by taking the more restrictive (larger) value
+	result.MinLength = max(sv.MinLength, o.MinLength)
+	// Merge Patterns by concatenating the slices, keeping only unique patterns
+	// TODO: It may be possible for two conflicting patterns to make something impossible to set... ideally we would fix that upstream in the REST API specification though
+	result.Patterns = appendUniquePatterns(sv.Patterns, o.Patterns)
+	return result, nil
 }
 
 type NumberValidations struct {
@@ -124,9 +160,32 @@ func (nv NumberValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 	return result
 }
 
+func (nv NumberValidations) MergeWith(other Validations) (Validations, error) {
+	o, ok := other.(NumberValidations)
+	if !ok {
+		return nil, eris.New(fmt.Sprintf("cannot merge different validation types %T and %T", nv, other))
+	}
+
+	result := NumberValidations{}
+
+	// Merge Maximum by taking the more restrictive (smaller) value
+	result.Maximum = minRat(nv.Maximum, o.Maximum)
+	// Merge Minimum by taking the more restrictive (larger) value
+	result.Minimum = maxRat(nv.Minimum, o.Minimum)
+	// Merge ExclusiveMaximum by ||ing the two values
+	result.ExclusiveMaximum = nv.ExclusiveMaximum || o.ExclusiveMaximum
+	// Merge ExclusiveMinimum by ||ing the two values
+	result.ExclusiveMinimum = nv.ExclusiveMinimum || o.ExclusiveMinimum
+	// Merge MultipleOf by taking the more restrictive (larger) value
+	// TODO: Possibly we should use the GCD of the two values?
+	result.MultipleOf = maxRat(nv.MultipleOf, o.MultipleOf)
+	return result, nil
+}
+
 type Validations interface {
 	Equals(other Validations) bool
 	ToKubeBuilderValidations() []KubeBuilderValidation
+	MergeWith(other Validations) (Validations, error)
 }
 
 // ValidatedType is used for schema validation attributes
@@ -259,4 +318,98 @@ func (v *ValidatedType) WriteDebugDescription(builder *strings.Builder, currentP
 	}
 
 	builder.WriteString("]")
+}
+
+func min(a, b *int64) *int64 {
+	if a != nil && b != nil {
+		if *a < *b {
+			return a
+		} else {
+			return b
+		}
+	} else if a != nil {
+		return a
+	} else if b != nil {
+		return b
+	}
+
+	return nil
+}
+
+func max(a, b *int64) *int64 {
+	if a != nil && b != nil {
+		if *a > *b {
+			return a
+		} else {
+			return b
+		}
+	} else if a != nil {
+		return a
+	} else if b != nil {
+		return b
+	}
+
+	return nil
+}
+
+func minRat(a, b *big.Rat) *big.Rat {
+	if a != nil && b != nil {
+		if a.Cmp(b) < 0 {
+			return a
+		} else {
+			return b
+		}
+	} else if a != nil {
+		return a
+	} else if b != nil {
+		return b
+	}
+
+	return nil
+}
+
+func maxRat(a, b *big.Rat) *big.Rat {
+	if a != nil && b != nil {
+		if a.Cmp(b) > 0 {
+			return a
+		} else {
+			return b
+		}
+	} else if a != nil {
+		return a
+	} else if b != nil {
+		return b
+	}
+
+	return nil
+}
+
+// appendUniquePatterns combines two pattern slices, keeping only unique patterns
+// based on their string representation.
+func appendUniquePatterns(existing, new []*regexp.Regexp) []*regexp.Regexp {
+	if len(new) == 0 {
+		return existing
+	}
+	if len(existing) == 0 {
+		return new
+	}
+
+	// Build a set of existing pattern strings
+	seen := set.Make[string]()
+	for _, p := range existing {
+		seen.Add(p.String())
+	}
+
+	// Start with existing patterns
+	result := existing
+	for _, p := range new {
+		patternStr := p.String()
+		if seen.Contains(patternStr) {
+			continue
+		}
+		seen.Add(patternStr)
+		result = append(result, p)
+	}
+
+	return result
 }

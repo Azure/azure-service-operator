@@ -968,6 +968,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobService_STATUS(gens map[s
 	gens["LastAccessTimeTrackingPolicy"] = gen.PtrOf(LastAccessTimeTrackingPolicy_STATUSGenerator())
 	gens["RestorePolicy"] = gen.PtrOf(RestorePolicyProperties_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_StorageAccountsBlobService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

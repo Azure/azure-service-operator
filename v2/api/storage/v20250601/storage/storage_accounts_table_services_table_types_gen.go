@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250601.StorageAccountsTableServicesTable
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/table.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}
 type StorageAccountsTableServicesTable struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (table *StorageAccountsTableServicesTable) OriginalGVK() *schema.GroupVersi
 // +kubebuilder:object:root=true
 // Storage version of v20250601.StorageAccountsTableServicesTable
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/table.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}
 type StorageAccountsTableServicesTableList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -210,6 +210,7 @@ type StorageAccountsTableServicesTable_STATUS struct {
 	Name              *string                        `json:"name,omitempty"`
 	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	SignedIdentifiers []TableSignedIdentifier_STATUS `json:"signedIdentifiers,omitempty"`
+	SystemData        *SystemData_STATUS             `json:"systemData,omitempty"`
 	TableName         *string                        `json:"tableName,omitempty"`
 	Type              *string                        `json:"type,omitempty"`
 }

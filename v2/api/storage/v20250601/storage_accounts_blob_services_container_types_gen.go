@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -283,7 +283,7 @@ type StorageAccountsBlobServicesContainer_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
+	PublicAccess *PublicAccess `json:"publicAccess,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainer_Spec{}
@@ -341,7 +341,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) ConvertToARM(resolve
 	if container.PublicAccess != nil {
 		var temp string
 		temp = string(*container.PublicAccess)
-		publicAccess := arm.ContainerProperties_PublicAccess(temp)
+		publicAccess := arm.PublicAccess(temp)
 		result.Properties.PublicAccess = &publicAccess
 	}
 	return result, nil
@@ -437,7 +437,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) PopulateFromARM(owne
 		if typedInput.Properties.PublicAccess != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicAccess)
-			publicAccess := ContainerProperties_PublicAccess(temp)
+			publicAccess := PublicAccess(temp)
 			container.PublicAccess = &publicAccess
 		}
 	}
@@ -567,7 +567,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_Fro
 	// PublicAccess
 	if source.PublicAccess != nil {
 		publicAccess := *source.PublicAccess
-		publicAccessTemp := genruntime.ToEnum(publicAccess, containerProperties_PublicAccess_Values)
+		publicAccessTemp := genruntime.ToEnum(publicAccess, publicAccess_Values)
 		container.PublicAccess = &publicAccessTemp
 	} else {
 		container.PublicAccess = nil
@@ -716,7 +716,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) Initialize_From_Stor
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := genruntime.ToEnum(string(*source.PublicAccess), containerProperties_PublicAccess_Values)
+		publicAccess := genruntime.ToEnum(string(*source.PublicAccess), publicAccess_Values)
 		container.PublicAccess = &publicAccess
 	} else {
 		container.PublicAccess = nil
@@ -771,8 +771,8 @@ type StorageAccountsBlobServicesContainer_STATUS struct {
 	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
@@ -787,13 +787,13 @@ type StorageAccountsBlobServicesContainer_STATUS struct {
 
 	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
 	// leased.
-	LeaseDuration *ContainerProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
+	LeaseDuration *LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
 
 	// LeaseState: Lease state of the container.
-	LeaseState *ContainerProperties_LeaseState_STATUS `json:"leaseState,omitempty"`
+	LeaseState *LeaseState_STATUS `json:"leaseState,omitempty"`
 
 	// LeaseStatus: The lease status of the container.
-	LeaseStatus *ContainerProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
+	LeaseStatus *LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// LegalHold: The LegalHold property of the container.
 	LegalHold *LegalHoldProperties_STATUS `json:"legalHold,omitempty"`
@@ -805,10 +805,13 @@ type StorageAccountsBlobServicesContainer_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess_STATUS `json:"publicAccess,omitempty"`
+	PublicAccess *PublicAccess_STATUS `json:"publicAccess,omitempty"`
 
 	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -1010,7 +1013,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(ow
 		if typedInput.Properties.LeaseDuration != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LeaseDuration)
-			leaseDuration := ContainerProperties_LeaseDuration_STATUS(temp)
+			leaseDuration := LeaseDuration_STATUS(temp)
 			container.LeaseDuration = &leaseDuration
 		}
 	}
@@ -1021,7 +1024,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(ow
 		if typedInput.Properties.LeaseState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LeaseState)
-			leaseState := ContainerProperties_LeaseState_STATUS(temp)
+			leaseState := LeaseState_STATUS(temp)
 			container.LeaseState = &leaseState
 		}
 	}
@@ -1032,7 +1035,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(ow
 		if typedInput.Properties.LeaseStatus != nil {
 			var temp string
 			temp = string(*typedInput.Properties.LeaseStatus)
-			leaseStatus := ContainerProperties_LeaseStatus_STATUS(temp)
+			leaseStatus := LeaseStatus_STATUS(temp)
 			container.LeaseStatus = &leaseStatus
 		}
 	}
@@ -1074,7 +1077,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(ow
 		if typedInput.Properties.PublicAccess != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicAccess)
-			publicAccess := ContainerProperties_PublicAccess_STATUS(temp)
+			publicAccess := PublicAccess_STATUS(temp)
 			container.PublicAccess = &publicAccess
 		}
 	}
@@ -1086,6 +1089,17 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(ow
 			remainingRetentionDays := *typedInput.Properties.RemainingRetentionDays
 			container.RemainingRetentionDays = &remainingRetentionDays
 		}
+	}
+
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		container.SystemData = &systemData
 	}
 
 	// Set property "Type":
@@ -1203,7 +1217,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 	// LeaseDuration
 	if source.LeaseDuration != nil {
 		leaseDuration := *source.LeaseDuration
-		leaseDurationTemp := genruntime.ToEnum(leaseDuration, containerProperties_LeaseDuration_STATUS_Values)
+		leaseDurationTemp := genruntime.ToEnum(leaseDuration, leaseDuration_STATUS_Values)
 		container.LeaseDuration = &leaseDurationTemp
 	} else {
 		container.LeaseDuration = nil
@@ -1212,7 +1226,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 	// LeaseState
 	if source.LeaseState != nil {
 		leaseState := *source.LeaseState
-		leaseStateTemp := genruntime.ToEnum(leaseState, containerProperties_LeaseState_STATUS_Values)
+		leaseStateTemp := genruntime.ToEnum(leaseState, leaseState_STATUS_Values)
 		container.LeaseState = &leaseStateTemp
 	} else {
 		container.LeaseState = nil
@@ -1221,7 +1235,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 	// LeaseStatus
 	if source.LeaseStatus != nil {
 		leaseStatus := *source.LeaseStatus
-		leaseStatusTemp := genruntime.ToEnum(leaseStatus, containerProperties_LeaseStatus_STATUS_Values)
+		leaseStatusTemp := genruntime.ToEnum(leaseStatus, leaseStatus_STATUS_Values)
 		container.LeaseStatus = &leaseStatusTemp
 	} else {
 		container.LeaseStatus = nil
@@ -1248,7 +1262,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 	// PublicAccess
 	if source.PublicAccess != nil {
 		publicAccess := *source.PublicAccess
-		publicAccessTemp := genruntime.ToEnum(publicAccess, containerProperties_PublicAccess_STATUS_Values)
+		publicAccessTemp := genruntime.ToEnum(publicAccess, publicAccess_STATUS_Values)
 		container.PublicAccess = &publicAccessTemp
 	} else {
 		container.PublicAccess = nil
@@ -1256,6 +1270,18 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 
 	// RemainingRetentionDays
 	container.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		container.SystemData = &systemDatum
+	} else {
+		container.SystemData = nil
+	}
 
 	// Type
 	container.Type = genruntime.ClonePointerToString(source.Type)
@@ -1415,6 +1441,18 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 	// RemainingRetentionDays
 	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(container.RemainingRetentionDays)
 
+	// SystemData
+	if container.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := container.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Type
 	destination.Type = genruntime.ClonePointerToString(container.Type)
 
@@ -1430,82 +1468,6 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 
 	// No error
 	return nil
-}
-
-type ContainerProperties_LeaseDuration_STATUS string
-
-const (
-	ContainerProperties_LeaseDuration_STATUS_Fixed    = ContainerProperties_LeaseDuration_STATUS("Fixed")
-	ContainerProperties_LeaseDuration_STATUS_Infinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
-)
-
-// Mapping from string to ContainerProperties_LeaseDuration_STATUS
-var containerProperties_LeaseDuration_STATUS_Values = map[string]ContainerProperties_LeaseDuration_STATUS{
-	"fixed":    ContainerProperties_LeaseDuration_STATUS_Fixed,
-	"infinite": ContainerProperties_LeaseDuration_STATUS_Infinite,
-}
-
-type ContainerProperties_LeaseState_STATUS string
-
-const (
-	ContainerProperties_LeaseState_STATUS_Available = ContainerProperties_LeaseState_STATUS("Available")
-	ContainerProperties_LeaseState_STATUS_Breaking  = ContainerProperties_LeaseState_STATUS("Breaking")
-	ContainerProperties_LeaseState_STATUS_Broken    = ContainerProperties_LeaseState_STATUS("Broken")
-	ContainerProperties_LeaseState_STATUS_Expired   = ContainerProperties_LeaseState_STATUS("Expired")
-	ContainerProperties_LeaseState_STATUS_Leased    = ContainerProperties_LeaseState_STATUS("Leased")
-)
-
-// Mapping from string to ContainerProperties_LeaseState_STATUS
-var containerProperties_LeaseState_STATUS_Values = map[string]ContainerProperties_LeaseState_STATUS{
-	"available": ContainerProperties_LeaseState_STATUS_Available,
-	"breaking":  ContainerProperties_LeaseState_STATUS_Breaking,
-	"broken":    ContainerProperties_LeaseState_STATUS_Broken,
-	"expired":   ContainerProperties_LeaseState_STATUS_Expired,
-	"leased":    ContainerProperties_LeaseState_STATUS_Leased,
-}
-
-type ContainerProperties_LeaseStatus_STATUS string
-
-const (
-	ContainerProperties_LeaseStatus_STATUS_Locked   = ContainerProperties_LeaseStatus_STATUS("Locked")
-	ContainerProperties_LeaseStatus_STATUS_Unlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
-)
-
-// Mapping from string to ContainerProperties_LeaseStatus_STATUS
-var containerProperties_LeaseStatus_STATUS_Values = map[string]ContainerProperties_LeaseStatus_STATUS{
-	"locked":   ContainerProperties_LeaseStatus_STATUS_Locked,
-	"unlocked": ContainerProperties_LeaseStatus_STATUS_Unlocked,
-}
-
-// +kubebuilder:validation:Enum={"Blob","Container","None"}
-type ContainerProperties_PublicAccess string
-
-const (
-	ContainerProperties_PublicAccess_Blob      = ContainerProperties_PublicAccess("Blob")
-	ContainerProperties_PublicAccess_Container = ContainerProperties_PublicAccess("Container")
-	ContainerProperties_PublicAccess_None      = ContainerProperties_PublicAccess("None")
-)
-
-// Mapping from string to ContainerProperties_PublicAccess
-var containerProperties_PublicAccess_Values = map[string]ContainerProperties_PublicAccess{
-	"blob":      ContainerProperties_PublicAccess_Blob,
-	"container": ContainerProperties_PublicAccess_Container,
-	"none":      ContainerProperties_PublicAccess_None,
-}
-
-type ContainerProperties_PublicAccess_STATUS string
-
-const (
-	ContainerProperties_PublicAccess_STATUS_Blob      = ContainerProperties_PublicAccess_STATUS("Blob")
-	ContainerProperties_PublicAccess_STATUS_Container = ContainerProperties_PublicAccess_STATUS("Container")
-	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
-)
-
-// Mapping from string to ContainerProperties_PublicAccess_STATUS
-var containerProperties_PublicAccess_STATUS_Values = map[string]ContainerProperties_PublicAccess_STATUS{
-	"blob":      ContainerProperties_PublicAccess_STATUS_Blob,
-	"container": ContainerProperties_PublicAccess_STATUS_Container,
-	"none":      ContainerProperties_PublicAccess_STATUS_None,
 }
 
 // The properties of an ImmutabilityPolicy of a blob container.
@@ -1531,7 +1493,7 @@ type ImmutabilityPolicyProperties_STATUS struct {
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
 	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
-	State *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
+	State *ImmutabilityPolicyState_STATUS `json:"state,omitempty"`
 
 	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
 	UpdateHistory []UpdateHistoryProperty_STATUS `json:"updateHistory,omitempty"`
@@ -1590,7 +1552,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner gen
 		if typedInput.Properties.State != nil {
 			var temp string
 			temp = string(*typedInput.Properties.State)
-			state := ImmutabilityPolicyProperty_State_STATUS(temp)
+			state := ImmutabilityPolicyState_STATUS(temp)
 			properties.State = &state
 		}
 	}
@@ -1637,7 +1599,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_Imm
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, immutabilityPolicyProperty_State_STATUS_Values)
+		stateTemp := genruntime.ToEnum(state, immutabilityPolicyState_STATUS_Values)
 		properties.State = &stateTemp
 	} else {
 		properties.State = nil
@@ -1830,7 +1792,7 @@ type ImmutableStorageWithVersioning_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
-	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
+	MigrationState *MigrationState_STATUS `json:"migrationState,omitempty"`
 
 	// TimeStamp: Returns the date and time the object level immutability was enabled.
 	TimeStamp *string `json:"timeStamp,omitempty"`
@@ -1860,7 +1822,7 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) PopulateFromARM(owner g
 	if typedInput.MigrationState != nil {
 		var temp string
 		temp = string(*typedInput.MigrationState)
-		migrationState := ImmutableStorageWithVersioning_MigrationState_STATUS(temp)
+		migrationState := MigrationState_STATUS(temp)
 		versioning.MigrationState = &migrationState
 	}
 
@@ -1888,7 +1850,7 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_From_I
 	// MigrationState
 	if source.MigrationState != nil {
 		migrationState := *source.MigrationState
-		migrationStateTemp := genruntime.ToEnum(migrationState, immutableStorageWithVersioning_MigrationState_STATUS_Values)
+		migrationStateTemp := genruntime.ToEnum(migrationState, migrationState_STATUS_Values)
 		versioning.MigrationState = &migrationStateTemp
 	} else {
 		versioning.MigrationState = nil
@@ -1934,6 +1896,54 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_To_Imm
 
 	// No error
 	return nil
+}
+
+// Specifies whether the lease on a container is of infinite or fixed duration, only when the container is leased.
+type LeaseDuration_STATUS string
+
+const (
+	LeaseDuration_STATUS_Fixed    = LeaseDuration_STATUS("Fixed")
+	LeaseDuration_STATUS_Infinite = LeaseDuration_STATUS("Infinite")
+)
+
+// Mapping from string to LeaseDuration_STATUS
+var leaseDuration_STATUS_Values = map[string]LeaseDuration_STATUS{
+	"fixed":    LeaseDuration_STATUS_Fixed,
+	"infinite": LeaseDuration_STATUS_Infinite,
+}
+
+// Lease state of the container.
+type LeaseState_STATUS string
+
+const (
+	LeaseState_STATUS_Available = LeaseState_STATUS("Available")
+	LeaseState_STATUS_Breaking  = LeaseState_STATUS("Breaking")
+	LeaseState_STATUS_Broken    = LeaseState_STATUS("Broken")
+	LeaseState_STATUS_Expired   = LeaseState_STATUS("Expired")
+	LeaseState_STATUS_Leased    = LeaseState_STATUS("Leased")
+)
+
+// Mapping from string to LeaseState_STATUS
+var leaseState_STATUS_Values = map[string]LeaseState_STATUS{
+	"available": LeaseState_STATUS_Available,
+	"breaking":  LeaseState_STATUS_Breaking,
+	"broken":    LeaseState_STATUS_Broken,
+	"expired":   LeaseState_STATUS_Expired,
+	"leased":    LeaseState_STATUS_Leased,
+}
+
+// The lease status of the container.
+type LeaseStatus_STATUS string
+
+const (
+	LeaseStatus_STATUS_Locked   = LeaseStatus_STATUS("Locked")
+	LeaseStatus_STATUS_Unlocked = LeaseStatus_STATUS("Unlocked")
+)
+
+// Mapping from string to LeaseStatus_STATUS
+var leaseStatus_STATUS_Values = map[string]LeaseStatus_STATUS{
+	"locked":   LeaseStatus_STATUS_Locked,
+	"unlocked": LeaseStatus_STATUS_Unlocked,
 }
 
 // The LegalHold property of a blob container.
@@ -2090,6 +2100,39 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 	return nil
 }
 
+// Specifies whether data in the container may be accessed publicly and the level of access.
+// +kubebuilder:validation:Enum={"Blob","Container","None"}
+type PublicAccess string
+
+const (
+	PublicAccess_Blob      = PublicAccess("Blob")
+	PublicAccess_Container = PublicAccess("Container")
+	PublicAccess_None      = PublicAccess("None")
+)
+
+// Mapping from string to PublicAccess
+var publicAccess_Values = map[string]PublicAccess{
+	"blob":      PublicAccess_Blob,
+	"container": PublicAccess_Container,
+	"none":      PublicAccess_None,
+}
+
+// Specifies whether data in the container may be accessed publicly and the level of access.
+type PublicAccess_STATUS string
+
+const (
+	PublicAccess_STATUS_Blob      = PublicAccess_STATUS("Blob")
+	PublicAccess_STATUS_Container = PublicAccess_STATUS("Container")
+	PublicAccess_STATUS_None      = PublicAccess_STATUS("None")
+)
+
+// Mapping from string to PublicAccess_STATUS
+var publicAccess_STATUS_Values = map[string]PublicAccess_STATUS{
+	"blob":      PublicAccess_STATUS_Blob,
+	"container": PublicAccess_STATUS_Container,
+	"none":      PublicAccess_STATUS_None,
+}
+
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type StorageAccountsBlobServicesContainerOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -2186,30 +2229,32 @@ func (operator *StorageAccountsBlobServicesContainerOperatorSpec) AssignProperti
 	return nil
 }
 
-type ImmutabilityPolicyProperty_State_STATUS string
+// The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
+type ImmutabilityPolicyState_STATUS string
 
 const (
-	ImmutabilityPolicyProperty_State_STATUS_Locked   = ImmutabilityPolicyProperty_State_STATUS("Locked")
-	ImmutabilityPolicyProperty_State_STATUS_Unlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
+	ImmutabilityPolicyState_STATUS_Locked   = ImmutabilityPolicyState_STATUS("Locked")
+	ImmutabilityPolicyState_STATUS_Unlocked = ImmutabilityPolicyState_STATUS("Unlocked")
 )
 
-// Mapping from string to ImmutabilityPolicyProperty_State_STATUS
-var immutabilityPolicyProperty_State_STATUS_Values = map[string]ImmutabilityPolicyProperty_State_STATUS{
-	"locked":   ImmutabilityPolicyProperty_State_STATUS_Locked,
-	"unlocked": ImmutabilityPolicyProperty_State_STATUS_Unlocked,
+// Mapping from string to ImmutabilityPolicyState_STATUS
+var immutabilityPolicyState_STATUS_Values = map[string]ImmutabilityPolicyState_STATUS{
+	"locked":   ImmutabilityPolicyState_STATUS_Locked,
+	"unlocked": ImmutabilityPolicyState_STATUS_Unlocked,
 }
 
-type ImmutableStorageWithVersioning_MigrationState_STATUS string
+// This property denotes the container level immutability to object level immutability migration state.
+type MigrationState_STATUS string
 
 const (
-	ImmutableStorageWithVersioning_MigrationState_STATUS_Completed  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
-	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
+	MigrationState_STATUS_Completed  = MigrationState_STATUS("Completed")
+	MigrationState_STATUS_InProgress = MigrationState_STATUS("InProgress")
 )
 
-// Mapping from string to ImmutableStorageWithVersioning_MigrationState_STATUS
-var immutableStorageWithVersioning_MigrationState_STATUS_Values = map[string]ImmutableStorageWithVersioning_MigrationState_STATUS{
-	"completed":  ImmutableStorageWithVersioning_MigrationState_STATUS_Completed,
-	"inprogress": ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress,
+// Mapping from string to MigrationState_STATUS
+var migrationState_STATUS_Values = map[string]MigrationState_STATUS{
+	"completed":  MigrationState_STATUS_Completed,
+	"inprogress": MigrationState_STATUS_InProgress,
 }
 
 // Protected append writes history setting for the blob container with Legal holds.
@@ -2445,7 +2490,7 @@ type UpdateHistoryProperty_STATUS struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 
 	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
-	Update *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
+	Update *ImmutabilityPolicyUpdateType_STATUS `json:"update,omitempty"`
 
 	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
 	Upn *string `json:"upn,omitempty"`
@@ -2505,7 +2550,7 @@ func (property *UpdateHistoryProperty_STATUS) PopulateFromARM(owner genruntime.A
 	if typedInput.Update != nil {
 		var temp string
 		temp = string(*typedInput.Update)
-		update := UpdateHistoryProperty_Update_STATUS(temp)
+		update := ImmutabilityPolicyUpdateType_STATUS(temp)
 		property.Update = &update
 	}
 
@@ -2553,7 +2598,7 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistor
 	// Update
 	if source.Update != nil {
 		update := *source.Update
-		updateTemp := genruntime.ToEnum(update, updateHistoryProperty_Update_STATUS_Values)
+		updateTemp := genruntime.ToEnum(update, immutabilityPolicyUpdateType_STATUS_Values)
 		property.Update = &updateTemp
 	} else {
 		property.Update = nil
@@ -2621,19 +2666,20 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryP
 	return nil
 }
 
-type UpdateHistoryProperty_Update_STATUS string
+// The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
+type ImmutabilityPolicyUpdateType_STATUS string
 
 const (
-	UpdateHistoryProperty_Update_STATUS_Extend = UpdateHistoryProperty_Update_STATUS("extend")
-	UpdateHistoryProperty_Update_STATUS_Lock   = UpdateHistoryProperty_Update_STATUS("lock")
-	UpdateHistoryProperty_Update_STATUS_Put    = UpdateHistoryProperty_Update_STATUS("put")
+	ImmutabilityPolicyUpdateType_STATUS_Extend = ImmutabilityPolicyUpdateType_STATUS("extend")
+	ImmutabilityPolicyUpdateType_STATUS_Lock   = ImmutabilityPolicyUpdateType_STATUS("lock")
+	ImmutabilityPolicyUpdateType_STATUS_Put    = ImmutabilityPolicyUpdateType_STATUS("put")
 )
 
-// Mapping from string to UpdateHistoryProperty_Update_STATUS
-var updateHistoryProperty_Update_STATUS_Values = map[string]UpdateHistoryProperty_Update_STATUS{
-	"extend": UpdateHistoryProperty_Update_STATUS_Extend,
-	"lock":   UpdateHistoryProperty_Update_STATUS_Lock,
-	"put":    UpdateHistoryProperty_Update_STATUS_Put,
+// Mapping from string to ImmutabilityPolicyUpdateType_STATUS
+var immutabilityPolicyUpdateType_STATUS_Values = map[string]ImmutabilityPolicyUpdateType_STATUS{
+	"extend": ImmutabilityPolicyUpdateType_STATUS_Extend,
+	"lock":   ImmutabilityPolicyUpdateType_STATUS_Lock,
+	"put":    ImmutabilityPolicyUpdateType_STATUS_Put,
 }
 
 func init() {

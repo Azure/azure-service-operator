@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/privateLinkService.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/privateLinkService.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}
 type PrivateLinkService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -262,7 +262,7 @@ func (service *PrivateLinkService) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/privateLinkService.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/privateLinkService.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}
 type PrivateLinkServiceList struct {
 	metav1.TypeMeta `json:",inline"`

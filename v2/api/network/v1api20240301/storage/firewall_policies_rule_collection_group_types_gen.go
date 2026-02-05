@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.FirewallPoliciesRuleCollectionGroup
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/firewallPolicy.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/firewallPolicy.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}
 type FirewallPoliciesRuleCollectionGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (group *FirewallPoliciesRuleCollectionGroup) OriginalGVK() *schema.GroupVer
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.FirewallPoliciesRuleCollectionGroup
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/firewallPolicy.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/firewallPolicy.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}
 type FirewallPoliciesRuleCollectionGroupList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -16,7 +16,6 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
 	"github.com/rotisserie/eris"
-	"golang.org/x/exp/slices"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -520,16 +519,13 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 
 // a Schema represents an ARM resource if it (or anything reachable via $ref or AllOf)
 // is marked with x-ms-azure-resource, or if it (or anything reachable via $ref or AllOf)
-// has each of the properties: id,name,type, and they are all readonly and required.
+// has each of the properties: id,name,type, and they are all strings.
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
 // and: https://github.com/Azure/autorest/issues/2127
 func isMarkedAsARMResource(schema Schema) bool {
 	hasID := false
-	idRequired := false
 	hasName := false
-	nameRequired := false
 	hasType := false
-	typeRequired := false
 
 	var recurse func(schema Schema) bool
 	recurse = func(schema Schema) bool {
@@ -540,38 +536,26 @@ func isMarkedAsARMResource(schema Schema) bool {
 		props := schema.properties()
 		if !hasID {
 			if idProp, ok := props["id"]; ok {
-				if idProp.hasType("string") && idProp.readOnly() {
+				if idProp.hasType("string") {
 					hasID = true
 				}
 			}
 		}
 
-		if !idRequired {
-			idRequired = slices.Contains(schema.requiredProperties(), "id")
-		}
-
 		if !hasName {
 			if nameProp, ok := props["name"]; ok {
-				if nameProp.hasType("string") && nameProp.readOnly() {
+				if nameProp.hasType("string") {
 					hasName = true
 				}
 			}
 		}
 
-		if !nameRequired {
-			nameRequired = slices.Contains(schema.requiredProperties(), "name")
-		}
-
 		if !hasType {
 			if typeProp, ok := props["type"]; ok {
-				if typeProp.hasType("string") && typeProp.readOnly() {
+				if typeProp.hasType("string") {
 					hasType = true
 				}
 			}
-		}
-
-		if !typeRequired {
-			typeRequired = slices.Contains(schema.requiredProperties(), "type")
 		}
 
 		if schema.isRef() {

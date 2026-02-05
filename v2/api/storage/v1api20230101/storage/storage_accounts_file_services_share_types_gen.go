@@ -673,6 +673,13 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// SnapshotTime
 	share.SnapshotTime = genruntime.ClonePointerToString(source.SnapshotTime)
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Type
 	share.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -784,6 +791,19 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 
 	// SnapshotTime
 	destination.SnapshotTime = genruntime.ClonePointerToString(share.SnapshotTime)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(share.Type)

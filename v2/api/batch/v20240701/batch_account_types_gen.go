@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2024-07-01/BatchManagement.json
+// - Generated from: /batch/resource-manager/Microsoft.Batch/Batch/stable/2024-07-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2024-07-01/BatchManagement.json
+// - Generated from: /batch/resource-manager/Microsoft.Batch/Batch/stable/2024-07-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -261,7 +261,7 @@ type BatchAccount_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-z0-9]+$"
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -298,8 +298,8 @@ type BatchAccount_Spec struct {
 	// clients must use Microsoft Entra ID. The default is BatchService.
 	PoolAllocationMode *PoolAllocationMode `json:"poolAllocationMode,omitempty"`
 
-	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
+	// PublicNetworkAccess: The network access type for operating on the resources in the Batch account.
+	PublicNetworkAccess *BatchAccountCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -389,7 +389,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	if account.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*account.PublicNetworkAccess)
-		publicNetworkAccess := arm.PublicNetworkAccessType(temp)
+		publicNetworkAccess := arm.BatchAccountCreateProperties_PublicNetworkAccess(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -526,7 +526,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicNetworkAccess)
-			publicNetworkAccess := PublicNetworkAccessType(temp)
+			publicNetworkAccess := BatchAccountCreateProperties_PublicNetworkAccess(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -705,7 +705,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := *source.PublicNetworkAccess
-		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccessType_Values)
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, batchAccountCreateProperties_PublicNetworkAccess_Values)
 		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
@@ -941,7 +941,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), publicNetworkAccessType_Values)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), batchAccountCreateProperties_PublicNetworkAccess_Values)
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -965,8 +965,10 @@ func (account *BatchAccount_Spec) SetAzureName(azureName string) { account.Azure
 // Contains information about an Azure Batch account.
 type BatchAccount_STATUS struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
-	AccountEndpoint              *string `json:"accountEndpoint,omitempty"`
-	ActiveJobAndJobScheduleQuota *int    `json:"activeJobAndJobScheduleQuota,omitempty"`
+	AccountEndpoint *string `json:"accountEndpoint,omitempty"`
+
+	// ActiveJobAndJobScheduleQuota: The active job and job schedule quota for the Batch account.
+	ActiveJobAndJobScheduleQuota *int `json:"activeJobAndJobScheduleQuota,omitempty"`
 
 	// AllowedAuthenticationModes: List of allowed authentication modes for the Batch account that can be used to authenticate
 	// with the data plane. This does not affect authentication with the control plane.
@@ -996,7 +998,8 @@ type BatchAccount_STATUS struct {
 	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
 	Encryption *EncryptionProperties_STATUS `json:"encryption,omitempty"`
 
-	// Id: The ID of the resource.
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the Batch account.
@@ -1005,14 +1008,14 @@ type BatchAccount_STATUS struct {
 	// KeyVaultReference: Identifies the Azure key vault associated with a Batch account.
 	KeyVaultReference *KeyVaultReference_STATUS `json:"keyVaultReference,omitempty"`
 
-	// Location: The location of the resource.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
 	// so this value is not returned.
 	LowPriorityCoreQuota *int `json:"lowPriorityCoreQuota,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// NetworkProfile: The network profile only takes effect when publicNetworkAccess is enabled.
@@ -1023,21 +1026,26 @@ type BatchAccount_STATUS struct {
 
 	// PoolAllocationMode: The allocation mode for creating pools in the Batch account.
 	PoolAllocationMode *PoolAllocationMode_STATUS `json:"poolAllocationMode,omitempty"`
-	PoolQuota          *int                       `json:"poolQuota,omitempty"`
+
+	// PoolQuota: The pool quota for the Batch account.
+	PoolQuota *int `json:"poolQuota,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
-	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType_STATUS `json:"publicNetworkAccess,omitempty"`
+	// PublicNetworkAccess: The network access type for operating on the resources in the Batch account.
+	PublicNetworkAccess *BatchAccountProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
-	// Tags: The tags of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -1308,7 +1316,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.ProvisioningState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
-			provisioningState := BatchAccountProperties_ProvisioningState_STATUS(temp)
+			provisioningState := ProvisioningState_STATUS(temp)
 			account.ProvisioningState = &provisioningState
 		}
 	}
@@ -1319,9 +1327,20 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicNetworkAccess)
-			publicNetworkAccess := PublicNetworkAccessType_STATUS(temp)
+			publicNetworkAccess := BatchAccountProperties_PublicNetworkAccess_STATUS(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
+	}
+
+	// Set property "SystemData":
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		account.SystemData = &systemData
 	}
 
 	// Set property "Tags":
@@ -1498,7 +1517,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, batchAccountProperties_ProvisioningState_STATUS_Values)
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
 		account.ProvisioningState = &provisioningStateTemp
 	} else {
 		account.ProvisioningState = nil
@@ -1507,10 +1526,22 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := *source.PublicNetworkAccess
-		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccessType_STATUS_Values)
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, batchAccountProperties_PublicNetworkAccess_STATUS_Values)
 		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		account.SystemData = &systemDatum
+	} else {
+		account.SystemData = nil
 	}
 
 	// Tags
@@ -1691,6 +1722,18 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
+	}
+
+	// SystemData
+	if account.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := account.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags
@@ -2089,12 +2132,28 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageP
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
+type BatchAccountCreateProperties_PublicNetworkAccess string
+
+const (
+	BatchAccountCreateProperties_PublicNetworkAccess_Disabled           = BatchAccountCreateProperties_PublicNetworkAccess("Disabled")
+	BatchAccountCreateProperties_PublicNetworkAccess_Enabled            = BatchAccountCreateProperties_PublicNetworkAccess("Enabled")
+	BatchAccountCreateProperties_PublicNetworkAccess_SecuredByPerimeter = BatchAccountCreateProperties_PublicNetworkAccess("SecuredByPerimeter")
+)
+
+// Mapping from string to BatchAccountCreateProperties_PublicNetworkAccess
+var batchAccountCreateProperties_PublicNetworkAccess_Values = map[string]BatchAccountCreateProperties_PublicNetworkAccess{
+	"disabled":           BatchAccountCreateProperties_PublicNetworkAccess_Disabled,
+	"enabled":            BatchAccountCreateProperties_PublicNetworkAccess_Enabled,
+	"securedbyperimeter": BatchAccountCreateProperties_PublicNetworkAccess_SecuredByPerimeter,
+}
+
 // The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their
 // Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode.
 type BatchAccountIdentity struct {
 	// +kubebuilder:validation:Required
 	// Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
+	Type *ResourceIdentityType `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account.
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
@@ -2113,7 +2172,7 @@ func (identity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := arm.BatchAccountIdentity_Type(temp)
+		typeVar := arm.ResourceIdentityType(temp)
 		result.Type = &typeVar
 	}
 
@@ -2146,7 +2205,7 @@ func (identity *BatchAccountIdentity) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := BatchAccountIdentity_Type(temp)
+		typeVar := ResourceIdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2162,7 +2221,7 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, batchAccountIdentity_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, resourceIdentityType_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -2233,7 +2292,7 @@ func (identity *BatchAccountIdentity) Initialize_From_BatchAccountIdentity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), batchAccountIdentity_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), resourceIdentityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2266,7 +2325,7 @@ type BatchAccountIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ResourceIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account.
 	UserAssignedIdentities map[string]UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -2302,7 +2361,7 @@ func (identity *BatchAccountIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := BatchAccountIdentity_Type_STATUS(temp)
+		typeVar := ResourceIdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2335,7 +2394,7 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, batchAccountIdentity_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, resourceIdentityType_STATUS_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -2503,32 +2562,26 @@ func (operator *BatchAccountOperatorSpec) AssignProperties_To_BatchAccountOperat
 	return nil
 }
 
-type BatchAccountProperties_ProvisioningState_STATUS string
+type BatchAccountProperties_PublicNetworkAccess_STATUS string
 
 const (
-	BatchAccountProperties_ProvisioningState_STATUS_Cancelled = BatchAccountProperties_ProvisioningState_STATUS("Cancelled")
-	BatchAccountProperties_ProvisioningState_STATUS_Creating  = BatchAccountProperties_ProvisioningState_STATUS("Creating")
-	BatchAccountProperties_ProvisioningState_STATUS_Deleting  = BatchAccountProperties_ProvisioningState_STATUS("Deleting")
-	BatchAccountProperties_ProvisioningState_STATUS_Failed    = BatchAccountProperties_ProvisioningState_STATUS("Failed")
-	BatchAccountProperties_ProvisioningState_STATUS_Invalid   = BatchAccountProperties_ProvisioningState_STATUS("Invalid")
-	BatchAccountProperties_ProvisioningState_STATUS_Succeeded = BatchAccountProperties_ProvisioningState_STATUS("Succeeded")
+	BatchAccountProperties_PublicNetworkAccess_STATUS_Disabled           = BatchAccountProperties_PublicNetworkAccess_STATUS("Disabled")
+	BatchAccountProperties_PublicNetworkAccess_STATUS_Enabled            = BatchAccountProperties_PublicNetworkAccess_STATUS("Enabled")
+	BatchAccountProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter = BatchAccountProperties_PublicNetworkAccess_STATUS("SecuredByPerimeter")
 )
 
-// Mapping from string to BatchAccountProperties_ProvisioningState_STATUS
-var batchAccountProperties_ProvisioningState_STATUS_Values = map[string]BatchAccountProperties_ProvisioningState_STATUS{
-	"cancelled": BatchAccountProperties_ProvisioningState_STATUS_Cancelled,
-	"creating":  BatchAccountProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  BatchAccountProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    BatchAccountProperties_ProvisioningState_STATUS_Failed,
-	"invalid":   BatchAccountProperties_ProvisioningState_STATUS_Invalid,
-	"succeeded": BatchAccountProperties_ProvisioningState_STATUS_Succeeded,
+// Mapping from string to BatchAccountProperties_PublicNetworkAccess_STATUS
+var batchAccountProperties_PublicNetworkAccess_STATUS_Values = map[string]BatchAccountProperties_PublicNetworkAccess_STATUS{
+	"disabled":           BatchAccountProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":            BatchAccountProperties_PublicNetworkAccess_STATUS_Enabled,
+	"securedbyperimeter": BatchAccountProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter,
 }
 
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
+	KeySource *KeySource `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
@@ -2547,7 +2600,7 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 	if properties.KeySource != nil {
 		var temp string
 		temp = string(*properties.KeySource)
-		keySource := arm.EncryptionProperties_KeySource(temp)
+		keySource := arm.KeySource(temp)
 		result.KeySource = &keySource
 	}
 
@@ -2579,7 +2632,7 @@ func (properties *EncryptionProperties) PopulateFromARM(owner genruntime.Arbitra
 	if typedInput.KeySource != nil {
 		var temp string
 		temp = string(*typedInput.KeySource)
-		keySource := EncryptionProperties_KeySource(temp)
+		keySource := KeySource(temp)
 		properties.KeySource = &keySource
 	}
 
@@ -2604,7 +2657,7 @@ func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperti
 	// KeySource
 	if source.KeySource != nil {
 		keySource := *source.KeySource
-		keySourceTemp := genruntime.ToEnum(keySource, encryptionProperties_KeySource_Values)
+		keySourceTemp := genruntime.ToEnum(keySource, keySource_Values)
 		properties.KeySource = &keySourceTemp
 	} else {
 		properties.KeySource = nil
@@ -2667,7 +2720,7 @@ func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STA
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := genruntime.ToEnum(string(*source.KeySource), encryptionProperties_KeySource_Values)
+		keySource := genruntime.ToEnum(string(*source.KeySource), keySource_Values)
 		properties.KeySource = &keySource
 	} else {
 		properties.KeySource = nil
@@ -2693,7 +2746,7 @@ func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STA
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
+	KeySource *KeySource_STATUS `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -2717,7 +2770,7 @@ func (properties *EncryptionProperties_STATUS) PopulateFromARM(owner genruntime.
 	if typedInput.KeySource != nil {
 		var temp string
 		temp = string(*typedInput.KeySource)
-		keySource := EncryptionProperties_KeySource_STATUS(temp)
+		keySource := KeySource_STATUS(temp)
 		properties.KeySource = &keySource
 	}
 
@@ -2742,7 +2795,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionP
 	// KeySource
 	if source.KeySource != nil {
 		keySource := *source.KeySource
-		keySourceTemp := genruntime.ToEnum(keySource, encryptionProperties_KeySource_STATUS_Values)
+		keySourceTemp := genruntime.ToEnum(keySource, keySource_STATUS_Values)
 		properties.KeySource = &keySourceTemp
 	} else {
 		properties.KeySource = nil
@@ -3332,7 +3385,8 @@ var poolAllocationMode_STATUS_Values = map[string]PoolAllocationMode_STATUS{
 
 // Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Id: The ID of the resource.
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3389,37 +3443,186 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
-// The network access type for operating on the resources in the Batch account.
-// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
-type PublicNetworkAccessType string
+// The provisioned state of the resource
+type ProvisioningState_STATUS string
 
 const (
-	PublicNetworkAccessType_Disabled           = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessType_Enabled            = PublicNetworkAccessType("Enabled")
-	PublicNetworkAccessType_SecuredByPerimeter = PublicNetworkAccessType("SecuredByPerimeter")
+	ProvisioningState_STATUS_Cancelled = ProvisioningState_STATUS("Cancelled")
+	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Invalid   = ProvisioningState_STATUS("Invalid")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
 )
 
-// Mapping from string to PublicNetworkAccessType
-var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
-	"disabled":           PublicNetworkAccessType_Disabled,
-	"enabled":            PublicNetworkAccessType_Enabled,
-	"securedbyperimeter": PublicNetworkAccessType_SecuredByPerimeter,
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"cancelled": ProvisioningState_STATUS_Cancelled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"invalid":   ProvisioningState_STATUS_Invalid,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
 }
 
-// The network access type for operating on the resources in the Batch account.
-type PublicNetworkAccessType_STATUS string
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
 
-const (
-	PublicNetworkAccessType_STATUS_Disabled           = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUS_Enabled            = PublicNetworkAccessType_STATUS("Enabled")
-	PublicNetworkAccessType_STATUS_SecuredByPerimeter = PublicNetworkAccessType_STATUS("SecuredByPerimeter")
-)
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
 
-// Mapping from string to PublicNetworkAccessType_STATUS
-var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
-	"disabled":           PublicNetworkAccessType_STATUS_Disabled,
-	"enabled":            PublicNetworkAccessType_STATUS_Enabled,
-	"securedbyperimeter": PublicNetworkAccessType_STATUS_SecuredByPerimeter,
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SystemData_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SystemData_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
+	}
+
+	// Set property "CreatedAt":
+	if typedInput.CreatedAt != nil {
+		createdAt := *typedInput.CreatedAt
+		data.CreatedAt = &createdAt
+	}
+
+	// Set property "CreatedBy":
+	if typedInput.CreatedBy != nil {
+		createdBy := *typedInput.CreatedBy
+		data.CreatedBy = &createdBy
+	}
+
+	// Set property "CreatedByType":
+	if typedInput.CreatedByType != nil {
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
+		data.CreatedByType = &createdByType
+	}
+
+	// Set property "LastModifiedAt":
+	if typedInput.LastModifiedAt != nil {
+		lastModifiedAt := *typedInput.LastModifiedAt
+		data.LastModifiedAt = &lastModifiedAt
+	}
+
+	// Set property "LastModifiedBy":
+	if typedInput.LastModifiedBy != nil {
+		lastModifiedBy := *typedInput.LastModifiedBy
+		data.LastModifiedBy = &lastModifiedBy
+	}
+
+	// Set property "LastModifiedByType":
+	if typedInput.LastModifiedByType != nil {
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
+		data.LastModifiedByType = &lastModifiedByType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	if source.CreatedByType != nil {
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
+	} else {
+		data.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	if source.LastModifiedByType != nil {
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
+	} else {
+		data.LastModifiedByType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	if data.CreatedByType != nil {
+		createdByType := string(*data.CreatedByType)
+		destination.CreatedByType = &createdByType
+	} else {
+		destination.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	if data.LastModifiedByType != nil {
+		lastModifiedByType := string(*data.LastModifiedByType)
+		destination.LastModifiedByType = &lastModifiedByType
+	} else {
+		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // A VM Family and its associated core quota for the Batch account.
@@ -3521,37 +3724,6 @@ const (
 var autoStorageProperties_AuthenticationMode_STATUS_Values = map[string]AutoStorageProperties_AuthenticationMode_STATUS{
 	"batchaccountmanagedidentity": AutoStorageProperties_AuthenticationMode_STATUS_BatchAccountManagedIdentity,
 	"storagekeys":                 AutoStorageProperties_AuthenticationMode_STATUS_StorageKeys,
-}
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type BatchAccountIdentity_Type string
-
-const (
-	BatchAccountIdentity_Type_None           = BatchAccountIdentity_Type("None")
-	BatchAccountIdentity_Type_SystemAssigned = BatchAccountIdentity_Type("SystemAssigned")
-	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
-)
-
-// Mapping from string to BatchAccountIdentity_Type
-var batchAccountIdentity_Type_Values = map[string]BatchAccountIdentity_Type{
-	"none":           BatchAccountIdentity_Type_None,
-	"systemassigned": BatchAccountIdentity_Type_SystemAssigned,
-	"userassigned":   BatchAccountIdentity_Type_UserAssigned,
-}
-
-type BatchAccountIdentity_Type_STATUS string
-
-const (
-	BatchAccountIdentity_Type_STATUS_None           = BatchAccountIdentity_Type_STATUS("None")
-	BatchAccountIdentity_Type_STATUS_SystemAssigned = BatchAccountIdentity_Type_STATUS("SystemAssigned")
-	BatchAccountIdentity_Type_STATUS_UserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to BatchAccountIdentity_Type_STATUS
-var batchAccountIdentity_Type_STATUS_Values = map[string]BatchAccountIdentity_Type_STATUS{
-	"none":           BatchAccountIdentity_Type_STATUS_None,
-	"systemassigned": BatchAccountIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   BatchAccountIdentity_Type_STATUS_UserAssigned,
 }
 
 // The reference to a user assigned identity associated with the Batch pool which a compute node will use.
@@ -3712,38 +3884,11 @@ func (reference *ComputeNodeIdentityReference_STATUS) AssignProperties_To_Comput
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
-type EncryptionProperties_KeySource string
-
-const (
-	EncryptionProperties_KeySource_MicrosoftBatch    = EncryptionProperties_KeySource("Microsoft.Batch")
-	EncryptionProperties_KeySource_MicrosoftKeyVault = EncryptionProperties_KeySource("Microsoft.KeyVault")
-)
-
-// Mapping from string to EncryptionProperties_KeySource
-var encryptionProperties_KeySource_Values = map[string]EncryptionProperties_KeySource{
-	"microsoft.batch":    EncryptionProperties_KeySource_MicrosoftBatch,
-	"microsoft.keyvault": EncryptionProperties_KeySource_MicrosoftKeyVault,
-}
-
-type EncryptionProperties_KeySource_STATUS string
-
-const (
-	EncryptionProperties_KeySource_STATUS_MicrosoftBatch    = EncryptionProperties_KeySource_STATUS("Microsoft.Batch")
-	EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
-)
-
-// Mapping from string to EncryptionProperties_KeySource_STATUS
-var encryptionProperties_KeySource_STATUS_Values = map[string]EncryptionProperties_KeySource_STATUS{
-	"microsoft.batch":    EncryptionProperties_KeySource_STATUS_MicrosoftBatch,
-	"microsoft.keyvault": EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault,
-}
-
 // Network access profile for Batch endpoint.
 type EndpointAccessProfile struct {
 	// +kubebuilder:validation:Required
 	// DefaultAction: Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
-	DefaultAction *EndpointAccessProfile_DefaultAction `json:"defaultAction,omitempty"`
+	DefaultAction *EndpointAccessDefaultAction `json:"defaultAction,omitempty"`
 
 	// IpRules: Array of IP ranges to filter client IP address.
 	IpRules []IPRule `json:"ipRules,omitempty"`
@@ -3762,7 +3907,7 @@ func (profile *EndpointAccessProfile) ConvertToARM(resolved genruntime.ConvertTo
 	if profile.DefaultAction != nil {
 		var temp string
 		temp = string(*profile.DefaultAction)
-		defaultAction := arm.EndpointAccessProfile_DefaultAction(temp)
+		defaultAction := arm.EndpointAccessDefaultAction(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -3793,7 +3938,7 @@ func (profile *EndpointAccessProfile) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.DefaultAction != nil {
 		var temp string
 		temp = string(*typedInput.DefaultAction)
-		defaultAction := EndpointAccessProfile_DefaultAction(temp)
+		defaultAction := EndpointAccessDefaultAction(temp)
 		profile.DefaultAction = &defaultAction
 	}
 
@@ -3817,7 +3962,7 @@ func (profile *EndpointAccessProfile) AssignProperties_From_EndpointAccessProfil
 	// DefaultAction
 	if source.DefaultAction != nil {
 		defaultAction := *source.DefaultAction
-		defaultActionTemp := genruntime.ToEnum(defaultAction, endpointAccessProfile_DefaultAction_Values)
+		defaultActionTemp := genruntime.ToEnum(defaultAction, endpointAccessDefaultAction_Values)
 		profile.DefaultAction = &defaultActionTemp
 	} else {
 		profile.DefaultAction = nil
@@ -3888,7 +4033,7 @@ func (profile *EndpointAccessProfile) Initialize_From_EndpointAccessProfile_STAT
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), endpointAccessProfile_DefaultAction_Values)
+		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), endpointAccessDefaultAction_Values)
 		profile.DefaultAction = &defaultAction
 	} else {
 		profile.DefaultAction = nil
@@ -3917,7 +4062,7 @@ func (profile *EndpointAccessProfile) Initialize_From_EndpointAccessProfile_STAT
 // Network access profile for Batch endpoint.
 type EndpointAccessProfile_STATUS struct {
 	// DefaultAction: Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
-	DefaultAction *EndpointAccessProfile_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	DefaultAction *EndpointAccessDefaultAction_STATUS `json:"defaultAction,omitempty"`
 
 	// IpRules: Array of IP ranges to filter client IP address.
 	IpRules []IPRule_STATUS `json:"ipRules,omitempty"`
@@ -3941,7 +4086,7 @@ func (profile *EndpointAccessProfile_STATUS) PopulateFromARM(owner genruntime.Ar
 	if typedInput.DefaultAction != nil {
 		var temp string
 		temp = string(*typedInput.DefaultAction)
-		defaultAction := EndpointAccessProfile_DefaultAction_STATUS(temp)
+		defaultAction := EndpointAccessDefaultAction_STATUS(temp)
 		profile.DefaultAction = &defaultAction
 	}
 
@@ -3965,7 +4110,7 @@ func (profile *EndpointAccessProfile_STATUS) AssignProperties_From_EndpointAcces
 	// DefaultAction
 	if source.DefaultAction != nil {
 		defaultAction := *source.DefaultAction
-		defaultActionTemp := genruntime.ToEnum(defaultAction, endpointAccessProfile_DefaultAction_STATUS_Values)
+		defaultActionTemp := genruntime.ToEnum(defaultAction, endpointAccessDefaultAction_STATUS_Values)
 		profile.DefaultAction = &defaultActionTemp
 	} else {
 		profile.DefaultAction = nil
@@ -4029,6 +4174,35 @@ func (profile *EndpointAccessProfile_STATUS) AssignProperties_To_EndpointAccessP
 
 	// No error
 	return nil
+}
+
+// Type of the key source.
+// +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
+type KeySource string
+
+const (
+	KeySource_MicrosoftBatch    = KeySource("Microsoft.Batch")
+	KeySource_MicrosoftKeyVault = KeySource("Microsoft.KeyVault")
+)
+
+// Mapping from string to KeySource
+var keySource_Values = map[string]KeySource{
+	"microsoft.batch":    KeySource_MicrosoftBatch,
+	"microsoft.keyvault": KeySource_MicrosoftKeyVault,
+}
+
+// Type of the key source.
+type KeySource_STATUS string
+
+const (
+	KeySource_STATUS_MicrosoftBatch    = KeySource_STATUS("Microsoft.Batch")
+	KeySource_STATUS_MicrosoftKeyVault = KeySource_STATUS("Microsoft.KeyVault")
+)
+
+// Mapping from string to KeySource_STATUS
+var keySource_STATUS_Values = map[string]KeySource_STATUS{
+	"microsoft.batch":    KeySource_STATUS_MicrosoftBatch,
+	"microsoft.keyvault": KeySource_STATUS_MicrosoftKeyVault,
 }
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
@@ -4184,6 +4358,73 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
+// The type of identity used for the Batch account.
+// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+type ResourceIdentityType string
+
+const (
+	ResourceIdentityType_None           = ResourceIdentityType("None")
+	ResourceIdentityType_SystemAssigned = ResourceIdentityType("SystemAssigned")
+	ResourceIdentityType_UserAssigned   = ResourceIdentityType("UserAssigned")
+)
+
+// Mapping from string to ResourceIdentityType
+var resourceIdentityType_Values = map[string]ResourceIdentityType{
+	"none":           ResourceIdentityType_None,
+	"systemassigned": ResourceIdentityType_SystemAssigned,
+	"userassigned":   ResourceIdentityType_UserAssigned,
+}
+
+// The type of identity used for the Batch account.
+type ResourceIdentityType_STATUS string
+
+const (
+	ResourceIdentityType_STATUS_None           = ResourceIdentityType_STATUS("None")
+	ResourceIdentityType_STATUS_SystemAssigned = ResourceIdentityType_STATUS("SystemAssigned")
+	ResourceIdentityType_STATUS_UserAssigned   = ResourceIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to ResourceIdentityType_STATUS
+var resourceIdentityType_STATUS_Values = map[string]ResourceIdentityType_STATUS{
+	"none":           ResourceIdentityType_STATUS_None,
+	"systemassigned": ResourceIdentityType_STATUS_SystemAssigned,
+	"userassigned":   ResourceIdentityType_STATUS_UserAssigned,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 // The list of associated user identities.
 type UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
@@ -4292,38 +4533,40 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	return nil
 }
 
+// Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
 // +kubebuilder:validation:Enum={"Allow","Deny"}
-type EndpointAccessProfile_DefaultAction string
+type EndpointAccessDefaultAction string
 
 const (
-	EndpointAccessProfile_DefaultAction_Allow = EndpointAccessProfile_DefaultAction("Allow")
-	EndpointAccessProfile_DefaultAction_Deny  = EndpointAccessProfile_DefaultAction("Deny")
+	EndpointAccessDefaultAction_Allow = EndpointAccessDefaultAction("Allow")
+	EndpointAccessDefaultAction_Deny  = EndpointAccessDefaultAction("Deny")
 )
 
-// Mapping from string to EndpointAccessProfile_DefaultAction
-var endpointAccessProfile_DefaultAction_Values = map[string]EndpointAccessProfile_DefaultAction{
-	"allow": EndpointAccessProfile_DefaultAction_Allow,
-	"deny":  EndpointAccessProfile_DefaultAction_Deny,
+// Mapping from string to EndpointAccessDefaultAction
+var endpointAccessDefaultAction_Values = map[string]EndpointAccessDefaultAction{
+	"allow": EndpointAccessDefaultAction_Allow,
+	"deny":  EndpointAccessDefaultAction_Deny,
 }
 
-type EndpointAccessProfile_DefaultAction_STATUS string
+// Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
+type EndpointAccessDefaultAction_STATUS string
 
 const (
-	EndpointAccessProfile_DefaultAction_STATUS_Allow = EndpointAccessProfile_DefaultAction_STATUS("Allow")
-	EndpointAccessProfile_DefaultAction_STATUS_Deny  = EndpointAccessProfile_DefaultAction_STATUS("Deny")
+	EndpointAccessDefaultAction_STATUS_Allow = EndpointAccessDefaultAction_STATUS("Allow")
+	EndpointAccessDefaultAction_STATUS_Deny  = EndpointAccessDefaultAction_STATUS("Deny")
 )
 
-// Mapping from string to EndpointAccessProfile_DefaultAction_STATUS
-var endpointAccessProfile_DefaultAction_STATUS_Values = map[string]EndpointAccessProfile_DefaultAction_STATUS{
-	"allow": EndpointAccessProfile_DefaultAction_STATUS_Allow,
-	"deny":  EndpointAccessProfile_DefaultAction_STATUS_Deny,
+// Mapping from string to EndpointAccessDefaultAction_STATUS
+var endpointAccessDefaultAction_STATUS_Values = map[string]EndpointAccessDefaultAction_STATUS{
+	"allow": EndpointAccessDefaultAction_STATUS_Allow,
+	"deny":  EndpointAccessDefaultAction_STATUS_Deny,
 }
 
 // Rule to filter client IP address.
 type IPRule struct {
 	// +kubebuilder:validation:Required
 	// Action: Action when client IP address is matched.
-	Action *IPRule_Action `json:"action,omitempty"`
+	Action *IPRuleAction `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Value: IPv4 address, or IPv4 address range in CIDR format.
@@ -4343,7 +4586,7 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := arm.IPRule_Action(temp)
+		action := arm.IPRuleAction(temp)
 		result.Action = &action
 	}
 
@@ -4371,7 +4614,7 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	if typedInput.Action != nil {
 		var temp string
 		temp = string(*typedInput.Action)
-		action := IPRule_Action(temp)
+		action := IPRuleAction(temp)
 		rule.Action = &action
 	}
 
@@ -4391,7 +4634,7 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *storage.IPRule) error {
 	// Action
 	if source.Action != nil {
 		action := *source.Action
-		actionTemp := genruntime.ToEnum(action, iPRule_Action_Values)
+		actionTemp := genruntime.ToEnum(action, iPRuleAction_Values)
 		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
@@ -4436,7 +4679,7 @@ func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
-		action := genruntime.ToEnum(string(*source.Action), iPRule_Action_Values)
+		action := genruntime.ToEnum(string(*source.Action), iPRuleAction_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -4452,7 +4695,7 @@ func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
 // Rule to filter client IP address.
 type IPRule_STATUS struct {
 	// Action: Action when client IP address is matched.
-	Action *IPRule_Action_STATUS `json:"action,omitempty"`
+	Action *IPRuleAction_STATUS `json:"action,omitempty"`
 
 	// Value: IPv4 address, or IPv4 address range in CIDR format.
 	Value *string `json:"value,omitempty"`
@@ -4476,7 +4719,7 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	if typedInput.Action != nil {
 		var temp string
 		temp = string(*typedInput.Action)
-		action := IPRule_Action_STATUS(temp)
+		action := IPRuleAction_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -4496,7 +4739,7 @@ func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *storage.I
 	// Action
 	if source.Action != nil {
 		action := *source.Action
-		actionTemp := genruntime.ToEnum(action, iPRule_Action_STATUS_Values)
+		actionTemp := genruntime.ToEnum(action, iPRuleAction_STATUS_Values)
 		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
@@ -4536,23 +4779,25 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *storag
 	return nil
 }
 
+// The action when client IP address is matched.
 // +kubebuilder:validation:Enum={"Allow"}
-type IPRule_Action string
+type IPRuleAction string
 
-const IPRule_Action_Allow = IPRule_Action("Allow")
+const IPRuleAction_Allow = IPRuleAction("Allow")
 
-// Mapping from string to IPRule_Action
-var iPRule_Action_Values = map[string]IPRule_Action{
-	"allow": IPRule_Action_Allow,
+// Mapping from string to IPRuleAction
+var iPRuleAction_Values = map[string]IPRuleAction{
+	"allow": IPRuleAction_Allow,
 }
 
-type IPRule_Action_STATUS string
+// The action when client IP address is matched.
+type IPRuleAction_STATUS string
 
-const IPRule_Action_STATUS_Allow = IPRule_Action_STATUS("Allow")
+const IPRuleAction_STATUS_Allow = IPRuleAction_STATUS("Allow")
 
-// Mapping from string to IPRule_Action_STATUS
-var iPRule_Action_STATUS_Values = map[string]IPRule_Action_STATUS{
-	"allow": IPRule_Action_STATUS_Allow,
+// Mapping from string to IPRuleAction_STATUS
+var iPRuleAction_STATUS_Values = map[string]IPRuleAction_STATUS{
+	"allow": IPRuleAction_STATUS_Allow,
 }
 
 func init() {

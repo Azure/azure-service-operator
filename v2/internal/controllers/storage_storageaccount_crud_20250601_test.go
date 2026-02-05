@@ -32,7 +32,7 @@ func Test_Storage_StorageAccount_20250601_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccount_Kind_STATUS_StorageV2
+	expectedKind := storage.Kind_STATUS_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 	armId := *acct.Status.Id
@@ -235,7 +235,7 @@ func Test_Storage_StorageAccount_20250601_SecretsFromAzure(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccount_Kind_STATUS_StorageV2
+	expectedKind := storage.Kind_STATUS_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
 	// There should be no secrets at this point
@@ -351,7 +351,7 @@ func StorageAccount_ConfigMapsWritten20250601(tc *testcommon.KubePerTestContext,
 }
 
 func StorageAccount_ManagementPolicy_20250601_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
-	ruleType := storage.ManagementPolicyRule_Type_Lifecycle
+	ruleType := storage.RuleType_Lifecycle
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{
 		ObjectMeta: tc.MakeObjectMeta("policy"),
@@ -393,12 +393,12 @@ func newStorageAccount20250601(tc *testcommon.KubePerTestContext, rg *resources.
 		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
+			Kind:     to.Ptr(storage.Kind_StorageV2),
 			Sku: &storage.Sku{
 				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
 			// TODO: They mark this property as optional but actually it is required
-			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
+			AccessTier: to.Ptr(storage.AccessTier_Hot),
 		},
 	}
 	return acct

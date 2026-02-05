@@ -183,6 +183,9 @@ func RunJSONSerializationTestForEndpoint_STATUS(subject Endpoint_STATUS) string 
 var endpoint_STATUSGenerator gopter.Gen
 
 // Endpoint_STATUSGenerator returns a generator of Endpoint_STATUS instances for property testing.
+// We first initialize endpoint_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func Endpoint_STATUSGenerator() gopter.Gen {
 	if endpoint_STATUSGenerator != nil {
 		return endpoint_STATUSGenerator
@@ -192,12 +195,38 @@ func Endpoint_STATUSGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForEndpoint_STATUS(generators)
 	endpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Endpoint_STATUS{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEndpoint_STATUS(generators)
+	AddRelatedPropertyGeneratorsForEndpoint_STATUS(generators)
+	endpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Endpoint_STATUS{}), generators)
+
 	return endpoint_STATUSGenerator
 }
 
 // AddIndependentPropertyGeneratorsForEndpoint_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.Gen) {
+	gens["AlwaysServe"] = gen.PtrOf(gen.AlphaString())
+	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.AlphaString())
+	gens["EndpointStatus"] = gen.PtrOf(gen.AlphaString())
+	gens["GeoMapping"] = gen.SliceOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["MinChildEndpoints"] = gen.PtrOf(gen.Int())
+	gens["MinChildEndpointsIPv4"] = gen.PtrOf(gen.Int())
+	gens["MinChildEndpointsIPv6"] = gen.PtrOf(gen.Int())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["Target"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Weight"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForEndpoint_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.Gen) {
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItem_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItem_STATUSGenerator())
 }
 
 func Test_MonitorConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -277,24 +306,24 @@ func AddIndependentPropertyGeneratorsForMonitorConfig(gens map[string]gopter.Gen
 
 // AddRelatedPropertyGeneratorsForMonitorConfig is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMonitorConfig(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(MonitorConfig_CustomHeadersGenerator())
-	gens["ExpectedStatusCodeRanges"] = gen.SliceOf(MonitorConfig_ExpectedStatusCodeRangesGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(MonitorConfigCustomHeadersItemGenerator())
+	gens["ExpectedStatusCodeRanges"] = gen.SliceOf(MonitorConfigExpectedStatusCodeRangesItemGenerator())
 }
 
-func Test_MonitorConfig_CustomHeaders_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MonitorConfigCustomHeadersItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MonitorConfig_CustomHeaders via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMonitorConfig_CustomHeaders, MonitorConfig_CustomHeadersGenerator()))
+		"Round trip of MonitorConfigCustomHeadersItem via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMonitorConfigCustomHeadersItem, MonitorConfigCustomHeadersItemGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMonitorConfig_CustomHeaders runs a test to see if a specific instance of MonitorConfig_CustomHeaders round trips to JSON and back losslessly
-func RunJSONSerializationTestForMonitorConfig_CustomHeaders(subject MonitorConfig_CustomHeaders) string {
+// RunJSONSerializationTestForMonitorConfigCustomHeadersItem runs a test to see if a specific instance of MonitorConfigCustomHeadersItem round trips to JSON and back losslessly
+func RunJSONSerializationTestForMonitorConfigCustomHeadersItem(subject MonitorConfigCustomHeadersItem) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -302,7 +331,7 @@ func RunJSONSerializationTestForMonitorConfig_CustomHeaders(subject MonitorConfi
 	}
 
 	// Deserialize back into memory
-	var actual MonitorConfig_CustomHeaders
+	var actual MonitorConfigCustomHeadersItem
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -320,43 +349,43 @@ func RunJSONSerializationTestForMonitorConfig_CustomHeaders(subject MonitorConfi
 	return ""
 }
 
-// Generator of MonitorConfig_CustomHeaders instances for property testing - lazily instantiated by
-// MonitorConfig_CustomHeadersGenerator()
-var monitorConfig_CustomHeadersGenerator gopter.Gen
+// Generator of MonitorConfigCustomHeadersItem instances for property testing - lazily instantiated by
+// MonitorConfigCustomHeadersItemGenerator()
+var monitorConfigCustomHeadersItemGenerator gopter.Gen
 
-// MonitorConfig_CustomHeadersGenerator returns a generator of MonitorConfig_CustomHeaders instances for property testing.
-func MonitorConfig_CustomHeadersGenerator() gopter.Gen {
-	if monitorConfig_CustomHeadersGenerator != nil {
-		return monitorConfig_CustomHeadersGenerator
+// MonitorConfigCustomHeadersItemGenerator returns a generator of MonitorConfigCustomHeadersItem instances for property testing.
+func MonitorConfigCustomHeadersItemGenerator() gopter.Gen {
+	if monitorConfigCustomHeadersItemGenerator != nil {
+		return monitorConfigCustomHeadersItemGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMonitorConfig_CustomHeaders(generators)
-	monitorConfig_CustomHeadersGenerator = gen.Struct(reflect.TypeOf(MonitorConfig_CustomHeaders{}), generators)
+	AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem(generators)
+	monitorConfigCustomHeadersItemGenerator = gen.Struct(reflect.TypeOf(MonitorConfigCustomHeadersItem{}), generators)
 
-	return monitorConfig_CustomHeadersGenerator
+	return monitorConfigCustomHeadersItemGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMonitorConfig_CustomHeaders is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMonitorConfig_CustomHeaders(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_MonitorConfig_CustomHeaders_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MonitorConfigCustomHeadersItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MonitorConfig_CustomHeaders_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMonitorConfig_CustomHeaders_STATUS, MonitorConfig_CustomHeaders_STATUSGenerator()))
+		"Round trip of MonitorConfigCustomHeadersItem_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMonitorConfigCustomHeadersItem_STATUS, MonitorConfigCustomHeadersItem_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMonitorConfig_CustomHeaders_STATUS runs a test to see if a specific instance of MonitorConfig_CustomHeaders_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMonitorConfig_CustomHeaders_STATUS(subject MonitorConfig_CustomHeaders_STATUS) string {
+// RunJSONSerializationTestForMonitorConfigCustomHeadersItem_STATUS runs a test to see if a specific instance of MonitorConfigCustomHeadersItem_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMonitorConfigCustomHeadersItem_STATUS(subject MonitorConfigCustomHeadersItem_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -364,7 +393,7 @@ func RunJSONSerializationTestForMonitorConfig_CustomHeaders_STATUS(subject Monit
 	}
 
 	// Deserialize back into memory
-	var actual MonitorConfig_CustomHeaders_STATUS
+	var actual MonitorConfigCustomHeadersItem_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -382,43 +411,43 @@ func RunJSONSerializationTestForMonitorConfig_CustomHeaders_STATUS(subject Monit
 	return ""
 }
 
-// Generator of MonitorConfig_CustomHeaders_STATUS instances for property testing - lazily instantiated by
-// MonitorConfig_CustomHeaders_STATUSGenerator()
-var monitorConfig_CustomHeaders_STATUSGenerator gopter.Gen
+// Generator of MonitorConfigCustomHeadersItem_STATUS instances for property testing - lazily instantiated by
+// MonitorConfigCustomHeadersItem_STATUSGenerator()
+var monitorConfigCustomHeadersItem_STATUSGenerator gopter.Gen
 
-// MonitorConfig_CustomHeaders_STATUSGenerator returns a generator of MonitorConfig_CustomHeaders_STATUS instances for property testing.
-func MonitorConfig_CustomHeaders_STATUSGenerator() gopter.Gen {
-	if monitorConfig_CustomHeaders_STATUSGenerator != nil {
-		return monitorConfig_CustomHeaders_STATUSGenerator
+// MonitorConfigCustomHeadersItem_STATUSGenerator returns a generator of MonitorConfigCustomHeadersItem_STATUS instances for property testing.
+func MonitorConfigCustomHeadersItem_STATUSGenerator() gopter.Gen {
+	if monitorConfigCustomHeadersItem_STATUSGenerator != nil {
+		return monitorConfigCustomHeadersItem_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMonitorConfig_CustomHeaders_STATUS(generators)
-	monitorConfig_CustomHeaders_STATUSGenerator = gen.Struct(reflect.TypeOf(MonitorConfig_CustomHeaders_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem_STATUS(generators)
+	monitorConfigCustomHeadersItem_STATUSGenerator = gen.Struct(reflect.TypeOf(MonitorConfigCustomHeadersItem_STATUS{}), generators)
 
-	return monitorConfig_CustomHeaders_STATUSGenerator
+	return monitorConfigCustomHeadersItem_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMonitorConfig_CustomHeaders_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMonitorConfig_CustomHeaders_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_MonitorConfig_ExpectedStatusCodeRanges_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MonitorConfigExpectedStatusCodeRangesItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MonitorConfig_ExpectedStatusCodeRanges via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges, MonitorConfig_ExpectedStatusCodeRangesGenerator()))
+		"Round trip of MonitorConfigExpectedStatusCodeRangesItem via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMonitorConfigExpectedStatusCodeRangesItem, MonitorConfigExpectedStatusCodeRangesItemGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges runs a test to see if a specific instance of MonitorConfig_ExpectedStatusCodeRanges round trips to JSON and back losslessly
-func RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges(subject MonitorConfig_ExpectedStatusCodeRanges) string {
+// RunJSONSerializationTestForMonitorConfigExpectedStatusCodeRangesItem runs a test to see if a specific instance of MonitorConfigExpectedStatusCodeRangesItem round trips to JSON and back losslessly
+func RunJSONSerializationTestForMonitorConfigExpectedStatusCodeRangesItem(subject MonitorConfigExpectedStatusCodeRangesItem) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -426,7 +455,7 @@ func RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges(subject M
 	}
 
 	// Deserialize back into memory
-	var actual MonitorConfig_ExpectedStatusCodeRanges
+	var actual MonitorConfigExpectedStatusCodeRangesItem
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -444,43 +473,43 @@ func RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges(subject M
 	return ""
 }
 
-// Generator of MonitorConfig_ExpectedStatusCodeRanges instances for property testing - lazily instantiated by
-// MonitorConfig_ExpectedStatusCodeRangesGenerator()
-var monitorConfig_ExpectedStatusCodeRangesGenerator gopter.Gen
+// Generator of MonitorConfigExpectedStatusCodeRangesItem instances for property testing - lazily instantiated by
+// MonitorConfigExpectedStatusCodeRangesItemGenerator()
+var monitorConfigExpectedStatusCodeRangesItemGenerator gopter.Gen
 
-// MonitorConfig_ExpectedStatusCodeRangesGenerator returns a generator of MonitorConfig_ExpectedStatusCodeRanges instances for property testing.
-func MonitorConfig_ExpectedStatusCodeRangesGenerator() gopter.Gen {
-	if monitorConfig_ExpectedStatusCodeRangesGenerator != nil {
-		return monitorConfig_ExpectedStatusCodeRangesGenerator
+// MonitorConfigExpectedStatusCodeRangesItemGenerator returns a generator of MonitorConfigExpectedStatusCodeRangesItem instances for property testing.
+func MonitorConfigExpectedStatusCodeRangesItemGenerator() gopter.Gen {
+	if monitorConfigExpectedStatusCodeRangesItemGenerator != nil {
+		return monitorConfigExpectedStatusCodeRangesItemGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges(generators)
-	monitorConfig_ExpectedStatusCodeRangesGenerator = gen.Struct(reflect.TypeOf(MonitorConfig_ExpectedStatusCodeRanges{}), generators)
+	AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesItem(generators)
+	monitorConfigExpectedStatusCodeRangesItemGenerator = gen.Struct(reflect.TypeOf(MonitorConfigExpectedStatusCodeRangesItem{}), generators)
 
-	return monitorConfig_ExpectedStatusCodeRangesGenerator
+	return monitorConfigExpectedStatusCodeRangesItemGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesItem is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesItem(gens map[string]gopter.Gen) {
 	gens["Max"] = gen.PtrOf(gen.Int())
 	gens["Min"] = gen.PtrOf(gen.Int())
 }
 
-func Test_MonitorConfig_ExpectedStatusCodeRanges_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MonitorConfigExpectedStatusCodeRangesItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MonitorConfig_ExpectedStatusCodeRanges_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS, MonitorConfig_ExpectedStatusCodeRanges_STATUSGenerator()))
+		"Round trip of MonitorConfigExpectedStatusCodeRangesItem_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMonitorConfigExpectedStatusCodeRangesItem_STATUS, MonitorConfigExpectedStatusCodeRangesItem_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS runs a test to see if a specific instance of MonitorConfig_ExpectedStatusCodeRanges_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS(subject MonitorConfig_ExpectedStatusCodeRanges_STATUS) string {
+// RunJSONSerializationTestForMonitorConfigExpectedStatusCodeRangesItem_STATUS runs a test to see if a specific instance of MonitorConfigExpectedStatusCodeRangesItem_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMonitorConfigExpectedStatusCodeRangesItem_STATUS(subject MonitorConfigExpectedStatusCodeRangesItem_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -488,7 +517,7 @@ func RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS(su
 	}
 
 	// Deserialize back into memory
-	var actual MonitorConfig_ExpectedStatusCodeRanges_STATUS
+	var actual MonitorConfigExpectedStatusCodeRangesItem_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -506,25 +535,25 @@ func RunJSONSerializationTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS(su
 	return ""
 }
 
-// Generator of MonitorConfig_ExpectedStatusCodeRanges_STATUS instances for property testing - lazily instantiated by
-// MonitorConfig_ExpectedStatusCodeRanges_STATUSGenerator()
-var monitorConfig_ExpectedStatusCodeRanges_STATUSGenerator gopter.Gen
+// Generator of MonitorConfigExpectedStatusCodeRangesItem_STATUS instances for property testing - lazily instantiated by
+// MonitorConfigExpectedStatusCodeRangesItem_STATUSGenerator()
+var monitorConfigExpectedStatusCodeRangesItem_STATUSGenerator gopter.Gen
 
-// MonitorConfig_ExpectedStatusCodeRanges_STATUSGenerator returns a generator of MonitorConfig_ExpectedStatusCodeRanges_STATUS instances for property testing.
-func MonitorConfig_ExpectedStatusCodeRanges_STATUSGenerator() gopter.Gen {
-	if monitorConfig_ExpectedStatusCodeRanges_STATUSGenerator != nil {
-		return monitorConfig_ExpectedStatusCodeRanges_STATUSGenerator
+// MonitorConfigExpectedStatusCodeRangesItem_STATUSGenerator returns a generator of MonitorConfigExpectedStatusCodeRangesItem_STATUS instances for property testing.
+func MonitorConfigExpectedStatusCodeRangesItem_STATUSGenerator() gopter.Gen {
+	if monitorConfigExpectedStatusCodeRangesItem_STATUSGenerator != nil {
+		return monitorConfigExpectedStatusCodeRangesItem_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges_STATUS(generators)
-	monitorConfig_ExpectedStatusCodeRanges_STATUSGenerator = gen.Struct(reflect.TypeOf(MonitorConfig_ExpectedStatusCodeRanges_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesItem_STATUS(generators)
+	monitorConfigExpectedStatusCodeRangesItem_STATUSGenerator = gen.Struct(reflect.TypeOf(MonitorConfigExpectedStatusCodeRangesItem_STATUS{}), generators)
 
-	return monitorConfig_ExpectedStatusCodeRanges_STATUSGenerator
+	return monitorConfigExpectedStatusCodeRangesItem_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesItem_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesItem_STATUS(gens map[string]gopter.Gen) {
 	gens["Max"] = gen.PtrOf(gen.Int())
 	gens["Min"] = gen.PtrOf(gen.Int())
 }
@@ -607,8 +636,8 @@ func AddIndependentPropertyGeneratorsForMonitorConfig_STATUS(gens map[string]gop
 
 // AddRelatedPropertyGeneratorsForMonitorConfig_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMonitorConfig_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(MonitorConfig_CustomHeaders_STATUSGenerator())
-	gens["ExpectedStatusCodeRanges"] = gen.SliceOf(MonitorConfig_ExpectedStatusCodeRanges_STATUSGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(MonitorConfigCustomHeadersItem_STATUSGenerator())
+	gens["ExpectedStatusCodeRanges"] = gen.SliceOf(MonitorConfigExpectedStatusCodeRangesItem_STATUSGenerator())
 }
 
 func Test_TrafficManagerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -4,24 +4,28 @@
 package arm
 
 type StorageAccountsFileService_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of File services in storage account.
-	Properties *StorageAccounts_FileService_Properties_STATUS `json:"properties,omitempty"`
+	Properties *FileServicePropertiesProperties_STATUS `json:"properties,omitempty"`
 
 	// Sku: Sku name and tier.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type StorageAccounts_FileService_Properties_STATUS struct {
+// The properties of File services in storage account.
+type FileServicePropertiesProperties_STATUS struct {
 	// Cors: Specifies CORS rules for the File service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// File service.

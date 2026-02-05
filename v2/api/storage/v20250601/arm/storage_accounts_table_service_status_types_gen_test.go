@@ -91,23 +91,24 @@ func AddIndependentPropertyGeneratorsForStorageAccountsTableService_STATUS(gens 
 
 // AddRelatedPropertyGeneratorsForStorageAccountsTableService_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsTableService_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccounts_TableService_Properties_STATUSGenerator())
+	gens["Properties"] = gen.PtrOf(TableServicePropertiesProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_StorageAccounts_TableService_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_TableServicePropertiesProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_TableService_Properties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_TableService_Properties_STATUS, StorageAccounts_TableService_Properties_STATUSGenerator()))
+		"Round trip of TableServicePropertiesProperties_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTableServicePropertiesProperties_STATUS, TableServicePropertiesProperties_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_TableService_Properties_STATUS runs a test to see if a specific instance of StorageAccounts_TableService_Properties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_TableService_Properties_STATUS(subject StorageAccounts_TableService_Properties_STATUS) string {
+// RunJSONSerializationTestForTableServicePropertiesProperties_STATUS runs a test to see if a specific instance of TableServicePropertiesProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForTableServicePropertiesProperties_STATUS(subject TableServicePropertiesProperties_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +116,7 @@ func RunJSONSerializationTestForStorageAccounts_TableService_Properties_STATUS(s
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_TableService_Properties_STATUS
+	var actual TableServicePropertiesProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,24 +134,24 @@ func RunJSONSerializationTestForStorageAccounts_TableService_Properties_STATUS(s
 	return ""
 }
 
-// Generator of StorageAccounts_TableService_Properties_STATUS instances for property testing - lazily instantiated by
-// StorageAccounts_TableService_Properties_STATUSGenerator()
-var storageAccounts_TableService_Properties_STATUSGenerator gopter.Gen
+// Generator of TableServicePropertiesProperties_STATUS instances for property testing - lazily instantiated by
+// TableServicePropertiesProperties_STATUSGenerator()
+var tableServicePropertiesProperties_STATUSGenerator gopter.Gen
 
-// StorageAccounts_TableService_Properties_STATUSGenerator returns a generator of StorageAccounts_TableService_Properties_STATUS instances for property testing.
-func StorageAccounts_TableService_Properties_STATUSGenerator() gopter.Gen {
-	if storageAccounts_TableService_Properties_STATUSGenerator != nil {
-		return storageAccounts_TableService_Properties_STATUSGenerator
+// TableServicePropertiesProperties_STATUSGenerator returns a generator of TableServicePropertiesProperties_STATUS instances for property testing.
+func TableServicePropertiesProperties_STATUSGenerator() gopter.Gen {
+	if tableServicePropertiesProperties_STATUSGenerator != nil {
+		return tableServicePropertiesProperties_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccounts_TableService_Properties_STATUS(generators)
-	storageAccounts_TableService_Properties_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableService_Properties_STATUS{}), generators)
+	AddRelatedPropertyGeneratorsForTableServicePropertiesProperties_STATUS(generators)
+	tableServicePropertiesProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(TableServicePropertiesProperties_STATUS{}), generators)
 
-	return storageAccounts_TableService_Properties_STATUSGenerator
+	return tableServicePropertiesProperties_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccounts_TableService_Properties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_TableService_Properties_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForTableServicePropertiesProperties_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTableServicePropertiesProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
 }

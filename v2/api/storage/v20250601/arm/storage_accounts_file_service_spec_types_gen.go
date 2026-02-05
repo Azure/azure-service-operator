@@ -9,7 +9,7 @@ type StorageAccountsFileService_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of File services in storage account.
-	Properties *StorageAccounts_FileService_Properties_Spec `json:"properties,omitempty"`
+	Properties *FileServicePropertiesProperties `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsFileService_Spec{}
@@ -29,7 +29,8 @@ func (service *StorageAccountsFileService_Spec) GetType() string {
 	return "Microsoft.Storage/storageAccounts/fileServices"
 }
 
-type StorageAccounts_FileService_Properties_Spec struct {
+// The properties of File services in storage account.
+type FileServicePropertiesProperties struct {
 	// Cors: Specifies CORS rules for the File service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// File service.

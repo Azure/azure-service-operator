@@ -54,7 +54,7 @@ type ServerProperties_STATUS struct {
 	Cluster *Cluster_STATUS `json:"cluster,omitempty"`
 
 	// CreateMode: Creation mode of a new server.
-	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *CreateMode_STATUS `json:"createMode,omitempty"`
 
 	// DataEncryption: Data encryption properties of a server.
 	DataEncryption *DataEncryption_STATUS `json:"dataEncryption,omitempty"`
@@ -97,13 +97,13 @@ type ServerProperties_STATUS struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: Possible states of a server.
-	State *ServerProperties_State_STATUS `json:"state,omitempty"`
+	State *ServerState_STATUS `json:"state,omitempty"`
 
 	// Storage: Storage properties of a server.
 	Storage *Storage_STATUS `json:"storage,omitempty"`
 
 	// Version: Major version of PostgreSQL database engine.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Version *PostgresMajorVersion_STATUS `json:"version,omitempty"`
 }
 
 // Compute information of a server.
@@ -112,7 +112,7 @@ type Sku_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: Tier of the compute assigned to a server.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *SkuTier_STATUS `json:"tier,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -145,7 +145,7 @@ type UserAssignedIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Types of identities associated with a server.
-	Type *UserAssignedIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *IdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Map of user assigned managed identities.
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -154,7 +154,7 @@ type UserAssignedIdentity_STATUS struct {
 // Authentication configuration properties of a server.
 type AuthConfig_STATUS struct {
 	// ActiveDirectoryAuth: Indicates if the server supports Microsoft Entra authentication.
-	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth_STATUS `json:"activeDirectoryAuth,omitempty"`
+	ActiveDirectoryAuth *MicrosoftEntraAuth_STATUS `json:"activeDirectoryAuth,omitempty"`
 
 	// PasswordAuth: Indicates if the server supports password based authentication.
 	PasswordAuth *AuthConfig_PasswordAuth_STATUS `json:"passwordAuth,omitempty"`
@@ -184,12 +184,36 @@ type Cluster_STATUS struct {
 	DefaultDatabaseName *string `json:"defaultDatabaseName,omitempty"`
 }
 
+// Creation mode of a new server.
+type CreateMode_STATUS string
+
+const (
+	CreateMode_STATUS_Create             = CreateMode_STATUS("Create")
+	CreateMode_STATUS_Default            = CreateMode_STATUS("Default")
+	CreateMode_STATUS_GeoRestore         = CreateMode_STATUS("GeoRestore")
+	CreateMode_STATUS_PointInTimeRestore = CreateMode_STATUS("PointInTimeRestore")
+	CreateMode_STATUS_Replica            = CreateMode_STATUS("Replica")
+	CreateMode_STATUS_ReviveDropped      = CreateMode_STATUS("ReviveDropped")
+	CreateMode_STATUS_Update             = CreateMode_STATUS("Update")
+)
+
+// Mapping from string to CreateMode_STATUS
+var createMode_STATUS_Values = map[string]CreateMode_STATUS{
+	"create":             CreateMode_STATUS_Create,
+	"default":            CreateMode_STATUS_Default,
+	"georestore":         CreateMode_STATUS_GeoRestore,
+	"pointintimerestore": CreateMode_STATUS_PointInTimeRestore,
+	"replica":            CreateMode_STATUS_Replica,
+	"revivedropped":      CreateMode_STATUS_ReviveDropped,
+	"update":             CreateMode_STATUS_Update,
+}
+
 // Data encryption properties of a server.
 type DataEncryption_STATUS struct {
 	// GeoBackupEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
 	// key, to encrypt the geographically redundant storage associated to the server when it is configured to support
 	// geographically redundant backups.
-	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus_STATUS `json:"geoBackupEncryptionKeyStatus,omitempty"`
+	GeoBackupEncryptionKeyStatus *EncryptionKeyStatus_STATUS `json:"geoBackupEncryptionKeyStatus,omitempty"`
 
 	// GeoBackupKeyURI: Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data
 	// encryption of the geographically redundant storage associated to a server that is configured to support geographically
@@ -203,7 +227,7 @@ type DataEncryption_STATUS struct {
 
 	// PrimaryEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
 	// key, to encrypt the primary storage associated to the server.
-	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus_STATUS `json:"primaryEncryptionKeyStatus,omitempty"`
+	PrimaryEncryptionKeyStatus *EncryptionKeyStatus_STATUS `json:"primaryEncryptionKeyStatus,omitempty"`
 
 	// PrimaryKeyURI: URI of the key in Azure Key Vault used for data encryption of the primary storage associated to a server.
 	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
@@ -213,7 +237,7 @@ type DataEncryption_STATUS struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type used by a server.
-	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
+	Type *DataEncryptionType_STATUS `json:"type,omitempty"`
 }
 
 // High availability properties of a server.
@@ -226,7 +250,25 @@ type HighAvailability_STATUS struct {
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant.
-	State *HighAvailability_State_STATUS `json:"state,omitempty"`
+	State *HighAvailabilityState_STATUS `json:"state,omitempty"`
+}
+
+// Types of identities associated with a server.
+type IdentityType_STATUS string
+
+const (
+	IdentityType_STATUS_None                       = IdentityType_STATUS("None")
+	IdentityType_STATUS_SystemAssigned             = IdentityType_STATUS("SystemAssigned")
+	IdentityType_STATUS_SystemAssignedUserAssigned = IdentityType_STATUS("SystemAssigned,UserAssigned")
+	IdentityType_STATUS_UserAssigned               = IdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"none":                        IdentityType_STATUS_None,
+	"systemassigned":              IdentityType_STATUS_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_STATUS_UserAssigned,
 }
 
 // Maintenance window properties of a server.
@@ -258,7 +300,33 @@ type Network_STATUS struct {
 
 	// PublicNetworkAccess: Indicates if public network access is enabled or not. This is only supported for servers that are
 	// not integrated into a virtual network which is owned and provided by customer when server is deployed.
-	PublicNetworkAccess *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerPublicNetworkAccessState_STATUS `json:"publicNetworkAccess,omitempty"`
+}
+
+// Major version of PostgreSQL database engine.
+type PostgresMajorVersion_STATUS string
+
+const (
+	PostgresMajorVersion_STATUS_11 = PostgresMajorVersion_STATUS("11")
+	PostgresMajorVersion_STATUS_12 = PostgresMajorVersion_STATUS("12")
+	PostgresMajorVersion_STATUS_13 = PostgresMajorVersion_STATUS("13")
+	PostgresMajorVersion_STATUS_14 = PostgresMajorVersion_STATUS("14")
+	PostgresMajorVersion_STATUS_15 = PostgresMajorVersion_STATUS("15")
+	PostgresMajorVersion_STATUS_16 = PostgresMajorVersion_STATUS("16")
+	PostgresMajorVersion_STATUS_17 = PostgresMajorVersion_STATUS("17")
+	PostgresMajorVersion_STATUS_18 = PostgresMajorVersion_STATUS("18")
+)
+
+// Mapping from string to PostgresMajorVersion_STATUS
+var postgresMajorVersion_STATUS_Values = map[string]PostgresMajorVersion_STATUS{
+	"11": PostgresMajorVersion_STATUS_11,
+	"12": PostgresMajorVersion_STATUS_12,
+	"13": PostgresMajorVersion_STATUS_13,
+	"14": PostgresMajorVersion_STATUS_14,
+	"15": PostgresMajorVersion_STATUS_15,
+	"16": PostgresMajorVersion_STATUS_16,
+	"17": PostgresMajorVersion_STATUS_17,
+	"18": PostgresMajorVersion_STATUS_18,
 }
 
 // The private endpoint connection resource.
@@ -276,15 +344,15 @@ type Replica_STATUS struct {
 	// PromoteMode: Type of operation to apply on the read replica. This property is write only. Standalone means that the read
 	// replica will be promoted to a standalone server, and will become a completely independent entity from the replication
 	// set. Switchover means that the read replica will roles with the primary server.
-	PromoteMode *Replica_PromoteMode_STATUS `json:"promoteMode,omitempty"`
+	PromoteMode *ReadReplicaPromoteMode_STATUS `json:"promoteMode,omitempty"`
 
 	// PromoteOption: Data synchronization option to use when processing the operation specified in the promoteMode property.
 	// This property is write only.
-	PromoteOption *Replica_PromoteOption_STATUS `json:"promoteOption,omitempty"`
+	PromoteOption *ReadReplicaPromoteOption_STATUS `json:"promoteOption,omitempty"`
 
 	// ReplicationState: Indicates the replication state of a read replica. This property is returned only when the target
 	// server is a read replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating
-	ReplicationState *Replica_ReplicationState_STATUS `json:"replicationState,omitempty"`
+	ReplicationState *ReplicationState_STATUS `json:"replicationState,omitempty"`
 
 	// Role: Role of the server in a replication set.
 	Role *ReplicationRole_STATUS `json:"role,omitempty"`
@@ -308,104 +376,57 @@ var replicationRole_STATUS_Values = map[string]ReplicationRole_STATUS{
 	"primary":         ReplicationRole_STATUS_Primary,
 }
 
-type ServerProperties_CreateMode_STATUS string
+// Possible states of a server.
+type ServerState_STATUS string
 
 const (
-	ServerProperties_CreateMode_STATUS_Create             = ServerProperties_CreateMode_STATUS("Create")
-	ServerProperties_CreateMode_STATUS_Default            = ServerProperties_CreateMode_STATUS("Default")
-	ServerProperties_CreateMode_STATUS_GeoRestore         = ServerProperties_CreateMode_STATUS("GeoRestore")
-	ServerProperties_CreateMode_STATUS_PointInTimeRestore = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
-	ServerProperties_CreateMode_STATUS_Replica            = ServerProperties_CreateMode_STATUS("Replica")
-	ServerProperties_CreateMode_STATUS_ReviveDropped      = ServerProperties_CreateMode_STATUS("ReviveDropped")
-	ServerProperties_CreateMode_STATUS_Update             = ServerProperties_CreateMode_STATUS("Update")
+	ServerState_STATUS_Disabled     = ServerState_STATUS("Disabled")
+	ServerState_STATUS_Dropping     = ServerState_STATUS("Dropping")
+	ServerState_STATUS_Inaccessible = ServerState_STATUS("Inaccessible")
+	ServerState_STATUS_Provisioning = ServerState_STATUS("Provisioning")
+	ServerState_STATUS_Ready        = ServerState_STATUS("Ready")
+	ServerState_STATUS_Restarting   = ServerState_STATUS("Restarting")
+	ServerState_STATUS_Starting     = ServerState_STATUS("Starting")
+	ServerState_STATUS_Stopped      = ServerState_STATUS("Stopped")
+	ServerState_STATUS_Stopping     = ServerState_STATUS("Stopping")
+	ServerState_STATUS_Updating     = ServerState_STATUS("Updating")
 )
 
-// Mapping from string to ServerProperties_CreateMode_STATUS
-var serverProperties_CreateMode_STATUS_Values = map[string]ServerProperties_CreateMode_STATUS{
-	"create":             ServerProperties_CreateMode_STATUS_Create,
-	"default":            ServerProperties_CreateMode_STATUS_Default,
-	"georestore":         ServerProperties_CreateMode_STATUS_GeoRestore,
-	"pointintimerestore": ServerProperties_CreateMode_STATUS_PointInTimeRestore,
-	"replica":            ServerProperties_CreateMode_STATUS_Replica,
-	"revivedropped":      ServerProperties_CreateMode_STATUS_ReviveDropped,
-	"update":             ServerProperties_CreateMode_STATUS_Update,
+// Mapping from string to ServerState_STATUS
+var serverState_STATUS_Values = map[string]ServerState_STATUS{
+	"disabled":     ServerState_STATUS_Disabled,
+	"dropping":     ServerState_STATUS_Dropping,
+	"inaccessible": ServerState_STATUS_Inaccessible,
+	"provisioning": ServerState_STATUS_Provisioning,
+	"ready":        ServerState_STATUS_Ready,
+	"restarting":   ServerState_STATUS_Restarting,
+	"starting":     ServerState_STATUS_Starting,
+	"stopped":      ServerState_STATUS_Stopped,
+	"stopping":     ServerState_STATUS_Stopping,
+	"updating":     ServerState_STATUS_Updating,
 }
 
-type ServerProperties_State_STATUS string
+// Tier of the compute assigned to a server.
+type SkuTier_STATUS string
 
 const (
-	ServerProperties_State_STATUS_Disabled     = ServerProperties_State_STATUS("Disabled")
-	ServerProperties_State_STATUS_Dropping     = ServerProperties_State_STATUS("Dropping")
-	ServerProperties_State_STATUS_Inaccessible = ServerProperties_State_STATUS("Inaccessible")
-	ServerProperties_State_STATUS_Provisioning = ServerProperties_State_STATUS("Provisioning")
-	ServerProperties_State_STATUS_Ready        = ServerProperties_State_STATUS("Ready")
-	ServerProperties_State_STATUS_Restarting   = ServerProperties_State_STATUS("Restarting")
-	ServerProperties_State_STATUS_Starting     = ServerProperties_State_STATUS("Starting")
-	ServerProperties_State_STATUS_Stopped      = ServerProperties_State_STATUS("Stopped")
-	ServerProperties_State_STATUS_Stopping     = ServerProperties_State_STATUS("Stopping")
-	ServerProperties_State_STATUS_Updating     = ServerProperties_State_STATUS("Updating")
+	SkuTier_STATUS_Burstable       = SkuTier_STATUS("Burstable")
+	SkuTier_STATUS_GeneralPurpose  = SkuTier_STATUS("GeneralPurpose")
+	SkuTier_STATUS_MemoryOptimized = SkuTier_STATUS("MemoryOptimized")
 )
 
-// Mapping from string to ServerProperties_State_STATUS
-var serverProperties_State_STATUS_Values = map[string]ServerProperties_State_STATUS{
-	"disabled":     ServerProperties_State_STATUS_Disabled,
-	"dropping":     ServerProperties_State_STATUS_Dropping,
-	"inaccessible": ServerProperties_State_STATUS_Inaccessible,
-	"provisioning": ServerProperties_State_STATUS_Provisioning,
-	"ready":        ServerProperties_State_STATUS_Ready,
-	"restarting":   ServerProperties_State_STATUS_Restarting,
-	"starting":     ServerProperties_State_STATUS_Starting,
-	"stopped":      ServerProperties_State_STATUS_Stopped,
-	"stopping":     ServerProperties_State_STATUS_Stopping,
-	"updating":     ServerProperties_State_STATUS_Updating,
-}
-
-// Major version of PostgreSQL database engine.
-type ServerVersion_STATUS string
-
-const (
-	ServerVersion_STATUS_11 = ServerVersion_STATUS("11")
-	ServerVersion_STATUS_12 = ServerVersion_STATUS("12")
-	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
-	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
-	ServerVersion_STATUS_15 = ServerVersion_STATUS("15")
-	ServerVersion_STATUS_16 = ServerVersion_STATUS("16")
-	ServerVersion_STATUS_17 = ServerVersion_STATUS("17")
-	ServerVersion_STATUS_18 = ServerVersion_STATUS("18")
-)
-
-// Mapping from string to ServerVersion_STATUS
-var serverVersion_STATUS_Values = map[string]ServerVersion_STATUS{
-	"11": ServerVersion_STATUS_11,
-	"12": ServerVersion_STATUS_12,
-	"13": ServerVersion_STATUS_13,
-	"14": ServerVersion_STATUS_14,
-	"15": ServerVersion_STATUS_15,
-	"16": ServerVersion_STATUS_16,
-	"17": ServerVersion_STATUS_17,
-	"18": ServerVersion_STATUS_18,
-}
-
-type Sku_Tier_STATUS string
-
-const (
-	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
-	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
-)
-
-// Mapping from string to Sku_Tier_STATUS
-var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
-	"burstable":       Sku_Tier_STATUS_Burstable,
-	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+// Mapping from string to SkuTier_STATUS
+var skuTier_STATUS_Values = map[string]SkuTier_STATUS{
+	"burstable":       SkuTier_STATUS_Burstable,
+	"generalpurpose":  SkuTier_STATUS_GeneralPurpose,
+	"memoryoptimized": SkuTier_STATUS_MemoryOptimized,
 }
 
 // Storage properties of a server.
 type Storage_STATUS struct {
 	// AutoGrow: Flag to enable or disable the automatic growth of storage size of a server when available space is nearing
 	// zero and conditions allow for automatically growing storage size.
-	AutoGrow *Storage_AutoGrow_STATUS `json:"autoGrow,omitempty"`
+	AutoGrow *StorageAutoGrow_STATUS `json:"autoGrow,omitempty"`
 
 	// Iops: Maximum IOPS supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS.
 	Iops *int `json:"iops,omitempty"`
@@ -417,11 +438,11 @@ type Storage_STATUS struct {
 	Throughput *int `json:"throughput,omitempty"`
 
 	// Tier: Storage tier of a server.
-	Tier *Storage_Tier_STATUS `json:"tier,omitempty"`
+	Tier *AzureManagedDiskPerformanceTier_STATUS `json:"tier,omitempty"`
 
 	// Type: Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not
 	// specified, it defaults to Premium_LRS.
-	Type *Storage_Type_STATUS `json:"type,omitempty"`
+	Type *StorageType_STATUS `json:"type,omitempty"`
 }
 
 type SystemData_CreatedByType_STATUS string
@@ -458,23 +479,6 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
-type UserAssignedIdentity_Type_STATUS string
-
-const (
-	UserAssignedIdentity_Type_STATUS_None                       = UserAssignedIdentity_Type_STATUS("None")
-	UserAssignedIdentity_Type_STATUS_SystemAssigned             = UserAssignedIdentity_Type_STATUS("SystemAssigned")
-	UserAssignedIdentity_Type_STATUS_SystemAssignedUserAssigned = UserAssignedIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	UserAssignedIdentity_Type_STATUS_UserAssigned               = UserAssignedIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to UserAssignedIdentity_Type_STATUS
-var userAssignedIdentity_Type_STATUS_Values = map[string]UserAssignedIdentity_Type_STATUS{
-	"none":                        UserAssignedIdentity_Type_STATUS_None,
-	"systemassigned":              UserAssignedIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": UserAssignedIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                UserAssignedIdentity_Type_STATUS_UserAssigned,
-}
-
 // User assigned managed identity associated with a server.
 type UserIdentity_STATUS struct {
 	// ClientId: Identifier of the client of the service principal associated to the user assigned managed identity.
@@ -482,19 +486,6 @@ type UserIdentity_STATUS struct {
 
 	// PrincipalId: Identifier of the object of the service principal associated to the user assigned managed identity.
 	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-type AuthConfig_ActiveDirectoryAuth_STATUS string
-
-const (
-	AuthConfig_ActiveDirectoryAuth_STATUS_Disabled = AuthConfig_ActiveDirectoryAuth_STATUS("Disabled")
-	AuthConfig_ActiveDirectoryAuth_STATUS_Enabled  = AuthConfig_ActiveDirectoryAuth_STATUS("Enabled")
-)
-
-// Mapping from string to AuthConfig_ActiveDirectoryAuth_STATUS
-var authConfig_ActiveDirectoryAuth_STATUS_Values = map[string]AuthConfig_ActiveDirectoryAuth_STATUS{
-	"disabled": AuthConfig_ActiveDirectoryAuth_STATUS_Disabled,
-	"enabled":  AuthConfig_ActiveDirectoryAuth_STATUS_Enabled,
 }
 
 type AuthConfig_PasswordAuth_STATUS string
@@ -510,6 +501,44 @@ var authConfig_PasswordAuth_STATUS_Values = map[string]AuthConfig_PasswordAuth_S
 	"enabled":  AuthConfig_PasswordAuth_STATUS_Enabled,
 }
 
+// Storage tier of a server.
+type AzureManagedDiskPerformanceTier_STATUS string
+
+const (
+	AzureManagedDiskPerformanceTier_STATUS_P1  = AzureManagedDiskPerformanceTier_STATUS("P1")
+	AzureManagedDiskPerformanceTier_STATUS_P10 = AzureManagedDiskPerformanceTier_STATUS("P10")
+	AzureManagedDiskPerformanceTier_STATUS_P15 = AzureManagedDiskPerformanceTier_STATUS("P15")
+	AzureManagedDiskPerformanceTier_STATUS_P2  = AzureManagedDiskPerformanceTier_STATUS("P2")
+	AzureManagedDiskPerformanceTier_STATUS_P20 = AzureManagedDiskPerformanceTier_STATUS("P20")
+	AzureManagedDiskPerformanceTier_STATUS_P3  = AzureManagedDiskPerformanceTier_STATUS("P3")
+	AzureManagedDiskPerformanceTier_STATUS_P30 = AzureManagedDiskPerformanceTier_STATUS("P30")
+	AzureManagedDiskPerformanceTier_STATUS_P4  = AzureManagedDiskPerformanceTier_STATUS("P4")
+	AzureManagedDiskPerformanceTier_STATUS_P40 = AzureManagedDiskPerformanceTier_STATUS("P40")
+	AzureManagedDiskPerformanceTier_STATUS_P50 = AzureManagedDiskPerformanceTier_STATUS("P50")
+	AzureManagedDiskPerformanceTier_STATUS_P6  = AzureManagedDiskPerformanceTier_STATUS("P6")
+	AzureManagedDiskPerformanceTier_STATUS_P60 = AzureManagedDiskPerformanceTier_STATUS("P60")
+	AzureManagedDiskPerformanceTier_STATUS_P70 = AzureManagedDiskPerformanceTier_STATUS("P70")
+	AzureManagedDiskPerformanceTier_STATUS_P80 = AzureManagedDiskPerformanceTier_STATUS("P80")
+)
+
+// Mapping from string to AzureManagedDiskPerformanceTier_STATUS
+var azureManagedDiskPerformanceTier_STATUS_Values = map[string]AzureManagedDiskPerformanceTier_STATUS{
+	"p1":  AzureManagedDiskPerformanceTier_STATUS_P1,
+	"p10": AzureManagedDiskPerformanceTier_STATUS_P10,
+	"p15": AzureManagedDiskPerformanceTier_STATUS_P15,
+	"p2":  AzureManagedDiskPerformanceTier_STATUS_P2,
+	"p20": AzureManagedDiskPerformanceTier_STATUS_P20,
+	"p3":  AzureManagedDiskPerformanceTier_STATUS_P3,
+	"p30": AzureManagedDiskPerformanceTier_STATUS_P30,
+	"p4":  AzureManagedDiskPerformanceTier_STATUS_P4,
+	"p40": AzureManagedDiskPerformanceTier_STATUS_P40,
+	"p50": AzureManagedDiskPerformanceTier_STATUS_P50,
+	"p6":  AzureManagedDiskPerformanceTier_STATUS_P6,
+	"p60": AzureManagedDiskPerformanceTier_STATUS_P60,
+	"p70": AzureManagedDiskPerformanceTier_STATUS_P70,
+	"p80": AzureManagedDiskPerformanceTier_STATUS_P80,
+}
+
 type Backup_GeoRedundantBackup_STATUS string
 
 const (
@@ -523,43 +552,33 @@ var backup_GeoRedundantBackup_STATUS_Values = map[string]Backup_GeoRedundantBack
 	"enabled":  Backup_GeoRedundantBackup_STATUS_Enabled,
 }
 
-type DataEncryption_GeoBackupEncryptionKeyStatus_STATUS string
+// Data encryption type used by a server.
+type DataEncryptionType_STATUS string
 
 const (
-	DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Invalid = DataEncryption_GeoBackupEncryptionKeyStatus_STATUS("Invalid")
-	DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Valid   = DataEncryption_GeoBackupEncryptionKeyStatus_STATUS("Valid")
+	DataEncryptionType_STATUS_AzureKeyVault = DataEncryptionType_STATUS("AzureKeyVault")
+	DataEncryptionType_STATUS_SystemManaged = DataEncryptionType_STATUS("SystemManaged")
 )
 
-// Mapping from string to DataEncryption_GeoBackupEncryptionKeyStatus_STATUS
-var dataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Values = map[string]DataEncryption_GeoBackupEncryptionKeyStatus_STATUS{
-	"invalid": DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Invalid,
-	"valid":   DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Valid,
+// Mapping from string to DataEncryptionType_STATUS
+var dataEncryptionType_STATUS_Values = map[string]DataEncryptionType_STATUS{
+	"azurekeyvault": DataEncryptionType_STATUS_AzureKeyVault,
+	"systemmanaged": DataEncryptionType_STATUS_SystemManaged,
 }
 
-type DataEncryption_PrimaryEncryptionKeyStatus_STATUS string
+// Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary
+// storage associated to the server.
+type EncryptionKeyStatus_STATUS string
 
 const (
-	DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Invalid = DataEncryption_PrimaryEncryptionKeyStatus_STATUS("Invalid")
-	DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Valid   = DataEncryption_PrimaryEncryptionKeyStatus_STATUS("Valid")
+	EncryptionKeyStatus_STATUS_Invalid = EncryptionKeyStatus_STATUS("Invalid")
+	EncryptionKeyStatus_STATUS_Valid   = EncryptionKeyStatus_STATUS("Valid")
 )
 
-// Mapping from string to DataEncryption_PrimaryEncryptionKeyStatus_STATUS
-var dataEncryption_PrimaryEncryptionKeyStatus_STATUS_Values = map[string]DataEncryption_PrimaryEncryptionKeyStatus_STATUS{
-	"invalid": DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Invalid,
-	"valid":   DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Valid,
-}
-
-type DataEncryption_Type_STATUS string
-
-const (
-	DataEncryption_Type_STATUS_AzureKeyVault = DataEncryption_Type_STATUS("AzureKeyVault")
-	DataEncryption_Type_STATUS_SystemManaged = DataEncryption_Type_STATUS("SystemManaged")
-)
-
-// Mapping from string to DataEncryption_Type_STATUS
-var dataEncryption_Type_STATUS_Values = map[string]DataEncryption_Type_STATUS{
-	"azurekeyvault": DataEncryption_Type_STATUS_AzureKeyVault,
-	"systemmanaged": DataEncryption_Type_STATUS_SystemManaged,
+// Mapping from string to EncryptionKeyStatus_STATUS
+var encryptionKeyStatus_STATUS_Values = map[string]EncryptionKeyStatus_STATUS{
+	"invalid": EncryptionKeyStatus_STATUS_Invalid,
+	"valid":   EncryptionKeyStatus_STATUS_Valid,
 }
 
 type HighAvailability_Mode_STATUS string
@@ -577,148 +596,138 @@ var highAvailability_Mode_STATUS_Values = map[string]HighAvailability_Mode_STATU
 	"zoneredundant": HighAvailability_Mode_STATUS_ZoneRedundant,
 }
 
-type HighAvailability_State_STATUS string
+// Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant.
+type HighAvailabilityState_STATUS string
 
 const (
-	HighAvailability_State_STATUS_CreatingStandby = HighAvailability_State_STATUS("CreatingStandby")
-	HighAvailability_State_STATUS_FailingOver     = HighAvailability_State_STATUS("FailingOver")
-	HighAvailability_State_STATUS_Healthy         = HighAvailability_State_STATUS("Healthy")
-	HighAvailability_State_STATUS_NotEnabled      = HighAvailability_State_STATUS("NotEnabled")
-	HighAvailability_State_STATUS_RemovingStandby = HighAvailability_State_STATUS("RemovingStandby")
-	HighAvailability_State_STATUS_ReplicatingData = HighAvailability_State_STATUS("ReplicatingData")
+	HighAvailabilityState_STATUS_CreatingStandby = HighAvailabilityState_STATUS("CreatingStandby")
+	HighAvailabilityState_STATUS_FailingOver     = HighAvailabilityState_STATUS("FailingOver")
+	HighAvailabilityState_STATUS_Healthy         = HighAvailabilityState_STATUS("Healthy")
+	HighAvailabilityState_STATUS_NotEnabled      = HighAvailabilityState_STATUS("NotEnabled")
+	HighAvailabilityState_STATUS_RemovingStandby = HighAvailabilityState_STATUS("RemovingStandby")
+	HighAvailabilityState_STATUS_ReplicatingData = HighAvailabilityState_STATUS("ReplicatingData")
 )
 
-// Mapping from string to HighAvailability_State_STATUS
-var highAvailability_State_STATUS_Values = map[string]HighAvailability_State_STATUS{
-	"creatingstandby": HighAvailability_State_STATUS_CreatingStandby,
-	"failingover":     HighAvailability_State_STATUS_FailingOver,
-	"healthy":         HighAvailability_State_STATUS_Healthy,
-	"notenabled":      HighAvailability_State_STATUS_NotEnabled,
-	"removingstandby": HighAvailability_State_STATUS_RemovingStandby,
-	"replicatingdata": HighAvailability_State_STATUS_ReplicatingData,
+// Mapping from string to HighAvailabilityState_STATUS
+var highAvailabilityState_STATUS_Values = map[string]HighAvailabilityState_STATUS{
+	"creatingstandby": HighAvailabilityState_STATUS_CreatingStandby,
+	"failingover":     HighAvailabilityState_STATUS_FailingOver,
+	"healthy":         HighAvailabilityState_STATUS_Healthy,
+	"notenabled":      HighAvailabilityState_STATUS_NotEnabled,
+	"removingstandby": HighAvailabilityState_STATUS_RemovingStandby,
+	"replicatingdata": HighAvailabilityState_STATUS_ReplicatingData,
 }
 
-type Network_PublicNetworkAccess_STATUS string
+// Indicates if the server supports Microsoft Entra authentication.
+type MicrosoftEntraAuth_STATUS string
 
 const (
-	Network_PublicNetworkAccess_STATUS_Disabled = Network_PublicNetworkAccess_STATUS("Disabled")
-	Network_PublicNetworkAccess_STATUS_Enabled  = Network_PublicNetworkAccess_STATUS("Enabled")
+	MicrosoftEntraAuth_STATUS_Disabled = MicrosoftEntraAuth_STATUS("Disabled")
+	MicrosoftEntraAuth_STATUS_Enabled  = MicrosoftEntraAuth_STATUS("Enabled")
 )
 
-// Mapping from string to Network_PublicNetworkAccess_STATUS
-var network_PublicNetworkAccess_STATUS_Values = map[string]Network_PublicNetworkAccess_STATUS{
-	"disabled": Network_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":  Network_PublicNetworkAccess_STATUS_Enabled,
+// Mapping from string to MicrosoftEntraAuth_STATUS
+var microsoftEntraAuth_STATUS_Values = map[string]MicrosoftEntraAuth_STATUS{
+	"disabled": MicrosoftEntraAuth_STATUS_Disabled,
+	"enabled":  MicrosoftEntraAuth_STATUS_Enabled,
 }
 
-type Replica_PromoteMode_STATUS string
+// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
+// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
+// means that the read replica will roles with the primary server.
+type ReadReplicaPromoteMode_STATUS string
 
 const (
-	Replica_PromoteMode_STATUS_Standalone = Replica_PromoteMode_STATUS("Standalone")
-	Replica_PromoteMode_STATUS_Switchover = Replica_PromoteMode_STATUS("Switchover")
+	ReadReplicaPromoteMode_STATUS_Standalone = ReadReplicaPromoteMode_STATUS("Standalone")
+	ReadReplicaPromoteMode_STATUS_Switchover = ReadReplicaPromoteMode_STATUS("Switchover")
 )
 
-// Mapping from string to Replica_PromoteMode_STATUS
-var replica_PromoteMode_STATUS_Values = map[string]Replica_PromoteMode_STATUS{
-	"standalone": Replica_PromoteMode_STATUS_Standalone,
-	"switchover": Replica_PromoteMode_STATUS_Switchover,
+// Mapping from string to ReadReplicaPromoteMode_STATUS
+var readReplicaPromoteMode_STATUS_Values = map[string]ReadReplicaPromoteMode_STATUS{
+	"standalone": ReadReplicaPromoteMode_STATUS_Standalone,
+	"switchover": ReadReplicaPromoteMode_STATUS_Switchover,
 }
 
-type Replica_PromoteOption_STATUS string
+// Data synchronization option to use when processing the operation specified in the promoteMode property. This property is
+// write only.
+type ReadReplicaPromoteOption_STATUS string
 
 const (
-	Replica_PromoteOption_STATUS_Forced  = Replica_PromoteOption_STATUS("Forced")
-	Replica_PromoteOption_STATUS_Planned = Replica_PromoteOption_STATUS("Planned")
+	ReadReplicaPromoteOption_STATUS_Forced  = ReadReplicaPromoteOption_STATUS("Forced")
+	ReadReplicaPromoteOption_STATUS_Planned = ReadReplicaPromoteOption_STATUS("Planned")
 )
 
-// Mapping from string to Replica_PromoteOption_STATUS
-var replica_PromoteOption_STATUS_Values = map[string]Replica_PromoteOption_STATUS{
-	"forced":  Replica_PromoteOption_STATUS_Forced,
-	"planned": Replica_PromoteOption_STATUS_Planned,
+// Mapping from string to ReadReplicaPromoteOption_STATUS
+var readReplicaPromoteOption_STATUS_Values = map[string]ReadReplicaPromoteOption_STATUS{
+	"forced":  ReadReplicaPromoteOption_STATUS_Forced,
+	"planned": ReadReplicaPromoteOption_STATUS_Planned,
 }
 
-type Replica_ReplicationState_STATUS string
+// Indicates the replication state of a read replica. This property is returned only when the target server is a read
+// replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating
+type ReplicationState_STATUS string
 
 const (
-	Replica_ReplicationState_STATUS_Active        = Replica_ReplicationState_STATUS("Active")
-	Replica_ReplicationState_STATUS_Broken        = Replica_ReplicationState_STATUS("Broken")
-	Replica_ReplicationState_STATUS_Catchup       = Replica_ReplicationState_STATUS("Catchup")
-	Replica_ReplicationState_STATUS_Provisioning  = Replica_ReplicationState_STATUS("Provisioning")
-	Replica_ReplicationState_STATUS_Reconfiguring = Replica_ReplicationState_STATUS("Reconfiguring")
-	Replica_ReplicationState_STATUS_Updating      = Replica_ReplicationState_STATUS("Updating")
+	ReplicationState_STATUS_Active        = ReplicationState_STATUS("Active")
+	ReplicationState_STATUS_Broken        = ReplicationState_STATUS("Broken")
+	ReplicationState_STATUS_Catchup       = ReplicationState_STATUS("Catchup")
+	ReplicationState_STATUS_Provisioning  = ReplicationState_STATUS("Provisioning")
+	ReplicationState_STATUS_Reconfiguring = ReplicationState_STATUS("Reconfiguring")
+	ReplicationState_STATUS_Updating      = ReplicationState_STATUS("Updating")
 )
 
-// Mapping from string to Replica_ReplicationState_STATUS
-var replica_ReplicationState_STATUS_Values = map[string]Replica_ReplicationState_STATUS{
-	"active":        Replica_ReplicationState_STATUS_Active,
-	"broken":        Replica_ReplicationState_STATUS_Broken,
-	"catchup":       Replica_ReplicationState_STATUS_Catchup,
-	"provisioning":  Replica_ReplicationState_STATUS_Provisioning,
-	"reconfiguring": Replica_ReplicationState_STATUS_Reconfiguring,
-	"updating":      Replica_ReplicationState_STATUS_Updating,
+// Mapping from string to ReplicationState_STATUS
+var replicationState_STATUS_Values = map[string]ReplicationState_STATUS{
+	"active":        ReplicationState_STATUS_Active,
+	"broken":        ReplicationState_STATUS_Broken,
+	"catchup":       ReplicationState_STATUS_Catchup,
+	"provisioning":  ReplicationState_STATUS_Provisioning,
+	"reconfiguring": ReplicationState_STATUS_Reconfiguring,
+	"updating":      ReplicationState_STATUS_Updating,
 }
 
-type Storage_AutoGrow_STATUS string
+// Indicates if public network access is enabled or not.
+type ServerPublicNetworkAccessState_STATUS string
 
 const (
-	Storage_AutoGrow_STATUS_Disabled = Storage_AutoGrow_STATUS("Disabled")
-	Storage_AutoGrow_STATUS_Enabled  = Storage_AutoGrow_STATUS("Enabled")
+	ServerPublicNetworkAccessState_STATUS_Disabled = ServerPublicNetworkAccessState_STATUS("Disabled")
+	ServerPublicNetworkAccessState_STATUS_Enabled  = ServerPublicNetworkAccessState_STATUS("Enabled")
 )
 
-// Mapping from string to Storage_AutoGrow_STATUS
-var storage_AutoGrow_STATUS_Values = map[string]Storage_AutoGrow_STATUS{
-	"disabled": Storage_AutoGrow_STATUS_Disabled,
-	"enabled":  Storage_AutoGrow_STATUS_Enabled,
+// Mapping from string to ServerPublicNetworkAccessState_STATUS
+var serverPublicNetworkAccessState_STATUS_Values = map[string]ServerPublicNetworkAccessState_STATUS{
+	"disabled": ServerPublicNetworkAccessState_STATUS_Disabled,
+	"enabled":  ServerPublicNetworkAccessState_STATUS_Enabled,
 }
 
-type Storage_Tier_STATUS string
+// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
+// conditions allow for automatically growing storage size.
+type StorageAutoGrow_STATUS string
 
 const (
-	Storage_Tier_STATUS_P1  = Storage_Tier_STATUS("P1")
-	Storage_Tier_STATUS_P10 = Storage_Tier_STATUS("P10")
-	Storage_Tier_STATUS_P15 = Storage_Tier_STATUS("P15")
-	Storage_Tier_STATUS_P2  = Storage_Tier_STATUS("P2")
-	Storage_Tier_STATUS_P20 = Storage_Tier_STATUS("P20")
-	Storage_Tier_STATUS_P3  = Storage_Tier_STATUS("P3")
-	Storage_Tier_STATUS_P30 = Storage_Tier_STATUS("P30")
-	Storage_Tier_STATUS_P4  = Storage_Tier_STATUS("P4")
-	Storage_Tier_STATUS_P40 = Storage_Tier_STATUS("P40")
-	Storage_Tier_STATUS_P50 = Storage_Tier_STATUS("P50")
-	Storage_Tier_STATUS_P6  = Storage_Tier_STATUS("P6")
-	Storage_Tier_STATUS_P60 = Storage_Tier_STATUS("P60")
-	Storage_Tier_STATUS_P70 = Storage_Tier_STATUS("P70")
-	Storage_Tier_STATUS_P80 = Storage_Tier_STATUS("P80")
+	StorageAutoGrow_STATUS_Disabled = StorageAutoGrow_STATUS("Disabled")
+	StorageAutoGrow_STATUS_Enabled  = StorageAutoGrow_STATUS("Enabled")
 )
 
-// Mapping from string to Storage_Tier_STATUS
-var storage_Tier_STATUS_Values = map[string]Storage_Tier_STATUS{
-	"p1":  Storage_Tier_STATUS_P1,
-	"p10": Storage_Tier_STATUS_P10,
-	"p15": Storage_Tier_STATUS_P15,
-	"p2":  Storage_Tier_STATUS_P2,
-	"p20": Storage_Tier_STATUS_P20,
-	"p3":  Storage_Tier_STATUS_P3,
-	"p30": Storage_Tier_STATUS_P30,
-	"p4":  Storage_Tier_STATUS_P4,
-	"p40": Storage_Tier_STATUS_P40,
-	"p50": Storage_Tier_STATUS_P50,
-	"p6":  Storage_Tier_STATUS_P6,
-	"p60": Storage_Tier_STATUS_P60,
-	"p70": Storage_Tier_STATUS_P70,
-	"p80": Storage_Tier_STATUS_P80,
+// Mapping from string to StorageAutoGrow_STATUS
+var storageAutoGrow_STATUS_Values = map[string]StorageAutoGrow_STATUS{
+	"disabled": StorageAutoGrow_STATUS_Disabled,
+	"enabled":  StorageAutoGrow_STATUS_Enabled,
 }
 
-type Storage_Type_STATUS string
+// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
+// it defaults to Premium_LRS.
+type StorageType_STATUS string
 
 const (
-	Storage_Type_STATUS_PremiumV2_LRS = Storage_Type_STATUS("PremiumV2_LRS")
-	Storage_Type_STATUS_Premium_LRS   = Storage_Type_STATUS("Premium_LRS")
-	Storage_Type_STATUS_UltraSSD_LRS  = Storage_Type_STATUS("UltraSSD_LRS")
+	StorageType_STATUS_PremiumV2_LRS = StorageType_STATUS("PremiumV2_LRS")
+	StorageType_STATUS_Premium_LRS   = StorageType_STATUS("Premium_LRS")
+	StorageType_STATUS_UltraSSD_LRS  = StorageType_STATUS("UltraSSD_LRS")
 )
 
-// Mapping from string to Storage_Type_STATUS
-var storage_Type_STATUS_Values = map[string]Storage_Type_STATUS{
-	"premiumv2_lrs": Storage_Type_STATUS_PremiumV2_LRS,
-	"premium_lrs":   Storage_Type_STATUS_Premium_LRS,
-	"ultrassd_lrs":  Storage_Type_STATUS_UltraSSD_LRS,
+// Mapping from string to StorageType_STATUS
+var storageType_STATUS_Values = map[string]StorageType_STATUS{
+	"premiumv2_lrs": StorageType_STATUS_PremiumV2_LRS,
+	"premium_lrs":   StorageType_STATUS_Premium_LRS,
+	"ultrassd_lrs":  StorageType_STATUS_UltraSSD_LRS,
 }

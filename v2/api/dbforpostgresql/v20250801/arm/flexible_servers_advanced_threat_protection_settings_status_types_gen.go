@@ -28,18 +28,20 @@ type AdvancedThreatProtectionSettingsProperties_STATUS struct {
 
 	// State: Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been
 	// applied yet on the server.
-	State *AdvancedThreatProtectionSettingsProperties_State_STATUS `json:"state,omitempty"`
+	State *ThreatProtectionState_STATUS `json:"state,omitempty"`
 }
 
-type AdvancedThreatProtectionSettingsProperties_State_STATUS string
+// Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied
+// yet on the server.
+type ThreatProtectionState_STATUS string
 
 const (
-	AdvancedThreatProtectionSettingsProperties_State_STATUS_Disabled = AdvancedThreatProtectionSettingsProperties_State_STATUS("Disabled")
-	AdvancedThreatProtectionSettingsProperties_State_STATUS_Enabled  = AdvancedThreatProtectionSettingsProperties_State_STATUS("Enabled")
+	ThreatProtectionState_STATUS_Disabled = ThreatProtectionState_STATUS("Disabled")
+	ThreatProtectionState_STATUS_Enabled  = ThreatProtectionState_STATUS("Enabled")
 )
 
-// Mapping from string to AdvancedThreatProtectionSettingsProperties_State_STATUS
-var advancedThreatProtectionSettingsProperties_State_STATUS_Values = map[string]AdvancedThreatProtectionSettingsProperties_State_STATUS{
-	"disabled": AdvancedThreatProtectionSettingsProperties_State_STATUS_Disabled,
-	"enabled":  AdvancedThreatProtectionSettingsProperties_State_STATUS_Enabled,
+// Mapping from string to ThreatProtectionState_STATUS
+var threatProtectionState_STATUS_Values = map[string]ThreatProtectionState_STATUS{
+	"disabled": ThreatProtectionState_STATUS_Disabled,
+	"enabled":  ThreatProtectionState_STATUS_Enabled,
 }

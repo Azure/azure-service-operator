@@ -363,21 +363,19 @@ func newPostgresSQLSecret(tc *testcommon.KubePerTestContext, key string, passwor
 }
 
 func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *postgresql.FlexibleServer {
-	version := postgresql.ServerVersion_18
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
 		Key:  adminKey,
 	}
-	tier := postgresql.Sku_Tier_GeneralPurpose
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Version:  &version,
+			Version:  to.Ptr(postgresql.PostgresMajorVersion_18),
 			Sku: &postgresql.Sku{
 				Name: to.Ptr("Standard_D4s_v3"),
-				Tier: &tier,
+				Tier: to.Ptr(postgresql.SkuTier_GeneralPurpose),
 			},
 			AdministratorLogin:         to.Ptr(adminUsername),
 			AdministratorLoginPassword: &secretRef,

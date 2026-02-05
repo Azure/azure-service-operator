@@ -75,7 +75,7 @@ func BackupAutomaticAndOnDemandProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackupAutomaticAndOnDemandProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupAutomaticAndOnDemandProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["BackupType"] = gen.PtrOf(gen.OneConstOf(BackupAutomaticAndOnDemandProperties_BackupType_STATUS_CustomerOnDemand, BackupAutomaticAndOnDemandProperties_BackupType_STATUS_Full))
+	gens["BackupType"] = gen.PtrOf(gen.OneConstOf(BackupType_STATUS_CustomerOnDemand, BackupType_STATUS_Full))
 	gens["CompletedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
 }

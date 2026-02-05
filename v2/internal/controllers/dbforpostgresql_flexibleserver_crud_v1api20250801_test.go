@@ -26,7 +26,6 @@ import (
 // Name slightly different here because running into name collision issues
 func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD_2(t *testing.T) {
 	t.Parallel()
-	t.Skip("Skipping - possibly running afoul of the stale owner issue when PrereconcileCheck is run")
 
 	if *isLive {
 		t.Skip("can't run in live mode, postresql flexible server takes too long to be provisioned and deleted")
@@ -55,18 +54,16 @@ func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD_2(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	version := postgresql.ServerVersion_17
-	tier := postgresql.Sku_Tier_GeneralPurpose
 	fqdnConfig := "fqdnconfig"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Version:  &version,
+			Version:  to.Ptr(postgresql.PostgresMajorVersion_17),
 			Sku: &postgresql.Sku{
 				Name: to.Ptr("Standard_D4s_v3"),
-				Tier: &tier,
+				Tier: to.Ptr(postgresql.SkuTier_GeneralPurpose),
 			},
 			AdministratorLogin:         to.Ptr("myadmin"),
 			AdministratorLoginPassword: &secretRef,
@@ -74,7 +71,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20250801_CRUD_2(t *testing.T) {
 				StorageSizeGB: to.Ptr(128),
 			},
 			AuthConfig: &postgresql.AuthConfig{
-				ActiveDirectoryAuth: to.Ptr(postgresql.AuthConfig_ActiveDirectoryAuth_Enabled),
+				ActiveDirectoryAuth: to.Ptr(postgresql.MicrosoftEntraAuth_Enabled),
 				PasswordAuth:        to.Ptr(postgresql.AuthConfig_PasswordAuth_Enabled),
 				TenantId:            &tc.AzureTenant,
 			},
@@ -257,7 +254,7 @@ func FlexibleServer_VirtualEndpoint_20250801_CRUD(tc *testcommon.KubePerTestCont
 		ObjectMeta: tc.MakeObjectMeta("virtualendpoint"),
 		Spec: postgresql.FlexibleServersVirtualEndpoint_Spec{
 			Owner:        testcommon.AsOwner(flexibleServer),
-			EndpointType: to.Ptr(postgresql.VirtualEndpointResourceProperties_EndpointType_ReadWrite),
+			EndpointType: to.Ptr(postgresql.VirtualEndpointType_ReadWrite),
 			Members: []string{
 				flexibleServer.Spec.AzureName,
 			},
@@ -275,7 +272,7 @@ func FlexibleServer_AdvancedThreatProtection_20250801_CRUD(tc *testcommon.KubePe
 		ObjectMeta: tc.MakeObjectMeta("advthreat"),
 		Spec: postgresql.FlexibleServersAdvancedThreatProtectionSettings_Spec{
 			Owner: testcommon.AsOwner(flexibleServer),
-			State: to.Ptr(postgresql.AdvancedThreatProtectionSettingsProperties_State_Enabled),
+			State: to.Ptr(postgresql.ThreatProtectionState_Enabled),
 		},
 	}
 
@@ -346,7 +343,7 @@ func FlexibleServer_Administrator_20250801_CRUD(tc *testcommon.KubePerTestContex
 				Name: configMapName,
 				Key:  tenantIDKey,
 			},
-			PrincipalType: to.Ptr(postgresql.AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal),
+			PrincipalType: to.Ptr(postgresql.PrincipalType_ServicePrincipal),
 		},
 	}
 

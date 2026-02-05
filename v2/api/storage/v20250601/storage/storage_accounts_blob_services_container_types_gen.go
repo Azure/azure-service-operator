@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250601.StorageAccountsBlobServicesContainer
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 // +kubebuilder:object:root=true
 // Storage version of v20250601.StorageAccountsBlobServicesContainer
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -234,6 +234,7 @@ type StorageAccountsBlobServicesContainer_STATUS struct {
 	PropertyBag                    genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	PublicAccess                   *string                                `json:"publicAccess,omitempty"`
 	RemainingRetentionDays         *int                                   `json:"remainingRetentionDays,omitempty"`
+	SystemData                     *SystemData_STATUS                     `json:"systemData,omitempty"`
 	Type                           *string                                `json:"type,omitempty"`
 	Version                        *string                                `json:"version,omitempty"`
 }

@@ -31,7 +31,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250801.FlexibleServer
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -179,7 +179,7 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20250801.FlexibleServer
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -365,15 +365,13 @@ type Cluster_STATUS struct {
 // Storage version of v20250801.DataEncryption
 // Data encryption properties of a server.
 type DataEncryption struct {
-	GeoBackupEncryptionKeyStatus *string                        `json:"geoBackupEncryptionKeyStatus,omitempty"`
-	GeoBackupKeyURI              *string                        `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
-	GeoBackupKeyURIFromConfig    *genruntime.ConfigMapReference `json:"geoBackupKeyURIFromConfig,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
+	GeoBackupKeyURI           *string                        `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
+	GeoBackupKeyURIFromConfig *genruntime.ConfigMapReference `json:"geoBackupKeyURIFromConfig,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
 
 	// GeoBackupUserAssignedIdentityReference: Identifier of the user assigned managed identity used to access the key in Azure
 	// Key Vault for data encryption of the geographically redundant storage associated to a server that is configured to
 	// support geographically redundant backups.
 	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference  `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
-	PrimaryEncryptionKeyStatus             *string                        `json:"primaryEncryptionKeyStatus,omitempty"`
 	PrimaryKeyURI                          *string                        `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 	PrimaryKeyURIFromConfig                *genruntime.ConfigMapReference `json:"primaryKeyURIFromConfig,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 

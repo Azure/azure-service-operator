@@ -4,24 +4,28 @@
 package arm
 
 type StorageAccountsBlobService_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
-	Properties *StorageAccounts_BlobService_Properties_STATUS `json:"properties,omitempty"`
+	Properties *BlobServicePropertiesProperties_STATUS `json:"properties,omitempty"`
 
 	// Sku: Sku name and tier.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type StorageAccounts_BlobService_Properties_STATUS struct {
+// The properties of a storage account’s Blob service.
+type BlobServicePropertiesProperties_STATUS struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
@@ -94,7 +98,7 @@ type LastAccessTimeTrackingPolicy_STATUS struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
+	Name *Name_STATUS `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -124,7 +128,7 @@ type CorsRule_STATUS struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods"`
+	AllowedMethods []AllowedMethods_STATUS `json:"allowedMethods"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -138,40 +142,41 @@ type CorsRule_STATUS struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-type LastAccessTimeTrackingPolicy_Name_STATUS string
+// Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
+type Name_STATUS string
 
-const LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
+const Name_STATUS_AccessTimeTracking = Name_STATUS("AccessTimeTracking")
 
-// Mapping from string to LastAccessTimeTrackingPolicy_Name_STATUS
-var lastAccessTimeTrackingPolicy_Name_STATUS_Values = map[string]LastAccessTimeTrackingPolicy_Name_STATUS{
-	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking,
+// Mapping from string to Name_STATUS
+var name_STATUS_Values = map[string]Name_STATUS{
+	"accesstimetracking": Name_STATUS_AccessTimeTracking,
 }
 
-type CorsRule_AllowedMethods_STATUS string
+type AllowedMethods_STATUS string
 
 const (
-	CorsRule_AllowedMethods_STATUS_CONNECT = CorsRule_AllowedMethods_STATUS("CONNECT")
-	CorsRule_AllowedMethods_STATUS_DELETE  = CorsRule_AllowedMethods_STATUS("DELETE")
-	CorsRule_AllowedMethods_STATUS_GET     = CorsRule_AllowedMethods_STATUS("GET")
-	CorsRule_AllowedMethods_STATUS_HEAD    = CorsRule_AllowedMethods_STATUS("HEAD")
-	CorsRule_AllowedMethods_STATUS_MERGE   = CorsRule_AllowedMethods_STATUS("MERGE")
-	CorsRule_AllowedMethods_STATUS_OPTIONS = CorsRule_AllowedMethods_STATUS("OPTIONS")
-	CorsRule_AllowedMethods_STATUS_PATCH   = CorsRule_AllowedMethods_STATUS("PATCH")
-	CorsRule_AllowedMethods_STATUS_POST    = CorsRule_AllowedMethods_STATUS("POST")
-	CorsRule_AllowedMethods_STATUS_PUT     = CorsRule_AllowedMethods_STATUS("PUT")
-	CorsRule_AllowedMethods_STATUS_TRACE   = CorsRule_AllowedMethods_STATUS("TRACE")
+	AllowedMethods_STATUS_CONNECT = AllowedMethods_STATUS("CONNECT")
+	AllowedMethods_STATUS_DELETE  = AllowedMethods_STATUS("DELETE")
+	AllowedMethods_STATUS_GET     = AllowedMethods_STATUS("GET")
+	AllowedMethods_STATUS_HEAD    = AllowedMethods_STATUS("HEAD")
+	AllowedMethods_STATUS_MERGE   = AllowedMethods_STATUS("MERGE")
+	AllowedMethods_STATUS_OPTIONS = AllowedMethods_STATUS("OPTIONS")
+	AllowedMethods_STATUS_PATCH   = AllowedMethods_STATUS("PATCH")
+	AllowedMethods_STATUS_POST    = AllowedMethods_STATUS("POST")
+	AllowedMethods_STATUS_PUT     = AllowedMethods_STATUS("PUT")
+	AllowedMethods_STATUS_TRACE   = AllowedMethods_STATUS("TRACE")
 )
 
-// Mapping from string to CorsRule_AllowedMethods_STATUS
-var corsRule_AllowedMethods_STATUS_Values = map[string]CorsRule_AllowedMethods_STATUS{
-	"connect": CorsRule_AllowedMethods_STATUS_CONNECT,
-	"delete":  CorsRule_AllowedMethods_STATUS_DELETE,
-	"get":     CorsRule_AllowedMethods_STATUS_GET,
-	"head":    CorsRule_AllowedMethods_STATUS_HEAD,
-	"merge":   CorsRule_AllowedMethods_STATUS_MERGE,
-	"options": CorsRule_AllowedMethods_STATUS_OPTIONS,
-	"patch":   CorsRule_AllowedMethods_STATUS_PATCH,
-	"post":    CorsRule_AllowedMethods_STATUS_POST,
-	"put":     CorsRule_AllowedMethods_STATUS_PUT,
-	"trace":   CorsRule_AllowedMethods_STATUS_TRACE,
+// Mapping from string to AllowedMethods_STATUS
+var allowedMethods_STATUS_Values = map[string]AllowedMethods_STATUS{
+	"connect": AllowedMethods_STATUS_CONNECT,
+	"delete":  AllowedMethods_STATUS_DELETE,
+	"get":     AllowedMethods_STATUS_GET,
+	"head":    AllowedMethods_STATUS_HEAD,
+	"merge":   AllowedMethods_STATUS_MERGE,
+	"options": AllowedMethods_STATUS_OPTIONS,
+	"patch":   AllowedMethods_STATUS_PATCH,
+	"post":    AllowedMethods_STATUS_POST,
+	"put":     AllowedMethods_STATUS_PUT,
+	"trace":   AllowedMethods_STATUS_TRACE,
 }

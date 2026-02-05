@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/BackupsAutomaticAndOnDemand.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}
 type FlexibleServersBackup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (backup *FlexibleServersBackup) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/BackupsAutomaticAndOnDemand.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}
 type FlexibleServersBackupList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -447,7 +447,7 @@ func (backup *FlexibleServersBackup_Spec) SetAzureName(azureName string) {
 
 type FlexibleServersBackup_STATUS struct {
 	// BackupType: Type of backup.
-	BackupType *BackupAutomaticAndOnDemandProperties_BackupType_STATUS `json:"backupType,omitempty"`
+	BackupType *BackupType_STATUS `json:"backupType,omitempty"`
 
 	// CompletedTime: Time(ISO8601 format) at which the backup was completed.
 	CompletedTime *string `json:"completedTime,omitempty"`
@@ -542,7 +542,7 @@ func (backup *FlexibleServersBackup_STATUS) PopulateFromARM(owner genruntime.Arb
 		if typedInput.Properties.BackupType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.BackupType)
-			backupType := BackupAutomaticAndOnDemandProperties_BackupType_STATUS(temp)
+			backupType := BackupType_STATUS(temp)
 			backup.BackupType = &backupType
 		}
 	}
@@ -606,7 +606,7 @@ func (backup *FlexibleServersBackup_STATUS) AssignProperties_From_FlexibleServer
 	// BackupType
 	if source.BackupType != nil {
 		backupType := *source.BackupType
-		backupTypeTemp := genruntime.ToEnum(backupType, backupAutomaticAndOnDemandProperties_BackupType_STATUS_Values)
+		backupTypeTemp := genruntime.ToEnum(backupType, backupType_STATUS_Values)
 		backup.BackupType = &backupTypeTemp
 	} else {
 		backup.BackupType = nil
@@ -700,17 +700,18 @@ func (backup *FlexibleServersBackup_STATUS) AssignProperties_To_FlexibleServersB
 	return nil
 }
 
-type BackupAutomaticAndOnDemandProperties_BackupType_STATUS string
+// Type of backup.
+type BackupType_STATUS string
 
 const (
-	BackupAutomaticAndOnDemandProperties_BackupType_STATUS_CustomerOnDemand = BackupAutomaticAndOnDemandProperties_BackupType_STATUS("Customer On-Demand")
-	BackupAutomaticAndOnDemandProperties_BackupType_STATUS_Full             = BackupAutomaticAndOnDemandProperties_BackupType_STATUS("Full")
+	BackupType_STATUS_CustomerOnDemand = BackupType_STATUS("Customer On-Demand")
+	BackupType_STATUS_Full             = BackupType_STATUS("Full")
 )
 
-// Mapping from string to BackupAutomaticAndOnDemandProperties_BackupType_STATUS
-var backupAutomaticAndOnDemandProperties_BackupType_STATUS_Values = map[string]BackupAutomaticAndOnDemandProperties_BackupType_STATUS{
-	"customer on-demand": BackupAutomaticAndOnDemandProperties_BackupType_STATUS_CustomerOnDemand,
-	"full":               BackupAutomaticAndOnDemandProperties_BackupType_STATUS_Full,
+// Mapping from string to BackupType_STATUS
+var backupType_STATUS_Values = map[string]BackupType_STATUS{
+	"customer on-demand": BackupType_STATUS_CustomerOnDemand,
+	"full":               BackupType_STATUS_Full,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

@@ -21,7 +21,7 @@ BatchAccount: Resource
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 24
 │   │   ├── Rule 1: MinLength: 3
-│   │   └── Rule 2: Pattern: "^[a-z0-9]+$"
+│   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]+$"
 │   ├── Encryption: *Object (2 properties)
 │   │   ├── KeySource: *Enum (2 values)
 │   │   │   ├── "Microsoft.Batch"
@@ -68,7 +68,7 @@ BatchAccount: Resource
 │   │   ├── "Enabled"
 │   │   └── "SecuredByPerimeter"
 │   └── Tags: map[string]string
-└── Status: Object (24 properties)
+└── Status: Object (25 properties)
     ├── AccountEndpoint: *string
     ├── ActiveJobAndJobScheduleQuota: *int
     ├── AllowedAuthenticationModes: Enum (3 values)[]
@@ -147,6 +147,21 @@ BatchAccount: Resource
     │   ├── "Disabled"
     │   ├── "Enabled"
     │   └── "SecuredByPerimeter"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
 

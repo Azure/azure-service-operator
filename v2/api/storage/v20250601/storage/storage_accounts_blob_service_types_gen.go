@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250601.StorageAccountsBlobService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -157,7 +157,7 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 // +kubebuilder:object:root=true
 // Storage version of v20250601.StorageAccountsBlobService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/blob.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -223,6 +223,7 @@ type StorageAccountsBlobService_STATUS struct {
 	PropertyBag                    genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	RestorePolicy                  *RestorePolicyProperties_STATUS      `json:"restorePolicy,omitempty"`
 	Sku                            *Sku_STATUS                          `json:"sku,omitempty"`
+	SystemData                     *SystemData_STATUS                   `json:"systemData,omitempty"`
 	Type                           *string                              `json:"type,omitempty"`
 }
 

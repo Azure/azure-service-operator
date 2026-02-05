@@ -168,14 +168,13 @@ StorageAccount: Resource
 │   │   ├── ExpirationAction: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SasExpirationPeriod: *string
-│   ├── Sku: *Object (3 properties)
+│   ├── Sku: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tier: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── SupportsHttpsTrafficOnly: *bool
 │   ├── Tags: map[string]string
 │   └── Zones: string[]
-└── Status: Object (56 properties)
+└── Status: Object (57 properties)
     ├── AccessTier: *string
     ├── AccountMigrationInProgress: *bool
     ├── AllowBlobPublicAccess: *bool
@@ -455,6 +454,14 @@ StorageAccount: Resource
     │   ├── StartTime: *string
     │   └── TargetSkuName: *string
     ├── SupportsHttpsTrafficOnly: *bool
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     ├── Type: *string
     └── Zones: string[]
@@ -505,7 +512,7 @@ StorageAccountsBlobService: Resource
 │       ├── Days: *int
 │       ├── Enabled: *bool
 │       └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (15 properties)
+└── Status: Object (16 properties)
     ├── AutomaticSnapshotPolicyEnabled: *bool
     ├── ChangeFeed: *Object (3 properties)
     │   ├── Enabled: *bool
@@ -552,6 +559,14 @@ StorageAccountsBlobService: Resource
     │   ├── Name: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Tier: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 StorageAccountsBlobServicesContainer: Resource
@@ -574,7 +589,7 @@ StorageAccountsBlobServicesContainer: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
 │   └── PublicAccess: *string
-└── Status: Object (25 properties)
+└── Status: Object (26 properties)
     ├── Conditions: conditions.Condition[]
     ├── DefaultEncryptionScope: *string
     ├── Deleted: *bool
@@ -631,6 +646,14 @@ StorageAccountsBlobServicesContainer: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── PublicAccess: *string
     ├── RemainingRetentionDays: *int
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── Version: *string
 
@@ -677,7 +700,7 @@ StorageAccountsFileService: Resource
 │       ├── Days: *int
 │       ├── Enabled: *bool
 │       └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (9 properties)
+└── Status: Object (10 properties)
     ├── Conditions: conditions.Condition[]
     ├── Cors: *Object (2 properties)
     │   ├── CorsRules: Object (6 properties)[]
@@ -719,6 +742,14 @@ StorageAccountsFileService: Resource
     │   ├── Name: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Tier: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 StorageAccountsFileServicesShare: Resource
@@ -752,7 +783,7 @@ StorageAccountsFileServicesShare: Resource
 │       │   └── StartTime: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Reference: *genruntime.ResourceReference
-└── Status: Object (32 properties)
+└── Status: Object (33 properties)
     ├── AccessTier: *string
     ├── AccessTierChangeTime: *string
     ├── AccessTierStatus: *string
@@ -794,6 +825,14 @@ StorageAccountsFileServicesShare: Resource
     │   ├── Id: *string
     │   └── PropertyBag: genruntime.PropertyBag
     ├── SnapshotTime: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── Version: *string
 
@@ -904,7 +943,7 @@ StorageAccountsManagementPolicy: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Type: *string
 │   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (7 properties)
+└── Status: Object (8 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── LastModifiedTime: *string
@@ -1007,6 +1046,14 @@ StorageAccountsManagementPolicy: Resource
     │       ├── PropertyBag: genruntime.PropertyBag
     │       └── Type: *string
     ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 StorageAccountsQueueService: Resource
@@ -1028,7 +1075,7 @@ StorageAccountsQueueService: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
     ├── Cors: *Object (2 properties)
     │   ├── CorsRules: Object (6 properties)[]
@@ -1042,6 +1089,14 @@ StorageAccountsQueueService: Resource
     ├── Id: *string
     ├── Name: *string
     ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 StorageAccountsQueueServicesQueue: Resource
@@ -1056,13 +1111,21 @@ StorageAccountsQueueServicesQueue: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (7 properties)
+└── Status: Object (8 properties)
     ├── ApproximateMessageCount: *int
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Metadata: map[string]string
     ├── Name: *string
     ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 StorageAccountsTableService: Resource
@@ -1084,7 +1147,7 @@ StorageAccountsTableService: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
     ├── Cors: *Object (2 properties)
     │   ├── CorsRules: Object (6 properties)[]
@@ -1098,6 +1161,14 @@ StorageAccountsTableService: Resource
     ├── Id: *string
     ├── Name: *string
     ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
 StorageAccountsTableServicesTable: Resource
@@ -1119,7 +1190,7 @@ StorageAccountsTableServicesTable: Resource
 │       │   └── StartTime: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Reference: *genruntime.ResourceReference
-└── Status: Object (7 properties)
+└── Status: Object (8 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Name: *string
@@ -1131,6 +1202,14 @@ StorageAccountsTableServicesTable: Resource
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── StartTime: *string
     │   ├── Id: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     ├── TableName: *string
     └── Type: *string

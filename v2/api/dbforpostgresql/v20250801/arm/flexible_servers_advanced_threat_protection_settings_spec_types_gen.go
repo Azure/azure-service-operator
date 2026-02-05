@@ -33,19 +33,21 @@ func (settings *FlexibleServersAdvancedThreatProtectionSettings_Spec) GetType() 
 type AdvancedThreatProtectionSettingsProperties struct {
 	// State: Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been
 	// applied yet on the server.
-	State *AdvancedThreatProtectionSettingsProperties_State `json:"state,omitempty"`
+	State *ThreatProtectionState `json:"state,omitempty"`
 }
 
+// Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied
+// yet on the server.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type AdvancedThreatProtectionSettingsProperties_State string
+type ThreatProtectionState string
 
 const (
-	AdvancedThreatProtectionSettingsProperties_State_Disabled = AdvancedThreatProtectionSettingsProperties_State("Disabled")
-	AdvancedThreatProtectionSettingsProperties_State_Enabled  = AdvancedThreatProtectionSettingsProperties_State("Enabled")
+	ThreatProtectionState_Disabled = ThreatProtectionState("Disabled")
+	ThreatProtectionState_Enabled  = ThreatProtectionState("Enabled")
 )
 
-// Mapping from string to AdvancedThreatProtectionSettingsProperties_State
-var advancedThreatProtectionSettingsProperties_State_Values = map[string]AdvancedThreatProtectionSettingsProperties_State{
-	"disabled": AdvancedThreatProtectionSettingsProperties_State_Disabled,
-	"enabled":  AdvancedThreatProtectionSettingsProperties_State_Enabled,
+// Mapping from string to ThreatProtectionState
+var threatProtectionState_Values = map[string]ThreatProtectionState{
+	"disabled": ThreatProtectionState_Disabled,
+	"enabled":  ThreatProtectionState_Enabled,
 }

@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240301.NatGateway
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/natGateway.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/natGateway.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}
 type NatGateway struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (gateway *NatGateway) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240301.NatGateway
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/natGateway.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/natGateway.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}
 type NatGatewayList struct {
 	metav1.TypeMeta `json:",inline"`

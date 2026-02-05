@@ -77,7 +77,7 @@ func AccountImmutabilityPolicyPropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAccountImmutabilityPolicyProperties(gens map[string]gopter.Gen) {
 	gens["AllowProtectedAppendWrites"] = gen.PtrOf(gen.Bool())
 	gens["ImmutabilityPeriodSinceCreationInDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AccountImmutabilityPolicyProperties_State_Disabled, AccountImmutabilityPolicyProperties_State_Locked, AccountImmutabilityPolicyProperties_State_Unlocked))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(AccountImmutabilityPolicyState_Disabled, AccountImmutabilityPolicyState_Locked, AccountImmutabilityPolicyState_Unlocked))
 }
 
 func Test_ActiveDirectoryProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -138,7 +138,7 @@ func ActiveDirectoryPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForActiveDirectoryProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActiveDirectoryProperties(gens map[string]gopter.Gen) {
-	gens["AccountType"] = gen.PtrOf(gen.OneConstOf(ActiveDirectoryProperties_AccountType_Computer, ActiveDirectoryProperties_AccountType_User))
+	gens["AccountType"] = gen.PtrOf(gen.OneConstOf(AccountType_Computer, AccountType_User))
 	gens["AzureStorageSid"] = gen.PtrOf(gen.AlphaString())
 	gens["DomainGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
@@ -216,15 +216,15 @@ func AzureFilesIdentityBasedAuthenticationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthentication is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthentication(gens map[string]gopter.Gen) {
 	gens["DefaultSharePermission"] = gen.PtrOf(gen.OneConstOf(
-		AzureFilesIdentityBasedAuthentication_DefaultSharePermission_None,
-		AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareContributor,
-		AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
-		AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader))
+		DefaultSharePermission_None,
+		DefaultSharePermission_StorageFileDataSmbShareContributor,
+		DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
+		DefaultSharePermission_StorageFileDataSmbShareReader))
 	gens["DirectoryServiceOptions"] = gen.PtrOf(gen.OneConstOf(
-		AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADDS,
-		AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADKERB,
-		AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AD,
-		AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None))
+		DirectoryServiceOptions_AADDS,
+		DirectoryServiceOptions_AADKERB,
+		DirectoryServiceOptions_AD,
+		DirectoryServiceOptions_None))
 }
 
 // AddRelatedPropertyGeneratorsForAzureFilesIdentityBasedAuthentication is a factory method for creating gopter generators
@@ -551,7 +551,7 @@ func EncryptionServiceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryptionService is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionService(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["KeyType"] = gen.PtrOf(gen.OneConstOf(EncryptionService_KeyType_Account, EncryptionService_KeyType_Service))
+	gens["KeyType"] = gen.PtrOf(gen.OneConstOf(KeyType_Account, KeyType_Service))
 }
 
 func Test_EncryptionServices_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -675,7 +675,7 @@ func ExtendedLocationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypes_EdgeZone))
 }
 
 func Test_GeoPriorityReplicationStatus_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -867,10 +867,10 @@ func IdentityGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		Identity_Type_None,
-		Identity_Type_SystemAssigned,
-		Identity_Type_SystemAssignedUserAssigned,
-		Identity_Type_UserAssigned))
+		IdentityType_None,
+		IdentityType_SystemAssigned,
+		IdentityType_SystemAssignedUserAssigned,
+		IdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentity is a factory method for creating gopter generators
@@ -1212,7 +1212,7 @@ func PlacementGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPlacement is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPlacement(gens map[string]gopter.Gen) {
-	gens["ZonePlacementPolicy"] = gen.PtrOf(gen.OneConstOf(Placement_ZonePlacementPolicy_Any, Placement_ZonePlacementPolicy_None))
+	gens["ZonePlacementPolicy"] = gen.PtrOf(gen.OneConstOf(ZonePlacementPolicy_Any, ZonePlacementPolicy_None))
 }
 
 func Test_ResourceAccessRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1335,7 +1335,7 @@ func RoutingPreferenceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRoutingPreference(gens map[string]gopter.Gen) {
 	gens["PublishInternetEndpoints"] = gen.PtrOf(gen.Bool())
 	gens["PublishMicrosoftEndpoints"] = gen.PtrOf(gen.Bool())
-	gens["RoutingChoice"] = gen.PtrOf(gen.OneConstOf(RoutingPreference_RoutingChoice_InternetRouting, RoutingPreference_RoutingChoice_MicrosoftRouting))
+	gens["RoutingChoice"] = gen.PtrOf(gen.OneConstOf(RoutingChoice_InternetRouting, RoutingChoice_MicrosoftRouting))
 }
 
 func Test_SasPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1471,7 +1471,6 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 		SkuName_Standard_RAGRS,
 		SkuName_Standard_RAGZRS,
 		SkuName_Standard_ZRS))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_Premium, Tier_Standard))
 }
 
 func Test_SmbOAuthSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1602,27 +1601,27 @@ func StorageAccountPropertiesCreateParametersGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccountPropertiesCreateParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountPropertiesCreateParameters(gens map[string]gopter.Gen) {
 	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountPropertiesCreateParameters_AccessTier_Cold,
-		StorageAccountPropertiesCreateParameters_AccessTier_Cool,
-		StorageAccountPropertiesCreateParameters_AccessTier_Hot,
-		StorageAccountPropertiesCreateParameters_AccessTier_Premium))
+		AccessTier_Cold,
+		AccessTier_Cool,
+		AccessTier_Hot,
+		AccessTier_Premium))
 	gens["AllowBlobPublicAccess"] = gen.PtrOf(gen.Bool())
 	gens["AllowCrossTenantReplication"] = gen.PtrOf(gen.Bool())
 	gens["AllowSharedKeyAccess"] = gen.PtrOf(gen.Bool())
-	gens["AllowedCopyScope"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD, StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink))
+	gens["AllowedCopyScope"] = gen.PtrOf(gen.OneConstOf(AllowedCopyScope_AAD, AllowedCopyScope_PrivateLink))
 	gens["DefaultToOAuthAuthentication"] = gen.PtrOf(gen.Bool())
-	gens["DnsEndpointType"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParameters_DnsEndpointType_AzureDnsZone, StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard))
+	gens["DnsEndpointType"] = gen.PtrOf(gen.OneConstOf(DnsEndpointType_AzureDnsZone, DnsEndpointType_Standard))
 	gens["EnableExtendedGroups"] = gen.PtrOf(gen.Bool())
 	gens["IsHnsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsLocalUserEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsNfsV3Enabled"] = gen.PtrOf(gen.Bool())
 	gens["IsSftpEnabled"] = gen.PtrOf(gen.Bool())
-	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled, StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled))
+	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(LargeFileSharesState_Disabled, LargeFileSharesState_Enabled))
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0,
-		StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1,
-		StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2,
-		StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_3))
+		MinimumTlsVersion_TLS1_0,
+		MinimumTlsVersion_TLS1_1,
+		MinimumTlsVersion_TLS1_2,
+		MinimumTlsVersion_TLS1_3))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled, PublicNetworkAccess_SecuredByPerimeter))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
 }
@@ -1709,11 +1708,11 @@ func StorageAccount_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccount_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccount_Spec(gens map[string]gopter.Gen) {
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccount_Kind_Spec_BlobStorage,
-		StorageAccount_Kind_Spec_BlockBlobStorage,
-		StorageAccount_Kind_Spec_FileStorage,
-		StorageAccount_Kind_Spec_Storage,
-		StorageAccount_Kind_Spec_StorageV2))
+		Kind_BlobStorage,
+		Kind_BlockBlobStorage,
+		Kind_FileStorage,
+		Kind_Storage,
+		Kind_StorageV2))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -1846,9 +1845,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkRule(gens map[string]gopte
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkRule_Action_Allow))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkRule_State_Deprovisioning,
-		VirtualNetworkRule_State_Failed,
-		VirtualNetworkRule_State_NetworkSourceDeleted,
-		VirtualNetworkRule_State_Provisioning,
-		VirtualNetworkRule_State_Succeeded))
+		State_Deprovisioning,
+		State_Failed,
+		State_NetworkSourceDeleted,
+		State_Provisioning,
+		State_Succeeded))
 }

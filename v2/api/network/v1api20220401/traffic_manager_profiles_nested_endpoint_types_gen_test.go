@@ -371,17 +371,17 @@ func TrafficManagerProfilesNestedEndpoint_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_STATUS_Disabled, EndpointProperties_AlwaysServe_STATUS_Enabled))
+	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(AlwaysServe_STATUS_Disabled, AlwaysServe_STATUS_Enabled))
 	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_EndpointMonitorStatus_STATUS_CheckingEndpoint,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Degraded,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Disabled,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Inactive,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Online,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Stopped,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Unmonitored))
-	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_EndpointStatus_STATUS_Disabled, EndpointProperties_EndpointStatus_STATUS_Enabled))
+		EndpointMonitorStatus_STATUS_CheckingEndpoint,
+		EndpointMonitorStatus_STATUS_Degraded,
+		EndpointMonitorStatus_STATUS_Disabled,
+		EndpointMonitorStatus_STATUS_Inactive,
+		EndpointMonitorStatus_STATUS_Online,
+		EndpointMonitorStatus_STATUS_Stopped,
+		EndpointMonitorStatus_STATUS_Unmonitored))
+	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointStatus_STATUS_Disabled, EndpointStatus_STATUS_Enabled))
 	gens["GeoMapping"] = gen.SliceOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["MinChildEndpoints"] = gen.PtrOf(gen.Int())
@@ -397,8 +397,8 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STA
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeaders_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointProperties_Subnets_STATUSGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItem_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItem_STATUSGenerator())
 }
 
 func Test_TrafficManagerProfilesNestedEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -510,18 +510,18 @@ func TrafficManagerProfilesNestedEndpoint_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_Disabled, EndpointProperties_AlwaysServe_Enabled))
+	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(AlwaysServe_Disabled, AlwaysServe_Enabled))
 	gens["AzureName"] = gen.AlphaString()
 	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_EndpointMonitorStatus_CheckingEndpoint,
-		EndpointProperties_EndpointMonitorStatus_Degraded,
-		EndpointProperties_EndpointMonitorStatus_Disabled,
-		EndpointProperties_EndpointMonitorStatus_Inactive,
-		EndpointProperties_EndpointMonitorStatus_Online,
-		EndpointProperties_EndpointMonitorStatus_Stopped,
-		EndpointProperties_EndpointMonitorStatus_Unmonitored))
-	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_EndpointStatus_Disabled, EndpointProperties_EndpointStatus_Enabled))
+		EndpointMonitorStatus_CheckingEndpoint,
+		EndpointMonitorStatus_Degraded,
+		EndpointMonitorStatus_Disabled,
+		EndpointMonitorStatus_Inactive,
+		EndpointMonitorStatus_Online,
+		EndpointMonitorStatus_Stopped,
+		EndpointMonitorStatus_Unmonitored))
+	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointStatus_Disabled, EndpointStatus_Enabled))
 	gens["GeoMapping"] = gen.SliceOf(gen.AlphaString())
 	gens["MinChildEndpoints"] = gen.PtrOf(gen.Int())
 	gens["MinChildEndpointsIPv4"] = gen.PtrOf(gen.Int())
@@ -534,7 +534,7 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spe
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeadersGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItemGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(TrafficManagerProfilesNestedEndpointOperatorSpecGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointProperties_SubnetsGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItemGenerator())
 }

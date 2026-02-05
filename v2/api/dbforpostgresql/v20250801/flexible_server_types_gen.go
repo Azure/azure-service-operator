@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -303,7 +303,7 @@ type FlexibleServer_Spec struct {
 	Cluster *Cluster `json:"cluster,omitempty"`
 
 	// CreateMode: Creation mode of a new server.
-	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *CreateMode `json:"createMode,omitempty"`
 
 	// DataEncryption: Data encryption properties of a server.
 	DataEncryption *DataEncryption `json:"dataEncryption,omitempty"`
@@ -360,7 +360,7 @@ type FlexibleServer_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Version: Major version of PostgreSQL database engine.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *PostgresMajorVersion `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServer_Spec{}
@@ -454,7 +454,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if server.CreateMode != nil {
 		var temp string
 		temp = string(*server.CreateMode)
-		createMode := arm.ServerProperties_CreateMode(temp)
+		createMode := arm.CreateMode(temp)
 		result.Properties.CreateMode = &createMode
 	}
 	if server.DataEncryption != nil {
@@ -526,7 +526,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if server.Version != nil {
 		var temp string
 		temp = string(*server.Version)
-		version := arm.ServerVersion(temp)
+		version := arm.PostgresMajorVersion(temp)
 		result.Properties.Version = &version
 	}
 
@@ -633,7 +633,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		if typedInput.Properties.CreateMode != nil {
 			var temp string
 			temp = string(*typedInput.Properties.CreateMode)
-			createMode := ServerProperties_CreateMode(temp)
+			createMode := CreateMode(temp)
 			server.CreateMode = &createMode
 		}
 	}
@@ -794,7 +794,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		if typedInput.Properties.Version != nil {
 			var temp string
 			temp = string(*typedInput.Properties.Version)
-			version := ServerVersion(temp)
+			version := PostgresMajorVersion(temp)
 			server.Version = &version
 		}
 	}
@@ -912,7 +912,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	// CreateMode
 	if source.CreateMode != nil {
 		createMode := *source.CreateMode
-		createModeTemp := genruntime.ToEnum(createMode, serverProperties_CreateMode_Values)
+		createModeTemp := genruntime.ToEnum(createMode, createMode_Values)
 		server.CreateMode = &createModeTemp
 	} else {
 		server.CreateMode = nil
@@ -1063,7 +1063,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	// Version
 	if source.Version != nil {
 		version := *source.Version
-		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		versionTemp := genruntime.ToEnum(version, postgresMajorVersion_Values)
 		server.Version = &versionTemp
 	} else {
 		server.Version = nil
@@ -1349,7 +1349,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := genruntime.ToEnum(string(*source.CreateMode), serverProperties_CreateMode_Values)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
 		server.CreateMode = &createMode
 	} else {
 		server.CreateMode = nil
@@ -1478,7 +1478,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// Version
 	if source.Version != nil {
-		version := genruntime.ToEnum(string(*source.Version), serverVersion_Values)
+		version := genruntime.ToEnum(string(*source.Version), postgresMajorVersion_Values)
 		server.Version = &version
 	} else {
 		server.Version = nil
@@ -1519,7 +1519,7 @@ type FlexibleServer_STATUS struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	// CreateMode: Creation mode of a new server.
-	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *CreateMode_STATUS `json:"createMode,omitempty"`
 
 	// DataEncryption: Data encryption properties of a server.
 	DataEncryption *DataEncryption_STATUS `json:"dataEncryption,omitempty"`
@@ -1578,7 +1578,7 @@ type FlexibleServer_STATUS struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: Possible states of a server.
-	State *ServerProperties_State_STATUS `json:"state,omitempty"`
+	State *ServerState_STATUS `json:"state,omitempty"`
 
 	// Storage: Storage properties of a server.
 	Storage *Storage_STATUS `json:"storage,omitempty"`
@@ -1593,7 +1593,7 @@ type FlexibleServer_STATUS struct {
 	Type *string `json:"type,omitempty"`
 
 	// Version: Major version of PostgreSQL database engine.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Version *PostgresMajorVersion_STATUS `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
@@ -1728,7 +1728,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		if typedInput.Properties.CreateMode != nil {
 			var temp string
 			temp = string(*typedInput.Properties.CreateMode)
-			createMode := ServerProperties_CreateMode_STATUS(temp)
+			createMode := CreateMode_STATUS(temp)
 			server.CreateMode = &createMode
 		}
 	}
@@ -1918,7 +1918,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		if typedInput.Properties.State != nil {
 			var temp string
 			temp = string(*typedInput.Properties.State)
-			state := ServerProperties_State_STATUS(temp)
+			state := ServerState_STATUS(temp)
 			server.State = &state
 		}
 	}
@@ -1968,7 +1968,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		if typedInput.Properties.Version != nil {
 			var temp string
 			temp = string(*typedInput.Properties.Version)
-			version := ServerVersion_STATUS(temp)
+			version := PostgresMajorVersion_STATUS(temp)
 			server.Version = &version
 		}
 	}
@@ -2028,7 +2028,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	// CreateMode
 	if source.CreateMode != nil {
 		createMode := *source.CreateMode
-		createModeTemp := genruntime.ToEnum(createMode, serverProperties_CreateMode_STATUS_Values)
+		createModeTemp := genruntime.ToEnum(createMode, createMode_STATUS_Values)
 		server.CreateMode = &createModeTemp
 	} else {
 		server.CreateMode = nil
@@ -2170,7 +2170,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, serverProperties_State_STATUS_Values)
+		stateTemp := genruntime.ToEnum(state, serverState_STATUS_Values)
 		server.State = &stateTemp
 	} else {
 		server.State = nil
@@ -2209,7 +2209,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	// Version
 	if source.Version != nil {
 		version := *source.Version
-		versionTemp := genruntime.ToEnum(version, serverVersion_STATUS_Values)
+		versionTemp := genruntime.ToEnum(version, postgresMajorVersion_STATUS_Values)
 		server.Version = &versionTemp
 	} else {
 		server.Version = nil
@@ -2469,7 +2469,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 // Authentication configuration properties of a server.
 type AuthConfig struct {
 	// ActiveDirectoryAuth: Indicates if the server supports Microsoft Entra authentication.
-	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth `json:"activeDirectoryAuth,omitempty"`
+	ActiveDirectoryAuth *MicrosoftEntraAuth `json:"activeDirectoryAuth,omitempty"`
 
 	// PasswordAuth: Indicates if the server supports password based authentication.
 	PasswordAuth *AuthConfig_PasswordAuth `json:"passwordAuth,omitempty"`
@@ -2494,7 +2494,7 @@ func (config *AuthConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if config.ActiveDirectoryAuth != nil {
 		var temp string
 		temp = string(*config.ActiveDirectoryAuth)
-		activeDirectoryAuth := arm.AuthConfig_ActiveDirectoryAuth(temp)
+		activeDirectoryAuth := arm.MicrosoftEntraAuth(temp)
 		result.ActiveDirectoryAuth = &activeDirectoryAuth
 	}
 
@@ -2538,7 +2538,7 @@ func (config *AuthConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	if typedInput.ActiveDirectoryAuth != nil {
 		var temp string
 		temp = string(*typedInput.ActiveDirectoryAuth)
-		activeDirectoryAuth := AuthConfig_ActiveDirectoryAuth(temp)
+		activeDirectoryAuth := MicrosoftEntraAuth(temp)
 		config.ActiveDirectoryAuth = &activeDirectoryAuth
 	}
 
@@ -2568,7 +2568,7 @@ func (config *AuthConfig) AssignProperties_From_AuthConfig(source *storage.AuthC
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
 		activeDirectoryAuth := *source.ActiveDirectoryAuth
-		activeDirectoryAuthTemp := genruntime.ToEnum(activeDirectoryAuth, authConfig_ActiveDirectoryAuth_Values)
+		activeDirectoryAuthTemp := genruntime.ToEnum(activeDirectoryAuth, microsoftEntraAuth_Values)
 		config.ActiveDirectoryAuth = &activeDirectoryAuthTemp
 	} else {
 		config.ActiveDirectoryAuth = nil
@@ -2646,7 +2646,7 @@ func (config *AuthConfig) Initialize_From_AuthConfig_STATUS(source *AuthConfig_S
 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
-		activeDirectoryAuth := genruntime.ToEnum(string(*source.ActiveDirectoryAuth), authConfig_ActiveDirectoryAuth_Values)
+		activeDirectoryAuth := genruntime.ToEnum(string(*source.ActiveDirectoryAuth), microsoftEntraAuth_Values)
 		config.ActiveDirectoryAuth = &activeDirectoryAuth
 	} else {
 		config.ActiveDirectoryAuth = nil
@@ -2670,7 +2670,7 @@ func (config *AuthConfig) Initialize_From_AuthConfig_STATUS(source *AuthConfig_S
 // Authentication configuration properties of a server.
 type AuthConfig_STATUS struct {
 	// ActiveDirectoryAuth: Indicates if the server supports Microsoft Entra authentication.
-	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth_STATUS `json:"activeDirectoryAuth,omitempty"`
+	ActiveDirectoryAuth *MicrosoftEntraAuth_STATUS `json:"activeDirectoryAuth,omitempty"`
 
 	// PasswordAuth: Indicates if the server supports password based authentication.
 	PasswordAuth *AuthConfig_PasswordAuth_STATUS `json:"passwordAuth,omitempty"`
@@ -2697,7 +2697,7 @@ func (config *AuthConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	if typedInput.ActiveDirectoryAuth != nil {
 		var temp string
 		temp = string(*typedInput.ActiveDirectoryAuth)
-		activeDirectoryAuth := AuthConfig_ActiveDirectoryAuth_STATUS(temp)
+		activeDirectoryAuth := MicrosoftEntraAuth_STATUS(temp)
 		config.ActiveDirectoryAuth = &activeDirectoryAuth
 	}
 
@@ -2725,7 +2725,7 @@ func (config *AuthConfig_STATUS) AssignProperties_From_AuthConfig_STATUS(source 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
 		activeDirectoryAuth := *source.ActiveDirectoryAuth
-		activeDirectoryAuthTemp := genruntime.ToEnum(activeDirectoryAuth, authConfig_ActiveDirectoryAuth_STATUS_Values)
+		activeDirectoryAuthTemp := genruntime.ToEnum(activeDirectoryAuth, microsoftEntraAuth_STATUS_Values)
 		config.ActiveDirectoryAuth = &activeDirectoryAuthTemp
 	} else {
 		config.ActiveDirectoryAuth = nil
@@ -3194,13 +3194,57 @@ func (cluster *Cluster_STATUS) AssignProperties_To_Cluster_STATUS(destination *s
 	return nil
 }
 
+// Creation mode of a new server.
+// +kubebuilder:validation:Enum={"Create","Default","GeoRestore","PointInTimeRestore","Replica","ReviveDropped","Update"}
+type CreateMode string
+
+const (
+	CreateMode_Create             = CreateMode("Create")
+	CreateMode_Default            = CreateMode("Default")
+	CreateMode_GeoRestore         = CreateMode("GeoRestore")
+	CreateMode_PointInTimeRestore = CreateMode("PointInTimeRestore")
+	CreateMode_Replica            = CreateMode("Replica")
+	CreateMode_ReviveDropped      = CreateMode("ReviveDropped")
+	CreateMode_Update             = CreateMode("Update")
+)
+
+// Mapping from string to CreateMode
+var createMode_Values = map[string]CreateMode{
+	"create":             CreateMode_Create,
+	"default":            CreateMode_Default,
+	"georestore":         CreateMode_GeoRestore,
+	"pointintimerestore": CreateMode_PointInTimeRestore,
+	"replica":            CreateMode_Replica,
+	"revivedropped":      CreateMode_ReviveDropped,
+	"update":             CreateMode_Update,
+}
+
+// Creation mode of a new server.
+type CreateMode_STATUS string
+
+const (
+	CreateMode_STATUS_Create             = CreateMode_STATUS("Create")
+	CreateMode_STATUS_Default            = CreateMode_STATUS("Default")
+	CreateMode_STATUS_GeoRestore         = CreateMode_STATUS("GeoRestore")
+	CreateMode_STATUS_PointInTimeRestore = CreateMode_STATUS("PointInTimeRestore")
+	CreateMode_STATUS_Replica            = CreateMode_STATUS("Replica")
+	CreateMode_STATUS_ReviveDropped      = CreateMode_STATUS("ReviveDropped")
+	CreateMode_STATUS_Update             = CreateMode_STATUS("Update")
+)
+
+// Mapping from string to CreateMode_STATUS
+var createMode_STATUS_Values = map[string]CreateMode_STATUS{
+	"create":             CreateMode_STATUS_Create,
+	"default":            CreateMode_STATUS_Default,
+	"georestore":         CreateMode_STATUS_GeoRestore,
+	"pointintimerestore": CreateMode_STATUS_PointInTimeRestore,
+	"replica":            CreateMode_STATUS_Replica,
+	"revivedropped":      CreateMode_STATUS_ReviveDropped,
+	"update":             CreateMode_STATUS_Update,
+}
+
 // Data encryption properties of a server.
 type DataEncryption struct {
-	// GeoBackupEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
-	// key, to encrypt the geographically redundant storage associated to the server when it is configured to support
-	// geographically redundant backups.
-	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus `json:"geoBackupEncryptionKeyStatus,omitempty"`
-
 	// GeoBackupKeyURI: Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data
 	// encryption of the geographically redundant storage associated to a server that is configured to support geographically
 	// redundant backups.
@@ -3216,10 +3260,6 @@ type DataEncryption struct {
 	// support geographically redundant backups.
 	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
 
-	// PrimaryEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
-	// key, to encrypt the primary storage associated to the server.
-	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus `json:"primaryEncryptionKeyStatus,omitempty"`
-
 	// PrimaryKeyURI: URI of the key in Azure Key Vault used for data encryption of the primary storage associated to a server.
 	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 
@@ -3232,7 +3272,7 @@ type DataEncryption struct {
 	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`
 
 	// Type: Data encryption type used by a server.
-	Type *DataEncryption_Type `json:"type,omitempty"`
+	Type *DataEncryptionType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DataEncryption{}
@@ -3243,14 +3283,6 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 		return nil, nil
 	}
 	result := &arm.DataEncryption{}
-
-	// Set property "GeoBackupEncryptionKeyStatus":
-	if encryption.GeoBackupEncryptionKeyStatus != nil {
-		var temp string
-		temp = string(*encryption.GeoBackupEncryptionKeyStatus)
-		geoBackupEncryptionKeyStatus := arm.DataEncryption_GeoBackupEncryptionKeyStatus(temp)
-		result.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	}
 
 	// Set property "GeoBackupKeyURI":
 	if encryption.GeoBackupKeyURI != nil {
@@ -3274,14 +3306,6 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 		}
 		geoBackupUserAssignedIdentityReference := geoBackupUserAssignedIdentityReferenceARMID
 		result.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityReference
-	}
-
-	// Set property "PrimaryEncryptionKeyStatus":
-	if encryption.PrimaryEncryptionKeyStatus != nil {
-		var temp string
-		temp = string(*encryption.PrimaryEncryptionKeyStatus)
-		primaryEncryptionKeyStatus := arm.DataEncryption_PrimaryEncryptionKeyStatus(temp)
-		result.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
 	}
 
 	// Set property "PrimaryKeyURI":
@@ -3312,7 +3336,7 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 	if encryption.Type != nil {
 		var temp string
 		temp = string(*encryption.Type)
-		typeVar := arm.DataEncryption_Type(temp)
+		typeVar := arm.DataEncryptionType(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -3330,14 +3354,6 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataEncryption, got %T", armInput)
 	}
 
-	// Set property "GeoBackupEncryptionKeyStatus":
-	if typedInput.GeoBackupEncryptionKeyStatus != nil {
-		var temp string
-		temp = string(*typedInput.GeoBackupEncryptionKeyStatus)
-		geoBackupEncryptionKeyStatus := DataEncryption_GeoBackupEncryptionKeyStatus(temp)
-		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	}
-
 	// Set property "GeoBackupKeyURI":
 	if typedInput.GeoBackupKeyURI != nil {
 		geoBackupKeyURI := *typedInput.GeoBackupKeyURI
@@ -3347,14 +3363,6 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// no assignment for property "GeoBackupKeyURIFromConfig"
 
 	// no assignment for property "GeoBackupUserAssignedIdentityReference"
-
-	// Set property "PrimaryEncryptionKeyStatus":
-	if typedInput.PrimaryEncryptionKeyStatus != nil {
-		var temp string
-		temp = string(*typedInput.PrimaryEncryptionKeyStatus)
-		primaryEncryptionKeyStatus := DataEncryption_PrimaryEncryptionKeyStatus(temp)
-		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	}
 
 	// Set property "PrimaryKeyURI":
 	if typedInput.PrimaryKeyURI != nil {
@@ -3370,7 +3378,7 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := DataEncryption_Type(temp)
+		typeVar := DataEncryptionType(temp)
 		encryption.Type = &typeVar
 	}
 
@@ -3380,15 +3388,6 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 // AssignProperties_From_DataEncryption populates our DataEncryption from the provided source DataEncryption
 func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *storage.DataEncryption) error {
-
-	// GeoBackupEncryptionKeyStatus
-	if source.GeoBackupEncryptionKeyStatus != nil {
-		geoBackupEncryptionKeyStatus := *source.GeoBackupEncryptionKeyStatus
-		geoBackupEncryptionKeyStatusTemp := genruntime.ToEnum(geoBackupEncryptionKeyStatus, dataEncryption_GeoBackupEncryptionKeyStatus_Values)
-		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatusTemp
-	} else {
-		encryption.GeoBackupEncryptionKeyStatus = nil
-	}
 
 	// GeoBackupKeyURI
 	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
@@ -3407,15 +3406,6 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
 	} else {
 		encryption.GeoBackupUserAssignedIdentityReference = nil
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if source.PrimaryEncryptionKeyStatus != nil {
-		primaryEncryptionKeyStatus := *source.PrimaryEncryptionKeyStatus
-		primaryEncryptionKeyStatusTemp := genruntime.ToEnum(primaryEncryptionKeyStatus, dataEncryption_PrimaryEncryptionKeyStatus_Values)
-		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatusTemp
-	} else {
-		encryption.PrimaryEncryptionKeyStatus = nil
 	}
 
 	// PrimaryKeyURI
@@ -3440,7 +3430,7 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, dataEncryption_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, dataEncryptionType_Values)
 		encryption.Type = &typeTemp
 	} else {
 		encryption.Type = nil
@@ -3454,14 +3444,6 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination *storage.DataEncryption) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// GeoBackupEncryptionKeyStatus
-	if encryption.GeoBackupEncryptionKeyStatus != nil {
-		geoBackupEncryptionKeyStatus := string(*encryption.GeoBackupEncryptionKeyStatus)
-		destination.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	} else {
-		destination.GeoBackupEncryptionKeyStatus = nil
-	}
 
 	// GeoBackupKeyURI
 	destination.GeoBackupKeyURI = genruntime.ClonePointerToString(encryption.GeoBackupKeyURI)
@@ -3480,14 +3462,6 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 		destination.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
 	} else {
 		destination.GeoBackupUserAssignedIdentityReference = nil
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if encryption.PrimaryEncryptionKeyStatus != nil {
-		primaryEncryptionKeyStatus := string(*encryption.PrimaryEncryptionKeyStatus)
-		destination.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	} else {
-		destination.PrimaryEncryptionKeyStatus = nil
 	}
 
 	// PrimaryKeyURI
@@ -3531,14 +3505,6 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 // Initialize_From_DataEncryption_STATUS populates our DataEncryption from the provided source DataEncryption_STATUS
 func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *DataEncryption_STATUS) error {
 
-	// GeoBackupEncryptionKeyStatus
-	if source.GeoBackupEncryptionKeyStatus != nil {
-		geoBackupEncryptionKeyStatus := genruntime.ToEnum(string(*source.GeoBackupEncryptionKeyStatus), dataEncryption_GeoBackupEncryptionKeyStatus_Values)
-		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	} else {
-		encryption.GeoBackupEncryptionKeyStatus = nil
-	}
-
 	// GeoBackupKeyURI
 	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
 
@@ -3548,14 +3514,6 @@ func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *
 		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
 	} else {
 		encryption.GeoBackupUserAssignedIdentityReference = nil
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if source.PrimaryEncryptionKeyStatus != nil {
-		primaryEncryptionKeyStatus := genruntime.ToEnum(string(*source.PrimaryEncryptionKeyStatus), dataEncryption_PrimaryEncryptionKeyStatus_Values)
-		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	} else {
-		encryption.PrimaryEncryptionKeyStatus = nil
 	}
 
 	// PrimaryKeyURI
@@ -3571,7 +3529,7 @@ func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), dataEncryption_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), dataEncryptionType_Values)
 		encryption.Type = &typeVar
 	} else {
 		encryption.Type = nil
@@ -3586,7 +3544,7 @@ type DataEncryption_STATUS struct {
 	// GeoBackupEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
 	// key, to encrypt the geographically redundant storage associated to the server when it is configured to support
 	// geographically redundant backups.
-	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus_STATUS `json:"geoBackupEncryptionKeyStatus,omitempty"`
+	GeoBackupEncryptionKeyStatus *EncryptionKeyStatus_STATUS `json:"geoBackupEncryptionKeyStatus,omitempty"`
 
 	// GeoBackupKeyURI: Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data
 	// encryption of the geographically redundant storage associated to a server that is configured to support geographically
@@ -3600,7 +3558,7 @@ type DataEncryption_STATUS struct {
 
 	// PrimaryEncryptionKeyStatus: Status of key used by a server configured with data encryption based on customer managed
 	// key, to encrypt the primary storage associated to the server.
-	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus_STATUS `json:"primaryEncryptionKeyStatus,omitempty"`
+	PrimaryEncryptionKeyStatus *EncryptionKeyStatus_STATUS `json:"primaryEncryptionKeyStatus,omitempty"`
 
 	// PrimaryKeyURI: URI of the key in Azure Key Vault used for data encryption of the primary storage associated to a server.
 	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
@@ -3610,7 +3568,7 @@ type DataEncryption_STATUS struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type used by a server.
-	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
+	Type *DataEncryptionType_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DataEncryption_STATUS{}
@@ -3631,7 +3589,7 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.GeoBackupEncryptionKeyStatus != nil {
 		var temp string
 		temp = string(*typedInput.GeoBackupEncryptionKeyStatus)
-		geoBackupEncryptionKeyStatus := DataEncryption_GeoBackupEncryptionKeyStatus_STATUS(temp)
+		geoBackupEncryptionKeyStatus := EncryptionKeyStatus_STATUS(temp)
 		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
 	}
 
@@ -3651,7 +3609,7 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.PrimaryEncryptionKeyStatus != nil {
 		var temp string
 		temp = string(*typedInput.PrimaryEncryptionKeyStatus)
-		primaryEncryptionKeyStatus := DataEncryption_PrimaryEncryptionKeyStatus_STATUS(temp)
+		primaryEncryptionKeyStatus := EncryptionKeyStatus_STATUS(temp)
 		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
 	}
 
@@ -3671,7 +3629,7 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := DataEncryption_Type_STATUS(temp)
+		typeVar := DataEncryptionType_STATUS(temp)
 		encryption.Type = &typeVar
 	}
 
@@ -3685,7 +3643,7 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 	// GeoBackupEncryptionKeyStatus
 	if source.GeoBackupEncryptionKeyStatus != nil {
 		geoBackupEncryptionKeyStatus := *source.GeoBackupEncryptionKeyStatus
-		geoBackupEncryptionKeyStatusTemp := genruntime.ToEnum(geoBackupEncryptionKeyStatus, dataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Values)
+		geoBackupEncryptionKeyStatusTemp := genruntime.ToEnum(geoBackupEncryptionKeyStatus, encryptionKeyStatus_STATUS_Values)
 		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatusTemp
 	} else {
 		encryption.GeoBackupEncryptionKeyStatus = nil
@@ -3700,7 +3658,7 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 	// PrimaryEncryptionKeyStatus
 	if source.PrimaryEncryptionKeyStatus != nil {
 		primaryEncryptionKeyStatus := *source.PrimaryEncryptionKeyStatus
-		primaryEncryptionKeyStatusTemp := genruntime.ToEnum(primaryEncryptionKeyStatus, dataEncryption_PrimaryEncryptionKeyStatus_STATUS_Values)
+		primaryEncryptionKeyStatusTemp := genruntime.ToEnum(primaryEncryptionKeyStatus, encryptionKeyStatus_STATUS_Values)
 		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatusTemp
 	} else {
 		encryption.PrimaryEncryptionKeyStatus = nil
@@ -3715,7 +3673,7 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, dataEncryption_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, dataEncryptionType_STATUS_Values)
 		encryption.Type = &typeTemp
 	} else {
 		encryption.Type = nil
@@ -4066,7 +4024,7 @@ type HighAvailability_STATUS struct {
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant.
-	State *HighAvailability_State_STATUS `json:"state,omitempty"`
+	State *HighAvailabilityState_STATUS `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HighAvailability_STATUS{}
@@ -4101,7 +4059,7 @@ func (availability *HighAvailability_STATUS) PopulateFromARM(owner genruntime.Ar
 	if typedInput.State != nil {
 		var temp string
 		temp = string(*typedInput.State)
-		state := HighAvailability_State_STATUS(temp)
+		state := HighAvailabilityState_STATUS(temp)
 		availability.State = &state
 	}
 
@@ -4127,7 +4085,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 	// State
 	if source.State != nil {
 		state := *source.State
-		stateTemp := genruntime.ToEnum(state, highAvailability_State_STATUS_Values)
+		stateTemp := genruntime.ToEnum(state, highAvailabilityState_STATUS_Values)
 		availability.State = &stateTemp
 	} else {
 		availability.State = nil
@@ -4446,7 +4404,7 @@ type Network struct {
 
 	// PublicNetworkAccess: Indicates if public network access is enabled or not. This is only supported for servers that are
 	// not integrated into a virtual network which is owned and provided by customer when server is deployed.
-	PublicNetworkAccess *Network_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerPublicNetworkAccessState `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Network{}
@@ -4482,7 +4440,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if network.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*network.PublicNetworkAccess)
-		publicNetworkAccess := arm.Network_PublicNetworkAccess(temp)
+		publicNetworkAccess := arm.ServerPublicNetworkAccessState(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 	return result, nil
@@ -4508,7 +4466,7 @@ func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	if typedInput.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*typedInput.PublicNetworkAccess)
-		publicNetworkAccess := Network_PublicNetworkAccess(temp)
+		publicNetworkAccess := ServerPublicNetworkAccessState(temp)
 		network.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -4538,7 +4496,7 @@ func (network *Network) AssignProperties_From_Network(source *storage.Network) e
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := *source.PublicNetworkAccess
-		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, network_PublicNetworkAccess_Values)
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, serverPublicNetworkAccessState_Values)
 		network.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		network.PublicNetworkAccess = nil
@@ -4609,7 +4567,7 @@ func (network *Network) Initialize_From_Network_STATUS(source *Network_STATUS) e
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), network_PublicNetworkAccess_Values)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), serverPublicNetworkAccessState_Values)
 		network.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		network.PublicNetworkAccess = nil
@@ -4633,7 +4591,7 @@ type Network_STATUS struct {
 
 	// PublicNetworkAccess: Indicates if public network access is enabled or not. This is only supported for servers that are
 	// not integrated into a virtual network which is owned and provided by customer when server is deployed.
-	PublicNetworkAccess *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerPublicNetworkAccessState_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Network_STATUS{}
@@ -4666,7 +4624,7 @@ func (network *Network_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*typedInput.PublicNetworkAccess)
-		publicNetworkAccess := Network_PublicNetworkAccess_STATUS(temp)
+		publicNetworkAccess := ServerPublicNetworkAccessState_STATUS(temp)
 		network.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -4686,7 +4644,7 @@ func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *stor
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := *source.PublicNetworkAccess
-		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, network_PublicNetworkAccess_STATUS_Values)
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, serverPublicNetworkAccessState_STATUS_Values)
 		network.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		network.PublicNetworkAccess = nil
@@ -4724,6 +4682,59 @@ func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *s
 
 	// No error
 	return nil
+}
+
+// Major version of PostgreSQL database engine.
+// +kubebuilder:validation:Enum={"11","12","13","14","15","16","17","18"}
+type PostgresMajorVersion string
+
+const (
+	PostgresMajorVersion_11 = PostgresMajorVersion("11")
+	PostgresMajorVersion_12 = PostgresMajorVersion("12")
+	PostgresMajorVersion_13 = PostgresMajorVersion("13")
+	PostgresMajorVersion_14 = PostgresMajorVersion("14")
+	PostgresMajorVersion_15 = PostgresMajorVersion("15")
+	PostgresMajorVersion_16 = PostgresMajorVersion("16")
+	PostgresMajorVersion_17 = PostgresMajorVersion("17")
+	PostgresMajorVersion_18 = PostgresMajorVersion("18")
+)
+
+// Mapping from string to PostgresMajorVersion
+var postgresMajorVersion_Values = map[string]PostgresMajorVersion{
+	"11": PostgresMajorVersion_11,
+	"12": PostgresMajorVersion_12,
+	"13": PostgresMajorVersion_13,
+	"14": PostgresMajorVersion_14,
+	"15": PostgresMajorVersion_15,
+	"16": PostgresMajorVersion_16,
+	"17": PostgresMajorVersion_17,
+	"18": PostgresMajorVersion_18,
+}
+
+// Major version of PostgreSQL database engine.
+type PostgresMajorVersion_STATUS string
+
+const (
+	PostgresMajorVersion_STATUS_11 = PostgresMajorVersion_STATUS("11")
+	PostgresMajorVersion_STATUS_12 = PostgresMajorVersion_STATUS("12")
+	PostgresMajorVersion_STATUS_13 = PostgresMajorVersion_STATUS("13")
+	PostgresMajorVersion_STATUS_14 = PostgresMajorVersion_STATUS("14")
+	PostgresMajorVersion_STATUS_15 = PostgresMajorVersion_STATUS("15")
+	PostgresMajorVersion_STATUS_16 = PostgresMajorVersion_STATUS("16")
+	PostgresMajorVersion_STATUS_17 = PostgresMajorVersion_STATUS("17")
+	PostgresMajorVersion_STATUS_18 = PostgresMajorVersion_STATUS("18")
+)
+
+// Mapping from string to PostgresMajorVersion_STATUS
+var postgresMajorVersion_STATUS_Values = map[string]PostgresMajorVersion_STATUS{
+	"11": PostgresMajorVersion_STATUS_11,
+	"12": PostgresMajorVersion_STATUS_12,
+	"13": PostgresMajorVersion_STATUS_13,
+	"14": PostgresMajorVersion_STATUS_14,
+	"15": PostgresMajorVersion_STATUS_15,
+	"16": PostgresMajorVersion_STATUS_16,
+	"17": PostgresMajorVersion_STATUS_17,
+	"18": PostgresMajorVersion_STATUS_18,
 }
 
 // The private endpoint connection resource.
@@ -4791,11 +4802,11 @@ type Replica struct {
 	// PromoteMode: Type of operation to apply on the read replica. This property is write only. Standalone means that the read
 	// replica will be promoted to a standalone server, and will become a completely independent entity from the replication
 	// set. Switchover means that the read replica will roles with the primary server.
-	PromoteMode *Replica_PromoteMode `json:"promoteMode,omitempty"`
+	PromoteMode *ReadReplicaPromoteMode `json:"promoteMode,omitempty"`
 
 	// PromoteOption: Data synchronization option to use when processing the operation specified in the promoteMode property.
 	// This property is write only.
-	PromoteOption *Replica_PromoteOption `json:"promoteOption,omitempty"`
+	PromoteOption *ReadReplicaPromoteOption `json:"promoteOption,omitempty"`
 
 	// Role: Role of the server in a replication set.
 	Role *ReplicationRole `json:"role,omitempty"`
@@ -4814,7 +4825,7 @@ func (replica *Replica) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if replica.PromoteMode != nil {
 		var temp string
 		temp = string(*replica.PromoteMode)
-		promoteMode := arm.Replica_PromoteMode(temp)
+		promoteMode := arm.ReadReplicaPromoteMode(temp)
 		result.PromoteMode = &promoteMode
 	}
 
@@ -4822,7 +4833,7 @@ func (replica *Replica) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if replica.PromoteOption != nil {
 		var temp string
 		temp = string(*replica.PromoteOption)
-		promoteOption := arm.Replica_PromoteOption(temp)
+		promoteOption := arm.ReadReplicaPromoteOption(temp)
 		result.PromoteOption = &promoteOption
 	}
 
@@ -4852,7 +4863,7 @@ func (replica *Replica) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	if typedInput.PromoteMode != nil {
 		var temp string
 		temp = string(*typedInput.PromoteMode)
-		promoteMode := Replica_PromoteMode(temp)
+		promoteMode := ReadReplicaPromoteMode(temp)
 		replica.PromoteMode = &promoteMode
 	}
 
@@ -4860,7 +4871,7 @@ func (replica *Replica) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	if typedInput.PromoteOption != nil {
 		var temp string
 		temp = string(*typedInput.PromoteOption)
-		promoteOption := Replica_PromoteOption(temp)
+		promoteOption := ReadReplicaPromoteOption(temp)
 		replica.PromoteOption = &promoteOption
 	}
 
@@ -4882,7 +4893,7 @@ func (replica *Replica) AssignProperties_From_Replica(source *storage.Replica) e
 	// PromoteMode
 	if source.PromoteMode != nil {
 		promoteMode := *source.PromoteMode
-		promoteModeTemp := genruntime.ToEnum(promoteMode, replica_PromoteMode_Values)
+		promoteModeTemp := genruntime.ToEnum(promoteMode, readReplicaPromoteMode_Values)
 		replica.PromoteMode = &promoteModeTemp
 	} else {
 		replica.PromoteMode = nil
@@ -4891,7 +4902,7 @@ func (replica *Replica) AssignProperties_From_Replica(source *storage.Replica) e
 	// PromoteOption
 	if source.PromoteOption != nil {
 		promoteOption := *source.PromoteOption
-		promoteOptionTemp := genruntime.ToEnum(promoteOption, replica_PromoteOption_Values)
+		promoteOptionTemp := genruntime.ToEnum(promoteOption, readReplicaPromoteOption_Values)
 		replica.PromoteOption = &promoteOptionTemp
 	} else {
 		replica.PromoteOption = nil
@@ -4955,7 +4966,7 @@ func (replica *Replica) Initialize_From_Replica_STATUS(source *Replica_STATUS) e
 
 	// PromoteMode
 	if source.PromoteMode != nil {
-		promoteMode := genruntime.ToEnum(string(*source.PromoteMode), replica_PromoteMode_Values)
+		promoteMode := genruntime.ToEnum(string(*source.PromoteMode), readReplicaPromoteMode_Values)
 		replica.PromoteMode = &promoteMode
 	} else {
 		replica.PromoteMode = nil
@@ -4963,7 +4974,7 @@ func (replica *Replica) Initialize_From_Replica_STATUS(source *Replica_STATUS) e
 
 	// PromoteOption
 	if source.PromoteOption != nil {
-		promoteOption := genruntime.ToEnum(string(*source.PromoteOption), replica_PromoteOption_Values)
+		promoteOption := genruntime.ToEnum(string(*source.PromoteOption), readReplicaPromoteOption_Values)
 		replica.PromoteOption = &promoteOption
 	} else {
 		replica.PromoteOption = nil
@@ -4989,15 +5000,15 @@ type Replica_STATUS struct {
 	// PromoteMode: Type of operation to apply on the read replica. This property is write only. Standalone means that the read
 	// replica will be promoted to a standalone server, and will become a completely independent entity from the replication
 	// set. Switchover means that the read replica will roles with the primary server.
-	PromoteMode *Replica_PromoteMode_STATUS `json:"promoteMode,omitempty"`
+	PromoteMode *ReadReplicaPromoteMode_STATUS `json:"promoteMode,omitempty"`
 
 	// PromoteOption: Data synchronization option to use when processing the operation specified in the promoteMode property.
 	// This property is write only.
-	PromoteOption *Replica_PromoteOption_STATUS `json:"promoteOption,omitempty"`
+	PromoteOption *ReadReplicaPromoteOption_STATUS `json:"promoteOption,omitempty"`
 
 	// ReplicationState: Indicates the replication state of a read replica. This property is returned only when the target
 	// server is a read replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating
-	ReplicationState *Replica_ReplicationState_STATUS `json:"replicationState,omitempty"`
+	ReplicationState *ReplicationState_STATUS `json:"replicationState,omitempty"`
 
 	// Role: Role of the server in a replication set.
 	Role *ReplicationRole_STATUS `json:"role,omitempty"`
@@ -5027,7 +5038,7 @@ func (replica *Replica_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.PromoteMode != nil {
 		var temp string
 		temp = string(*typedInput.PromoteMode)
-		promoteMode := Replica_PromoteMode_STATUS(temp)
+		promoteMode := ReadReplicaPromoteMode_STATUS(temp)
 		replica.PromoteMode = &promoteMode
 	}
 
@@ -5035,7 +5046,7 @@ func (replica *Replica_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.PromoteOption != nil {
 		var temp string
 		temp = string(*typedInput.PromoteOption)
-		promoteOption := Replica_PromoteOption_STATUS(temp)
+		promoteOption := ReadReplicaPromoteOption_STATUS(temp)
 		replica.PromoteOption = &promoteOption
 	}
 
@@ -5043,7 +5054,7 @@ func (replica *Replica_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.ReplicationState != nil {
 		var temp string
 		temp = string(*typedInput.ReplicationState)
-		replicationState := Replica_ReplicationState_STATUS(temp)
+		replicationState := ReplicationState_STATUS(temp)
 		replica.ReplicationState = &replicationState
 	}
 
@@ -5068,7 +5079,7 @@ func (replica *Replica_STATUS) AssignProperties_From_Replica_STATUS(source *stor
 	// PromoteMode
 	if source.PromoteMode != nil {
 		promoteMode := *source.PromoteMode
-		promoteModeTemp := genruntime.ToEnum(promoteMode, replica_PromoteMode_STATUS_Values)
+		promoteModeTemp := genruntime.ToEnum(promoteMode, readReplicaPromoteMode_STATUS_Values)
 		replica.PromoteMode = &promoteModeTemp
 	} else {
 		replica.PromoteMode = nil
@@ -5077,7 +5088,7 @@ func (replica *Replica_STATUS) AssignProperties_From_Replica_STATUS(source *stor
 	// PromoteOption
 	if source.PromoteOption != nil {
 		promoteOption := *source.PromoteOption
-		promoteOptionTemp := genruntime.ToEnum(promoteOption, replica_PromoteOption_STATUS_Values)
+		promoteOptionTemp := genruntime.ToEnum(promoteOption, readReplicaPromoteOption_STATUS_Values)
 		replica.PromoteOption = &promoteOptionTemp
 	} else {
 		replica.PromoteOption = nil
@@ -5086,7 +5097,7 @@ func (replica *Replica_STATUS) AssignProperties_From_Replica_STATUS(source *stor
 	// ReplicationState
 	if source.ReplicationState != nil {
 		replicationState := *source.ReplicationState
-		replicationStateTemp := genruntime.ToEnum(replicationState, replica_ReplicationState_STATUS_Values)
+		replicationStateTemp := genruntime.ToEnum(replicationState, replicationState_STATUS_Values)
 		replica.ReplicationState = &replicationStateTemp
 	} else {
 		replica.ReplicationState = nil
@@ -5193,133 +5204,34 @@ var replicationRole_STATUS_Values = map[string]ReplicationRole_STATUS{
 	"primary":         ReplicationRole_STATUS_Primary,
 }
 
-// +kubebuilder:validation:Enum={"Create","Default","GeoRestore","PointInTimeRestore","Replica","ReviveDropped","Update"}
-type ServerProperties_CreateMode string
+// Possible states of a server.
+type ServerState_STATUS string
 
 const (
-	ServerProperties_CreateMode_Create             = ServerProperties_CreateMode("Create")
-	ServerProperties_CreateMode_Default            = ServerProperties_CreateMode("Default")
-	ServerProperties_CreateMode_GeoRestore         = ServerProperties_CreateMode("GeoRestore")
-	ServerProperties_CreateMode_PointInTimeRestore = ServerProperties_CreateMode("PointInTimeRestore")
-	ServerProperties_CreateMode_Replica            = ServerProperties_CreateMode("Replica")
-	ServerProperties_CreateMode_ReviveDropped      = ServerProperties_CreateMode("ReviveDropped")
-	ServerProperties_CreateMode_Update             = ServerProperties_CreateMode("Update")
+	ServerState_STATUS_Disabled     = ServerState_STATUS("Disabled")
+	ServerState_STATUS_Dropping     = ServerState_STATUS("Dropping")
+	ServerState_STATUS_Inaccessible = ServerState_STATUS("Inaccessible")
+	ServerState_STATUS_Provisioning = ServerState_STATUS("Provisioning")
+	ServerState_STATUS_Ready        = ServerState_STATUS("Ready")
+	ServerState_STATUS_Restarting   = ServerState_STATUS("Restarting")
+	ServerState_STATUS_Starting     = ServerState_STATUS("Starting")
+	ServerState_STATUS_Stopped      = ServerState_STATUS("Stopped")
+	ServerState_STATUS_Stopping     = ServerState_STATUS("Stopping")
+	ServerState_STATUS_Updating     = ServerState_STATUS("Updating")
 )
 
-// Mapping from string to ServerProperties_CreateMode
-var serverProperties_CreateMode_Values = map[string]ServerProperties_CreateMode{
-	"create":             ServerProperties_CreateMode_Create,
-	"default":            ServerProperties_CreateMode_Default,
-	"georestore":         ServerProperties_CreateMode_GeoRestore,
-	"pointintimerestore": ServerProperties_CreateMode_PointInTimeRestore,
-	"replica":            ServerProperties_CreateMode_Replica,
-	"revivedropped":      ServerProperties_CreateMode_ReviveDropped,
-	"update":             ServerProperties_CreateMode_Update,
-}
-
-type ServerProperties_CreateMode_STATUS string
-
-const (
-	ServerProperties_CreateMode_STATUS_Create             = ServerProperties_CreateMode_STATUS("Create")
-	ServerProperties_CreateMode_STATUS_Default            = ServerProperties_CreateMode_STATUS("Default")
-	ServerProperties_CreateMode_STATUS_GeoRestore         = ServerProperties_CreateMode_STATUS("GeoRestore")
-	ServerProperties_CreateMode_STATUS_PointInTimeRestore = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
-	ServerProperties_CreateMode_STATUS_Replica            = ServerProperties_CreateMode_STATUS("Replica")
-	ServerProperties_CreateMode_STATUS_ReviveDropped      = ServerProperties_CreateMode_STATUS("ReviveDropped")
-	ServerProperties_CreateMode_STATUS_Update             = ServerProperties_CreateMode_STATUS("Update")
-)
-
-// Mapping from string to ServerProperties_CreateMode_STATUS
-var serverProperties_CreateMode_STATUS_Values = map[string]ServerProperties_CreateMode_STATUS{
-	"create":             ServerProperties_CreateMode_STATUS_Create,
-	"default":            ServerProperties_CreateMode_STATUS_Default,
-	"georestore":         ServerProperties_CreateMode_STATUS_GeoRestore,
-	"pointintimerestore": ServerProperties_CreateMode_STATUS_PointInTimeRestore,
-	"replica":            ServerProperties_CreateMode_STATUS_Replica,
-	"revivedropped":      ServerProperties_CreateMode_STATUS_ReviveDropped,
-	"update":             ServerProperties_CreateMode_STATUS_Update,
-}
-
-type ServerProperties_State_STATUS string
-
-const (
-	ServerProperties_State_STATUS_Disabled     = ServerProperties_State_STATUS("Disabled")
-	ServerProperties_State_STATUS_Dropping     = ServerProperties_State_STATUS("Dropping")
-	ServerProperties_State_STATUS_Inaccessible = ServerProperties_State_STATUS("Inaccessible")
-	ServerProperties_State_STATUS_Provisioning = ServerProperties_State_STATUS("Provisioning")
-	ServerProperties_State_STATUS_Ready        = ServerProperties_State_STATUS("Ready")
-	ServerProperties_State_STATUS_Restarting   = ServerProperties_State_STATUS("Restarting")
-	ServerProperties_State_STATUS_Starting     = ServerProperties_State_STATUS("Starting")
-	ServerProperties_State_STATUS_Stopped      = ServerProperties_State_STATUS("Stopped")
-	ServerProperties_State_STATUS_Stopping     = ServerProperties_State_STATUS("Stopping")
-	ServerProperties_State_STATUS_Updating     = ServerProperties_State_STATUS("Updating")
-)
-
-// Mapping from string to ServerProperties_State_STATUS
-var serverProperties_State_STATUS_Values = map[string]ServerProperties_State_STATUS{
-	"disabled":     ServerProperties_State_STATUS_Disabled,
-	"dropping":     ServerProperties_State_STATUS_Dropping,
-	"inaccessible": ServerProperties_State_STATUS_Inaccessible,
-	"provisioning": ServerProperties_State_STATUS_Provisioning,
-	"ready":        ServerProperties_State_STATUS_Ready,
-	"restarting":   ServerProperties_State_STATUS_Restarting,
-	"starting":     ServerProperties_State_STATUS_Starting,
-	"stopped":      ServerProperties_State_STATUS_Stopped,
-	"stopping":     ServerProperties_State_STATUS_Stopping,
-	"updating":     ServerProperties_State_STATUS_Updating,
-}
-
-// Major version of PostgreSQL database engine.
-// +kubebuilder:validation:Enum={"11","12","13","14","15","16","17","18"}
-type ServerVersion string
-
-const (
-	ServerVersion_11 = ServerVersion("11")
-	ServerVersion_12 = ServerVersion("12")
-	ServerVersion_13 = ServerVersion("13")
-	ServerVersion_14 = ServerVersion("14")
-	ServerVersion_15 = ServerVersion("15")
-	ServerVersion_16 = ServerVersion("16")
-	ServerVersion_17 = ServerVersion("17")
-	ServerVersion_18 = ServerVersion("18")
-)
-
-// Mapping from string to ServerVersion
-var serverVersion_Values = map[string]ServerVersion{
-	"11": ServerVersion_11,
-	"12": ServerVersion_12,
-	"13": ServerVersion_13,
-	"14": ServerVersion_14,
-	"15": ServerVersion_15,
-	"16": ServerVersion_16,
-	"17": ServerVersion_17,
-	"18": ServerVersion_18,
-}
-
-// Major version of PostgreSQL database engine.
-type ServerVersion_STATUS string
-
-const (
-	ServerVersion_STATUS_11 = ServerVersion_STATUS("11")
-	ServerVersion_STATUS_12 = ServerVersion_STATUS("12")
-	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
-	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
-	ServerVersion_STATUS_15 = ServerVersion_STATUS("15")
-	ServerVersion_STATUS_16 = ServerVersion_STATUS("16")
-	ServerVersion_STATUS_17 = ServerVersion_STATUS("17")
-	ServerVersion_STATUS_18 = ServerVersion_STATUS("18")
-)
-
-// Mapping from string to ServerVersion_STATUS
-var serverVersion_STATUS_Values = map[string]ServerVersion_STATUS{
-	"11": ServerVersion_STATUS_11,
-	"12": ServerVersion_STATUS_12,
-	"13": ServerVersion_STATUS_13,
-	"14": ServerVersion_STATUS_14,
-	"15": ServerVersion_STATUS_15,
-	"16": ServerVersion_STATUS_16,
-	"17": ServerVersion_STATUS_17,
-	"18": ServerVersion_STATUS_18,
+// Mapping from string to ServerState_STATUS
+var serverState_STATUS_Values = map[string]ServerState_STATUS{
+	"disabled":     ServerState_STATUS_Disabled,
+	"dropping":     ServerState_STATUS_Dropping,
+	"inaccessible": ServerState_STATUS_Inaccessible,
+	"provisioning": ServerState_STATUS_Provisioning,
+	"ready":        ServerState_STATUS_Ready,
+	"restarting":   ServerState_STATUS_Restarting,
+	"starting":     ServerState_STATUS_Starting,
+	"stopped":      ServerState_STATUS_Stopped,
+	"stopping":     ServerState_STATUS_Stopping,
+	"updating":     ServerState_STATUS_Updating,
 }
 
 // Compute information of a server.
@@ -5330,7 +5242,7 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	// Tier: Tier of the compute assigned to a server.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Tier *SkuTier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -5352,7 +5264,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku.Tier != nil {
 		var temp string
 		temp = string(*sku.Tier)
-		tier := arm.Sku_Tier(temp)
+		tier := arm.SkuTier(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -5380,7 +5292,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	if typedInput.Tier != nil {
 		var temp string
 		temp = string(*typedInput.Tier)
-		tier := Sku_Tier(temp)
+		tier := SkuTier(temp)
 		sku.Tier = &tier
 	}
 
@@ -5397,7 +5309,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 	// Tier
 	if source.Tier != nil {
 		tier := *source.Tier
-		tierTemp := genruntime.ToEnum(tier, sku_Tier_Values)
+		tierTemp := genruntime.ToEnum(tier, skuTier_Values)
 		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
@@ -5442,7 +5354,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), sku_Tier_Values)
+		tier := genruntime.ToEnum(string(*source.Tier), skuTier_Values)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil
@@ -5458,7 +5370,7 @@ type Sku_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: Tier of the compute assigned to a server.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *SkuTier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -5485,7 +5397,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	if typedInput.Tier != nil {
 		var temp string
 		temp = string(*typedInput.Tier)
-		tier := Sku_Tier_STATUS(temp)
+		tier := SkuTier_STATUS(temp)
 		sku.Tier = &tier
 	}
 
@@ -5502,7 +5414,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STAT
 	// Tier
 	if source.Tier != nil {
 		tier := *source.Tier
-		tierTemp := genruntime.ToEnum(tier, sku_Tier_STATUS_Values)
+		tierTemp := genruntime.ToEnum(tier, skuTier_STATUS_Values)
 		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
@@ -5543,7 +5455,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 type Storage struct {
 	// AutoGrow: Flag to enable or disable the automatic growth of storage size of a server when available space is nearing
 	// zero and conditions allow for automatically growing storage size.
-	AutoGrow *Storage_AutoGrow `json:"autoGrow,omitempty"`
+	AutoGrow *StorageAutoGrow `json:"autoGrow,omitempty"`
 
 	// Iops: Maximum IOPS supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS.
 	Iops *int `json:"iops,omitempty"`
@@ -5555,11 +5467,11 @@ type Storage struct {
 	Throughput *int `json:"throughput,omitempty"`
 
 	// Tier: Storage tier of a server.
-	Tier *Storage_Tier `json:"tier,omitempty"`
+	Tier *AzureManagedDiskPerformanceTier `json:"tier,omitempty"`
 
 	// Type: Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not
 	// specified, it defaults to Premium_LRS.
-	Type *Storage_Type `json:"type,omitempty"`
+	Type *StorageType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Storage{}
@@ -5575,7 +5487,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage.AutoGrow != nil {
 		var temp string
 		temp = string(*storage.AutoGrow)
-		autoGrow := arm.Storage_AutoGrow(temp)
+		autoGrow := arm.StorageAutoGrow(temp)
 		result.AutoGrow = &autoGrow
 	}
 
@@ -5601,7 +5513,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage.Tier != nil {
 		var temp string
 		temp = string(*storage.Tier)
-		tier := arm.Storage_Tier(temp)
+		tier := arm.AzureManagedDiskPerformanceTier(temp)
 		result.Tier = &tier
 	}
 
@@ -5609,7 +5521,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage.Type != nil {
 		var temp string
 		temp = string(*storage.Type)
-		typeVar := arm.Storage_Type(temp)
+		typeVar := arm.StorageType(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -5631,7 +5543,7 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	if typedInput.AutoGrow != nil {
 		var temp string
 		temp = string(*typedInput.AutoGrow)
-		autoGrow := Storage_AutoGrow(temp)
+		autoGrow := StorageAutoGrow(temp)
 		storage.AutoGrow = &autoGrow
 	}
 
@@ -5657,7 +5569,7 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	if typedInput.Tier != nil {
 		var temp string
 		temp = string(*typedInput.Tier)
-		tier := Storage_Tier(temp)
+		tier := AzureManagedDiskPerformanceTier(temp)
 		storage.Tier = &tier
 	}
 
@@ -5665,7 +5577,7 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := Storage_Type(temp)
+		typeVar := StorageType(temp)
 		storage.Type = &typeVar
 	}
 
@@ -5679,7 +5591,7 @@ func (storage *Storage) AssignProperties_From_Storage(source *storage.Storage) e
 	// AutoGrow
 	if source.AutoGrow != nil {
 		autoGrow := *source.AutoGrow
-		autoGrowTemp := genruntime.ToEnum(autoGrow, storage_AutoGrow_Values)
+		autoGrowTemp := genruntime.ToEnum(autoGrow, storageAutoGrow_Values)
 		storage.AutoGrow = &autoGrowTemp
 	} else {
 		storage.AutoGrow = nil
@@ -5697,7 +5609,7 @@ func (storage *Storage) AssignProperties_From_Storage(source *storage.Storage) e
 	// Tier
 	if source.Tier != nil {
 		tier := *source.Tier
-		tierTemp := genruntime.ToEnum(tier, storage_Tier_Values)
+		tierTemp := genruntime.ToEnum(tier, azureManagedDiskPerformanceTier_Values)
 		storage.Tier = &tierTemp
 	} else {
 		storage.Tier = nil
@@ -5706,7 +5618,7 @@ func (storage *Storage) AssignProperties_From_Storage(source *storage.Storage) e
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, storage_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, storageType_Values)
 		storage.Type = &typeTemp
 	} else {
 		storage.Type = nil
@@ -5770,7 +5682,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 
 	// AutoGrow
 	if source.AutoGrow != nil {
-		autoGrow := genruntime.ToEnum(string(*source.AutoGrow), storage_AutoGrow_Values)
+		autoGrow := genruntime.ToEnum(string(*source.AutoGrow), storageAutoGrow_Values)
 		storage.AutoGrow = &autoGrow
 	} else {
 		storage.AutoGrow = nil
@@ -5787,7 +5699,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 
 	// Tier
 	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), storage_Tier_Values)
+		tier := genruntime.ToEnum(string(*source.Tier), azureManagedDiskPerformanceTier_Values)
 		storage.Tier = &tier
 	} else {
 		storage.Tier = nil
@@ -5795,7 +5707,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), storage_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), storageType_Values)
 		storage.Type = &typeVar
 	} else {
 		storage.Type = nil
@@ -5809,7 +5721,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 type Storage_STATUS struct {
 	// AutoGrow: Flag to enable or disable the automatic growth of storage size of a server when available space is nearing
 	// zero and conditions allow for automatically growing storage size.
-	AutoGrow *Storage_AutoGrow_STATUS `json:"autoGrow,omitempty"`
+	AutoGrow *StorageAutoGrow_STATUS `json:"autoGrow,omitempty"`
 
 	// Iops: Maximum IOPS supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS.
 	Iops *int `json:"iops,omitempty"`
@@ -5821,11 +5733,11 @@ type Storage_STATUS struct {
 	Throughput *int `json:"throughput,omitempty"`
 
 	// Tier: Storage tier of a server.
-	Tier *Storage_Tier_STATUS `json:"tier,omitempty"`
+	Tier *AzureManagedDiskPerformanceTier_STATUS `json:"tier,omitempty"`
 
 	// Type: Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not
 	// specified, it defaults to Premium_LRS.
-	Type *Storage_Type_STATUS `json:"type,omitempty"`
+	Type *StorageType_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Storage_STATUS{}
@@ -5846,7 +5758,7 @@ func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.AutoGrow != nil {
 		var temp string
 		temp = string(*typedInput.AutoGrow)
-		autoGrow := Storage_AutoGrow_STATUS(temp)
+		autoGrow := StorageAutoGrow_STATUS(temp)
 		storage.AutoGrow = &autoGrow
 	}
 
@@ -5872,7 +5784,7 @@ func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.Tier != nil {
 		var temp string
 		temp = string(*typedInput.Tier)
-		tier := Storage_Tier_STATUS(temp)
+		tier := AzureManagedDiskPerformanceTier_STATUS(temp)
 		storage.Tier = &tier
 	}
 
@@ -5880,7 +5792,7 @@ func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := Storage_Type_STATUS(temp)
+		typeVar := StorageType_STATUS(temp)
 		storage.Type = &typeVar
 	}
 
@@ -5894,7 +5806,7 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *stor
 	// AutoGrow
 	if source.AutoGrow != nil {
 		autoGrow := *source.AutoGrow
-		autoGrowTemp := genruntime.ToEnum(autoGrow, storage_AutoGrow_STATUS_Values)
+		autoGrowTemp := genruntime.ToEnum(autoGrow, storageAutoGrow_STATUS_Values)
 		storage.AutoGrow = &autoGrowTemp
 	} else {
 		storage.AutoGrow = nil
@@ -5912,7 +5824,7 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *stor
 	// Tier
 	if source.Tier != nil {
 		tier := *source.Tier
-		tierTemp := genruntime.ToEnum(tier, storage_Tier_STATUS_Values)
+		tierTemp := genruntime.ToEnum(tier, azureManagedDiskPerformanceTier_STATUS_Values)
 		storage.Tier = &tierTemp
 	} else {
 		storage.Tier = nil
@@ -5921,7 +5833,7 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *stor
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, storage_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, storageType_STATUS_Values)
 		storage.Type = &typeTemp
 	} else {
 		storage.Type = nil
@@ -6147,7 +6059,7 @@ type UserAssignedIdentity struct {
 
 	// +kubebuilder:validation:Required
 	// Type: Types of identities associated with a server.
-	Type *UserAssignedIdentity_Type `json:"type,omitempty"`
+	Type *IdentityType `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Map of user assigned managed identities.
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
@@ -6172,7 +6084,7 @@ func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := arm.UserAssignedIdentity_Type(temp)
+		typeVar := arm.IdentityType(temp)
 		result.Type = &typeVar
 	}
 
@@ -6211,7 +6123,7 @@ func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := UserAssignedIdentity_Type(temp)
+		typeVar := IdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6230,7 +6142,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, userAssignedIdentity_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, identityType_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -6307,7 +6219,7 @@ func (identity *UserAssignedIdentity) Initialize_From_UserAssignedIdentity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), userAssignedIdentity_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), identityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -6338,7 +6250,7 @@ type UserAssignedIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Types of identities associated with a server.
-	Type *UserAssignedIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *IdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Map of user assigned managed identities.
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -6374,7 +6286,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := UserAssignedIdentity_Type_STATUS(temp)
+		typeVar := IdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6407,7 +6319,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, userAssignedIdentity_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, identityType_STATUS_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -6480,33 +6392,6 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type AuthConfig_ActiveDirectoryAuth string
-
-const (
-	AuthConfig_ActiveDirectoryAuth_Disabled = AuthConfig_ActiveDirectoryAuth("Disabled")
-	AuthConfig_ActiveDirectoryAuth_Enabled  = AuthConfig_ActiveDirectoryAuth("Enabled")
-)
-
-// Mapping from string to AuthConfig_ActiveDirectoryAuth
-var authConfig_ActiveDirectoryAuth_Values = map[string]AuthConfig_ActiveDirectoryAuth{
-	"disabled": AuthConfig_ActiveDirectoryAuth_Disabled,
-	"enabled":  AuthConfig_ActiveDirectoryAuth_Enabled,
-}
-
-type AuthConfig_ActiveDirectoryAuth_STATUS string
-
-const (
-	AuthConfig_ActiveDirectoryAuth_STATUS_Disabled = AuthConfig_ActiveDirectoryAuth_STATUS("Disabled")
-	AuthConfig_ActiveDirectoryAuth_STATUS_Enabled  = AuthConfig_ActiveDirectoryAuth_STATUS("Enabled")
-)
-
-// Mapping from string to AuthConfig_ActiveDirectoryAuth_STATUS
-var authConfig_ActiveDirectoryAuth_STATUS_Values = map[string]AuthConfig_ActiveDirectoryAuth_STATUS{
-	"disabled": AuthConfig_ActiveDirectoryAuth_STATUS_Disabled,
-	"enabled":  AuthConfig_ActiveDirectoryAuth_STATUS_Enabled,
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type AuthConfig_PasswordAuth string
 
 const (
@@ -6531,6 +6416,83 @@ const (
 var authConfig_PasswordAuth_STATUS_Values = map[string]AuthConfig_PasswordAuth_STATUS{
 	"disabled": AuthConfig_PasswordAuth_STATUS_Disabled,
 	"enabled":  AuthConfig_PasswordAuth_STATUS_Enabled,
+}
+
+// Storage tier of a server.
+// +kubebuilder:validation:Enum={"P1","P10","P15","P2","P20","P3","P30","P4","P40","P50","P6","P60","P70","P80"}
+type AzureManagedDiskPerformanceTier string
+
+const (
+	AzureManagedDiskPerformanceTier_P1  = AzureManagedDiskPerformanceTier("P1")
+	AzureManagedDiskPerformanceTier_P10 = AzureManagedDiskPerformanceTier("P10")
+	AzureManagedDiskPerformanceTier_P15 = AzureManagedDiskPerformanceTier("P15")
+	AzureManagedDiskPerformanceTier_P2  = AzureManagedDiskPerformanceTier("P2")
+	AzureManagedDiskPerformanceTier_P20 = AzureManagedDiskPerformanceTier("P20")
+	AzureManagedDiskPerformanceTier_P3  = AzureManagedDiskPerformanceTier("P3")
+	AzureManagedDiskPerformanceTier_P30 = AzureManagedDiskPerformanceTier("P30")
+	AzureManagedDiskPerformanceTier_P4  = AzureManagedDiskPerformanceTier("P4")
+	AzureManagedDiskPerformanceTier_P40 = AzureManagedDiskPerformanceTier("P40")
+	AzureManagedDiskPerformanceTier_P50 = AzureManagedDiskPerformanceTier("P50")
+	AzureManagedDiskPerformanceTier_P6  = AzureManagedDiskPerformanceTier("P6")
+	AzureManagedDiskPerformanceTier_P60 = AzureManagedDiskPerformanceTier("P60")
+	AzureManagedDiskPerformanceTier_P70 = AzureManagedDiskPerformanceTier("P70")
+	AzureManagedDiskPerformanceTier_P80 = AzureManagedDiskPerformanceTier("P80")
+)
+
+// Mapping from string to AzureManagedDiskPerformanceTier
+var azureManagedDiskPerformanceTier_Values = map[string]AzureManagedDiskPerformanceTier{
+	"p1":  AzureManagedDiskPerformanceTier_P1,
+	"p10": AzureManagedDiskPerformanceTier_P10,
+	"p15": AzureManagedDiskPerformanceTier_P15,
+	"p2":  AzureManagedDiskPerformanceTier_P2,
+	"p20": AzureManagedDiskPerformanceTier_P20,
+	"p3":  AzureManagedDiskPerformanceTier_P3,
+	"p30": AzureManagedDiskPerformanceTier_P30,
+	"p4":  AzureManagedDiskPerformanceTier_P4,
+	"p40": AzureManagedDiskPerformanceTier_P40,
+	"p50": AzureManagedDiskPerformanceTier_P50,
+	"p6":  AzureManagedDiskPerformanceTier_P6,
+	"p60": AzureManagedDiskPerformanceTier_P60,
+	"p70": AzureManagedDiskPerformanceTier_P70,
+	"p80": AzureManagedDiskPerformanceTier_P80,
+}
+
+// Storage tier of a server.
+type AzureManagedDiskPerformanceTier_STATUS string
+
+const (
+	AzureManagedDiskPerformanceTier_STATUS_P1  = AzureManagedDiskPerformanceTier_STATUS("P1")
+	AzureManagedDiskPerformanceTier_STATUS_P10 = AzureManagedDiskPerformanceTier_STATUS("P10")
+	AzureManagedDiskPerformanceTier_STATUS_P15 = AzureManagedDiskPerformanceTier_STATUS("P15")
+	AzureManagedDiskPerformanceTier_STATUS_P2  = AzureManagedDiskPerformanceTier_STATUS("P2")
+	AzureManagedDiskPerformanceTier_STATUS_P20 = AzureManagedDiskPerformanceTier_STATUS("P20")
+	AzureManagedDiskPerformanceTier_STATUS_P3  = AzureManagedDiskPerformanceTier_STATUS("P3")
+	AzureManagedDiskPerformanceTier_STATUS_P30 = AzureManagedDiskPerformanceTier_STATUS("P30")
+	AzureManagedDiskPerformanceTier_STATUS_P4  = AzureManagedDiskPerformanceTier_STATUS("P4")
+	AzureManagedDiskPerformanceTier_STATUS_P40 = AzureManagedDiskPerformanceTier_STATUS("P40")
+	AzureManagedDiskPerformanceTier_STATUS_P50 = AzureManagedDiskPerformanceTier_STATUS("P50")
+	AzureManagedDiskPerformanceTier_STATUS_P6  = AzureManagedDiskPerformanceTier_STATUS("P6")
+	AzureManagedDiskPerformanceTier_STATUS_P60 = AzureManagedDiskPerformanceTier_STATUS("P60")
+	AzureManagedDiskPerformanceTier_STATUS_P70 = AzureManagedDiskPerformanceTier_STATUS("P70")
+	AzureManagedDiskPerformanceTier_STATUS_P80 = AzureManagedDiskPerformanceTier_STATUS("P80")
+)
+
+// Mapping from string to AzureManagedDiskPerformanceTier_STATUS
+var azureManagedDiskPerformanceTier_STATUS_Values = map[string]AzureManagedDiskPerformanceTier_STATUS{
+	"p1":  AzureManagedDiskPerformanceTier_STATUS_P1,
+	"p10": AzureManagedDiskPerformanceTier_STATUS_P10,
+	"p15": AzureManagedDiskPerformanceTier_STATUS_P15,
+	"p2":  AzureManagedDiskPerformanceTier_STATUS_P2,
+	"p20": AzureManagedDiskPerformanceTier_STATUS_P20,
+	"p3":  AzureManagedDiskPerformanceTier_STATUS_P3,
+	"p30": AzureManagedDiskPerformanceTier_STATUS_P30,
+	"p4":  AzureManagedDiskPerformanceTier_STATUS_P4,
+	"p40": AzureManagedDiskPerformanceTier_STATUS_P40,
+	"p50": AzureManagedDiskPerformanceTier_STATUS_P50,
+	"p6":  AzureManagedDiskPerformanceTier_STATUS_P6,
+	"p60": AzureManagedDiskPerformanceTier_STATUS_P60,
+	"p70": AzureManagedDiskPerformanceTier_STATUS_P70,
+	"p80": AzureManagedDiskPerformanceTier_STATUS_P80,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
@@ -6560,85 +6522,48 @@ var backup_GeoRedundantBackup_STATUS_Values = map[string]Backup_GeoRedundantBack
 	"enabled":  Backup_GeoRedundantBackup_STATUS_Enabled,
 }
 
-// +kubebuilder:validation:Enum={"Invalid","Valid"}
-type DataEncryption_GeoBackupEncryptionKeyStatus string
-
-const (
-	DataEncryption_GeoBackupEncryptionKeyStatus_Invalid = DataEncryption_GeoBackupEncryptionKeyStatus("Invalid")
-	DataEncryption_GeoBackupEncryptionKeyStatus_Valid   = DataEncryption_GeoBackupEncryptionKeyStatus("Valid")
-)
-
-// Mapping from string to DataEncryption_GeoBackupEncryptionKeyStatus
-var dataEncryption_GeoBackupEncryptionKeyStatus_Values = map[string]DataEncryption_GeoBackupEncryptionKeyStatus{
-	"invalid": DataEncryption_GeoBackupEncryptionKeyStatus_Invalid,
-	"valid":   DataEncryption_GeoBackupEncryptionKeyStatus_Valid,
-}
-
-type DataEncryption_GeoBackupEncryptionKeyStatus_STATUS string
-
-const (
-	DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Invalid = DataEncryption_GeoBackupEncryptionKeyStatus_STATUS("Invalid")
-	DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Valid   = DataEncryption_GeoBackupEncryptionKeyStatus_STATUS("Valid")
-)
-
-// Mapping from string to DataEncryption_GeoBackupEncryptionKeyStatus_STATUS
-var dataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Values = map[string]DataEncryption_GeoBackupEncryptionKeyStatus_STATUS{
-	"invalid": DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Invalid,
-	"valid":   DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_Valid,
-}
-
-// +kubebuilder:validation:Enum={"Invalid","Valid"}
-type DataEncryption_PrimaryEncryptionKeyStatus string
-
-const (
-	DataEncryption_PrimaryEncryptionKeyStatus_Invalid = DataEncryption_PrimaryEncryptionKeyStatus("Invalid")
-	DataEncryption_PrimaryEncryptionKeyStatus_Valid   = DataEncryption_PrimaryEncryptionKeyStatus("Valid")
-)
-
-// Mapping from string to DataEncryption_PrimaryEncryptionKeyStatus
-var dataEncryption_PrimaryEncryptionKeyStatus_Values = map[string]DataEncryption_PrimaryEncryptionKeyStatus{
-	"invalid": DataEncryption_PrimaryEncryptionKeyStatus_Invalid,
-	"valid":   DataEncryption_PrimaryEncryptionKeyStatus_Valid,
-}
-
-type DataEncryption_PrimaryEncryptionKeyStatus_STATUS string
-
-const (
-	DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Invalid = DataEncryption_PrimaryEncryptionKeyStatus_STATUS("Invalid")
-	DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Valid   = DataEncryption_PrimaryEncryptionKeyStatus_STATUS("Valid")
-)
-
-// Mapping from string to DataEncryption_PrimaryEncryptionKeyStatus_STATUS
-var dataEncryption_PrimaryEncryptionKeyStatus_STATUS_Values = map[string]DataEncryption_PrimaryEncryptionKeyStatus_STATUS{
-	"invalid": DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Invalid,
-	"valid":   DataEncryption_PrimaryEncryptionKeyStatus_STATUS_Valid,
-}
-
+// Data encryption type used by a server.
 // +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
-type DataEncryption_Type string
+type DataEncryptionType string
 
 const (
-	DataEncryption_Type_AzureKeyVault = DataEncryption_Type("AzureKeyVault")
-	DataEncryption_Type_SystemManaged = DataEncryption_Type("SystemManaged")
+	DataEncryptionType_AzureKeyVault = DataEncryptionType("AzureKeyVault")
+	DataEncryptionType_SystemManaged = DataEncryptionType("SystemManaged")
 )
 
-// Mapping from string to DataEncryption_Type
-var dataEncryption_Type_Values = map[string]DataEncryption_Type{
-	"azurekeyvault": DataEncryption_Type_AzureKeyVault,
-	"systemmanaged": DataEncryption_Type_SystemManaged,
+// Mapping from string to DataEncryptionType
+var dataEncryptionType_Values = map[string]DataEncryptionType{
+	"azurekeyvault": DataEncryptionType_AzureKeyVault,
+	"systemmanaged": DataEncryptionType_SystemManaged,
 }
 
-type DataEncryption_Type_STATUS string
+// Data encryption type used by a server.
+type DataEncryptionType_STATUS string
 
 const (
-	DataEncryption_Type_STATUS_AzureKeyVault = DataEncryption_Type_STATUS("AzureKeyVault")
-	DataEncryption_Type_STATUS_SystemManaged = DataEncryption_Type_STATUS("SystemManaged")
+	DataEncryptionType_STATUS_AzureKeyVault = DataEncryptionType_STATUS("AzureKeyVault")
+	DataEncryptionType_STATUS_SystemManaged = DataEncryptionType_STATUS("SystemManaged")
 )
 
-// Mapping from string to DataEncryption_Type_STATUS
-var dataEncryption_Type_STATUS_Values = map[string]DataEncryption_Type_STATUS{
-	"azurekeyvault": DataEncryption_Type_STATUS_AzureKeyVault,
-	"systemmanaged": DataEncryption_Type_STATUS_SystemManaged,
+// Mapping from string to DataEncryptionType_STATUS
+var dataEncryptionType_STATUS_Values = map[string]DataEncryptionType_STATUS{
+	"azurekeyvault": DataEncryptionType_STATUS_AzureKeyVault,
+	"systemmanaged": DataEncryptionType_STATUS_SystemManaged,
+}
+
+// Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary
+// storage associated to the server.
+type EncryptionKeyStatus_STATUS string
+
+const (
+	EncryptionKeyStatus_STATUS_Invalid = EncryptionKeyStatus_STATUS("Invalid")
+	EncryptionKeyStatus_STATUS_Valid   = EncryptionKeyStatus_STATUS("Valid")
+)
+
+// Mapping from string to EncryptionKeyStatus_STATUS
+var encryptionKeyStatus_STATUS_Values = map[string]EncryptionKeyStatus_STATUS{
+	"invalid": EncryptionKeyStatus_STATUS_Invalid,
+	"valid":   EncryptionKeyStatus_STATUS_Valid,
 }
 
 type FlexibleServerOperatorConfigMaps struct {
@@ -6762,291 +6687,307 @@ var highAvailability_Mode_STATUS_Values = map[string]HighAvailability_Mode_STATU
 	"zoneredundant": HighAvailability_Mode_STATUS_ZoneRedundant,
 }
 
-type HighAvailability_State_STATUS string
+// Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant.
+type HighAvailabilityState_STATUS string
 
 const (
-	HighAvailability_State_STATUS_CreatingStandby = HighAvailability_State_STATUS("CreatingStandby")
-	HighAvailability_State_STATUS_FailingOver     = HighAvailability_State_STATUS("FailingOver")
-	HighAvailability_State_STATUS_Healthy         = HighAvailability_State_STATUS("Healthy")
-	HighAvailability_State_STATUS_NotEnabled      = HighAvailability_State_STATUS("NotEnabled")
-	HighAvailability_State_STATUS_RemovingStandby = HighAvailability_State_STATUS("RemovingStandby")
-	HighAvailability_State_STATUS_ReplicatingData = HighAvailability_State_STATUS("ReplicatingData")
+	HighAvailabilityState_STATUS_CreatingStandby = HighAvailabilityState_STATUS("CreatingStandby")
+	HighAvailabilityState_STATUS_FailingOver     = HighAvailabilityState_STATUS("FailingOver")
+	HighAvailabilityState_STATUS_Healthy         = HighAvailabilityState_STATUS("Healthy")
+	HighAvailabilityState_STATUS_NotEnabled      = HighAvailabilityState_STATUS("NotEnabled")
+	HighAvailabilityState_STATUS_RemovingStandby = HighAvailabilityState_STATUS("RemovingStandby")
+	HighAvailabilityState_STATUS_ReplicatingData = HighAvailabilityState_STATUS("ReplicatingData")
 )
 
-// Mapping from string to HighAvailability_State_STATUS
-var highAvailability_State_STATUS_Values = map[string]HighAvailability_State_STATUS{
-	"creatingstandby": HighAvailability_State_STATUS_CreatingStandby,
-	"failingover":     HighAvailability_State_STATUS_FailingOver,
-	"healthy":         HighAvailability_State_STATUS_Healthy,
-	"notenabled":      HighAvailability_State_STATUS_NotEnabled,
-	"removingstandby": HighAvailability_State_STATUS_RemovingStandby,
-	"replicatingdata": HighAvailability_State_STATUS_ReplicatingData,
+// Mapping from string to HighAvailabilityState_STATUS
+var highAvailabilityState_STATUS_Values = map[string]HighAvailabilityState_STATUS{
+	"creatingstandby": HighAvailabilityState_STATUS_CreatingStandby,
+	"failingover":     HighAvailabilityState_STATUS_FailingOver,
+	"healthy":         HighAvailabilityState_STATUS_Healthy,
+	"notenabled":      HighAvailabilityState_STATUS_NotEnabled,
+	"removingstandby": HighAvailabilityState_STATUS_RemovingStandby,
+	"replicatingdata": HighAvailabilityState_STATUS_ReplicatingData,
 }
 
+// Types of identities associated with a server.
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
+type IdentityType string
+
+const (
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
+)
+
+// Mapping from string to IdentityType
+var identityType_Values = map[string]IdentityType{
+	"none":                        IdentityType_None,
+	"systemassigned":              IdentityType_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_UserAssigned,
+}
+
+// Types of identities associated with a server.
+type IdentityType_STATUS string
+
+const (
+	IdentityType_STATUS_None                       = IdentityType_STATUS("None")
+	IdentityType_STATUS_SystemAssigned             = IdentityType_STATUS("SystemAssigned")
+	IdentityType_STATUS_SystemAssignedUserAssigned = IdentityType_STATUS("SystemAssigned,UserAssigned")
+	IdentityType_STATUS_UserAssigned               = IdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"none":                        IdentityType_STATUS_None,
+	"systemassigned":              IdentityType_STATUS_SystemAssigned,
+	"systemassigned,userassigned": IdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                IdentityType_STATUS_UserAssigned,
+}
+
+// Indicates if the server supports Microsoft Entra authentication.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Network_PublicNetworkAccess string
+type MicrosoftEntraAuth string
 
 const (
-	Network_PublicNetworkAccess_Disabled = Network_PublicNetworkAccess("Disabled")
-	Network_PublicNetworkAccess_Enabled  = Network_PublicNetworkAccess("Enabled")
+	MicrosoftEntraAuth_Disabled = MicrosoftEntraAuth("Disabled")
+	MicrosoftEntraAuth_Enabled  = MicrosoftEntraAuth("Enabled")
 )
 
-// Mapping from string to Network_PublicNetworkAccess
-var network_PublicNetworkAccess_Values = map[string]Network_PublicNetworkAccess{
-	"disabled": Network_PublicNetworkAccess_Disabled,
-	"enabled":  Network_PublicNetworkAccess_Enabled,
+// Mapping from string to MicrosoftEntraAuth
+var microsoftEntraAuth_Values = map[string]MicrosoftEntraAuth{
+	"disabled": MicrosoftEntraAuth_Disabled,
+	"enabled":  MicrosoftEntraAuth_Enabled,
 }
 
-type Network_PublicNetworkAccess_STATUS string
+// Indicates if the server supports Microsoft Entra authentication.
+type MicrosoftEntraAuth_STATUS string
 
 const (
-	Network_PublicNetworkAccess_STATUS_Disabled = Network_PublicNetworkAccess_STATUS("Disabled")
-	Network_PublicNetworkAccess_STATUS_Enabled  = Network_PublicNetworkAccess_STATUS("Enabled")
+	MicrosoftEntraAuth_STATUS_Disabled = MicrosoftEntraAuth_STATUS("Disabled")
+	MicrosoftEntraAuth_STATUS_Enabled  = MicrosoftEntraAuth_STATUS("Enabled")
 )
 
-// Mapping from string to Network_PublicNetworkAccess_STATUS
-var network_PublicNetworkAccess_STATUS_Values = map[string]Network_PublicNetworkAccess_STATUS{
-	"disabled": Network_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":  Network_PublicNetworkAccess_STATUS_Enabled,
+// Mapping from string to MicrosoftEntraAuth_STATUS
+var microsoftEntraAuth_STATUS_Values = map[string]MicrosoftEntraAuth_STATUS{
+	"disabled": MicrosoftEntraAuth_STATUS_Disabled,
+	"enabled":  MicrosoftEntraAuth_STATUS_Enabled,
 }
 
+// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
+// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
+// means that the read replica will roles with the primary server.
 // +kubebuilder:validation:Enum={"Standalone","Switchover"}
-type Replica_PromoteMode string
+type ReadReplicaPromoteMode string
 
 const (
-	Replica_PromoteMode_Standalone = Replica_PromoteMode("Standalone")
-	Replica_PromoteMode_Switchover = Replica_PromoteMode("Switchover")
+	ReadReplicaPromoteMode_Standalone = ReadReplicaPromoteMode("Standalone")
+	ReadReplicaPromoteMode_Switchover = ReadReplicaPromoteMode("Switchover")
 )
 
-// Mapping from string to Replica_PromoteMode
-var replica_PromoteMode_Values = map[string]Replica_PromoteMode{
-	"standalone": Replica_PromoteMode_Standalone,
-	"switchover": Replica_PromoteMode_Switchover,
+// Mapping from string to ReadReplicaPromoteMode
+var readReplicaPromoteMode_Values = map[string]ReadReplicaPromoteMode{
+	"standalone": ReadReplicaPromoteMode_Standalone,
+	"switchover": ReadReplicaPromoteMode_Switchover,
 }
 
-type Replica_PromoteMode_STATUS string
+// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
+// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
+// means that the read replica will roles with the primary server.
+type ReadReplicaPromoteMode_STATUS string
 
 const (
-	Replica_PromoteMode_STATUS_Standalone = Replica_PromoteMode_STATUS("Standalone")
-	Replica_PromoteMode_STATUS_Switchover = Replica_PromoteMode_STATUS("Switchover")
+	ReadReplicaPromoteMode_STATUS_Standalone = ReadReplicaPromoteMode_STATUS("Standalone")
+	ReadReplicaPromoteMode_STATUS_Switchover = ReadReplicaPromoteMode_STATUS("Switchover")
 )
 
-// Mapping from string to Replica_PromoteMode_STATUS
-var replica_PromoteMode_STATUS_Values = map[string]Replica_PromoteMode_STATUS{
-	"standalone": Replica_PromoteMode_STATUS_Standalone,
-	"switchover": Replica_PromoteMode_STATUS_Switchover,
+// Mapping from string to ReadReplicaPromoteMode_STATUS
+var readReplicaPromoteMode_STATUS_Values = map[string]ReadReplicaPromoteMode_STATUS{
+	"standalone": ReadReplicaPromoteMode_STATUS_Standalone,
+	"switchover": ReadReplicaPromoteMode_STATUS_Switchover,
 }
 
+// Data synchronization option to use when processing the operation specified in the promoteMode property. This property is
+// write only.
 // +kubebuilder:validation:Enum={"Forced","Planned"}
-type Replica_PromoteOption string
+type ReadReplicaPromoteOption string
 
 const (
-	Replica_PromoteOption_Forced  = Replica_PromoteOption("Forced")
-	Replica_PromoteOption_Planned = Replica_PromoteOption("Planned")
+	ReadReplicaPromoteOption_Forced  = ReadReplicaPromoteOption("Forced")
+	ReadReplicaPromoteOption_Planned = ReadReplicaPromoteOption("Planned")
 )
 
-// Mapping from string to Replica_PromoteOption
-var replica_PromoteOption_Values = map[string]Replica_PromoteOption{
-	"forced":  Replica_PromoteOption_Forced,
-	"planned": Replica_PromoteOption_Planned,
+// Mapping from string to ReadReplicaPromoteOption
+var readReplicaPromoteOption_Values = map[string]ReadReplicaPromoteOption{
+	"forced":  ReadReplicaPromoteOption_Forced,
+	"planned": ReadReplicaPromoteOption_Planned,
 }
 
-type Replica_PromoteOption_STATUS string
+// Data synchronization option to use when processing the operation specified in the promoteMode property. This property is
+// write only.
+type ReadReplicaPromoteOption_STATUS string
 
 const (
-	Replica_PromoteOption_STATUS_Forced  = Replica_PromoteOption_STATUS("Forced")
-	Replica_PromoteOption_STATUS_Planned = Replica_PromoteOption_STATUS("Planned")
+	ReadReplicaPromoteOption_STATUS_Forced  = ReadReplicaPromoteOption_STATUS("Forced")
+	ReadReplicaPromoteOption_STATUS_Planned = ReadReplicaPromoteOption_STATUS("Planned")
 )
 
-// Mapping from string to Replica_PromoteOption_STATUS
-var replica_PromoteOption_STATUS_Values = map[string]Replica_PromoteOption_STATUS{
-	"forced":  Replica_PromoteOption_STATUS_Forced,
-	"planned": Replica_PromoteOption_STATUS_Planned,
+// Mapping from string to ReadReplicaPromoteOption_STATUS
+var readReplicaPromoteOption_STATUS_Values = map[string]ReadReplicaPromoteOption_STATUS{
+	"forced":  ReadReplicaPromoteOption_STATUS_Forced,
+	"planned": ReadReplicaPromoteOption_STATUS_Planned,
 }
 
-type Replica_ReplicationState_STATUS string
+// Indicates the replication state of a read replica. This property is returned only when the target server is a read
+// replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating
+type ReplicationState_STATUS string
 
 const (
-	Replica_ReplicationState_STATUS_Active        = Replica_ReplicationState_STATUS("Active")
-	Replica_ReplicationState_STATUS_Broken        = Replica_ReplicationState_STATUS("Broken")
-	Replica_ReplicationState_STATUS_Catchup       = Replica_ReplicationState_STATUS("Catchup")
-	Replica_ReplicationState_STATUS_Provisioning  = Replica_ReplicationState_STATUS("Provisioning")
-	Replica_ReplicationState_STATUS_Reconfiguring = Replica_ReplicationState_STATUS("Reconfiguring")
-	Replica_ReplicationState_STATUS_Updating      = Replica_ReplicationState_STATUS("Updating")
+	ReplicationState_STATUS_Active        = ReplicationState_STATUS("Active")
+	ReplicationState_STATUS_Broken        = ReplicationState_STATUS("Broken")
+	ReplicationState_STATUS_Catchup       = ReplicationState_STATUS("Catchup")
+	ReplicationState_STATUS_Provisioning  = ReplicationState_STATUS("Provisioning")
+	ReplicationState_STATUS_Reconfiguring = ReplicationState_STATUS("Reconfiguring")
+	ReplicationState_STATUS_Updating      = ReplicationState_STATUS("Updating")
 )
 
-// Mapping from string to Replica_ReplicationState_STATUS
-var replica_ReplicationState_STATUS_Values = map[string]Replica_ReplicationState_STATUS{
-	"active":        Replica_ReplicationState_STATUS_Active,
-	"broken":        Replica_ReplicationState_STATUS_Broken,
-	"catchup":       Replica_ReplicationState_STATUS_Catchup,
-	"provisioning":  Replica_ReplicationState_STATUS_Provisioning,
-	"reconfiguring": Replica_ReplicationState_STATUS_Reconfiguring,
-	"updating":      Replica_ReplicationState_STATUS_Updating,
+// Mapping from string to ReplicationState_STATUS
+var replicationState_STATUS_Values = map[string]ReplicationState_STATUS{
+	"active":        ReplicationState_STATUS_Active,
+	"broken":        ReplicationState_STATUS_Broken,
+	"catchup":       ReplicationState_STATUS_Catchup,
+	"provisioning":  ReplicationState_STATUS_Provisioning,
+	"reconfiguring": ReplicationState_STATUS_Reconfiguring,
+	"updating":      ReplicationState_STATUS_Updating,
 }
 
-// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
-type Sku_Tier string
-
-const (
-	Sku_Tier_Burstable       = Sku_Tier("Burstable")
-	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
-)
-
-// Mapping from string to Sku_Tier
-var sku_Tier_Values = map[string]Sku_Tier{
-	"burstable":       Sku_Tier_Burstable,
-	"generalpurpose":  Sku_Tier_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_MemoryOptimized,
-}
-
-type Sku_Tier_STATUS string
-
-const (
-	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
-	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
-)
-
-// Mapping from string to Sku_Tier_STATUS
-var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
-	"burstable":       Sku_Tier_STATUS_Burstable,
-	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
-}
-
+// Indicates if public network access is enabled or not.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Storage_AutoGrow string
+type ServerPublicNetworkAccessState string
 
 const (
-	Storage_AutoGrow_Disabled = Storage_AutoGrow("Disabled")
-	Storage_AutoGrow_Enabled  = Storage_AutoGrow("Enabled")
+	ServerPublicNetworkAccessState_Disabled = ServerPublicNetworkAccessState("Disabled")
+	ServerPublicNetworkAccessState_Enabled  = ServerPublicNetworkAccessState("Enabled")
 )
 
-// Mapping from string to Storage_AutoGrow
-var storage_AutoGrow_Values = map[string]Storage_AutoGrow{
-	"disabled": Storage_AutoGrow_Disabled,
-	"enabled":  Storage_AutoGrow_Enabled,
+// Mapping from string to ServerPublicNetworkAccessState
+var serverPublicNetworkAccessState_Values = map[string]ServerPublicNetworkAccessState{
+	"disabled": ServerPublicNetworkAccessState_Disabled,
+	"enabled":  ServerPublicNetworkAccessState_Enabled,
 }
 
-type Storage_AutoGrow_STATUS string
+// Indicates if public network access is enabled or not.
+type ServerPublicNetworkAccessState_STATUS string
 
 const (
-	Storage_AutoGrow_STATUS_Disabled = Storage_AutoGrow_STATUS("Disabled")
-	Storage_AutoGrow_STATUS_Enabled  = Storage_AutoGrow_STATUS("Enabled")
+	ServerPublicNetworkAccessState_STATUS_Disabled = ServerPublicNetworkAccessState_STATUS("Disabled")
+	ServerPublicNetworkAccessState_STATUS_Enabled  = ServerPublicNetworkAccessState_STATUS("Enabled")
 )
 
-// Mapping from string to Storage_AutoGrow_STATUS
-var storage_AutoGrow_STATUS_Values = map[string]Storage_AutoGrow_STATUS{
-	"disabled": Storage_AutoGrow_STATUS_Disabled,
-	"enabled":  Storage_AutoGrow_STATUS_Enabled,
+// Mapping from string to ServerPublicNetworkAccessState_STATUS
+var serverPublicNetworkAccessState_STATUS_Values = map[string]ServerPublicNetworkAccessState_STATUS{
+	"disabled": ServerPublicNetworkAccessState_STATUS_Disabled,
+	"enabled":  ServerPublicNetworkAccessState_STATUS_Enabled,
 }
 
-// +kubebuilder:validation:Enum={"P1","P10","P15","P2","P20","P3","P30","P4","P40","P50","P6","P60","P70","P80"}
-type Storage_Tier string
+// Tier of the compute assigned to a server.
+// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
+type SkuTier string
 
 const (
-	Storage_Tier_P1  = Storage_Tier("P1")
-	Storage_Tier_P10 = Storage_Tier("P10")
-	Storage_Tier_P15 = Storage_Tier("P15")
-	Storage_Tier_P2  = Storage_Tier("P2")
-	Storage_Tier_P20 = Storage_Tier("P20")
-	Storage_Tier_P3  = Storage_Tier("P3")
-	Storage_Tier_P30 = Storage_Tier("P30")
-	Storage_Tier_P4  = Storage_Tier("P4")
-	Storage_Tier_P40 = Storage_Tier("P40")
-	Storage_Tier_P50 = Storage_Tier("P50")
-	Storage_Tier_P6  = Storage_Tier("P6")
-	Storage_Tier_P60 = Storage_Tier("P60")
-	Storage_Tier_P70 = Storage_Tier("P70")
-	Storage_Tier_P80 = Storage_Tier("P80")
+	SkuTier_Burstable       = SkuTier("Burstable")
+	SkuTier_GeneralPurpose  = SkuTier("GeneralPurpose")
+	SkuTier_MemoryOptimized = SkuTier("MemoryOptimized")
 )
 
-// Mapping from string to Storage_Tier
-var storage_Tier_Values = map[string]Storage_Tier{
-	"p1":  Storage_Tier_P1,
-	"p10": Storage_Tier_P10,
-	"p15": Storage_Tier_P15,
-	"p2":  Storage_Tier_P2,
-	"p20": Storage_Tier_P20,
-	"p3":  Storage_Tier_P3,
-	"p30": Storage_Tier_P30,
-	"p4":  Storage_Tier_P4,
-	"p40": Storage_Tier_P40,
-	"p50": Storage_Tier_P50,
-	"p6":  Storage_Tier_P6,
-	"p60": Storage_Tier_P60,
-	"p70": Storage_Tier_P70,
-	"p80": Storage_Tier_P80,
+// Mapping from string to SkuTier
+var skuTier_Values = map[string]SkuTier{
+	"burstable":       SkuTier_Burstable,
+	"generalpurpose":  SkuTier_GeneralPurpose,
+	"memoryoptimized": SkuTier_MemoryOptimized,
 }
 
-type Storage_Tier_STATUS string
+// Tier of the compute assigned to a server.
+type SkuTier_STATUS string
 
 const (
-	Storage_Tier_STATUS_P1  = Storage_Tier_STATUS("P1")
-	Storage_Tier_STATUS_P10 = Storage_Tier_STATUS("P10")
-	Storage_Tier_STATUS_P15 = Storage_Tier_STATUS("P15")
-	Storage_Tier_STATUS_P2  = Storage_Tier_STATUS("P2")
-	Storage_Tier_STATUS_P20 = Storage_Tier_STATUS("P20")
-	Storage_Tier_STATUS_P3  = Storage_Tier_STATUS("P3")
-	Storage_Tier_STATUS_P30 = Storage_Tier_STATUS("P30")
-	Storage_Tier_STATUS_P4  = Storage_Tier_STATUS("P4")
-	Storage_Tier_STATUS_P40 = Storage_Tier_STATUS("P40")
-	Storage_Tier_STATUS_P50 = Storage_Tier_STATUS("P50")
-	Storage_Tier_STATUS_P6  = Storage_Tier_STATUS("P6")
-	Storage_Tier_STATUS_P60 = Storage_Tier_STATUS("P60")
-	Storage_Tier_STATUS_P70 = Storage_Tier_STATUS("P70")
-	Storage_Tier_STATUS_P80 = Storage_Tier_STATUS("P80")
+	SkuTier_STATUS_Burstable       = SkuTier_STATUS("Burstable")
+	SkuTier_STATUS_GeneralPurpose  = SkuTier_STATUS("GeneralPurpose")
+	SkuTier_STATUS_MemoryOptimized = SkuTier_STATUS("MemoryOptimized")
 )
 
-// Mapping from string to Storage_Tier_STATUS
-var storage_Tier_STATUS_Values = map[string]Storage_Tier_STATUS{
-	"p1":  Storage_Tier_STATUS_P1,
-	"p10": Storage_Tier_STATUS_P10,
-	"p15": Storage_Tier_STATUS_P15,
-	"p2":  Storage_Tier_STATUS_P2,
-	"p20": Storage_Tier_STATUS_P20,
-	"p3":  Storage_Tier_STATUS_P3,
-	"p30": Storage_Tier_STATUS_P30,
-	"p4":  Storage_Tier_STATUS_P4,
-	"p40": Storage_Tier_STATUS_P40,
-	"p50": Storage_Tier_STATUS_P50,
-	"p6":  Storage_Tier_STATUS_P6,
-	"p60": Storage_Tier_STATUS_P60,
-	"p70": Storage_Tier_STATUS_P70,
-	"p80": Storage_Tier_STATUS_P80,
+// Mapping from string to SkuTier_STATUS
+var skuTier_STATUS_Values = map[string]SkuTier_STATUS{
+	"burstable":       SkuTier_STATUS_Burstable,
+	"generalpurpose":  SkuTier_STATUS_GeneralPurpose,
+	"memoryoptimized": SkuTier_STATUS_MemoryOptimized,
 }
 
+// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
+// conditions allow for automatically growing storage size.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type StorageAutoGrow string
+
+const (
+	StorageAutoGrow_Disabled = StorageAutoGrow("Disabled")
+	StorageAutoGrow_Enabled  = StorageAutoGrow("Enabled")
+)
+
+// Mapping from string to StorageAutoGrow
+var storageAutoGrow_Values = map[string]StorageAutoGrow{
+	"disabled": StorageAutoGrow_Disabled,
+	"enabled":  StorageAutoGrow_Enabled,
+}
+
+// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
+// conditions allow for automatically growing storage size.
+type StorageAutoGrow_STATUS string
+
+const (
+	StorageAutoGrow_STATUS_Disabled = StorageAutoGrow_STATUS("Disabled")
+	StorageAutoGrow_STATUS_Enabled  = StorageAutoGrow_STATUS("Enabled")
+)
+
+// Mapping from string to StorageAutoGrow_STATUS
+var storageAutoGrow_STATUS_Values = map[string]StorageAutoGrow_STATUS{
+	"disabled": StorageAutoGrow_STATUS_Disabled,
+	"enabled":  StorageAutoGrow_STATUS_Enabled,
+}
+
+// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
+// it defaults to Premium_LRS.
 // +kubebuilder:validation:Enum={"PremiumV2_LRS","Premium_LRS","UltraSSD_LRS"}
-type Storage_Type string
+type StorageType string
 
 const (
-	Storage_Type_PremiumV2_LRS = Storage_Type("PremiumV2_LRS")
-	Storage_Type_Premium_LRS   = Storage_Type("Premium_LRS")
-	Storage_Type_UltraSSD_LRS  = Storage_Type("UltraSSD_LRS")
+	StorageType_PremiumV2_LRS = StorageType("PremiumV2_LRS")
+	StorageType_Premium_LRS   = StorageType("Premium_LRS")
+	StorageType_UltraSSD_LRS  = StorageType("UltraSSD_LRS")
 )
 
-// Mapping from string to Storage_Type
-var storage_Type_Values = map[string]Storage_Type{
-	"premiumv2_lrs": Storage_Type_PremiumV2_LRS,
-	"premium_lrs":   Storage_Type_Premium_LRS,
-	"ultrassd_lrs":  Storage_Type_UltraSSD_LRS,
+// Mapping from string to StorageType
+var storageType_Values = map[string]StorageType{
+	"premiumv2_lrs": StorageType_PremiumV2_LRS,
+	"premium_lrs":   StorageType_Premium_LRS,
+	"ultrassd_lrs":  StorageType_UltraSSD_LRS,
 }
 
-type Storage_Type_STATUS string
+// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
+// it defaults to Premium_LRS.
+type StorageType_STATUS string
 
 const (
-	Storage_Type_STATUS_PremiumV2_LRS = Storage_Type_STATUS("PremiumV2_LRS")
-	Storage_Type_STATUS_Premium_LRS   = Storage_Type_STATUS("Premium_LRS")
-	Storage_Type_STATUS_UltraSSD_LRS  = Storage_Type_STATUS("UltraSSD_LRS")
+	StorageType_STATUS_PremiumV2_LRS = StorageType_STATUS("PremiumV2_LRS")
+	StorageType_STATUS_Premium_LRS   = StorageType_STATUS("Premium_LRS")
+	StorageType_STATUS_UltraSSD_LRS  = StorageType_STATUS("UltraSSD_LRS")
 )
 
-// Mapping from string to Storage_Type_STATUS
-var storage_Type_STATUS_Values = map[string]Storage_Type_STATUS{
-	"premiumv2_lrs": Storage_Type_STATUS_PremiumV2_LRS,
-	"premium_lrs":   Storage_Type_STATUS_Premium_LRS,
-	"ultrassd_lrs":  Storage_Type_STATUS_UltraSSD_LRS,
+// Mapping from string to StorageType_STATUS
+var storageType_STATUS_Values = map[string]StorageType_STATUS{
+	"premiumv2_lrs": StorageType_STATUS_PremiumV2_LRS,
+	"premium_lrs":   StorageType_STATUS_Premium_LRS,
+	"ultrassd_lrs":  StorageType_STATUS_UltraSSD_LRS,
 }
 
 type SystemData_CreatedByType_STATUS string
@@ -7081,41 +7022,6 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 	"key":             SystemData_LastModifiedByType_STATUS_Key,
 	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
 	"user":            SystemData_LastModifiedByType_STATUS_User,
-}
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type UserAssignedIdentity_Type string
-
-const (
-	UserAssignedIdentity_Type_None                       = UserAssignedIdentity_Type("None")
-	UserAssignedIdentity_Type_SystemAssigned             = UserAssignedIdentity_Type("SystemAssigned")
-	UserAssignedIdentity_Type_SystemAssignedUserAssigned = UserAssignedIdentity_Type("SystemAssigned,UserAssigned")
-	UserAssignedIdentity_Type_UserAssigned               = UserAssignedIdentity_Type("UserAssigned")
-)
-
-// Mapping from string to UserAssignedIdentity_Type
-var userAssignedIdentity_Type_Values = map[string]UserAssignedIdentity_Type{
-	"none":                        UserAssignedIdentity_Type_None,
-	"systemassigned":              UserAssignedIdentity_Type_SystemAssigned,
-	"systemassigned,userassigned": UserAssignedIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                UserAssignedIdentity_Type_UserAssigned,
-}
-
-type UserAssignedIdentity_Type_STATUS string
-
-const (
-	UserAssignedIdentity_Type_STATUS_None                       = UserAssignedIdentity_Type_STATUS("None")
-	UserAssignedIdentity_Type_STATUS_SystemAssigned             = UserAssignedIdentity_Type_STATUS("SystemAssigned")
-	UserAssignedIdentity_Type_STATUS_SystemAssignedUserAssigned = UserAssignedIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	UserAssignedIdentity_Type_STATUS_UserAssigned               = UserAssignedIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to UserAssignedIdentity_Type_STATUS
-var userAssignedIdentity_Type_STATUS_Values = map[string]UserAssignedIdentity_Type_STATUS{
-	"none":                        UserAssignedIdentity_Type_STATUS_None,
-	"systemassigned":              UserAssignedIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": UserAssignedIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                UserAssignedIdentity_Type_STATUS_UserAssigned,
 }
 
 // Information about the user assigned identity for the resource

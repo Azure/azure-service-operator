@@ -59,7 +59,7 @@ BatchAccount: Resource
 │   ├── PropertyBag: genruntime.PropertyBag
 │   ├── PublicNetworkAccess: *string
 │   └── Tags: map[string]string
-└── Status: Object (25 properties)
+└── Status: Object (26 properties)
     ├── AccountEndpoint: *string
     ├── ActiveJobAndJobScheduleQuota: *int
     ├── AllowedAuthenticationModes: string[]
@@ -126,6 +126,14 @@ BatchAccount: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── ProvisioningState: *string
     ├── PublicNetworkAccess: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
 

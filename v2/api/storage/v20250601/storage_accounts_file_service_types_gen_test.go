@@ -1444,6 +1444,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountsFileService_STATUS(gens map[s
 	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_STATUSGenerator())
 	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_StorageAccountsFileService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -61,15 +61,15 @@ type BatchAccountCreateProperties struct {
 	// clients must use Microsoft Entra ID. The default is BatchService.
 	PoolAllocationMode *PoolAllocationMode `json:"poolAllocationMode,omitempty"`
 
-	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
+	// PublicNetworkAccess: The network access type for operating on the resources in the Batch account.
+	PublicNetworkAccess *BatchAccountCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
 // The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their
 // Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode.
 type BatchAccountIdentity struct {
 	// Type: The type of identity used for the Batch account.
-	Type                   *BatchAccountIdentity_Type             `json:"type,omitempty"`
+	Type                   *ResourceIdentityType                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -103,27 +103,27 @@ type AutoStorageBaseProperties struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type BatchAccountIdentity_Type string
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
+type BatchAccountCreateProperties_PublicNetworkAccess string
 
 const (
-	BatchAccountIdentity_Type_None           = BatchAccountIdentity_Type("None")
-	BatchAccountIdentity_Type_SystemAssigned = BatchAccountIdentity_Type("SystemAssigned")
-	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
+	BatchAccountCreateProperties_PublicNetworkAccess_Disabled           = BatchAccountCreateProperties_PublicNetworkAccess("Disabled")
+	BatchAccountCreateProperties_PublicNetworkAccess_Enabled            = BatchAccountCreateProperties_PublicNetworkAccess("Enabled")
+	BatchAccountCreateProperties_PublicNetworkAccess_SecuredByPerimeter = BatchAccountCreateProperties_PublicNetworkAccess("SecuredByPerimeter")
 )
 
-// Mapping from string to BatchAccountIdentity_Type
-var batchAccountIdentity_Type_Values = map[string]BatchAccountIdentity_Type{
-	"none":           BatchAccountIdentity_Type_None,
-	"systemassigned": BatchAccountIdentity_Type_SystemAssigned,
-	"userassigned":   BatchAccountIdentity_Type_UserAssigned,
+// Mapping from string to BatchAccountCreateProperties_PublicNetworkAccess
+var batchAccountCreateProperties_PublicNetworkAccess_Values = map[string]BatchAccountCreateProperties_PublicNetworkAccess{
+	"disabled":           BatchAccountCreateProperties_PublicNetworkAccess_Disabled,
+	"enabled":            BatchAccountCreateProperties_PublicNetworkAccess_Enabled,
+	"securedbyperimeter": BatchAccountCreateProperties_PublicNetworkAccess_SecuredByPerimeter,
 }
 
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
+	KeySource *KeySource `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
@@ -163,21 +163,21 @@ var poolAllocationMode_Values = map[string]PoolAllocationMode{
 	"usersubscription": PoolAllocationMode_UserSubscription,
 }
 
-// The network access type for operating on the resources in the Batch account.
-// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
-type PublicNetworkAccessType string
+// The type of identity used for the Batch account.
+// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+type ResourceIdentityType string
 
 const (
-	PublicNetworkAccessType_Disabled           = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessType_Enabled            = PublicNetworkAccessType("Enabled")
-	PublicNetworkAccessType_SecuredByPerimeter = PublicNetworkAccessType("SecuredByPerimeter")
+	ResourceIdentityType_None           = ResourceIdentityType("None")
+	ResourceIdentityType_SystemAssigned = ResourceIdentityType("SystemAssigned")
+	ResourceIdentityType_UserAssigned   = ResourceIdentityType("UserAssigned")
 )
 
-// Mapping from string to PublicNetworkAccessType
-var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
-	"disabled":           PublicNetworkAccessType_Disabled,
-	"enabled":            PublicNetworkAccessType_Enabled,
-	"securedbyperimeter": PublicNetworkAccessType_SecuredByPerimeter,
+// Mapping from string to ResourceIdentityType
+var resourceIdentityType_Values = map[string]ResourceIdentityType{
+	"none":           ResourceIdentityType_None,
+	"systemassigned": ResourceIdentityType_SystemAssigned,
+	"userassigned":   ResourceIdentityType_UserAssigned,
 }
 
 // Information about the user assigned identity for the resource
@@ -204,27 +204,28 @@ type ComputeNodeIdentityReference struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
-type EncryptionProperties_KeySource string
-
-const (
-	EncryptionProperties_KeySource_MicrosoftBatch    = EncryptionProperties_KeySource("Microsoft.Batch")
-	EncryptionProperties_KeySource_MicrosoftKeyVault = EncryptionProperties_KeySource("Microsoft.KeyVault")
-)
-
-// Mapping from string to EncryptionProperties_KeySource
-var encryptionProperties_KeySource_Values = map[string]EncryptionProperties_KeySource{
-	"microsoft.batch":    EncryptionProperties_KeySource_MicrosoftBatch,
-	"microsoft.keyvault": EncryptionProperties_KeySource_MicrosoftKeyVault,
-}
-
 // Network access profile for Batch endpoint.
 type EndpointAccessProfile struct {
 	// DefaultAction: Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
-	DefaultAction *EndpointAccessProfile_DefaultAction `json:"defaultAction,omitempty"`
+	DefaultAction *EndpointAccessDefaultAction `json:"defaultAction,omitempty"`
 
 	// IpRules: Array of IP ranges to filter client IP address.
 	IpRules []IPRule `json:"ipRules,omitempty"`
+}
+
+// Type of the key source.
+// +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
+type KeySource string
+
+const (
+	KeySource_MicrosoftBatch    = KeySource("Microsoft.Batch")
+	KeySource_MicrosoftKeyVault = KeySource("Microsoft.KeyVault")
+)
+
+// Mapping from string to KeySource
+var keySource_Values = map[string]KeySource{
+	"microsoft.batch":    KeySource_MicrosoftBatch,
+	"microsoft.keyvault": KeySource_MicrosoftKeyVault,
 }
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
@@ -238,35 +239,37 @@ type KeyVaultProperties struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
+// Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.
 // +kubebuilder:validation:Enum={"Allow","Deny"}
-type EndpointAccessProfile_DefaultAction string
+type EndpointAccessDefaultAction string
 
 const (
-	EndpointAccessProfile_DefaultAction_Allow = EndpointAccessProfile_DefaultAction("Allow")
-	EndpointAccessProfile_DefaultAction_Deny  = EndpointAccessProfile_DefaultAction("Deny")
+	EndpointAccessDefaultAction_Allow = EndpointAccessDefaultAction("Allow")
+	EndpointAccessDefaultAction_Deny  = EndpointAccessDefaultAction("Deny")
 )
 
-// Mapping from string to EndpointAccessProfile_DefaultAction
-var endpointAccessProfile_DefaultAction_Values = map[string]EndpointAccessProfile_DefaultAction{
-	"allow": EndpointAccessProfile_DefaultAction_Allow,
-	"deny":  EndpointAccessProfile_DefaultAction_Deny,
+// Mapping from string to EndpointAccessDefaultAction
+var endpointAccessDefaultAction_Values = map[string]EndpointAccessDefaultAction{
+	"allow": EndpointAccessDefaultAction_Allow,
+	"deny":  EndpointAccessDefaultAction_Deny,
 }
 
 // Rule to filter client IP address.
 type IPRule struct {
 	// Action: Action when client IP address is matched.
-	Action *IPRule_Action `json:"action,omitempty"`
+	Action *IPRuleAction `json:"action,omitempty"`
 
 	// Value: IPv4 address, or IPv4 address range in CIDR format.
 	Value *string `json:"value,omitempty"`
 }
 
+// The action when client IP address is matched.
 // +kubebuilder:validation:Enum={"Allow"}
-type IPRule_Action string
+type IPRuleAction string
 
-const IPRule_Action_Allow = IPRule_Action("Allow")
+const IPRuleAction_Allow = IPRuleAction("Allow")
 
-// Mapping from string to IPRule_Action
-var iPRule_Action_Values = map[string]IPRule_Action{
-	"allow": IPRule_Action_Allow,
+// Mapping from string to IPRuleAction
+var iPRuleAction_Values = map[string]IPRuleAction{
+	"allow": IPRuleAction_Allow,
 }

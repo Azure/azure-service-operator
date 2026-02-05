@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForContainerProperties(gens map[string]gopt
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(PublicAccess_Blob, PublicAccess_Container, PublicAccess_None))
 }
 
 // AddRelatedPropertyGeneratorsForContainerProperties is a factory method for creating gopter generators

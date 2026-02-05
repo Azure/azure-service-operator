@@ -31,7 +31,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250601.StorageAccount
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -216,7 +216,7 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20250601.StorageAccount
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -357,6 +357,7 @@ type StorageAccount_STATUS struct {
 	StatusOfSecondary                     *string                                       `json:"statusOfSecondary,omitempty"`
 	StorageAccountSkuConversionStatus     *StorageAccountSkuConversionStatus_STATUS     `json:"storageAccountSkuConversionStatus,omitempty"`
 	SupportsHttpsTrafficOnly              *bool                                         `json:"supportsHttpsTrafficOnly,omitempty"`
+	SystemData                            *SystemData_STATUS                            `json:"systemData,omitempty"`
 	Tags                                  map[string]string                             `json:"tags,omitempty"`
 	Type                                  *string                                       `json:"type,omitempty"`
 	Zones                                 []string                                      `json:"zones,omitempty"`
@@ -664,7 +665,6 @@ type SasPolicy_STATUS struct {
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
 }
 
 // Storage version of v20250601.Sku_STATUS
@@ -693,6 +693,18 @@ type StorageAccountSkuConversionStatus_STATUS struct {
 	SkuConversionStatus *string                `json:"skuConversionStatus,omitempty"`
 	StartTime           *string                `json:"startTime,omitempty"`
 	TargetSkuName       *string                `json:"targetSkuName,omitempty"`
+}
+
+// Storage version of v20250601.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20250601.AccountImmutabilityPolicyProperties
