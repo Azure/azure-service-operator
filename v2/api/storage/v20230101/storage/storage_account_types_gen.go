@@ -1592,6 +1592,13 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.SupportsHttpsTrafficOnly = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -2050,6 +2057,19 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 	} else {
 		destination.SupportsHttpsTrafficOnly = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags
@@ -4722,7 +4742,17 @@ func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	sku.Tier = genruntime.ClonePointerToString(source.Tier)
+	if propertyBag.Contains("Tier") {
+		var tier string
+		err := propertyBag.Pull("Tier", &tier)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Tier' from propertyBag")
+		}
+
+		sku.Tier = &tier
+	} else {
+		sku.Tier = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4753,7 +4783,11 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Tier
-	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
+	if sku.Tier != nil {
+		propertyBag.Add("Tier", *sku.Tier)
+	} else {
+		propertyBag.Remove("Tier")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

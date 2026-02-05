@@ -551,6 +551,13 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_From_Sto
 		table.SignedIdentifiers = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// TableName
 	table.TableName = genruntime.ClonePointerToString(source.TableName)
 
@@ -605,6 +612,19 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_To_Stora
 		destination.SignedIdentifiers = signedIdentifierList
 	} else {
 		destination.SignedIdentifiers = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// TableName

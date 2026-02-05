@@ -617,6 +617,13 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageA
 		service.Sku = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Type
 	service.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -700,6 +707,19 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAcc
 		destination.Sku = &sku
 	} else {
 		destination.Sku = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Type

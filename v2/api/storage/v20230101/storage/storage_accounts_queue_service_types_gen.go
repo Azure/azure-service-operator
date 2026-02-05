@@ -528,6 +528,13 @@ func (service *StorageAccountsQueueService_STATUS) AssignProperties_From_Storage
 	// Name
 	service.Name = genruntime.ClonePointerToString(source.Name)
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Type
 	service.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -576,6 +583,19 @@ func (service *StorageAccountsQueueService_STATUS) AssignProperties_To_StorageAc
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(service.Name)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(service.Type)
