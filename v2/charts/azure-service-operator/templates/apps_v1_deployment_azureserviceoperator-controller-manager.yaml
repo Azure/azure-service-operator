@@ -218,9 +218,11 @@ spec:
         - containerPort: 8081
           name: health-port
           protocol: TCP
-        - containerPort: 8443
+        {{- if .Values.metrics.enable }}
+        - containerPort: {{ .Values.metrics.port | default 8443 }}
           name: metrics-port
           protocol: TCP
+        {{- end }}
         readinessProbe:
           httpGet:
             path: /readyz
