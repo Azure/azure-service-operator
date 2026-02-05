@@ -58,6 +58,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/operatorspec/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/keyvaults/</loc>

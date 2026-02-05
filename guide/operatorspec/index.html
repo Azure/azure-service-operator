@@ -17,30 +17,34 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Testing | Azure Service Operator</title>
-<meta name="description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
-These are sometimes also called envtest tests, because they use envtest.
-Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login –name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn’t used) No No REGISTRY_PUBLIC The path to the container release registry, used in –tag “{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}” No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post Why record our tests? for more information on why we use recorded HTTP interactions for our tests.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/testing/">
+<title>Configuring OperatorSpec | Azure Service Operator</title>
+<meta name="description" content="The operatorSpec field lets you control how ASO handles a resource—independent of what gets sent to Azure. Use it to export values from your resources to ConfigMaps or Secrets, or to configure resource-specific operator behaviour.
+Every ASO resource includes an operatorSpec field in its spec. ASO interprets these fields directly during reconciliation rather than passing them to Azure.
+Available properties All resources support these properties by default:
+configMapExpressions: Export values from the resource’s spec or status to a ConfigMap. See the ConfigMaps documentation for details. secretExpressions: Export values to a Secret. See the Secrets documentation for details. Many resources include the additional properties configMaps and secrets, based on configuration provided to our code generator. These are pre-defined export destinations for specific Azure-generated values.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/operatorspec/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Testing">
-  <meta property="og:description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
-These are sometimes also called envtest tests, because they use envtest.
-Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login –name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn’t used) No No REGISTRY_PUBLIC The path to the container release registry, used in –tag “{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}” No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post Why record our tests? for more information on why we use recorded HTTP interactions for our tests.">
+  <meta property="og:title" content="Configuring OperatorSpec">
+  <meta property="og:description" content="The operatorSpec field lets you control how ASO handles a resource—independent of what gets sent to Azure. Use it to export values from your resources to ConfigMaps or Secrets, or to configure resource-specific operator behaviour.
+Every ASO resource includes an operatorSpec field in its spec. ASO interprets these fields directly during reconciliation rather than passing them to Azure.
+Available properties All resources support these properties by default:
+configMapExpressions: Export values from the resource’s spec or status to a ConfigMap. See the ConfigMaps documentation for details. secretExpressions: Export values to a Secret. See the Secrets documentation for details. Many resources include the additional properties configMaps and secrets, based on configuration provided to our code generator. These are pre-defined export destinations for specific Azure-generated values.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="contributing">
+    <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="Testing">
-  <meta itemprop="description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
-These are sometimes also called envtest tests, because they use envtest.
-Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login –name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn’t used) No No REGISTRY_PUBLIC The path to the container release registry, used in –tag “{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}” No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post Why record our tests? for more information on why we use recorded HTTP interactions for our tests.">
-  <meta itemprop="wordCount" content="738">
+  <meta itemprop="name" content="Configuring OperatorSpec">
+  <meta itemprop="description" content="The operatorSpec field lets you control how ASO handles a resource—independent of what gets sent to Azure. Use it to export values from your resources to ConfigMaps or Secrets, or to configure resource-specific operator behaviour.
+Every ASO resource includes an operatorSpec field in its spec. ASO interprets these fields directly during reconciliation rather than passing them to Azure.
+Available properties All resources support these properties by default:
+configMapExpressions: Export values from the resource’s spec or status to a ConfigMap. See the ConfigMaps documentation for details. secretExpressions: Export values to a Secret. See the Secrets documentation for details. Many resources include the additional properties configMaps and secrets, based on configuration provided to our code generator. These are pre-defined export destinations for specific Azure-generated values.">
+  <meta itemprop="wordCount" content="170">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Testing">
-  <meta name="twitter:description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
-These are sometimes also called envtest tests, because they use envtest.
-Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login –name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn’t used) No No REGISTRY_PUBLIC The path to the container release registry, used in –tag “{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}” No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post Why record our tests? for more information on why we use recorded HTTP interactions for our tests.">
+  <meta name="twitter:title" content="Configuring OperatorSpec">
+  <meta name="twitter:description" content="The operatorSpec field lets you control how ASO handles a resource—independent of what gets sent to Azure. Use it to export values from your resources to ConfigMaps or Secrets, or to configure resource-specific operator behaviour.
+Every ASO resource includes an operatorSpec field in its spec. ASO interprets these fields directly during reconciliation rather than passing them to Azure.
+Available properties All resources support these properties by default:
+configMapExpressions: Export values from the resource’s spec or status to a ConfigMap. See the ConfigMaps documentation for details. secretExpressions: Export values to a Secret. See the Secrets documentation for details. Many resources include the additional properties configMaps and secrets, based on configuration provided to our code generator. These are pre-defined export destinations for specific Azure-generated values.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -57,7 +61,7 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
@@ -72,7 +76,7 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
         <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
+        <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
@@ -105,20 +109,20 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
   <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -129,11 +133,11 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -146,14 +150,14 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
@@ -184,25 +188,25 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideoperatorspec-li">
-  <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="">Configuring OperatorSpec</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideoperatorspec-li">
+  <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="td-sidebar-nav-active-item">Configuring OperatorSpec</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -223,7 +227,7 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -738,14 +742,14 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
   <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdeveloper-setup-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdeveloper-setup-li">
   <a href="/azure-service-operator/contributing/developer-setup/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdeveloper-setup"><span class="">Developer Setup</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingchatgpt-release-template-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingchatgpt-release-template-li">
   <a href="/azure-service-operator/contributing/chatgpt-release-template/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingchatgpt-release-template"><span class="">A simple ChatGPT release template</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resourcebefore-you-begin-li">
@@ -764,13 +768,13 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resourcefinal-checks"><span class="">Final checks</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdependencies-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributingextension-points-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorcontributingextension-points-li">
   <a href="/azure-service-operator/contributing/extension-points/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingextension-points"><span class="">Extension Points</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingextension-pointsarm-resource-modifier-li">
@@ -793,13 +797,13 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <a href="/azure-service-operator/contributing/extension-points/successful-creation-handler/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingextension-pointssuccessful-creation-handler"><span class="">SuccessfulCreationHandler</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinghints-and-tips-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinghints-and-tips-li">
   <a href="/azure-service-operator/contributing/hints-and-tips/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributinghints-and-tips"><span class="">Hints and Tips</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
   <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorcontributingtesting-li">
-  <a href="/azure-service-operator/contributing/testing/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="td-sidebar-nav-active-item">Testing</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingupgrade-resource-version-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
+  <a href="/azure-service-operator/contributing/testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingupgrade-resource-version-li">
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
@@ -912,15 +916,7 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#running-envtest-integration-tests">Running envtest integration tests</a>
-      <ul>
-        <li><a href="#required-variables">Required variables</a></li>
-        <li><a href="#recordreplay">Record/replay</a></li>
-        <li><a href="#running-live-tests">Running live tests</a></li>
-        <li><a href="#running-a-single-test">Running a single test</a></li>
-      </ul>
-    </li>
-    <li><a href="#running-integration-tests-in-a-kind-cluster">Running integration tests in a KIND cluster</a></li>
+    <li><a href="#available-properties">Available properties</a></li>
   </ul>
 </nav>
       </div>
@@ -935,147 +931,30 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/contributing/">Contributing</a></li>
+    <a href="/azure-service-operator/guide/">Guide</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Testing</li>
+    Configuring OperatorSpec</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Testing</h1>
+	<h1>Configuring OperatorSpec</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="running-envtest-integration-tests">Running envtest integration tests</h2>
-<p><strong>Basic use:</strong> <code>task controller:test-integration-envtest</code>.</p>
-<p>These are sometimes also called <code>envtest</code> tests, because they use
-<a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest">envtest</a>.</p>
-<h3 id="required-variables">Required variables</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Environment Variable</th>
-          <th>Value</th>
-          <th>Needed for CI (Github Actions)</th>
-          <th>Needed for local testing</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>AZURE_SUBSCRIPTION_ID</td>
-          <td>The Azure Subscription ID</td>
-          <td>Yes</td>
-          <td>Yes (when recording)</td>
-      </tr>
-      <tr>
-          <td>AZURE_TENANT_ID</td>
-          <td>The Azure Tenant ID</td>
-          <td>Yes</td>
-          <td>Yes (when recording)</td>
-      </tr>
-      <tr>
-          <td>TEST_BILLING_ID</td>
-          <td>The Azure billing ID</td>
-          <td>No</td>
-          <td>Yes (when recording SubscriptionAlias tests)</td>
-      </tr>
-      <tr>
-          <td>CODECOV_TOKEN</td>
-          <td>The token to <a href="https://app.codecov.io/gh/Azure/azure-service-operator">https://app.codecov.io/gh/Azure/azure-service-operator</a></td>
-          <td>Yes</td>
-          <td>No</td>
-      </tr>
-      <tr>
-          <td>REGISTRY_LOGIN</td>
-          <td>The Azure Container Registry to log in to (for az acr login &ndash;name {name})</td>
-          <td>Yes</td>
-          <td>No</td>
-      </tr>
-      <tr>
-          <td>REGISTRY_PRERELEASE</td>
-          <td>The path to the container prerelease registry (right now this isn&rsquo;t used)</td>
-          <td>No</td>
-          <td>No</td>
-      </tr>
-      <tr>
-          <td>REGISTRY_PUBLIC</td>
-          <td>The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo;</td>
-          <td>No</td>
-          <td>No</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="recordreplay">Record/replay</h3>
-<p>The task <code>controller:test-integration-envtest</code> runs the tests in a record/replay mode by default, so that it does not
-touch any live Azure resources. (This uses the <a href="https://github.com/dnaeon/go-vcr">go-vcr</a> library.) If you change the controller or other code in
-such a way that the required requests/responses from ARM change, you will need to update the recordings. See our blog post <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/">Why record our tests?</a> for more information on why we use recorded HTTP interactions for our tests.</p>
-<p>To do this, delete the recordings for the failing tests (under <code>{test-dir}/recordings/{test-name}.yaml</code>), and re-run
-<code>controller:test-integration-envtest</code>. If the test passes, a new recording will be saved, which you can commit to
-include with your change. All authentication and subscription information is removed from the recording.</p>
-<p>To run the test and produce a new recording you will need to have set the required authentication environment variables
-<code>AZURE_SUBSCRIPTION_ID</code> and <code>AZURE_TENANT_ID</code>, <em>and</em> logged in via <code>az login</code> (or you just use the <code>task</code> commands
-mentioned below and it will prompt you to <code>az login</code> if needed for that specific command).
-Note that you must be <code>Owner</code> on the subscription to execute some tests in record mode.</p>
-<p>A few tests also need the <code>TEST_BILLING_ID</code> environment variable set to a valid Azure Billing ID when running in record mode.
-In replay mode this variable is never required. Note that the billing ID is redacted from all recording files so that
-the resulting file can be replayed by anybody, even somebody who does not know the Billing ID the test was recorded with.</p>
-<p>Some Azure resources take longer to provision or delete than the default test timeout of 15m. To change the timeout,
-set <code>TIMEOUT</code> to a suitable value when running task. For example, to give your test a 60m timeout, use:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>TIMEOUT<span style="color:#f92672">=</span>60m task controller:test-integration-envtest
-</span></span></code></pre></div><h3 id="running-live-tests">Running live tests</h3>
-<p>If you want to skip all recordings and run all tests directly against live Azure resources, you can use the
-<code>controller:test-integration-envtest-live</code> task. This will also require you to set the authentication environment
-variables and <code>az login</code>, as detailed above.</p>
-<h3 id="running-a-single-test">Running a single test</h3>
-<p>By default <code>task controller:test-integration-envtest</code> and its variants run all tests. This is often undesirable
-as you may just be working on a single feature or test. In order to run a subset of tests, use the <code>TEST_FILTER</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>TEST_FILTER<span style="color:#f92672">=</span>&lt;test_name_regex&gt; task controller:test-integration-envtest
-</span></span></code></pre></div><p>or, with a timeout:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>TIMEOUT<span style="color:#f92672">=</span>10m TEST_FILTER<span style="color:#f92672">=</span>&lt;test_name_regex&gt; task controller:test-integration-envtest
-</span></span></code></pre></div><h2 id="running-integration-tests-in-a-kind-cluster">Running integration tests in a KIND cluster</h2>
-<table>
-  <thead>
-      <tr>
-          <th>Environment Variable</th>
-          <th>Value</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>AZURE_SUBSCRIPTION_ID</td>
-          <td>The Azure Subscription ID</td>
-      </tr>
-      <tr>
-          <td>AZURE_TENANT_ID</td>
-          <td>The Azure Tenant ID</td>
-      </tr>
-      <tr>
-          <td>KIND_OIDC_STORAGE_ACCOUNT_RG</td>
-          <td>The resource group containing the Azure storage account for OIDC federation</td>
-      </tr>
-      <tr>
-          <td>KIND_OIDC_STORAGE_ACCOUNT</td>
-          <td>The Azure storage account name. Storage account names must be globally unique.</td>
-      </tr>
-  </tbody>
-</table>
-<p>ASO CI uses:</p>
-<pre tabindex="0"><code>KIND_OIDC_STORAGE_ACCOUNT_RG=asov2-ci
-KIND_OIDC_STORAGE_ACCOUNT=asowistorage
-</code></pre><p><strong>Pre-requisite:</strong> Provision a storage account for OIDC federated token exchange with Azure for your KIND clusters.
-This can be done by running <code>task provision-oidc-storage-acct</code>, which will create a storage account with a random
-name in the <code>aso-wi-storage</code> resource group.</p>
-<p>Note: If you want to run the tests in a different subscription than the one containing the OIDC storage account,
-set the <code>KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION</code> variable to the subscription ID of the storage account, after
-which you can run tests in a different subscription if you like.</p>
-<p><strong>Basic use (create KIND + run tests):</strong> <code>task controller:test-integration-kind</code></p>
-<p><strong>Basic use (create KIND cluster only):</strong> <code>task controller:kind-create-helm-workload-identity</code></p>
-<p>There are a <em>few</em> tests that can&rsquo;t be run in envtest, because envtest doesn&rsquo;t offer a full Kubernetes environment.
-For these tests we have a separate suite of tests that should be run in a real Kubernetes environment, located at
-<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/test">v2/test</a>.</p>
-<p>It&rsquo;s easiest, fastest, and cheapest to run these tests in a KIND cluster, although they can also be run in
-a full Kubernetes cluster (such as an AKS cluster). It can sometimes be useful to have a KIND cluster for local
-testing as well.</p>
+	<p>The <code>operatorSpec</code> field lets you control how ASO handles a resource—independent of what gets sent to Azure. Use it to export values from your resources to <code>ConfigMaps</code> or <code>Secrets</code>, or to configure resource-specific operator behaviour.</p>
+<p>Every ASO resource includes an <code>operatorSpec</code> field in its spec. ASO interprets these fields directly during reconciliation rather than passing them to Azure.</p>
+<h2 id="available-properties">Available properties</h2>
+<p>All resources support these properties by default:</p>
+<ul>
+<li><code>configMapExpressions</code>: Export values from the resource&rsquo;s spec or status to a <code>ConfigMap</code>. See the <a href="../configmaps/">ConfigMaps documentation</a> for details.</li>
+<li><code>secretExpressions</code>: Export values to a <code>Secret</code>. See the <a href="../secrets/">Secrets documentation</a> for details.</li>
+</ul>
+<p>Many resources include the additional properties <code>configMaps</code> and <code>secrets</code>, based on configuration provided to our code generator. These are pre-defined export destinations for specific Azure-generated values.</p>
+<ul>
+<li>On a very few resources, there are additional properties. For example, <a href="https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#RoleAssignmentOperatorSpec"><code>RoleAssignment</code></a> uses <code>namingConvention</code> to configure how the GUID for the assignment name is generated.</li>
+</ul>
+<p>ASO only retrieves properties that you explicitly configure in <code>operatorSpec</code>. If you don&rsquo;t specify an export destination, the value won&rsquo;t be fetched.</p>
 
 	
 </div>
