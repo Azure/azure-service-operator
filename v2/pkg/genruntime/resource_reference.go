@@ -233,6 +233,10 @@ func (ref *ResourceReference) GroupKind() schema.GroupKind {
 // ResourceReference
 func LookupOwnerGroupKind(v interface{}) (string, string) {
 	t := reflect.TypeOf(v)
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+
 	field, _ := t.FieldByName("Owner")
 
 	group, ok := field.Tag.Lookup("group")

@@ -17,9 +17,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// If recording this test, might need to manually purge the old App config: az appconfig purge --name asotest-confstore-fsrajl
+// If recording this test, might need to manually purge the old App config: az appconfig purge --name <name>
+// Through the portal, search for "App Conifguration" and then "Manage deleted stores"
 
-func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
+func Test_AppConfiguration_ConfigurationStore_20220501_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {

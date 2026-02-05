@@ -86,7 +86,10 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		return eris.Wrap(err, "failed to list CRDs")
 	}
 
-	var crds []apiextensions.CustomResourceDefinition
+	crds := make(
+		[]apiextensions.CustomResourceDefinition,
+		0,
+		len(crdsWithNewLabel.Items)+len(crdsWithOldLabel.Items))
 	crds = append(crds, crdsWithNewLabel.Items...)
 	crds = append(crds, crdsWithOldLabel.Items...)
 

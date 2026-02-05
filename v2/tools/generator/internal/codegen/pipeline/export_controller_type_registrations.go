@@ -356,10 +356,10 @@ func (chain *propertyChain) indexPropertyPath() string {
 // a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
 // and all that string is doing is uniquely representing this field.
 func (chain *propertyChain) indexPropertyKey() string {
-	values := []string{
-		".spec",
-	}
-	for _, prop := range chain.properties() {
+	properties := chain.properties()
+	values := make([]string, 0, 1+len(properties))
+	values = append(values, ".spec")
+	for _, prop := range properties {
 		name, ok := prop.JSONName()
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
