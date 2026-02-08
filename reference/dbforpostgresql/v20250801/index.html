@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>dbforpostgresql.azure.com/v20250801 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
+<meta name="description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
 Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. ServerProperties_CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. ServerProperties_CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerProperties_State_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerState_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20250801/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="dbforpostgresql.azure.com/v20250801">
-  <meta property="og:description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
+  <meta property="og:description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
 Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. ServerProperties_CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. ServerProperties_CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerProperties_State_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerState_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="dbforpostgresql.azure.com/v20250801">
-  <meta itemprop="description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
+  <meta itemprop="description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
 Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. ServerProperties_CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. ServerProperties_CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerProperties_State_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
-  <meta itemprop="wordCount" content="8416">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerState_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
+  <meta itemprop="wordCount" content="8842">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="dbforpostgresql.azure.com/v20250801">
-  <meta name="twitter:description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
+  <meta name="twitter:description" content="APIVersion Value Description “2025-08-01” FlexibleServer Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}
 Used by: FlexibleServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. ServerProperties_CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. ServerVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. ServerProperties_CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerProperties_State_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. ServerVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_SpecOptional status FlexibleServer_STATUSOptional FlexibleServer_Spec Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional administratorLoginPassword Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. genruntime.SecretReferenceOptional authConfig Authentication configuration properties of a server. AuthConfigOptional availabilityZone Availability zone of a server. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backup Backup properties of a server. BackupOptional cluster Cluster properties of a server. ClusterOptional createMode Creation mode of a new server. CreateModeOptional dataEncryption Data encryption properties of a server. DataEncryptionOptional highAvailability High availability properties of a server. HighAvailabilityOptional identity User assigned managed identities assigned to the server. UserAssignedIdentityOptional location The geo-location where the resource lives stringRequired maintenanceWindow Maintenance window properties of a server. MaintenanceWindowOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. NetworkOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure FlexibleServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional replica Read replica properties of a server. Required only in case that you want to promote a server. ReplicaOptional replicationRole Role of the server in a replication set. ReplicationRoleOptional sku Compute tier and size of a server. SkuOptional sourceServerResourceReference Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. genruntime.ResourceReferenceOptional storage Storage properties of a server. StorageOptional tags Resource tags. map[string]stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersionOptional FlexibleServer_STATUS Property Description Type administratorLogin Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn’t deleted. stringOptional authConfig Authentication configuration properties of a server. AuthConfig_STATUSOptional availabilityZone Availability zone of a server. stringOptional backup Backup properties of a server. Backup_STATUSOptional cluster Cluster properties of a server. Cluster_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional createMode Creation mode of a new server. CreateMode_STATUSOptional dataEncryption Data encryption properties of a server. DataEncryption_STATUSOptional fullyQualifiedDomainName Fully qualified domain name of a server. stringOptional highAvailability High availability properties of a server. HighAvailability_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity User assigned managed identities assigned to the server. UserAssignedIdentity_STATUSOptional location The geo-location where the resource lives stringOptional maintenanceWindow Maintenance window properties of a server. MaintenanceWindow_STATUSOptional minorVersion Minor version of PostgreSQL database engine. stringOptional name The name of the resource stringOptional network Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. Network_STATUSOptional pointInTimeUTC Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It’s required when createMode is PointInTimeRestore, GeoRestore, or ReviveDropped. stringOptional privateEndpointConnections List of private endpoint connections associated with the specified server. PrivateEndpointConnection_STATUS[]Optional replica Read replica properties of a server. Required only in case that you want to promote a server. Replica_STATUSOptional replicaCapacity Maximum number of read replicas allowed for a server. intOptional replicationRole Role of the server in a replication set. ReplicationRole_STATUSOptional sku Compute tier and size of a server. Sku_STATUSOptional sourceServerResourceId Identifier of the server to be used as the source of the new server. Required when createMode is PointInTimeRestore, GeoRestore, Replica, or ReviveDropped. This property is returned only when the target server is a read replica. stringOptional state Possible states of a server. ServerState_STATUSOptional storage Storage properties of a server. Storage_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional version Major version of PostgreSQL database engine. PostgresMajorVersion_STATUSOptional FlexibleServerList Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -303,6 +303,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" title="appconfiguration.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">v1api20220501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv20240601-li">
+  <a href="/azure-service-operator/reference/appconfiguration/v20240601/" title="appconfiguration.azure.com/v20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv20240601"><span class="">v20240601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
@@ -542,8 +544,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <a href="/azure-service-operator/reference/insights/v1api20230311/" title="insights.azure.com/v1api20230311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230311"><span class="">v1api20230311</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
   <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="">v1api20230601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20240101preview/" title="insights.azure.com/v1api20240101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">v1api20240101preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
@@ -711,6 +711,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <a href="/azure-service-operator/reference/storage/v1api20220901/" title="storage.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">v1api20220901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20230101-li">
   <a href="/azure-service-operator/reference/storage/v1api20230101/" title="storage.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">v1api20230101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20210401-li">
+  <a href="/azure-service-operator/reference/storage/v20210401/" title="storage.azure.com/v20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20210401"><span class="">v20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20220901-li">
+  <a href="/azure-service-operator/reference/storage/v20220901/" title="storage.azure.com/v20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20220901"><span class="">v20220901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20230101-li">
+  <a href="/azure-service-operator/reference/storage/v20230101/" title="storage.azure.com/v20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20230101"><span class="">v20230101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20250601-li">
   <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
 </li>
@@ -985,18 +991,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
     <li><a href="#FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a></li>
     <li><a href="#FlexibleServersVirtualEndpoint_Spec">FlexibleServersVirtualEndpoint_Spec</a></li>
     <li><a href="#FlexibleServersVirtualEndpoint_STATUS">FlexibleServersVirtualEndpoint_STATUS</a></li>
-    <li><a href="#AdministratorMicrosoftEntraProperties_PrincipalType_STATUS">AdministratorMicrosoftEntraProperties_PrincipalType_STATUS</a></li>
-    <li><a href="#AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType">AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType</a></li>
-    <li><a href="#AdvancedThreatProtectionSettingsProperties_State">AdvancedThreatProtectionSettingsProperties_State</a></li>
-    <li><a href="#AdvancedThreatProtectionSettingsProperties_State_STATUS">AdvancedThreatProtectionSettingsProperties_State_STATUS</a></li>
     <li><a href="#AuthConfig">AuthConfig</a></li>
     <li><a href="#AuthConfig_STATUS">AuthConfig_STATUS</a></li>
     <li><a href="#Backup">Backup</a></li>
     <li><a href="#Backup_STATUS">Backup_STATUS</a></li>
-    <li><a href="#BackupAutomaticAndOnDemandProperties_BackupType_STATUS">BackupAutomaticAndOnDemandProperties_BackupType_STATUS</a></li>
+    <li><a href="#BackupType_STATUS">BackupType_STATUS</a></li>
     <li><a href="#Cluster">Cluster</a></li>
     <li><a href="#Cluster_STATUS">Cluster_STATUS</a></li>
-    <li><a href="#ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS</a></li>
+    <li><a href="#ConfigurationDataType_STATUS">ConfigurationDataType_STATUS</a></li>
+    <li><a href="#CreateMode">CreateMode</a></li>
+    <li><a href="#CreateMode_STATUS">CreateMode_STATUS</a></li>
     <li><a href="#DataEncryption">DataEncryption</a></li>
     <li><a href="#DataEncryption_STATUS">DataEncryption_STATUS</a></li>
     <li><a href="#FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a></li>
@@ -1013,61 +1017,60 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
     <li><a href="#MaintenanceWindow_STATUS">MaintenanceWindow_STATUS</a></li>
     <li><a href="#Network">Network</a></li>
     <li><a href="#Network_STATUS">Network_STATUS</a></li>
+    <li><a href="#PostgresMajorVersion">PostgresMajorVersion</a></li>
+    <li><a href="#PostgresMajorVersion_STATUS">PostgresMajorVersion_STATUS</a></li>
+    <li><a href="#PrincipalType">PrincipalType</a></li>
+    <li><a href="#PrincipalType_STATUS">PrincipalType_STATUS</a></li>
     <li><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</a></li>
     <li><a href="#Replica">Replica</a></li>
     <li><a href="#Replica_STATUS">Replica_STATUS</a></li>
     <li><a href="#ReplicationRole">ReplicationRole</a></li>
     <li><a href="#ReplicationRole_STATUS">ReplicationRole_STATUS</a></li>
-    <li><a href="#ServerProperties_CreateMode">ServerProperties_CreateMode</a></li>
-    <li><a href="#ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</a></li>
-    <li><a href="#ServerProperties_State_STATUS">ServerProperties_State_STATUS</a></li>
-    <li><a href="#ServerVersion">ServerVersion</a></li>
-    <li><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a></li>
+    <li><a href="#ServerState_STATUS">ServerState_STATUS</a></li>
     <li><a href="#Sku">Sku</a></li>
     <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
     <li><a href="#Storage">Storage</a></li>
     <li><a href="#Storage_STATUS">Storage_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#ThreatProtectionState">ThreatProtectionState</a></li>
+    <li><a href="#ThreatProtectionState_STATUS">ThreatProtectionState_STATUS</a></li>
     <li><a href="#UserAssignedIdentity">UserAssignedIdentity</a></li>
     <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
-    <li><a href="#VirtualEndpointResourceProperties_EndpointType">VirtualEndpointResourceProperties_EndpointType</a></li>
-    <li><a href="#VirtualEndpointResourceProperties_EndpointType_STATUS">VirtualEndpointResourceProperties_EndpointType_STATUS</a></li>
-    <li><a href="#AuthConfig_ActiveDirectoryAuth">AuthConfig_ActiveDirectoryAuth</a></li>
-    <li><a href="#AuthConfig_ActiveDirectoryAuth_STATUS">AuthConfig_ActiveDirectoryAuth_STATUS</a></li>
+    <li><a href="#VirtualEndpointType">VirtualEndpointType</a></li>
+    <li><a href="#VirtualEndpointType_STATUS">VirtualEndpointType_STATUS</a></li>
     <li><a href="#AuthConfig_PasswordAuth">AuthConfig_PasswordAuth</a></li>
     <li><a href="#AuthConfig_PasswordAuth_STATUS">AuthConfig_PasswordAuth_STATUS</a></li>
+    <li><a href="#AzureManagedDiskPerformanceTier">AzureManagedDiskPerformanceTier</a></li>
+    <li><a href="#AzureManagedDiskPerformanceTier_STATUS">AzureManagedDiskPerformanceTier_STATUS</a></li>
     <li><a href="#Backup_GeoRedundantBackup">Backup_GeoRedundantBackup</a></li>
     <li><a href="#Backup_GeoRedundantBackup_STATUS">Backup_GeoRedundantBackup_STATUS</a></li>
-    <li><a href="#DataEncryption_GeoBackupEncryptionKeyStatus">DataEncryption_GeoBackupEncryptionKeyStatus</a></li>
-    <li><a href="#DataEncryption_GeoBackupEncryptionKeyStatus_STATUS">DataEncryption_GeoBackupEncryptionKeyStatus_STATUS</a></li>
-    <li><a href="#DataEncryption_PrimaryEncryptionKeyStatus">DataEncryption_PrimaryEncryptionKeyStatus</a></li>
-    <li><a href="#DataEncryption_PrimaryEncryptionKeyStatus_STATUS">DataEncryption_PrimaryEncryptionKeyStatus_STATUS</a></li>
-    <li><a href="#DataEncryption_Type">DataEncryption_Type</a></li>
-    <li><a href="#DataEncryption_Type_STATUS">DataEncryption_Type_STATUS</a></li>
+    <li><a href="#DataEncryptionType">DataEncryptionType</a></li>
+    <li><a href="#DataEncryptionType_STATUS">DataEncryptionType_STATUS</a></li>
+    <li><a href="#EncryptionKeyStatus_STATUS">EncryptionKeyStatus_STATUS</a></li>
     <li><a href="#FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps</a></li>
     <li><a href="#FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets</a></li>
     <li><a href="#HighAvailability_Mode">HighAvailability_Mode</a></li>
     <li><a href="#HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS</a></li>
-    <li><a href="#HighAvailability_State_STATUS">HighAvailability_State_STATUS</a></li>
-    <li><a href="#Network_PublicNetworkAccess">Network_PublicNetworkAccess</a></li>
-    <li><a href="#Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS</a></li>
-    <li><a href="#Replica_PromoteMode">Replica_PromoteMode</a></li>
-    <li><a href="#Replica_PromoteMode_STATUS">Replica_PromoteMode_STATUS</a></li>
-    <li><a href="#Replica_PromoteOption">Replica_PromoteOption</a></li>
-    <li><a href="#Replica_PromoteOption_STATUS">Replica_PromoteOption_STATUS</a></li>
-    <li><a href="#Replica_ReplicationState_STATUS">Replica_ReplicationState_STATUS</a></li>
-    <li><a href="#Sku_Tier">Sku_Tier</a></li>
-    <li><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a></li>
-    <li><a href="#Storage_AutoGrow">Storage_AutoGrow</a></li>
-    <li><a href="#Storage_AutoGrow_STATUS">Storage_AutoGrow_STATUS</a></li>
-    <li><a href="#Storage_Tier">Storage_Tier</a></li>
-    <li><a href="#Storage_Tier_STATUS">Storage_Tier_STATUS</a></li>
-    <li><a href="#Storage_Type">Storage_Type</a></li>
-    <li><a href="#Storage_Type_STATUS">Storage_Type_STATUS</a></li>
+    <li><a href="#HighAvailabilityState_STATUS">HighAvailabilityState_STATUS</a></li>
+    <li><a href="#IdentityType">IdentityType</a></li>
+    <li><a href="#IdentityType_STATUS">IdentityType_STATUS</a></li>
+    <li><a href="#MicrosoftEntraAuth">MicrosoftEntraAuth</a></li>
+    <li><a href="#MicrosoftEntraAuth_STATUS">MicrosoftEntraAuth_STATUS</a></li>
+    <li><a href="#ReadReplicaPromoteMode">ReadReplicaPromoteMode</a></li>
+    <li><a href="#ReadReplicaPromoteMode_STATUS">ReadReplicaPromoteMode_STATUS</a></li>
+    <li><a href="#ReadReplicaPromoteOption">ReadReplicaPromoteOption</a></li>
+    <li><a href="#ReadReplicaPromoteOption_STATUS">ReadReplicaPromoteOption_STATUS</a></li>
+    <li><a href="#ReplicationState_STATUS">ReplicationState_STATUS</a></li>
+    <li><a href="#ServerPublicNetworkAccessState">ServerPublicNetworkAccessState</a></li>
+    <li><a href="#ServerPublicNetworkAccessState_STATUS">ServerPublicNetworkAccessState_STATUS</a></li>
+    <li><a href="#SkuTier">SkuTier</a></li>
+    <li><a href="#SkuTier_STATUS">SkuTier_STATUS</a></li>
+    <li><a href="#StorageAutoGrow">StorageAutoGrow</a></li>
+    <li><a href="#StorageAutoGrow_STATUS">StorageAutoGrow_STATUS</a></li>
+    <li><a href="#StorageType">StorageType</a></li>
+    <li><a href="#StorageType_STATUS">StorageType_STATUS</a></li>
     <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
-    <li><a href="#UserAssignedIdentity_Type">UserAssignedIdentity_Type</a></li>
-    <li><a href="#UserAssignedIdentity_Type_STATUS">UserAssignedIdentity_Type_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
     <li><a href="#UserIdentity_STATUS">UserIdentity_STATUS</a></li>
   </ul>
@@ -1114,7 +1117,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServer">FlexibleServer</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}</p>
 <p>Used by: <a href="#FlexibleServerList">FlexibleServerList</a>.</p>
 <table>
   <thead>
@@ -1195,7 +1198,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>createMode</td>
           <td>Creation mode of a new server.</td>
-          <td><a href="#ServerProperties_CreateMode">ServerProperties_CreateMode</a><br/><small>Optional</small></td>
+          <td><a href="#CreateMode">CreateMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>dataEncryption</td>
@@ -1275,7 +1278,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>version</td>
           <td>Major version of PostgreSQL database engine.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
+          <td><a href="#PostgresMajorVersion">PostgresMajorVersion</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1322,7 +1325,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>createMode</td>
           <td>Creation mode of a new server.</td>
-          <td><a href="#ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#CreateMode_STATUS">CreateMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>dataEncryption</td>
@@ -1412,7 +1415,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Possible states of a server.</td>
-          <td><a href="#ServerProperties_State_STATUS">ServerProperties_State_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ServerState_STATUS">ServerState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>storage</td>
@@ -1437,12 +1440,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>version</td>
           <td>Major version of PostgreSQL database engine.</td>
-          <td><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#PostgresMajorVersion_STATUS">PostgresMajorVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="FlexibleServerList">FlexibleServerList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}</p>
 <table>
   <thead>
       <tr>
@@ -1470,7 +1473,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersAdministrator">FlexibleServersAdministrator</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdministratorsMicrosoftEntra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​administrators/​{objectId}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​administrators/​{objectId}</p>
 <p>Used by: <a href="#FlexibleServersAdministratorList">FlexibleServersAdministratorList</a>.</p>
 <table>
   <thead>
@@ -1541,7 +1544,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>principalType</td>
           <td>Type of Microsoft Entra principal to which the server administrator is associated.</td>
-          <td><a href="#AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType">AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType</a><br/><small>Optional</small></td>
+          <td><a href="#PrincipalType">PrincipalType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tenantId</td>
@@ -1593,7 +1596,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>principalType</td>
           <td>Type of Microsoft Entra principal to which the server administrator is associated.</td>
-          <td><a href="#AdministratorMicrosoftEntraProperties_PrincipalType_STATUS">AdministratorMicrosoftEntraProperties_PrincipalType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#PrincipalType_STATUS">PrincipalType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
@@ -1613,7 +1616,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersAdministratorList">FlexibleServersAdministratorList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdministratorsMicrosoftEntra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​administrators/​{objectId}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​administrators/​{objectId}</p>
 <table>
   <thead>
       <tr>
@@ -1641,7 +1644,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersAdvancedThreatProtectionSettings">FlexibleServersAdvancedThreatProtectionSettings</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​advancedThreatProtectionSettings/​Default</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​advancedThreatProtectionSettings/​Default</p>
 <p>Used by: <a href="#FlexibleServersAdvancedThreatProtectionSettingsList">FlexibleServersAdvancedThreatProtectionSettingsList</a>.</p>
 <table>
   <thead>
@@ -1697,7 +1700,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server.</td>
-          <td><a href="#AdvancedThreatProtectionSettingsProperties_State">AdvancedThreatProtectionSettingsProperties_State</a><br/><small>Required</small></td>
+          <td><a href="#ThreatProtectionState">ThreatProtectionState</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1734,7 +1737,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server.</td>
-          <td><a href="#AdvancedThreatProtectionSettingsProperties_State_STATUS">AdvancedThreatProtectionSettingsProperties_State_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ThreatProtectionState_STATUS">ThreatProtectionState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
@@ -1749,7 +1752,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersAdvancedThreatProtectionSettingsList">FlexibleServersAdvancedThreatProtectionSettingsList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​advancedThreatProtectionSettings/​Default</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​advancedThreatProtectionSettings/​Default</p>
 <table>
   <thead>
       <tr>
@@ -1777,7 +1780,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersBackup">FlexibleServersBackup</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/BackupsAutomaticAndOnDemand.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​backups/​{backupName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​backups/​{backupName}</p>
 <p>Used by: <a href="#FlexibleServersBackupList">FlexibleServersBackupList</a>.</p>
 <table>
   <thead>
@@ -1850,7 +1853,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>backupType</td>
           <td>Type of backup.</td>
-          <td><a href="#BackupAutomaticAndOnDemandProperties_BackupType_STATUS">BackupAutomaticAndOnDemandProperties_BackupType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#BackupType_STATUS">BackupType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>completedTime</td>
@@ -1890,7 +1893,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersBackupList">FlexibleServersBackupList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/BackupsAutomaticAndOnDemand.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​backups/​{backupName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​backups/​{backupName}</p>
 <table>
   <thead>
       <tr>
@@ -1918,7 +1921,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersConfiguration">FlexibleServersConfiguration</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Configurations.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​configurations/​{configurationName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​configurations/​{configurationName}</p>
 <p>Used by: <a href="#FlexibleServersConfigurationList">FlexibleServersConfigurationList</a>.</p>
 <table>
   <thead>
@@ -2011,7 +2014,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>dataType</td>
           <td>Data type of the configuration (also known as server parameter).</td>
-          <td><a href="#ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ConfigurationDataType_STATUS">ConfigurationDataType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>defaultValue</td>
@@ -2081,7 +2084,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersConfigurationList">FlexibleServersConfigurationList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Configurations.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​configurations/​{configurationName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​configurations/​{configurationName}</p>
 <table>
   <thead>
       <tr>
@@ -2109,7 +2112,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersDatabase">FlexibleServersDatabase</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Databases.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​databases/​{databaseName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​databases/​{databaseName}</p>
 <p>Used by: <a href="#FlexibleServersDatabaseList">FlexibleServersDatabaseList</a>.</p>
 <table>
   <thead>
@@ -2227,7 +2230,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersDatabaseList">FlexibleServersDatabaseList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/Databases.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​databases/​{databaseName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​databases/​{databaseName}</p>
 <table>
   <thead>
       <tr>
@@ -2255,7 +2258,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersFirewallRule">FlexibleServersFirewallRule</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
 <p>Used by: <a href="#FlexibleServersFirewallRuleList">FlexibleServersFirewallRuleList</a>.</p>
 <table>
   <thead>
@@ -2373,7 +2376,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersFirewallRuleList">FlexibleServersFirewallRuleList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
 <table>
   <thead>
       <tr>
@@ -2401,7 +2404,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersVirtualEndpoint">FlexibleServersVirtualEndpoint</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/VirtualEndpoints.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​virtualendpoints/​{virtualEndpointName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​virtualendpoints/​{virtualEndpointName}</p>
 <p>Used by: <a href="#FlexibleServersVirtualEndpointList">FlexibleServersVirtualEndpointList</a>.</p>
 <table>
   <thead>
@@ -2452,7 +2455,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>endpointType</td>
           <td>Type of endpoint for the virtual endpoints.</td>
-          <td><a href="#VirtualEndpointResourceProperties_EndpointType">VirtualEndpointResourceProperties_EndpointType</a><br/><small>Optional</small></td>
+          <td><a href="#VirtualEndpointType">VirtualEndpointType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>members</td>
@@ -2489,7 +2492,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>endpointType</td>
           <td>Type of endpoint for the virtual endpoints.</td>
-          <td><a href="#VirtualEndpointResourceProperties_EndpointType_STATUS">VirtualEndpointResourceProperties_EndpointType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#VirtualEndpointType_STATUS">VirtualEndpointType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>id</td>
@@ -2524,7 +2527,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   </tbody>
 </table>
 <h2 id="FlexibleServersVirtualEndpointList">FlexibleServersVirtualEndpointList</h2>
-<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/VirtualEndpoints.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​virtualendpoints/​{virtualEndpointName}</p>
+<p>Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforPostgreSQL/​flexibleServers/​{serverName}/​virtualendpoints/​{virtualEndpointName}</p>
 <table>
   <thead>
       <tr>
@@ -2600,7 +2603,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>createMode</td>
           <td>Creation mode of a new server.</td>
-          <td><a href="#ServerProperties_CreateMode">ServerProperties_CreateMode</a><br/><small>Optional</small></td>
+          <td><a href="#CreateMode">CreateMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>dataEncryption</td>
@@ -2680,7 +2683,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>version</td>
           <td>Major version of PostgreSQL database engine.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
+          <td><a href="#PostgresMajorVersion">PostgresMajorVersion</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2728,7 +2731,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>createMode</td>
           <td>Creation mode of a new server.</td>
-          <td><a href="#ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#CreateMode_STATUS">CreateMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>dataEncryption</td>
@@ -2818,7 +2821,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Possible states of a server.</td>
-          <td><a href="#ServerProperties_State_STATUS">ServerProperties_State_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ServerState_STATUS">ServerState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>storage</td>
@@ -2843,7 +2846,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>version</td>
           <td>Major version of PostgreSQL database engine.</td>
-          <td><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#PostgresMajorVersion_STATUS">PostgresMajorVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2886,7 +2889,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>principalType</td>
           <td>Type of Microsoft Entra principal to which the server administrator is associated.</td>
-          <td><a href="#AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType">AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType</a><br/><small>Optional</small></td>
+          <td><a href="#PrincipalType">PrincipalType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tenantId</td>
@@ -2939,7 +2942,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>principalType</td>
           <td>Type of Microsoft Entra principal to which the server administrator is associated.</td>
-          <td><a href="#AdministratorMicrosoftEntraProperties_PrincipalType_STATUS">AdministratorMicrosoftEntraProperties_PrincipalType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#PrincipalType_STATUS">PrincipalType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
@@ -2982,7 +2985,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server.</td>
-          <td><a href="#AdvancedThreatProtectionSettingsProperties_State">AdvancedThreatProtectionSettingsProperties_State</a><br/><small>Required</small></td>
+          <td><a href="#ThreatProtectionState">ThreatProtectionState</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -3020,7 +3023,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server.</td>
-          <td><a href="#AdvancedThreatProtectionSettingsProperties_State_STATUS">AdvancedThreatProtectionSettingsProperties_State_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ThreatProtectionState_STATUS">ThreatProtectionState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
@@ -3076,7 +3079,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>backupType</td>
           <td>Type of backup.</td>
-          <td><a href="#BackupAutomaticAndOnDemandProperties_BackupType_STATUS">BackupAutomaticAndOnDemandProperties_BackupType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#BackupType_STATUS">BackupType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>completedTime</td>
@@ -3177,7 +3180,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>dataType</td>
           <td>Data type of the configuration (also known as server parameter).</td>
-          <td><a href="#ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ConfigurationDataType_STATUS">ConfigurationDataType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>defaultValue</td>
@@ -3437,7 +3440,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>endpointType</td>
           <td>Type of endpoint for the virtual endpoints.</td>
-          <td><a href="#VirtualEndpointResourceProperties_EndpointType">VirtualEndpointResourceProperties_EndpointType</a><br/><small>Optional</small></td>
+          <td><a href="#VirtualEndpointType">VirtualEndpointType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>members</td>
@@ -3475,7 +3478,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>endpointType</td>
           <td>Type of endpoint for the virtual endpoints.</td>
-          <td><a href="#VirtualEndpointResourceProperties_EndpointType_STATUS">VirtualEndpointResourceProperties_EndpointType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#VirtualEndpointType_STATUS">VirtualEndpointType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>id</td>
@@ -3509,102 +3512,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="AdministratorMicrosoftEntraProperties_PrincipalType_STATUS">AdministratorMicrosoftEntraProperties_PrincipalType_STATUS</h2>
-<p>Used by: <a href="#FlexibleServersAdministrator_STATUS">FlexibleServersAdministrator_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Group&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ServicePrincipal&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unknown&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;User&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType">AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType</h2>
-<p>Used by: <a href="#FlexibleServersAdministrator_Spec">FlexibleServersAdministrator_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Group&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ServicePrincipal&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unknown&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;User&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AdvancedThreatProtectionSettingsProperties_State">AdvancedThreatProtectionSettingsProperties_State</h2>
-<p>Used by: <a href="#FlexibleServersAdvancedThreatProtectionSettings_Spec">FlexibleServersAdvancedThreatProtectionSettings_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AdvancedThreatProtectionSettingsProperties_State_STATUS">AdvancedThreatProtectionSettingsProperties_State_STATUS</h2>
-<p>Used by: <a href="#FlexibleServersAdvancedThreatProtectionSettings_STATUS">FlexibleServersAdvancedThreatProtectionSettings_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="AuthConfig">AuthConfig</h2>
 <p>Authentication configuration properties of a server.</p>
 <p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
@@ -3620,7 +3527,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>activeDirectoryAuth</td>
           <td>Indicates if the server supports Microsoft Entra authentication.</td>
-          <td><a href="#AuthConfig_ActiveDirectoryAuth">AuthConfig_ActiveDirectoryAuth</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftEntraAuth">MicrosoftEntraAuth</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>passwordAuth</td>
@@ -3654,7 +3561,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>activeDirectoryAuth</td>
           <td>Indicates if the server supports Microsoft Entra authentication.</td>
-          <td><a href="#AuthConfig_ActiveDirectoryAuth_STATUS">AuthConfig_ActiveDirectoryAuth_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftEntraAuth_STATUS">MicrosoftEntraAuth_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>passwordAuth</td>
@@ -3721,7 +3628,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="BackupAutomaticAndOnDemandProperties_BackupType_STATUS">BackupAutomaticAndOnDemandProperties_BackupType_STATUS</h2>
+<h2 id="BackupType_STATUS">BackupType_STATUS</h2>
+<p>Type of backup.</p>
 <p>Used by: <a href="#FlexibleServersBackup_STATUS">FlexibleServersBackup_STATUS</a>.</p>
 <table>
   <thead>
@@ -3789,7 +3697,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS</h2>
+<h2 id="ConfigurationDataType_STATUS">ConfigurationDataType_STATUS</h2>
+<p>Data type of the configuration (also known as server parameter).</p>
 <p>Used by: <a href="#FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>.</p>
 <table>
   <thead>
@@ -3825,6 +3734,88 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
+<h2 id="CreateMode">CreateMode</h2>
+<p>Creation mode of a new server.</p>
+<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Create&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Default&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;GeoRestore&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;PointInTimeRestore&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Replica&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ReviveDropped&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Update&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CreateMode_STATUS">CreateMode_STATUS</h2>
+<p>Creation mode of a new server.</p>
+<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Create&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Default&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;GeoRestore&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;PointInTimeRestore&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Replica&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ReviveDropped&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Update&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="DataEncryption">DataEncryption</h2>
 <p>Data encryption properties of a server.</p>
 <p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
@@ -3837,11 +3828,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </thead>
   <tbody>
-      <tr>
-          <td>geoBackupEncryptionKeyStatus</td>
-          <td>Status of key used by a server configured with data encryption based on customer managed key, to encrypt the geographically redundant storage associated to the server when it is configured to support geographically redundant backups.</td>
-          <td><a href="#DataEncryption_GeoBackupEncryptionKeyStatus">DataEncryption_GeoBackupEncryptionKeyStatus</a><br/><small>Optional</small></td>
-      </tr>
       <tr>
           <td>geoBackupKeyURI</td>
           <td>Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data encryption of the geographically redundant storage associated to a server that is configured to support geographically redundant backups.</td>
@@ -3856,11 +3842,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
           <td>geoBackupUserAssignedIdentityReference</td>
           <td>Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data encryption of the geographically redundant storage associated to a server that is configured to support geographically redundant backups.</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryEncryptionKeyStatus</td>
-          <td>Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary storage associated to the server.</td>
-          <td><a href="#DataEncryption_PrimaryEncryptionKeyStatus">DataEncryption_PrimaryEncryptionKeyStatus</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>primaryKeyURI</td>
@@ -3880,7 +3861,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>type</td>
           <td>Data encryption type used by a server.</td>
-          <td><a href="#DataEncryption_Type">DataEncryption_Type</a><br/><small>Optional</small></td>
+          <td><a href="#DataEncryptionType">DataEncryptionType</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3899,7 +3880,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>geoBackupEncryptionKeyStatus</td>
           <td>Status of key used by a server configured with data encryption based on customer managed key, to encrypt the geographically redundant storage associated to the server when it is configured to support geographically redundant backups.</td>
-          <td><a href="#DataEncryption_GeoBackupEncryptionKeyStatus_STATUS">DataEncryption_GeoBackupEncryptionKeyStatus_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#EncryptionKeyStatus_STATUS">EncryptionKeyStatus_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>geoBackupKeyURI</td>
@@ -3914,7 +3895,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>primaryEncryptionKeyStatus</td>
           <td>Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary storage associated to the server.</td>
-          <td><a href="#DataEncryption_PrimaryEncryptionKeyStatus_STATUS">DataEncryption_PrimaryEncryptionKeyStatus_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#EncryptionKeyStatus_STATUS">EncryptionKeyStatus_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>primaryKeyURI</td>
@@ -3929,7 +3910,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>type</td>
           <td>Data encryption type used by a server.</td>
-          <td><a href="#DataEncryption_Type_STATUS">DataEncryption_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#DataEncryptionType_STATUS">DataEncryptionType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4184,7 +4165,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>state</td>
           <td>Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant.</td>
-          <td><a href="#HighAvailability_State_STATUS">HighAvailability_State_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#HighAvailabilityState_STATUS">HighAvailabilityState_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4281,7 +4262,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>publicNetworkAccess</td>
           <td>Indicates if public network access is enabled or not. This is only supported for servers that are not integrated into a virtual network which is owned and provided by customer when server is deployed.</td>
-          <td><a href="#Network_PublicNetworkAccess">Network_PublicNetworkAccess</a><br/><small>Optional</small></td>
+          <td><a href="#ServerPublicNetworkAccessState">ServerPublicNetworkAccessState</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4310,7 +4291,155 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>publicNetworkAccess</td>
           <td>Indicates if public network access is enabled or not. This is only supported for servers that are not integrated into a virtual network which is owned and provided by customer when server is deployed.</td>
-          <td><a href="#Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ServerPublicNetworkAccessState_STATUS">ServerPublicNetworkAccessState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PostgresMajorVersion">PostgresMajorVersion</h2>
+<p>Major version of PostgreSQL database engine.</p>
+<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;11&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;12&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;13&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;14&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;15&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;16&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;17&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;18&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PostgresMajorVersion_STATUS">PostgresMajorVersion_STATUS</h2>
+<p>Major version of PostgreSQL database engine.</p>
+<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;11&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;12&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;13&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;14&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;15&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;16&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;17&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;18&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrincipalType">PrincipalType</h2>
+<p>Type of Microsoft Entra principal to which the server administrator is associated.</p>
+<p>Used by: <a href="#FlexibleServersAdministrator_Spec">FlexibleServersAdministrator_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Group&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServicePrincipal&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Unknown&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrincipalType_STATUS">PrincipalType_STATUS</h2>
+<p>Type of Microsoft Entra principal to which the server administrator is associated.</p>
+<p>Used by: <a href="#FlexibleServersAdministrator_STATUS">FlexibleServersAdministrator_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Group&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServicePrincipal&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Unknown&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -4348,12 +4477,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>promoteMode</td>
           <td>Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server.</td>
-          <td><a href="#Replica_PromoteMode">Replica_PromoteMode</a><br/><small>Optional</small></td>
+          <td><a href="#ReadReplicaPromoteMode">ReadReplicaPromoteMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>promoteOption</td>
           <td>Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only.</td>
-          <td><a href="#Replica_PromoteOption">Replica_PromoteOption</a><br/><small>Optional</small></td>
+          <td><a href="#ReadReplicaPromoteOption">ReadReplicaPromoteOption</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>role</td>
@@ -4382,17 +4511,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>promoteMode</td>
           <td>Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server.</td>
-          <td><a href="#Replica_PromoteMode_STATUS">Replica_PromoteMode_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ReadReplicaPromoteMode_STATUS">ReadReplicaPromoteMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>promoteOption</td>
           <td>Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only.</td>
-          <td><a href="#Replica_PromoteOption_STATUS">Replica_PromoteOption_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ReadReplicaPromoteOption_STATUS">ReadReplicaPromoteOption_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>replicationState</td>
           <td>Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. Possible values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating</td>
-          <td><a href="#Replica_ReplicationState_STATUS">Replica_ReplicationState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ReplicationState_STATUS">ReplicationState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>role</td>
@@ -4459,87 +4588,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="ServerProperties_CreateMode">ServerProperties_CreateMode</h2>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Create&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeoRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;PointInTimeRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReviveDropped&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Update&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS</h2>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Create&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeoRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;PointInTimeRestore&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReviveDropped&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Update&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerProperties_State_STATUS">ServerProperties_State_STATUS</h2>
+<h2 id="ServerState_STATUS">ServerState_STATUS</h2>
+<p>Possible states of a server.</p>
 <p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
 <table>
   <thead>
@@ -4591,96 +4641,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="ServerVersion">ServerVersion</h2>
-<p>Major version of PostgreSQL database engine.</p>
-<p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;11&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;12&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;13&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;14&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;15&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;16&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;17&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;18&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerVersion_STATUS">ServerVersion_STATUS</h2>
-<p>Major version of PostgreSQL database engine.</p>
-<p>Used by: <a href="#FlexibleServer_STATUS">FlexibleServer_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;11&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;12&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;13&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;14&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;15&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;16&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;17&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;18&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="Sku">Sku</h2>
 <p>Compute information of a server.</p>
 <p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
@@ -4701,7 +4661,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>tier</td>
           <td>Tier of the compute assigned to a server.</td>
-          <td><a href="#Sku_Tier">Sku_Tier</a><br/><small>Required</small></td>
+          <td><a href="#SkuTier">SkuTier</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -4725,7 +4685,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>tier</td>
           <td>Tier of the compute assigned to a server.</td>
-          <td><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#SkuTier_STATUS">SkuTier_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4744,7 +4704,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>autoGrow</td>
           <td>Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size.</td>
-          <td><a href="#Storage_AutoGrow">Storage_AutoGrow</a><br/><small>Optional</small></td>
+          <td><a href="#StorageAutoGrow">StorageAutoGrow</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>iops</td>
@@ -4764,12 +4724,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>tier</td>
           <td>Storage tier of a server.</td>
-          <td><a href="#Storage_Tier">Storage_Tier</a><br/><small>Optional</small></td>
+          <td><a href="#AzureManagedDiskPerformanceTier">AzureManagedDiskPerformanceTier</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
           <td>Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS.</td>
-          <td><a href="#Storage_Type">Storage_Type</a><br/><small>Optional</small></td>
+          <td><a href="#StorageType">StorageType</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4788,7 +4748,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>autoGrow</td>
           <td>Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size.</td>
-          <td><a href="#Storage_AutoGrow_STATUS">Storage_AutoGrow_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#StorageAutoGrow_STATUS">StorageAutoGrow_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>iops</td>
@@ -4808,12 +4768,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>tier</td>
           <td>Storage tier of a server.</td>
-          <td><a href="#Storage_Tier_STATUS">Storage_Tier_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AzureManagedDiskPerformanceTier_STATUS">AzureManagedDiskPerformanceTier_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
           <td>Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS.</td>
-          <td><a href="#Storage_Type_STATUS">Storage_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#StorageType_STATUS">StorageType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4861,6 +4821,48 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
+<h2 id="ThreatProtectionState">ThreatProtectionState</h2>
+<p>Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server.</p>
+<p>Used by: <a href="#FlexibleServersAdvancedThreatProtectionSettings_Spec">FlexibleServersAdvancedThreatProtectionSettings_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ThreatProtectionState_STATUS">ThreatProtectionState_STATUS</h2>
+<p>Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server.</p>
+<p>Used by: <a href="#FlexibleServersAdvancedThreatProtectionSettings_STATUS">FlexibleServersAdvancedThreatProtectionSettings_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="UserAssignedIdentity">UserAssignedIdentity</h2>
 <p>Identities associated with a server.</p>
 <p>Used by: <a href="#FlexibleServer_Spec">FlexibleServer_Spec</a>.</p>
@@ -4881,7 +4883,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>type</td>
           <td>Types of identities associated with a server.</td>
-          <td><a href="#UserAssignedIdentity_Type">UserAssignedIdentity_Type</a><br/><small>Required</small></td>
+          <td><a href="#IdentityType">IdentityType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
@@ -4915,7 +4917,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       <tr>
           <td>type</td>
           <td>Types of identities associated with a server.</td>
-          <td><a href="#UserAssignedIdentity_Type_STATUS">UserAssignedIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#IdentityType_STATUS">IdentityType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
@@ -4924,7 +4926,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="VirtualEndpointResourceProperties_EndpointType">VirtualEndpointResourceProperties_EndpointType</h2>
+<h2 id="VirtualEndpointType">VirtualEndpointType</h2>
+<p>Type of endpoint for the virtual endpoints.</p>
 <p>Used by: <a href="#FlexibleServersVirtualEndpoint_Spec">FlexibleServersVirtualEndpoint_Spec</a>.</p>
 <table>
   <thead>
@@ -4940,7 +4943,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="VirtualEndpointResourceProperties_EndpointType_STATUS">VirtualEndpointResourceProperties_EndpointType_STATUS</h2>
+<h2 id="VirtualEndpointType_STATUS">VirtualEndpointType_STATUS</h2>
+<p>Type of endpoint for the virtual endpoints.</p>
 <p>Used by: <a href="#FlexibleServersVirtualEndpoint_STATUS">FlexibleServersVirtualEndpoint_STATUS</a>.</p>
 <table>
   <thead>
@@ -4952,46 +4956,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
   <tbody>
       <tr>
           <td>&ldquo;ReadWrite&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AuthConfig_ActiveDirectoryAuth">AuthConfig_ActiveDirectoryAuth</h2>
-<p>Used by: <a href="#AuthConfig">AuthConfig</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AuthConfig_ActiveDirectoryAuth_STATUS">AuthConfig_ActiveDirectoryAuth_STATUS</h2>
-<p>Used by: <a href="#AuthConfig_STATUS">AuthConfig_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -5036,6 +5000,144 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
+<h2 id="AzureManagedDiskPerformanceTier">AzureManagedDiskPerformanceTier</h2>
+<p>Storage tier of a server.</p>
+<p>Used by: <a href="#Storage">Storage</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;P1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P10&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P15&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P20&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P30&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P4&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P40&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P50&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P6&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P60&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P70&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P80&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AzureManagedDiskPerformanceTier_STATUS">AzureManagedDiskPerformanceTier_STATUS</h2>
+<p>Storage tier of a server.</p>
+<p>Used by: <a href="#Storage_STATUS">Storage_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;P1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P10&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P15&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P20&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P30&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P4&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P40&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P50&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P6&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P60&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P70&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;P80&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="Backup_GeoRedundantBackup">Backup_GeoRedundantBackup</h2>
 <p>Used by: <a href="#Backup">Backup</a>.</p>
 <table>
@@ -5076,87 +5178,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="DataEncryption_GeoBackupEncryptionKeyStatus">DataEncryption_GeoBackupEncryptionKeyStatus</h2>
-<p>Used by: <a href="#DataEncryption">DataEncryption</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Invalid&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Valid&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption_GeoBackupEncryptionKeyStatus_STATUS">DataEncryption_GeoBackupEncryptionKeyStatus_STATUS</h2>
-<p>Used by: <a href="#DataEncryption_STATUS">DataEncryption_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Invalid&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Valid&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption_PrimaryEncryptionKeyStatus">DataEncryption_PrimaryEncryptionKeyStatus</h2>
-<p>Used by: <a href="#DataEncryption">DataEncryption</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Invalid&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Valid&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption_PrimaryEncryptionKeyStatus_STATUS">DataEncryption_PrimaryEncryptionKeyStatus_STATUS</h2>
-<p>Used by: <a href="#DataEncryption_STATUS">DataEncryption_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Invalid&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Valid&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataEncryption_Type">DataEncryption_Type</h2>
+<h2 id="DataEncryptionType">DataEncryptionType</h2>
+<p>Data encryption type used by a server.</p>
 <p>Used by: <a href="#DataEncryption">DataEncryption</a>.</p>
 <table>
   <thead>
@@ -5176,7 +5199,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="DataEncryption_Type_STATUS">DataEncryption_Type_STATUS</h2>
+<h2 id="DataEncryptionType_STATUS">DataEncryptionType_STATUS</h2>
+<p>Data encryption type used by a server.</p>
 <p>Used by: <a href="#DataEncryption_STATUS">DataEncryption_STATUS</a>.</p>
 <table>
   <thead>
@@ -5192,6 +5216,27 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
       <tr>
           <td>&ldquo;SystemManaged&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionKeyStatus_STATUS">EncryptionKeyStatus_STATUS</h2>
+<p>Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary storage associated to the server.</p>
+<p>Used by: <a href="#DataEncryption_STATUS">DataEncryption_STATUS</a>, and <a href="#DataEncryption_STATUS">DataEncryption_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Invalid&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Valid&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -5280,7 +5325,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="HighAvailability_State_STATUS">HighAvailability_State_STATUS</h2>
+<h2 id="HighAvailabilityState_STATUS">HighAvailabilityState_STATUS</h2>
+<p>Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant.</p>
 <p>Used by: <a href="#HighAvailability_STATUS">HighAvailability_STATUS</a>.</p>
 <table>
   <thead>
@@ -5316,8 +5362,67 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Network_PublicNetworkAccess">Network_PublicNetworkAccess</h2>
-<p>Used by: <a href="#Network">Network</a>.</p>
+<h2 id="IdentityType">IdentityType</h2>
+<p>Types of identities associated with a server.</p>
+<p>Used by: <a href="#UserAssignedIdentity">UserAssignedIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned,UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityType_STATUS">IdentityType_STATUS</h2>
+<p>Types of identities associated with a server.</p>
+<p>Used by: <a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned,UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MicrosoftEntraAuth">MicrosoftEntraAuth</h2>
+<p>Indicates if the server supports Microsoft Entra authentication.</p>
+<p>Used by: <a href="#AuthConfig">AuthConfig</a>.</p>
 <table>
   <thead>
       <tr>
@@ -5336,8 +5441,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS</h2>
-<p>Used by: <a href="#Network_STATUS">Network_STATUS</a>.</p>
+<h2 id="MicrosoftEntraAuth_STATUS">MicrosoftEntraAuth_STATUS</h2>
+<p>Indicates if the server supports Microsoft Entra authentication.</p>
+<p>Used by: <a href="#AuthConfig_STATUS">AuthConfig_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -5356,7 +5462,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Replica_PromoteMode">Replica_PromoteMode</h2>
+<h2 id="ReadReplicaPromoteMode">ReadReplicaPromoteMode</h2>
+<p>Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server.</p>
 <p>Used by: <a href="#Replica">Replica</a>.</p>
 <table>
   <thead>
@@ -5376,7 +5483,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Replica_PromoteMode_STATUS">Replica_PromoteMode_STATUS</h2>
+<h2 id="ReadReplicaPromoteMode_STATUS">ReadReplicaPromoteMode_STATUS</h2>
+<p>Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server.</p>
 <p>Used by: <a href="#Replica_STATUS">Replica_STATUS</a>.</p>
 <table>
   <thead>
@@ -5396,7 +5504,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Replica_PromoteOption">Replica_PromoteOption</h2>
+<h2 id="ReadReplicaPromoteOption">ReadReplicaPromoteOption</h2>
+<p>Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only.</p>
 <p>Used by: <a href="#Replica">Replica</a>.</p>
 <table>
   <thead>
@@ -5416,7 +5525,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Replica_PromoteOption_STATUS">Replica_PromoteOption_STATUS</h2>
+<h2 id="ReadReplicaPromoteOption_STATUS">ReadReplicaPromoteOption_STATUS</h2>
+<p>Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only.</p>
 <p>Used by: <a href="#Replica_STATUS">Replica_STATUS</a>.</p>
 <table>
   <thead>
@@ -5436,7 +5546,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Replica_ReplicationState_STATUS">Replica_ReplicationState_STATUS</h2>
+<h2 id="ReplicationState_STATUS">ReplicationState_STATUS</h2>
+<p>Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. Possible values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating</p>
 <p>Used by: <a href="#Replica_STATUS">Replica_STATUS</a>.</p>
 <table>
   <thead>
@@ -5472,7 +5583,50 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Sku_Tier">Sku_Tier</h2>
+<h2 id="ServerPublicNetworkAccessState">ServerPublicNetworkAccessState</h2>
+<p>Indicates if public network access is enabled or not.</p>
+<p>Used by: <a href="#Network">Network</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServerPublicNetworkAccessState_STATUS">ServerPublicNetworkAccessState_STATUS</h2>
+<p>Indicates if public network access is enabled or not.</p>
+<p>Used by: <a href="#Network_STATUS">Network_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SkuTier">SkuTier</h2>
+<p>Tier of the compute assigned to a server.</p>
 <p>Used by: <a href="#Sku">Sku</a>.</p>
 <table>
   <thead>
@@ -5496,7 +5650,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Sku_Tier_STATUS">Sku_Tier_STATUS</h2>
+<h2 id="SkuTier_STATUS">SkuTier_STATUS</h2>
+<p>Tier of the compute assigned to a server.</p>
 <p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
 <table>
   <thead>
@@ -5520,7 +5675,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Storage_AutoGrow">Storage_AutoGrow</h2>
+<h2 id="StorageAutoGrow">StorageAutoGrow</h2>
+<p>Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size.</p>
 <p>Used by: <a href="#Storage">Storage</a>.</p>
 <table>
   <thead>
@@ -5540,7 +5696,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Storage_AutoGrow_STATUS">Storage_AutoGrow_STATUS</h2>
+<h2 id="StorageAutoGrow_STATUS">StorageAutoGrow_STATUS</h2>
+<p>Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size.</p>
 <p>Used by: <a href="#Storage_STATUS">Storage_STATUS</a>.</p>
 <table>
   <thead>
@@ -5560,143 +5717,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Storage_Tier">Storage_Tier</h2>
-<p>Used by: <a href="#Storage">Storage</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;P1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P10&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P15&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P20&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P3&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P30&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P4&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P40&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P50&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P6&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P60&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P70&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P80&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Storage_Tier_STATUS">Storage_Tier_STATUS</h2>
-<p>Used by: <a href="#Storage_STATUS">Storage_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;P1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P10&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P15&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P20&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P3&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P30&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P4&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P40&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P50&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P6&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P60&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P70&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;P80&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Storage_Type">Storage_Type</h2>
+<h2 id="StorageType">StorageType</h2>
+<p>Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS.</p>
 <p>Used by: <a href="#Storage">Storage</a>.</p>
 <table>
   <thead>
@@ -5720,7 +5742,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
   </tbody>
 </table>
-<h2 id="Storage_Type_STATUS">Storage_Type_STATUS</h2>
+<h2 id="StorageType_STATUS">StorageType_STATUS</h2>
+<p>Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS.</p>
 <p>Used by: <a href="#Storage_STATUS">Storage_STATUS</a>.</p>
 <table>
   <thead>
@@ -5796,62 +5819,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FlexibleServer_
       </tr>
       <tr>
           <td>&ldquo;User&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserAssignedIdentity_Type">UserAssignedIdentity_Type</h2>
-<p>Used by: <a href="#UserAssignedIdentity">UserAssignedIdentity</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;None&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SystemAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SystemAssigned,UserAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UserAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserAssignedIdentity_Type_STATUS">UserAssignedIdentity_Type_STATUS</h2>
-<p>Used by: <a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;None&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SystemAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SystemAssigned,UserAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UserAssigned&rdquo;</td>
           <td></td>
       </tr>
   </tbody>

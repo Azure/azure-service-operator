@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_Spe
   <meta itemprop="description" content="APIVersion Value Description “2023-11-01” BackupVault Generator information: - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DataProtection/​backupVaults/​{vaultName}
 Used by: BackupVaultList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_SpecOptional status BackupVaultResource_STATUSOptional BackupVault_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Input Managed Identity Details DppIdentityDetailsOptional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BackupVaultOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties BackupVaultResource properties BackupVaultSpecRequired tags Resource tags. map[string]stringOptional BackupVaultResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eTag Optional ETag. stringOptional id Resource Id represents the complete path to the resource. stringOptional identity Input Managed Identity Details DppIdentityDetails_STATUSOptional location Resource location. stringOptional name Resource name associated with the resource. stringOptional properties BackupVaultResource properties BackupVault_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/… stringOptional BackupVaultList Generator information: - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DataProtection/​backupVaults/​{vaultName}">
-  <meta itemprop="wordCount" content="6037">
+  <meta itemprop="wordCount" content="6255">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="dataprotection.azure.com/v1api20231101">
   <meta name="twitter:description" content="APIVersion Value Description “2023-11-01” BackupVault Generator information: - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DataProtection/​backupVaults/​{vaultName}
@@ -303,6 +303,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_Spe
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" title="appconfiguration.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">v1api20220501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv20240601-li">
+  <a href="/azure-service-operator/reference/appconfiguration/v20240601/" title="appconfiguration.azure.com/v20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv20240601"><span class="">v20240601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
@@ -542,8 +544,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_Spe
   <a href="/azure-service-operator/reference/insights/v1api20230311/" title="insights.azure.com/v1api20230311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230311"><span class="">v1api20230311</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
   <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="">v1api20230601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20240101preview/" title="insights.azure.com/v1api20240101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">v1api20240101preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
@@ -711,6 +711,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_Spe
   <a href="/azure-service-operator/reference/storage/v1api20220901/" title="storage.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">v1api20220901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20230101-li">
   <a href="/azure-service-operator/reference/storage/v1api20230101/" title="storage.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">v1api20230101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20210401-li">
+  <a href="/azure-service-operator/reference/storage/v20210401/" title="storage.azure.com/v20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20210401"><span class="">v20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20220901-li">
+  <a href="/azure-service-operator/reference/storage/v20220901/" title="storage.azure.com/v20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20220901"><span class="">v20220901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20230101-li">
+  <a href="/azure-service-operator/reference/storage/v20230101/" title="storage.azure.com/v20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20230101"><span class="">v20230101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20250601-li">
   <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
 </li>
@@ -5783,12 +5789,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_Spe
   <tbody>
       <tr>
           <td>repeatingTimeIntervals</td>
-          <td>Repeating time interval which only support the following ISO 8601 format [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M</td>
+          <td>Repeating time interval which supports the ISO 8601 format and unsupported or partially supported formats. Supported ISO 8601 Time Formats The following time formats were verified to be successfully parsed and supported: - T14:30:45.123 → Thh:mm:ss.sss (with milliseconds) - T14:30:45 → Thh:mm:ss (standard time format) - T14:30 → Thh:mm (hour and minute only) All of the above may include time zone indicators like <code>Z</code>, &lsquo;+05:30&rsquo;, &lsquo;-08:00&rsquo;. Examples of supported timestamps: - 2023-10-15T14:30:45Z - 2023-10-15T14:30:45.123+05:30 - 2023-10-15T14:30Z Unsupported or partially supported formats: - T143045.123 or T143045 (no colons) - T14.500 (decimal hours) - T14 (hour only) - T14:30.500 (minute fractions) - T24:00:00 (invalid) - T23:59:60 (leap second)</td>
           <td>string[]<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>timeZone</td>
-          <td>Time zone for a schedule. Example: Pacific Standard Time</td>
+          <td>Time Zone for a schedule. Supported timezone indicators include: - <code>Z</code> for UTC - &lsquo;+00:00&rsquo; - &lsquo;+05:30&rsquo; - &lsquo;-08:00&rsquo; Examples: - 2023-10-15T14:30:45Z - 2023-10-15T14:30:45.123+05:30 - 2023-10-15T14:30-08:00</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5807,12 +5813,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BackupVault_Spe
   <tbody>
       <tr>
           <td>repeatingTimeIntervals</td>
-          <td>Repeating time interval which only support the following ISO 8601 format [R/startDateTime/Duration]. Example: R/2007-03-01T13:00:00Z/P1Y2M10DT2H30M</td>
+          <td>Repeating time interval which supports the ISO 8601 format and unsupported or partially supported formats. Supported ISO 8601 Time Formats The following time formats were verified to be successfully parsed and supported: - T14:30:45.123 → Thh:mm:ss.sss (with milliseconds) - T14:30:45 → Thh:mm:ss (standard time format) - T14:30 → Thh:mm (hour and minute only) All of the above may include time zone indicators like <code>Z</code>, &lsquo;+05:30&rsquo;, &lsquo;-08:00&rsquo;. Examples of supported timestamps: - 2023-10-15T14:30:45Z - 2023-10-15T14:30:45.123+05:30 - 2023-10-15T14:30Z Unsupported or partially supported formats: - T143045.123 or T143045 (no colons) - T14.500 (decimal hours) - T14 (hour only) - T14:30.500 (minute fractions) - T24:00:00 (invalid) - T23:59:60 (leap second)</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>timeZone</td>
-          <td>Time zone for a schedule. Example: Pacific Standard Time</td>
+          <td>Time Zone for a schedule. Supported timezone indicators include: - <code>Z</code> for UTC - &lsquo;+00:00&rsquo; - &lsquo;+05:30&rsquo; - &lsquo;-08:00&rsquo; Examples: - 2023-10-15T14:30:45Z - 2023-10-15T14:30:45.123+05:30 - 2023-10-15T14:30-08:00</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>

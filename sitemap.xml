@@ -566,8 +566,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20240101/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20240101preview/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/app/v1api20240301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240301/</loc>
@@ -619,6 +617,14 @@
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20210101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/storage/v20210401/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/storage/v20230101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
   </url><url>
