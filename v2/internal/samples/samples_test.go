@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package controllers_test
+package samples
 
 import (
 	"fmt"
@@ -46,10 +46,6 @@ var randomNameExclusions = []string{
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
 	t.Parallel()
-
-	if *isLive {
-		t.Skip("skipping test in live mode")
-	}
 
 	g := NewGomegaWithT(t)
 
