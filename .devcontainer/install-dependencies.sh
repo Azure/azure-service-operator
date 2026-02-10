@@ -28,7 +28,7 @@ set -eu
 # This file includes documentation in lines prefixed `#doc#`.
 # These lines are extracted by running `task doc:dependencies` from the root folder.
 #
-# Each depencency should be documented by a single line with the following content:
+# Each dependency should be documented by a single line with the following content:
 #
 # | <name> | <version> | <details> |
 #
@@ -191,8 +191,8 @@ go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.34.1
 #doc# | controller-gen | v0.19.0 | https://book.kubebuilder.io/reference/controller-gen |
 go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.19.0
 
-#doc# | kind | v0.30.0 | https://kind.sigs.k8s.io/ |
-go-install kind sigs.k8s.io/kind@v0.30.0
+#doc# | kind | v0.31.0 | https://kind.sigs.k8s.io/ |
+go-install kind sigs.k8s.io/kind@v0.31.0
 
 #doc# | kustomize | v4.5.7 | https://kustomize.io/ |
 go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
@@ -210,11 +210,11 @@ go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 go-install crddoc github.com/theunrepentantgeek/crddoc@latest
 
 # Install envtest tooling
-#doc# | setup-envtest | v0.22.4 | https://book.kubebuilder.io/reference/envtest.html |
+#doc# | setup-envtest | v0.23.1 | https://book.kubebuilder.io/reference/envtest.html |
 write-verbose "Checking for $TOOL_DEST/setup-envtest"
 if should-install "$TOOL_DEST/setup-envtest"; then
     write-info "Installing setup-envtest"
-    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.22.4/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
+    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.23.1/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
     chmod +x "$TOOL_DEST/setup-envtest"
 fi
 
