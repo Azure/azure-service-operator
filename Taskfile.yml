@@ -595,8 +595,8 @@ tasks:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
-#    sources:
-#      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
+    sources:
+      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
