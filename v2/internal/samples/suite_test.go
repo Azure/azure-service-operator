@@ -22,9 +22,7 @@ const (
 	DefaultResourceTimeout = 10 * time.Minute
 )
 
-var (
-	globalTestContext testcommon.KubeGlobalContext
-)
+var globalTestContext testcommon.KubeGlobalContext
 
 func setup() error {
 	options := getOptions()
