@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package samples
 
 import (
-	"flag"
 	"log"
 	"os"
 	"testing"
@@ -25,7 +24,6 @@ const (
 
 var (
 	globalTestContext testcommon.KubeGlobalContext
-	isLive            = flag.Bool("live", false, "Enable to skip tests in live mode")
 )
 
 func setup() error {
