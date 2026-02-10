@@ -590,7 +590,7 @@ tasks:
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/samples-test.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/samples-test.md'
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} -json ./internal/samples > '{{.TEST_OUT}}/samples-test.json'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} -json ./internal/testsamples > '{{.TEST_OUT}}/samples-test.json'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
