@@ -43,8 +43,8 @@ jobs:
         with:
           context: .devcontainer
           push: true
-          # Build an image usable as cache-from, per: https://docs.docker.com/engine/reference/commandline/build/#specifying-external-cache-sources
-          build-args: BUILDKIT_INLINE_CACHE=1
+          # Embed inline cache metadata so consumers can use --cache-from
+          cache-to: type=inline
           tags: |
             docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
             docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:${{ github.sha }}
