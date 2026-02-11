@@ -89,7 +89,7 @@ func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertToOrigina
 			break
 		}
 
-		if !b.isCompatibilityPackage(name.InternalPackageReference()) {
+		if !isCompatibilityPackage(name.InternalPackageReference()) {
 			continue
 		}
 
@@ -150,14 +150,14 @@ func (b *ResourceConversionGraphBuilder) withoutLinkedNames(
 	return result
 }
 
-func (b *ResourceConversionGraphBuilder) isCompatibilityPackage(ref astmodel.PackageReference) bool {
+func isCompatibilityPackage(ref astmodel.PackageReference) bool {
 	switch r := ref.(type) {
 	case astmodel.ExternalPackageReference:
 		return false
 	case astmodel.LocalPackageReference:
 		return r.HasVersionPrefix("v1api")
 	case astmodel.SubPackageReference:
-		return b.isCompatibilityPackage(r.Parent())
+		return isCompatibilityPackage(r.Parent())
 	default:
 		msg := fmt.Sprintf(
 			"unexpected PackageReference implementation %T",

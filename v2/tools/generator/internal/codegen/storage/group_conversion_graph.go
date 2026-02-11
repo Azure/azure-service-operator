@@ -16,10 +16,10 @@ import (
 
 // GroupConversionGraph represents the directed graph of conversions between versions for a single group
 type GroupConversionGraph struct {
-	group           string                              // Name of the group of the resources needing conversions
-	configuration   *config.ObjectModelConfiguration    // Configuration used to look up renames
-	subGraphs       map[string]*ResourceConversionGraph // Nested graphs, one for each resource type, keyed by resource name
-	storagePackages []astmodel.InternalPackageReference // Sorted list of known storage packages in this group
+	group         string                                                                  // Name of the group of the resources needing conversions
+	configuration *config.ObjectModelConfiguration                                        // Configuration used to look up renames
+	subGraphs     map[string]*ResourceConversionGraph                                     // Nested graphs, one for each resource type, keyed by resource name
+	links         map[astmodel.InternalPackageReference]astmodel.InternalPackageReference // A collection of links that make up the graph (storage packages only)
 }
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
@@ -65,24 +65,16 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	}
 
 	// We have a configured rename, need to search through packages to find the type with that name
-	foundStart := false
-	for _, pkg := range graph.storagePackages {
-		// Look for the package that contains the type we're converting from
-		if pkg.Equals(name.PackageReference()) {
-			foundStart = true
-			continue
-		}
-
-		// Skip any packages before the one we're converting from
-		if !foundStart {
-			continue
-		}
-
+	pkg := graph.links[name.InternalPackageReference()] // Start with the package following the package we're converting from
+	for pkg != nil {
 		// Does our target type exist in this package?
 		newType := name.WithPackageReference(pkg).WithName(rename)
 		if definitions.Contains(newType) {
 			return newType, nil
 		}
+
+		// Move to the next package in the chain
+		pkg = graph.links[pkg]
 	}
 
 	// Didn't find the type we're looking for
