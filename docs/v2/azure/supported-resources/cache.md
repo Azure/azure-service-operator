@@ -1,0 +1,1 @@
+* If you are looking for _Azure Managed Redis_, that resource is also known as _Redis Enterprise_ (Microsoft.Cache/redisEnterprise), which is supported by ASO. Visit [_What is Azure Managed Redis?_](https://learn.microsoft.com/azure/redis/overview) to learn more.

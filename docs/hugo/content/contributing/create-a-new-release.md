@@ -168,6 +168,17 @@ Then commit the changes and send a PR.
 ## Update Breaking Changes
 
 If you earlier [catalogued breaking changes](#catalog-breaking-changes), or if there are any PRs for this release with the tag [**breaking**](https://github.com/Azure/azure-service-operator/pulls?q=is%3Apr+label%3Abreaking+is%3Aclosed), create a new page under our [breaking changes]( {{< relref "breaking-changes" >}} ) page with details of the breaking changes and how to mitigate them.
+
+## Create a blog post
+
+Publish a new blog post under `docs/hugo/content/blogs` covering changes in the new release. Aim to publish the blog post alongside the corresponding ASO version's release date.
+
+Sections to cover:
+
+- **Headline features (if appropriate)**: Call out large, highly requested features that fundamentally change how users interact with ASO.
+- **Breaking changes**: Call out breaking changes included in this release.
+- **New and improved resource support**: Highlight new resources or improvements to existing resources introduced in this release.
+- **Thank you**: Thank the community and any new contributors to the project.
   
 ## Fixing an incorrect release
 

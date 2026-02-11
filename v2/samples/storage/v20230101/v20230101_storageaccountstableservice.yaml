@@ -1,0 +1,12 @@
+apiVersion: storage.azure.com/v20230101
+kind: StorageAccountsTableService
+metadata:
+  name: samplekubestoragetable
+  namespace: default
+  annotations: 
+    # Can't be directly deleted in Azure, only by deleting the parent account
+    # We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
+spec:
+  owner:
+    name: samplestorageaccount

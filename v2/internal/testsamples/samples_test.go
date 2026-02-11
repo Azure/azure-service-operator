@@ -1,0 +1,235 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
+package testsamples
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"testing"
+
+	. "github.com/onsi/gomega"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+	v1 "k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
+const samplesPath = "../../samples"
+
+// randomNameExclusions slice contains groups for which we don't want to use random names
+var randomNameExclusions = []string{
+	"/authorization/",
+	"/cache/",
+	"/containerservice/",
+	"/compute/",
+	"/cdn/",
+	"/documentdb/",
+	"/insights/",
+	"/network/",
+	"/web/",
+	"/app/",
+	"/dbforpostgresql/v1api20240801", // Only required starting when we added virtualendpoints support
+	"/dbforpostgresql/v20250801",     // Only required starting when we added virtualendpoints support
+}
+
+func Test_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	regex, err := regexp.Compile("^v(1api)?[a-z0-9]*$")
+	g.Expect(err).To(BeNil())
+
+	_ = filepath.WalkDir(samplesPath,
+		func(filePath string, info os.DirEntry, err error) error {
+			if info.IsDir() && !testcommon.IsSampleFolderExcluded(filePath) {
+				basePath := filepath.Base(filePath)
+				// proceed only if the base path is the matching versions.
+				if regex.MatchString(basePath) {
+
+					testName := getTestName(filepath.Base(filepath.Dir(filePath)), basePath)
+					t.Run(testName, func(t *testing.T) {
+						t.Parallel()
+						tc := globalTestContext.ForTest(t)
+						runGroupTest(tc, filePath)
+					})
+
+				}
+			}
+			return err
+		})
+}
+
+func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
+	rg := tc.NewTestResourceGroup()
+	useRandomName := !testcommon.PathContains(groupVersionPath, randomNameExclusions)
+	samples, err := testcommon.NewSamplesTester(
+		tc.NoSpaceNamer,
+		tc.GetScheme(),
+		groupVersionPath,
+		tc.Namespace,
+		useRandomName,
+		rg.Name,
+		tc.AzureSubscription,
+		tc.AzureTenant).
+		LoadSamples()
+
+	tc.Expect(err).To(BeNil())
+	tc.Expect(samples).ToNot(BeNil())
+	tc.Expect(samples).ToNot(BeZero())
+
+	if !samples.HasSamples() {
+		// No testable samples in this folder, skip
+		return
+	}
+
+	tc.CreateResourceAndWait(rg)
+
+	refsSlice := processSamples(samples.RefsMap)
+	samplesSlice := processSamples(samples.SamplesMap)
+
+	resources := append(refsSlice, samplesSlice...)
+
+	// For secrets we need to look across refs and samples:
+	findRefsAndCreateSecrets(tc, resources)
+
+	// Create all the resources
+	tc.CreateResourcesAndWait(resources...)
+
+	tc.DeleteResourceAndWait(rg)
+}
+
+func processSamples(samples map[string]client.Object) []client.Object {
+	samplesSlice := make([]client.Object, 0, len(samples))
+
+	for _, resourceObj := range samples {
+		obj := resourceObj
+		samplesSlice = append(samplesSlice, obj)
+	}
+
+	return samplesSlice
+}
+
+// findRefsAndCreateSecrets finds all references not matched by a corresponding genruntime.SecretDestination or hardcoded secret
+// and generates secrets which correspond to those references
+func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resources []client.Object) {
+	allDestinations := set.Make[genruntime.SecretDestination]()
+	allReferences := set.Make[genruntime.SecretReference]()
+	allSecrets := set.Make[string]() // key is namespace + "/" + name
+
+	for _, obj := range resources {
+		if secret, ok := obj.(*v1.Secret); ok {
+			allSecrets.Add(fmt.Sprintf("%s/%s", secret.Namespace, secret.Name))
+			continue
+		}
+
+		destinations, err := reflecthelpers.Find[genruntime.SecretDestination](obj)
+		tc.Expect(err).To(BeNil())
+
+		references, err := reflecthelpers.FindSecretReferences(obj)
+		tc.Expect(err).To(BeNil())
+
+		allDestinations.AddAll(destinations)
+		allReferences.AddAll(references)
+	}
+
+	// Find orphaned references
+	orphanRefs := set.Make[genruntime.SecretReference]()
+	for _, ref := range allReferences.Values() {
+		matchingDestination := genruntime.SecretDestination(ref)
+		matchingSecret := fmt.Sprintf("%s/%s", tc.Namespace, ref.Name)
+		if allSecrets.Contains(matchingSecret) {
+			continue
+		}
+		if allDestinations.Contains(matchingDestination) {
+			continue
+		}
+
+		orphanRefs.Add(ref)
+	}
+
+	for ref := range orphanRefs {
+		password := tc.Namer.GeneratePasswordOfLength(40)
+
+		secret := &v1.Secret{
+			ObjectMeta: tc.MakeObjectMetaWithName(ref.Name),
+			StringData: map[string]string{
+				ref.Key: password,
+			},
+		}
+
+		err := tc.CheckIfResourceExists(secret)
+		if err != nil {
+			tc.CreateResource(secret)
+		}
+	}
+}
+
+func getTestName(group string, version string) string {
+	var result strings.Builder
+
+	// Common Prefix
+	result.WriteString("Test_")
+
+	// Titlecase for each part of the group
+	title := cases.Title(language.English)
+	for _, part := range strings.Split(group, ".") {
+		result.WriteString(title.String(part))
+	}
+	result.WriteString("_")
+
+	// Append the version
+	result.WriteString(version)
+
+	// Common Suffix
+	result.WriteString("_CreationAndDeletion")
+
+	return result.String()
+}
+
+func TestGetTestName(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		group    string
+		version  string
+		expected string
+	}{
+		"simple": {
+			group:    "group",
+			version:  "version",
+			expected: "Test_Group_version_CreationAndDeletion",
+		},
+		"Network": {
+			group:    "network",
+			version:  "v1api",
+			expected: "Test_Network_v1api_CreationAndDeletion",
+		},
+		"Frontdoor": {
+			group:    "network.frontdoor",
+			version:  "v1api",
+			expected: "Test_NetworkFrontdoor_v1api_CreationAndDeletion",
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			g.Expect(getTestName(c.group, c.version)).To(Equal(c.expected))
+		})
+	}
+}
