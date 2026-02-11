@@ -120,11 +120,33 @@ jobs:
         run: |
           container_id=${{ env.container_id }}
 
+          # Start memory monitoring in the background
+          mkdir -p reports
+          (while true; do
+            echo "=== Top 10 Processes by Memory Usage ($(date)) ==="
+            ps -eo pid,rss,args --sort=-rss --no-headers | head -10 | awk '{
+              pid=$1; rss=$2; cmd="";
+              for(i=3;i<=NF;i++){if($i~/^\//||$i~/^[a-zA-Z]/){cmd=$i;break}};
+              if(rss>=1048576) mem=sprintf("%.1fGB",rss/1048576);
+              else mem=sprintf("%.1fMB",rss/1024);
+              printf "%-10s %-10s %s\n",pid,mem,cmd
+            }'
+            echo "--- Total Memory Usage ---"
+            awk '/MemTotal/{total=$2} /MemAvailable/{avail=$2} END{used=total-avail; pct=used/total*100; printf "Total: %.1fGB, Used: %.1fGB, Available: %.1fGB, Usage: %.1f%%\n", total/1048576, used/1048576, avail/1048576, pct}' /proc/meminfo
+            echo
+            sleep 5
+          done) > reports/memory-monitor.log 2>&1 &
+          MONITOR_PID=$!
+
           set +e # don't exit instantly on failure, we need to produce Markdown summary
           docker exec "$container_id" task ci
 
           EXIT_CODE=$?
           set -e
+
+          # Stop memory monitoring
+          kill $MONITOR_PID 2>/dev/null || true
+          wait $MONITOR_PID 2>/dev/null || true
 
           # generate summary Markdown file for display in Actions
           cat reports/*.md > $GITHUB_STEP_SUMMARY
@@ -137,7 +159,15 @@ jobs:
         with:
           name: test-output
           path: reports/*.json
-        
+
+      - name: Save memory monitor log
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: memory-monitor
+          path: reports/memory-monitor.log
+          if-no-files-found: ignore
+
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{ env.container_id }}
