@@ -114,11 +114,17 @@ fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
 GOMINORREQUIRED=25
+GOTOOLCHAINMINVER=21
 
-# We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
-if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
-    write-error "Go must be version 1.$GOMINORREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
+# Check Go version - we require 1.21+ (for toolchain support), prefer 1.25+
+# Go 1.21+ supports automatic toolchain downloads, so versions 1.21-1.24 can still work
+if [[ $GOMINORVER -lt $GOTOOLCHAINMINVER ]]; then
+    write-error "Go must be at least version 1.$GOTOOLCHAINMINVER (for toolchain support), not $GOVERACTUAL; see: https://golang.org/doc/install"
     exit 1
+elif [[ $GOMINORVER -lt $GOMINORREQUIRED ]]; then
+    write-info "WARNING: Go 1.$GOMINORREQUIRED is recommended, but you have $GOVERACTUAL."
+    write-info "Go's toolchain feature may automatically download the required version when building."
+    write-info "If you encounter issues, please upgrade Go: https://golang.org/doc/install"
 fi
 
 # Define os and arch
