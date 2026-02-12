@@ -419,6 +419,23 @@ Azure Database for MySQL - Single Server is on the retirement path and is [sched
 
 Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                     | ARM Version        | CRD Version      | Supported From | Sample |
+|------------------------------|--------------------|------------------|----------------|--------|
+| FlexibleServer               | 2025-06-01-preview | v20250601preview | v2.18.0        | -      |
+| FlexibleServer               | 2024-12-30         | v20241230        | v2.18.0        | -      |
+| FlexibleServersAdministrator | 2025-06-01-preview | v20250601preview | v2.18.0        | -      |
+| FlexibleServersAdministrator | 2024-12-30         | v20241230        | v2.18.0        | -      |
+| FlexibleServersConfiguration | 2025-06-01-preview | v20250601preview | v2.18.0        | -      |
+| FlexibleServersConfiguration | 2024-12-30         | v20241230        | v2.18.0        | -      |
+| FlexibleServersDatabase      | 2025-06-01-preview | v20250601preview | v2.18.0        | -      |
+| FlexibleServersDatabase      | 2024-12-30         | v20241230        | v2.18.0        | -      |
+| FlexibleServersFirewallRule  | 2025-06-01-preview | v20250601preview | v2.18.0        | -      |
+| FlexibleServersFirewallRule  | 2024-12-30         | v20241230        | v2.18.0        | -      |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
