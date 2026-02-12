@@ -1,0 +1,10 @@
+apiVersion: dbformysql.azure.com/v20241230
+kind: FlexibleServersConfiguration
+metadata:
+  name: sampleconfiguration
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  source: user-override
+  value: "300"
