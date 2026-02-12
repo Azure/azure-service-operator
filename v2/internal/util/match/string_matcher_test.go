@@ -1,3 +1,4 @@
+// fix: clarify test documentation for string matcher
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT license.
