@@ -44,7 +44,7 @@ Ensure that experimental release passed on the most recent commit.
 Go to the releases page and draft a new release.
 In the tag dropdown, type the name of the new tag you’d like to create (it should match the pattern of previous releases tags, for example: v2.10.0). The release target should be main (the default).
 Use the GitHub “auto-generate release notes” button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
-  <meta itemprop="wordCount" content="874">
+  <meta itemprop="wordCount" content="964">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Creating a new release">
   <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
@@ -941,6 +941,7 @@ Use the GitHub “auto-generate release notes” button to generate a set of rel
     <li><a href="#update-resource-documentation">Update Resource Documentation</a></li>
     <li><a href="#update-roadmap">Update ROADMAP</a></li>
     <li><a href="#update-breaking-changes">Update Breaking Changes</a></li>
+    <li><a href="#create-a-blog-post">Create a blog post</a></li>
     <li><a href="#fixing-an-incorrect-release">Fixing an incorrect release</a></li>
   </ul>
 </nav>
@@ -1137,6 +1138,15 @@ k apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
 <p>Then commit the changes and send a PR.</p>
 <h2 id="update-breaking-changes">Update Breaking Changes</h2>
 <p>If you earlier <a href="#catalog-breaking-changes">catalogued breaking changes</a>, or if there are any PRs for this release with the tag <a href="https://github.com/Azure/azure-service-operator/pulls?q=is%3Apr+label%3Abreaking+is%3Aclosed"><strong>breaking</strong></a>, create a new page under our <a href="/azure-service-operator/guide/breaking-changes/">breaking changes</a> page with details of the breaking changes and how to mitigate them.</p>
+<h2 id="create-a-blog-post">Create a blog post</h2>
+<p>Publish a new blog post under <code>docs/hugo/content/blogs</code> covering changes in the new release. Aim to publish the blog post alongside the corresponding ASO version&rsquo;s release date.</p>
+<p>Sections to cover:</p>
+<ul>
+<li><strong>Headline features (if appropriate)</strong>: Call out large, highly requested features that fundamentally change how users interact with ASO.</li>
+<li><strong>Breaking changes</strong>: Call out breaking changes included in this release.</li>
+<li><strong>New and improved resource support</strong>: Highlight new resources or improvements to existing resources introduced in this release.</li>
+<li><strong>Thank you</strong>: Thank the community and any new contributors to the project.</li>
+</ul>
 <h2 id="fixing-an-incorrect-release">Fixing an incorrect release</h2>
 <p>If there was an issue publishing a new release, we may want to delete the existing release and try again.
 Only do this if you&rsquo;ve just published the release and there is something wrong with it. We shouldn&rsquo;t be deleting releases people are actually using.</p>
