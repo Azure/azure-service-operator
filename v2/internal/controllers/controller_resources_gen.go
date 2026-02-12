@@ -198,6 +198,9 @@ import (
 	documentdb_v20240815 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815"
 	documentdb_v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	documentdb_v20240815w "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/webhook"
+	documentdb_v20251015 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015"
+	documentdb_v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	documentdb_v20251015w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/webhook"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
@@ -1370,6 +1373,44 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.principalIdFromConfig",
 					},
 					&documentdb_v20240815s.SqlRoleAssignmentList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20251015s.CassandraCluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.initialCassandraAdminPassword",
+				Func: indexDocumentdbCassandraClusterInitialCassandraAdminPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.initialCassandraAdminPassword",
+					},
+					&documentdb_v20251015s.CassandraClusterList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20251015s.CassandraDataCenter),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.authenticationMethodLdapProperties.serviceUserPassword",
+				Func: indexDocumentdbCassandraDataCenterServiceUserPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.authenticationMethodLdapProperties.serviceUserPassword",
+					},
+					&documentdb_v20251015s.CassandraDataCenterList{}),
 			},
 		},
 	})
@@ -4397,6 +4438,16 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlDatabaseContainerUserDefinedFunction)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlDatabaseThroughputSetting)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlRoleAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(documentdb_v20251015.CassandraCluster),
+		Defaulter: &documentdb_v20251015w.CassandraCluster{},
+		Validator: &documentdb_v20251015w.CassandraCluster{},
+	}, &registration.KnownType{
+		Obj:       new(documentdb_v20251015.CassandraDataCenter),
+		Defaulter: &documentdb_v20251015w.CassandraDataCenter{},
+		Validator: &documentdb_v20251015w.CassandraDataCenter{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraDataCenter)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6228,6 +6279,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20240701s.AddToScheme(scheme)
 	_ = documentdb_v20240815.AddToScheme(scheme)
 	_ = documentdb_v20240815s.AddToScheme(scheme)
+	_ = documentdb_v20251015.AddToScheme(scheme)
+	_ = documentdb_v20251015s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
@@ -6451,6 +6504,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersVirtualEndpointExtension{})
 	result = append(result, &devices_customizations.IotHubExtension{})
+	result = append(result, &documentdb_customizations.CassandraClusterExtension{})
+	result = append(result, &documentdb_customizations.CassandraDataCenterExtension{})
 	result = append(result, &documentdb_customizations.DatabaseAccountExtension{})
 	result = append(result, &documentdb_customizations.FirewallRuleExtension{})
 	result = append(result, &documentdb_customizations.MongoClusterExtension{})
@@ -7883,6 +7938,39 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 		result = append(result, value.ConnectionString.Index()...)
 	}
 	return result
+}
+
+// indexDocumentdbCassandraClusterInitialCassandraAdminPassword an index function for documentdb_v20251015s.CassandraCluster .spec.properties.initialCassandraAdminPassword
+func indexDocumentdbCassandraClusterInitialCassandraAdminPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.InitialCassandraAdminPassword == nil {
+		return nil
+	}
+	return obj.Spec.Properties.InitialCassandraAdminPassword.Index()
+}
+
+// indexDocumentdbCassandraDataCenterServiceUserPassword an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serviceUserPassword
+func indexDocumentdbCassandraDataCenterServiceUserPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AuthenticationMethodLdapProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AuthenticationMethodLdapProperties.ServiceUserPassword == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AuthenticationMethodLdapProperties.ServiceUserPassword.Index()
 }
 
 // indexDocumentdbMongoClusterPassword an index function for documentdb_v20240701s.MongoCluster .spec.properties.administrator.password
