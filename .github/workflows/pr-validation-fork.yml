@@ -46,7 +46,7 @@ jobs:
             return result;
 
       - name: Fork based /ok-to-test checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -60,31 +60,17 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # pinned to v3.3.0
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # pinned to v3.7.0
         with:
-          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         if: steps.check-changes.outputs.code-changed == 'true'
 
       # Note: Changes to this step must also be mirrored into pr-validation.yaml
       - name: Build devcontainer image
-        # We must issue a manual pull before the build so the image gets copied locally, because
-        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
-        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
-        #
-        # This message comes from "docker pull":
-        #
-        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
-        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
-        #  appear to conform to the distribution registry specification; falling back to
-        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
-        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
-        #
-        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
         run: |
-          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
-          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
         env:
           DOCKER_BUILDKIT: 1
         if: steps.check-changes.outputs.code-changed == 'true'
