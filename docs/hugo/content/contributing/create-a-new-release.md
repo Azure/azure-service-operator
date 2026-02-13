@@ -19,6 +19,7 @@ title: Creating a new release
 10. [Update our documentation](#update-resource-documentation) to move resources listed under "Next Release" to the heading "Released".
 11. [Update the ROADMAP](#update-roadmap) to reflect the new release.
 12. [Update Breaking Changes](#update-breaking-changes) if there are any.
+13. [Create a blog post](#create-a-blog-post) highlighting the key aspects of the release.
 
 ## Catalog breaking changes
 
