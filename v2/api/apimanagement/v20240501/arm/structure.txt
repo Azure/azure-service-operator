@@ -175,3 +175,29 @@ Diagnostic_Spec: Object (2 properties)
         ├── "information"
         └── "verbose"
 
+Logger_STATUS: Object (4 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (5 properties)
+│   ├── Credentials: map[string]string
+│   ├── Description: *string
+│   ├── IsBuffered: *bool
+│   ├── LoggerType: *Enum (3 values)
+│   │   ├── "applicationInsights"
+│   │   ├── "azureEventHub"
+│   │   └── "azureMonitor"
+│   └── ResourceId: *string
+└── Type: *string
+
+Logger_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (5 properties)
+    ├── Credentials: map[string]string
+    ├── Description: *string
+    ├── IsBuffered: *bool
+    ├── LoggerType: *Enum (3 values)
+    │   ├── "applicationInsights"
+    │   ├── "azureEventHub"
+    │   └── "azureMonitor"
+    └── ResourceId: *string
+

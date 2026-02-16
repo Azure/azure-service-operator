@@ -180,3 +180,31 @@ Diagnostic: Resource
     ├── Type: *string
     └── Verbosity: *string
 
+Logger: Resource
+├── Owner: apimanagement/v1api20240501.Service
+├── Spec: Object (10 properties)
+│   ├── AzureName: string
+│   ├── Credentials: *genruntime.SecretMapReference
+│   ├── Description: *string
+│   ├── IsBuffered: *bool
+│   ├── LoggerType: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── ResourceReference: *genruntime.ResourceReference
+└── Status: Object (10 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Credentials: map[string]string
+    ├── Description: *string
+    ├── Id: *string
+    ├── IsBuffered: *bool
+    ├── LoggerType: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ResourceId: *string
+    └── Type: *string
+

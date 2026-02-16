@@ -37,6 +37,7 @@ Development of these new resources is complete and they will be available in the
 | Resource   | ARM Version | CRD Version | Supported From | Sample |
 |------------|-------------|-------------|----------------|--------|
 | Diagnostic | 2024-05-01  | v20240501   | v2.18.0        | -      |
+| Logger     | 2024-05-01  | v20240501   | v2.18.0        | -      |
 
 ### Latest Released Versions
 

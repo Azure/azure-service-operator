@@ -191,3 +191,36 @@ Diagnostic: Resource
         ├── "information"
         └── "verbose"
 
+Logger: Resource
+├── Owner: apimanagement/v1api20240501.Service
+├── Spec: Object (8 properties)
+│   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── Rule 0: MaxLength: 256
+│   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+│   ├── Credentials: *genruntime.SecretMapReference
+│   ├── Description: Validated<*string> (1 rule)
+│   │   └── Rule 0: MaxLength: 256
+│   ├── IsBuffered: *bool
+│   ├── LoggerType: *Enum (3 values)
+│   │   ├── "applicationInsights"
+│   │   ├── "azureEventHub"
+│   │   └── "azureMonitor"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── ResourceReference: *genruntime.ResourceReference
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Credentials: map[string]string
+    ├── Description: *string
+    ├── Id: *string
+    ├── IsBuffered: *bool
+    ├── LoggerType: *Enum (3 values)
+    │   ├── "applicationInsights"
+    │   ├── "azureEventHub"
+    │   └── "azureMonitor"
+    ├── Name: *string
+    ├── ResourceId: *string
+    └── Type: *string
+

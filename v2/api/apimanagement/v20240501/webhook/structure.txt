@@ -3,3 +3,5 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/webhook
 ------------------------------------------------------------------------------
 Diagnostic: Object (0 properties)
 
+Logger: Object (0 properties)
+

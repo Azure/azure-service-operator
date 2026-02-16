@@ -165,6 +165,13 @@
 | KeyVaultContractCreateProperties                             | v1api20220801 | v1api20230501preview | v1api20240501 |           |
 | KeyVaultContractProperties_STATUS                            | v1api20220801 | v1api20230501preview | v1api20240501 |           |
 | KeyVaultLastAccessStatusContractProperties_STATUS            | v1api20220801 | v1api20230501preview | v1api20240501 |           |
+| Logger                                                       |               |                      |               | v20240501 |
+| LoggerContractProperties                                     |               |                      |               | v20240501 |
+| LoggerContractProperties_LoggerType                          |               |                      |               | v20240501 |
+| LoggerContractProperties_LoggerType_STATUS                   |               |                      |               | v20240501 |
+| LoggerContractProperties_STATUS                              |               |                      |               | v20240501 |
+| Logger_STATUS                                                |               |                      |               | v20240501 |
+| Logger_Spec                                                  |               |                      |               | v20240501 |
 | NamedValue                                                   | v1api20220801 | v1api20230501preview | v1api20240501 |           |
 | NamedValueContractProperties_STATUS                          | v1api20220801 | v1api20230501preview | v1api20240501 |           |
 | NamedValueCreateContractProperties                           | v1api20220801 | v1api20230501preview | v1api20240501 |           |

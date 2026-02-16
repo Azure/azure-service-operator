@@ -630,6 +630,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Diagnostic)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20240501s.Logger),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.credentials",
+				Func: indexApimanagementLoggerCredentials,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.credentials",
+					},
+					&apimanagement_v20240501s.LoggerList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(app_v20250101s.AuthConfig)})
 	result = append(result, &registration.StorageType{
 		Obj: new(app_v20250101s.ContainerApp),
@@ -3140,8 +3159,12 @@ func getKnownTypes() []*registration.KnownType {
 		Obj:       new(apimanagement_v20240501.Diagnostic),
 		Defaulter: &apimanagement_v20240501w.Diagnostic{},
 		Validator: &apimanagement_v20240501w.Diagnostic{},
+	}, &registration.KnownType{
+		Obj:       new(apimanagement_v20240501.Logger),
+		Defaulter: &apimanagement_v20240501w.Logger{},
+		Validator: &apimanagement_v20240501w.Logger{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(apimanagement_v20240501s.Diagnostic)})
+	result = append(result, &registration.KnownType{Obj: new(apimanagement_v20240501s.Diagnostic)}, &registration.KnownType{Obj: new(apimanagement_v20240501s.Logger)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6412,6 +6435,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationsAccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.DiagnosticExtension{})
+	result = append(result, &apimanagement_customizations.LoggerExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.PolicyExtension{})
 	result = append(result, &apimanagement_customizations.PolicyFragmentExtension{})
@@ -6752,6 +6776,18 @@ func indexApimanagementBackendPassword(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Proxy.Password.Index()
+}
+
+// indexApimanagementLoggerCredentials an index function for apimanagement_v20240501s.Logger .spec.credentials
+func indexApimanagementLoggerCredentials(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20240501s.Logger)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Credentials == nil {
+		return nil
+	}
+	return obj.Spec.Credentials.Index()
 }
 
 // indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v1api20240501s.NamedValue .spec.keyVault.identityClientIdFromConfig
