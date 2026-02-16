@@ -12,9 +12,9 @@ spec:
     kind: UserAssignedIdentity
     name: adminidentity
   login: useradmin@microsoft.com
-  sidFrom:
-    name: admin-sid
-    key: sid
-  tenantIdFrom:
-    name: admin-tenantid
-    key: tenantid
+  sidFromConfig:
+    name: admin-settings
+    key: clientId
+  tenantIdFromConfig:
+    name: admin-settings
+    key: tenantId
