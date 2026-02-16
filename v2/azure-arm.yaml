@@ -1320,6 +1320,9 @@ objectModelConfiguration:
       CertificateConfiguration:
         CertificatePassword:
           $isSecret: true
+      DiagnosticContractProperties:
+        LoggerId:
+          $referenceType: arm
       HostnameConfiguration:
         CertificatePassword:
           $isSecret: true
@@ -1349,6 +1352,9 @@ objectModelConfiguration:
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.16.0
+      Service_Diagnostic:
+        $exportAs: Diagnostic
+        $supportedFrom: v2.18.0
       Service_NamedValue:
         $exportAs: NamedValue
         $supportedFrom: v2.16.0

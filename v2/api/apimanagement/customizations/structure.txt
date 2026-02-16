@@ -13,6 +13,8 @@ AuthorizationProvidersAuthorizationsAccessPolicyExtension: Object (0 properties)
 
 BackendExtension: Object (0 properties)
 
+DiagnosticExtension: Object (0 properties)
+
 NamedValueExtension: Object (0 properties)
 
 PolicyExtension: Object (0 properties)
