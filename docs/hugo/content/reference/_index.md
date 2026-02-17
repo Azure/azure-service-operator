@@ -331,12 +331,12 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                 | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                        |
-|--------------------------|--------------------|------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| MaintenanceConfiguration | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_maintenanceconfiguration.yaml) |
-| ManagedCluster           | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_managedcluster.yaml)           |
-| ManagedClustersAgentPool | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_managedclustersagentpool.yaml) |
-| TrustedAccessRoleBinding | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_trustedaccessrolebinding.yaml) |
+| Resource                                                                                                           | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                        |
+|--------------------------------------------------------------------------------------------------------------------|--------------------|------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [MaintenanceConfiguration]({{< relref "/reference/containerservice/v20251002preview#MaintenanceConfiguration" >}}) | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_maintenanceconfiguration.yaml) |
+| [ManagedCluster]({{< relref "/reference/containerservice/v20251002preview#ManagedCluster" >}})                     | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_managedcluster.yaml)           |
+| [ManagedClustersAgentPool]({{< relref "/reference/containerservice/v20251002preview#ManagedClustersAgentPool" >}}) | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_managedclustersagentpool.yaml) |
+| [TrustedAccessRoleBinding]({{< relref "/reference/containerservice/v20251002preview#TrustedAccessRoleBinding" >}}) | 2025-10-02-preview | v20251002preview | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20251002preview/v20251002preview_trustedaccessrolebinding.yaml) |
 
 ### Latest Released Versions
 
