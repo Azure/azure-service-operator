@@ -53,13 +53,11 @@ func (ext *UserAssignedIdentityExtension) ExportKubernetesSecrets(
 		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.PrincipalId, to.Value(typedObj.Status.PrincipalId))
 		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.TenantId, to.Value(typedObj.Status.TenantId))
 
-		if typedObj.Spec.OperatorSpec.Secrets.SubscriptionId != nil {
-			id, err := genruntime.GetAndParseResourceID(typedObj)
-			if err != nil {
-				return nil, err
-			}
-			collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.SubscriptionId, id.SubscriptionID)
+		id, err := genruntime.GetAndParseResourceID(typedObj)
+		if err != nil {
+			return nil, err
 		}
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.SubscriptionId, id.SubscriptionID)
 	}
 
 	result, err := collector.Values()
