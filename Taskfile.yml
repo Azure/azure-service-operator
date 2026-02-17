@@ -578,6 +578,26 @@ tasks:
             echo "{{.DOCKER_PUSH_TARGET}}" | sed -e "s|^.*.azurecr.io/||"
           fi
 
+  controller:test-samples:
+    desc: Run tests of samples with envtest using record/replay.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - setup
+      - controller:run-kustomize-for-envtest
+    cmds:
+      - defer: # want to run even on failure
+          task: produce-markdown-summary
+          vars:
+            INPUT_FILE: '{{.TEST_OUT}}/samples-test.json'
+            OUTPUT_FILE: '{{.TEST_OUT}}/samples-test.md'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} -json ./internal/testsamples > '{{.TEST_OUT}}/samples-test.json'
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
+    sources:
+      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
+
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"

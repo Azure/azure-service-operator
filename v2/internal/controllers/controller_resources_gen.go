@@ -32,6 +32,9 @@ import (
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
 	appconfiguration_v20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/webhook"
+	appconfiguration_v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
+	appconfiguration_v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
+	appconfiguration_v20240601w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/webhook"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
@@ -131,6 +134,9 @@ import (
 	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	containerservice_v20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/webhook"
+	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
+	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -372,15 +378,24 @@ import (
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	sql_v20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/webhook"
 	storage_customizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
-	storage_v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
-	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
-	storage_v20210401w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/webhook"
-	storage_v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
-	storage_v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
-	storage_v20220901w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/webhook"
-	storage_v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
-	storage_v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
-	storage_v20230101w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/webhook"
+	storage_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	storage_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
+	storage_v1api20210401w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/webhook"
+	storage_v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	storage_v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	storage_v1api20220901w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/webhook"
+	storage_v1api20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
+	storage_v1api20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	storage_v1api20230101w "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/webhook"
+	storage_v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v20210401"
+	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
+	storage_v20210401w "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/webhook"
+	storage_v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v20220901"
+	storage_v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
+	storage_v20220901w "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/webhook"
+	storage_v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v20230101"
+	storage_v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v20230101/storage"
+	storage_v20230101w "github.com/Azure/azure-service-operator/v2/api/storage/v20230101/webhook"
 	storage_v20250601 "github.com/Azure/azure-service-operator/v2/api/storage/v20250601"
 	storage_v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	storage_v20250601w "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/webhook"
@@ -689,7 +704,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.ConfigurationStore)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.KeyValue)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.Replica)})
+	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.Snapshot)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20220401s.RoleAssignment),
 		Indexes: []registration.Index{
@@ -3176,6 +3194,34 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &appconfiguration_v20220501w.ConfigurationStore{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.ConfigurationStore),
+			Defaulter: &appconfiguration_v20240601w.ConfigurationStore{},
+			Validator: &appconfiguration_v20240601w.ConfigurationStore{},
+		},
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.KeyValue),
+			Defaulter: &appconfiguration_v20240601w.KeyValue{},
+			Validator: &appconfiguration_v20240601w.KeyValue{},
+		},
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.Replica),
+			Defaulter: &appconfiguration_v20240601w.Replica{},
+			Validator: &appconfiguration_v20240601w.Replica{},
+		},
+		&registration.KnownType{
+			Obj:       new(appconfiguration_v20240601.Snapshot),
+			Defaulter: &appconfiguration_v20240601w.Snapshot{},
+			Validator: &appconfiguration_v20240601w.Snapshot{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.ConfigurationStore)},
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.KeyValue)},
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Replica)},
+		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Snapshot)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(authorization_v20200801p.RoleAssignment),
 		Defaulter: &authorization_v20200801pw.RoleAssignment{},
@@ -3710,6 +3756,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20250801s.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(containerservice_v20251002p.MaintenanceConfiguration),
+			Defaulter: &containerservice_v20251002pw.MaintenanceConfiguration{},
+			Validator: &containerservice_v20251002pw.MaintenanceConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20251002p.ManagedCluster),
+			Defaulter: &containerservice_v20251002pw.ManagedCluster{},
+			Validator: &containerservice_v20251002pw.ManagedCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20251002p.ManagedClustersAgentPool),
+			Defaulter: &containerservice_v20251002pw.ManagedClustersAgentPool{},
+			Validator: &containerservice_v20251002pw.ManagedClustersAgentPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20251002p.TrustedAccessRoleBinding),
+			Defaulter: &containerservice_v20251002pw.TrustedAccessRoleBinding{},
+			Validator: &containerservice_v20251002pw.TrustedAccessRoleBinding{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v20251002ps.MaintenanceConfiguration)},
+		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
+		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
+		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(datafactory_v20180601.Factory),
 		Defaulter: &datafactory_v20180601w.Factory{},
@@ -5627,6 +5701,174 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(storage_v1api20210401.StorageAccount),
+			Defaulter: &storage_v1api20210401w.StorageAccount{},
+			Validator: &storage_v1api20210401w.StorageAccount{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20210401.StorageAccountsBlobService),
+			Defaulter: &storage_v1api20210401w.StorageAccountsBlobService{},
+			Validator: &storage_v1api20210401w.StorageAccountsBlobService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20210401.StorageAccountsBlobServicesContainer),
+			Defaulter: &storage_v1api20210401w.StorageAccountsBlobServicesContainer{},
+			Validator: &storage_v1api20210401w.StorageAccountsBlobServicesContainer{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20210401.StorageAccountsManagementPolicy),
+			Defaulter: &storage_v1api20210401w.StorageAccountsManagementPolicy{},
+			Validator: &storage_v1api20210401w.StorageAccountsManagementPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20210401.StorageAccountsQueueService),
+			Defaulter: &storage_v1api20210401w.StorageAccountsQueueService{},
+			Validator: &storage_v1api20210401w.StorageAccountsQueueService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20210401.StorageAccountsQueueServicesQueue),
+			Defaulter: &storage_v1api20210401w.StorageAccountsQueueServicesQueue{},
+			Validator: &storage_v1api20210401w.StorageAccountsQueueServicesQueue{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(storage_v1api20210401s.StorageAccount)},
+		&registration.KnownType{Obj: new(storage_v1api20210401s.StorageAccountsBlobService)},
+		&registration.KnownType{Obj: new(storage_v1api20210401s.StorageAccountsBlobServicesContainer)},
+		&registration.KnownType{Obj: new(storage_v1api20210401s.StorageAccountsManagementPolicy)},
+		&registration.KnownType{Obj: new(storage_v1api20210401s.StorageAccountsQueueService)},
+		&registration.KnownType{Obj: new(storage_v1api20210401s.StorageAccountsQueueServicesQueue)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccount),
+			Defaulter: &storage_v1api20220901w.StorageAccount{},
+			Validator: &storage_v1api20220901w.StorageAccount{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsBlobService),
+			Defaulter: &storage_v1api20220901w.StorageAccountsBlobService{},
+			Validator: &storage_v1api20220901w.StorageAccountsBlobService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsBlobServicesContainer),
+			Defaulter: &storage_v1api20220901w.StorageAccountsBlobServicesContainer{},
+			Validator: &storage_v1api20220901w.StorageAccountsBlobServicesContainer{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsFileService),
+			Defaulter: &storage_v1api20220901w.StorageAccountsFileService{},
+			Validator: &storage_v1api20220901w.StorageAccountsFileService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsFileServicesShare),
+			Defaulter: &storage_v1api20220901w.StorageAccountsFileServicesShare{},
+			Validator: &storage_v1api20220901w.StorageAccountsFileServicesShare{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsManagementPolicy),
+			Defaulter: &storage_v1api20220901w.StorageAccountsManagementPolicy{},
+			Validator: &storage_v1api20220901w.StorageAccountsManagementPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsQueueService),
+			Defaulter: &storage_v1api20220901w.StorageAccountsQueueService{},
+			Validator: &storage_v1api20220901w.StorageAccountsQueueService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsQueueServicesQueue),
+			Defaulter: &storage_v1api20220901w.StorageAccountsQueueServicesQueue{},
+			Validator: &storage_v1api20220901w.StorageAccountsQueueServicesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsTableService),
+			Defaulter: &storage_v1api20220901w.StorageAccountsTableService{},
+			Validator: &storage_v1api20220901w.StorageAccountsTableService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20220901.StorageAccountsTableServicesTable),
+			Defaulter: &storage_v1api20220901w.StorageAccountsTableServicesTable{},
+			Validator: &storage_v1api20220901w.StorageAccountsTableServicesTable{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccount)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsBlobService)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsBlobServicesContainer)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsFileService)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsFileServicesShare)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsManagementPolicy)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsQueueService)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsQueueServicesQueue)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsTableService)},
+		&registration.KnownType{Obj: new(storage_v1api20220901s.StorageAccountsTableServicesTable)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccount),
+			Defaulter: &storage_v1api20230101w.StorageAccount{},
+			Validator: &storage_v1api20230101w.StorageAccount{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsBlobService),
+			Defaulter: &storage_v1api20230101w.StorageAccountsBlobService{},
+			Validator: &storage_v1api20230101w.StorageAccountsBlobService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsBlobServicesContainer),
+			Defaulter: &storage_v1api20230101w.StorageAccountsBlobServicesContainer{},
+			Validator: &storage_v1api20230101w.StorageAccountsBlobServicesContainer{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsFileService),
+			Defaulter: &storage_v1api20230101w.StorageAccountsFileService{},
+			Validator: &storage_v1api20230101w.StorageAccountsFileService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsFileServicesShare),
+			Defaulter: &storage_v1api20230101w.StorageAccountsFileServicesShare{},
+			Validator: &storage_v1api20230101w.StorageAccountsFileServicesShare{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsManagementPolicy),
+			Defaulter: &storage_v1api20230101w.StorageAccountsManagementPolicy{},
+			Validator: &storage_v1api20230101w.StorageAccountsManagementPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsQueueService),
+			Defaulter: &storage_v1api20230101w.StorageAccountsQueueService{},
+			Validator: &storage_v1api20230101w.StorageAccountsQueueService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsQueueServicesQueue),
+			Defaulter: &storage_v1api20230101w.StorageAccountsQueueServicesQueue{},
+			Validator: &storage_v1api20230101w.StorageAccountsQueueServicesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsTableService),
+			Defaulter: &storage_v1api20230101w.StorageAccountsTableService{},
+			Validator: &storage_v1api20230101w.StorageAccountsTableService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v1api20230101.StorageAccountsTableServicesTable),
+			Defaulter: &storage_v1api20230101w.StorageAccountsTableServicesTable{},
+			Validator: &storage_v1api20230101w.StorageAccountsTableServicesTable{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccount)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsBlobService)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsBlobServicesContainer)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsFileService)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsFileServicesShare)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsManagementPolicy)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsQueueService)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsQueueServicesQueue)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsTableService)},
+		&registration.KnownType{Obj: new(storage_v1api20230101s.StorageAccountsTableServicesTable)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(storage_v20210401.StorageAccount),
 			Defaulter: &storage_v20210401w.StorageAccount{},
 			Validator: &storage_v20210401w.StorageAccount{},
@@ -5917,6 +6159,8 @@ func createScheme() *runtime.Scheme {
 	_ = app_v20250101s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
+	_ = appconfiguration_v20240601.AddToScheme(scheme)
+	_ = appconfiguration_v20240601s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
@@ -5977,6 +6221,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250301s.AddToScheme(scheme)
 	_ = containerservice_v20250801.AddToScheme(scheme)
 	_ = containerservice_v20250801s.AddToScheme(scheme)
+	_ = containerservice_v20251002p.AddToScheme(scheme)
+	_ = containerservice_v20251002ps.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -6119,6 +6365,12 @@ func createScheme() *runtime.Scheme {
 	_ = signalrservice_v20240301s.AddToScheme(scheme)
 	_ = sql_v20211101.AddToScheme(scheme)
 	_ = sql_v20211101s.AddToScheme(scheme)
+	_ = storage_v1api20210401.AddToScheme(scheme)
+	_ = storage_v1api20210401s.AddToScheme(scheme)
+	_ = storage_v1api20220901.AddToScheme(scheme)
+	_ = storage_v1api20220901s.AddToScheme(scheme)
+	_ = storage_v1api20230101.AddToScheme(scheme)
+	_ = storage_v1api20230101s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = storage_v20220901.AddToScheme(scheme)
@@ -6160,6 +6412,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &app_customizations.JobExtension{})
 	result = append(result, &app_customizations.ManagedEnvironmentExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
+	result = append(result, &appconfiguration_customizations.KeyValueExtension{})
+	result = append(result, &appconfiguration_customizations.ReplicaExtension{})
+	result = append(result, &appconfiguration_customizations.SnapshotExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})

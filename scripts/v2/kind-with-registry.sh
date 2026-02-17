@@ -18,8 +18,8 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 containerdConfigPatches:
 - |-
-  [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]
-    endpoint = ["http://${reg_name}:${reg_port}"]
+  [plugins."io.containerd.cri.v1.images".registry]
+    config_path = "/etc/containerd/certs.d"
 EOF
 else
   echo "ISSUER: ${SERVICE_ACCOUNT_ISSUER}"
@@ -40,13 +40,6 @@ nodes:
     containerPath: /etc/kubernetes/pki/sa.key
   kubeadmConfigPatches:
   - |
-    kind: InitConfiguration
-    nodeRegistration:
-    taints:
-    - key: "kubeadmNode"
-      value: "master"
-      effect: "NoSchedule"
-  - |
     kind: ClusterConfiguration
     apiServer:
       extraArgs:
@@ -58,10 +51,19 @@ nodes:
         service-account-private-key-file: /etc/kubernetes/pki/sa.key
 containerdConfigPatches:
 - |-
-  [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]
-    endpoint = ["http://${reg_name}:${reg_port}"]
+  [plugins."io.containerd.cri.v1.images".registry]
+    config_path = "/etc/containerd/certs.d"
 EOF
 fi
+
+# Configure containerd on each node to use the local registry
+for node in $(kind get nodes --name "${KIND_CLUSTER_NAME}"); do
+  docker exec "${node}" mkdir -p "/etc/containerd/certs.d/localhost:${reg_port}"
+  cat <<REGEOF | docker exec -i "${node}" tee "/etc/containerd/certs.d/localhost:${reg_port}/hosts.toml" > /dev/null
+[host."http://${reg_name}:${reg_port}"]
+  capabilities = ["pull", "resolve", "push"]
+REGEOF
+done
 
 # connect the registry to the cluster network
 # (the network may already be connected)

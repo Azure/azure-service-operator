@@ -7,9 +7,10 @@ Azure Service Operator (ASO) v2 is a Kubernetes operator written in Go that mana
 ## Working Effectively
 
 ### CRITICAL Dependencies and Setup
+- **ALWAYS allow the install-dependencies script to complete** - It installs necessary tools and dependencies for builds and tests. Interrupting it can lead to incomplete setup, build failures, and use of incompatible tool versions.
 - **NEVER CANCEL builds or tests** - Build processes can take 15+ minutes, tests can take 30+ minutes. Set timeout to 90+ minutes for full builds.
 - **ALWAYS run `git fetch --unshallow`** first if working with a shallow clone - the build system requires full git history.
-- **Go 1.24+** required - Check with `go version`
+- **Go 1.25+** preferred - Check with `go version`
 - **Task** (taskfile) is the primary build tool - Use `./hack/tools/task --list` to see available commands
 - **Kustomize v4.5.7** required - v5+ is incompatible with current configuration format
 

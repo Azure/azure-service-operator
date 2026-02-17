@@ -13,6 +13,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
@@ -228,17 +229,76 @@ func importAzureResource(
 
 // createARMClient creates our client for talking to ARM
 func createARMClient(options *importAzureResourceOptions) (*genericarmclient.GenericClient, error) {
-	creds, err := azidentity.NewDefaultAzureCredential(nil)
+	activeCloud := options.cloud()
+
+	creds, err := newChainedCredential(activeCloud)
 	if err != nil {
-		return nil, eris.Wrap(err, "unable to get default Azure credential")
+		return nil, eris.Wrap(err, "unable to create Azure credential")
 	}
 
 	clientOptions := &genericarmclient.GenericClientOptions{
 		UserAgent: "asoctl/" + version.BuildVersion,
 	}
 
-	activeCloud := options.cloud()
 	return genericarmclient.NewGenericClient(activeCloud, creds, clientOptions)
+}
+
+// newChainedCredential creates a ChainedTokenCredential with multiple credential types for asoctl.
+func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, error) {
+	var creds []azcore.TokenCredential
+	var credErrors []string
+
+	envCred, err := azidentity.NewEnvironmentCredential(
+		&azidentity.EnvironmentCredentialOptions{
+			ClientOptions: azcore.ClientOptions{
+				Cloud: cloud,
+			},
+		})
+	if err != nil {
+		credErrors = append(credErrors, fmt.Sprintf("EnvironmentCredential: %s", err.Error()))
+	} else {
+		creds = append(creds, envCred)
+	}
+
+	wiCred, err := azidentity.NewWorkloadIdentityCredential(
+		&azidentity.WorkloadIdentityCredentialOptions{
+			ClientOptions: azcore.ClientOptions{
+				Cloud: cloud,
+			},
+		})
+	if err != nil {
+		credErrors = append(credErrors, fmt.Sprintf("WorkloadIdentityCredential: %s", err.Error()))
+	} else {
+		creds = append(creds, wiCred)
+	}
+
+	miCred, err := azidentity.NewManagedIdentityCredential(
+		&azidentity.ManagedIdentityCredentialOptions{
+			ClientOptions: azcore.ClientOptions{
+				Cloud: cloud,
+			},
+		})
+	if err != nil {
+		credErrors = append(credErrors, fmt.Sprintf("ManagedIdentityCredential: %s", err.Error()))
+	} else {
+		creds = append(creds, miCred)
+	}
+
+	cliCred, err := azidentity.NewAzureCLICredential(nil)
+	if err != nil {
+		credErrors = append(credErrors, fmt.Sprintf("AzureCLICredential: %s", err.Error()))
+	} else {
+		creds = append(creds, cliCred)
+	}
+
+	// We only return an error if there are no possible credentials to use.
+	// If only some credentials failed we suppress errors as it may be expected that
+	// not all credentials will work in a given environment.
+	if len(creds) == 0 {
+		return nil, eris.Errorf("unable to create any credential:\n\t%s", fmt.Sprintf("%s", credErrors))
+	}
+
+	return azidentity.NewChainedTokenCredential(creds, nil)
 }
 
 // configureImportedResources applies additional configuration to imported resources

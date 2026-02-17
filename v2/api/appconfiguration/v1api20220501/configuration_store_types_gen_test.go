@@ -5,7 +5,8 @@ package v1api20220501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForConfigurationStore(subject ConfigurationStore) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ConfigurationStore
+	var hub v20240601s.ConfigurationStore
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForConfigurationStore(subject ConfigurationStore) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationStore
+	var other v20220501s.ConfigurationStore
 	err := copied.AssignProperties_To_ConfigurationStore(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForConfigurationStoreOperatorSecrets(subject Confi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationStoreOperatorSecrets
+	var other v20220501s.ConfigurationStoreOperatorSecrets
 	err := copied.AssignProperties_To_ConfigurationStoreOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForConfigurationStoreOperatorSpec(subject Configur
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationStoreOperatorSpec
+	var other v20220501s.ConfigurationStoreOperatorSpec
 	err := copied.AssignProperties_To_ConfigurationStoreOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForConfigurationStore_STATUS(subject Configuration
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationStore_STATUS
+	var other v20220501s.ConfigurationStore_STATUS
 	err := copied.AssignProperties_To_ConfigurationStore_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -522,7 +523,7 @@ func RunPropertyAssignmentTestForConfigurationStore_Spec(subject ConfigurationSt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationStore_Spec
+	var other v20220501s.ConfigurationStore_Spec
 	err := copied.AssignProperties_To_ConfigurationStore_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -632,7 +633,6 @@ func AddRelatedPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopt
 	gens["Identity"] = gen.PtrOf(ResourceIdentityGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(ConfigurationStoreOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -652,7 +652,7 @@ func RunPropertyAssignmentTestForEncryptionProperties(subject EncryptionProperti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EncryptionProperties
+	var other v20220501s.EncryptionProperties
 	err := copied.AssignProperties_To_EncryptionProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -755,7 +755,7 @@ func RunPropertyAssignmentTestForEncryptionProperties_STATUS(subject EncryptionP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EncryptionProperties_STATUS
+	var other v20220501s.EncryptionProperties_STATUS
 	err := copied.AssignProperties_To_EncryptionProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -858,7 +858,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultProperties
+	var other v20220501s.KeyVaultProperties
 	err := copied.AssignProperties_To_KeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -961,7 +961,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties_STATUS(subject KeyVaultPrope
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultProperties_STATUS
+	var other v20220501s.KeyVaultProperties_STATUS
 	err := copied.AssignProperties_To_KeyVaultProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1065,7 +1065,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionReference_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnectionReference_STATUS
+	var other v20220501s.PrivateEndpointConnectionReference_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnectionReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1168,7 +1168,7 @@ func RunPropertyAssignmentTestForResourceIdentity(subject ResourceIdentity) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceIdentity
+	var other v20220501s.ResourceIdentity
 	err := copied.AssignProperties_To_ResourceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -1288,7 +1288,7 @@ func RunPropertyAssignmentTestForResourceIdentity_STATUS(subject ResourceIdentit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceIdentity_STATUS
+	var other v20220501s.ResourceIdentity_STATUS
 	err := copied.AssignProperties_To_ResourceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1413,7 +1413,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
+	var other v20220501s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1515,7 +1515,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
+	var other v20220501s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1600,121 +1600,6 @@ func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_SystemData_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData to SystemData via AssignProperties_To_SystemData & AssignProperties_From_SystemData returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSystemData tests if a specific instance of SystemData can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData
-	err := copied.AssignProperties_To_SystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData
-	err = actual.AssignProperties_From_SystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SystemData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData runs a test to see if a specific instance of SystemData round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData(subject SystemData) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData instances for property testing - lazily instantiated by SystemDataGenerator()
-var systemDataGenerator gopter.Gen
-
-// SystemDataGenerator returns a generator of SystemData instances for property testing.
-func SystemDataGenerator() gopter.Gen {
-	if systemDataGenerator != nil {
-		return systemDataGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData(generators)
-	systemDataGenerator = gen.Struct(reflect.TypeOf(SystemData{}), generators)
-
-	return systemDataGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
-}
-
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1732,7 +1617,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20220501s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1847,7 +1732,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other v20220501s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -1944,7 +1829,7 @@ func RunPropertyAssignmentTestForUserIdentity_STATUS(subject UserIdentity_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserIdentity_STATUS
+	var other v20220501s.UserIdentity_STATUS
 	err := copied.AssignProperties_To_UserIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
