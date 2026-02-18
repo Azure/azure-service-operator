@@ -2755,9 +2755,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.18.0
-      MySQLServerIdentity_STATUS:
-        UserAssignedIdentities:
-          $conversionStrategy: manual
       Network:
         DelegatedSubnetResourceId:
           $referenceType: arm
