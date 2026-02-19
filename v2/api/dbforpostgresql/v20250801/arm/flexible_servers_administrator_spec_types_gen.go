@@ -35,26 +35,27 @@ type AdministratorMicrosoftEntraPropertiesForAdd struct {
 	PrincipalName *string `json:"principalName,omitempty" optionalConfigMapPair:"PrincipalName"`
 
 	// PrincipalType: Type of Microsoft Entra principal to which the server administrator is associated.
-	PrincipalType *AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType `json:"principalType,omitempty"`
+	PrincipalType *PrincipalType `json:"principalType,omitempty"`
 
 	// TenantId: Identifier of the tenant in which the Microsoft Entra principal exists.
 	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
+// Type of Microsoft Entra principal to which the server administrator is associated.
 // +kubebuilder:validation:Enum={"Group","ServicePrincipal","Unknown","User"}
-type AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType string
+type PrincipalType string
 
 const (
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Group            = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("Group")
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("ServicePrincipal")
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Unknown          = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("Unknown")
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_User             = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("User")
+	PrincipalType_Group            = PrincipalType("Group")
+	PrincipalType_ServicePrincipal = PrincipalType("ServicePrincipal")
+	PrincipalType_Unknown          = PrincipalType("Unknown")
+	PrincipalType_User             = PrincipalType("User")
 )
 
-// Mapping from string to AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType
-var administratorMicrosoftEntraPropertiesForAdd_PrincipalType_Values = map[string]AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType{
-	"group":            AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Group,
-	"serviceprincipal": AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal,
-	"unknown":          AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Unknown,
-	"user":             AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_User,
+// Mapping from string to PrincipalType
+var principalType_Values = map[string]PrincipalType{
+	"group":            PrincipalType_Group,
+	"serviceprincipal": PrincipalType_ServicePrincipal,
+	"unknown":          PrincipalType_Unknown,
+	"user":             PrincipalType_User,
 }

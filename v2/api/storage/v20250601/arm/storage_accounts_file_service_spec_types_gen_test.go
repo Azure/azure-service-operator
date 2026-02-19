@@ -78,6 +78,69 @@ func AddIndependentPropertyGeneratorsForEncryptionInTransit(gens map[string]gopt
 	gens["Required"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_FileServicePropertiesProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FileServicePropertiesProperties via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFileServicePropertiesProperties, FileServicePropertiesPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFileServicePropertiesProperties runs a test to see if a specific instance of FileServicePropertiesProperties round trips to JSON and back losslessly
+func RunJSONSerializationTestForFileServicePropertiesProperties(subject FileServicePropertiesProperties) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FileServicePropertiesProperties
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FileServicePropertiesProperties instances for property testing - lazily instantiated by
+// FileServicePropertiesPropertiesGenerator()
+var fileServicePropertiesPropertiesGenerator gopter.Gen
+
+// FileServicePropertiesPropertiesGenerator returns a generator of FileServicePropertiesProperties instances for property testing.
+func FileServicePropertiesPropertiesGenerator() gopter.Gen {
+	if fileServicePropertiesPropertiesGenerator != nil {
+		return fileServicePropertiesPropertiesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForFileServicePropertiesProperties(generators)
+	fileServicePropertiesPropertiesGenerator = gen.Struct(reflect.TypeOf(FileServicePropertiesProperties{}), generators)
+
+	return fileServicePropertiesPropertiesGenerator
+}
+
+// AddRelatedPropertyGeneratorsForFileServicePropertiesProperties is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFileServicePropertiesProperties(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
+	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettingsGenerator())
+	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicyGenerator())
+}
+
 func Test_Multichannel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -409,68 +472,5 @@ func AddIndependentPropertyGeneratorsForStorageAccountsFileService_Spec(gens map
 
 // AddRelatedPropertyGeneratorsForStorageAccountsFileService_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsFileService_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccounts_FileService_Properties_SpecGenerator())
-}
-
-func Test_StorageAccounts_FileService_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_FileService_Properties_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec, StorageAccounts_FileService_Properties_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec runs a test to see if a specific instance of StorageAccounts_FileService_Properties_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec(subject StorageAccounts_FileService_Properties_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_FileService_Properties_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_FileService_Properties_Spec instances for property testing - lazily instantiated by
-// StorageAccounts_FileService_Properties_SpecGenerator()
-var storageAccounts_FileService_Properties_SpecGenerator gopter.Gen
-
-// StorageAccounts_FileService_Properties_SpecGenerator returns a generator of StorageAccounts_FileService_Properties_Spec instances for property testing.
-func StorageAccounts_FileService_Properties_SpecGenerator() gopter.Gen {
-	if storageAccounts_FileService_Properties_SpecGenerator != nil {
-		return storageAccounts_FileService_Properties_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec(generators)
-	storageAccounts_FileService_Properties_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Properties_Spec{}), generators)
-
-	return storageAccounts_FileService_Properties_SpecGenerator
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
-	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettingsGenerator())
-	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicyGenerator())
+	gens["Properties"] = gen.PtrOf(FileServicePropertiesPropertiesGenerator())
 }

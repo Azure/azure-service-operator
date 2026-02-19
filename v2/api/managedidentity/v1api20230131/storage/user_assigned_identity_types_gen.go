@@ -290,10 +290,11 @@ type UserAssignedIdentityOperatorConfigMaps struct {
 
 // Storage version of v1api20230131.UserAssignedIdentityOperatorSecrets
 type UserAssignedIdentityOperatorSecrets struct {
-	ClientId    *genruntime.SecretDestination `json:"clientId,omitempty"`
-	PrincipalId *genruntime.SecretDestination `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	TenantId    *genruntime.SecretDestination `json:"tenantId,omitempty"`
+	ClientId       *genruntime.SecretDestination `json:"clientId,omitempty"`
+	PrincipalId    *genruntime.SecretDestination `json:"principalId,omitempty"`
+	PropertyBag    genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SubscriptionId *genruntime.SecretDestination `json:"subscriptionId,omitempty"`
+	TenantId       *genruntime.SecretDestination `json:"tenantId,omitempty"`
 }
 
 func init() {

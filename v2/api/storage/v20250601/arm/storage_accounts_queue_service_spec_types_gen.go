@@ -9,7 +9,7 @@ type StorageAccountsQueueService_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Queue service.
-	Properties *StorageAccounts_QueueService_Properties_Spec `json:"properties,omitempty"`
+	Properties *QueueServicePropertiesProperties `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueService_Spec{}
@@ -29,7 +29,8 @@ func (service *StorageAccountsQueueService_Spec) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
-type StorageAccounts_QueueService_Properties_Spec struct {
+// The properties of a storage account’s Queue service.
+type QueueServicePropertiesProperties struct {
 	// Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// Queue service.

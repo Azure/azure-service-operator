@@ -1040,6 +1040,10 @@ type UserAssignedIdentityOperatorSecrets struct {
 	// Azure.
 	PrincipalId *genruntime.SecretDestination `json:"principalId,omitempty"`
 
+	// SubscriptionId: indicates where the SubscriptionId secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SubscriptionId *genruntime.SecretDestination `json:"subscriptionId,omitempty"`
+
 	// TenantId: indicates where the TenantId secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	TenantId *genruntime.SecretDestination `json:"tenantId,omitempty"`
 }
@@ -1061,6 +1065,14 @@ func (secrets *UserAssignedIdentityOperatorSecrets) AssignProperties_From_UserAs
 		secrets.PrincipalId = &principalId
 	} else {
 		secrets.PrincipalId = nil
+	}
+
+	// SubscriptionId
+	if source.SubscriptionId != nil {
+		subscriptionId := source.SubscriptionId.Copy()
+		secrets.SubscriptionId = &subscriptionId
+	} else {
+		secrets.SubscriptionId = nil
 	}
 
 	// TenantId
@@ -1094,6 +1106,14 @@ func (secrets *UserAssignedIdentityOperatorSecrets) AssignProperties_To_UserAssi
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil
+	}
+
+	// SubscriptionId
+	if secrets.SubscriptionId != nil {
+		subscriptionId := secrets.SubscriptionId.Copy()
+		destination.SubscriptionId = &subscriptionId
+	} else {
+		destination.SubscriptionId = nil
 	}
 
 	// TenantId

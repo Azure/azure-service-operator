@@ -179,8 +179,8 @@ func CreateTypeConversion(
 	}
 
 	// No conversion found, we need to generate a useful error message, wrapping any existing error.
-	// If the endpoints are in different packages, we want both to be qualfied with their package name.
-	// We finesse this by cross wiring the packges passed so that we only get simplified descriptions if they are
+	// If the endpoints are in different packages, we want both to be qualified with their package name.
+	// We finesse this by cross wiring the packages passed so that we only get simplified descriptions if they are
 	// in the same package.
 	describe := func(subject astmodel.Type, ref astmodel.Type) string {
 		if tn, ok := astmodel.AsInternalTypeName(ref); ok {

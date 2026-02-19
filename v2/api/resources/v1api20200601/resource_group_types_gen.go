@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
+// - Generated from: /resources/resource-manager/Microsoft.Resources/resources/stable/2020-06-01/resources.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -244,7 +244,7 @@ func (group *ResourceGroup) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
+// - Generated from: /resources/resource-manager/Microsoft.Resources/resources/stable/2020-06-01/resources.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}
 type ResourceGroupList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/bastionHost.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/bastionHost.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}
 type BastionHost struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (host *BastionHost) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/bastionHost.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/bastionHost.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}
 type BastionHostList struct {
 	metav1.TypeMeta `json:",inline"`

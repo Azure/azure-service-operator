@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/routeTable.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/routeTable.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (route *RouteTablesRoute) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/routeTable.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/routeTable.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
 type RouteTablesRouteList struct {
 	metav1.TypeMeta `json:",inline"`

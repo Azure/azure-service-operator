@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20201101.NetworkInterface
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -248,7 +248,7 @@ func (networkInterface *NetworkInterface) OriginalGVK() *schema.GroupVersionKind
 // +kubebuilder:object:root=true
 // Storage version of v1api20201101.NetworkInterface
 // Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
+// - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
 type NetworkInterfaceList struct {
 	metav1.TypeMeta `json:",inline"`

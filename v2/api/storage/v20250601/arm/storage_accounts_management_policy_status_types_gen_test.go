@@ -567,7 +567,7 @@ func ManagementPolicyRule_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagementPolicyRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRule_Type_STATUS_Lifecycle))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(RuleType_STATUS_Lifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRule_STATUS is a factory method for creating gopter generators
@@ -841,6 +841,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(g
 // AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ManagementPolicyProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_TagFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

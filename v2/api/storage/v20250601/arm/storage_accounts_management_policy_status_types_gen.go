@@ -4,8 +4,8 @@
 package arm
 
 type StorageAccountsManagementPolicy_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -13,6 +13,9 @@ type StorageAccountsManagementPolicy_STATUS struct {
 
 	// Properties: Returns the Storage Account Data Policies Rules.
 	Properties *ManagementPolicyProperties_STATUS `json:"properties,omitempty"`
+
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -49,7 +52,7 @@ type ManagementPolicyRule_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
+	Type *RuleType_STATUS `json:"type,omitempty"`
 }
 
 // An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
@@ -61,13 +64,14 @@ type ManagementPolicyDefinition_STATUS struct {
 	Filters *ManagementPolicyFilter_STATUS `json:"filters,omitempty"`
 }
 
-type ManagementPolicyRule_Type_STATUS string
+// The valid value is Lifecycle
+type RuleType_STATUS string
 
-const ManagementPolicyRule_Type_STATUS_Lifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
+const RuleType_STATUS_Lifecycle = RuleType_STATUS("Lifecycle")
 
-// Mapping from string to ManagementPolicyRule_Type_STATUS
-var managementPolicyRule_Type_STATUS_Values = map[string]ManagementPolicyRule_Type_STATUS{
-	"lifecycle": ManagementPolicyRule_Type_STATUS_Lifecycle,
+// Mapping from string to RuleType_STATUS
+var ruleType_STATUS_Values = map[string]RuleType_STATUS{
+	"lifecycle": RuleType_STATUS_Lifecycle,
 }
 
 // Actions are applied to the filtered blobs when the execution condition is met.

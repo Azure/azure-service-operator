@@ -28,7 +28,7 @@ set -eu
 # This file includes documentation in lines prefixed `#doc#`.
 # These lines are extracted by running `task doc:dependencies` from the root folder.
 #
-# Each depencency should be documented by a single line with the following content:
+# Each dependency should be documented by a single line with the following content:
 #
 # | <name> | <version> | <details> |
 #
@@ -114,11 +114,17 @@ fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
 GOMINORREQUIRED=25
+GOTOOLCHAINMINVER=21
 
-# We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
-if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
-    write-error "Go must be version 1.$GOMINORREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
+# Check Go version - we require 1.21+ (for toolchain support), prefer 1.25+
+# Go 1.21+ supports automatic toolchain downloads, so versions 1.21-1.24 can still work
+if [[ $GOMINORVER -lt $GOTOOLCHAINMINVER ]]; then
+    write-error "Go must be at least version 1.$GOTOOLCHAINMINVER (for toolchain support), not $GOVERACTUAL; see: https://golang.org/doc/install"
     exit 1
+elif [[ $GOMINORVER -lt $GOMINORREQUIRED ]]; then
+    write-info "WARNING: Go 1.$GOMINORREQUIRED is recommended, but you have $GOVERACTUAL."
+    write-info "Go's toolchain feature may automatically download the required version when building."
+    write-info "If you encounter issues, please upgrade Go: https://golang.org/doc/install"
 fi
 
 # Define os and arch
@@ -191,8 +197,8 @@ go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.34.1
 #doc# | controller-gen | v0.19.0 | https://book.kubebuilder.io/reference/controller-gen |
 go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.19.0
 
-#doc# | kind | v0.30.0 | https://kind.sigs.k8s.io/ |
-go-install kind sigs.k8s.io/kind@v0.30.0
+#doc# | kind | v0.31.0 | https://kind.sigs.k8s.io/ |
+go-install kind sigs.k8s.io/kind@v0.31.0
 
 #doc# | kustomize | v4.5.7 | https://kustomize.io/ |
 go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
@@ -210,11 +216,11 @@ go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 go-install crddoc github.com/theunrepentantgeek/crddoc@latest
 
 # Install envtest tooling
-#doc# | setup-envtest | v0.22.4 | https://book.kubebuilder.io/reference/envtest.html |
+#doc# | setup-envtest | v0.23.1 | https://book.kubebuilder.io/reference/envtest.html |
 write-verbose "Checking for $TOOL_DEST/setup-envtest"
 if should-install "$TOOL_DEST/setup-envtest"; then
     write-info "Installing setup-envtest"
-    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.22.4/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
+    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.23.1/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
     chmod +x "$TOOL_DEST/setup-envtest"
 fi
 

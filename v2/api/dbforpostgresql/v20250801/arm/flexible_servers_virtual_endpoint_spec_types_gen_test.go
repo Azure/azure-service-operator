@@ -150,6 +150,6 @@ func VirtualEndpointResourcePropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualEndpointResourceProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualEndpointResourceProperties(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointResourceProperties_EndpointType_ReadWrite))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointType_ReadWrite))
 	gens["Members"] = gen.SliceOf(gen.AlphaString())
 }

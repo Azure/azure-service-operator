@@ -78,10 +78,10 @@ func AddIndependentPropertyGeneratorsForAdministratorMicrosoftEntraProperties_ST
 	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Group,
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_ServicePrincipal,
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Unknown,
-		AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_User))
+		PrincipalType_STATUS_Group,
+		PrincipalType_STATUS_ServicePrincipal,
+		PrincipalType_STATUS_Unknown,
+		PrincipalType_STATUS_User))
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 

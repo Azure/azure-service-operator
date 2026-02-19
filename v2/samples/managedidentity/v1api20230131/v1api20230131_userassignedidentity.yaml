@@ -28,3 +28,6 @@ spec:
       tenantId:
         name: umi-secret
         key: tenantId
+      subscriptionId:
+        name: umi-secret
+        key: subscriptionId

@@ -11,7 +11,7 @@ metadata:
 spec:
   ports:
   - name: metrics
-    port: 8443
+    port: {{ .Values.metrics.port | default 8443 }}
   selector:
     control-plane: controller-manager
 {{- end }}

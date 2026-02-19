@@ -1,0 +1,13 @@
+apiVersion: storage.azure.com/v1api20210401
+kind: StorageAccount
+metadata:
+  name: asoworkspacestorageacct
+  namespace: default
+spec:
+  location: westus3
+  kind: BlobStorage
+  sku:
+    name: Standard_LRS
+  owner:
+    name: aso-sample-rg
+  accessTier: Hot

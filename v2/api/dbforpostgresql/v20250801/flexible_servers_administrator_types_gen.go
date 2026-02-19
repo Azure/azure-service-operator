@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdministratorsMicrosoftEntra.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}
 type FlexibleServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (administrator *FlexibleServersAdministrator) OriginalGVK() *schema.GroupVe
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/AdministratorsMicrosoftEntra.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}
 type FlexibleServersAdministratorList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -268,7 +268,7 @@ type FlexibleServersAdministrator_Spec struct {
 	PrincipalNameFromConfig *genruntime.ConfigMapReference `json:"principalNameFromConfig,omitempty" optionalConfigMapPair:"PrincipalName"`
 
 	// PrincipalType: Type of Microsoft Entra principal to which the server administrator is associated.
-	PrincipalType *AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType `json:"principalType,omitempty"`
+	PrincipalType *PrincipalType `json:"principalType,omitempty"`
 
 	// TenantId: Identifier of the tenant in which the Microsoft Entra principal exists.
 	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
@@ -312,7 +312,7 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertToARM(resolved ge
 	if administrator.PrincipalType != nil {
 		var temp string
 		temp = string(*administrator.PrincipalType)
-		principalType := arm.AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType(temp)
+		principalType := arm.PrincipalType(temp)
 		result.Properties.PrincipalType = &principalType
 	}
 	if administrator.TenantId != nil {
@@ -370,7 +370,7 @@ func (administrator *FlexibleServersAdministrator_Spec) PopulateFromARM(owner ge
 		if typedInput.Properties.PrincipalType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PrincipalType)
-			principalType := AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType(temp)
+			principalType := PrincipalType(temp)
 			administrator.PrincipalType = &principalType
 		}
 	}
@@ -480,7 +480,7 @@ func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_From_Fl
 	// PrincipalType
 	if source.PrincipalType != nil {
 		principalType := *source.PrincipalType
-		principalTypeTemp := genruntime.ToEnum(principalType, administratorMicrosoftEntraPropertiesForAdd_PrincipalType_Values)
+		principalTypeTemp := genruntime.ToEnum(principalType, principalType_Values)
 		administrator.PrincipalType = &principalTypeTemp
 	} else {
 		administrator.PrincipalType = nil
@@ -581,7 +581,7 @@ func (administrator *FlexibleServersAdministrator_Spec) Initialize_From_Flexible
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := genruntime.ToEnum(string(*source.PrincipalType), administratorMicrosoftEntraPropertiesForAdd_PrincipalType_Values)
+		principalType := genruntime.ToEnum(string(*source.PrincipalType), principalType_Values)
 		administrator.PrincipalType = &principalType
 	} else {
 		administrator.PrincipalType = nil
@@ -622,7 +622,7 @@ type FlexibleServersAdministrator_STATUS struct {
 	PrincipalName *string `json:"principalName,omitempty"`
 
 	// PrincipalType: Type of Microsoft Entra principal to which the server administrator is associated.
-	PrincipalType *AdministratorMicrosoftEntraProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
+	PrincipalType *PrincipalType_STATUS `json:"principalType,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
@@ -736,7 +736,7 @@ func (administrator *FlexibleServersAdministrator_STATUS) PopulateFromARM(owner 
 		if typedInput.Properties.PrincipalType != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PrincipalType)
-			principalType := AdministratorMicrosoftEntraProperties_PrincipalType_STATUS(temp)
+			principalType := PrincipalType_STATUS(temp)
 			administrator.PrincipalType = &principalType
 		}
 	}
@@ -792,7 +792,7 @@ func (administrator *FlexibleServersAdministrator_STATUS) AssignProperties_From_
 	// PrincipalType
 	if source.PrincipalType != nil {
 		principalType := *source.PrincipalType
-		principalTypeTemp := genruntime.ToEnum(principalType, administratorMicrosoftEntraProperties_PrincipalType_STATUS_Values)
+		principalTypeTemp := genruntime.ToEnum(principalType, principalType_STATUS_Values)
 		administrator.PrincipalType = &principalTypeTemp
 	} else {
 		administrator.PrincipalType = nil
@@ -875,41 +875,6 @@ func (administrator *FlexibleServersAdministrator_STATUS) AssignProperties_To_Fl
 
 	// No error
 	return nil
-}
-
-type AdministratorMicrosoftEntraProperties_PrincipalType_STATUS string
-
-const (
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Group            = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("Group")
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_ServicePrincipal = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("ServicePrincipal")
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Unknown          = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("Unknown")
-	AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_User             = AdministratorMicrosoftEntraProperties_PrincipalType_STATUS("User")
-)
-
-// Mapping from string to AdministratorMicrosoftEntraProperties_PrincipalType_STATUS
-var administratorMicrosoftEntraProperties_PrincipalType_STATUS_Values = map[string]AdministratorMicrosoftEntraProperties_PrincipalType_STATUS{
-	"group":            AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Group,
-	"serviceprincipal": AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_ServicePrincipal,
-	"unknown":          AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_Unknown,
-	"user":             AdministratorMicrosoftEntraProperties_PrincipalType_STATUS_User,
-}
-
-// +kubebuilder:validation:Enum={"Group","ServicePrincipal","Unknown","User"}
-type AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType string
-
-const (
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Group            = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("Group")
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("ServicePrincipal")
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Unknown          = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("Unknown")
-	AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_User             = AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType("User")
-)
-
-// Mapping from string to AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType
-var administratorMicrosoftEntraPropertiesForAdd_PrincipalType_Values = map[string]AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType{
-	"group":            AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Group,
-	"serviceprincipal": AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal,
-	"unknown":          AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Unknown,
-	"user":             AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_User,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -1006,6 +971,43 @@ func (operator *FlexibleServersAdministratorOperatorSpec) AssignProperties_To_Fl
 
 	// No error
 	return nil
+}
+
+// Type of Microsoft Entra principal to which the server administrator is associated.
+// +kubebuilder:validation:Enum={"Group","ServicePrincipal","Unknown","User"}
+type PrincipalType string
+
+const (
+	PrincipalType_Group            = PrincipalType("Group")
+	PrincipalType_ServicePrincipal = PrincipalType("ServicePrincipal")
+	PrincipalType_Unknown          = PrincipalType("Unknown")
+	PrincipalType_User             = PrincipalType("User")
+)
+
+// Mapping from string to PrincipalType
+var principalType_Values = map[string]PrincipalType{
+	"group":            PrincipalType_Group,
+	"serviceprincipal": PrincipalType_ServicePrincipal,
+	"unknown":          PrincipalType_Unknown,
+	"user":             PrincipalType_User,
+}
+
+// Type of Microsoft Entra principal to which the server administrator is associated.
+type PrincipalType_STATUS string
+
+const (
+	PrincipalType_STATUS_Group            = PrincipalType_STATUS("Group")
+	PrincipalType_STATUS_ServicePrincipal = PrincipalType_STATUS("ServicePrincipal")
+	PrincipalType_STATUS_Unknown          = PrincipalType_STATUS("Unknown")
+	PrincipalType_STATUS_User             = PrincipalType_STATUS("User")
+)
+
+// Mapping from string to PrincipalType_STATUS
+var principalType_STATUS_Values = map[string]PrincipalType_STATUS{
+	"group":            PrincipalType_STATUS_Group,
+	"serviceprincipal": PrincipalType_STATUS_ServicePrincipal,
+	"unknown":          PrincipalType_STATUS_Unknown,
+	"user":             PrincipalType_STATUS_User,
 }
 
 func init() {

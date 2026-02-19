@@ -15,7 +15,7 @@ import (
 //
 // Conceptually it takes (via Add) a list of functions of the form:
 //
-//	func ([ctx interface{},] left {some Type}, right {some Type}) (Type, error)
+//	func ([ctx any,] left {some Type}, right {some Type}) (Type, error)
 //
 // where `left` and `right` can be concrete types that implement the `Type` interface.
 //
@@ -35,7 +35,7 @@ type mergerRegistration struct {
 	merge MergerFunc
 }
 
-type MergerFunc func(ctx interface{}, left, right Type) (Type, error)
+type MergerFunc func(ctx any, left, right Type) (Type, error)
 
 func NewTypeMerger(fallback MergerFunc) *TypeMerger {
 	return &TypeMerger{fallback: fallback}
@@ -53,7 +53,7 @@ type validatedMerger struct {
 	needsCtx                  bool
 }
 
-func validateMerger(merger interface{}) validatedMerger {
+func validateMerger(merger any) validatedMerger {
 	it := reflect.ValueOf(merger)
 	if it.Kind() != reflect.Func {
 		panic("merger must be a function")
@@ -122,7 +122,7 @@ func buildMergerRegistration(v validatedMerger, flip bool) mergerRegistration {
 
 // Add adds a handler function to be invoked if applicable. See the docs on
 // TypeMerger above for a full explanation.
-func (m *TypeMerger) Add(mergeFunc interface{}) {
+func (m *TypeMerger) Add(mergeFunc any) {
 	v := validateMerger(mergeFunc)
 	m.mergers = append(m.mergers, buildMergerRegistration(v, false))
 }
@@ -131,7 +131,7 @@ func (m *TypeMerger) Add(mergeFunc interface{}) {
 // the two type parameters are in. e.g. if it has type `(A, B) -> (Type, error)`,
 // it can match either `(A, B)` or `(B, A)`. This is useful when the merger
 // is symmetric and handles two different types.
-func (m *TypeMerger) AddUnordered(mergeFunc interface{}) {
+func (m *TypeMerger) AddUnordered(mergeFunc any) {
 	v := validateMerger(mergeFunc)
 	m.mergers = append(m.mergers, buildMergerRegistration(v, false), buildMergerRegistration(v, true))
 }
@@ -142,7 +142,7 @@ func (m *TypeMerger) Merge(left, right Type) (Type, error) {
 }
 
 // MergeWithContext merges the two types according to the provided mergers and fallback, with the provided context
-func (m *TypeMerger) MergeWithContext(ctx interface{}, left, right Type) (Type, error) {
+func (m *TypeMerger) MergeWithContext(ctx any, left, right Type) (Type, error) {
 	if left == nil {
 		return right, nil
 	}

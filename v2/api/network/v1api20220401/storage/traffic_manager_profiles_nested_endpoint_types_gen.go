@@ -173,7 +173,7 @@ type TrafficManagerProfilesNestedEndpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName             string                                            `json:"azureName,omitempty"`
-	CustomHeaders         []EndpointProperties_CustomHeaders                `json:"customHeaders,omitempty"`
+	CustomHeaders         []EndpointPropertiesCustomHeadersItem             `json:"customHeaders,omitempty"`
 	EndpointLocation      *string                                           `json:"endpointLocation,omitempty"`
 	EndpointMonitorStatus *string                                           `json:"endpointMonitorStatus,omitempty"`
 	EndpointStatus        *string                                           `json:"endpointStatus,omitempty"`
@@ -191,7 +191,7 @@ type TrafficManagerProfilesNestedEndpoint_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"TrafficManagerProfile"`
 	Priority    *int                               `json:"priority,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Subnets     []EndpointProperties_Subnets       `json:"subnets,omitempty"`
+	Subnets     []EndpointPropertiesSubnetsItem    `json:"subnets,omitempty"`
 	Target      *string                            `json:"target,omitempty"`
 
 	// TargetResourceReference: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type
@@ -223,25 +223,25 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) ConvertSpecTo(destina
 
 // Storage version of v1api20220401.TrafficManagerProfilesNestedEndpoint_STATUS
 type TrafficManagerProfilesNestedEndpoint_STATUS struct {
-	AlwaysServe           *string                                   `json:"alwaysServe,omitempty"`
-	Conditions            []conditions.Condition                    `json:"conditions,omitempty"`
-	CustomHeaders         []EndpointProperties_CustomHeaders_STATUS `json:"customHeaders,omitempty"`
-	EndpointLocation      *string                                   `json:"endpointLocation,omitempty"`
-	EndpointMonitorStatus *string                                   `json:"endpointMonitorStatus,omitempty"`
-	EndpointStatus        *string                                   `json:"endpointStatus,omitempty"`
-	GeoMapping            []string                                  `json:"geoMapping,omitempty"`
-	Id                    *string                                   `json:"id,omitempty"`
-	MinChildEndpoints     *int                                      `json:"minChildEndpoints,omitempty"`
-	MinChildEndpointsIPv4 *int                                      `json:"minChildEndpointsIPv4,omitempty"`
-	MinChildEndpointsIPv6 *int                                      `json:"minChildEndpointsIPv6,omitempty"`
-	Name                  *string                                   `json:"name,omitempty"`
-	Priority              *int                                      `json:"priority,omitempty"`
-	PropertyBag           genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	Subnets               []EndpointProperties_Subnets_STATUS       `json:"subnets,omitempty"`
-	Target                *string                                   `json:"target,omitempty"`
-	TargetResourceId      *string                                   `json:"targetResourceId,omitempty"`
-	Type                  *string                                   `json:"type,omitempty"`
-	Weight                *int                                      `json:"weight,omitempty"`
+	AlwaysServe           *string                                      `json:"alwaysServe,omitempty"`
+	Conditions            []conditions.Condition                       `json:"conditions,omitempty"`
+	CustomHeaders         []EndpointPropertiesCustomHeadersItem_STATUS `json:"customHeaders,omitempty"`
+	EndpointLocation      *string                                      `json:"endpointLocation,omitempty"`
+	EndpointMonitorStatus *string                                      `json:"endpointMonitorStatus,omitempty"`
+	EndpointStatus        *string                                      `json:"endpointStatus,omitempty"`
+	GeoMapping            []string                                     `json:"geoMapping,omitempty"`
+	Id                    *string                                      `json:"id,omitempty"`
+	MinChildEndpoints     *int                                         `json:"minChildEndpoints,omitempty"`
+	MinChildEndpointsIPv4 *int                                         `json:"minChildEndpointsIPv4,omitempty"`
+	MinChildEndpointsIPv6 *int                                         `json:"minChildEndpointsIPv6,omitempty"`
+	Name                  *string                                      `json:"name,omitempty"`
+	Priority              *int                                         `json:"priority,omitempty"`
+	PropertyBag           genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+	Subnets               []EndpointPropertiesSubnetsItem_STATUS       `json:"subnets,omitempty"`
+	Target                *string                                      `json:"target,omitempty"`
+	TargetResourceId      *string                                      `json:"targetResourceId,omitempty"`
+	Type                  *string                                      `json:"type,omitempty"`
+	Weight                *int                                         `json:"weight,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &TrafficManagerProfilesNestedEndpoint_STATUS{}

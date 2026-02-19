@@ -220,8 +220,8 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STA
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeaders_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointProperties_Subnets_STATUSGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItem_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItem_STATUSGenerator())
 }
 
 func Test_TrafficManagerProfilesNestedEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -309,7 +309,7 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spe
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeadersGenerator())
+	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItemGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(TrafficManagerProfilesNestedEndpointOperatorSpecGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointProperties_SubnetsGenerator())
+	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItemGenerator())
 }

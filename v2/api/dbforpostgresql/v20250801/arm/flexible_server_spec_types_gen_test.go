@@ -74,7 +74,7 @@ func AuthConfigGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAuthConfig is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAuthConfig(gens map[string]gopter.Gen) {
-	gens["ActiveDirectoryAuth"] = gen.PtrOf(gen.OneConstOf(AuthConfig_ActiveDirectoryAuth_Disabled, AuthConfig_ActiveDirectoryAuth_Enabled))
+	gens["ActiveDirectoryAuth"] = gen.PtrOf(gen.OneConstOf(MicrosoftEntraAuth_Disabled, MicrosoftEntraAuth_Enabled))
 	gens["PasswordAuth"] = gen.PtrOf(gen.OneConstOf(AuthConfig_PasswordAuth_Disabled, AuthConfig_PasswordAuth_Enabled))
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -258,13 +258,11 @@ func DataEncryptionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataEncryption is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataEncryption(gens map[string]gopter.Gen) {
-	gens["GeoBackupEncryptionKeyStatus"] = gen.PtrOf(gen.OneConstOf(DataEncryption_GeoBackupEncryptionKeyStatus_Invalid, DataEncryption_GeoBackupEncryptionKeyStatus_Valid))
 	gens["GeoBackupKeyURI"] = gen.PtrOf(gen.AlphaString())
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrimaryEncryptionKeyStatus"] = gen.PtrOf(gen.OneConstOf(DataEncryption_PrimaryEncryptionKeyStatus_Invalid, DataEncryption_PrimaryEncryptionKeyStatus_Valid))
 	gens["PrimaryKeyURI"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault, DataEncryption_Type_SystemManaged))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryptionType_AzureKeyVault, DataEncryptionType_SystemManaged))
 }
 
 func Test_FlexibleServer_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -531,7 +529,7 @@ func NetworkGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetwork(gens map[string]gopter.Gen) {
 	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateDnsZoneArmResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(Network_PublicNetworkAccess_Disabled, Network_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerPublicNetworkAccessState_Disabled, ServerPublicNetworkAccessState_Enabled))
 }
 
 func Test_Replica_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -591,8 +589,8 @@ func ReplicaGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForReplica is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForReplica(gens map[string]gopter.Gen) {
-	gens["PromoteMode"] = gen.PtrOf(gen.OneConstOf(Replica_PromoteMode_Standalone, Replica_PromoteMode_Switchover))
-	gens["PromoteOption"] = gen.PtrOf(gen.OneConstOf(Replica_PromoteOption_Forced, Replica_PromoteOption_Planned))
+	gens["PromoteMode"] = gen.PtrOf(gen.OneConstOf(ReadReplicaPromoteMode_Standalone, ReadReplicaPromoteMode_Switchover))
+	gens["PromoteOption"] = gen.PtrOf(gen.OneConstOf(ReadReplicaPromoteOption_Forced, ReadReplicaPromoteOption_Planned))
 	gens["Role"] = gen.PtrOf(gen.OneConstOf(
 		ReplicationRole_AsyncReplica,
 		ReplicationRole_GeoAsyncReplica,
@@ -670,13 +668,13 @@ func AddIndependentPropertyGeneratorsForServerProperties(gens map[string]gopter.
 	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateMode_Create,
-		ServerProperties_CreateMode_Default,
-		ServerProperties_CreateMode_GeoRestore,
-		ServerProperties_CreateMode_PointInTimeRestore,
-		ServerProperties_CreateMode_Replica,
-		ServerProperties_CreateMode_ReviveDropped,
-		ServerProperties_CreateMode_Update))
+		CreateMode_Create,
+		CreateMode_Default,
+		CreateMode_GeoRestore,
+		CreateMode_PointInTimeRestore,
+		CreateMode_Replica,
+		CreateMode_ReviveDropped,
+		CreateMode_Update))
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(
 		ReplicationRole_AsyncReplica,
@@ -685,14 +683,14 @@ func AddIndependentPropertyGeneratorsForServerProperties(gens map[string]gopter.
 		ReplicationRole_Primary))
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(
-		ServerVersion_11,
-		ServerVersion_12,
-		ServerVersion_13,
-		ServerVersion_14,
-		ServerVersion_15,
-		ServerVersion_16,
-		ServerVersion_17,
-		ServerVersion_18))
+		PostgresMajorVersion_11,
+		PostgresMajorVersion_12,
+		PostgresMajorVersion_13,
+		PostgresMajorVersion_14,
+		PostgresMajorVersion_15,
+		PostgresMajorVersion_16,
+		PostgresMajorVersion_17,
+		PostgresMajorVersion_18))
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties is a factory method for creating gopter generators
@@ -766,7 +764,7 @@ func SkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Burstable, Sku_Tier_GeneralPurpose, Sku_Tier_MemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTier_Burstable, SkuTier_GeneralPurpose, SkuTier_MemoryOptimized))
 }
 
 func Test_Storage_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -826,26 +824,26 @@ func StorageGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorage is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorage(gens map[string]gopter.Gen) {
-	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(Storage_AutoGrow_Disabled, Storage_AutoGrow_Enabled))
+	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(StorageAutoGrow_Disabled, StorageAutoGrow_Enabled))
 	gens["Iops"] = gen.PtrOf(gen.Int())
 	gens["StorageSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Throughput"] = gen.PtrOf(gen.Int())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		Storage_Tier_P1,
-		Storage_Tier_P10,
-		Storage_Tier_P15,
-		Storage_Tier_P2,
-		Storage_Tier_P20,
-		Storage_Tier_P3,
-		Storage_Tier_P30,
-		Storage_Tier_P4,
-		Storage_Tier_P40,
-		Storage_Tier_P50,
-		Storage_Tier_P6,
-		Storage_Tier_P60,
-		Storage_Tier_P70,
-		Storage_Tier_P80))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Storage_Type_PremiumV2_LRS, Storage_Type_Premium_LRS, Storage_Type_UltraSSD_LRS))
+		AzureManagedDiskPerformanceTier_P1,
+		AzureManagedDiskPerformanceTier_P10,
+		AzureManagedDiskPerformanceTier_P15,
+		AzureManagedDiskPerformanceTier_P2,
+		AzureManagedDiskPerformanceTier_P20,
+		AzureManagedDiskPerformanceTier_P3,
+		AzureManagedDiskPerformanceTier_P30,
+		AzureManagedDiskPerformanceTier_P4,
+		AzureManagedDiskPerformanceTier_P40,
+		AzureManagedDiskPerformanceTier_P50,
+		AzureManagedDiskPerformanceTier_P6,
+		AzureManagedDiskPerformanceTier_P60,
+		AzureManagedDiskPerformanceTier_P70,
+		AzureManagedDiskPerformanceTier_P80))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(StorageType_PremiumV2_LRS, StorageType_Premium_LRS, StorageType_UltraSSD_LRS))
 }
 
 func Test_UserAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -917,10 +915,10 @@ func UserAssignedIdentityGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForUserAssignedIdentity(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		UserAssignedIdentity_Type_None,
-		UserAssignedIdentity_Type_SystemAssigned,
-		UserAssignedIdentity_Type_SystemAssignedUserAssigned,
-		UserAssignedIdentity_Type_UserAssigned))
+		IdentityType_None,
+		IdentityType_SystemAssigned,
+		IdentityType_SystemAssignedUserAssigned,
+		IdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForUserAssignedIdentity is a factory method for creating gopter generators

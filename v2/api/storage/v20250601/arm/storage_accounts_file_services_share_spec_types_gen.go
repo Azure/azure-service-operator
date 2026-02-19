@@ -33,14 +33,14 @@ func (share *StorageAccountsFileServicesShare_Spec) GetType() string {
 type FileShareProperties struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
-	AccessTier *FileShareProperties_AccessTier `json:"accessTier,omitempty"`
+	AccessTier *ShareAccessTier `json:"accessTier,omitempty"`
 
 	// EnabledProtocols: The authentication protocol that is used for the file share. Can only be specified when creating a
 	// share.
-	EnabledProtocols *FileShareProperties_EnabledProtocols `json:"enabledProtocols,omitempty"`
+	EnabledProtocols *EnabledProtocols `json:"enabledProtocols,omitempty"`
 
 	// FileSharePaidBursting: File Share Paid Bursting properties.
-	FileSharePaidBursting *FileShareProperties_FileSharePaidBursting `json:"fileSharePaidBursting,omitempty"`
+	FileSharePaidBursting *FileSharePropertiesFileSharePaidBursting `json:"fileSharePaidBursting,omitempty"`
 
 	// Metadata: A name-value pair to associate with the share as metadata.
 	Metadata map[string]string `json:"metadata"`
@@ -56,7 +56,7 @@ type FileShareProperties struct {
 	ProvisionedIops *int `json:"provisionedIops,omitempty"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
-	RootSquash *FileShareProperties_RootSquash `json:"rootSquash,omitempty"`
+	RootSquash *RootSquashType `json:"rootSquash,omitempty"`
 
 	// ShareQuota: The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB
 	// (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account
@@ -67,39 +67,23 @@ type FileShareProperties struct {
 	SignedIdentifiers []SignedIdentifier `json:"signedIdentifiers"`
 }
 
-// +kubebuilder:validation:Enum={"Cool","Hot","Premium","TransactionOptimized"}
-type FileShareProperties_AccessTier string
-
-const (
-	FileShareProperties_AccessTier_Cool                 = FileShareProperties_AccessTier("Cool")
-	FileShareProperties_AccessTier_Hot                  = FileShareProperties_AccessTier("Hot")
-	FileShareProperties_AccessTier_Premium              = FileShareProperties_AccessTier("Premium")
-	FileShareProperties_AccessTier_TransactionOptimized = FileShareProperties_AccessTier("TransactionOptimized")
-)
-
-// Mapping from string to FileShareProperties_AccessTier
-var fileShareProperties_AccessTier_Values = map[string]FileShareProperties_AccessTier{
-	"cool":                 FileShareProperties_AccessTier_Cool,
-	"hot":                  FileShareProperties_AccessTier_Hot,
-	"premium":              FileShareProperties_AccessTier_Premium,
-	"transactionoptimized": FileShareProperties_AccessTier_TransactionOptimized,
-}
-
+// The authentication protocol that is used for the file share. Can only be specified when creating a share.
 // +kubebuilder:validation:Enum={"NFS","SMB"}
-type FileShareProperties_EnabledProtocols string
+type EnabledProtocols string
 
 const (
-	FileShareProperties_EnabledProtocols_NFS = FileShareProperties_EnabledProtocols("NFS")
-	FileShareProperties_EnabledProtocols_SMB = FileShareProperties_EnabledProtocols("SMB")
+	EnabledProtocols_NFS = EnabledProtocols("NFS")
+	EnabledProtocols_SMB = EnabledProtocols("SMB")
 )
 
-// Mapping from string to FileShareProperties_EnabledProtocols
-var fileShareProperties_EnabledProtocols_Values = map[string]FileShareProperties_EnabledProtocols{
-	"nfs": FileShareProperties_EnabledProtocols_NFS,
-	"smb": FileShareProperties_EnabledProtocols_SMB,
+// Mapping from string to EnabledProtocols
+var enabledProtocols_Values = map[string]EnabledProtocols{
+	"nfs": EnabledProtocols_NFS,
+	"smb": EnabledProtocols_SMB,
 }
 
-type FileShareProperties_FileSharePaidBursting struct {
+// File Share Paid Bursting properties.
+type FileSharePropertiesFileSharePaidBursting struct {
 	// PaidBurstingEnabled: Indicates whether paid bursting is enabled for the share. This property is only for file shares
 	// created under Files Provisioned v1 SSD account type.
 	PaidBurstingEnabled *bool `json:"paidBurstingEnabled,omitempty"`
@@ -114,20 +98,41 @@ type FileShareProperties_FileSharePaidBursting struct {
 	PaidBurstingMaxIops *int `json:"paidBurstingMaxIops,omitempty"`
 }
 
+// The property is for NFS share only. The default is NoRootSquash.
 // +kubebuilder:validation:Enum={"AllSquash","NoRootSquash","RootSquash"}
-type FileShareProperties_RootSquash string
+type RootSquashType string
 
 const (
-	FileShareProperties_RootSquash_AllSquash    = FileShareProperties_RootSquash("AllSquash")
-	FileShareProperties_RootSquash_NoRootSquash = FileShareProperties_RootSquash("NoRootSquash")
-	FileShareProperties_RootSquash_RootSquash   = FileShareProperties_RootSquash("RootSquash")
+	RootSquashType_AllSquash    = RootSquashType("AllSquash")
+	RootSquashType_NoRootSquash = RootSquashType("NoRootSquash")
+	RootSquashType_RootSquash   = RootSquashType("RootSquash")
 )
 
-// Mapping from string to FileShareProperties_RootSquash
-var fileShareProperties_RootSquash_Values = map[string]FileShareProperties_RootSquash{
-	"allsquash":    FileShareProperties_RootSquash_AllSquash,
-	"norootsquash": FileShareProperties_RootSquash_NoRootSquash,
-	"rootsquash":   FileShareProperties_RootSquash_RootSquash,
+// Mapping from string to RootSquashType
+var rootSquashType_Values = map[string]RootSquashType{
+	"allsquash":    RootSquashType_AllSquash,
+	"norootsquash": RootSquashType_NoRootSquash,
+	"rootsquash":   RootSquashType_RootSquash,
+}
+
+// Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool.
+// FileStorage account can choose Premium.
+// +kubebuilder:validation:Enum={"Cool","Hot","Premium","TransactionOptimized"}
+type ShareAccessTier string
+
+const (
+	ShareAccessTier_Cool                 = ShareAccessTier("Cool")
+	ShareAccessTier_Hot                  = ShareAccessTier("Hot")
+	ShareAccessTier_Premium              = ShareAccessTier("Premium")
+	ShareAccessTier_TransactionOptimized = ShareAccessTier("TransactionOptimized")
+)
+
+// Mapping from string to ShareAccessTier
+var shareAccessTier_Values = map[string]ShareAccessTier{
+	"cool":                 ShareAccessTier_Cool,
+	"hot":                  ShareAccessTier_Hot,
+	"premium":              ShareAccessTier_Premium,
+	"transactionoptimized": ShareAccessTier_TransactionOptimized,
 }
 
 type SignedIdentifier struct {

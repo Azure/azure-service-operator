@@ -147,40 +147,40 @@ func FileSharePropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFileShareProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFileShareProperties(gens map[string]gopter.Gen) {
 	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(
-		FileShareProperties_AccessTier_Cool,
-		FileShareProperties_AccessTier_Hot,
-		FileShareProperties_AccessTier_Premium,
-		FileShareProperties_AccessTier_TransactionOptimized))
-	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_NFS, FileShareProperties_EnabledProtocols_SMB))
+		ShareAccessTier_Cool,
+		ShareAccessTier_Hot,
+		ShareAccessTier_Premium,
+		ShareAccessTier_TransactionOptimized))
+	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(EnabledProtocols_NFS, EnabledProtocols_SMB))
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["ProvisionedBandwidthMibps"] = gen.PtrOf(gen.Int())
 	gens["ProvisionedIops"] = gen.PtrOf(gen.Int())
-	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_AllSquash, FileShareProperties_RootSquash_NoRootSquash, FileShareProperties_RootSquash_RootSquash))
+	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(RootSquashType_AllSquash, RootSquashType_NoRootSquash, RootSquashType_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())
 }
 
 // AddRelatedPropertyGeneratorsForFileShareProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFileShareProperties(gens map[string]gopter.Gen) {
-	gens["FileSharePaidBursting"] = gen.PtrOf(FileShareProperties_FileSharePaidBurstingGenerator())
+	gens["FileSharePaidBursting"] = gen.PtrOf(FileSharePropertiesFileSharePaidBurstingGenerator())
 	gens["SignedIdentifiers"] = gen.SliceOf(SignedIdentifierGenerator())
 }
 
-func Test_FileShareProperties_FileSharePaidBursting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FileSharePropertiesFileSharePaidBursting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FileShareProperties_FileSharePaidBursting via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting, FileShareProperties_FileSharePaidBurstingGenerator()))
+		"Round trip of FileSharePropertiesFileSharePaidBursting via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFileSharePropertiesFileSharePaidBursting, FileSharePropertiesFileSharePaidBurstingGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting runs a test to see if a specific instance of FileShareProperties_FileSharePaidBursting round trips to JSON and back losslessly
-func RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting(subject FileShareProperties_FileSharePaidBursting) string {
+// RunJSONSerializationTestForFileSharePropertiesFileSharePaidBursting runs a test to see if a specific instance of FileSharePropertiesFileSharePaidBursting round trips to JSON and back losslessly
+func RunJSONSerializationTestForFileSharePropertiesFileSharePaidBursting(subject FileSharePropertiesFileSharePaidBursting) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -188,7 +188,7 @@ func RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting(subjec
 	}
 
 	// Deserialize back into memory
-	var actual FileShareProperties_FileSharePaidBursting
+	var actual FileSharePropertiesFileSharePaidBursting
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -206,25 +206,25 @@ func RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting(subjec
 	return ""
 }
 
-// Generator of FileShareProperties_FileSharePaidBursting instances for property testing - lazily instantiated by
-// FileShareProperties_FileSharePaidBurstingGenerator()
-var fileShareProperties_FileSharePaidBurstingGenerator gopter.Gen
+// Generator of FileSharePropertiesFileSharePaidBursting instances for property testing - lazily instantiated by
+// FileSharePropertiesFileSharePaidBurstingGenerator()
+var fileSharePropertiesFileSharePaidBurstingGenerator gopter.Gen
 
-// FileShareProperties_FileSharePaidBurstingGenerator returns a generator of FileShareProperties_FileSharePaidBursting instances for property testing.
-func FileShareProperties_FileSharePaidBurstingGenerator() gopter.Gen {
-	if fileShareProperties_FileSharePaidBurstingGenerator != nil {
-		return fileShareProperties_FileSharePaidBurstingGenerator
+// FileSharePropertiesFileSharePaidBurstingGenerator returns a generator of FileSharePropertiesFileSharePaidBursting instances for property testing.
+func FileSharePropertiesFileSharePaidBurstingGenerator() gopter.Gen {
+	if fileSharePropertiesFileSharePaidBurstingGenerator != nil {
+		return fileSharePropertiesFileSharePaidBurstingGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFileShareProperties_FileSharePaidBursting(generators)
-	fileShareProperties_FileSharePaidBurstingGenerator = gen.Struct(reflect.TypeOf(FileShareProperties_FileSharePaidBursting{}), generators)
+	AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting(generators)
+	fileSharePropertiesFileSharePaidBurstingGenerator = gen.Struct(reflect.TypeOf(FileSharePropertiesFileSharePaidBursting{}), generators)
 
-	return fileShareProperties_FileSharePaidBurstingGenerator
+	return fileSharePropertiesFileSharePaidBurstingGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFileShareProperties_FileSharePaidBursting is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFileShareProperties_FileSharePaidBursting(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting(gens map[string]gopter.Gen) {
 	gens["PaidBurstingEnabled"] = gen.PtrOf(gen.Bool())
 	gens["PaidBurstingMaxBandwidthMibps"] = gen.PtrOf(gen.Int())
 	gens["PaidBurstingMaxIops"] = gen.PtrOf(gen.Int())

@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250601.StorageAccountsFileServicesShare
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}
 type StorageAccountsFileServicesShare struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (share *StorageAccountsFileServicesShare) OriginalGVK() *schema.GroupVersio
 // +kubebuilder:object:root=true
 // Storage version of v20250601.StorageAccountsFileServicesShare
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}
 type StorageAccountsFileServicesShareList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -174,7 +174,7 @@ type StorageAccountsFileServicesShare_Spec struct {
 	// doesn't have to be.
 	AzureName             string                                        `json:"azureName,omitempty"`
 	EnabledProtocols      *string                                       `json:"enabledProtocols,omitempty"`
-	FileSharePaidBursting *FileShareProperties_FileSharePaidBursting    `json:"fileSharePaidBursting,omitempty"`
+	FileSharePaidBursting *FileSharePropertiesFileSharePaidBursting     `json:"fileSharePaidBursting,omitempty"`
 	Metadata              map[string]string                             `json:"metadata,omitempty"`
 	OperatorSpec          *StorageAccountsFileServicesShareOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion       string                                        `json:"originalVersion,omitempty"`
@@ -214,38 +214,39 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertSpecTo(destination ge
 
 // Storage version of v20250601.StorageAccountsFileServicesShare_STATUS
 type StorageAccountsFileServicesShare_STATUS struct {
-	AccessTier                                   *string                                           `json:"accessTier,omitempty"`
-	AccessTierChangeTime                         *string                                           `json:"accessTierChangeTime,omitempty"`
-	AccessTierStatus                             *string                                           `json:"accessTierStatus,omitempty"`
-	Conditions                                   []conditions.Condition                            `json:"conditions,omitempty"`
-	Deleted                                      *bool                                             `json:"deleted,omitempty"`
-	DeletedTime                                  *string                                           `json:"deletedTime,omitempty"`
-	EnabledProtocols                             *string                                           `json:"enabledProtocols,omitempty"`
-	Etag                                         *string                                           `json:"etag,omitempty"`
-	FileSharePaidBursting                        *FileShareProperties_FileSharePaidBursting_STATUS `json:"fileSharePaidBursting,omitempty"`
-	Id                                           *string                                           `json:"id,omitempty"`
-	IncludedBurstIops                            *int                                              `json:"includedBurstIops,omitempty"`
-	LastModifiedTime                             *string                                           `json:"lastModifiedTime,omitempty"`
-	LeaseDuration                                *string                                           `json:"leaseDuration,omitempty"`
-	LeaseState                                   *string                                           `json:"leaseState,omitempty"`
-	LeaseStatus                                  *string                                           `json:"leaseStatus,omitempty"`
-	MaxBurstCreditsForIops                       *int                                              `json:"maxBurstCreditsForIops,omitempty"`
-	Metadata                                     map[string]string                                 `json:"metadata,omitempty"`
-	Name                                         *string                                           `json:"name,omitempty"`
-	NextAllowedProvisionedBandwidthDowngradeTime *string                                           `json:"nextAllowedProvisionedBandwidthDowngradeTime,omitempty"`
-	NextAllowedProvisionedIopsDowngradeTime      *string                                           `json:"nextAllowedProvisionedIopsDowngradeTime,omitempty"`
-	NextAllowedQuotaDowngradeTime                *string                                           `json:"nextAllowedQuotaDowngradeTime,omitempty"`
-	PropertyBag                                  genruntime.PropertyBag                            `json:"$propertyBag,omitempty"`
-	ProvisionedBandwidthMibps                    *int                                              `json:"provisionedBandwidthMibps,omitempty"`
-	ProvisionedIops                              *int                                              `json:"provisionedIops,omitempty"`
-	RemainingRetentionDays                       *int                                              `json:"remainingRetentionDays,omitempty"`
-	RootSquash                                   *string                                           `json:"rootSquash,omitempty"`
-	ShareQuota                                   *int                                              `json:"shareQuota,omitempty"`
-	ShareUsageBytes                              *int                                              `json:"shareUsageBytes,omitempty"`
-	SignedIdentifiers                            []SignedIdentifier_STATUS                         `json:"signedIdentifiers,omitempty"`
-	SnapshotTime                                 *string                                           `json:"snapshotTime,omitempty"`
-	Type                                         *string                                           `json:"type,omitempty"`
-	Version                                      *string                                           `json:"version,omitempty"`
+	AccessTier                                   *string                                          `json:"accessTier,omitempty"`
+	AccessTierChangeTime                         *string                                          `json:"accessTierChangeTime,omitempty"`
+	AccessTierStatus                             *string                                          `json:"accessTierStatus,omitempty"`
+	Conditions                                   []conditions.Condition                           `json:"conditions,omitempty"`
+	Deleted                                      *bool                                            `json:"deleted,omitempty"`
+	DeletedTime                                  *string                                          `json:"deletedTime,omitempty"`
+	EnabledProtocols                             *string                                          `json:"enabledProtocols,omitempty"`
+	Etag                                         *string                                          `json:"etag,omitempty"`
+	FileSharePaidBursting                        *FileSharePropertiesFileSharePaidBursting_STATUS `json:"fileSharePaidBursting,omitempty"`
+	Id                                           *string                                          `json:"id,omitempty"`
+	IncludedBurstIops                            *int                                             `json:"includedBurstIops,omitempty"`
+	LastModifiedTime                             *string                                          `json:"lastModifiedTime,omitempty"`
+	LeaseDuration                                *string                                          `json:"leaseDuration,omitempty"`
+	LeaseState                                   *string                                          `json:"leaseState,omitempty"`
+	LeaseStatus                                  *string                                          `json:"leaseStatus,omitempty"`
+	MaxBurstCreditsForIops                       *int                                             `json:"maxBurstCreditsForIops,omitempty"`
+	Metadata                                     map[string]string                                `json:"metadata,omitempty"`
+	Name                                         *string                                          `json:"name,omitempty"`
+	NextAllowedProvisionedBandwidthDowngradeTime *string                                          `json:"nextAllowedProvisionedBandwidthDowngradeTime,omitempty"`
+	NextAllowedProvisionedIopsDowngradeTime      *string                                          `json:"nextAllowedProvisionedIopsDowngradeTime,omitempty"`
+	NextAllowedQuotaDowngradeTime                *string                                          `json:"nextAllowedQuotaDowngradeTime,omitempty"`
+	PropertyBag                                  genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	ProvisionedBandwidthMibps                    *int                                             `json:"provisionedBandwidthMibps,omitempty"`
+	ProvisionedIops                              *int                                             `json:"provisionedIops,omitempty"`
+	RemainingRetentionDays                       *int                                             `json:"remainingRetentionDays,omitempty"`
+	RootSquash                                   *string                                          `json:"rootSquash,omitempty"`
+	ShareQuota                                   *int                                             `json:"shareQuota,omitempty"`
+	ShareUsageBytes                              *int                                             `json:"shareUsageBytes,omitempty"`
+	SignedIdentifiers                            []SignedIdentifier_STATUS                        `json:"signedIdentifiers,omitempty"`
+	SnapshotTime                                 *string                                          `json:"snapshotTime,omitempty"`
+	SystemData                                   *SystemData_STATUS                               `json:"systemData,omitempty"`
+	Type                                         *string                                          `json:"type,omitempty"`
+	Version                                      *string                                          `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccountsFileServicesShare_STATUS{}
@@ -268,16 +269,18 @@ func (share *StorageAccountsFileServicesShare_STATUS) ConvertStatusTo(destinatio
 	return destination.ConvertStatusFrom(share)
 }
 
-// Storage version of v20250601.FileShareProperties_FileSharePaidBursting
-type FileShareProperties_FileSharePaidBursting struct {
+// Storage version of v20250601.FileSharePropertiesFileSharePaidBursting
+// File Share Paid Bursting properties.
+type FileSharePropertiesFileSharePaidBursting struct {
 	PaidBurstingEnabled           *bool                  `json:"paidBurstingEnabled,omitempty"`
 	PaidBurstingMaxBandwidthMibps *int                   `json:"paidBurstingMaxBandwidthMibps,omitempty"`
 	PaidBurstingMaxIops           *int                   `json:"paidBurstingMaxIops,omitempty"`
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20250601.FileShareProperties_FileSharePaidBursting_STATUS
-type FileShareProperties_FileSharePaidBursting_STATUS struct {
+// Storage version of v20250601.FileSharePropertiesFileSharePaidBursting_STATUS
+// File Share Paid Bursting properties.
+type FileSharePropertiesFileSharePaidBursting_STATUS struct {
 	PaidBurstingEnabled           *bool                  `json:"paidBurstingEnabled,omitempty"`
 	PaidBurstingMaxBandwidthMibps *int                   `json:"paidBurstingMaxBandwidthMibps,omitempty"`
 	PaidBurstingMaxIops           *int                   `json:"paidBurstingMaxIops,omitempty"`

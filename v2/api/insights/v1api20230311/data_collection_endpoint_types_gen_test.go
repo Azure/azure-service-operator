@@ -5,7 +5,8 @@ package v1api20230311
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	v20240311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240311/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForConfigurationAccessEndpointSpec_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationAccessEndpointSpec_STATUS
+	var other v20230311s.ConfigurationAccessEndpointSpec_STATUS
 	err := copied.AssignProperties_To_ConfigurationAccessEndpointSpec_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunResourceConversionTestForDataCollectionEndpoint(subject DataCollectionEn
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.DataCollectionEndpoint
+	var hub v20240311s.DataCollectionEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForDataCollectionEndpoint(subject DataCollectionEn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionEndpoint
+	var other v20230311s.DataCollectionEndpoint
 	err := copied.AssignProperties_To_DataCollectionEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +286,7 @@ func RunPropertyAssignmentTestForDataCollectionEndpointOperatorSpec(subject Data
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionEndpointOperatorSpec
+	var other v20230311s.DataCollectionEndpointOperatorSpec
 	err := copied.AssignProperties_To_DataCollectionEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -382,7 +383,7 @@ func RunPropertyAssignmentTestForDataCollectionEndpointResource_STATUS(subject D
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionEndpointResource_STATUS
+	var other v20230311s.DataCollectionEndpointResource_STATUS
 	err := copied.AssignProperties_To_DataCollectionEndpointResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -524,7 +525,7 @@ func RunPropertyAssignmentTestForDataCollectionEndpoint_Spec(subject DataCollect
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataCollectionEndpoint_Spec
+	var other v20230311s.DataCollectionEndpoint_Spec
 	err := copied.AssignProperties_To_DataCollectionEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -649,7 +650,7 @@ func RunPropertyAssignmentTestForFailoverConfigurationSpec_STATUS(subject Failov
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailoverConfigurationSpec_STATUS
+	var other v20230311s.FailoverConfigurationSpec_STATUS
 	err := copied.AssignProperties_To_FailoverConfigurationSpec_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -766,7 +767,7 @@ func RunPropertyAssignmentTestForLocationSpec_STATUS(subject LocationSpec_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LocationSpec_STATUS
+	var other v20230311s.LocationSpec_STATUS
 	err := copied.AssignProperties_To_LocationSpec_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -876,7 +877,7 @@ func RunPropertyAssignmentTestForLogsIngestionEndpointSpec_STATUS(subject LogsIn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LogsIngestionEndpointSpec_STATUS
+	var other v20230311s.LogsIngestionEndpointSpec_STATUS
 	err := copied.AssignProperties_To_LogsIngestionEndpointSpec_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -979,7 +980,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedServiceIdentity
+	var other v20230311s.ManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -1100,7 +1101,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedServiceIdentity_STATUS
+	var other v20230311s.ManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1225,7 +1226,7 @@ func RunPropertyAssignmentTestForMetadata_STATUS(subject Metadata_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Metadata_STATUS
+	var other v20230311s.Metadata_STATUS
 	err := copied.AssignProperties_To_Metadata_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1329,7 +1330,7 @@ func RunPropertyAssignmentTestForMetricsIngestionEndpointSpec_STATUS(subject Met
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricsIngestionEndpointSpec_STATUS
+	var other v20230311s.MetricsIngestionEndpointSpec_STATUS
 	err := copied.AssignProperties_To_MetricsIngestionEndpointSpec_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1432,7 +1433,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet(subject NetworkRuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRuleSet
+	var other v20230311s.NetworkRuleSet
 	err := copied.AssignProperties_To_NetworkRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1534,7 +1535,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRuleSet_STATUS
+	var other v20230311s.NetworkRuleSet_STATUS
 	err := copied.AssignProperties_To_NetworkRuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1637,7 +1638,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkScopedResource_STATUS
+	var other v20230311s.PrivateLinkScopedResource_STATUS
 	err := copied.AssignProperties_To_PrivateLinkScopedResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1741,7 +1742,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20230311s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1856,7 +1857,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other v20230311s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -1953,7 +1954,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentity_STATUS
+	var other v20230311s.UserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()

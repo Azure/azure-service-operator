@@ -80,20 +80,20 @@ func AddIndependentPropertyGeneratorsForAccessPolicy_STATUS(gens map[string]gopt
 	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_FileShareProperties_FileSharePaidBursting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FileSharePropertiesFileSharePaidBursting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FileShareProperties_FileSharePaidBursting_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting_STATUS, FileShareProperties_FileSharePaidBursting_STATUSGenerator()))
+		"Round trip of FileSharePropertiesFileSharePaidBursting_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFileSharePropertiesFileSharePaidBursting_STATUS, FileSharePropertiesFileSharePaidBursting_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting_STATUS runs a test to see if a specific instance of FileShareProperties_FileSharePaidBursting_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting_STATUS(subject FileShareProperties_FileSharePaidBursting_STATUS) string {
+// RunJSONSerializationTestForFileSharePropertiesFileSharePaidBursting_STATUS runs a test to see if a specific instance of FileSharePropertiesFileSharePaidBursting_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFileSharePropertiesFileSharePaidBursting_STATUS(subject FileSharePropertiesFileSharePaidBursting_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -101,7 +101,7 @@ func RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual FileShareProperties_FileSharePaidBursting_STATUS
+	var actual FileSharePropertiesFileSharePaidBursting_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -119,25 +119,25 @@ func RunJSONSerializationTestForFileShareProperties_FileSharePaidBursting_STATUS
 	return ""
 }
 
-// Generator of FileShareProperties_FileSharePaidBursting_STATUS instances for property testing - lazily instantiated by
-// FileShareProperties_FileSharePaidBursting_STATUSGenerator()
-var fileShareProperties_FileSharePaidBursting_STATUSGenerator gopter.Gen
+// Generator of FileSharePropertiesFileSharePaidBursting_STATUS instances for property testing - lazily instantiated by
+// FileSharePropertiesFileSharePaidBursting_STATUSGenerator()
+var fileSharePropertiesFileSharePaidBursting_STATUSGenerator gopter.Gen
 
-// FileShareProperties_FileSharePaidBursting_STATUSGenerator returns a generator of FileShareProperties_FileSharePaidBursting_STATUS instances for property testing.
-func FileShareProperties_FileSharePaidBursting_STATUSGenerator() gopter.Gen {
-	if fileShareProperties_FileSharePaidBursting_STATUSGenerator != nil {
-		return fileShareProperties_FileSharePaidBursting_STATUSGenerator
+// FileSharePropertiesFileSharePaidBursting_STATUSGenerator returns a generator of FileSharePropertiesFileSharePaidBursting_STATUS instances for property testing.
+func FileSharePropertiesFileSharePaidBursting_STATUSGenerator() gopter.Gen {
+	if fileSharePropertiesFileSharePaidBursting_STATUSGenerator != nil {
+		return fileSharePropertiesFileSharePaidBursting_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFileShareProperties_FileSharePaidBursting_STATUS(generators)
-	fileShareProperties_FileSharePaidBursting_STATUSGenerator = gen.Struct(reflect.TypeOf(FileShareProperties_FileSharePaidBursting_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting_STATUS(generators)
+	fileSharePropertiesFileSharePaidBursting_STATUSGenerator = gen.Struct(reflect.TypeOf(FileSharePropertiesFileSharePaidBursting_STATUS{}), generators)
 
-	return fileShareProperties_FileSharePaidBursting_STATUSGenerator
+	return fileSharePropertiesFileSharePaidBursting_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFileShareProperties_FileSharePaidBursting_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFileShareProperties_FileSharePaidBursting_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting_STATUS(gens map[string]gopter.Gen) {
 	gens["PaidBurstingEnabled"] = gen.PtrOf(gen.Bool())
 	gens["PaidBurstingMaxBandwidthMibps"] = gen.PtrOf(gen.Int())
 	gens["PaidBurstingMaxIops"] = gen.PtrOf(gen.Int())
@@ -211,25 +211,25 @@ func FileShareProperties_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFileShareProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFileShareProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(
-		FileShareProperties_AccessTier_STATUS_Cool,
-		FileShareProperties_AccessTier_STATUS_Hot,
-		FileShareProperties_AccessTier_STATUS_Premium,
-		FileShareProperties_AccessTier_STATUS_TransactionOptimized))
+		ShareAccessTier_STATUS_Cool,
+		ShareAccessTier_STATUS_Hot,
+		ShareAccessTier_STATUS_Premium,
+		ShareAccessTier_STATUS_TransactionOptimized))
 	gens["AccessTierChangeTime"] = gen.PtrOf(gen.AlphaString())
 	gens["AccessTierStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["Deleted"] = gen.PtrOf(gen.Bool())
 	gens["DeletedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_STATUS_NFS, FileShareProperties_EnabledProtocols_STATUS_SMB))
+	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(EnabledProtocols_STATUS_NFS, EnabledProtocols_STATUS_SMB))
 	gens["IncludedBurstIops"] = gen.PtrOf(gen.Int())
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseDuration_STATUS_Fixed, FileShareProperties_LeaseDuration_STATUS_Infinite))
+	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(LeaseDuration_STATUS_Fixed, LeaseDuration_STATUS_Infinite))
 	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(
-		FileShareProperties_LeaseState_STATUS_Available,
-		FileShareProperties_LeaseState_STATUS_Breaking,
-		FileShareProperties_LeaseState_STATUS_Broken,
-		FileShareProperties_LeaseState_STATUS_Expired,
-		FileShareProperties_LeaseState_STATUS_Leased))
-	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseStatus_STATUS_Locked, FileShareProperties_LeaseStatus_STATUS_Unlocked))
+		LeaseState_STATUS_Available,
+		LeaseState_STATUS_Breaking,
+		LeaseState_STATUS_Broken,
+		LeaseState_STATUS_Expired,
+		LeaseState_STATUS_Leased))
+	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(LeaseStatus_STATUS_Locked, LeaseStatus_STATUS_Unlocked))
 	gens["MaxBurstCreditsForIops"] = gen.PtrOf(gen.Int())
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
@@ -240,7 +240,7 @@ func AddIndependentPropertyGeneratorsForFileShareProperties_STATUS(gens map[stri
 	gens["ProvisionedBandwidthMibps"] = gen.PtrOf(gen.Int())
 	gens["ProvisionedIops"] = gen.PtrOf(gen.Int())
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_STATUS_AllSquash, FileShareProperties_RootSquash_STATUS_NoRootSquash, FileShareProperties_RootSquash_STATUS_RootSquash))
+	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(RootSquashType_STATUS_AllSquash, RootSquashType_STATUS_NoRootSquash, RootSquashType_STATUS_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())
 	gens["ShareUsageBytes"] = gen.PtrOf(gen.Int())
 	gens["SnapshotTime"] = gen.PtrOf(gen.AlphaString())
@@ -249,7 +249,7 @@ func AddIndependentPropertyGeneratorsForFileShareProperties_STATUS(gens map[stri
 
 // AddRelatedPropertyGeneratorsForFileShareProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFileShareProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["FileSharePaidBursting"] = gen.PtrOf(FileShareProperties_FileSharePaidBursting_STATUSGenerator())
+	gens["FileSharePaidBursting"] = gen.PtrOf(FileSharePropertiesFileSharePaidBursting_STATUSGenerator())
 	gens["SignedIdentifiers"] = gen.SliceOf(SignedIdentifier_STATUSGenerator())
 }
 
@@ -404,4 +404,5 @@ func AddIndependentPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS(
 // AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FileShareProperties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

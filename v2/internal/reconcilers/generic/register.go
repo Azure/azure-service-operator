@@ -70,10 +70,9 @@ func registerWebhook(mgr ctrl.Manager, knownType *registration.KnownType) error 
 
 	// Register the webhooks. Note that this is safe to call even if there isn't a defaulter/validator
 	// as the NewWebhookManagedBy builder no-ops in the case they're both not set.
-	err = ctrl.NewWebhookManagedBy(mgr).
-		For(knownType.Obj).
-		WithDefaulter(knownType.Defaulter).
-		WithValidator(knownType.Validator).
+	err = ctrl.NewWebhookManagedBy(mgr, knownType.Obj).
+		WithCustomDefaulter(knownType.Defaulter).
+		WithCustomValidator(knownType.Validator).
 		Complete()
 	if err != nil {
 		return eris.Wrapf(err, "unable to register webhooks for %T", knownType.Obj)

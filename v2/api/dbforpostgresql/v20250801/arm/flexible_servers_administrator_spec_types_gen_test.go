@@ -77,10 +77,10 @@ func AdministratorMicrosoftEntraPropertiesForAddGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAdministratorMicrosoftEntraPropertiesForAdd(gens map[string]gopter.Gen) {
 	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Group,
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_ServicePrincipal,
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_Unknown,
-		AdministratorMicrosoftEntraPropertiesForAdd_PrincipalType_User))
+		PrincipalType_Group,
+		PrincipalType_ServicePrincipal,
+		PrincipalType_Unknown,
+		PrincipalType_User))
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 

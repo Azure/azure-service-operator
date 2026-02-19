@@ -188,6 +188,7 @@ func (identity *UserAssignedIdentity) validateSecretDestinations(ctx context.Con
 		toValidate = []*genruntime.SecretDestination{
 			obj.Spec.OperatorSpec.Secrets.ClientId,
 			obj.Spec.OperatorSpec.Secrets.PrincipalId,
+			obj.Spec.OperatorSpec.Secrets.SubscriptionId,
 			obj.Spec.OperatorSpec.Secrets.TenantId,
 		}
 	}

@@ -31,7 +31,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /search/resource-manager/Microsoft.Search/stable/2022-09-01/search.json
+// - Generated from: /search/resource-manager/Microsoft.Search/Search/stable/2022-09-01/search.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}
 type SearchService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -272,7 +272,7 @@ func (service *SearchService) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /search/resource-manager/Microsoft.Search/stable/2022-09-01/search.json
+// - Generated from: /search/resource-manager/Microsoft.Search/Search/stable/2022-09-01/search.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}
 type SearchServiceList struct {
 	metav1.TypeMeta `json:",inline"`

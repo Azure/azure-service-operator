@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsFileServicesShare{}
 
 // ConvertFrom populates our StorageAccountsFileServicesShare from the provided hub StorageAccountsFileServicesShare
 func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsFileServicesShare)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileServicesShare but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsFileServicesShare
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return share.AssignProperties_From_StorageAccountsFileServicesShare(source)
+	err = share.AssignProperties_From_StorageAccountsFileServicesShare(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to share")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsFileServicesShare from our StorageAccountsFileServicesShare
 func (share *StorageAccountsFileServicesShare) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsFileServicesShare)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileServicesShare but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsFileServicesShare
+	err := share.AssignProperties_To_StorageAccountsFileServicesShare(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from share")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return share.AssignProperties_To_StorageAccountsFileServicesShare(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsFileServicesShare{}
@@ -346,13 +359,6 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 	// EnabledProtocols
 	share.EnabledProtocols = genruntime.ClonePointerToString(source.EnabledProtocols)
 
-	// FileSharePaidBursting
-	if source.FileSharePaidBursting != nil {
-		propertyBag.Add("FileSharePaidBursting", *source.FileSharePaidBursting)
-	} else {
-		propertyBag.Remove("FileSharePaidBursting")
-	}
-
 	// Metadata
 	share.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -377,20 +383,6 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 		share.Owner = &owner
 	} else {
 		share.Owner = nil
-	}
-
-	// ProvisionedBandwidthMibps
-	if source.ProvisionedBandwidthMibps != nil {
-		propertyBag.Add("ProvisionedBandwidthMibps", *source.ProvisionedBandwidthMibps)
-	} else {
-		propertyBag.Remove("ProvisionedBandwidthMibps")
-	}
-
-	// ProvisionedIops
-	if source.ProvisionedIops != nil {
-		propertyBag.Add("ProvisionedIops", *source.ProvisionedIops)
-	} else {
-		propertyBag.Remove("ProvisionedIops")
 	}
 
 	// RootSquash
@@ -449,19 +441,6 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 	// EnabledProtocols
 	destination.EnabledProtocols = genruntime.ClonePointerToString(share.EnabledProtocols)
 
-	// FileSharePaidBursting
-	if propertyBag.Contains("FileSharePaidBursting") {
-		var fileSharePaidBursting storage.FileShareProperties_FileSharePaidBursting
-		err := propertyBag.Pull("FileSharePaidBursting", &fileSharePaidBursting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'FileSharePaidBursting' from propertyBag")
-		}
-
-		destination.FileSharePaidBursting = &fileSharePaidBursting
-	} else {
-		destination.FileSharePaidBursting = nil
-	}
-
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(share.Metadata)
 
@@ -486,32 +465,6 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// ProvisionedBandwidthMibps
-	if propertyBag.Contains("ProvisionedBandwidthMibps") {
-		var provisionedBandwidthMibp int
-		err := propertyBag.Pull("ProvisionedBandwidthMibps", &provisionedBandwidthMibp)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisionedBandwidthMibps' from propertyBag")
-		}
-
-		destination.ProvisionedBandwidthMibps = &provisionedBandwidthMibp
-	} else {
-		destination.ProvisionedBandwidthMibps = nil
-	}
-
-	// ProvisionedIops
-	if propertyBag.Contains("ProvisionedIops") {
-		var provisionedIop int
-		err := propertyBag.Pull("ProvisionedIops", &provisionedIop)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisionedIops' from propertyBag")
-		}
-
-		destination.ProvisionedIops = &provisionedIop
-	} else {
-		destination.ProvisionedIops = nil
 	}
 
 	// RootSquash
@@ -668,22 +621,8 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// Etag
 	share.Etag = genruntime.ClonePointerToString(source.Etag)
 
-	// FileSharePaidBursting
-	if source.FileSharePaidBursting != nil {
-		propertyBag.Add("FileSharePaidBursting", *source.FileSharePaidBursting)
-	} else {
-		propertyBag.Remove("FileSharePaidBursting")
-	}
-
 	// Id
 	share.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IncludedBurstIops
-	if source.IncludedBurstIops != nil {
-		propertyBag.Add("IncludedBurstIops", *source.IncludedBurstIops)
-	} else {
-		propertyBag.Remove("IncludedBurstIops")
-	}
 
 	// LastModifiedTime
 	share.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
@@ -697,53 +636,11 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 	// LeaseStatus
 	share.LeaseStatus = genruntime.ClonePointerToString(source.LeaseStatus)
 
-	// MaxBurstCreditsForIops
-	if source.MaxBurstCreditsForIops != nil {
-		propertyBag.Add("MaxBurstCreditsForIops", *source.MaxBurstCreditsForIops)
-	} else {
-		propertyBag.Remove("MaxBurstCreditsForIops")
-	}
-
 	// Metadata
 	share.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Name
 	share.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NextAllowedProvisionedBandwidthDowngradeTime
-	if source.NextAllowedProvisionedBandwidthDowngradeTime != nil {
-		propertyBag.Add("NextAllowedProvisionedBandwidthDowngradeTime", *source.NextAllowedProvisionedBandwidthDowngradeTime)
-	} else {
-		propertyBag.Remove("NextAllowedProvisionedBandwidthDowngradeTime")
-	}
-
-	// NextAllowedProvisionedIopsDowngradeTime
-	if source.NextAllowedProvisionedIopsDowngradeTime != nil {
-		propertyBag.Add("NextAllowedProvisionedIopsDowngradeTime", *source.NextAllowedProvisionedIopsDowngradeTime)
-	} else {
-		propertyBag.Remove("NextAllowedProvisionedIopsDowngradeTime")
-	}
-
-	// NextAllowedQuotaDowngradeTime
-	if source.NextAllowedQuotaDowngradeTime != nil {
-		propertyBag.Add("NextAllowedQuotaDowngradeTime", *source.NextAllowedQuotaDowngradeTime)
-	} else {
-		propertyBag.Remove("NextAllowedQuotaDowngradeTime")
-	}
-
-	// ProvisionedBandwidthMibps
-	if source.ProvisionedBandwidthMibps != nil {
-		propertyBag.Add("ProvisionedBandwidthMibps", *source.ProvisionedBandwidthMibps)
-	} else {
-		propertyBag.Remove("ProvisionedBandwidthMibps")
-	}
-
-	// ProvisionedIops
-	if source.ProvisionedIops != nil {
-		propertyBag.Add("ProvisionedIops", *source.ProvisionedIops)
-	} else {
-		propertyBag.Remove("ProvisionedIops")
-	}
 
 	// RemainingRetentionDays
 	share.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
@@ -836,34 +733,8 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(share.Etag)
 
-	// FileSharePaidBursting
-	if propertyBag.Contains("FileSharePaidBursting") {
-		var fileSharePaidBursting storage.FileShareProperties_FileSharePaidBursting_STATUS
-		err := propertyBag.Pull("FileSharePaidBursting", &fileSharePaidBursting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'FileSharePaidBursting' from propertyBag")
-		}
-
-		destination.FileSharePaidBursting = &fileSharePaidBursting
-	} else {
-		destination.FileSharePaidBursting = nil
-	}
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(share.Id)
-
-	// IncludedBurstIops
-	if propertyBag.Contains("IncludedBurstIops") {
-		var includedBurstIop int
-		err := propertyBag.Pull("IncludedBurstIops", &includedBurstIop)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IncludedBurstIops' from propertyBag")
-		}
-
-		destination.IncludedBurstIops = &includedBurstIop
-	} else {
-		destination.IncludedBurstIops = nil
-	}
 
 	// LastModifiedTime
 	destination.LastModifiedTime = genruntime.ClonePointerToString(share.LastModifiedTime)
@@ -877,89 +748,11 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 	// LeaseStatus
 	destination.LeaseStatus = genruntime.ClonePointerToString(share.LeaseStatus)
 
-	// MaxBurstCreditsForIops
-	if propertyBag.Contains("MaxBurstCreditsForIops") {
-		var maxBurstCreditsForIop int
-		err := propertyBag.Pull("MaxBurstCreditsForIops", &maxBurstCreditsForIop)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxBurstCreditsForIops' from propertyBag")
-		}
-
-		destination.MaxBurstCreditsForIops = &maxBurstCreditsForIop
-	} else {
-		destination.MaxBurstCreditsForIops = nil
-	}
-
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(share.Metadata)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(share.Name)
-
-	// NextAllowedProvisionedBandwidthDowngradeTime
-	if propertyBag.Contains("NextAllowedProvisionedBandwidthDowngradeTime") {
-		var nextAllowedProvisionedBandwidthDowngradeTime string
-		err := propertyBag.Pull("NextAllowedProvisionedBandwidthDowngradeTime", &nextAllowedProvisionedBandwidthDowngradeTime)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NextAllowedProvisionedBandwidthDowngradeTime' from propertyBag")
-		}
-
-		destination.NextAllowedProvisionedBandwidthDowngradeTime = &nextAllowedProvisionedBandwidthDowngradeTime
-	} else {
-		destination.NextAllowedProvisionedBandwidthDowngradeTime = nil
-	}
-
-	// NextAllowedProvisionedIopsDowngradeTime
-	if propertyBag.Contains("NextAllowedProvisionedIopsDowngradeTime") {
-		var nextAllowedProvisionedIopsDowngradeTime string
-		err := propertyBag.Pull("NextAllowedProvisionedIopsDowngradeTime", &nextAllowedProvisionedIopsDowngradeTime)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NextAllowedProvisionedIopsDowngradeTime' from propertyBag")
-		}
-
-		destination.NextAllowedProvisionedIopsDowngradeTime = &nextAllowedProvisionedIopsDowngradeTime
-	} else {
-		destination.NextAllowedProvisionedIopsDowngradeTime = nil
-	}
-
-	// NextAllowedQuotaDowngradeTime
-	if propertyBag.Contains("NextAllowedQuotaDowngradeTime") {
-		var nextAllowedQuotaDowngradeTime string
-		err := propertyBag.Pull("NextAllowedQuotaDowngradeTime", &nextAllowedQuotaDowngradeTime)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'NextAllowedQuotaDowngradeTime' from propertyBag")
-		}
-
-		destination.NextAllowedQuotaDowngradeTime = &nextAllowedQuotaDowngradeTime
-	} else {
-		destination.NextAllowedQuotaDowngradeTime = nil
-	}
-
-	// ProvisionedBandwidthMibps
-	if propertyBag.Contains("ProvisionedBandwidthMibps") {
-		var provisionedBandwidthMibp int
-		err := propertyBag.Pull("ProvisionedBandwidthMibps", &provisionedBandwidthMibp)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisionedBandwidthMibps' from propertyBag")
-		}
-
-		destination.ProvisionedBandwidthMibps = &provisionedBandwidthMibp
-	} else {
-		destination.ProvisionedBandwidthMibps = nil
-	}
-
-	// ProvisionedIops
-	if propertyBag.Contains("ProvisionedIops") {
-		var provisionedIop int
-		err := propertyBag.Pull("ProvisionedIops", &provisionedIop)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisionedIops' from propertyBag")
-		}
-
-		destination.ProvisionedIops = &provisionedIop
-	} else {
-		destination.ProvisionedIops = nil
-	}
 
 	// RemainingRetentionDays
 	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(share.RemainingRetentionDays)

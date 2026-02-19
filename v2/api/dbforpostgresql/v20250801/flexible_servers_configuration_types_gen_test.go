@@ -373,12 +373,12 @@ func FlexibleServersConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationProperties_DataType_STATUS_Boolean,
-		ConfigurationProperties_DataType_STATUS_Enumeration,
-		ConfigurationProperties_DataType_STATUS_Integer,
-		ConfigurationProperties_DataType_STATUS_Numeric,
-		ConfigurationProperties_DataType_STATUS_Set,
-		ConfigurationProperties_DataType_STATUS_String))
+		ConfigurationDataType_STATUS_Boolean,
+		ConfigurationDataType_STATUS_Enumeration,
+		ConfigurationDataType_STATUS_Integer,
+		ConfigurationDataType_STATUS_Numeric,
+		ConfigurationDataType_STATUS_Set,
+		ConfigurationDataType_STATUS_String))
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())

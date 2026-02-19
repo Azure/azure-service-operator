@@ -51,27 +51,28 @@ type ContainerProperties struct {
 	Metadata map[string]string `json:"metadata"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"Blob","Container","None"}
-type ContainerProperties_PublicAccess string
-
-const (
-	ContainerProperties_PublicAccess_Blob      = ContainerProperties_PublicAccess("Blob")
-	ContainerProperties_PublicAccess_Container = ContainerProperties_PublicAccess("Container")
-	ContainerProperties_PublicAccess_None      = ContainerProperties_PublicAccess("None")
-)
-
-// Mapping from string to ContainerProperties_PublicAccess
-var containerProperties_PublicAccess_Values = map[string]ContainerProperties_PublicAccess{
-	"blob":      ContainerProperties_PublicAccess_Blob,
-	"container": ContainerProperties_PublicAccess_Container,
-	"none":      ContainerProperties_PublicAccess_None,
+	PublicAccess *PublicAccess `json:"publicAccess,omitempty"`
 }
 
 // Object level immutability properties of the container.
 type ImmutableStorageWithVersioning struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// Specifies whether data in the container may be accessed publicly and the level of access.
+// +kubebuilder:validation:Enum={"Blob","Container","None"}
+type PublicAccess string
+
+const (
+	PublicAccess_Blob      = PublicAccess("Blob")
+	PublicAccess_Container = PublicAccess("Container")
+	PublicAccess_None      = PublicAccess("None")
+)
+
+// Mapping from string to PublicAccess
+var publicAccess_Values = map[string]PublicAccess{
+	"blob":      PublicAccess_Blob,
+	"container": PublicAccess_Container,
+	"none":      PublicAccess_None,
 }

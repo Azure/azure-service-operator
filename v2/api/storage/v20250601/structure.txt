@@ -206,29 +206,26 @@ StorageAccount: Resource
 │   │   │   ├── "Block"
 │   │   │   └── "Log"
 │   │   └── SasExpirationPeriod: *string
-│   ├── Sku: *Object (2 properties)
-│   │   ├── Name: *Enum (14 values)
-│   │   │   ├── "PremiumV2_LRS"
-│   │   │   ├── "PremiumV2_ZRS"
-│   │   │   ├── "Premium_LRS"
-│   │   │   ├── "Premium_ZRS"
-│   │   │   ├── "StandardV2_GRS"
-│   │   │   ├── "StandardV2_GZRS"
-│   │   │   ├── "StandardV2_LRS"
-│   │   │   ├── "StandardV2_ZRS"
-│   │   │   ├── "Standard_GRS"
-│   │   │   ├── "Standard_GZRS"
-│   │   │   ├── "Standard_LRS"
-│   │   │   ├── "Standard_RAGRS"
-│   │   │   ├── "Standard_RAGZRS"
-│   │   │   └── "Standard_ZRS"
-│   │   └── Tier: *Enum (2 values)
-│   │       ├── "Premium"
-│   │       └── "Standard"
+│   ├── Sku: *Object (1 property)
+│   │   └── Name: *Enum (14 values)
+│   │       ├── "PremiumV2_LRS"
+│   │       ├── "PremiumV2_ZRS"
+│   │       ├── "Premium_LRS"
+│   │       ├── "Premium_ZRS"
+│   │       ├── "StandardV2_GRS"
+│   │       ├── "StandardV2_GZRS"
+│   │       ├── "StandardV2_LRS"
+│   │       ├── "StandardV2_ZRS"
+│   │       ├── "Standard_GRS"
+│   │       ├── "Standard_GZRS"
+│   │       ├── "Standard_LRS"
+│   │       ├── "Standard_RAGRS"
+│   │       ├── "Standard_RAGZRS"
+│   │       └── "Standard_ZRS"
 │   ├── SupportsHttpsTrafficOnly: *bool
 │   ├── Tags: map[string]string
 │   └── Zones: string[]
-└── Status: Object (55 properties)
+└── Status: Object (56 properties)
     ├── AccessTier: *Enum (4 values)
     │   ├── "Cold"
     │   ├── "Cool"
@@ -581,6 +578,21 @@ StorageAccount: Resource
     │       ├── "Standard_RAGZRS"
     │       └── "Standard_ZRS"
     ├── SupportsHttpsTrafficOnly: *bool
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     ├── Type: *string
     └── Zones: string[]
@@ -640,7 +652,7 @@ StorageAccountsBlobService: Resource
 │       │   ├── Rule 0: Maximum: 365
 │       │   └── Rule 1: Minimum: 1
 │       └── Enabled: *bool
-└── Status: Object (14 properties)
+└── Status: Object (15 properties)
     ├── AutomaticSnapshotPolicyEnabled: *bool
     ├── ChangeFeed: *Object (2 properties)
     │   ├── Enabled: *bool
@@ -705,6 +717,21 @@ StorageAccountsBlobService: Resource
     │   └── Tier: *Enum (2 values)
     │       ├── "Premium"
     │       └── "Standard"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 StorageAccountsBlobServicesContainer: Resource
@@ -728,7 +755,7 @@ StorageAccountsBlobServicesContainer: Resource
 │       ├── "Blob"
 │       ├── "Container"
 │       └── "None"
-└── Status: Object (24 properties)
+└── Status: Object (25 properties)
     ├── Conditions: conditions.Condition[]
     ├── DefaultEncryptionScope: *string
     ├── Deleted: *bool
@@ -797,6 +824,21 @@ StorageAccountsBlobServicesContainer: Resource
     │   ├── "Container"
     │   └── "None"
     ├── RemainingRetentionDays: *int
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Type: *string
     └── Version: *string
 
@@ -843,7 +885,7 @@ StorageAccountsFileService: Resource
 │       │   ├── Rule 0: Maximum: 365
 │       │   └── Rule 1: Minimum: 1
 │       └── Enabled: *bool
-└── Status: Object (8 properties)
+└── Status: Object (9 properties)
     ├── Conditions: conditions.Condition[]
     ├── Cors: *Object (1 property)
     │   └── CorsRules: Object (5 properties)[]
@@ -900,6 +942,21 @@ StorageAccountsFileService: Resource
     │   └── Tier: *Enum (2 values)
     │       ├── "Premium"
     │       └── "Standard"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 StorageAccountsFileServicesShare: Resource
@@ -938,7 +995,7 @@ StorageAccountsFileServicesShare: Resource
 │       │   ├── Permission: *string
 │       │   └── StartTime: *string
 │       └── Reference: *genruntime.ResourceReference
-└── Status: Object (31 properties)
+└── Status: Object (32 properties)
     ├── AccessTier: *Enum (4 values)
     │   ├── "Cool"
     │   ├── "Hot"
@@ -994,6 +1051,21 @@ StorageAccountsFileServicesShare: Resource
     │   │   └── StartTime: *string
     │   └── Id: *string
     ├── SnapshotTime: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Type: *string
     └── Version: *string
 
@@ -1010,143 +1082,103 @@ StorageAccountsManagementPolicy: Resource
 │           │   ├── Actions: *Object (3 properties)
 │           │   │   ├── BaseBlob: *Object (6 properties)
 │           │   │   │   ├── Delete: *Object (4 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   ├── EnableAutoTierToHotFromCool: *bool
 │           │   │   │   ├── TierToArchive: *Object (4 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   ├── TierToCold: *Object (4 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   ├── TierToCool: *Object (4 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   └── TierToHot: *Object (4 properties)
-│           │   │   │       ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │       │   ├── Rule 0: Minimum: 0
-│           │   │   │       │   └── Rule 1: MultipleOf: 1
-│           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │       │   ├── Rule 0: Minimum: 0
-│           │   │   │       │   └── Rule 1: MultipleOf: 1
-│           │   │   │       ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │       │   ├── Rule 0: Minimum: 0
-│           │   │   │       │   └── Rule 1: MultipleOf: 1
-│           │   │   │       └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │           ├── Rule 0: Minimum: 0
-│           │   │   │           └── Rule 1: MultipleOf: 1
+│           │   │   │       ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │       │   └── Rule 0: Minimum: 0
+│           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │       │   └── Rule 0: Minimum: 0
+│           │   │   │       ├── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │       │   └── Rule 0: Minimum: 0
+│           │   │   │       └── DaysAfterModificationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │           └── Rule 0: Minimum: 0
 │           │   │   ├── Snapshot: *Object (5 properties)
 │           │   │   │   ├── Delete: *Object (2 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   ├── TierToArchive: *Object (2 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   ├── TierToCold: *Object (2 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   ├── TierToCool: *Object (2 properties)
-│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │   │   ├── Rule 0: Minimum: 0
-│           │   │   │   │   │   └── Rule 1: MultipleOf: 1
-│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │   │       ├── Rule 0: Minimum: 0
-│           │   │   │   │       └── Rule 1: MultipleOf: 1
+│           │   │   │   │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │   │   └── Rule 0: Minimum: 0
+│           │   │   │   │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │   │       └── Rule 0: Minimum: 0
 │           │   │   │   └── TierToHot: *Object (2 properties)
-│           │   │   │       ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │   │       │   ├── Rule 0: Minimum: 0
-│           │   │   │       │   └── Rule 1: MultipleOf: 1
-│           │   │   │       └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │   │           ├── Rule 0: Minimum: 0
-│           │   │   │           └── Rule 1: MultipleOf: 1
+│           │   │   │       ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │   │       │   └── Rule 0: Minimum: 0
+│           │   │   │       └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │   │           └── Rule 0: Minimum: 0
 │           │   │   └── Version: *Object (5 properties)
 │           │   │       ├── Delete: *Object (2 properties)
-│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │       │   │   ├── Rule 0: Minimum: 0
-│           │   │       │   │   └── Rule 1: MultipleOf: 1
-│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │       │       ├── Rule 0: Minimum: 0
-│           │   │       │       └── Rule 1: MultipleOf: 1
+│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │       │   │   └── Rule 0: Minimum: 0
+│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │       │       └── Rule 0: Minimum: 0
 │           │   │       ├── TierToArchive: *Object (2 properties)
-│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │       │   │   ├── Rule 0: Minimum: 0
-│           │   │       │   │   └── Rule 1: MultipleOf: 1
-│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │       │       ├── Rule 0: Minimum: 0
-│           │   │       │       └── Rule 1: MultipleOf: 1
+│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │       │   │   └── Rule 0: Minimum: 0
+│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │       │       └── Rule 0: Minimum: 0
 │           │   │       ├── TierToCold: *Object (2 properties)
-│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │       │   │   ├── Rule 0: Minimum: 0
-│           │   │       │   │   └── Rule 1: MultipleOf: 1
-│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │       │       ├── Rule 0: Minimum: 0
-│           │   │       │       └── Rule 1: MultipleOf: 1
+│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │       │   │   └── Rule 0: Minimum: 0
+│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │       │       └── Rule 0: Minimum: 0
 │           │   │       ├── TierToCool: *Object (2 properties)
-│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │       │   │   ├── Rule 0: Minimum: 0
-│           │   │       │   │   └── Rule 1: MultipleOf: 1
-│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │       │       ├── Rule 0: Minimum: 0
-│           │   │       │       └── Rule 1: MultipleOf: 1
+│           │   │       │   ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │       │   │   └── Rule 0: Minimum: 0
+│           │   │       │   └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │       │       └── Rule 0: Minimum: 0
 │           │   │       └── TierToHot: *Object (2 properties)
-│           │   │           ├── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│           │   │           │   ├── Rule 0: Minimum: 0
-│           │   │           │   └── Rule 1: MultipleOf: 1
-│           │   │           └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (2 rules)
-│           │   │               ├── Rule 0: Minimum: 0
-│           │   │               └── Rule 1: MultipleOf: 1
+│           │   │           ├── DaysAfterCreationGreaterThan: Validated<*int> (1 rule)
+│           │   │           │   └── Rule 0: Minimum: 0
+│           │   │           └── DaysAfterLastTierChangeGreaterThan: Validated<*int> (1 rule)
+│           │   │               └── Rule 0: Minimum: 0
 │           │   └── Filters: *Object (3 properties)
 │           │       ├── BlobIndexMatch: Object (3 properties)[]
 │           │       │   ├── Name: Validated<*string> (2 rules)
@@ -1162,7 +1194,7 @@ StorageAccountsManagementPolicy: Resource
 │           ├── Name: *string
 │           └── Type: *Enum (1 value)
 │               └── "Lifecycle"
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── LastModifiedTime: *string
@@ -1241,6 +1273,21 @@ StorageAccountsManagementPolicy: Resource
     │       ├── Name: *string
     │       └── Type: *Enum (1 value)
     │           └── "Lifecycle"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 StorageAccountsQueueService: Resource
@@ -1267,7 +1314,7 @@ StorageAccountsQueueService: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (5 properties)
+└── Status: Object (6 properties)
     ├── Conditions: conditions.Condition[]
     ├── Cors: *Object (1 property)
     │   └── CorsRules: Object (5 properties)[]
@@ -1288,6 +1335,21 @@ StorageAccountsQueueService: Resource
     │       └── MaxAgeInSeconds: *int
     ├── Id: *string
     ├── Name: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 StorageAccountsQueueServicesQueue: Resource
@@ -1301,12 +1363,27 @@ StorageAccountsQueueServicesQueue: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── ApproximateMessageCount: *int
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Metadata: map[string]string
     ├── Name: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 StorageAccountsTableService: Resource
@@ -1333,7 +1410,7 @@ StorageAccountsTableService: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (5 properties)
+└── Status: Object (6 properties)
     ├── Conditions: conditions.Condition[]
     ├── Cors: *Object (1 property)
     │   └── CorsRules: Object (5 properties)[]
@@ -1354,6 +1431,21 @@ StorageAccountsTableService: Resource
     │       └── MaxAgeInSeconds: *int
     ├── Id: *string
     ├── Name: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     └── Type: *string
 
 StorageAccountsTableServicesTable: Resource
@@ -1373,7 +1465,7 @@ StorageAccountsTableServicesTable: Resource
 │       │   ├── Permission: *string
 │       │   └── StartTime: *string
 │       └── Reference: *genruntime.ResourceReference
-└── Status: Object (6 properties)
+└── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
     ├── Id: *string
     ├── Name: *string
@@ -1383,6 +1475,21 @@ StorageAccountsTableServicesTable: Resource
     │   │   ├── Permission: *string
     │   │   └── StartTime: *string
     │   └── Id: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── TableName: *string
     └── Type: *string
 

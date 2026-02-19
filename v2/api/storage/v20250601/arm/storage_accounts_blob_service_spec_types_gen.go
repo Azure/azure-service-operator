@@ -9,7 +9,7 @@ type StorageAccountsBlobService_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
-	Properties *StorageAccounts_BlobService_Properties_Spec `json:"properties,omitempty"`
+	Properties *BlobServicePropertiesProperties `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsBlobService_Spec{}
@@ -29,7 +29,8 @@ func (service *StorageAccountsBlobService_Spec) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
-type StorageAccounts_BlobService_Properties_Spec struct {
+// The properties of a storage account’s Blob service.
+type BlobServicePropertiesProperties struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
@@ -102,7 +103,7 @@ type LastAccessTimeTrackingPolicy struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
+	Name *Name `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -126,7 +127,7 @@ type CorsRule struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_AllowedMethods `json:"allowedMethods"`
+	AllowedMethods []AllowedMethods `json:"allowedMethods"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -140,42 +141,43 @@ type CorsRule struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
+// Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 // +kubebuilder:validation:Enum={"AccessTimeTracking"}
-type LastAccessTimeTrackingPolicy_Name string
+type Name string
 
-const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name("AccessTimeTracking")
+const Name_AccessTimeTracking = Name("AccessTimeTracking")
 
-// Mapping from string to LastAccessTimeTrackingPolicy_Name
-var lastAccessTimeTrackingPolicy_Name_Values = map[string]LastAccessTimeTrackingPolicy_Name{
-	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_AccessTimeTracking,
+// Mapping from string to Name
+var name_Values = map[string]Name{
+	"accesstimetracking": Name_AccessTimeTracking,
 }
 
 // +kubebuilder:validation:Enum={"CONNECT","DELETE","GET","HEAD","MERGE","OPTIONS","PATCH","POST","PUT","TRACE"}
-type CorsRule_AllowedMethods string
+type AllowedMethods string
 
 const (
-	CorsRule_AllowedMethods_CONNECT = CorsRule_AllowedMethods("CONNECT")
-	CorsRule_AllowedMethods_DELETE  = CorsRule_AllowedMethods("DELETE")
-	CorsRule_AllowedMethods_GET     = CorsRule_AllowedMethods("GET")
-	CorsRule_AllowedMethods_HEAD    = CorsRule_AllowedMethods("HEAD")
-	CorsRule_AllowedMethods_MERGE   = CorsRule_AllowedMethods("MERGE")
-	CorsRule_AllowedMethods_OPTIONS = CorsRule_AllowedMethods("OPTIONS")
-	CorsRule_AllowedMethods_PATCH   = CorsRule_AllowedMethods("PATCH")
-	CorsRule_AllowedMethods_POST    = CorsRule_AllowedMethods("POST")
-	CorsRule_AllowedMethods_PUT     = CorsRule_AllowedMethods("PUT")
-	CorsRule_AllowedMethods_TRACE   = CorsRule_AllowedMethods("TRACE")
+	AllowedMethods_CONNECT = AllowedMethods("CONNECT")
+	AllowedMethods_DELETE  = AllowedMethods("DELETE")
+	AllowedMethods_GET     = AllowedMethods("GET")
+	AllowedMethods_HEAD    = AllowedMethods("HEAD")
+	AllowedMethods_MERGE   = AllowedMethods("MERGE")
+	AllowedMethods_OPTIONS = AllowedMethods("OPTIONS")
+	AllowedMethods_PATCH   = AllowedMethods("PATCH")
+	AllowedMethods_POST    = AllowedMethods("POST")
+	AllowedMethods_PUT     = AllowedMethods("PUT")
+	AllowedMethods_TRACE   = AllowedMethods("TRACE")
 )
 
-// Mapping from string to CorsRule_AllowedMethods
-var corsRule_AllowedMethods_Values = map[string]CorsRule_AllowedMethods{
-	"connect": CorsRule_AllowedMethods_CONNECT,
-	"delete":  CorsRule_AllowedMethods_DELETE,
-	"get":     CorsRule_AllowedMethods_GET,
-	"head":    CorsRule_AllowedMethods_HEAD,
-	"merge":   CorsRule_AllowedMethods_MERGE,
-	"options": CorsRule_AllowedMethods_OPTIONS,
-	"patch":   CorsRule_AllowedMethods_PATCH,
-	"post":    CorsRule_AllowedMethods_POST,
-	"put":     CorsRule_AllowedMethods_PUT,
-	"trace":   CorsRule_AllowedMethods_TRACE,
+// Mapping from string to AllowedMethods
+var allowedMethods_Values = map[string]AllowedMethods{
+	"connect": AllowedMethods_CONNECT,
+	"delete":  AllowedMethods_DELETE,
+	"get":     AllowedMethods_GET,
+	"head":    AllowedMethods_HEAD,
+	"merge":   AllowedMethods_MERGE,
+	"options": AllowedMethods_OPTIONS,
+	"patch":   AllowedMethods_PATCH,
+	"post":    AllowedMethods_POST,
+	"put":     AllowedMethods_PUT,
+	"trace":   AllowedMethods_TRACE,
 }

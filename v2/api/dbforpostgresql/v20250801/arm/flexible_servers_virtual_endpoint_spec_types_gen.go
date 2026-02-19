@@ -32,18 +32,19 @@ func (endpoint *FlexibleServersVirtualEndpoint_Spec) GetType() string {
 // Properties of a pair of virtual endpoints.
 type VirtualEndpointResourceProperties struct {
 	// EndpointType: Type of endpoint for the virtual endpoints.
-	EndpointType *VirtualEndpointResourceProperties_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *VirtualEndpointType `json:"endpointType,omitempty"`
 
 	// Members: List of servers that one of the virtual endpoints can refer to.
 	Members []string `json:"members,omitempty"`
 }
 
+// Type of endpoint for the virtual endpoints.
 // +kubebuilder:validation:Enum={"ReadWrite"}
-type VirtualEndpointResourceProperties_EndpointType string
+type VirtualEndpointType string
 
-const VirtualEndpointResourceProperties_EndpointType_ReadWrite = VirtualEndpointResourceProperties_EndpointType("ReadWrite")
+const VirtualEndpointType_ReadWrite = VirtualEndpointType("ReadWrite")
 
-// Mapping from string to VirtualEndpointResourceProperties_EndpointType
-var virtualEndpointResourceProperties_EndpointType_Values = map[string]VirtualEndpointResourceProperties_EndpointType{
-	"readwrite": VirtualEndpointResourceProperties_EndpointType_ReadWrite,
+// Mapping from string to VirtualEndpointType
+var virtualEndpointType_Values = map[string]VirtualEndpointType{
+	"readwrite": VirtualEndpointType_ReadWrite,
 }

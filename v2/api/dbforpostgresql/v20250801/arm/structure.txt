@@ -223,15 +223,9 @@ FlexibleServer_Spec: Object (6 properties)
 │   │   ├── "Replica"
 │   │   ├── "ReviveDropped"
 │   │   └── "Update"
-│   ├── DataEncryption: *Object (7 properties)
-│   │   ├── GeoBackupEncryptionKeyStatus: *Enum (2 values)
-│   │   │   ├── "Invalid"
-│   │   │   └── "Valid"
+│   ├── DataEncryption: *Object (5 properties)
 │   │   ├── GeoBackupKeyURI: *string
 │   │   ├── GeoBackupUserAssignedIdentityId: *string
-│   │   ├── PrimaryEncryptionKeyStatus: *Enum (2 values)
-│   │   │   ├── "Invalid"
-│   │   │   └── "Valid"
 │   │   ├── PrimaryKeyURI: *string
 │   │   ├── PrimaryUserAssignedIdentityId: *string
 │   │   └── Type: *Enum (2 values)

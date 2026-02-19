@@ -357,18 +357,55 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
-	credential, err := azidentity.NewDefaultAzureCredential(
-		&azidentity.DefaultAzureCredentialOptions{
+	return newChainedCredential(cfg, setupLog)
+}
+
+// newChainedCredential creates a ChainedTokenCredential with EnvironmentCredential and ManagedIdentityCredential.
+func newChainedCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+	creds := make([]azcore.TokenCredential, 0, 2)
+
+	// EnvironmentCredential reads AZURE_ADDITIONALLY_ALLOWED_TENANTS from the environment
+	envCred, err := azidentity.NewEnvironmentCredential(
+		&azidentity.EnvironmentCredentialOptions{
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cfg.Cloud(),
 			},
-			AdditionallyAllowedTenants: cfg.AdditionalTenants,
 		})
 	if err != nil {
-		return nil, eris.Wrapf(err, "unable to get default azure credential")
+		setupLog.Error(err, "EnvironmentCredential not available")
+	} else {
+		creds = append(creds, envCred)
 	}
 
-	return credential, err
+	miCredOptions := &azidentity.ManagedIdentityCredentialOptions{
+		ClientOptions: azcore.ClientOptions{
+			Cloud: cfg.Cloud(),
+		},
+	}
+	// If ClientID is set, use it for user-assigned managed identity
+	if cfg.ClientID != "" {
+		miCredOptions.ID = azidentity.ClientID(cfg.ClientID)
+	}
+	miCred, err := azidentity.NewManagedIdentityCredential(miCredOptions)
+	if err != nil {
+		setupLog.Error(err, "ManagedIdentityCredential not available")
+	} else {
+		creds = append(creds, miCred)
+	}
+
+	// We only return an error if there are no possible credentials to use.
+	// If only some credentials failed we suppress errors as it may be expected that
+	// not all credentials will work in a given environment.
+	if len(creds) == 0 {
+		return nil, eris.New("unable to create any credential: neither EnvironmentCredential nor ManagedIdentityCredential could be initialized")
+	}
+
+	chainedCred, err := azidentity.NewChainedTokenCredential(creds, nil)
+	if err != nil {
+		return nil, eris.Wrapf(err, "unable to create chained credential")
+	}
+
+	return chainedCred, nil
 }
 
 type clients struct {

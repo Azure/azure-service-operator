@@ -75,6 +75,8 @@ func (c *Credential) CloudConfig() *cloud.Configuration {
 	return c.cloudConfig
 }
 
+// NewDefaultCredential creates a Credential representing the default/global credential
+// from aso-controller-settings.
 func NewDefaultCredential(
 	tokenCred azcore.TokenCredential,
 	namespace string,
