@@ -5,9 +5,10 @@ package storage
 import (
 	"encoding/json"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 )
 
 var _ augmentConversionForMySQLServerIdentity_STATUS = &MySQLServerIdentity_STATUS{}
