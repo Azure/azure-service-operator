@@ -7,7 +7,7 @@ spec:
   location: eastus
   owner:
     name: aso-sample-rg
-  version: "8.0.21"
+  version: "8.4"
   sku:
     name: Standard_D4ds_v4
     tier: GeneralPurpose
