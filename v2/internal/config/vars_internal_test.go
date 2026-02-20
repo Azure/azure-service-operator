@@ -72,6 +72,7 @@ func Test_AllowMultiEnvManagement_ReadsFalse(t *testing.T) {
 }
 
 func Test_AllowMultiEnvManagement_IncludedInString(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	cfg := Values{
