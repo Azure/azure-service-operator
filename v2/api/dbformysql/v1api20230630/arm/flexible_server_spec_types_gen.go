@@ -102,7 +102,7 @@ type ServerProperties struct {
 	Storage *Storage `json:"storage,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 // Storage Profile properties of a server
@@ -244,21 +244,6 @@ var serverProperties_CreateMode_Values = map[string]ServerProperties_CreateMode{
 	"georestore":         ServerProperties_CreateMode_GeoRestore,
 	"pointintimerestore": ServerProperties_CreateMode_PointInTimeRestore,
 	"replica":            ServerProperties_CreateMode_Replica,
-}
-
-// The version of a server.
-// +kubebuilder:validation:Enum={"5.7","8.0.21"}
-type ServerVersion string
-
-const (
-	ServerVersion_57   = ServerVersion("5.7")
-	ServerVersion_8021 = ServerVersion("8.0.21")
-)
-
-// Mapping from string to ServerVersion
-var serverVersion_Values = map[string]ServerVersion{
-	"5.7":    ServerVersion_57,
-	"8.0.21": ServerVersion_8021,
 }
 
 // Storage Profile properties of a server

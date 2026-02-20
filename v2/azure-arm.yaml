@@ -321,6 +321,14 @@ typeTransformers:
       optional: true
     because: The enum restrictions on this type are incomplete. Making this type a plain string to allow for growth of supported VM sizes without a new API version
 
+  - group: dbformysql
+    name: ServerProperties;ServerProperties_STATUS
+    property: Version
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incorrect, both leaving out the latest supported versions of MySQL and including deprecated versions.
+
   - group: compute
     name: VirtualMachineScaleSetExtensionProperties;VirtualMachineExtensionProperties
     property: ProtectedSettings
