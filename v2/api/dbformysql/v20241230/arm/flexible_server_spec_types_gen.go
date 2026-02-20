@@ -109,7 +109,7 @@ type ServerProperties struct {
 	Storage *Storage `json:"storage,omitempty"`
 
 	// Version: Major version of MySQL. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 // Storage Profile properties of a server
@@ -266,21 +266,6 @@ var serverSkuTier_Values = map[string]ServerSkuTier{
 	"burstable":       ServerSkuTier_Burstable,
 	"generalpurpose":  ServerSkuTier_GeneralPurpose,
 	"memoryoptimized": ServerSkuTier_MemoryOptimized,
-}
-
-// The major version of a server. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7
-// +kubebuilder:validation:Enum={"5.7","8.0.21"}
-type ServerVersion string
-
-const (
-	ServerVersion_57   = ServerVersion("5.7")
-	ServerVersion_8021 = ServerVersion("8.0.21")
-)
-
-// Mapping from string to ServerVersion
-var serverVersion_Values = map[string]ServerVersion{
-	"5.7":    ServerVersion_57,
-	"8.0.21": ServerVersion_8021,
 }
 
 // Storage Profile properties of a server

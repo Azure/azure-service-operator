@@ -841,7 +841,7 @@ func AddIndependentPropertyGeneratorsForServerProperties_STATUS(gens map[string]
 		ServerState_STATUS_Stopped,
 		ServerState_STATUS_Stopping,
 		ServerState_STATUS_Updating))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS_57, ServerVersion_STATUS_8021, ServerVersion_STATUS_84))
+	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties_STATUS is a factory method for creating gopter generators

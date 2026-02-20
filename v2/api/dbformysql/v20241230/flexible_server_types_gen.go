@@ -358,7 +358,7 @@ type FlexibleServer_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Version: Major version of MySQL. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServer_Spec{}
@@ -518,9 +518,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Storage = &storage
 	}
 	if server.Version != nil {
-		var temp string
-		temp = string(*server.Version)
-		version := arm.ServerVersion(temp)
+		version := *server.Version
 		result.Properties.Version = &version
 	}
 
@@ -781,9 +779,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
-			var temp string
-			temp = string(*typedInput.Properties.Version)
-			version := ServerVersion(temp)
+			version := *typedInput.Properties.Version
 			server.Version = &version
 		}
 	}
@@ -1041,13 +1037,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Version
-	if source.Version != nil {
-		version := *source.Version
-		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
-		server.Version = &versionTemp
-	} else {
-		server.Version = nil
-	}
+	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -1255,12 +1245,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
 
 	// Version
-	if server.Version != nil {
-		version := string(*server.Version)
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToString(server.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1439,12 +1424,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Version
-	if source.Version != nil {
-		version := genruntime.ToEnum(string(*source.Version), serverVersion_Values)
-		server.Version = &version
-	} else {
-		server.Version = nil
-	}
+	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -1550,7 +1530,7 @@ type FlexibleServer_STATUS struct {
 	Type *string `json:"type,omitempty"`
 
 	// Version: Major version of MySQL. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
@@ -1918,9 +1898,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
-			var temp string
-			temp = string(*typedInput.Properties.Version)
-			version := ServerVersion_STATUS(temp)
+			version := *typedInput.Properties.Version
 			server.Version = &version
 		}
 	}
@@ -2150,13 +2128,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	server.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Version
-	if source.Version != nil {
-		version := *source.Version
-		versionTemp := genruntime.ToEnum(version, serverVersion_STATUS_Values)
-		server.Version = &versionTemp
-	} else {
-		server.Version = nil
-	}
+	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -2382,12 +2354,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 	destination.Type = genruntime.ClonePointerToString(server.Type)
 
 	// Version
-	if server.Version != nil {
-		version := string(*server.Version)
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToString(server.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5188,35 +5155,6 @@ var serverState_STATUS_Values = map[string]ServerState_STATUS{
 	"stopped":  ServerState_STATUS_Stopped,
 	"stopping": ServerState_STATUS_Stopping,
 	"updating": ServerState_STATUS_Updating,
-}
-
-// The major version of a server. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7
-// +kubebuilder:validation:Enum={"5.7","8.0.21"}
-type ServerVersion string
-
-const (
-	ServerVersion_57   = ServerVersion("5.7")
-	ServerVersion_8021 = ServerVersion("8.0.21")
-)
-
-// Mapping from string to ServerVersion
-var serverVersion_Values = map[string]ServerVersion{
-	"5.7":    ServerVersion_57,
-	"8.0.21": ServerVersion_8021,
-}
-
-// The major version of a server. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7
-type ServerVersion_STATUS string
-
-const (
-	ServerVersion_STATUS_57   = ServerVersion_STATUS("5.7")
-	ServerVersion_STATUS_8021 = ServerVersion_STATUS("8.0.21")
-)
-
-// Mapping from string to ServerVersion_STATUS
-var serverVersion_STATUS_Values = map[string]ServerVersion_STATUS{
-	"5.7":    ServerVersion_STATUS_57,
-	"8.0.21": ServerVersion_STATUS_8021,
 }
 
 // Storage Profile properties of a server
