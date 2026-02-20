@@ -414,7 +414,7 @@ func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
 	location := to.Ptr("australiacentral2")
 
-	version := mysql.ServerVersion_8021
+	version := "8.0.21"
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
 		Key:  adminKey,

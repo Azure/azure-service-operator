@@ -92,7 +92,7 @@ func Test_DBForMySQL_FlexibleServer_20231230_CRUD(t *testing.T) {
 }
 
 func newFlexibleServer20231230(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
-	version := mysql.ServerVersion_8021
+	version := "8.0.21"
 	tier := mysql.MySQLServerSku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
