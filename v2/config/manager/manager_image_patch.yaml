@@ -138,6 +138,12 @@ spec:
                   key: DEFAULT_RECONCILE_POLICY
                   name: aso-controller-settings
                   optional: true
+            - name: ALLOW_MULTI_ENV_MANAGEMENT
+              valueFrom:
+                secretKeyRef:
+                  key: ALLOW_MULTI_ENV_MANAGEMENT
+                  name: aso-controller-settings
+                  optional: true
             # Used for setting the operator-namespace annotation (and
             # for aad-pod-identity once we support it).
             - name: POD_NAMESPACE
