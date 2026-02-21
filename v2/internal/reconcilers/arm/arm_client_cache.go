@@ -83,7 +83,7 @@ func (c *ARMClientCache) getARMClientFromCredential(cred *identity.Credential) (
 	cloudConfig := c.cloudConfig
 	if cred.CloudConfig() != nil {
 		cloudConfig = *cred.CloudConfig()
-	} 
+	}
 
 	options := &genericarmclient.GenericClientOptions{
 		HTTPClient:        c.httpClient,
