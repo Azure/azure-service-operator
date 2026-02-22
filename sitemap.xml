@@ -634,6 +634,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20250801/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v20251002preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-year-month-title/</loc>
