@@ -1,4 +1,4 @@
-j/*
+/*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT license.
  */
@@ -52,8 +52,8 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"app":              VersionMigrationModeLegacy,
 
 	"appconfiguration": VersionMigrationModeHybrid,
-	
-	"authorization":    VersionMigrationModeLegacy,
+
+	"authorization": VersionMigrationModeLegacy,
 
 	"batch": VersionMigrationModeHybrid,
 
