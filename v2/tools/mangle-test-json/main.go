@@ -374,6 +374,10 @@ func commonPrefix(
 
 // findCommonPackagePrefix finds the common prefix of all package names, to shorten display
 func findCommonPackagePrefix(packages []string) string {
+	if len(packages) == 0 {
+		return ""
+	}
+
 	prefix := packages[0]
 	for _, pkg := range packages {
 		prefix = commonPrefix(prefix, pkg)

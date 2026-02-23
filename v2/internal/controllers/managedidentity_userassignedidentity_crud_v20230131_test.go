@@ -191,3 +191,81 @@ func UserManagedIdentity_20230131_ConfigValuesWrittenToDifferentConfigMap(tc *te
 	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap2, "clientId", *identity.Status.ClientId)
 	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap3, "tenantId", *identity.Status.TenantId)
 }
+
+func Test_ManagedIdentity_UserAssignedIdentity_20230131_ExportSecret(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	list := &v1.SecretList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).To(HaveLen(0))
+
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "SecretsWrittenToSameKubeSecret",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				UserManagedIdentity_20230131_SecretsWrittenToSameKubeSecret(tc, mi)
+			},
+		},
+		testcommon.Subtest{
+			Name: "SecretsWrittenToDifferentKubeSecrets",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				UserManagedIdentity_20230131_SecretsWrittenToDifferentKubeSecrets(tc, mi)
+			},
+		},
+	)
+
+	tc.DeleteResourceAndWait(mi)
+}
+
+func UserManagedIdentity_20230131_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, identity *managedidentity.UserAssignedIdentity) {
+	old := identity.DeepCopy()
+	identitySecret := "identitysecret"
+	identity.Spec.OperatorSpec = &managedidentity.UserAssignedIdentityOperatorSpec{
+		Secrets: &managedidentity.UserAssignedIdentityOperatorSecrets{
+			ClientId:       &genruntime.SecretDestination{Name: identitySecret, Key: "clientId"},
+			PrincipalId:    &genruntime.SecretDestination{Name: identitySecret, Key: "principalId"},
+			TenantId:       &genruntime.SecretDestination{Name: identitySecret, Key: "tenantId"},
+			SubscriptionId: &genruntime.SecretDestination{Name: identitySecret, Key: "subscriptionId"},
+		},
+	}
+	tc.PatchResourceAndWait(old, identity)
+
+	tc.ExpectSecretHasKeys(identitySecret, "clientId", "principalId", "tenantId", "subscriptionId")
+}
+
+func UserManagedIdentity_20230131_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, identity *managedidentity.UserAssignedIdentity) {
+	old := identity.DeepCopy()
+	clientIdSecret := "secret1"
+	principalIdSecret := "secret2"
+	tenantIdSecret := "secret3"
+	subscriptionIdSecret := "secret4"
+
+	identity.Spec.OperatorSpec = &managedidentity.UserAssignedIdentityOperatorSpec{
+		Secrets: &managedidentity.UserAssignedIdentityOperatorSecrets{
+			ClientId:       &genruntime.SecretDestination{Name: clientIdSecret, Key: "clientId"},
+			PrincipalId:    &genruntime.SecretDestination{Name: principalIdSecret, Key: "principalId"},
+			TenantId:       &genruntime.SecretDestination{Name: tenantIdSecret, Key: "tenantId"},
+			SubscriptionId: &genruntime.SecretDestination{Name: subscriptionIdSecret, Key: "subscriptionId"},
+		},
+	}
+	tc.PatchResourceAndWait(old, identity)
+
+	tc.ExpectSecretHasKeys(clientIdSecret, "clientId")
+	tc.ExpectSecretHasKeys(principalIdSecret, "principalId")
+	tc.ExpectSecretHasKeys(tenantIdSecret, "tenantId")
+	tc.ExpectSecretHasKeys(subscriptionIdSecret, "subscriptionId")
+}

@@ -91,7 +91,7 @@ jobs:
         run: sudo chown -R $USER:$USER .
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # pinned to v7.0.5
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # pinned to v7.0.11
         with:
           token: ${{ steps.app-token.outputs.token }}
           commit-message: Add Helm Chart

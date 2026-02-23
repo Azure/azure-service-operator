@@ -101,4 +101,10 @@ const (
 	// DefaultReconcilePolicy allows to change default reconciliation policy to use when serviceoperator.azure.com/reconcile-policy annotation
 	// is not explicitly defined. If omitted, it will be automatically set to "manage"
 	DefaultReconcilePolicy = "DEFAULT_RECONCILE_POLICY"
+	// AllowMultiEnvManagement determines whether per-namespace and per-resource credentials can specify
+	// their own Azure cloud environment settings (AZURE_RESOURCE_MANAGER_ENDPOINT, AZURE_RESOURCE_MANAGER_AUDIENCE,
+	// and AZURE_AUTHORITY_HOST). When enabled, credentials must specify ALL three of these settings or NONE of them.
+	// When disabled, any attempt to specify these settings in a credential will cause reconciliation to fail.
+	// This defaults to false for security reasons.
+	AllowMultiEnvManagement = "ALLOW_MULTI_ENV_MANAGEMENT"
 )

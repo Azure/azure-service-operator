@@ -73,8 +73,6 @@
 | ServerProperties_CreateMode_STATUS                    | v1api20210501 |               | v1api20230630 | v1api20231230 |
 | ServerProperties_STATUS                               | v1api20210501 |               | v1api20230630 | v1api20231230 |
 | ServerProperties_State_STATUS                         | v1api20210501 |               | v1api20230630 | v1api20231230 |
-| ServerVersion                                         | v1api20210501 |               | v1api20230630 | v1api20231230 |
-| ServerVersion_STATUS                                  | v1api20210501 |               | v1api20230630 | v1api20231230 |
 | Sku                                                   | v1api20210501 |               |               |               |
 | Sku_STATUS                                            | v1api20210501 |               |               |               |
 | Sku_Tier                                              | v1api20210501 |               |               |               |

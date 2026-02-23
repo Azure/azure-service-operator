@@ -578,6 +578,26 @@ tasks:
             echo "{{.DOCKER_PUSH_TARGET}}" | sed -e "s|^.*.azurecr.io/||"
           fi
 
+  controller:test-controllers:
+    desc: Run CRUD tests of controller with envtest using record/replay.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - setup
+      - controller:run-kustomize-for-envtest
+    cmds:
+      - defer: # want to run even on failure
+          task: produce-markdown-summary
+          vars:
+            INPUT_FILE: '{{.TEST_OUT}}/controllers-test.json'
+            OUTPUT_FILE: '{{.TEST_OUT}}/controllers-test.md'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers > '{{.TEST_OUT}}/controllers-test.json'
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
+    sources:
+      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
+
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
@@ -598,6 +618,30 @@ tasks:
     sources:
       - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
+  controller:test-genruntime:
+    desc: Run integration tests with envtest using record/replay.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - controller:run-kustomize-for-envtest
+    cmds:
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/genruntime/test
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
+
+  controller:test-genericarmclient:
+    desc: Run integration tests with envtest using record/replay.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - controller:run-kustomize-for-envtest
+    cmds:
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/genericarmclient
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
+
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
@@ -606,9 +650,10 @@ tasks:
     cmds:
       # -race fails at the moment in controller-runtime
       # We run these in sequence right now because it doesn't gain us much speed to go in parallel
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/genruntime/test
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/genericarmclient
+      - task: controller:test-genruntime
+      - task: controller:test-genericarmclient
+      - task: controller:test-controllers
+      - task: controller:test-samples
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
@@ -723,7 +768,12 @@ tasks:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
-      - controller:test-integration-envtest
+      - controller:run-kustomize-for-envtest
+    cmds:
+      # -race fails at the moment in controller-runtime
+      # We run these in sequence right now because it doesn't gain us much speed to go in parallel
+      - task: controller:test-genruntime
+      - task: controller:test-genericarmclient
 
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode
