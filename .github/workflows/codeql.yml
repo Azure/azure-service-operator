@@ -77,6 +77,8 @@ jobs:
         exit 1
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@89a39a4e59826350b863aa6b6252a07ad50cf83e # pinned to v4.32.4
       with:
         category: "/language:${{matrix.language}}"
+      timeout-minutes: 60
+ 
