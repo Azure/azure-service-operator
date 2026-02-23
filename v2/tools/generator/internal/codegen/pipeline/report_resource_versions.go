@@ -745,11 +745,9 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 		return ""
 	}
 
-	ver := typeName.InternalPackageReference().Version()
-
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"
-	if strings.Contains(ver, v1VersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-") {
+	if strings.HasPrefix(supportedFrom, "v2.0.0-") {
 		return "v2.0.0"
 	}
 
