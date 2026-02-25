@@ -29,9 +29,12 @@ import (
 	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
 	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
-	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
-	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
-	appconfiguration_v20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/webhook"
+	appconfiguration_v1api20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
+	appconfiguration_v1api20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	appconfiguration_v1api20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/webhook"
+	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501"
+	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/storage"
+	appconfiguration_v20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/webhook"
 	appconfiguration_v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
 	appconfiguration_v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	appconfiguration_v20240601w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/webhook"
@@ -3195,6 +3198,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(app_v20250101s.Job)},
 		&registration.KnownType{Obj: new(app_v20250101s.ManagedEnvironment)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(appconfiguration_v1api20220501.ConfigurationStore),
+		Defaulter: &appconfiguration_v1api20220501w.ConfigurationStore{},
+		Validator: &appconfiguration_v1api20220501w.ConfigurationStore{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(appconfiguration_v1api20220501s.ConfigurationStore)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(appconfiguration_v20220501.ConfigurationStore),
 		Defaulter: &appconfiguration_v20220501w.ConfigurationStore{},
 		Validator: &appconfiguration_v20220501w.ConfigurationStore{},
@@ -6191,6 +6200,8 @@ func createScheme() *runtime.Scheme {
 	_ = app_v20240301s.AddToScheme(scheme)
 	_ = app_v20250101.AddToScheme(scheme)
 	_ = app_v20250101s.AddToScheme(scheme)
+	_ = appconfiguration_v1api20220501.AddToScheme(scheme)
+	_ = appconfiguration_v1api20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20240601.AddToScheme(scheme)
