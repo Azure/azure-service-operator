@@ -56,7 +56,7 @@ Raw:
 asoctl export template --version v2.6.0  --raw
 
 With kubectl:
-asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*" | kubectl apply -f -`,
+asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*" | kubectl apply --server-side=true -f -`,
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()

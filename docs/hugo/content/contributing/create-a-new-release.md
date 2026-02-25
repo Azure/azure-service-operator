@@ -20,6 +20,7 @@ title: Creating a new release
 11. [Update the ROADMAP](#update-roadmap) to reflect the new release.
 12. [Update Breaking Changes](#update-breaking-changes) if there are any.
 13. [Create a blog post](#create-a-blog-post) highlighting the key aspects of the release.
+14. Post a message in the Slack channel.
 
 ## Catalog breaking changes
 
@@ -95,7 +96,7 @@ Perform a simple smoke test to make sure the new release is capable of starting 
 8. Use asoctl to install the new release
 
    ``` bash
-   ./asoctl export template --version v2.7.0 --crd-pattern "resources.azure.com/*;network.azure.com/*" | kubectl apply -f -
+   ./asoctl export template --version v2.18.0 --crd-pattern "resources.azure.com/*;network.azure.com/*" | kubectl apply --server-side=true -f -
    ```
 
 9. Watch while ASO starts

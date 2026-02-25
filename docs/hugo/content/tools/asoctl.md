@@ -128,7 +128,7 @@ Raw:
 asoctl export template --version v2.6.0  --raw
 
 With kubectl:
-asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*" | kubectl apply -f -
+asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*" | kubectl apply --server-side=true -f -
 
 Flags:
   -p, --crd-pattern strings   What new CRDs to install. Existing ASO CRDs in the cluster will always be upgraded even if crdPattern is empty. See https://azure.github.io/azure-service-operator/guide/crd-management/ for more details.
