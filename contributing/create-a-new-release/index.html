@@ -44,7 +44,7 @@ Ensure that experimental release passed on the most recent commit.
 Go to the releases page and draft a new release.
 In the tag dropdown, type the name of the new tag you’d like to create (it should match the pattern of previous releases tags, for example: v2.10.0). The release target should be main (the default).
 Use the GitHub “auto-generate release notes” button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
-  <meta itemprop="wordCount" content="975">
+  <meta itemprop="wordCount" content="983">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Creating a new release">
   <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
@@ -170,6 +170,8 @@ Use the GitHub “auto-generate release notes” button to generate a set of rel
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/" title="v2.18.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180"><span class="">v2.18.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
@@ -558,6 +560,10 @@ Use the GitHub “auto-generate release notes” button to generate a set of rel
   <a href="/azure-service-operator/reference/insights/v1api20230311/" title="insights.azure.com/v1api20230311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230311"><span class="">v1api20230311</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
   <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="">v1api20230601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240311-li">
+  <a href="/azure-service-operator/reference/insights/v1api20240311/" title="insights.azure.com/v1api20240311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240311"><span class="">v1api20240311</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20250101preview-li">
+  <a href="/azure-service-operator/reference/insights/v1api20250101preview/" title="insights.azure.com/v1api20250101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20250101preview"><span class="">v1api20250101preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
@@ -1011,6 +1017,9 @@ Use the GitHub “auto-generate release notes” button to generate a set of rel
 <li>
 <p><a href="#create-a-blog-post">Create a blog post</a> highlighting the key aspects of the release.</p>
 </li>
+<li>
+<p>Post a message in the Slack channel.</p>
+</li>
 </ol>
 <h2 id="catalog-breaking-changes">Catalog breaking changes</h2>
 <p>There may be breaking changes in a new release of ASO, either due to changes we made or changes made in the upstream
@@ -1068,7 +1077,7 @@ service Swagger specifications. We must validate each breaking change so that we
 </span></span></code></pre></div></li>
 <li>
 <p>Use asoctl to install the new release</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./asoctl export template --version v2.7.0 --crd-pattern <span style="color:#e6db74">&#34;resources.azure.com/*;network.azure.com/*&#34;</span> | kubectl apply -f -
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./asoctl export template --version v2.18.0 --crd-pattern <span style="color:#e6db74">&#34;resources.azure.com/*;network.azure.com/*&#34;</span> | kubectl apply --server-side<span style="color:#f92672">=</span>true -f -
 </span></span></code></pre></div></li>
 <li>
 <p>Watch while ASO starts</p>

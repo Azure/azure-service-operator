@@ -4,6 +4,8 @@
   <url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/</loc>
@@ -574,6 +576,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20240311/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20240401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20240402preview/</loc>
@@ -601,6 +605,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/app/v1api20250101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20250101preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20250301/</loc>
   </url><url>

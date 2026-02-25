@@ -20,13 +20,13 @@
 <title>Installation: From YAML | Azure Service Operator</title>
 <meta name="description" content="Prerequisites You have installed Cert Manager as per the installation instructions up to the “install from Helm” step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables. Installation (operator) Download and install the latest version of asoctl.
 Install the latest v2&#43; release of Azure Service Operator.
-asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply --server-side=true -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/installing-from-yaml/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Installation: From YAML">
   <meta property="og:description" content="Prerequisites You have installed Cert Manager as per the installation instructions up to the “install from Helm” step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables. Installation (operator) Download and install the latest version of asoctl.
 Install the latest v2&#43; release of Azure Service Operator.
-asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply --server-side=true -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
@@ -34,13 +34,13 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
   <meta itemprop="name" content="Installation: From YAML">
   <meta itemprop="description" content="Prerequisites You have installed Cert Manager as per the installation instructions up to the “install from Helm” step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables. Installation (operator) Download and install the latest version of asoctl.
 Install the latest v2&#43; release of Azure Service Operator.
-asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
-  <meta itemprop="wordCount" content="336">
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply --server-side=true -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
+  <meta itemprop="wordCount" content="337">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Installation: From YAML">
   <meta name="twitter:description" content="Prerequisites You have installed Cert Manager as per the installation instructions up to the “install from Helm” step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables. Installation (operator) Download and install the latest version of asoctl.
 Install the latest v2&#43; release of Azure Service Operator.
-asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply --server-side=true -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &#34;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#34;. For more information about what --crd-pattern means, see CRD management in ASO.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -158,6 +158,8 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/" title="v2.18.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180"><span class="">v2.18.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
@@ -546,6 +548,10 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
   <a href="/azure-service-operator/reference/insights/v1api20230311/" title="insights.azure.com/v1api20230311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230311"><span class="">v1api20230311</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
   <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="">v1api20230601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240311-li">
+  <a href="/azure-service-operator/reference/insights/v1api20240311/" title="insights.azure.com/v1api20240311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240311"><span class="">v1api20240311</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20250101preview-li">
+  <a href="/azure-service-operator/reference/insights/v1api20250101preview/" title="insights.azure.com/v1api20250101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20250101preview"><span class="">v1api20250101preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
@@ -965,7 +971,7 @@ and set the appropriate environment variables.</li>
 </li>
 <li>
 <p>Install <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>asoctl export template --version v2.6.0 --crd-pattern <span style="color:#e6db74">&#34;&lt;your pattern&gt;&#34;</span> | kubectl apply -f -
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>asoctl export template --version v2.6.0 --crd-pattern <span style="color:#e6db74">&#34;&lt;your pattern&gt;&#34;</span> | kubectl apply --server-side<span style="color:#f92672">=</span>true -f -
 </span></span></code></pre></div><p>When specifying <code>--crd-pattern</code>, ensure you choose only the CRDs you need, for example:
 <code>--crd-pattern &quot;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&quot;</code>.
 For more information about what <code>--crd-pattern</code> means, see <a href="/azure-service-operator/guide/crd-management/">CRD management in ASO</a>.</p>
