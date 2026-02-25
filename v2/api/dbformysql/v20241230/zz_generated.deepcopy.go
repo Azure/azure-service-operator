@@ -468,7 +468,7 @@ func (in *FlexibleServer_STATUS) DeepCopyInto(out *FlexibleServer_STATUS) {
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion_STATUS)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -600,7 +600,7 @@ func (in *FlexibleServer_Spec) DeepCopyInto(out *FlexibleServer_Spec) {
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion)
+		*out = new(string)
 		**out = **in
 	}
 }
