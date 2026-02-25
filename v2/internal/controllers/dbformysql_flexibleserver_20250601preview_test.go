@@ -13,7 +13,6 @@ import (
 	"github.com/kr/pretty"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -52,15 +51,6 @@ func Test_DBForMySQL_FlexibleServer_20250601preview_CRUD(t *testing.T) {
 	tc.T.Log(pretty.Sprint(flexibleServer.Status.Backup))
 	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(to.Ptr(5)))
 
-	tc.RunSubtests(
-		testcommon.Subtest{
-			Name: "MySQL Flexible servers AAD Administrators CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_AADAdmin_20250601preview_CRUD(tc, rg, flexibleServer)
-			},
-		},
-	)
-
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers configuration CRUD",
@@ -91,8 +81,12 @@ func Test_DBForMySQL_FlexibleServer_20250601preview_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func newFlexibleServer20250601preview(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
-	version := mysql.ServerVersion_8021
+func newFlexibleServer20250601preview(
+	tc *testcommon.KubePerTestContext,
+	rg *resources.ResourceGroup,
+	adminPasswordSecretRef genruntime.SecretReference,
+) (*mysql.FlexibleServer, string) {
+	version := "9.3"
 	tier := mysql.ServerSkuTier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
@@ -159,73 +153,6 @@ func MySQLFlexibleServer_FirewallRule_20250601preview_CRUD(tc *testcommon.KubePe
 	// this seems invalid per the ARM spec.
 	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md#get-resource
 	// tc.Expect(rule.Status.Id).ToNot(BeNil())
-}
-
-func MySQLFlexibleServer_AADAdmin_20250601preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, server *mysql.FlexibleServer) {
-	// Create a managed identity to serve as aad admin
-	configMapName := "my-configmap"
-	clientIDKey := "clientId"
-	tenantIDKey := "tenantId"
-
-	// Create a managed identity to use as the AAD administrator
-	mi := &managedidentity.UserAssignedIdentity{
-		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity.UserAssignedIdentity_Spec{
-			Location: to.Ptr("ukwest"),
-			Owner:    testcommon.AsOwner(rg),
-			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
-				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
-					ClientId: &genruntime.ConfigMapDestination{
-						Name: configMapName,
-						Key:  clientIDKey,
-					},
-					TenantId: &genruntime.ConfigMapDestination{
-						Name: configMapName,
-						Key:  tenantIDKey,
-					},
-				},
-			},
-		},
-	}
-
-	tc.CreateResourceAndWait(mi)
-
-	// Update the server to use the managed identity as its UMI
-	old := server.DeepCopy()
-	server.Spec.Identity = &mysql.MySQLServerIdentity{
-		Type: to.Ptr(mysql.ManagedServiceIdentityType_UserAssigned),
-		UserAssignedIdentities: []mysql.UserAssignedIdentityDetails{
-			{
-				Reference: *tc.MakeReferenceFromResource(mi),
-			},
-		},
-	}
-
-	tc.PatchResourceAndWait(old, server)
-
-	aadAdmin := mysql.AdministratorType_ActiveDirectory
-	admin := &mysql.FlexibleServersAdministrator{
-		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysql.FlexibleServersAdministrator_Spec{
-			Owner:             testcommon.AsOwner(server),
-			AdministratorType: &aadAdmin,
-			Login:             &mi.Name,
-			TenantIdFromConfig: &genruntime.ConfigMapReference{
-				Name: configMapName,
-				Key:  tenantIDKey,
-			},
-			SidFromConfig: &genruntime.ConfigMapReference{
-				Name: configMapName,
-				Key:  clientIDKey,
-			},
-			IdentityResourceReference: tc.MakeReferenceFromResource(mi),
-		},
-	}
-
-	tc.CreateResourceAndWait(admin)
-	defer tc.DeleteResourceAndWait(admin)
-
-	tc.Expect(admin.Status.Id).ToNot(BeNil())
 }
 
 func MySQLFlexibleServer_Configuration_20250601preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {

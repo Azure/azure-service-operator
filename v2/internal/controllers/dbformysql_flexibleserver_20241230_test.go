@@ -91,8 +91,12 @@ func Test_DBForMySQL_FlexibleServer_20241230_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func newFlexibleServer20241230(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
-	version := mysql.ServerVersion_8021
+func newFlexibleServer20241230(
+	tc *testcommon.KubePerTestContext,
+	rg *resources.ResourceGroup,
+	adminPasswordSecretRef genruntime.SecretReference,
+) (*mysql.FlexibleServer, string) {
+	version := "8.4"
 	tier := mysql.ServerSkuTier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
