@@ -14,7 +14,7 @@ This style guide ensures consistency across all Azure Service Operator documenta
 
 Our documentation targets experienced Kubernetes and Azure practitioners who understand cloud-native concepts but may be new to ASO. Write for an audience that knows what a CRD is, but may not know how ASO implements one.
 
-- **Be professional but approachable.** Write as if explaining to a knowledgeable colleague—informed and helpful, but never condescending or overly casual.
+- **Be professional but approachable.** Write as if explaining to a knowledgeable colleague - informed and helpful, but never condescending or overly casual.
 - **Assume intermediate Kubernetes knowledge.** Readers understand pods, secrets, namespaces, and `kubectl`, so don't explain these basics.
 - **Provide context for ASO-specific concepts.** Explain how ASO works, including conditions, ownership, reconcile policies, and credential scopes.
 - **Focus on practical outcomes.** Emphasise what users can accomplish rather than abstract descriptions of features.
@@ -38,7 +38,7 @@ Clear, direct writing helps users find answers quickly. Every sentence should se
 - **Use present tense and active voice.** Write "ASO creates the resource" rather than "The resource will be created by ASO".
 - **Be precise about requirements.** Distinguish between "must", "should", and "can" to indicate what is required versus recommended versus optional.
 - **Avoid jargon without explanation.** If you must use terms like "reconciliation" or "hub version", ensure they're explained on first use or link to a glossary.
-- **Keep sentences concise but complete.** Aim for clarity over brevity—don't sacrifice understanding for fewer words.
+- **Keep sentences concise but complete.** Aim for clarity over brevity - don't sacrifice understanding for fewer words.
 
 ## Code Examples
 
@@ -77,6 +77,7 @@ Command-line examples should be easy to follow and adapt.
 - **Prefix commands with `$`.** This distinguishes commands from their output and follows common convention.
 - **Show expected output where helpful.** Include truncated or representative output to help users verify their commands worked.
 - **Explain long or complex commands.** Break down multi-part commands or explain significant flags.
+- **Use full flags and switches.** Avoid shorthand flags in documentation to improve clarity for less experienced users.
 
 ```bash
 $ kubectl get resourcegroups.resources.azure.com 
