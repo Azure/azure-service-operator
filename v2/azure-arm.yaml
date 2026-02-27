@@ -1333,6 +1333,9 @@ objectModelConfiguration:
       CertificateConfiguration:
         CertificatePassword:
           $isSecret: true
+      DiagnosticContractProperties:
+        LoggerId:
+          $referenceType: arm
       HostnameConfiguration:
         CertificatePassword:
           $isSecret: true
@@ -1341,6 +1344,11 @@ objectModelConfiguration:
       KeyVaultContractCreateProperties:
         IdentityClientId:
           $importConfigMapMode: optional
+      LoggerContractProperties:
+        Credentials:
+          $isSecret: true
+        ResourceId:
+          $referenceType: arm
       Service:
         $exportAs: Service
         $supportedFrom: v2.16.0
@@ -1362,6 +1370,12 @@ objectModelConfiguration:
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.16.0
+      Service_Diagnostic:
+        $exportAs: Diagnostic
+        $supportedFrom: v2.18.0
+      Service_Logger:
+        $exportAs: Logger
+        $supportedFrom: v2.18.0
       Service_NamedValue:
         $exportAs: NamedValue
         $supportedFrom: v2.16.0

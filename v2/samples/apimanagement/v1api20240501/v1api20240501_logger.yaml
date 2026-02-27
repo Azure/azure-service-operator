@@ -1,0 +1,17 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: Logger
+metadata:
+  name: samplelogger
+  namespace: default
+spec:
+  azureName: "sample-logger"
+  description: "Sample logger for Application Insights"
+  loggerType: "applicationInsights"
+  # Note: For Application Insights, credentials should contain the instrumentation key
+  # For Azure Event Hub, credentials should contain name and connectionString
+  credentials:
+    name: logger-credentials
+    key: instrumentationKey
+  isBuffered: true
+  owner:
+    name: sampleapimservice
