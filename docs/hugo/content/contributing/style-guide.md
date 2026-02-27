@@ -92,14 +92,14 @@ Consistent formatting makes documentation scannable and professional.
 - **Use bold for UI elements and emphasis.** Write "Click **Create**" for UI actions.
 - **Use backticks for code elements inline.** Field names, resource kinds, file paths, and commands should appear as `spec.owner.name`, `ResourceGroup`, or `kubectl apply`.
 - **Use admonitions for important callouts.** Employ Note, Warning, and Tip blocks to highlight critical information without breaking the reading flow.
-- **Format links with descriptive text.** Write "[authentication documentation](link)" rather than "click [here](link)".
+- **Format links with descriptive text.** Write `[authentication documentation](link)` rather than `click [here](link)`.
 - **Use tables for structured comparisons.** Present options, environment variables, or feature comparisons in tables for easy scanning.
 
 ## Admonitions and Callouts
 
 Hugo shortcodes provide formatted callout boxes for important information. Use them to draw attention without disrupting the main content flow.
 
-```
+``` mustache
 {{% alert title="Note" %}}
 Content for a general note or tip.
 {{% /alert %}}
