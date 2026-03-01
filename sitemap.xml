@@ -93,7 +93,7 @@
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/blogs/</loc>
-    <lastmod>2026-02-03T00:00:00+00:00</lastmod>
+    <lastmod>2026-02-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/run-the-code-generator/</loc>
   </url><url>
@@ -135,8 +135,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/successful-creation-handler/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</loc>
+    <lastmod>2026-02-18T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/</loc>
-    <lastmod>2026-02-03T00:00:00+00:00</lastmod>
+    <lastmod>2026-02-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</loc>
     <lastmod>2026-02-03T00:00:00+00:00</lastmod>

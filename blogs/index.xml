@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASO v2.18 Release Notes</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</link>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.18.0! This release adds new AKS preview API support, expands simplified versioning to storage resources, strengthens reconciliation checks, fixes Helm configurability issues, and updates a broad set of dependencies and tooling.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;storage&lt;/code&gt; group now supports &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5116&#34;&gt;simplified API versioning&lt;/a&gt;. You can use all storage resources with the new &lt;code&gt;v&lt;/code&gt; prefix, while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. This continues our transition toward simplified versioning across all resource groups (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;#4831&lt;/a&gt; for more detail).&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Why record our tests?</title>
       <link>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</link>

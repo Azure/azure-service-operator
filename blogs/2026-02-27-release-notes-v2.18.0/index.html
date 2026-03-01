@@ -17,34 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>PostgreSQL | Azure Service Operator</title>
-<meta name="description" content="ASOv1 supports PostgreSQL single server, which is being deprecated.
-ASOv2 does not support PostgreSQL single server, but it does support PostgreSQL Flexible Server (the single server replacement).
-Migration from ASOv1 to ASOv2 for these resources is a two-step process:
-Migrate from Single Server to Flexible Server. Import the Flexible Server into ASOv2. Migrate from Single Server to Flexible Server Annotate your ASOv1 PostgreSQL single servers in Kubernetes with the skipreconcile=true annotation, and then follow the migration guide.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/postgresql/">
+<title>ASO v2.18 Release Notes | Azure Service Operator</title>
+<meta name="description" content="Release notes for Azure Service Operator v2.18.0">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="PostgreSQL">
-  <meta property="og:description" content="ASOv1 supports PostgreSQL single server, which is being deprecated.
-ASOv2 does not support PostgreSQL single server, but it does support PostgreSQL Flexible Server (the single server replacement).
-Migration from ASOv1 to ASOv2 for these resources is a two-step process:
-Migrate from Single Server to Flexible Server. Import the Flexible Server into ASOv2. Migrate from Single Server to Flexible Server Annotate your ASOv1 PostgreSQL single servers in Kubernetes with the skipreconcile=true annotation, and then follow the migration guide.">
+  <meta property="og:title" content="ASO v2.18 Release Notes">
+  <meta property="og:description" content="Release notes for Azure Service Operator v2.18.0">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+    <meta property="article:section" content="blogs">
+    <meta property="article:published_time" content="2026-02-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-02-18T00:00:00+00:00">
 
-  <meta itemprop="name" content="PostgreSQL">
-  <meta itemprop="description" content="ASOv1 supports PostgreSQL single server, which is being deprecated.
-ASOv2 does not support PostgreSQL single server, but it does support PostgreSQL Flexible Server (the single server replacement).
-Migration from ASOv1 to ASOv2 for these resources is a two-step process:
-Migrate from Single Server to Flexible Server. Import the Flexible Server into ASOv2. Migrate from Single Server to Flexible Server Annotate your ASOv1 PostgreSQL single servers in Kubernetes with the skipreconcile=true annotation, and then follow the migration guide.">
-  <meta itemprop="wordCount" content="106">
+  <meta itemprop="name" content="ASO v2.18 Release Notes">
+  <meta itemprop="description" content="Release notes for Azure Service Operator v2.18.0">
+  <meta itemprop="datePublished" content="2026-02-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-18T00:00:00+00:00">
+  <meta itemprop="wordCount" content="493">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="PostgreSQL">
-  <meta name="twitter:description" content="ASOv1 supports PostgreSQL single server, which is being deprecated.
-ASOv2 does not support PostgreSQL single server, but it does support PostgreSQL Flexible Server (the single server replacement).
-Migration from ASOv1 to ASOv2 for these resources is a two-step process:
-Migrate from Single Server to Flexible Server. Import the Flexible Server into ASOv2. Migrate from Single Server to Flexible Server Annotate your ASOv1 PostgreSQL single servers in Kubernetes with the skipreconcile=true annotation, and then follow the migration guide.">
+  <meta name="twitter:title" content="ASO v2.18 Release Notes">
+  <meta name="twitter:description" content="Release notes for Azure Service Operator v2.18.0">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -53,7 +45,7 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-page td-blog">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -61,10 +53,10 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
+        <a class="nav-link active" href="/azure-service-operator/blogs/"><span>Blog</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -109,20 +101,20 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
   <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -133,11 +125,11 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -150,14 +142,14 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
@@ -190,61 +182,61 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideoperatorspec-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideoperatorspec-li">
   <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="">Configuring OperatorSpec</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/azuresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql"><span class="">Azure SQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/databaseusers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers"><span class="">Database Users</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/eventhub/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub"><span class="">EventHub</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/mysql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationmysql"><span class="">MySQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
-  <a href="/azure-service-operator/guide/asov1-asov2-migration/postgresql/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql"><span class="td-sidebar-nav-active-item">PostgreSQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/postgresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql"><span class="">PostgreSQL</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/redis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationredis"><span class="">Redis</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstorage"><span class="">Storage Account</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180-li">
-  <a href="/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180"><span class="">ASO v2.18 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180-li">
+  <a href="/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180"><span class="td-sidebar-nav-active-item">ASO v2.18 Release Notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
   <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings"><span class="">Why record our tests?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
   <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan"><span class="">Developer Talks - Quality of Life Features with Bevan</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170-li">
   <a href="/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170"><span class="">ASO v2.17 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
   <a href="/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160"><span class="">ASO v2.16 Release Notes</span></a>
 </li>
   </ul>
@@ -932,11 +924,11 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#migrate-from-single-server-to-flexible-server">Migrate from Single Server to Flexible Server</a></li>
-      </ul>
-    </li>
+    <li><a href="#-headline-features">🎇 Headline Features</a></li>
+    <li><a href="#-breaking-changes">⚠️ Breaking changes</a></li>
+    <li><a href="#-new-and-improved-resource-support">🎉 New and improved resource support</a></li>
+    <li><a href="#-bug-fixes">🐛 Bug fixes</a></li>
+    <li><a href="#-thank-you">🙏 Thank You</a></li>
   </ul>
 </nav>
       </div>
@@ -944,44 +936,82 @@ Migrate from Single Server to Flexible Server. Import the Flexible Server into A
             
 
           </aside>
-          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
-            
-  
-
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5 pe-md-4" role="main">
+            <a class="td-rss-button" title="RSS" href="/azure-service-operator/blogs/index.xml" target="_blank" rel="noopener">
+              <i class="fa-solid fa-rss" aria-hidden="true"></i>
+            </a>
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/">Guide</a></li>
-  <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/asov1-asov2-migration/">ASOv1 to ASOv2 migration guide</a></li>
+    <a href="/azure-service-operator/blogs/">Blog</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    PostgreSQL</li>
+    ASO v2.18 Release Notes</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>PostgreSQL</h1>
-	
+	<h1>ASO v2.18 Release Notes</h1>
+	<div class="lead">Release notes for Azure Service Operator v2.18.0</div>
+	<div class="td-byline mb-4">
+		
+		<time datetime="2026-02-18" class="text-body-secondary">Wednesday, February 18, 2026</time>
+	</div>
 	<header class="article-meta">
 		
 </header>
-	<p>ASOv1 supports PostgreSQL single server, which is
-<a href="https://azure.microsoft.com/updates/azure-database-for-postgresql-single-server-will-be-retired-migrate-to-flexible-server-by-28-march-2025/">being deprecated</a>.</p>
-<p>ASOv2 does <em>not</em> support PostgreSQL single server, but it does support PostgreSQL Flexible Server
-(the single server replacement).</p>
-<p>Migration from ASOv1 to ASOv2 for these resources is a two-step process:</p>
-<ol>
-<li>Migrate from Single Server to Flexible Server.</li>
-<li>Import the Flexible Server into ASOv2.</li>
-</ol>
-<h3 id="migrate-from-single-server-to-flexible-server">Migrate from Single Server to Flexible Server</h3>
-<p>Annotate your ASOv1 PostgreSQL single servers in Kubernetes with the <code>skipreconcile=true</code> annotation,
-and then follow the
-<a href="https://learn.microsoft.com/azure/postgresql/migrate/migration-service/concepts-migration-service-postgresql">migration guide</a>.</p>
-<p>Once the migration has been complete, use <a href="../../../tools/asoctl/">asoctl</a> to import the new Flexible Server resource from
-Azure following the standard process defined in the <a href="../">ASOv1 to ASOv2 migration guide</a></p>
+	<p>We&rsquo;re excited to announce the release of Azure Service Operator v2.18.0! This release adds new AKS preview API support, expands simplified versioning to storage resources, strengthens reconciliation checks, fixes Helm configurability issues, and updates a broad set of dependencies and tooling.</p>
+<h2 id="-headline-features">🎇 Headline Features</h2>
+<p>The <code>storage</code> group now supports <a href="https://github.com/Azure/azure-service-operator/pull/5116">simplified API versioning</a>. You can use all storage resources with the new <code>v</code> prefix, while the legacy <code>v1api</code> versions remain available for backward compatibility. This continues our transition toward simplified versioning across all resource groups (see <a href="https://github.com/Azure/azure-service-operator/issues/4831">#4831</a> for more detail).</p>
+<p>ASO now issues a fresh <code>GET</code> on the owner ARM resource before calling <code>PreReconcileOwnerCheck</code>, ensuring the check always operates on the latest owner status (<a href="https://github.com/Azure/azure-service-operator/pull/5140">#5140</a>). This should result in faster goal state convergence for complex resource graphs.</p>
+<p>Support for the <code>allowMultiEnvManagement</code> configuration flag allows per-namespace/per-resource Azure cloud environment settings, allowing users to manage resources across different Azure clouds/environments.</p>
+<ul>
+<li>Special thanks to <a href="https://github.com/shubhamrajvanshi">subhamrajvanshi</a> for this contribution.</li>
+</ul>
+<p>ASO no longer gives up <a href="https://github.com/Azure/azure-service-operator/pull/5092">retrying on common Azure errors</a>, improving reliability for long-running operations in ASO. ASO will currently still give up retrying on some well-known non-retryable errors.</p>
+<p>Before issuing a DELETE request to Azure, <a href="https://github.com/Azure/azure-service-operator/pull/5040">ASO may now check</a> if the resource or the resource&rsquo;s parent has already been removed. We will progressively enable this for all resources over the next few releases.</p>
+<h2 id="-breaking-changes">⚠️ Breaking changes</h2>
+<p>This release includes breaking changes. Please review <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/">breaking changes in v2.18</a> before upgrading.</p>
+<ul>
+<li>
+<p>The <code>containerservice</code> ManagedCluster and AgentPool API versions <code>v1api20230201</code> and <code>v1api20231001</code> have been removed, as <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.17.0">previously announced</a>.</p>
+</li>
+<li>
+<p>The API version <code>2024-01-01-preview</code> of <code>insights</code> has been removed as it was deprecated and removed upstream by Azure. Users of this API version should move to a supported version before upgrading ASO.</p>
+</li>
+</ul>
+<p>In <a href="https://github.com/Azure/azure-service-operator/milestone/38">ASO v2.19</a>, we will remove <code>containerservice</code> ManagedCluster and AgentPool API version <code>v1api20240402preview</code>.</p>
+<h2 id="-new-and-improved-resource-support">🎉 New and improved resource support</h2>
+<p>You can now use the latest AKS preview features through <a href="https://github.com/Azure/azure-service-operator/pull/5170">containerservice v20251002preview</a>.</p>
+<p>Several <code>insights</code> resources now use their latest ARM API versions (<a href="https://github.com/Azure/azure-service-operator/pull/5136">#5136</a>):</p>
+<ul>
+<li><strong>DataCollectionEndpoint</strong>, <strong>DataCollectionRule</strong>, and <strong>DataCollectionRuleAssociation</strong> now target API version <code>2024-03-11</code></li>
+<li><strong>ScheduledQueryRule</strong> now targets <code>2025-01-01-preview</code></li>
+</ul>
+<p>New <a href="https://github.com/Azure/azure-service-operator/pull/4948">AppConfiguration child resources</a> using the latest 2024-06-01 API version have been added to address the requests for KeyValue management capabilities. These resources include <code>KeyValue</code>, <code>Replica</code>, and <code>Snapshot</code>.</p>
+<p>The <code>Version</code> value for <code>dbformysql.FlexibleServer</code> <a href="https://github.com/Azure/azure-service-operator/pull/5195">has been changed</a> to a simple string to allow new server versions to be used without the need for an API upgrade.</p>
+<h2 id="-bug-fixes">🐛 Bug fixes</h2>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/5156">The Helm chart metrics port is now fully configurable</a>. Previously, the <code>metrics.port</code> value in <code>values.yaml</code> was ignored in favor of a hardcoded <code>8443</code>.
+<ul>
+<li><em>Special thanks to <a href="https://github.com/bingikarthik">bingikarthik</a> for the contribution!</em></li>
+<li></li>
+</ul>
+</li>
+<li>4 known cases where the ARM ID properties were released <a href="https://github.com/Azure/azure-service-operator/pull/4925">without being properly tagged-as/converted-to</a> <code>KnownResourceReference</code> structs were fixed. To <a href="https://github.com/Azure/azure-service-operator/pull/4925">avoid potential breakage</a>, users can add the correct <code>ResourceReference</code> property alongside the legacy property.</li>
+</ul>
+<h2 id="-thank-you">🙏 Thank You</h2>
+<p>Thank you to all our contributors for making this release possible! A special thanks goes to <a href="https://github.com/bingikarthik">bingikarthik</a> and <a href="https://github.com/shubhamrajvanshi">subhamrajvanshi</a> for their contributions to this release.</p>
+<p>See the <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.18.0"><strong>Full Release notes</strong></a> on GitHub.</p>
 
-	
-</div>
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" aria-label="Previous - Why record our tests?" class="btn btn-primary"><span class="me-1">←</span>Previous</a>
+  </li>
+  <li>
+    <a class="btn btn-primary disabled">Next<span class="ms-1">→</span></a>
+  </li>
+</ul>
+
+	</div>
 
 
           </main>
