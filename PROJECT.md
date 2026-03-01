@@ -113,9 +113,7 @@ Additionally, modify the gopter generator in `json_serialization_test_cases` to 
 
 ### Deny List Model
 
-The model to follow is `skipDeletionPrecheck` in `v2/internal/reconcilers/arm/azure_generic_arm_reconciler_instance.go` (line ~920). It's a `sets.NewString(...)` containing group names. However, since the code generator is in a different module (`v2/tools/generator`), we should use a plain `map[string]bool` or a set type available within the generator module.
-
-UPDATE: the code generator already uses a proper "set" abstraction, we should use that instead of monkeying around with a `map[string]bool`.
+The model to follow is `skipDeletionPrecheck` in `v2/internal/reconcilers/arm/azure_generic_arm_reconciler_instance.go` (line ~920). It's a `sets.NewString(...)` containing group names. The code generator already uses the `set` package from `github.com/Azure/azure-service-operator/v2/internal/set` — use `set.Make[string](...)` and `set.Contains()` for this.
 
 ### Detailed Steps
 
@@ -134,19 +132,76 @@ In `v2/tools/generator/internal/astmodel/std_references.go`, add alongside the g
 RapidReference = MakeExternalPackageReference("pgregory.net/rapid")
 ```
 
-#### Step 3: Create the migration allow-list
+#### Step 3: Create the migration list
 
 Create `v2/tools/generator/internal/testcases/rapid_migration.go` containing:
 
-- A `map[string]bool` (or `set.Set[string]`) of group names that should use rapid instead of gopter. Initially, this set is **empty** (all groups use gopter).
+- A `set.Set[string]` of group names that should **continue using gopter**. This set is populated with all current groups — any group NOT in this set will use rapid. This means new groups automatically get rapid tests, and we migrate existing groups by removing them from this set.
 
-UPDATE: We don't want any new groups to use gopter, we want them to use rapid. Populate the set will all current groups and only generate gopter tests for groups IN the set; generate rapid tests for any group not in the set.
+```go
+import "github.com/Azure/azure-service-operator/v2/internal/set"
+
+// gopterGroups is the set of groups that still use gopter-based property tests.
+// To migrate a group to rapid, remove it from this set.
+var gopterGroups = set.Make(
+    "alertsmanagement",
+    "apimanagement",
+    "app",
+    "appconfiguration",
+    "authorization",
+    "batch",
+    "cache",
+    "cdn",
+    "cognitiveservices",
+    "compute",
+    "containerinstance",
+    "containerregistry",
+    "containerservice",
+    "datafactory",
+    "dataprotection",
+    "dbformariadb",
+    "dbformysql",
+    "dbforpostgresql",
+    "devices",
+    "documentdb",
+    "entra",
+    "eventgrid",
+    "eventhub",
+    "insights",
+    "keyvault",
+    "kubernetesconfiguration",
+    "kusto",
+    "machinelearningservices",
+    "managedidentity",
+    "monitor",
+    "network",
+    "network.frontdoor",
+    "notificationhubs",
+    "operationalinsights",
+    "quota",
+    "redhatopenshift",
+    "resources",
+    "search",
+    "servicebus",
+    "signalrservice",
+    "sql",
+    "storage",
+    "subscription",
+    "synapse",
+    "web",
+)
+```
 
 - Two exported functions:
-  - `UseRapidForGroup(group string) bool` — returns true if the group should generate rapid tests
-  - `UseGopterForGroup(group string) bool` — returns `!UseRapidForGroup(group)` (the inverse)
+  - `UseRapidForGroup(group string) bool` — returns `!gopterGroups.Contains(group)` (groups NOT in the set get rapid)
+  - `UseGopterForGroup(group string) bool` — returns `gopterGroups.Contains(group)` (groups IN the set keep gopter)
 
 The group name is the value returned by `InternalPackageReference.Group()` — e.g. `"batch"`, `"compute"`, etc.
+
+This design means:
+- All existing groups start on gopter (no generated code changes in Phase II)
+- Any new group automatically gets rapid tests
+- Migration happens by removing a group from `gopterGroups`
 
 #### Step 4: Modify existing gopter injection to respect the allow-list
 
@@ -175,7 +230,8 @@ func InjectRapidSerializationTests(idFactory astmodel.IdentifierFactory) *Stage 
         InjectRapidSerializationTestsStageID,
         "Add rapid-based test cases to verify JSON serialization",
         func(ctx context.Context, state *State) (*State, error) {
-            // Phase II: no-op — the allow-list is empty so no groups match
+            // Phase II: no-op for existing groups (all are in gopterGroups)
+            // New groups not in gopterGroups would get rapid tests
             return state, nil
         })
 
@@ -208,7 +264,8 @@ Run `./hack/tools/task generator:unit-tests` (with `-update` flag if needed). Th
 
 - `./hack/tools/task quick-checks` passes
 - `./hack/tools/task generator:unit-tests` passes (with updated golden files)
-- No generated code changes (since the rapid list is empty, all groups still use gopter)
+- No generated code changes for existing groups (all are in `gopterGroups`)
+- Golden file tests use synthetic group names not in `gopterGroups`, so they will automatically exercise the rapid code path. This means: golden file tests that generate test cases will produce rapid-style code. The golden files for those tests will need updating.
 
 ## Phase III: Implementation
 
@@ -292,6 +349,8 @@ func BatchAccount_SpecGenerator() *rapid.Generator[BatchAccount_Spec] {
 
 **Important: rapid doesn't have `gen.Struct()`** — we need to generate struct construction field-by-field inside `rapid.Custom()`. Each property is drawn from its respective rapid generator.
 
+**Note about `AddIndependentPropertyGeneratorsFor` / `AddRelatedPropertyGeneratorsFor`**: These helper methods populate a `map[string]gopter.Gen`. For rapid, we won't use a map-based approach — instead, the generator factory will directly emit field assignments inside `rapid.Custom()`, drawing each field from its generator inline. This eliminates the separate `AddIndependent...` / `AddRelated...` methods in favour of a single generator method that constructs the struct directly.
+
 #### Step 2: Implement rapid generator mapping for each property type
 
 Create helper methods on `RapidJSONSerializationTestCase`:
@@ -299,7 +358,7 @@ Create helper methods on `RapidJSONSerializationTestCase`:
 **Independent generators** (`createIndependentGenerator`):
 | ASO Type | Gopter | Rapid |
 |----------|--------|-------|
-| `string` | `gen.AlphaString()` | `rapid.StringMatching("[a-zA-Z]*")` (see Q5) |
+| `string` | `gen.AlphaString()` | `rapid.String()` (full UTF-8 — broader coverage than gopter's alpha-only) |
 | `uint32` | `gen.UInt32()` | `rapid.Uint32()` |
 | `int` | `gen.Int()` | `rapid.Int()` |
 | `float64` | `gen.Float64()` | `rapid.Float64()` |
@@ -325,6 +384,8 @@ The cycle-breaking pattern works with rapid using `rapid.Custom()`:
 4. Assign the full generator to the global variable
 
 Since `rapid.Custom()` captures its closure at creation time, and the global variable is read inside other generators' closures at draw-time (not creation-time), this correctly breaks cycles.
+
+**No >50 property limitation**: Unlike gopter (which uses `gen.Struct()` with reflection and hits a Go runtime limit at ~50 fields), `rapid.Custom()` constructs the struct field-by-field with no reflection. Generate independent generators for ALL properties regardless of count.
 
 #### Step 4: Handle OneOf types
 
@@ -400,15 +461,7 @@ func(ctx context.Context, state *State) (*State, error) {
 
 #### Step 8: Enable "batch" group
 
-Update the migration allow-list in `rapid_migration.go`:
-
-```go
-var rapidMigrationGroups = map[string]bool{
-    "batch": true,
-}
-```
-
-UPDATE: To match earlier changes, this step will involve removing "batch" from the existing list.
+Remove `"batch"` from the `gopterGroups` set in `rapid_migration.go`. This causes all batch types to get rapid-based tests instead of gopter-based tests.
 
 #### Step 9: Regenerate and validate
 
@@ -447,32 +500,86 @@ cd v2 && go test ./api/batch/... -v -count=1
 - `v2/go.mod` / `v2/go.sum` — Add rapid dependency
 - Golden test files — Update pipeline stage lists
 
-## Open Questions
+## Resolved Questions
 
-1. **Rapid import path**: The Go module path for rapid is `pgregory.net/rapid` (this is what `go get` uses). The GitHub URL is `github.com/flyingmutant/rapid`. We should use `pgregory.net/rapid` as the import path. Please confirm.
+These questions have been asked and answered — kept for reference.
 
-A: The correct import path is "pgregory.net/rapid" as suggested.
+1. **Rapid import path**: Use `pgregory.net/rapid` as the Go import path.
 
-2. **ResourceConversionTestCase and PropertyAssignmentTestCase scope**: These two test case types also use gopter and **share the generators** created by `JSONSerializationTestCase`. Phase III above includes creating rapid-flavored versions of both. Is this the intended scope, or should we limit Phase III to just the JSON serialization test and leave property assignment / resource conversion tests using gopter? (Note: limiting to just JSON serialization is NOT possible without significant refactoring — the generator return type changes, which breaks the call from these other tests.)
+2. **Test case scope**: All three test case types (JSON serialization, property assignment, resource conversion) will be migrated. The goal is to eventually remove all gopter tests.
 
-A: The goal is to eventually remove all gopter tests, so conversion of all test styles is appropriate.
+3. **String generation**: Use `rapid.String()` (full UTF-8). We expect serialization and conversion code to handle UTF-8 properly.
 
-3. **String generation strategy**: Gopter uses `gen.AlphaString()` (only `[a-zA-Z]` characters). Rapid's `rapid.String()` generates arbitrary Unicode. Should we constrain rapid to match gopter's behavior (using `rapid.StringMatching("[a-zA-Z]*")`) or embrace broader Unicode fuzzing? Broader fuzzing may surface JSON encoding issues with special characters but could also produce false positives if the types don't handle Unicode properly.
+4. **Large objects (>50 properties)**: Generate independent generators for all properties — no skip. The gopter limitation (reflection on large structs) doesn't apply to rapid.
 
-A: We expect all the serialization and conversion code to handle UTF-8 encoded text properly, so let's test all of that.
+5. **Test iteration count**: Use rapid's default of 100 for all types. No graduated counts.
 
-4. **Large object handling (>50 properties)**: Gopter skips independent generators for types with >50 properties due to a Go runtime limitation with `reflect.TypeOf` on large structs. Since rapid uses `rapid.Custom()` with field-by-field construction (no reflection), this limitation likely doesn't apply. Should we generate independent generators for large objects in the rapid version? This would improve test coverage.
+6. **Golden file tests**: The inverted list design (gopter set lists known groups; anything else gets rapid) means golden file tests with synthetic group names automatically exercise the rapid code path.
 
-A: Improve the test coverage by including large objects in the tests.
+## Appendix: astbuilder Vocabulary
 
-5. **Test iteration count**: Gopter is configured with `MinSuccessfulTests` (80-100 depending on type). Rapid defaults to 100 iterations. Should we keep the default 100 for all types, or replicate the graduated counts (20 for resources, 80 for spec/status)?
+The `v2/tools/generator/internal/astbuilder` package provides helpers for constructing Go AST nodes (using the `dave/dst` library). These are the primary tools for generating test code.
 
-A: Keep the default of 100 for now. We expect rapid to be much quicker, so the additional tests won't be a performance issue.
+### Function Declarations
+- `NewTestFuncDetails(testingPackage, testName, body...)` — Creates a `func Test_...(t *testing.T)` function
+- `FuncDetails.DefineFunc()` — Emits a complete function declaration
+- `FuncDetails.AddStatements(stmts...)` — Appends statements to body
+- `FuncDetails.AddParameter(id, type)` — Adds a named parameter
+- `FuncDetails.AddReturns(types...)` — Adds return types
+- `FuncDetails.AddComments(comment...)` — Adds doc comments
 
-6. **Golden file test coverage**: The existing golden file tests use synthetic test schemas (not real Azure resource groups like "batch"). They will exercise the rapid code path only if we either (a) add a synthetic test that uses a group name in the allow-list, or (b) use a different mechanism to force rapid generation in tests. Which approach is preferred? Option (a) is cleaner.
+### Assignments
+- `SimpleAssignment(lhs, rhs)` — `lhs = rhs`
+- `ShortDeclaration(id, rhs)` — `id := rhs`
+- `QualifiedAssignment(lhs, sel, tok, rhs)` — `lhs.sel = rhs`
+- `SimpleAssignmentWithErr(lhs, tok, rhs)` — `lhs, err := rhs`
 
-A: I've requested that a deny list is used - any group not known to require gopter tests should receive rapid tests; as long as the golden file tests use a unique group name, they should automatically get tests written with rapid.
+### Function Calls
+- `CallFunc(name, args...)` — `name(args...)`
+- `CallQualifiedFunc(pkg, name, args...)` — `pkg.name(args...)`
+- `CallExpr(expr, name, args...)` — `expr.name(args...)`
+- `CallFuncAsStmt(...)` / `CallQualifiedFuncAsStmt(...)` / `CallExprAsStmt(...)` — Call as statement
 
+### Declarations & Variables
+- `NewVariable(name, structName)` — `var name structName`
+- `VariableDeclaration(ident, type, comment)` — Global `var ident type` with comment
+- `LocalVariableDeclaration(ident, type, comment)` — Local `var ident type`
 
-QUESTION: A followup question from me - have you reviewed the helper functions in the astbuilder package - these form a vocabularly for your use when creating the abstract-syntax-tree for the generated Go code.
+### Control Flow
+- `SimpleIf(cond, stmts...)` — `if cond { ... }`
+- `ReturnIfNotNil(check, returns...)` — `if check != nil { return ... }`
+- `ReturnIfNil(check, returns...)` — `if check == nil { return ... }`
+- `Returns(exprs...)` — `return expr, ...`
+- `IterateOverSlice(item, list, stmts...)` — `for _, item := range list { ... }`
+
+### Literals
+- `StringLiteral(content)` / `StringLiteralf(format, args...)` — Quoted string literal
+- `IntLiteral(value)` — Integer literal
+
+### Expressions
+- `QualifiedTypeName(pkg, name)` — `pkg.name`
+- `Selector(expr, names...)` — `expr.name1.name2...`
+- `AddrOf(expr)` — `&expr`
+- `Dereference(expr)` / `PointerTo(expr)` — `*expr`
+- `NotExpr(expr)` — `!expr`
+- `AreEqual(lhs, rhs)` / `AreNotEqual(lhs, rhs)` — `==` / `!=`
+
+### Collections
+- `MakeMap(key, value)` — `make(map[key]value)`
+- `InsertMap(map, key, rhs)` — `map[key] = rhs`
+- `SliceLiteral(type, items...)` — `[]type{items...}`
+- `AppendItemToSlice(lhs, rhs)` — `lhs = append(lhs, rhs)`
+
+### Composite Literals
+- `NewCompositeLiteralBuilder(type)` — Builds `Type{ Field: value, ... }`
+- `.AddField(name, value)` — Adds `name: value`
+- `.Build()` — Emits the literal
+
+### Statements
+- `Statements(stmts...)` — Flatten mixed `dst.Stmt`/`[]dst.Stmt` into a cloned slice
+- `StatementBlock(stmts...)` — Wrap in `{ ... }`
+
+### Comments
+- `AddComment(list, comment)` — Adds `// comment`
+- `AddWrappedComment(list, comment)` — Adds word-wrapped comment
 
