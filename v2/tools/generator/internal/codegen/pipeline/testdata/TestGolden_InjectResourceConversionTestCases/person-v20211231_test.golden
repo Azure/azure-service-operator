@@ -2,3 +2,381 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 package v20211231
+
+import (
+	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/kr/pretty"
+	"github.com/kylelemons/godebug/diff"
+	"pgregory.net/rapid"
+	"testing"
+)
+
+// Test_Address_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Address can be assigned to storage and back losslessly
+func Test_Address_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AddressGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Address
+		err := copied.AssignProperties_To_Address(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesTo: %v", err)
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Address
+		err = actual.AssignProperties_From_Address(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesFrom: %v", err)
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Errorf(result)
+		}
+	})
+}
+
+func Test_Address_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, RunJSONSerializationTestForAddress)
+}
+
+// RunJSONSerializationTestForAddress runs a test to see if a specific instance of Address round trips to JSON and back losslessly
+func RunJSONSerializationTestForAddress(t *rapid.T) {
+	subject := AddressGenerator().Draw(t, "subject")
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Deserialize back into memory
+	var actual Address
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		t.Errorf(result)
+	}
+}
+
+// Generator of Address instances for property testing - lazily instantiated by AddressGenerator()
+var addressGenerator *rapid.Generator[Address]
+
+// AddressGenerator returns a generator of Address instances for property testing.
+func AddressGenerator() *rapid.Generator[Address] {
+	if addressGenerator != nil {
+		return addressGenerator
+	}
+
+	addressGenerator = rapid.Custom(func(t *rapid.T) Address {
+		var result Address
+		result.City = rapid.String().Draw(t, "City")
+		result.FullAddress = rapid.String().Draw(t, "FullAddress")
+		return result
+	})
+
+	return addressGenerator
+}
+
+// Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Person round trips to the hub storage version and back losslessly
+func Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PersonGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.Person
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatalf("ConvertTo: %v", err)
+		}
+
+		// Convert from our hub version
+		var actual Person
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatalf("ConvertFrom: %v", err)
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Errorf(result)
+		}
+	})
+}
+
+// Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Person can be assigned to storage and back losslessly
+func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PersonGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Person
+		err := copied.AssignProperties_To_Person(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesTo: %v", err)
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Person
+		err = actual.AssignProperties_From_Person(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesFrom: %v", err)
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Errorf(result)
+		}
+	})
+}
+
+func Test_Person_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, RunJSONSerializationTestForPerson)
+}
+
+// RunJSONSerializationTestForPerson runs a test to see if a specific instance of Person round trips to JSON and back losslessly
+func RunJSONSerializationTestForPerson(t *rapid.T) {
+	subject := PersonGenerator().Draw(t, "subject")
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Deserialize back into memory
+	var actual Person
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		t.Errorf(result)
+	}
+}
+
+// Generator of Person instances for property testing - lazily instantiated by PersonGenerator()
+var personGenerator *rapid.Generator[Person]
+
+// PersonGenerator returns a generator of Person instances for property testing.
+func PersonGenerator() *rapid.Generator[Person] {
+	if personGenerator != nil {
+		return personGenerator
+	}
+
+	personGenerator = rapid.Custom(func(t *rapid.T) Person {
+		var result Person
+		result.Spec = Person_SpecGenerator().Draw(t, "Spec")
+		result.Status = Person_STATUSGenerator().Draw(t, "Status")
+		return result
+	})
+
+	return personGenerator
+}
+
+// Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Person_STATUS can be assigned to storage and back losslessly
+func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Person_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Person_STATUS
+		err := copied.AssignProperties_To_Person_STATUS(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesTo: %v", err)
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Person_STATUS
+		err = actual.AssignProperties_From_Person_STATUS(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesFrom: %v", err)
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Errorf(result)
+		}
+	})
+}
+
+func Test_Person_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, RunJSONSerializationTestForPerson_STATUS)
+}
+
+// RunJSONSerializationTestForPerson_STATUS runs a test to see if a specific instance of Person_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPerson_STATUS(t *rapid.T) {
+	subject := Person_STATUSGenerator().Draw(t, "subject")
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Deserialize back into memory
+	var actual Person_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		t.Errorf(result)
+	}
+}
+
+// Generator of Person_STATUS instances for property testing - lazily instantiated by Person_STATUSGenerator()
+var person_STATUSGenerator *rapid.Generator[Person_STATUS]
+
+// Person_STATUSGenerator returns a generator of Person_STATUS instances for property testing.
+func Person_STATUSGenerator() *rapid.Generator[Person_STATUS] {
+	if person_STATUSGenerator != nil {
+		return person_STATUSGenerator
+	}
+
+	person_STATUSGenerator = rapid.Custom(func(t *rapid.T) Person_STATUS {
+		var result Person_STATUS
+		result.Status = rapid.String().Draw(t, "Status")
+		return result
+	})
+
+	return person_STATUSGenerator
+}
+
+// Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Person_Spec can be assigned to storage and back losslessly
+func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Person_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Person_Spec
+		err := copied.AssignProperties_To_Person_Spec(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesTo: %v", err)
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Person_Spec
+		err = actual.AssignProperties_From_Person_Spec(&other)
+		if err != nil {
+			t.Fatalf("AssignPropertiesFrom: %v", err)
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Errorf(result)
+		}
+	})
+}
+
+func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	rapid.Check(t, RunJSONSerializationTestForPerson_Spec)
+}
+
+// RunJSONSerializationTestForPerson_Spec runs a test to see if a specific instance of Person_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPerson_Spec(t *rapid.T) {
+	subject := Person_SpecGenerator().Draw(t, "subject")
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Deserialize back into memory
+	var actual Person_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		t.Errorf(result)
+	}
+}
+
+// Generator of Person_Spec instances for property testing - lazily instantiated by Person_SpecGenerator()
+var person_SpecGenerator *rapid.Generator[Person_Spec]
+
+// Person_SpecGenerator returns a generator of Person_Spec instances for property testing.
+func Person_SpecGenerator() *rapid.Generator[Person_Spec] {
+	if person_SpecGenerator != nil {
+		return person_SpecGenerator
+	}
+
+	person_SpecGenerator = rapid.Custom(func(t *rapid.T) Person_Spec {
+		var result Person_Spec
+		result.FamilyName = rapid.String().Draw(t, "FamilyName")
+		result.FullName = rapid.String().Draw(t, "FullName")
+		result.KnownAs = rapid.String().Draw(t, "KnownAs")
+		result.PostalAddress = AddressGenerator().Draw(t, "PostalAddress")
+		result.ResidentialAddress = AddressGenerator().Draw(t, "ResidentialAddress")
+		return result
+	})
+
+	return person_SpecGenerator
+}
