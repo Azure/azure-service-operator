@@ -2686,7 +2686,7 @@ objectModelConfiguration:
           $referenceType: arm
       FlexibleServer:
         $exportAs: FlexibleServer
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
         $generatedConfigs:
@@ -2694,7 +2694,7 @@ objectModelConfiguration:
           AdministratorLogin: $.Status.AdministratorLogin
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       AdministratorProperties:
         IdentityResourceId:
           $referenceType: arm # TODO: Upstream to Swagger
@@ -2704,13 +2704,13 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       MySQLServerIdentity_STATUS:
         UserAssignedIdentities:
           $conversionStrategy: manual
@@ -2730,7 +2730,7 @@ objectModelConfiguration:
           $referenceType: arm
       FlexibleServer:
         $exportAs: FlexibleServer
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
         $generatedConfigs:
@@ -2738,7 +2738,7 @@ objectModelConfiguration:
           AdministratorLogin: $.Status.AdministratorLogin
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       AdministratorProperties:
         IdentityResourceId:
           $referenceType: arm # TODO: Upstream to Swagger
@@ -2748,13 +2748,13 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       Network:
         DelegatedSubnetResourceId:
           $referenceType: arm
