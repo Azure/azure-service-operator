@@ -27,6 +27,12 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 			modifiedDefs := make(astmodel.TypeDefinitionSet)
 			var errs []error
 			for _, d := range state.Definitions() {
+				if ref, ok := d.Name().PackageReference().(astmodel.InternalPackageReference); ok {
+					if testcases.UseRapidForGroup(ref.Group()) {
+						continue // Skip — rapid stage will handle this group
+					}
+				}
+
 				if factory.NeedsTest(d) {
 					updated, err := factory.AddTestTo(d)
 					if err != nil {
@@ -47,7 +53,8 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
 		ImplementConvertibleInterfaceStageID,     // Need the conversions.Convertible interface to be present
-		InjectJSONSerializationTestsID)           // We reuse the generators from the JSON tests
+		InjectJSONSerializationTestsID,           // We reuse the generators from the JSON tests
+		InjectRapidSerializationTestsStageID)     // We reuse the generators from the rapid JSON tests
 
 	return stage
 }

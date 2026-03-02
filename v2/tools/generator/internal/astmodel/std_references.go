@@ -58,6 +58,7 @@ var (
 	GopterPropReference = MakeExternalPackageReference("github.com/leanovate/gopter/prop")
 	GomegaReference     = MakeExternalPackageReference("github.com/onsi/gomega")
 	PrettyReference     = MakeExternalPackageReference("github.com/kr/pretty")
+	RapidReference      = MakeExternalPackageReference("pgregory.net/rapid")
 
 	// Imports with specified names
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
