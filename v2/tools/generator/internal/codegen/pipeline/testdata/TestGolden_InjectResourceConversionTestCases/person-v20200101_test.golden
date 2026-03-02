@@ -121,13 +121,13 @@ func PersonGenerator() *rapid.Generator[Person] {
 		return personGenerator
 	}
 
-	genPersonSpec := Person_SpecGenerator()
-	genPersonSTATUS := Person_STATUSGenerator()
+	spec := Person_SpecGenerator()
+	status := Person_STATUSGenerator()
 
 	personGenerator = rapid.Custom(func(t *rapid.T) Person {
 		var result Person
-		result.Spec = genPersonSpec.Draw(t, "Spec")
-		result.Status = genPersonSTATUS.Draw(t, "Status")
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
 		return result
 	})
 
@@ -207,11 +207,11 @@ func Person_STATUSGenerator() *rapid.Generator[Person_STATUS] {
 		return person_STATUSGenerator
 	}
 
-	genString := rapid.String()
+	status := rapid.String()
 
 	person_STATUSGenerator = rapid.Custom(func(t *rapid.T) Person_STATUS {
 		var result Person_STATUS
-		result.Status = genString.Draw(t, "Status")
+		result.Status = status.Draw(t, "Status")
 		return result
 	})
 
