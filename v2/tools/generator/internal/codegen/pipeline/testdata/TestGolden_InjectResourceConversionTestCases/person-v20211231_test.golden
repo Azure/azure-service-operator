@@ -205,10 +205,13 @@ func PersonGenerator() *rapid.Generator[Person] {
 		return personGenerator
 	}
 
+	genPersonSpec := Person_SpecGenerator()
+	genPersonSTATUS := Person_STATUSGenerator()
+
 	personGenerator = rapid.Custom(func(t *rapid.T) Person {
 		var result Person
-		result.Spec = Person_SpecGenerator().Draw(t, "Spec")
-		result.Status = Person_STATUSGenerator().Draw(t, "Status")
+		result.Spec = genPersonSpec.Draw(t, "Spec")
+		result.Status = genPersonSTATUS.Draw(t, "Status")
 		return result
 	})
 
@@ -288,9 +291,11 @@ func Person_STATUSGenerator() *rapid.Generator[Person_STATUS] {
 		return person_STATUSGenerator
 	}
 
+	genString := rapid.String()
+
 	person_STATUSGenerator = rapid.Custom(func(t *rapid.T) Person_STATUS {
 		var result Person_STATUS
-		result.Status = rapid.String().Draw(t, "Status")
+		result.Status = genString.Draw(t, "Status")
 		return result
 	})
 
@@ -371,15 +376,15 @@ func Person_SpecGenerator() *rapid.Generator[Person_Spec] {
 	}
 
 	genString := rapid.String()
-	gen1 := AddressGenerator()
+	genAddress := AddressGenerator()
 
 	person_SpecGenerator = rapid.Custom(func(t *rapid.T) Person_Spec {
 		var result Person_Spec
 		result.FamilyName = genString.Draw(t, "FamilyName")
 		result.FullName = genString.Draw(t, "FullName")
 		result.KnownAs = genString.Draw(t, "KnownAs")
-		result.PostalAddress = gen1.Draw(t, "PostalAddress")
-		result.ResidentialAddress = gen1.Draw(t, "ResidentialAddress")
+		result.PostalAddress = genAddress.Draw(t, "PostalAddress")
+		result.ResidentialAddress = genAddress.Draw(t, "ResidentialAddress")
 		return result
 	})
 
