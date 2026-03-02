@@ -160,4 +160,7 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.2-0.20260122202528-d9cc6641c482 // indirect
 )
 
-require github.com/shopspring/decimal v1.4.0 // indirect
+require (
+	github.com/shopspring/decimal v1.4.0 // indirect
+	pgregory.net/rapid v1.2.0 // indirect
+)
