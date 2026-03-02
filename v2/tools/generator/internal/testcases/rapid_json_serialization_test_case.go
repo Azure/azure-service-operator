@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"go/token"
 	"sort"
+	"strings"
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
@@ -417,6 +418,12 @@ func (r *RapidJSONSerializationTestCase) createGeneratorMethodForObject(
 				Type: r.Subject(),
 			})
 	} else {
+		// Hoist repeated generator expressions to local variables for readability
+		hoistedDecls := hoistDuplicateGenerators(allGens)
+		if len(hoistedDecls) > 0 {
+			fn.AddStatements(hoistedDecls...)
+		}
+
 		// Build the rapid.Custom closure body
 		closureBody := r.buildCustomClosureBody(allGens)
 		// rapid.Custom(func(t *rapid.T) X { ... })
@@ -858,4 +865,167 @@ func (r *RapidJSONSerializationTestCase) createFatalIfNotNil(id string) *dst.IfS
 		Body: astbuilder.StatementBlock(
 			astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Fatal", dst.NewIdent(id))),
 	}
+}
+
+// hoistDuplicateGenerators identifies generator expressions that appear multiple times in allGens,
+// creates local variable declarations for them, and updates allGens entries to reference the local
+// variables instead. Returns the variable declaration statements to emit before rapid.Custom().
+func hoistDuplicateGenerators(allGens []generatorAssignment) []dst.Stmt {
+	// Group generators by expression key
+	type genGroup struct {
+		expr    dst.Expr // first occurrence's expression (used for variable initialization)
+		indices []int    // indices into allGens
+	}
+
+	groups := make(map[string]*genGroup)
+	order := make([]string, 0) // preserve first-seen order for deterministic output
+
+	for i, gen := range allGens {
+		key := exprKey(gen.genExpr)
+		if g, ok := groups[key]; ok {
+			g.indices = append(g.indices, i)
+		} else {
+			groups[key] = &genGroup{
+				expr:    gen.genExpr,
+				indices: []int{i},
+			}
+			order = append(order, key)
+		}
+	}
+
+	// Create local variables for groups with 2+ members
+	var stmts []dst.Stmt
+	usedNames := make(map[string]bool)
+	counter := 0
+
+	for _, key := range order {
+		g := groups[key]
+		if len(g.indices) < 2 {
+			continue
+		}
+
+		// Generate a readable variable name, with fallback
+		varName := genVarName(g.expr)
+		if varName == "" || usedNames[varName] {
+			counter++
+			varName = fmt.Sprintf("gen%d", counter)
+		}
+
+		usedNames[varName] = true
+
+		// Create: varName := <expr>
+		decl := astbuilder.ShortDeclaration(varName, g.expr)
+		if len(stmts) == 0 {
+			decl.Decorations().Before = dst.EmptyLine
+		}
+
+		stmts = append(stmts, decl)
+
+		// Replace all occurrences in allGens with a reference to the variable
+		for _, idx := range g.indices {
+			allGens[idx].genExpr = dst.NewIdent(varName)
+		}
+	}
+
+	return stmts
+}
+
+// exprKey produces a deterministic string key for a generator expression,
+// used to identify duplicate generators that can be hoisted to local variables.
+func exprKey(expr dst.Expr) string {
+	switch e := expr.(type) {
+	case *dst.Ident:
+		return e.Name
+	case *dst.SelectorExpr:
+		return exprKey(e.X) + "." + e.Sel.Name
+	case *dst.CallExpr:
+		parts := make([]string, 0, len(e.Args)+1)
+		parts = append(parts, exprKey(e.Fun))
+		for _, arg := range e.Args {
+			parts = append(parts, exprKey(arg))
+		}
+		return strings.Join(parts, "|") + "()"
+	case *dst.CompositeLit:
+		parts := []string{"lit"}
+		if e.Type != nil {
+			parts = append(parts, exprKey(e.Type))
+		}
+		for _, elt := range e.Elts {
+			parts = append(parts, exprKey(elt))
+		}
+		return strings.Join(parts, "|")
+	case *dst.ArrayType:
+		return "[]" + exprKey(e.Elt)
+	case *dst.StarExpr:
+		return "*" + exprKey(e.X)
+	default:
+		return fmt.Sprintf("%T", expr)
+	}
+}
+
+// genVarName generates a readable variable name for a hoisted generator expression.
+// Returns "" if no meaningful name can be derived (caller should use a fallback).
+func genVarName(expr dst.Expr) string {
+	call, ok := expr.(*dst.CallExpr)
+	if !ok {
+		return ""
+	}
+
+	sel, ok := call.Fun.(*dst.SelectorExpr)
+	if !ok {
+		return ""
+	}
+
+	funcName := sel.Sel.Name
+
+	switch {
+	case len(call.Args) == 0:
+		// rapid.X() → genX (e.g., rapid.String() → genString)
+		return "gen" + funcName
+
+	case funcName == "Ptr" && len(call.Args) == 2:
+		// rapid.Ptr(inner, true) → ptrInner (e.g., rapid.Ptr(rapid.String(), true) → ptrString)
+		inner := primitiveGenName(call.Args[0])
+		if inner != "" {
+			return "ptr" + inner
+		}
+
+	case funcName == "SliceOf" && len(call.Args) == 1:
+		// rapid.SliceOf(inner) → sliceOfInner
+		inner := primitiveGenName(call.Args[0])
+		if inner != "" {
+			return "sliceOf" + inner
+		}
+
+	case funcName == "MapOf" && len(call.Args) == 2:
+		// rapid.MapOf(k, v) → mapOfKToV
+		k := primitiveGenName(call.Args[0])
+		v := primitiveGenName(call.Args[1])
+		if k != "" && v != "" {
+			return "mapOf" + k + "To" + v
+		}
+	}
+
+	return ""
+}
+
+// primitiveGenName extracts a readable type name from a generator expression.
+// For rapid.X() returns "X", for FooGenerator() returns "Foo".
+func primitiveGenName(expr dst.Expr) string {
+	call, ok := expr.(*dst.CallExpr)
+	if !ok {
+		return ""
+	}
+
+	// rapid.X() pattern → X
+	if sel, ok := call.Fun.(*dst.SelectorExpr); ok {
+		return sel.Sel.Name
+	}
+
+	// FooGenerator() pattern → Foo
+	if ident, ok := call.Fun.(*dst.Ident); ok {
+		return strings.TrimSuffix(ident.Name, "Generator")
+	}
+
+	return ""
 }
