@@ -520,10 +520,12 @@ func KeyVaultReferenceGenerator() *rapid.Generator[KeyVaultReference] {
 		return keyVaultReferenceGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	keyVaultReferenceGenerator = rapid.Custom(func(t *rapid.T) KeyVaultReference {
 		var result KeyVaultReference
-		result.Id = rapid.Ptr(rapid.String(), true).Draw(t, "Id")
-		result.Url = rapid.Ptr(rapid.String(), true).Draw(t, "Url")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Url = ptrString.Draw(t, "Url")
 		return result
 	})
 
@@ -570,10 +572,12 @@ func NetworkProfileGenerator() *rapid.Generator[NetworkProfile] {
 		return networkProfileGenerator
 	}
 
+	ptrEndpointAccessProfile := rapid.Ptr(EndpointAccessProfileGenerator(), true)
+
 	networkProfileGenerator = rapid.Custom(func(t *rapid.T) NetworkProfile {
 		var result NetworkProfile
-		result.AccountAccess = rapid.Ptr(EndpointAccessProfileGenerator(), true).Draw(t, "AccountAccess")
-		result.NodeManagementAccess = rapid.Ptr(EndpointAccessProfileGenerator(), true).Draw(t, "NodeManagementAccess")
+		result.AccountAccess = ptrEndpointAccessProfile.Draw(t, "AccountAccess")
+		result.NodeManagementAccess = ptrEndpointAccessProfile.Draw(t, "NodeManagementAccess")
 		return result
 	})
 

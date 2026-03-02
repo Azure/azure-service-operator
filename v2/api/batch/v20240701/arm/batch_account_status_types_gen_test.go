@@ -54,12 +54,14 @@ func AutoStorageProperties_STATUSGenerator() *rapid.Generator[AutoStoragePropert
 		return autoStorageProperties_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	autoStorageProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoStorageProperties_STATUS {
 		var result AutoStorageProperties_STATUS
 		result.AuthenticationMode = rapid.Ptr(rapid.SampledFrom([]AutoStorageProperties_AuthenticationMode_STATUS{AutoStorageProperties_AuthenticationMode_STATUS_BatchAccountManagedIdentity, AutoStorageProperties_AuthenticationMode_STATUS_StorageKeys}), true).Draw(t, "AuthenticationMode")
-		result.LastKeySync = rapid.Ptr(rapid.String(), true).Draw(t, "LastKeySync")
+		result.LastKeySync = ptrString.Draw(t, "LastKeySync")
 		result.NodeIdentityReference = rapid.Ptr(ComputeNodeIdentityReference_STATUSGenerator(), true).Draw(t, "NodeIdentityReference")
-		result.StorageAccountId = rapid.Ptr(rapid.String(), true).Draw(t, "StorageAccountId")
+		result.StorageAccountId = ptrString.Draw(t, "StorageAccountId")
 		return result
 	})
 
@@ -107,10 +109,12 @@ func BatchAccountIdentity_STATUSGenerator() *rapid.Generator[BatchAccountIdentit
 		return batchAccountIdentity_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	batchAccountIdentity_STATUSGenerator = rapid.Custom(func(t *rapid.T) BatchAccountIdentity_STATUS {
 		var result BatchAccountIdentity_STATUS
-		result.PrincipalId = rapid.Ptr(rapid.String(), true).Draw(t, "PrincipalId")
-		result.TenantId = rapid.Ptr(rapid.String(), true).Draw(t, "TenantId")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.TenantId = ptrString.Draw(t, "TenantId")
 		result.Type = rapid.Ptr(rapid.SampledFrom([]ResourceIdentityType_STATUS{ResourceIdentityType_STATUS_None, ResourceIdentityType_STATUS_SystemAssigned, ResourceIdentityType_STATUS_UserAssigned}), true).Draw(t, "Type")
 		result.UserAssignedIdentities = rapid.MapOf(
 			rapid.String(),
@@ -162,22 +166,25 @@ func BatchAccountProperties_STATUSGenerator() *rapid.Generator[BatchAccountPrope
 		return batchAccountProperties_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
 	batchAccountProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) BatchAccountProperties_STATUS {
 		var result BatchAccountProperties_STATUS
-		result.AccountEndpoint = rapid.Ptr(rapid.String(), true).Draw(t, "AccountEndpoint")
-		result.ActiveJobAndJobScheduleQuota = rapid.Ptr(rapid.Int(), true).Draw(t, "ActiveJobAndJobScheduleQuota")
+		result.AccountEndpoint = ptrString.Draw(t, "AccountEndpoint")
+		result.ActiveJobAndJobScheduleQuota = ptrInt.Draw(t, "ActiveJobAndJobScheduleQuota")
 		result.AllowedAuthenticationModes = rapid.SliceOf(rapid.SampledFrom([]AuthenticationMode_STATUS{AuthenticationMode_STATUS_AAD, AuthenticationMode_STATUS_SharedKey, AuthenticationMode_STATUS_TaskAuthenticationToken})).Draw(t, "AllowedAuthenticationModes")
 		result.AutoStorage = rapid.Ptr(AutoStorageProperties_STATUSGenerator(), true).Draw(t, "AutoStorage")
-		result.DedicatedCoreQuota = rapid.Ptr(rapid.Int(), true).Draw(t, "DedicatedCoreQuota")
+		result.DedicatedCoreQuota = ptrInt.Draw(t, "DedicatedCoreQuota")
 		result.DedicatedCoreQuotaPerVMFamily = rapid.SliceOf(VirtualMachineFamilyCoreQuota_STATUSGenerator()).Draw(t, "DedicatedCoreQuotaPerVMFamily")
 		result.DedicatedCoreQuotaPerVMFamilyEnforced = rapid.Ptr(rapid.Bool(), true).Draw(t, "DedicatedCoreQuotaPerVMFamilyEnforced")
 		result.Encryption = rapid.Ptr(EncryptionProperties_STATUSGenerator(), true).Draw(t, "Encryption")
 		result.KeyVaultReference = rapid.Ptr(KeyVaultReference_STATUSGenerator(), true).Draw(t, "KeyVaultReference")
-		result.LowPriorityCoreQuota = rapid.Ptr(rapid.Int(), true).Draw(t, "LowPriorityCoreQuota")
+		result.LowPriorityCoreQuota = ptrInt.Draw(t, "LowPriorityCoreQuota")
 		result.NetworkProfile = rapid.Ptr(NetworkProfile_STATUSGenerator(), true).Draw(t, "NetworkProfile")
-		result.NodeManagementEndpoint = rapid.Ptr(rapid.String(), true).Draw(t, "NodeManagementEndpoint")
+		result.NodeManagementEndpoint = ptrString.Draw(t, "NodeManagementEndpoint")
 		result.PoolAllocationMode = rapid.Ptr(rapid.SampledFrom([]PoolAllocationMode_STATUS{PoolAllocationMode_STATUS_BatchService, PoolAllocationMode_STATUS_UserSubscription}), true).Draw(t, "PoolAllocationMode")
-		result.PoolQuota = rapid.Ptr(rapid.Int(), true).Draw(t, "PoolQuota")
+		result.PoolQuota = ptrInt.Draw(t, "PoolQuota")
 		result.PrivateEndpointConnections = rapid.SliceOf(PrivateEndpointConnection_STATUSGenerator()).Draw(t, "PrivateEndpointConnections")
 		result.ProvisioningState = rapid.Ptr(rapid.SampledFrom([]ProvisioningState_STATUS{ProvisioningState_STATUS_Cancelled, ProvisioningState_STATUS_Creating, ProvisioningState_STATUS_Deleting, ProvisioningState_STATUS_Failed, ProvisioningState_STATUS_Invalid, ProvisioningState_STATUS_Succeeded}), true).Draw(t, "ProvisioningState")
 		result.PublicNetworkAccess = rapid.Ptr(rapid.SampledFrom([]BatchAccountProperties_PublicNetworkAccess_STATUS{BatchAccountProperties_PublicNetworkAccess_STATUS_Disabled, BatchAccountProperties_PublicNetworkAccess_STATUS_Enabled, BatchAccountProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter}), true).Draw(t, "PublicNetworkAccess")
@@ -228,18 +235,20 @@ func BatchAccount_STATUSGenerator() *rapid.Generator[BatchAccount_STATUS] {
 		return batchAccount_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	batchAccount_STATUSGenerator = rapid.Custom(func(t *rapid.T) BatchAccount_STATUS {
 		var result BatchAccount_STATUS
-		result.Id = rapid.Ptr(rapid.String(), true).Draw(t, "Id")
+		result.Id = ptrString.Draw(t, "Id")
 		result.Identity = rapid.Ptr(BatchAccountIdentity_STATUSGenerator(), true).Draw(t, "Identity")
-		result.Location = rapid.Ptr(rapid.String(), true).Draw(t, "Location")
-		result.Name = rapid.Ptr(rapid.String(), true).Draw(t, "Name")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
 		result.Properties = rapid.Ptr(BatchAccountProperties_STATUSGenerator(), true).Draw(t, "Properties")
 		result.SystemData = rapid.Ptr(SystemData_STATUSGenerator(), true).Draw(t, "SystemData")
 		result.Tags = rapid.MapOf(
 			rapid.String(),
 			rapid.String()).Draw(t, "Tags")
-		result.Type = rapid.Ptr(rapid.String(), true).Draw(t, "Type")
+		result.Type = ptrString.Draw(t, "Type")
 		return result
 	})
 
@@ -539,10 +548,12 @@ func KeyVaultReference_STATUSGenerator() *rapid.Generator[KeyVaultReference_STAT
 		return keyVaultReference_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	keyVaultReference_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyVaultReference_STATUS {
 		var result KeyVaultReference_STATUS
-		result.Id = rapid.Ptr(rapid.String(), true).Draw(t, "Id")
-		result.Url = rapid.Ptr(rapid.String(), true).Draw(t, "Url")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Url = ptrString.Draw(t, "Url")
 		return result
 	})
 
@@ -590,10 +601,12 @@ func NetworkProfile_STATUSGenerator() *rapid.Generator[NetworkProfile_STATUS] {
 		return networkProfile_STATUSGenerator
 	}
 
+	ptrEndpointAccessProfile_STATUS := rapid.Ptr(EndpointAccessProfile_STATUSGenerator(), true)
+
 	networkProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) NetworkProfile_STATUS {
 		var result NetworkProfile_STATUS
-		result.AccountAccess = rapid.Ptr(EndpointAccessProfile_STATUSGenerator(), true).Draw(t, "AccountAccess")
-		result.NodeManagementAccess = rapid.Ptr(EndpointAccessProfile_STATUSGenerator(), true).Draw(t, "NodeManagementAccess")
+		result.AccountAccess = ptrEndpointAccessProfile_STATUS.Draw(t, "AccountAccess")
+		result.NodeManagementAccess = ptrEndpointAccessProfile_STATUS.Draw(t, "NodeManagementAccess")
 		return result
 	})
 
@@ -690,13 +703,15 @@ func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 		return systemData_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
 		var result SystemData_STATUS
-		result.CreatedAt = rapid.Ptr(rapid.String(), true).Draw(t, "CreatedAt")
-		result.CreatedBy = rapid.Ptr(rapid.String(), true).Draw(t, "CreatedBy")
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
 		result.CreatedByType = rapid.Ptr(rapid.SampledFrom([]SystemData_CreatedByType_STATUS{SystemData_CreatedByType_STATUS_Application, SystemData_CreatedByType_STATUS_Key, SystemData_CreatedByType_STATUS_ManagedIdentity, SystemData_CreatedByType_STATUS_User}), true).Draw(t, "CreatedByType")
-		result.LastModifiedAt = rapid.Ptr(rapid.String(), true).Draw(t, "LastModifiedAt")
-		result.LastModifiedBy = rapid.Ptr(rapid.String(), true).Draw(t, "LastModifiedBy")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
 		result.LastModifiedByType = rapid.Ptr(rapid.SampledFrom([]SystemData_LastModifiedByType_STATUS{SystemData_LastModifiedByType_STATUS_Application, SystemData_LastModifiedByType_STATUS_Key, SystemData_LastModifiedByType_STATUS_ManagedIdentity, SystemData_LastModifiedByType_STATUS_User}), true).Draw(t, "LastModifiedByType")
 		return result
 	})
@@ -745,10 +760,12 @@ func UserAssignedIdentities_STATUSGenerator() *rapid.Generator[UserAssignedIdent
 		return userAssignedIdentities_STATUSGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	userAssignedIdentities_STATUSGenerator = rapid.Custom(func(t *rapid.T) UserAssignedIdentities_STATUS {
 		var result UserAssignedIdentities_STATUS
-		result.ClientId = rapid.Ptr(rapid.String(), true).Draw(t, "ClientId")
-		result.PrincipalId = rapid.Ptr(rapid.String(), true).Draw(t, "PrincipalId")
+		result.ClientId = ptrString.Draw(t, "ClientId")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
 		return result
 	})
 

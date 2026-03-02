@@ -365,10 +365,12 @@ func KeyVaultReferenceGenerator() *rapid.Generator[KeyVaultReference] {
 		return keyVaultReferenceGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	keyVaultReferenceGenerator = rapid.Custom(func(t *rapid.T) KeyVaultReference {
 		var result KeyVaultReference
-		result.Id = rapid.Ptr(rapid.String(), true).Draw(t, "Id")
-		result.Url = rapid.Ptr(rapid.String(), true).Draw(t, "Url")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Url = ptrString.Draw(t, "Url")
 		return result
 	})
 
