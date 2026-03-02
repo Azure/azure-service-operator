@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"go/token"
 	"sort"
-	"strings"
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
@@ -164,6 +163,7 @@ func (r *RapidJSONSerializationTestCase) Equals(other astmodel.TestCase, overrid
 type generatorAssignment struct {
 	propertyName string
 	fieldName    string
+	propertyType astmodel.Type
 	genExpr      dst.Expr
 }
 
@@ -624,6 +624,7 @@ func (r *RapidJSONSerializationTestCase) collectGeneratorAssignments(
 			result = append(result, generatorAssignment{
 				propertyName: string(name),
 				fieldName:    string(prop.PropertyName()),
+				propertyType: prop.PropertyType(),
 				genExpr:      g,
 			})
 			handled = append(handled, name)
@@ -646,26 +647,45 @@ func (r *RapidJSONSerializationTestCase) createIndependentGenerator(
 ) dst.Expr {
 	rapidPackage := genContext.MustGetImportedPackageName(astmodel.RapidReference)
 
-	// Handle simple primitive properties
-	switch propertyType {
-	case astmodel.StringType:
-		return astbuilder.CallQualifiedFunc(rapidPackage, "String")
-	case astmodel.UInt32Type:
-		return astbuilder.CallQualifiedFunc(rapidPackage, "Uint32")
-	case astmodel.IntType:
-		return astbuilder.CallQualifiedFunc(rapidPackage, "Int")
-	case astmodel.FloatType:
-		return astbuilder.CallQualifiedFunc(rapidPackage, "Float64")
-	case astmodel.BoolType:
-		return astbuilder.CallQualifiedFunc(rapidPackage, "Bool")
-	}
-
-	switch t := propertyType.(type) {
-	case astmodel.InternalTypeName:
+	// Check wrapper types first (before primitives) so that AsXXX unwrapping
+	// doesn't swallow the wrapper and lose structural information.
+	if t, ok := astmodel.AsOptionalType(propertyType); ok {
+		g := r.createIndependentGenerator(name, t.Element(), genContext)
+		if g != nil {
+			// rapid.Ptr(g, true)
+			return astbuilder.CallQualifiedFunc(rapidPackage, "Ptr", g, dst.NewIdent("true"))
+		}
+	} else if t, ok := astmodel.AsArrayType(propertyType); ok {
+		g := r.createIndependentGenerator(name, t.Element(), genContext)
+		if g != nil {
+			return astbuilder.CallQualifiedFunc(rapidPackage, "SliceOf", g)
+		}
+	} else if t, ok := astmodel.AsMapType(propertyType); ok {
+		keyGen := r.createIndependentGenerator(name, t.KeyType(), genContext)
+		valueGen := r.createIndependentGenerator(name, t.ValueType(), genContext)
+		if keyGen != nil && valueGen != nil {
+			return astbuilder.CallQualifiedFunc(rapidPackage, "MapOf", keyGen, valueGen)
+		}
+	} else if t, ok := astmodel.AsValidatedType(propertyType); ok {
+		return r.createIndependentGenerator(name, t.ElementType(), genContext)
+	} else if p, ok := astmodel.AsPrimitiveType(propertyType); ok {
+		switch p {
+		case astmodel.StringType:
+			return astbuilder.CallQualifiedFunc(rapidPackage, "String")
+		case astmodel.UInt32Type:
+			return astbuilder.CallQualifiedFunc(rapidPackage, "Uint32")
+		case astmodel.IntType:
+			return astbuilder.CallQualifiedFunc(rapidPackage, "Int")
+		case astmodel.FloatType:
+			return astbuilder.CallQualifiedFunc(rapidPackage, "Float64")
+		case astmodel.BoolType:
+			return astbuilder.CallQualifiedFunc(rapidPackage, "Bool")
+		}
+	} else if t, ok := astmodel.AsInternalTypeName(propertyType); ok {
 		defs := genContext.GetDefinitionsInCurrentPackage()
 		def, ok := defs[t]
 		if ok {
-			vt, isValidated := def.Type().(*astmodel.ValidatedType)
+			vt, isValidated := astmodel.AsValidatedType(def.Type())
 
 			g := r.createIndependentGenerator(def.Name().Name(), def.Type(), genContext)
 			if !isValidated || g == nil {
@@ -695,32 +715,8 @@ func (r *RapidJSONSerializationTestCase) createIndependentGenerator(
 			return genMap
 		}
 		return nil
-
-	case *astmodel.EnumType:
+	} else if t, ok := astmodel.AsEnumType(propertyType); ok {
 		return r.createEnumGenerator(name, rapidPackage, t)
-
-	case *astmodel.OptionalType:
-		g := r.createIndependentGenerator(name, t.Element(), genContext)
-		if g != nil {
-			// rapid.Ptr(g, true)
-			return astbuilder.CallQualifiedFunc(rapidPackage, "Ptr", g, dst.NewIdent("true"))
-		}
-
-	case *astmodel.ArrayType:
-		g := r.createIndependentGenerator(name, t.Element(), genContext)
-		if g != nil {
-			return astbuilder.CallQualifiedFunc(rapidPackage, "SliceOf", g)
-		}
-
-	case *astmodel.MapType:
-		keyGen := r.createIndependentGenerator(name, t.KeyType(), genContext)
-		valueGen := r.createIndependentGenerator(name, t.ValueType(), genContext)
-		if keyGen != nil && valueGen != nil {
-			return astbuilder.CallQualifiedFunc(rapidPackage, "MapOf", keyGen, valueGen)
-		}
-
-	case *astmodel.ValidatedType:
-		return r.createIndependentGenerator(name, t.ElementType(), genContext)
 	}
 
 	// Not a simple property we can handle here
@@ -735,29 +731,15 @@ func (r *RapidJSONSerializationTestCase) createRelatedGenerator(
 ) dst.Expr {
 	rapidPackage := genContext.MustGetImportedPackageName(astmodel.RapidReference)
 
-	switch t := propertyType.(type) {
-	case astmodel.InternalTypeName:
-		_, ok := genContext.GetDefinitionsInPackage(t.InternalPackageReference())
-		if ok {
-			// This is a type we're defining, so we can create a generator for it
-			if t.PackageReference().Equals(genContext.CurrentPackage()) {
-				return astbuilder.CallFunc(idOfGeneratorMethod(t, r.idFactory))
-			}
-
-			importName := genContext.MustGetImportedPackageName(t.PackageReference())
-			return astbuilder.CallQualifiedFunc(importName, idOfGeneratorMethod(t, r.idFactory))
-		}
-
-		return nil
-
-	case *astmodel.OptionalType:
+	// Check wrapper types first so that AsXXX unwrapping doesn't lose structural information.
+	if t, ok := astmodel.AsOptionalType(propertyType); ok {
 		g := r.createRelatedGenerator(name, t.Element(), genContext)
 		if g != nil {
 			if r.isOneOf {
 				// For OneOf members, force non-nil pointer using rapid.Map()
-				typeName, ok := t.Element().(astmodel.TypeName)
+				typeName, ok := astmodel.AsTypeName(t.Element())
 				if !ok {
-					panic(fmt.Sprintf("expected OneOf to contain pointer to TypeName but had: %s", typeName.String()))
+					panic(fmt.Sprintf("expected OneOf to contain pointer to TypeName but had: %s", t.Element().String()))
 				}
 
 				// generates: rapid.Map(g, func(it T) *T { return &it })
@@ -781,22 +763,30 @@ func (r *RapidJSONSerializationTestCase) createRelatedGenerator(
 			// otherwise generate a pointer to the type that may be nil
 			return astbuilder.CallQualifiedFunc(rapidPackage, "Ptr", g, dst.NewIdent("true"))
 		}
-
-	case *astmodel.ArrayType:
+	} else if t, ok := astmodel.AsArrayType(propertyType); ok {
 		g := r.createRelatedGenerator(name, t.Element(), genContext)
 		if g != nil {
 			return astbuilder.CallQualifiedFunc(rapidPackage, "SliceOf", g)
 		}
-
-	case *astmodel.MapType:
+	} else if t, ok := astmodel.AsMapType(propertyType); ok {
 		keyGen := r.createIndependentGenerator(name, t.KeyType(), genContext)
 		valueGen := r.createRelatedGenerator(name, t.ValueType(), genContext)
 		if keyGen != nil && valueGen != nil {
 			return astbuilder.CallQualifiedFunc(rapidPackage, "MapOf", keyGen, valueGen)
 		}
+	} else if t, ok := astmodel.AsInternalTypeName(propertyType); ok {
+		_, ok := genContext.GetDefinitionsInPackage(t.InternalPackageReference())
+		if ok {
+			// This is a type we're defining, so we can create a generator for it
+			if t.PackageReference().Equals(genContext.CurrentPackage()) {
+				return astbuilder.CallFunc(idOfGeneratorMethod(t, r.idFactory))
+			}
 
-	case *astmodel.ValidatedType:
-		return r.createRelatedGenerator(name, t.ElementType(), genContext)
+			importName := genContext.MustGetImportedPackageName(t.PackageReference())
+			return astbuilder.CallQualifiedFunc(importName, idOfGeneratorMethod(t, r.idFactory))
+		}
+
+		return nil
 	}
 
 	// Not a property we can handle here
@@ -888,7 +878,7 @@ func hoistGenerators(allGens []generatorAssignment, idFactory astmodel.Identifie
 	order := make([]string, 0) // preserve first-seen order for deterministic output
 
 	for i, gen := range allGens {
-		key := exprKey(gen.genExpr)
+		key := gen.propertyType.String()
 		if g, ok := groups[key]; ok {
 			g.indices = append(g.indices, i)
 		} else {
@@ -916,7 +906,7 @@ func hoistGenerators(allGens []generatorAssignment, idFactory astmodel.Identifie
 	// Emit shared generators first, named by generator type
 	for _, key := range sharedKeys {
 		g := groups[key]
-		hint := genVarNameHint(g.expr)
+		hint := typeVarNameHint(allGens[g.indices[0]].propertyType)
 		varName := locals.CreateLocal(hint)
 
 		decl := astbuilder.ShortDeclaration(varName, g.expr)
@@ -949,106 +939,54 @@ func hoistGenerators(allGens []generatorAssignment, idFactory astmodel.Identifie
 	return stmts
 }
 
-// exprKey produces a deterministic string key for a generator expression,
-// used to identify duplicate generators that can be hoisted to local variables.
-func exprKey(expr dst.Expr) string {
-	switch e := expr.(type) {
-	case *dst.Ident:
-		return e.Name
-	case *dst.SelectorExpr:
-		return exprKey(e.X) + "." + e.Sel.Name
-	case *dst.CallExpr:
-		parts := make([]string, 0, len(e.Args)+1)
-		parts = append(parts, exprKey(e.Fun))
-		for _, arg := range e.Args {
-			parts = append(parts, exprKey(arg))
-		}
-		return strings.Join(parts, "|") + "()"
-	case *dst.CompositeLit:
-		parts := []string{"lit"}
-		if e.Type != nil {
-			parts = append(parts, exprKey(e.Type))
-		}
-		for _, elt := range e.Elts {
-			parts = append(parts, exprKey(elt))
-		}
-		return strings.Join(parts, "|")
-	case *dst.ArrayType:
-		return "[]" + exprKey(e.Elt)
-	case *dst.StarExpr:
-		return "*" + exprKey(e.X)
-	default:
-		return fmt.Sprintf("%T", expr)
-	}
-}
-
-// genVarNameHint returns a human-readable name hint for a hoisted generator expression.
-// The hint is passed to KnownLocalsSet.CreateLocal which handles casing and uniqueness.
-// Uses spaces to separate words so the identifier factory can apply Go casing conventions.
-func genVarNameHint(expr dst.Expr) string {
-	call, ok := expr.(*dst.CallExpr)
-	if !ok {
-		return "gen"
+// typeVarNameHint returns a human-readable name hint for a hoisted generator variable, derived
+// from the property's astmodel.Type. The hint is passed to KnownLocalsSet.CreateLocal which
+// handles casing and uniqueness. Uses spaces to separate words so the identifier factory can
+// apply Go casing conventions.
+//
+// Wrapper types (Optional, Array, Map) are checked first because the AsXXX helpers unwrap
+// MetaType layers, so checking primitives or type names first would swallow the wrapper.
+func typeVarNameHint(t astmodel.Type) string {
+	if opt, ok := astmodel.AsOptionalType(t); ok {
+		inner := innerTypeNameHint(opt.Element())
+		return "ptr " + inner
 	}
 
-	// rapid.X() — qualified call with no args
-	if sel, ok := call.Fun.(*dst.SelectorExpr); ok {
-		funcName := sel.Sel.Name
-
-		switch {
-		case len(call.Args) == 0:
-			// rapid.String() → "gen String"
-			return "gen " + funcName
-
-		case funcName == "Ptr" && len(call.Args) == 2:
-			// rapid.Ptr(inner, true) → "ptr <inner>"
-			inner := innerGenNameHint(call.Args[0])
-			return "ptr " + inner
-
-		case funcName == "SliceOf" && len(call.Args) == 1:
-			// rapid.SliceOf(inner) → "sliceOf <inner>"
-			inner := innerGenNameHint(call.Args[0])
-			return "sliceOf " + inner
-
-		case funcName == "MapOf" && len(call.Args) == 2:
-			// rapid.MapOf(k, v) → "mapOf <k> To <v>"
-			k := innerGenNameHint(call.Args[0])
-			v := innerGenNameHint(call.Args[1])
-			return "mapOf " + k + " To " + v
-
-		case funcName == "SampledFrom":
-			return "gen sampled"
-
-		default:
-			return "gen " + funcName
-		}
+	if arr, ok := astmodel.AsArrayType(t); ok {
+		inner := innerTypeNameHint(arr.Element())
+		return "sliceOf " + inner
 	}
 
-	// FooGenerator() — unqualified call to another generator
-	if ident, ok := call.Fun.(*dst.Ident); ok {
-		name := strings.TrimSuffix(ident.Name, "Generator")
-		return "gen " + name
+	if mt, ok := astmodel.AsMapType(t); ok {
+		k := innerTypeNameHint(mt.KeyType())
+		v := innerTypeNameHint(mt.ValueType())
+		return "mapOf " + k + " To " + v
+	}
+
+	if tn, ok := astmodel.AsInternalTypeName(t); ok {
+		return "gen " + tn.Name()
+	}
+
+	if _, ok := astmodel.AsPrimitiveType(t); ok {
+		return "gen " + t.String()
+	}
+
+	if _, ok := astmodel.AsEnumType(t); ok {
+		return "gen sampled"
 	}
 
 	return "gen"
 }
 
-// innerGenNameHint extracts a readable type-like name hint from an inner generator expression.
-// For rapid.X() returns "X", for FooGenerator() returns "Foo".
-func innerGenNameHint(expr dst.Expr) string {
-	call, ok := expr.(*dst.CallExpr)
-	if !ok {
-		return "value"
+// innerTypeNameHint extracts a readable type-like name hint from an inner astmodel.Type.
+// For InternalTypeName returns the type name, for PrimitiveType returns the type string.
+func innerTypeNameHint(t astmodel.Type) string {
+	if tn, ok := astmodel.AsInternalTypeName(t); ok {
+		return tn.Name()
 	}
 
-	// rapid.X() pattern → "X"
-	if sel, ok := call.Fun.(*dst.SelectorExpr); ok {
-		return sel.Sel.Name
-	}
-
-	// FooGenerator() pattern → "Foo"
-	if ident, ok := call.Fun.(*dst.Ident); ok {
-		return strings.TrimSuffix(ident.Name, "Generator")
+	if _, ok := astmodel.AsPrimitiveType(t); ok {
+		return t.String()
 	}
 
 	return "value"
