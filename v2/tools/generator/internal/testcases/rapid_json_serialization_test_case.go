@@ -293,8 +293,8 @@ func (r *RapidJSONSerializationTestCase) createTestMethod(codegenContext *astmod
 		resultID,
 		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
 
-	// t.Errorf(result)
-	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Errorf", dst.NewIdent(resultID))
+	// t.Error(result)
+	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Error", dst.NewIdent(resultID))
 
 	// if !match { ... t.Errorf(result) }
 	prettyPrint := astbuilder.SimpleIf(
@@ -405,14 +405,26 @@ func (r *RapidJSONSerializationTestCase) createGeneratorMethodForObject(
 
 	fn.AddStatements(earlyReturn)
 
-	// Build the rapid.Custom closure body
-	closureBody := r.buildCustomClosureBody(allGens)
+	// Build the generator expression
+	var generatorExpr dst.Expr
+	if len(allGens) == 0 {
+		// No generatable properties — use rapid.Just(X{}) to avoid
+		// "Custom generator not calling any of the built-in generators" panic
+		generatorExpr = astbuilder.CallQualifiedFunc(
+			rapidPkg,
+			"Just",
+			&dst.CompositeLit{
+				Type: r.Subject(),
+			})
+	} else {
+		// Build the rapid.Custom closure body
+		closureBody := r.buildCustomClosureBody(allGens)
+		// rapid.Custom(func(t *rapid.T) X { ... })
+		generatorExpr = r.buildRapidCustomCall(rapidPkg, closureBody)
+	}
 
-	// rapid.Custom(func(t *rapid.T) X { ... })
-	customCall := r.buildRapidCustomCall(rapidPkg, closureBody)
-
-	// xGenerator = rapid.Custom(...)
-	assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), customCall)
+	// xGenerator = <generatorExpr>
+	assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), generatorExpr)
 	assignGenerator.Decorations().Before = dst.EmptyLine
 
 	// return xGenerator

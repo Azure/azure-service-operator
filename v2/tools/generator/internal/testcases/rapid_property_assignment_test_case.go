@@ -265,8 +265,8 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		resultID,
 		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
 
-	// t.Errorf(result)
-	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Errorf", dst.NewIdent(resultID))
+	// t.Error(result)
+	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Error", dst.NewIdent(resultID))
 
 	// if !match { ... }
 	prettyPrint := astbuilder.SimpleIf(
