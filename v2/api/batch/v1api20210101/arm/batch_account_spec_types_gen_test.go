@@ -54,11 +54,11 @@ func AutoStorageBasePropertiesGenerator() *rapid.Generator[AutoStorageBaseProper
 		return autoStorageBasePropertiesGenerator
 	}
 
-	ptrString := rapid.Ptr(rapid.String(), true)
+	storageAccountId := rapid.Ptr(rapid.String(), true)
 
 	autoStorageBasePropertiesGenerator = rapid.Custom(func(t *rapid.T) AutoStorageBaseProperties {
 		var result AutoStorageBaseProperties
-		result.StorageAccountId = ptrString.Draw(t, "StorageAccountId")
+		result.StorageAccountId = storageAccountId.Draw(t, "StorageAccountId")
 		return result
 	})
 
@@ -106,19 +106,19 @@ func BatchAccountCreatePropertiesGenerator() *rapid.Generator[BatchAccountCreate
 		return batchAccountCreatePropertiesGenerator
 	}
 
-	ptrAutoStorageBaseProperties := rapid.Ptr(AutoStorageBasePropertiesGenerator(), true)
-	ptrEncryptionProperties := rapid.Ptr(EncryptionPropertiesGenerator(), true)
-	ptrKeyVaultReference := rapid.Ptr(KeyVaultReferenceGenerator(), true)
-	ptrSampledFrom := rapid.Ptr(rapid.SampledFrom([]PoolAllocationMode{PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription}), true)
-	ptrSampledFrom1 := rapid.Ptr(rapid.SampledFrom([]PublicNetworkAccessType{PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled}), true)
+	autoStorage := rapid.Ptr(AutoStorageBasePropertiesGenerator(), true)
+	encryption := rapid.Ptr(EncryptionPropertiesGenerator(), true)
+	keyVaultReference := rapid.Ptr(KeyVaultReferenceGenerator(), true)
+	poolAllocationMode := rapid.Ptr(rapid.SampledFrom([]PoolAllocationMode{PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription}), true)
+	publicNetworkAccess := rapid.Ptr(rapid.SampledFrom([]PublicNetworkAccessType{PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled}), true)
 
 	batchAccountCreatePropertiesGenerator = rapid.Custom(func(t *rapid.T) BatchAccountCreateProperties {
 		var result BatchAccountCreateProperties
-		result.AutoStorage = ptrAutoStorageBaseProperties.Draw(t, "AutoStorage")
-		result.Encryption = ptrEncryptionProperties.Draw(t, "Encryption")
-		result.KeyVaultReference = ptrKeyVaultReference.Draw(t, "KeyVaultReference")
-		result.PoolAllocationMode = ptrSampledFrom.Draw(t, "PoolAllocationMode")
-		result.PublicNetworkAccess = ptrSampledFrom1.Draw(t, "PublicNetworkAccess")
+		result.AutoStorage = autoStorage.Draw(t, "AutoStorage")
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.KeyVaultReference = keyVaultReference.Draw(t, "KeyVaultReference")
+		result.PoolAllocationMode = poolAllocationMode.Draw(t, "PoolAllocationMode")
+		result.PublicNetworkAccess = publicNetworkAccess.Draw(t, "PublicNetworkAccess")
 		return result
 	})
 
@@ -166,15 +166,15 @@ func BatchAccountIdentityGenerator() *rapid.Generator[BatchAccountIdentity] {
 		return batchAccountIdentityGenerator
 	}
 
-	ptrSampledFrom := rapid.Ptr(rapid.SampledFrom([]BatchAccountIdentity_Type{BatchAccountIdentity_Type_None, BatchAccountIdentity_Type_SystemAssigned, BatchAccountIdentity_Type_UserAssigned}), true)
-	mapOfStringToUserAssignedIdentityDetails := rapid.MapOf(
+	typeVar := rapid.Ptr(rapid.SampledFrom([]BatchAccountIdentity_Type{BatchAccountIdentity_Type_None, BatchAccountIdentity_Type_SystemAssigned, BatchAccountIdentity_Type_UserAssigned}), true)
+	userAssignedIdentities := rapid.MapOf(
 		rapid.String(),
 		UserAssignedIdentityDetailsGenerator())
 
 	batchAccountIdentityGenerator = rapid.Custom(func(t *rapid.T) BatchAccountIdentity {
 		var result BatchAccountIdentity
-		result.Type = ptrSampledFrom.Draw(t, "Type")
-		result.UserAssignedIdentities = mapOfStringToUserAssignedIdentityDetails.Draw(t, "UserAssignedIdentities")
+		result.Type = typeVar.Draw(t, "Type")
+		result.UserAssignedIdentities = userAssignedIdentities.Draw(t, "UserAssignedIdentities")
 		return result
 	})
 
@@ -221,21 +221,21 @@ func BatchAccount_SpecGenerator() *rapid.Generator[BatchAccount_Spec] {
 		return batchAccount_SpecGenerator
 	}
 
-	ptrBatchAccountIdentity := rapid.Ptr(BatchAccountIdentityGenerator(), true)
-	ptrString := rapid.Ptr(rapid.String(), true)
-	genString := rapid.String()
-	ptrBatchAccountCreateProperties := rapid.Ptr(BatchAccountCreatePropertiesGenerator(), true)
-	mapOfStringToString := rapid.MapOf(
+	identity := rapid.Ptr(BatchAccountIdentityGenerator(), true)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(BatchAccountCreatePropertiesGenerator(), true)
+	tags := rapid.MapOf(
 		rapid.String(),
 		rapid.String())
 
 	batchAccount_SpecGenerator = rapid.Custom(func(t *rapid.T) BatchAccount_Spec {
 		var result BatchAccount_Spec
-		result.Identity = ptrBatchAccountIdentity.Draw(t, "Identity")
-		result.Location = ptrString.Draw(t, "Location")
-		result.Name = genString.Draw(t, "Name")
-		result.Properties = ptrBatchAccountCreateProperties.Draw(t, "Properties")
-		result.Tags = mapOfStringToString.Draw(t, "Tags")
+		result.Identity = identity.Draw(t, "Identity")
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
 		return result
 	})
 
@@ -283,13 +283,13 @@ func EncryptionPropertiesGenerator() *rapid.Generator[EncryptionProperties] {
 		return encryptionPropertiesGenerator
 	}
 
-	ptrSampledFrom := rapid.Ptr(rapid.SampledFrom([]EncryptionProperties_KeySource{EncryptionProperties_KeySource_MicrosoftBatch, EncryptionProperties_KeySource_MicrosoftKeyVault}), true)
-	ptrKeyVaultProperties := rapid.Ptr(KeyVaultPropertiesGenerator(), true)
+	keySource := rapid.Ptr(rapid.SampledFrom([]EncryptionProperties_KeySource{EncryptionProperties_KeySource_MicrosoftBatch, EncryptionProperties_KeySource_MicrosoftKeyVault}), true)
+	keyVaultProperties := rapid.Ptr(KeyVaultPropertiesGenerator(), true)
 
 	encryptionPropertiesGenerator = rapid.Custom(func(t *rapid.T) EncryptionProperties {
 		var result EncryptionProperties
-		result.KeySource = ptrSampledFrom.Draw(t, "KeySource")
-		result.KeyVaultProperties = ptrKeyVaultProperties.Draw(t, "KeyVaultProperties")
+		result.KeySource = keySource.Draw(t, "KeySource")
+		result.KeyVaultProperties = keyVaultProperties.Draw(t, "KeyVaultProperties")
 		return result
 	})
 
@@ -336,11 +336,11 @@ func KeyVaultPropertiesGenerator() *rapid.Generator[KeyVaultProperties] {
 		return keyVaultPropertiesGenerator
 	}
 
-	ptrString := rapid.Ptr(rapid.String(), true)
+	keyIdentifier := rapid.Ptr(rapid.String(), true)
 
 	keyVaultPropertiesGenerator = rapid.Custom(func(t *rapid.T) KeyVaultProperties {
 		var result KeyVaultProperties
-		result.KeyIdentifier = ptrString.Draw(t, "KeyIdentifier")
+		result.KeyIdentifier = keyIdentifier.Draw(t, "KeyIdentifier")
 		return result
 	})
 

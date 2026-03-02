@@ -108,8 +108,8 @@ func BatchAccountIdentity_STATUSGenerator() *rapid.Generator[BatchAccountIdentit
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	ptrSampledFrom := rapid.Ptr(rapid.SampledFrom([]BatchAccountIdentity_Type_STATUS{BatchAccountIdentity_Type_STATUS_None, BatchAccountIdentity_Type_STATUS_SystemAssigned, BatchAccountIdentity_Type_STATUS_UserAssigned}), true)
-	mapOfStringToBatchAccountIdentityUserAssignedIdentitiesSTATUS := rapid.MapOf(
+	typeVar := rapid.Ptr(rapid.SampledFrom([]BatchAccountIdentity_Type_STATUS{BatchAccountIdentity_Type_STATUS_None, BatchAccountIdentity_Type_STATUS_SystemAssigned, BatchAccountIdentity_Type_STATUS_UserAssigned}), true)
+	userAssignedIdentities := rapid.MapOf(
 		rapid.String(),
 		BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator())
 
@@ -117,8 +117,8 @@ func BatchAccountIdentity_STATUSGenerator() *rapid.Generator[BatchAccountIdentit
 		var result BatchAccountIdentity_STATUS
 		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
 		result.TenantId = ptrString.Draw(t, "TenantId")
-		result.Type = ptrSampledFrom.Draw(t, "Type")
-		result.UserAssignedIdentities = mapOfStringToBatchAccountIdentityUserAssignedIdentitiesSTATUS.Draw(t, "UserAssignedIdentities")
+		result.Type = typeVar.Draw(t, "Type")
+		result.UserAssignedIdentities = userAssignedIdentities.Draw(t, "UserAssignedIdentities")
 		return result
 	})
 
@@ -219,34 +219,34 @@ func BatchAccountProperties_STATUSGenerator() *rapid.Generator[BatchAccountPrope
 		return batchAccountProperties_STATUSGenerator
 	}
 
-	ptrString := rapid.Ptr(rapid.String(), true)
 	ptrInt := rapid.Ptr(rapid.Int(), true)
-	ptrAutoStoragePropertiesSTATUS := rapid.Ptr(AutoStorageProperties_STATUSGenerator(), true)
-	sliceOfVirtualMachineFamilyCoreQuotaSTATUS := rapid.SliceOf(VirtualMachineFamilyCoreQuota_STATUSGenerator())
-	ptrBool := rapid.Ptr(rapid.Bool(), true)
-	ptrEncryptionPropertiesSTATUS := rapid.Ptr(EncryptionProperties_STATUSGenerator(), true)
-	ptrKeyVaultReferenceSTATUS := rapid.Ptr(KeyVaultReference_STATUSGenerator(), true)
-	ptrSampledFrom := rapid.Ptr(rapid.SampledFrom([]PoolAllocationMode_STATUS{PoolAllocationMode_STATUS_BatchService, PoolAllocationMode_STATUS_UserSubscription}), true)
-	sliceOfPrivateEndpointConnectionSTATUS := rapid.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-	ptrSampledFrom1 := rapid.Ptr(rapid.SampledFrom([]BatchAccountProperties_ProvisioningState_STATUS{BatchAccountProperties_ProvisioningState_STATUS_Cancelled, BatchAccountProperties_ProvisioningState_STATUS_Creating, BatchAccountProperties_ProvisioningState_STATUS_Deleting, BatchAccountProperties_ProvisioningState_STATUS_Failed, BatchAccountProperties_ProvisioningState_STATUS_Invalid, BatchAccountProperties_ProvisioningState_STATUS_Succeeded}), true)
-	ptrSampledFrom2 := rapid.Ptr(rapid.SampledFrom([]PublicNetworkAccessType_STATUS{PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled}), true)
+	accountEndpoint := rapid.Ptr(rapid.String(), true)
+	autoStorage := rapid.Ptr(AutoStorageProperties_STATUSGenerator(), true)
+	dedicatedCoreQuotaPerVMFamily := rapid.SliceOf(VirtualMachineFamilyCoreQuota_STATUSGenerator())
+	dedicatedCoreQuotaPerVMFamilyEnforced := rapid.Ptr(rapid.Bool(), true)
+	encryption := rapid.Ptr(EncryptionProperties_STATUSGenerator(), true)
+	keyVaultReference := rapid.Ptr(KeyVaultReference_STATUSGenerator(), true)
+	poolAllocationMode := rapid.Ptr(rapid.SampledFrom([]PoolAllocationMode_STATUS{PoolAllocationMode_STATUS_BatchService, PoolAllocationMode_STATUS_UserSubscription}), true)
+	privateEndpointConnections := rapid.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]BatchAccountProperties_ProvisioningState_STATUS{BatchAccountProperties_ProvisioningState_STATUS_Cancelled, BatchAccountProperties_ProvisioningState_STATUS_Creating, BatchAccountProperties_ProvisioningState_STATUS_Deleting, BatchAccountProperties_ProvisioningState_STATUS_Failed, BatchAccountProperties_ProvisioningState_STATUS_Invalid, BatchAccountProperties_ProvisioningState_STATUS_Succeeded}), true)
+	publicNetworkAccess := rapid.Ptr(rapid.SampledFrom([]PublicNetworkAccessType_STATUS{PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled}), true)
 
 	batchAccountProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) BatchAccountProperties_STATUS {
 		var result BatchAccountProperties_STATUS
-		result.AccountEndpoint = ptrString.Draw(t, "AccountEndpoint")
+		result.AccountEndpoint = accountEndpoint.Draw(t, "AccountEndpoint")
 		result.ActiveJobAndJobScheduleQuota = ptrInt.Draw(t, "ActiveJobAndJobScheduleQuota")
-		result.AutoStorage = ptrAutoStoragePropertiesSTATUS.Draw(t, "AutoStorage")
+		result.AutoStorage = autoStorage.Draw(t, "AutoStorage")
 		result.DedicatedCoreQuota = ptrInt.Draw(t, "DedicatedCoreQuota")
-		result.DedicatedCoreQuotaPerVMFamily = sliceOfVirtualMachineFamilyCoreQuotaSTATUS.Draw(t, "DedicatedCoreQuotaPerVMFamily")
-		result.DedicatedCoreQuotaPerVMFamilyEnforced = ptrBool.Draw(t, "DedicatedCoreQuotaPerVMFamilyEnforced")
-		result.Encryption = ptrEncryptionPropertiesSTATUS.Draw(t, "Encryption")
-		result.KeyVaultReference = ptrKeyVaultReferenceSTATUS.Draw(t, "KeyVaultReference")
+		result.DedicatedCoreQuotaPerVMFamily = dedicatedCoreQuotaPerVMFamily.Draw(t, "DedicatedCoreQuotaPerVMFamily")
+		result.DedicatedCoreQuotaPerVMFamilyEnforced = dedicatedCoreQuotaPerVMFamilyEnforced.Draw(t, "DedicatedCoreQuotaPerVMFamilyEnforced")
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.KeyVaultReference = keyVaultReference.Draw(t, "KeyVaultReference")
 		result.LowPriorityCoreQuota = ptrInt.Draw(t, "LowPriorityCoreQuota")
-		result.PoolAllocationMode = ptrSampledFrom.Draw(t, "PoolAllocationMode")
+		result.PoolAllocationMode = poolAllocationMode.Draw(t, "PoolAllocationMode")
 		result.PoolQuota = ptrInt.Draw(t, "PoolQuota")
-		result.PrivateEndpointConnections = sliceOfPrivateEndpointConnectionSTATUS.Draw(t, "PrivateEndpointConnections")
-		result.ProvisioningState = ptrSampledFrom1.Draw(t, "ProvisioningState")
-		result.PublicNetworkAccess = ptrSampledFrom2.Draw(t, "PublicNetworkAccess")
+		result.PrivateEndpointConnections = privateEndpointConnections.Draw(t, "PrivateEndpointConnections")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.PublicNetworkAccess = publicNetworkAccess.Draw(t, "PublicNetworkAccess")
 		return result
 	})
 
@@ -295,20 +295,20 @@ func BatchAccount_STATUSGenerator() *rapid.Generator[BatchAccount_STATUS] {
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	ptrBatchAccountIdentitySTATUS := rapid.Ptr(BatchAccountIdentity_STATUSGenerator(), true)
-	ptrBatchAccountPropertiesSTATUS := rapid.Ptr(BatchAccountProperties_STATUSGenerator(), true)
-	mapOfStringToString := rapid.MapOf(
+	identity := rapid.Ptr(BatchAccountIdentity_STATUSGenerator(), true)
+	properties := rapid.Ptr(BatchAccountProperties_STATUSGenerator(), true)
+	tags := rapid.MapOf(
 		rapid.String(),
 		rapid.String())
 
 	batchAccount_STATUSGenerator = rapid.Custom(func(t *rapid.T) BatchAccount_STATUS {
 		var result BatchAccount_STATUS
 		result.Id = ptrString.Draw(t, "Id")
-		result.Identity = ptrBatchAccountIdentitySTATUS.Draw(t, "Identity")
+		result.Identity = identity.Draw(t, "Identity")
 		result.Location = ptrString.Draw(t, "Location")
 		result.Name = ptrString.Draw(t, "Name")
-		result.Properties = ptrBatchAccountPropertiesSTATUS.Draw(t, "Properties")
-		result.Tags = mapOfStringToString.Draw(t, "Tags")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
 		result.Type = ptrString.Draw(t, "Type")
 		return result
 	})
@@ -357,13 +357,13 @@ func EncryptionProperties_STATUSGenerator() *rapid.Generator[EncryptionPropertie
 		return encryptionProperties_STATUSGenerator
 	}
 
-	ptrSampledFrom := rapid.Ptr(rapid.SampledFrom([]EncryptionProperties_KeySource_STATUS{EncryptionProperties_KeySource_STATUS_MicrosoftBatch, EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault}), true)
-	ptrKeyVaultPropertiesSTATUS := rapid.Ptr(KeyVaultProperties_STATUSGenerator(), true)
+	keySource := rapid.Ptr(rapid.SampledFrom([]EncryptionProperties_KeySource_STATUS{EncryptionProperties_KeySource_STATUS_MicrosoftBatch, EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault}), true)
+	keyVaultProperties := rapid.Ptr(KeyVaultProperties_STATUSGenerator(), true)
 
 	encryptionProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) EncryptionProperties_STATUS {
 		var result EncryptionProperties_STATUS
-		result.KeySource = ptrSampledFrom.Draw(t, "KeySource")
-		result.KeyVaultProperties = ptrKeyVaultPropertiesSTATUS.Draw(t, "KeyVaultProperties")
+		result.KeySource = keySource.Draw(t, "KeySource")
+		result.KeyVaultProperties = keyVaultProperties.Draw(t, "KeyVaultProperties")
 		return result
 	})
 
@@ -411,11 +411,11 @@ func KeyVaultProperties_STATUSGenerator() *rapid.Generator[KeyVaultProperties_ST
 		return keyVaultProperties_STATUSGenerator
 	}
 
-	ptrString := rapid.Ptr(rapid.String(), true)
+	keyIdentifier := rapid.Ptr(rapid.String(), true)
 
 	keyVaultProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyVaultProperties_STATUS {
 		var result KeyVaultProperties_STATUS
-		result.KeyIdentifier = ptrString.Draw(t, "KeyIdentifier")
+		result.KeyIdentifier = keyIdentifier.Draw(t, "KeyIdentifier")
 		return result
 	})
 
@@ -516,11 +516,11 @@ func PrivateEndpointConnection_STATUSGenerator() *rapid.Generator[PrivateEndpoin
 		return privateEndpointConnection_STATUSGenerator
 	}
 
-	ptrString := rapid.Ptr(rapid.String(), true)
+	id := rapid.Ptr(rapid.String(), true)
 
 	privateEndpointConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateEndpointConnection_STATUS {
 		var result PrivateEndpointConnection_STATUS
-		result.Id = ptrString.Draw(t, "Id")
+		result.Id = id.Draw(t, "Id")
 		return result
 	})
 
@@ -568,13 +568,13 @@ func VirtualMachineFamilyCoreQuota_STATUSGenerator() *rapid.Generator[VirtualMac
 		return virtualMachineFamilyCoreQuota_STATUSGenerator
 	}
 
-	ptrInt := rapid.Ptr(rapid.Int(), true)
-	ptrString := rapid.Ptr(rapid.String(), true)
+	coreQuota := rapid.Ptr(rapid.Int(), true)
+	name := rapid.Ptr(rapid.String(), true)
 
 	virtualMachineFamilyCoreQuota_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualMachineFamilyCoreQuota_STATUS {
 		var result VirtualMachineFamilyCoreQuota_STATUS
-		result.CoreQuota = ptrInt.Draw(t, "CoreQuota")
-		result.Name = ptrString.Draw(t, "Name")
+		result.CoreQuota = coreQuota.Draw(t, "CoreQuota")
+		result.Name = name.Draw(t, "Name")
 		return result
 	})
 
