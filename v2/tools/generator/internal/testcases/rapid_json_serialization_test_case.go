@@ -871,13 +871,16 @@ func (r *RapidJSONSerializationTestCase) createFatalIfNotNil(id string) *dst.IfS
 // hoistGenerators lifts all generator expressions out of allGens into local variable
 // declarations emitted before the rapid.Custom() call. Identical expressions share a single
 // variable so duplicates are naturally deduplicated.
+//
+// Variables are partitioned into two groups emitted in order:
+//   - "type named" variables for generators shared by 2+ properties (named after the generator type)
+//   - "property named" variables for single-use generators (named after the property they populate)
 func hoistGenerators(allGens []generatorAssignment, idFactory astmodel.IdentifierFactory) []dst.Stmt {
 	locals := astmodel.NewKnownLocalsSet(idFactory)
 
 	// Group generators by expression key, preserving first-seen order
 	type genGroup struct {
 		expr    dst.Expr // first occurrence's expression (used for variable initialization)
-		varName string   // assigned local variable name (set once allocated)
 		indices []int    // indices into allGens
 	}
 
@@ -897,29 +900,50 @@ func hoistGenerators(allGens []generatorAssignment, idFactory astmodel.Identifie
 		}
 	}
 
-	// Allocate a local variable for every unique generator expression
+	// Partition into shared (2+ uses) and single-use groups
+	var sharedKeys []string
+	var singleKeys []string
+	for _, key := range order {
+		if len(groups[key].indices) >= 2 {
+			sharedKeys = append(sharedKeys, key)
+		} else {
+			singleKeys = append(singleKeys, key)
+		}
+	}
+
 	var stmts []dst.Stmt
 
-	for _, key := range order {
+	// Emit shared generators first, named by generator type
+	for _, key := range sharedKeys {
 		g := groups[key]
-
-		// Derive a readable name hint and let KnownLocalsSet handle uniqueness
 		hint := genVarNameHint(g.expr)
 		varName := locals.CreateLocal(hint)
-		g.varName = varName
 
-		// Create: varName := <expr>
 		decl := astbuilder.ShortDeclaration(varName, g.expr)
 		if len(stmts) == 0 {
 			decl.Decorations().Before = dst.EmptyLine
 		}
-
 		stmts = append(stmts, decl)
 
-		// Replace all occurrences in allGens with reference to the variable
 		for _, idx := range g.indices {
 			allGens[idx].genExpr = dst.NewIdent(varName)
 		}
+	}
+
+	// Emit single-use generators second, named by the property they populate
+	for _, key := range singleKeys {
+		g := groups[key]
+		idx := g.indices[0]
+		hint := allGens[idx].propertyName
+		varName := locals.CreateLocal(hint)
+
+		decl := astbuilder.ShortDeclaration(varName, g.expr)
+		if len(stmts) == 0 {
+			decl.Decorations().Before = dst.EmptyLine
+		}
+		stmts = append(stmts, decl)
+
+		allGens[idx].genExpr = dst.NewIdent(varName)
 	}
 
 	return stmts
