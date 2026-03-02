@@ -286,11 +286,13 @@ func Person_SpecGenerator() *rapid.Generator[Person_Spec] {
 		return person_SpecGenerator
 	}
 
+	genString := rapid.String()
+
 	person_SpecGenerator = rapid.Custom(func(t *rapid.T) Person_Spec {
 		var result Person_Spec
-		result.FamilyName = rapid.String().Draw(t, "FamilyName")
-		result.FullName = rapid.String().Draw(t, "FullName")
-		result.KnownAs = rapid.String().Draw(t, "KnownAs")
+		result.FamilyName = genString.Draw(t, "FamilyName")
+		result.FullName = genString.Draw(t, "FullName")
+		result.KnownAs = genString.Draw(t, "KnownAs")
 		return result
 	})
 

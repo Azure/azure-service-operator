@@ -53,10 +53,12 @@ func AddressGenerator() *rapid.Generator[Address] {
 		return addressGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+
 	addressGenerator = rapid.Custom(func(t *rapid.T) Address {
 		var result Address
-		result.City = rapid.Ptr(rapid.String(), true).Draw(t, "City")
-		result.FullAddress = rapid.Ptr(rapid.String(), true).Draw(t, "FullAddress")
+		result.City = ptrString.Draw(t, "City")
+		result.FullAddress = ptrString.Draw(t, "FullAddress")
 		return result
 	})
 
@@ -202,13 +204,16 @@ func Person_SpecGenerator() *rapid.Generator[Person_Spec] {
 		return person_SpecGenerator
 	}
 
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrAddress := rapid.Ptr(AddressGenerator(), true)
+
 	person_SpecGenerator = rapid.Custom(func(t *rapid.T) Person_Spec {
 		var result Person_Spec
-		result.FamilyName = rapid.Ptr(rapid.String(), true).Draw(t, "FamilyName")
-		result.FullName = rapid.Ptr(rapid.String(), true).Draw(t, "FullName")
-		result.KnownAs = rapid.Ptr(rapid.String(), true).Draw(t, "KnownAs")
-		result.PostalAddress = rapid.Ptr(AddressGenerator(), true).Draw(t, "PostalAddress")
-		result.ResidentialAddress = rapid.Ptr(AddressGenerator(), true).Draw(t, "ResidentialAddress")
+		result.FamilyName = ptrString.Draw(t, "FamilyName")
+		result.FullName = ptrString.Draw(t, "FullName")
+		result.KnownAs = ptrString.Draw(t, "KnownAs")
+		result.PostalAddress = ptrAddress.Draw(t, "PostalAddress")
+		result.ResidentialAddress = ptrAddress.Draw(t, "ResidentialAddress")
 		return result
 	})
 
