@@ -42,7 +42,7 @@ func Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 			actualFmt := pretty.Sprint(actual)
 			subjectFmt := pretty.Sprint(subject)
 			result := diff.Diff(subjectFmt, actualFmt)
-			t.Errorf(result)
+			t.Error(result)
 		}
 	})
 }
@@ -75,7 +75,7 @@ func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 			actualFmt := pretty.Sprint(actual)
 			subjectFmt := pretty.Sprint(subject)
 			result := diff.Diff(subjectFmt, actualFmt)
-			t.Errorf(result)
+			t.Error(result)
 		}
 	})
 }
@@ -107,7 +107,7 @@ func RunJSONSerializationTestForPerson(t *rapid.T) {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		t.Errorf(result)
+		t.Error(result)
 	}
 }
 
@@ -158,7 +158,7 @@ func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 			actualFmt := pretty.Sprint(actual)
 			subjectFmt := pretty.Sprint(subject)
 			result := diff.Diff(subjectFmt, actualFmt)
-			t.Errorf(result)
+			t.Error(result)
 		}
 	})
 }
@@ -190,7 +190,7 @@ func RunJSONSerializationTestForPerson_STATUS(t *rapid.T) {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		t.Errorf(result)
+		t.Error(result)
 	}
 }
 
@@ -240,7 +240,7 @@ func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 			actualFmt := pretty.Sprint(actual)
 			subjectFmt := pretty.Sprint(subject)
 			result := diff.Diff(subjectFmt, actualFmt)
-			t.Errorf(result)
+			t.Error(result)
 		}
 	})
 }
@@ -272,7 +272,7 @@ func RunJSONSerializationTestForPerson_Spec(t *rapid.T) {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		t.Errorf(result)
+		t.Error(result)
 	}
 }
 
