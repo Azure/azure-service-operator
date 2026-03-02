@@ -282,6 +282,23 @@ This is necessary because:
 - The test runner pattern changes (`gopter.NewProperties()` + `prop.ForAll()` → `rapid.Check()`)
 - The test method signature changes (gopter tests take a value and return `string`; rapid tests use `*rapid.T` and call `t.Fatal`)
 
+### Pre-existing Phase II Infrastructure
+
+The following files and changes already exist from Phase II — Phase III builds on them:
+
+**Files already created:**
+- `v2/tools/generator/internal/testcases/rapid_migration.go` — The `gopterGroups` set and `UseRapidForGroup()`/`UseGopterForGroup()` functions
+- `v2/tools/generator/internal/codegen/pipeline/inject_rapid_serialization_tests.go` — No-op pipeline stage skeleton with `InjectRapidSerializationTestsStageID`
+
+**Files already modified:**
+- `v2/tools/generator/internal/astmodel/std_references.go` — `RapidReference` added
+- `v2/tools/generator/internal/codegen/pipeline/json_serialization_test_cases.go` — Skips types in rapid groups
+- `v2/tools/generator/internal/codegen/pipeline/property_assignment_test_cases.go` — Skips types in rapid groups; `InjectRapidSerializationTestsStageID` added as prerequisite
+- `v2/tools/generator/internal/codegen/pipeline/resource_conversion_test_cases.go` — Skips types in rapid groups; `InjectRapidSerializationTestsStageID` added as prerequisite
+- `v2/tools/generator/internal/codegen/code_generator.go` — `InjectRapidSerializationTests` stage registered after `InjectJSONSerializationTests`
+- `v2/go.mod` and `v2/tools/generator/go.mod` — `pgregory.net/rapid` dependency added
+- Golden test files updated for new pipeline stage
+
 ### Detailed Steps
 
 #### Step 1: Create `RapidJSONSerializationTestCase`
@@ -326,30 +343,31 @@ func BatchAccount_SpecGenerator() *rapid.Generator[BatchAccount_Spec] {
         return batchAccount_SpecGenerator
     }
 
-    generators := make(map[string]gopter.Gen)  // See note below about generator map type
-    AddIndependentPropertyGeneratorsForBatchAccount_Spec(generators)
-
-    // Phase 1: assign partial generator to break cycles
     batchAccount_SpecGenerator = rapid.Custom(func(t *rapid.T) BatchAccount_Spec {
-        // Generate struct using independent generators only
-        ...
-    })
-
-    AddRelatedPropertyGeneratorsForBatchAccount_Spec(generators)
-
-    // Phase 2: replace with full generator
-    batchAccount_SpecGenerator = rapid.Custom(func(t *rapid.T) BatchAccount_Spec {
-        // Generate struct using all generators
-        ...
+        var result BatchAccount_Spec
+        result.AccountName = rapid.Ptr(rapid.String(), true).Draw(t, "AccountName")
+        result.Location = rapid.Ptr(rapid.String(), true).Draw(t, "Location")
+        result.Identity = IdentityGenerator().Draw(t, "Identity")
+        // ... all properties, independent and related, in a single closure
+        return result
     })
 
     return batchAccount_SpecGenerator
 }
 ```
 
-**Important: rapid doesn't have `gen.Struct()`** — we need to generate struct construction field-by-field inside `rapid.Custom()`. Each property is drawn from its respective rapid generator.
+**Important: rapid doesn't have `gen.Struct()`** — we generate struct construction field-by-field inside `rapid.Custom()`. Each property is drawn from its respective rapid generator.
 
-**Note about `AddIndependentPropertyGeneratorsFor` / `AddRelatedPropertyGeneratorsFor`**: These helper methods populate a `map[string]gopter.Gen`. For rapid, we won't use a map-based approach — instead, the generator factory will directly emit field assignments inside `rapid.Custom()`, drawing each field from its generator inline. This eliminates the separate `AddIndependent...` / `AddRelated...` methods in favour of a single generator method that constructs the struct directly.
+**No `AddIndependentPropertyGeneratorsFor` / `AddRelatedPropertyGeneratorsFor` helpers**: Unlike gopter which populates a `map[string]gopter.Gen` and passes it to `gen.Struct()`, rapid constructs each field inline within the `rapid.Custom()` closure. This eliminates the separate helper methods entirely.
+
+**No two-phase cycle breaking needed**: Gopter's `gen.Struct(reflect.TypeOf(T{}), generators)` requires the generator map to be fully populated at construction time — if `AddRelatedPropertyGeneratorsForX()` calls `YGenerator()` which calls `XGenerator()` recursively, we need a partial-generator already cached. With rapid, `rapid.Custom(fn)` does NOT execute `fn` at construction time — `fn` runs only at draw time. So we can:
+1. Create a single `rapid.Custom()` with ALL fields (independent + related) inside the closure
+2. Assign it to the global cache variable immediately
+3. If another generator's draw triggers a recursive call back to this generator, it finds the cached value
+
+Draw-time cycles (A draws B draws A) terminate naturally because optional fields use `rapid.Ptr(g, true)` which sometimes generates `nil`.
+
+**No >50 property limitation**: Unlike gopter (which uses `gen.Struct()` with reflection and hits a Go runtime limit at ~50 fields — see https://github.com/golang/go/issues/54669), `rapid.Custom()` constructs the struct field-by-field with no reflection. Generate generators for ALL properties regardless of count.
 
 #### Step 2: Implement rapid generator mapping for each property type
 
@@ -363,40 +381,73 @@ Create helper methods on `RapidJSONSerializationTestCase`:
 | `int` | `gen.Int()` | `rapid.Int()` |
 | `float64` | `gen.Float64()` | `rapid.Float64()` |
 | `bool` | `gen.Bool()` | `rapid.Bool()` |
-| `*T` (optional) | `gen.PtrOf(g)` | `rapid.Pointer(g, true)` |
+| `*T` (optional) | `gen.PtrOf(g)` | `rapid.Ptr(g, true)` (`allowNil=true` for optional fields) |
 | `[]T` (array) | `gen.SliceOf(g)` | `rapid.SliceOf(g)` |
 | `map[K]V` | `gen.MapOf(k, v)` | `rapid.MapOf(k, v)` |
 | Enum | `gen.OneConstOf(v1, v2, ...)` | `rapid.SampledFrom([]T{v1, v2, ...})` |
-| Validated | generator + `.Map()` cast | generator + `rapid.Map()` or `rapid.Custom()` cast |
+| Validated | generator + `g.Map(castFn)` (method) | `rapid.Map(generator, castFn)` (standalone function, NOT a method) |
 
 **Related generators** (`createRelatedGenerator`):
-- For types in same package: call `OtherTypeGenerator()` (same naming convention via `idOfGeneratorMethod`)
-- For types in other packages: call `pkg.OtherTypeGenerator()`
-- The return type changes from `gopter.Gen` to `*rapid.Generator[T]`, but the function call pattern is the same.
+| ASO Type | Rapid |
+|----------|-------|
+| `InternalTypeName` (same pkg) | `OtherTypeGenerator()` (same naming via `idOfGeneratorMethod`) |
+| `InternalTypeName` (other pkg) | `pkg.OtherTypeGenerator()` |
+| `*T` (optional, non-OneOf) | `rapid.Ptr(g, true)` |
+| `*T` (optional, OneOf context) | `rapid.Map(g, func(it T) *T { return &it })` — forces non-nil pointer for OneOf members |
+| `[]T` (array) | `rapid.SliceOf(g)` |
+| `map[K]V` | `rapid.MapOf(keyGen, valueGen)` (key from independent, value from related) |
+| `ValidatedType` | Recurse to underlying element type |
 
-#### Step 3: Handle the two-phase generator pattern for cycle breaking
+**Key API difference**: In gopter, `.Map()` is a method on `gopter.Gen` (e.g. `g.Map(castFn)`). In rapid, `rapid.Map()` is a standalone generic function: `rapid.Map[U, V](g *Generator[U], fn func(U) V) *Generator[V]`. The code generator must emit `rapid.Map(g, fn)` not `g.Map(fn)`.
 
-The cycle-breaking pattern works with rapid using `rapid.Custom()`:
+**Property filtering (`removeByPackage`)**: The same property filtering from the gopter implementation must be applied. Properties with types from these packages are excluded from generation:
+- `GenRuntimeReference`, `GenRuntimeConfigMapsReference`, `GenRuntimeSecretsReference`, `GenRuntimeCoreReference`
+- `APIMachineryRuntimeReference`, `APIMachinerySchemaReference`
+- `APIExtensionsReference`, `APIExtensionsJSONReference`
+- `GenRuntimeConditionsReference`
 
-1. Create a `rapid.Custom(func(t *rapid.T) T { ... })` with only independent fields set
-2. Assign it to the global `*rapid.Generator[T]` variable
-3. Create a new `rapid.Custom(func(t *rapid.T) T { ... })` with all fields (including related types that may call back into this generator)
-4. Assign the full generator to the global variable
+#### Step 3: Generate generic type expressions in AST
 
-Since `rapid.Custom()` captures its closure at creation time, and the global variable is read inside other generators' closures at draw-time (not creation-time), this correctly breaks cycles.
+The rapid API uses Go generics extensively. The generated code must include generic type expressions like `*rapid.Generator[BatchAccount_Spec]`.
 
-**No >50 property limitation**: Unlike gopter (which uses `gen.Struct()` with reflection and hits a Go runtime limit at ~50 fields), `rapid.Custom()` constructs the struct field-by-field with no reflection. Generate independent generators for ALL properties regardless of count.
+To construct `*rapid.Generator[T]` in the `dave/dst` AST, use `dst.IndexExpr` (used for single-type-parameter generics in Go 1.18+):
+
+```go
+// *rapid.Generator[BatchAccount_Spec]
+generatorType := &dst.StarExpr{
+    X: &dst.IndexExpr{
+        X: &dst.SelectorExpr{
+            X:   dst.NewIdent(rapidPackage),   // "rapid"
+            Sel: dst.NewIdent("Generator"),
+        },
+        Index: subjectTypeExpr,  // e.g. dst.NewIdent("BatchAccount_Spec")
+    },
+}
+```
+
+This pattern already exists in the codebase — see `kubernetes_admissions_validator.go` (line ~409) which uses `dst.IndexExpr` for generic interface instantiation.
+
+The variable declaration becomes:
+```go
+// var batchAccount_SpecGenerator *rapid.Generator[BatchAccount_Spec]
+astbuilder.VariableDeclaration(globalID, generatorType, comment)
+```
+
+The function return type also uses this pattern for the generator factory method.
 
 #### Step 4: Handle OneOf types
 
 For OneOf types, use `rapid.OneOf()` instead of `gen.OneGenOf()`:
 - Iterate over properties (each is a OneOf option)
-- Create a `rapid.Custom()` for each that sets just that one property
-- Combine with `rapid.OneOf(g1, g2, ...)`
+- For each option, create a `rapid.Custom()` that sets just that one property on an otherwise-zero-valued struct
+- For optional (pointer) OneOf properties, use `rapid.Map(g, func(it T) *T { return &it })` to force a non-nil pointer (same semantic as the gopter code's `.Map()` wrapper)
+- Combine all per-option generators with `rapid.OneOf(g1, g2, ...)` — all generators must be `*rapid.Generator[ParentStruct]`
+
+**Note**: `rapid.OneOf` requires all argument generators to have the same type `*Generator[V]`. Since each per-option generator produces the parent struct (with one field set), they all share the same type.
 
 #### Step 5: Create rapid-flavored PropertyAssignment and ResourceConversion test cases
 
-Since these test cases reuse the generator and the generator return type changes, we need rapid versions:
+Since these test cases reuse the generator and the generator return type changes, we need rapid versions.
 
 Create `v2/tools/generator/internal/testcases/rapid_property_assignment_test_case.go`:
 ```go
@@ -404,7 +455,15 @@ func Test_X_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
     t.Parallel()
     rapid.Check(t, func(t *rapid.T) {
         subject := XGenerator().Draw(t, "subject")
-        // ... assignment round-trip test ...
+        copied := subject.DeepCopy()    // preserve original
+        var other OtherVersion
+        err := copied.AssignProperties_To_OtherVersion(&other)
+        if err != nil { t.Fatalf("AssignTo: %v", err) }
+        var actual CurrentVersion
+        err = actual.AssignProperties_From_OtherVersion(&other)
+        if err != nil { t.Fatalf("AssignFrom: %v", err) }
+        match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+        if !match { ... t.Errorf(result) }
     })
 }
 ```
@@ -415,7 +474,15 @@ func Test_X_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
     t.Parallel()
     rapid.Check(t, func(t *rapid.T) {
         subject := XGenerator().Draw(t, "subject")
-        // ... conversion round-trip test ...
+        copied := subject.DeepCopy()
+        var hub HubVersion
+        err := copied.ConvertTo(&hub)
+        if err != nil { t.Fatalf("ConvertTo: %v", err) }
+        var actual CurrentVersion
+        err = actual.ConvertFrom(&hub)
+        if err != nil { t.Fatalf("ConvertFrom: %v", err) }
+        match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+        if !match { ... t.Errorf(result) }
     })
 }
 ```
@@ -423,15 +490,37 @@ func Test_X_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 These mirror the existing test case types but:
 - Use `rapid.Check()` instead of `gopter.NewProperties()` + `prop.ForAll()`
 - Use `.Draw(t, "label")` to get values from generators
-- Use `t.Fatal()` / `t.Errorf()` instead of returning `string`
+- Use `t.Fatal()` / `t.Fatalf()` / `t.Errorf()` instead of returning `string`
 
-#### Step 6: Modify property assignment and resource conversion pipeline stages
+Both implement the `astmodel.TestCase` interface: `Name()`, `References()`, `RequiredImports()`, `AsFuncs(subject TypeName, ctx *CodeGenerationContext) ([]dst.Decl, error)`, `Equals()`.
 
-Update `InjectPropertyAssignmentTests` and `InjectResourceConversionTestCases` in their respective pipeline stage files to also check `UseRapidForGroup()`. When a group uses rapid, inject the rapid-flavored test case instead of the gopter-flavored one.
+Their `RequiredImports()` must include: `testing`, `os`, `astmodel.RapidReference`, `astmodel.CmpReference`, `astmodel.CmpOptsReference`, `astmodel.DiffReference`, `astmodel.PrettyReference`, plus the parameter type or hub type package reference. They do NOT include gopter references.
+
+#### Step 6: Add rapid injection to property assignment and resource conversion pipeline stages
+
+Phase II already added the gopter-skipping logic (`UseRapidForGroup` → `continue`) to both `InjectPropertyAssignmentTests` and `InjectResourceConversionTestCases`. Phase III adds the complementary rapid injection.
+
+After the existing loop that handles gopter test cases, add a second loop (or modify the existing one) to inject rapid-flavored test cases for groups where `UseRapidForGroup()` returns `true`:
+
+```go
+// Existing loop already skips rapid groups for gopter injection
+// Add rapid injection for rapid groups:
+for _, d := range state.Definitions() {
+    if ref, ok := d.Name().PackageReference().(astmodel.InternalPackageReference); ok {
+        if !testcases.UseRapidForGroup(ref.Group()) {
+            continue // Skip — gopter loop already handled this group
+        }
+    }
+    if rapidFactory.NeedsTest(d) {
+        updated, err := rapidFactory.AddTestTo(d)
+        // ...
+    }
+}
+```
 
 #### Step 7: Implement the rapid JSON serialization pipeline stage action
 
-In `inject_rapid_serialization_tests.go`, flesh out the stage action:
+In `inject_rapid_serialization_tests.go`, flesh out the stage action. The factory should mirror `objectSerializationTestCaseFactory` from `json_serialization_test_cases.go`:
 
 ```go
 func(ctx context.Context, state *State) (*State, error) {
@@ -459,14 +548,28 @@ func(ctx context.Context, state *State) (*State, error) {
 }
 ```
 
+The factory's `NeedsTest()` must replicate the same checks as `objectSerializationTestCaseFactory.NeedsTest()`:
+- Type must be a property container (`astmodel.AsPropertyContainer`)
+- Must not be a webhook type (`astmodel.IsWebhookPackageReference`)
+- Must not be in the suppressions list (ARM OneOf types that don't round-trip)
+- Empty property containers still get test cases (generators are needed by other types)
+
 #### Step 8: Enable "batch" group
 
 Remove `"batch"` from the `gopterGroups` set in `rapid_migration.go`. This causes all batch types to get rapid-based tests instead of gopter-based tests.
 
+**Note**: Golden file tests use a synthetic group name (`"person"`) that is NOT in `gopterGroups`, so they already exercise the rapid code path. Validate with golden tests BEFORE enabling a real group.
+
 #### Step 9: Regenerate and validate
 
 ```bash
-# Regenerate all types (will produce rapid tests for batch, gopter for everything else)
+# First validate with golden tests (synthetic "person" group uses rapid path)
+./hack/tools/task generator:unit-tests
+
+# Update golden files if needed
+./hack/tools/task generator:update-golden-tests
+
+# Then enable batch and regenerate
 ./hack/tools/task controller:generate-types
 
 # Build to verify compilation
@@ -475,7 +578,7 @@ Remove `"batch"` from the `gopterGroups` set in `rapid_migration.go`. This cause
 # Run the generated tests for batch specifically
 cd v2 && go test ./api/batch/... -v -count=1
 
-# Run generator unit tests (will need golden file updates)
+# Run generator unit tests
 ./hack/tools/task generator:unit-tests
 
 # Full test suite
@@ -484,21 +587,17 @@ cd v2 && go test ./api/batch/... -v -count=1
 
 ### File Summary
 
-**New files to create:**
-- `v2/tools/generator/internal/testcases/rapid_migration.go` — The group allow/deny list
+**New files to create (Phase III):**
 - `v2/tools/generator/internal/testcases/rapid_json_serialization_test_case.go` — The rapid JSON serialization test case
 - `v2/tools/generator/internal/testcases/rapid_property_assignment_test_case.go` — Rapid-flavored property assignment test case
 - `v2/tools/generator/internal/testcases/rapid_resource_conversion_test_case.go` — Rapid-flavored resource conversion test case
-- `v2/tools/generator/internal/codegen/pipeline/inject_rapid_serialization_tests.go` — The pipeline stage
 
-**Files to modify:**
-- `v2/tools/generator/internal/astmodel/std_references.go` — Add `RapidReference`
-- `v2/tools/generator/internal/codegen/pipeline/json_serialization_test_cases.go` — Skip rapid groups
-- `v2/tools/generator/internal/codegen/pipeline/property_assignment_test_cases.go` — Use rapid version for rapid groups
-- `v2/tools/generator/internal/codegen/pipeline/resource_conversion_test_cases.go` — Use rapid version for rapid groups
-- `v2/tools/generator/internal/codegen/code_generator.go` — Register new pipeline stage
-- `v2/go.mod` / `v2/go.sum` — Add rapid dependency
-- Golden test files — Update pipeline stage lists
+**Files to modify (Phase III):**
+- `v2/tools/generator/internal/testcases/rapid_migration.go` — Remove `"batch"` from `gopterGroups`
+- `v2/tools/generator/internal/codegen/pipeline/inject_rapid_serialization_tests.go` — Flesh out the no-op stage with the factory implementation
+- `v2/tools/generator/internal/codegen/pipeline/property_assignment_test_cases.go` — Add rapid test case injection loop (gopter skipping already done in Phase II)
+- `v2/tools/generator/internal/codegen/pipeline/resource_conversion_test_cases.go` — Add rapid test case injection loop (gopter skipping already done in Phase II)
+- Golden test files — Update for new generated test case output
 
 ## Resolved Questions
 
@@ -515,6 +614,14 @@ These questions have been asked and answered — kept for reference.
 5. **Test iteration count**: Use rapid's default of 100 for all types. No graduated counts.
 
 6. **Golden file tests**: The inverted list design (gopter set lists known groups; anything else gets rapid) means golden file tests with synthetic group names automatically exercise the rapid code path.
+
+7. **`rapid.Ptr` not `rapid.Pointer`**: The correct function name is `rapid.Ptr[E any](elem *Generator[E], allowNil bool) *Generator[*E]`. There is no `rapid.Pointer` function.
+
+8. **`rapid.Map` is a standalone function**: Unlike gopter where `.Map()` is a method on `gopter.Gen`, rapid's `Map` is a standalone generic function: `rapid.Map[U, V](g *Generator[U], fn func(U) V) *Generator[V]`. The code generator must emit `rapid.Map(g, fn)` not `g.Map(fn)`.
+
+9. **No two-phase cycle breaking**: Unlike gopter's `gen.Struct()` which requires generators at construction time (necessitating a two-phase pattern), `rapid.Custom()` defers execution to draw time. A single `rapid.Custom()` with all fields suffices; no partial generator assignment is needed. See Phase III Step 1 for details.
+
+10. **`rapid.Deferred` exists but doesn't solve cycles**: `rapid.Deferred[V](fn func() *Generator[V]) *Generator[V]` defers generator construction, but if the deferred function triggers recursive access to the same generator, it will still recurse infinitely. The single-phase `rapid.Custom()` + global cache approach is the correct cycle-breaking strategy.
 
 ## Appendix: astbuilder Vocabulary
 
