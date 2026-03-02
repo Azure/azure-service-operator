@@ -23,22 +23,33 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) *Stage 
 		InjectPropertyAssignmentTestsID,
 		"Add test cases to verify PropertyAssignment functions",
 		func(ctx context.Context, state *State) (*State, error) {
-			factory := makePropertyAssignmentTestCaseFactory(idFactory)
+			gopterFactory := makePropertyAssignmentTestCaseFactory(idFactory)
+			rapidFactory := makeRapidPropertyAssignmentTestCaseFactory(idFactory)
 			modifiedDefs := make(astmodel.TypeDefinitionSet)
 			var errs []error
 			for _, d := range state.Definitions() {
+				useRapid := false
 				if ref, ok := d.Name().PackageReference().(astmodel.InternalPackageReference); ok {
-					if testcases.UseRapidForGroup(ref.Group()) {
-						continue // Skip — rapid stage will handle this group
-					}
+					useRapid = testcases.UseRapidForGroup(ref.Group())
 				}
 
-				if factory.NeedsTest(d) {
-					updated, err := factory.AddTestTo(d)
-					if err != nil {
-						errs = append(errs, err)
-					} else {
-						modifiedDefs[updated.Name()] = updated
+				if useRapid {
+					if rapidFactory.NeedsTest(d) {
+						updated, err := rapidFactory.AddTestTo(d)
+						if err != nil {
+							errs = append(errs, err)
+						} else {
+							modifiedDefs[updated.Name()] = updated
+						}
+					}
+				} else {
+					if gopterFactory.NeedsTest(d) {
+						updated, err := gopterFactory.AddTestTo(d)
+						if err != nil {
+							errs = append(errs, err)
+						} else {
+							modifiedDefs[updated.Name()] = updated
+						}
 					}
 				}
 			}
@@ -92,5 +103,43 @@ func (s *propertyAssignmentTestCaseFactory) AddTestTo(def astmodel.TypeDefinitio
 	}
 
 	testCase := testcases.NewPropertyAssignmentTestCase(def.Name(), container, s.idFactory)
+	return s.injector.Inject(def, testCase)
+}
+
+// rapidPropertyAssignmentTestCaseFactory is a factory for injecting rapid-based property assignment test cases
+type rapidPropertyAssignmentTestCaseFactory struct {
+	injector  *astmodel.TestCaseInjector
+	idFactory astmodel.IdentifierFactory
+}
+
+func makeRapidPropertyAssignmentTestCaseFactory(idFactory astmodel.IdentifierFactory) rapidPropertyAssignmentTestCaseFactory {
+	return rapidPropertyAssignmentTestCaseFactory{
+		injector:  astmodel.NewTestCaseInjector(),
+		idFactory: idFactory,
+	}
+}
+
+func (s *rapidPropertyAssignmentTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
+	container, ok := astmodel.AsFunctionContainer(def.Type())
+	if !ok {
+		return false
+	}
+
+	for _, fn := range container.Functions() {
+		if _, ok := fn.(*functions.PropertyAssignmentFunction); ok {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (s *rapidPropertyAssignmentTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	container, ok := astmodel.AsFunctionContainer(def.Type())
+	if !ok {
+		return astmodel.TypeDefinition{}, eris.Errorf("expected %s to be a function container", def.Name())
+	}
+
+	testCase := testcases.NewRapidPropertyAssignmentTestCase(def.Name(), container, s.idFactory)
 	return s.injector.Inject(def, testCase)
 }
