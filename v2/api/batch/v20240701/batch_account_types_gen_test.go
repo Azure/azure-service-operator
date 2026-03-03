@@ -26,14 +26,14 @@ func Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 		var other storage.AutoStorageBaseProperties
 		err := copied.AssignProperties_To_AutoStorageBaseProperties(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual AutoStorageBaseProperties
 		err = actual.AssignProperties_From_AutoStorageBaseProperties(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -113,14 +113,14 @@ func Test_AutoStorageProperties_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		var other storage.AutoStorageProperties_STATUS
 		err := copied.AssignProperties_To_AutoStorageProperties_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual AutoStorageProperties_STATUS
 		err = actual.AssignProperties_From_AutoStorageProperties_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -203,14 +203,14 @@ func Test_BatchAccount_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		var hub storage.BatchAccount
 		err := copied.ConvertTo(&hub)
 		if err != nil {
-			t.Fatalf("ConvertTo: " + err.Error())
+			t.Fatal("ConvertTo: " + err.Error())
 		}
 
 		// Convert from our hub version
 		var actual BatchAccount
 		err = actual.ConvertFrom(&hub)
 		if err != nil {
-			t.Fatalf("ConvertFrom: " + err.Error())
+			t.Fatal("ConvertFrom: " + err.Error())
 		}
 
 		// Compare actual with what we started with
@@ -236,14 +236,14 @@ func Test_BatchAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		var other storage.BatchAccount
 		err := copied.AssignProperties_To_BatchAccount(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual BatchAccount
 		err = actual.AssignProperties_From_BatchAccount(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -322,14 +322,14 @@ func Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		var other storage.BatchAccountIdentity
 		err := copied.AssignProperties_To_BatchAccountIdentity(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual BatchAccountIdentity
 		err = actual.AssignProperties_From_BatchAccountIdentity(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -409,14 +409,14 @@ func Test_BatchAccountIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 		var other storage.BatchAccountIdentity_STATUS
 		err := copied.AssignProperties_To_BatchAccountIdentity_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual BatchAccountIdentity_STATUS
 		err = actual.AssignProperties_From_BatchAccountIdentity_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -501,14 +501,14 @@ func Test_BatchAccountOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss
 		var other storage.BatchAccountOperatorSpec
 		err := copied.AssignProperties_To_BatchAccountOperatorSpec(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual BatchAccountOperatorSpec
 		err = actual.AssignProperties_From_BatchAccountOperatorSpec(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -580,14 +580,14 @@ func Test_BatchAccount_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		var other storage.BatchAccount_STATUS
 		err := copied.AssignProperties_To_BatchAccount_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual BatchAccount_STATUS
 		err = actual.AssignProperties_From_BatchAccount_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -705,14 +705,14 @@ func Test_BatchAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		var other storage.BatchAccount_Spec
 		err := copied.AssignProperties_To_BatchAccount_Spec(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual BatchAccount_Spec
 		err = actual.AssignProperties_From_BatchAccount_Spec(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -813,14 +813,14 @@ func Test_ComputeNodeIdentityReference_WhenPropertiesConverted_RoundTripsWithout
 		var other storage.ComputeNodeIdentityReference
 		err := copied.AssignProperties_To_ComputeNodeIdentityReference(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual ComputeNodeIdentityReference
 		err = actual.AssignProperties_From_ComputeNodeIdentityReference(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -892,14 +892,14 @@ func Test_ComputeNodeIdentityReference_STATUS_WhenPropertiesConverted_RoundTrips
 		var other storage.ComputeNodeIdentityReference_STATUS
 		err := copied.AssignProperties_To_ComputeNodeIdentityReference_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual ComputeNodeIdentityReference_STATUS
 		err = actual.AssignProperties_From_ComputeNodeIdentityReference_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -977,14 +977,14 @@ func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		var other storage.EncryptionProperties
 		err := copied.AssignProperties_To_EncryptionProperties(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual EncryptionProperties
 		err = actual.AssignProperties_From_EncryptionProperties(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1064,14 +1064,14 @@ func Test_EncryptionProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 		var other storage.EncryptionProperties_STATUS
 		err := copied.AssignProperties_To_EncryptionProperties_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual EncryptionProperties_STATUS
 		err = actual.AssignProperties_From_EncryptionProperties_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1151,14 +1151,14 @@ func Test_EndpointAccessProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		var other storage.EndpointAccessProfile
 		err := copied.AssignProperties_To_EndpointAccessProfile(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual EndpointAccessProfile
 		err = actual.AssignProperties_From_EndpointAccessProfile(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1238,14 +1238,14 @@ func Test_EndpointAccessProfile_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		var other storage.EndpointAccessProfile_STATUS
 		err := copied.AssignProperties_To_EndpointAccessProfile_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual EndpointAccessProfile_STATUS
 		err = actual.AssignProperties_From_EndpointAccessProfile_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1325,14 +1325,14 @@ func Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		var other storage.IPRule
 		err := copied.AssignProperties_To_IPRule(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual IPRule
 		err = actual.AssignProperties_From_IPRule(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1411,14 +1411,14 @@ func Test_IPRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		var other storage.IPRule_STATUS
 		err := copied.AssignProperties_To_IPRule_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual IPRule_STATUS
 		err = actual.AssignProperties_From_IPRule_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1497,14 +1497,14 @@ func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		var other storage.KeyVaultProperties
 		err := copied.AssignProperties_To_KeyVaultProperties(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual KeyVaultProperties
 		err = actual.AssignProperties_From_KeyVaultProperties(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1581,14 +1581,14 @@ func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		var other storage.KeyVaultProperties_STATUS
 		err := copied.AssignProperties_To_KeyVaultProperties_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual KeyVaultProperties_STATUS
 		err = actual.AssignProperties_From_KeyVaultProperties_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1666,14 +1666,14 @@ func Test_KeyVaultReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		var other storage.KeyVaultReference
 		err := copied.AssignProperties_To_KeyVaultReference(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual KeyVaultReference
 		err = actual.AssignProperties_From_KeyVaultReference(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1750,14 +1750,14 @@ func Test_KeyVaultReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		var other storage.KeyVaultReference_STATUS
 		err := copied.AssignProperties_To_KeyVaultReference_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual KeyVaultReference_STATUS
 		err = actual.AssignProperties_From_KeyVaultReference_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1836,14 +1836,14 @@ func Test_NetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		var other storage.NetworkProfile
 		err := copied.AssignProperties_To_NetworkProfile(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual NetworkProfile
 		err = actual.AssignProperties_From_NetworkProfile(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -1921,14 +1921,14 @@ func Test_NetworkProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		var other storage.NetworkProfile_STATUS
 		err := copied.AssignProperties_To_NetworkProfile_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual NetworkProfile_STATUS
 		err = actual.AssignProperties_From_NetworkProfile_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -2007,14 +2007,14 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 		var other storage.PrivateEndpointConnection_STATUS
 		err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual PrivateEndpointConnection_STATUS
 		err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -2092,14 +2092,14 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		var other storage.SystemData_STATUS
 		err := copied.AssignProperties_To_SystemData_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual SystemData_STATUS
 		err = actual.AssignProperties_From_SystemData_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -2183,14 +2183,14 @@ func Test_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithou
 		var other storage.UserAssignedIdentities_STATUS
 		err := copied.AssignProperties_To_UserAssignedIdentities_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual UserAssignedIdentities_STATUS
 		err = actual.AssignProperties_From_UserAssignedIdentities_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -2269,14 +2269,14 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 		var other storage.UserAssignedIdentityDetails
 		err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual UserAssignedIdentityDetails
 		err = actual.AssignProperties_From_UserAssignedIdentityDetails(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -2348,14 +2348,14 @@ func Test_VirtualMachineFamilyCoreQuota_STATUS_WhenPropertiesConverted_RoundTrip
 		var other storage.VirtualMachineFamilyCoreQuota_STATUS
 		err := copied.AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: " + err.Error())
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual VirtualMachineFamilyCoreQuota_STATUS
 		err = actual.AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: " + err.Error())
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match

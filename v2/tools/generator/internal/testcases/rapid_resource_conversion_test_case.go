@@ -219,7 +219,7 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 			astbuilder.AddrOf(dst.NewIdent(hubID))))
 
 	// if err != nil { t.Fatalf("ConvertTo: "+err.Error()) }
-	assignToFailed := createRapidFatalf("ConvertTo", errID)
+	assignToFailed := createRapidFatal("ConvertTo", errID)
 
 	// var actual OurType
 	subjectExpr, err := subject.AsTypeExpr(codegenContext)
@@ -242,7 +242,7 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 			astbuilder.AddrOf(dst.NewIdent(hubID))))
 
 	// if err != nil { t.Fatalf("ConvertFrom: "+err.Error()) }
-	assignFromFailed := createRapidFatalf("ConvertFrom", errID)
+	assignFromFailed := createRapidFatal("ConvertFrom", errID)
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")

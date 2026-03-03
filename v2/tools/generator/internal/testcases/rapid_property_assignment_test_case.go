@@ -215,7 +215,7 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 			astbuilder.AddrOf(dst.NewIdent(otherID))))
 
 	// if err != nil { t.Fatalf("AssignTo: "+err.Error()) }
-	assignToFailed := createRapidFatalf("AssignPropertiesTo", errID)
+	assignToFailed := createRapidFatal("AssignPropertiesTo", errID)
 
 	// var actual OurType
 	subjectExpr, err := subject.AsTypeExpr(codegenContext)
@@ -238,7 +238,7 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 			astbuilder.AddrOf(dst.NewIdent(otherID))))
 
 	// if err != nil { t.Fatalf("AssignFrom: "+err.Error()) }
-	assignFromFailed := createRapidFatalf("AssignPropertiesFrom", errID)
+	assignFromFailed := createRapidFatal("AssignPropertiesFrom", errID)
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
@@ -330,16 +330,16 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 	return fn.DefineFunc(), nil
 }
 
-// createRapidFatalf generates: if <errID> != nil { t.Fatalf("<context>: "+<errID>.Error()) }
+// createRapidFatal generates: if <errID> != nil { t.Fatalf("<context>: "+<errID>.Error()) }
 //
 //nolint:unparam // we may use this with other identifiers in future
-func createRapidFatalf(context string, errID string) *dst.IfStmt {
+func createRapidFatal(context string, errID string) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: astbuilder.AreNotEqual(dst.NewIdent(errID), dst.NewIdent("nil")),
 		Body: astbuilder.StatementBlock(
 			astbuilder.CallExprAsStmt(
 				dst.NewIdent("t"),
-				"Fatalf",
+				"Fatal",
 				astbuilder.BinaryExpr(
 					astbuilder.StringLiteralf("%s: ", context),
 					token.ADD,
