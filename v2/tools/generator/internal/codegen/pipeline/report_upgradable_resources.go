@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -26,13 +25,13 @@ import (
 // ReportUpgradableResourcesStageID is the unique identifier of this stage
 const ReportUpgradableResourcesStageID = "reportUpgradableResources"
 
-// armVersionDateRegex matches date-based ARM API versions like 2023-01-01 or 2023-01-01-preview
-var armVersionDateRegex = regexp.MustCompile(`^(\d{4}-\d{2}-\d{2})(-[a-z]+)?$`)
+// asoVersionDateRegex extracts the YYYYMMDD date from an ASO package version like "v20230101" or "v1api20230101"
+var asoVersionDateRegex = regexp.MustCompile(`(\d{8})`)
 
 // ReportUpgradableResources creates a pipeline stage that generates a report identifying resources
 // with available newer versions in the azure-rest-api-specs.
 func ReportUpgradableResources(configuration *config.Configuration) *Stage {
-	return NewStage(
+	stage := NewStage(
 		ReportUpgradableResourcesStageID,
 		"Generate a report identifying resources with available upgrades",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -42,10 +41,12 @@ func ReportUpgradableResources(configuration *config.Configuration) *Stage {
 				return state, nil
 			}
 
-			report, err := NewUpgradableResourcesReport(state.Definitions(), configuration)
+			allKnownResources, err := GetStateData[map[string]astmodel.TypeNameSet](state, AllKnownResources)
 			if err != nil {
-				return nil, err
+				return nil, eris.Wrap(err, "retrieving known resources from pipeline state")
 			}
+
+			report := NewUpgradableResourcesReport(allKnownResources, state.Definitions(), configuration.UpgradableResourcesReport)
 
 			outputFile := reportCfg.FullOutputPath()
 			err = report.SaveTo(outputFile)
@@ -55,9 +56,13 @@ func ReportUpgradableResources(configuration *config.Configuration) *Stage {
 
 			return state, nil
 		})
+
+	stage.RequiresPrerequisiteStages(CatalogKnownResourcesStageID)
+	return stage
 }
 
-// upgradableResourcesReportItem captures the information for a single resource that has an available upgrade
+// upgradableResourcesReportItem captures the information for a single resource that has an available upgrade.
+// Version strings use ASO package naming, e.g. "v20230101" or "v1api20230101".
 type upgradableResourcesReportItem struct {
 	group            string
 	resource         string
@@ -73,92 +78,102 @@ type UpgradableResourcesReport struct {
 	items []upgradableResourcesReportItem
 }
 
+// resourceVersionInfo tracks the latest stable and preview package versions for a resource
+type resourceVersionInfo struct {
+	stable  string // ASO package name, e.g. "v20230101" or "v1api20230101"
+	preview string // ASO package name, e.g. "v20230101preview" or "v1api20230101preview"
+}
+
+// resourceKey identifies a resource uniquely within the pipeline state
+type resourceKey struct {
+	group string
+	name  string
+}
+
 // NewUpgradableResourcesReport creates a new UpgradableResourcesReport.
+// allKnownResources is the full catalog of resources before export filters (from CatalogKnownResources stage).
+// supported is the set of type definitions that passed through the export filter.
+// cfg is the report configuration.
 func NewUpgradableResourcesReport(
-	definitions astmodel.TypeDefinitionSet,
-	cfg *config.Configuration,
-) (*UpgradableResourcesReport, error) {
-	report := &UpgradableResourcesReport{
-		cfg: cfg.UpgradableResourcesReport,
+	allKnownResources map[string]astmodel.TypeNameSet,
+	supported astmodel.TypeDefinitionSet,
+	cfg *config.UpgradableResourcesReport,
+) *UpgradableResourcesReport {
+	report := &UpgradableResourcesReport{cfg: cfg}
+
+	// Build a map of (group, name) → latest available stable/preview versions from AllKnownResources.
+	// This represents all versions present in the specs, before any export filtering.
+	available := make(map[resourceKey]resourceVersionInfo)
+	for group, names := range allKnownResources {
+		for name := range names {
+			// TypeNameSet stores TypeName (interface), but the values are InternalTypeName (struct)
+			internalName, ok := name.(astmodel.InternalTypeName)
+			if !ok {
+				continue
+			}
+
+			pkg := internalName.InternalPackageReference()
+			if astmodel.IsStoragePackageReference(pkg) {
+				continue
+			}
+
+			key := resourceKey{group: group, name: internalName.Name()}
+			info := available[key]
+			pkgName := pkg.PackageName()
+			if pkg.IsPreview() {
+				if isVersionNewer(pkgName, info.preview) {
+					info.preview = pkgName
+				}
+			} else {
+				if isVersionNewer(pkgName, info.stable) {
+					info.stable = pkgName
+				}
+			}
+			available[key] = info
+		}
 	}
 
-	// Build a map of provider (lowercase) -> available spec versions
-	specVersions, err := scanSpecVersions(cfg.SchemaRoot)
-	if err != nil {
-		return nil, eris.Wrapf(err, "scanning spec versions from %s", cfg.SchemaRoot)
-	}
-
-	// Collect the latest supported stable/preview version for each (group, resourceName)
-	type resourceKey struct {
-		group    string
-		name     string
-		provider string // lowercase provider from armType
-	}
-
-	type versionInfo struct {
-		stable  string
-		preview string
-	}
-
-	supported := make(map[resourceKey]versionInfo)
-
-	for _, rsrc := range definitions.AllResources() {
+	// Build a map of (group, name) → latest supported stable/preview versions from filtered definitions.
+	supportedMap := make(map[resourceKey]resourceVersionInfo)
+	for _, rsrc := range supported.AllResources() {
 		name := rsrc.Name()
 		pkg := name.InternalPackageReference()
-
 		if astmodel.IsStoragePackageReference(pkg) {
 			continue
 		}
 
-		defType := astmodel.MustBeResourceType(rsrc.Type())
-		armType := defType.ARMType()
-		if armType == "" {
-			continue
-		}
-
-		// Extract provider from ARM type (e.g., "Microsoft.Storage" from "Microsoft.Storage/storageAccounts")
-		provider := armTypeProvider(armType)
-		if provider == "" {
-			continue
-		}
-
-		armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
-		if armVersion == "" {
-			continue
-		}
-
-		grp := pkg.Group()
-		key := resourceKey{group: grp, name: name.Name(), provider: strings.ToLower(provider)}
-
-		info := supported[key]
+		key := resourceKey{group: pkg.Group(), name: name.Name()}
+		info := supportedMap[key]
+		pkgName := pkg.PackageName()
 		if pkg.IsPreview() {
-			if isVersionNewer(armVersion, info.preview) {
-				info.preview = armVersion
+			if isVersionNewer(pkgName, info.preview) {
+				info.preview = pkgName
 			}
 		} else {
-			if isVersionNewer(armVersion, info.stable) {
-				info.stable = armVersion
+			if isVersionNewer(pkgName, info.stable) {
+				info.stable = pkgName
 			}
 		}
-		supported[key] = info
+		supportedMap[key] = info
 	}
 
 	now := time.Now()
 
-	// For each resource, check if an upgrade is recommended
-	for key, info := range supported {
-		specVers, ok := specVersions[key.provider]
+	// For each supported resource, check if an upgrade is recommended
+	for key, supportInfo := range supportedMap {
+		availInfo, ok := available[key]
 		if !ok {
 			continue
 		}
 
-		var rec upgradableResourcesReportItem
-		rec.group = key.group
-		rec.resource = key.name
-		rec.supportedStable = info.stable
-		rec.supportedPreview = info.preview
-		rec.availableStable = specVers.latestStable
-		rec.availablePreview = specVers.latestPreview
+		rec := upgradableResourcesReportItem{
+			group:            key.group,
+			resource:         key.name,
+			supportedStable:  supportInfo.stable,
+			supportedPreview: supportInfo.preview,
+			availableStable:  availInfo.stable,
+			availablePreview: availInfo.preview,
+		}
 
 		shouldInclude := false
 
@@ -198,18 +213,18 @@ func NewUpgradableResourcesReport(
 		return 0
 	})
 
-	return report, nil
+	return report
 }
 
 // isStableUpgradeRecommended returns true if a stable upgrade is recommended based on configured thresholds.
 func (r *UpgradableResourcesReport) isStableUpgradeRecommended(supported, available string, now time.Time) bool {
-	supportedDate, err := parseARMVersionDate(supported)
+	supportedDate, err := parseASOVersionDate(supported)
 	if err != nil {
 		// If we can't parse the supported version, be conservative
 		return false
 	}
 
-	availableDate, err := parseARMVersionDate(available)
+	availableDate, err := parseASOVersionDate(available)
 	if err != nil {
 		return false
 	}
@@ -239,13 +254,13 @@ func (r *UpgradableResourcesReport) isStableUpgradeRecommended(supported, availa
 
 // isPreviewUpgradeRecommended returns true if a preview upgrade is recommended based on configured thresholds.
 func (r *UpgradableResourcesReport) isPreviewUpgradeRecommended(supported, available string) bool {
-	supportedDate, err := parseARMVersionDate(supported)
+	supportedDate, err := parseASOVersionDate(supported)
 	if err != nil {
-		// If we can't parse the supported version (e.g., empty), use zero time
+		// If we can't parse the supported version (e.g., empty), use zero time (infinitely old)
 		supportedDate = time.Time{}
 	}
 
-	availableDate, err := parseARMVersionDate(available)
+	availableDate, err := parseASOVersionDate(available)
 	if err != nil {
 		return false
 	}
@@ -255,7 +270,6 @@ func (r *UpgradableResourcesReport) isPreviewUpgradeRecommended(supported, avail
 		previewUpgradeThreshold = 6
 	}
 
-	// If there's no currently supported preview version, use a zero time (infinitely old)
 	return monthsBetween(supportedDate, availableDate) > previewUpgradeThreshold
 }
 
@@ -315,115 +329,6 @@ func orDash(s string) string {
 	return s
 }
 
-// specProviderVersions holds the latest stable and preview versions for a provider
-type specProviderVersions struct {
-	latestStable  string
-	latestPreview string
-}
-
-// scanSpecVersions scans the spec root directory and returns a map of
-// provider (lowercase) -> latest available stable and preview versions.
-func scanSpecVersions(schemaRoot string) (map[string]specProviderVersions, error) {
-	result := make(map[string]specProviderVersions)
-
-	// If schemaRoot doesn't exist, return empty map (not an error)
-	if _, err := os.Stat(schemaRoot); os.IsNotExist(err) {
-		return result, nil
-	}
-
-	// Walk the spec directory looking for stable/preview directories
-	err := filepath.WalkDir(schemaRoot, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return nil // Skip errors
-		}
-
-		if !d.IsDir() {
-			return nil
-		}
-
-		dirName := d.Name()
-		isStable := dirName == "stable"
-		isPreview := dirName == "preview"
-
-		if !isStable && !isPreview {
-			return nil
-		}
-
-		// Extract the provider from the path (the Microsoft.XXX part)
-		provider := extractProviderFromPath(path, schemaRoot)
-		if provider == "" {
-			return nil
-		}
-
-		providerKey := strings.ToLower(provider)
-
-		// List subdirectories of this stable/preview dir - these are the versions
-		entries, err := os.ReadDir(path)
-		if err != nil {
-			return nil
-		}
-
-		current := result[providerKey]
-
-		for _, entry := range entries {
-			if !entry.IsDir() {
-				continue
-			}
-
-			versionDir := entry.Name()
-			if !armVersionDateRegex.MatchString(versionDir) {
-				continue
-			}
-
-			// Determine if it's a preview version
-			isPreviewVersion := isPreview || armVersionDateRegex.FindStringSubmatch(versionDir)[2] != ""
-
-			if isPreviewVersion {
-				if isVersionNewer(versionDir, current.latestPreview) {
-					current.latestPreview = versionDir
-				}
-			} else {
-				if isVersionNewer(versionDir, current.latestStable) {
-					current.latestStable = versionDir
-				}
-			}
-		}
-
-		result[providerKey] = current
-		return nil
-	})
-
-	return result, err
-}
-
-// extractProviderFromPath finds the Microsoft.XXX provider from a file path.
-// The provider is the first path component matching Microsoft.XXX found after the schemaRoot.
-func extractProviderFromPath(path, schemaRoot string) string {
-	// Normalize slashes
-	path = filepath.ToSlash(path)
-	schemaRoot = filepath.ToSlash(schemaRoot)
-	rel := strings.TrimPrefix(path, schemaRoot)
-
-	parts := strings.Split(strings.Trim(rel, "/"), "/")
-	for _, part := range parts {
-		if strings.HasPrefix(strings.ToLower(part), "microsoft.") {
-			return part
-		}
-	}
-
-	return ""
-}
-
-// armTypeProvider extracts the provider (e.g., "Microsoft.Storage") from an ARM type
-// like "Microsoft.Storage/storageAccounts".
-func armTypeProvider(armType string) string {
-	idx := strings.Index(armType, "/")
-	if idx < 0 {
-		return armType
-	}
-	return armType[:idx]
-}
-
 // isVersionNewer returns true if candidate is strictly newer than current.
 // An empty current means any non-empty candidate is newer.
 func isVersionNewer(candidate, current string) bool {
@@ -436,20 +341,20 @@ func isVersionNewer(candidate, current string) bool {
 	return astmodel.ComparePathAndVersion(candidate, current) > 0
 }
 
-// parseARMVersionDate parses the date part of an ARM API version string.
-// For example, "2023-01-01" → 2023-01-01, "2023-01-01-preview" → 2023-01-01.
-func parseARMVersionDate(version string) (time.Time, error) {
+// parseASOVersionDate parses the date embedded in an ASO package version string.
+// It extracts the YYYYMMDD component from versions like "v20230101", "v1api20230101",
+// or "v1api20230101preview".
+func parseASOVersionDate(version string) (time.Time, error) {
 	if version == "" {
 		return time.Time{}, eris.New("empty version")
 	}
 
-	// Extract just the date part (YYYY-MM-DD)
-	m := armVersionDateRegex.FindStringSubmatch(version)
-	if m == nil {
-		return time.Time{}, eris.Errorf("version %q is not in expected date format", version)
+	m := asoVersionDateRegex.FindString(version)
+	if m == "" {
+		return time.Time{}, eris.Errorf("version %q does not contain expected YYYYMMDD date", version)
 	}
 
-	return time.Parse("2006-01-02", m[1])
+	return time.Parse("20060102", m)
 }
 
 // monthsBetween returns the approximate number of months between two dates.

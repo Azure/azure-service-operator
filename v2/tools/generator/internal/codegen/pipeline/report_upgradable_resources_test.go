@@ -6,8 +6,6 @@
 package pipeline
 
 import (
-	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -19,26 +17,24 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-// makeARMResource creates a resource definition with the given ARM type and API version for tests.
-func makeARMResource(
-	pkg astmodel.InternalPackageReference,
-	name string,
-	armType string,
-	armVersion string,
-) astmodel.TypeDefinition {
+// makeTestResource creates a simple resource TypeDefinition suitable for use in upgradable report tests.
+func makeTestResource(pkg astmodel.InternalPackageReference, name string) astmodel.TypeDefinition {
 	spec := test.CreateSpec(pkg, name)
 	status := test.CreateStatus(pkg, name)
-	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
-	if armType != "" {
-		resourceType = resourceType.WithARMType(armType)
+	return test.CreateResource(pkg, name, spec, status)
+}
+
+// makeAllKnownResources builds a map[group]TypeNameSet in the format expected by NewUpgradableResourcesReport.
+func makeAllKnownResources(names ...astmodel.InternalTypeName) map[string]astmodel.TypeNameSet {
+	result := make(map[string]astmodel.TypeNameSet)
+	for _, name := range names {
+		group := name.InternalPackageReference().Group()
+		if _, ok := result[group]; !ok {
+			result[group] = make(astmodel.TypeNameSet)
+		}
+		result[group].Add(name)
 	}
-	if armVersion != "" {
-		enumType := astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("v", `"`+armVersion+`"`))
-		apiVersionName := astmodel.MakeInternalTypeName(pkg, "APIVersion")
-		apiVersionDef := astmodel.MakeTypeDefinition(apiVersionName, enumType)
-		resourceType = resourceType.WithAPIVersion(apiVersionDef.Name(), enumType.Options()[0])
-	}
-	return astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(pkg, name), resourceType)
+	return result
 }
 
 func TestUpgradableResourcesReport_WriteTo_NoItems(t *testing.T) {
@@ -67,14 +63,14 @@ func TestUpgradableResourcesReport_WriteTo_WithItems(t *testing.T) {
 			{
 				group:           "storage",
 				resource:        "StorageAccount",
-				supportedStable: "2023-01-01",
-				availableStable: "2025-06-01",
+				supportedStable: "v20230101",
+				availableStable: "v20250601",
 			},
 			{
 				group:            "compute",
 				resource:         "VirtualMachine",
-				supportedPreview: "2021-11-01-preview",
-				availablePreview: "2025-04-01-preview",
+				supportedPreview: "v1api20211101preview",
+				availablePreview: "v1api20250401preview",
 			},
 		},
 	}
@@ -86,78 +82,39 @@ func TestUpgradableResourcesReport_WriteTo_WithItems(t *testing.T) {
 	g.Expect(output).To(ContainSubstring("# Upgradable Resources"))
 	g.Expect(output).To(ContainSubstring("StorageAccount"))
 	g.Expect(output).To(ContainSubstring("VirtualMachine"))
-	g.Expect(output).To(ContainSubstring("2023-01-01"))
-	g.Expect(output).To(ContainSubstring("2025-06-01"))
+	g.Expect(output).To(ContainSubstring("v20230101"))
+	g.Expect(output).To(ContainSubstring("v20250601"))
 	g.Expect(output).To(ContainSubstring("compute"))
 	g.Expect(output).To(ContainSubstring("storage"))
-}
-
-func TestScanSpecVersions_WithTempDir(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	// Create a temporary spec directory structure
-	tmpDir := t.TempDir()
-
-	// Create stable versions for microsoft.storage
-	mkdirAll(t, filepath.Join(tmpDir, "storage", "resource-manager", "Microsoft.Storage", "stable", "2023-01-01"))
-	mkdirAll(t, filepath.Join(tmpDir, "storage", "resource-manager", "Microsoft.Storage", "stable", "2025-06-01"))
-
-	// Create preview versions for microsoft.storage
-	mkdirAll(t, filepath.Join(tmpDir, "storage", "resource-manager", "Microsoft.Storage", "preview", "2020-08-01-preview"))
-
-	// Create stable versions for microsoft.compute
-	mkdirAll(t, filepath.Join(tmpDir, "compute", "resource-manager", "Microsoft.Compute", "ComputeRP", "stable", "2023-09-01"))
-	mkdirAll(t, filepath.Join(tmpDir, "compute", "resource-manager", "Microsoft.Compute", "ComputeRP", "stable", "2025-04-01"))
-
-	versions, err := scanSpecVersions(tmpDir)
-	g.Expect(err).ToNot(HaveOccurred())
-
-	storageVers, ok := versions["microsoft.storage"]
-	g.Expect(ok).To(BeTrue())
-	g.Expect(storageVers.latestStable).To(Equal("2025-06-01"))
-	g.Expect(storageVers.latestPreview).To(Equal("2020-08-01-preview"))
-
-	computeVers, ok := versions["microsoft.compute"]
-	g.Expect(ok).To(BeTrue())
-	g.Expect(computeVers.latestStable).To(Equal("2025-04-01"))
-}
-
-func TestScanSpecVersions_NonexistentDir(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	versions, err := scanSpecVersions("/nonexistent/path/that/does/not/exist")
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(versions).To(BeEmpty())
 }
 
 func TestNewUpgradableResourcesReport_RecommendStableUpgrade(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	tmpDir := t.TempDir()
-	// Stable version much newer (>12 months)
-	mkdirAll(t, filepath.Join(tmpDir, "storage", "resource-manager", "Microsoft.Storage", "stable", "2025-06-01"))
+	// storage is a hybrid group so version prefix is "v" (not "v1api")
+	// Supported: v20230101 (2023-01-01)
+	// Available: v20250601 (2025-06-01) — more than 12 months newer
+	storagePkg2023 := test.MakeLocalPackageReference("storage", "v20230101")
+	storagePkg2025 := test.MakeLocalPackageReference("storage", "v20250601")
 
-	// Create a resource at 2023-01-01 stable (more than 12 months older than 2025-06-01)
-	storagePkg := test.MakeLocalPackageReference("storage", "v20230101")
-	storageAccount := makeARMResource(storagePkg, "StorageAccount", "Microsoft.Storage/storageAccounts", "2023-01-01")
+	// Supported definitions contain only the 2023 version
+	supported := make(astmodel.TypeDefinitionSet)
+	supported.Add(makeTestResource(storagePkg2023, "StorageAccount"))
 
-	defs := make(astmodel.TypeDefinitionSet)
-	defs.Add(storageAccount)
+	// AllKnownResources contains both versions
+	allKnown := makeAllKnownResources(
+		astmodel.MakeInternalTypeName(storagePkg2023, "StorageAccount"),
+		astmodel.MakeInternalTypeName(storagePkg2025, "StorageAccount"),
+	)
 
-	c := config.NewConfiguration()
-	c.SchemaRoot = tmpDir
-	upgradeCfg := config.NewUpgradableResourcesReport(c)
-	c.UpgradableResourcesReport = upgradeCfg
+	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
-	report, err := NewUpgradableResourcesReport(defs, c)
-	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(report.items).To(HaveLen(1))
 	g.Expect(report.items[0].resource).To(Equal("StorageAccount"))
-	g.Expect(report.items[0].supportedStable).To(Equal("2023-01-01"))
-	g.Expect(report.items[0].availableStable).To(Equal("2025-06-01"))
+	g.Expect(report.items[0].supportedStable).To(Equal(storagePkg2023.PackageName()))
+	g.Expect(report.items[0].availableStable).To(Equal(storagePkg2025.PackageName()))
 }
 
 func TestNewUpgradableResourcesReport_NoUpgradeNeeded(t *testing.T) {
@@ -165,29 +122,94 @@ func TestNewUpgradableResourcesReport_NoUpgradeNeeded(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Use dates relative to now so the test remains correct regardless of when it runs.
-	// We want: supported is < 24 months old, and available is only 3 months newer than supported.
-	// This means neither the stableVersionsExpiry (12 months) nor latestVersionThreshold (24 months)
-	// condition is satisfied.
+	// supported is 11 months ago, available is 3 months newer → gap (3 months) is below the
+	// 12-month stableVersionsExpiry threshold, and supported is < 24 months old.
 	now := time.Now()
-	supported := now.AddDate(0, -11, 0).Format("2006-01-02")
-	available := now.AddDate(0, -8, 0).Format("2006-01-02") // 3 months newer
+	supportedDate := now.AddDate(0, -11, 0)
+	availableDate := now.AddDate(0, -8, 0) // 3 months newer than supported
 
-	tmpDir := t.TempDir()
-	mkdirAll(t, filepath.Join(tmpDir, "storage", "resource-manager", "Microsoft.Storage", "stable", available))
+	supportedVersion := supportedDate.Format("v20060102")
+	availableVersion := availableDate.Format("v20060102")
 
-	storagePkg := test.MakeLocalPackageReference("storage", "v20230101")
-	storageAccount := makeARMResource(storagePkg, "StorageAccount", "Microsoft.Storage/storageAccounts", supported)
+	storagePkgSupported := test.MakeLocalPackageReference("storage", supportedVersion)
+	storagePkgAvailable := test.MakeLocalPackageReference("storage", availableVersion)
 
-	defs := make(astmodel.TypeDefinitionSet)
-	defs.Add(storageAccount)
+	supported := make(astmodel.TypeDefinitionSet)
+	supported.Add(makeTestResource(storagePkgSupported, "StorageAccount"))
 
-	c := config.NewConfiguration()
-	c.SchemaRoot = tmpDir
-	c.UpgradableResourcesReport = config.NewUpgradableResourcesReport(c)
+	allKnown := makeAllKnownResources(
+		astmodel.MakeInternalTypeName(storagePkgSupported, "StorageAccount"),
+		astmodel.MakeInternalTypeName(storagePkgAvailable, "StorageAccount"),
+	)
 
-	report, err := NewUpgradableResourcesReport(defs, c)
-	g.Expect(err).ToNot(HaveOccurred())
+	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
+
 	g.Expect(report.items).To(BeEmpty())
+}
+
+func TestNewUpgradableResourcesReport_RecommendPreviewUpgrade(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// containerservice is a legacy group so version prefix is "v1api".
+	// The argument to MakeLocalPackageReference is the base API version (without the group prefix);
+	// the resulting PackageName() will be "v1api20220101preview" and "v1api20220901preview".
+	csPkg2022 := test.MakeLocalPackageReference("containerservice", "20220101preview")
+	csPkg2022newer := test.MakeLocalPackageReference("containerservice", "20220901preview")
+
+	supported := make(astmodel.TypeDefinitionSet)
+	supported.Add(makeTestResource(csPkg2022, "ManagedCluster"))
+
+	allKnown := makeAllKnownResources(
+		astmodel.MakeInternalTypeName(csPkg2022, "ManagedCluster"),
+		astmodel.MakeInternalTypeName(csPkg2022newer, "ManagedCluster"),
+	)
+
+	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
+
+	g.Expect(report.items).To(HaveLen(1))
+	g.Expect(report.items[0].resource).To(Equal("ManagedCluster"))
+	g.Expect(report.items[0].supportedPreview).To(Equal(csPkg2022.PackageName()))
+	g.Expect(report.items[0].availablePreview).To(Equal(csPkg2022newer.PackageName()))
+}
+
+func TestNewUpgradableResourcesReport_SortsByGroupThenResource(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Old-enough packages to be above the latestVersionThreshold (> 24 months)
+	batchPkg2020 := test.MakeLocalPackageReference("batch", "v20200101")
+	batchPkg2025 := test.MakeLocalPackageReference("batch", "v20250101")
+	storagePkg2020 := test.MakeLocalPackageReference("storage", "v20200101")
+	storagePkg2025 := test.MakeLocalPackageReference("storage", "v20250101")
+
+	supported := make(astmodel.TypeDefinitionSet)
+	supported.Add(makeTestResource(batchPkg2020, "BatchAccount"))
+	supported.Add(makeTestResource(storagePkg2020, "StorageAccount"))
+	supported.Add(makeTestResource(storagePkg2020, "BlobContainer"))
+
+	allKnown := makeAllKnownResources(
+		astmodel.MakeInternalTypeName(batchPkg2020, "BatchAccount"),
+		astmodel.MakeInternalTypeName(batchPkg2025, "BatchAccount"),
+		astmodel.MakeInternalTypeName(storagePkg2020, "StorageAccount"),
+		astmodel.MakeInternalTypeName(storagePkg2025, "StorageAccount"),
+		astmodel.MakeInternalTypeName(storagePkg2020, "BlobContainer"),
+		astmodel.MakeInternalTypeName(storagePkg2025, "BlobContainer"),
+	)
+
+	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
+
+	g.Expect(report.items).To(HaveLen(3))
+	// Sorted: batch/BatchAccount, storage/BlobContainer, storage/StorageAccount
+	g.Expect(report.items[0].group).To(Equal("batch"))
+	g.Expect(report.items[0].resource).To(Equal("BatchAccount"))
+	g.Expect(report.items[1].group).To(Equal("storage"))
+	g.Expect(report.items[1].resource).To(Equal("BlobContainer"))
+	g.Expect(report.items[2].group).To(Equal("storage"))
+	g.Expect(report.items[2].resource).To(Equal("StorageAccount"))
 }
 
 func TestIsStableUpgradeRecommended_OldSupportedVersion(t *testing.T) {
@@ -198,14 +220,13 @@ func TestIsStableUpgradeRecommended_OldSupportedVersion(t *testing.T) {
 	cfg := config.NewUpgradableResourcesReport(c)
 	r := &UpgradableResourcesReport{cfg: cfg}
 
-	// Supported version is more than 24 months old
+	// Supported version is more than 24 months old; available is only 6 months newer.
+	// Should still recommend because the supported version is > 24 months old.
 	now := time.Now()
 	oldDate := now.AddDate(-3, 0, 0) // 3 years ago
-	supported := oldDate.Format("2006-01-02")
-	// Available is only 6 months newer than supported (less than 12 months)
-	available := oldDate.AddDate(0, 6, 0).Format("2006-01-02")
+	supported := oldDate.Format("v20060102")
+	available := oldDate.AddDate(0, 6, 0).Format("v20060102")
 
-	// Should still recommend because the supported version is > 24 months old
 	g.Expect(r.isStableUpgradeRecommended(supported, available, now)).To(BeTrue())
 }
 
@@ -217,9 +238,9 @@ func TestIsPreviewUpgradeRecommended_NewerThanThreshold(t *testing.T) {
 	cfg := config.NewUpgradableResourcesReport(c)
 	r := &UpgradableResourcesReport{cfg: cfg}
 
-	// Available is 8 months newer than supported (above 6 month threshold)
-	supported := "2022-01-01-preview"
-	available := "2022-09-01-preview"
+	// Available is 8 months newer than supported (above 6-month threshold)
+	supported := "v1api20220101preview"
+	available := "v1api20220901preview"
 
 	g.Expect(r.isPreviewUpgradeRecommended(supported, available)).To(BeTrue())
 }
@@ -233,31 +254,26 @@ func TestIsPreviewUpgradeRecommended_NoCurrentSupport(t *testing.T) {
 	r := &UpgradableResourcesReport{cfg: cfg}
 
 	// No supported preview version, available is 2023
-	g.Expect(r.isPreviewUpgradeRecommended("", "2023-06-01-preview")).To(BeTrue())
+	g.Expect(r.isPreviewUpgradeRecommended("", "v20230601preview")).To(BeTrue())
 }
 
-func TestArmTypeProvider(t *testing.T) {
+func TestParseASOVersionDate(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	g.Expect(armTypeProvider("Microsoft.Storage/storageAccounts")).To(Equal("Microsoft.Storage"))
-	g.Expect(armTypeProvider("Microsoft.Compute/virtualMachines")).To(Equal("Microsoft.Compute"))
-	g.Expect(armTypeProvider("Microsoft.Network")).To(Equal("Microsoft.Network"))
-}
-
-func TestParseARMVersionDate(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	d, err := parseARMVersionDate("2023-01-01")
+	d, err := parseASOVersionDate("v20230101")
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(d.Year()).To(Equal(2023))
 
-	d, err = parseARMVersionDate("2023-06-15-preview")
+	d, err = parseASOVersionDate("v1api20230615preview")
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(d.Month()).To(Equal(time.June))
+	g.Expect(d.Day()).To(Equal(15))
 
-	_, err = parseARMVersionDate("")
+	_, err = parseASOVersionDate("")
+	g.Expect(err).To(HaveOccurred())
+
+	_, err = parseASOVersionDate("customizations")
 	g.Expect(err).To(HaveOccurred())
 }
 
@@ -271,11 +287,3 @@ func TestMonthsBetween(t *testing.T) {
 	g.Expect(monthsBetween(from, to)).To(Equal(29))
 }
 
-// mkdirAll is a helper that creates a directory and fails the test on error.
-func mkdirAll(t *testing.T, path string) {
-	t.Helper()
-	err := os.MkdirAll(path, 0o700)
-	if err != nil {
-		t.Fatalf("failed to create directory %q: %v", path, err)
-	}
-}
