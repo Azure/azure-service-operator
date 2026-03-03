@@ -150,10 +150,10 @@ func (r *RapidResourceConversionTestCase) Equals(other astmodel.TestCase, overri
 //	    copied := subject.DeepCopy()
 //	    var hub HubVersion
 //	    err := copied.ConvertTo(&hub)
-//	    if err != nil { t.Fatalf("ConvertTo: %v", err) }
+//	    if err != nil { t.Fatalf("ConvertTo: "+err.Error()) }
 //	    var actual CurrentVersion
 //	    err = actual.ConvertFrom(&hub)
-//	    if err != nil { t.Fatalf("ConvertFrom: %v", err) }
+//	    if err != nil { t.Fatalf("ConvertFrom: "+err.Error()) }
 //	    match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 //	    if !match { ... t.Errorf(result) }
 //	})
@@ -218,7 +218,7 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 			r.toFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(hubID))))
 
-	// if err != nil { t.Fatalf("ConvertTo: %v", err) }
+	// if err != nil { t.Fatalf("ConvertTo: "+err.Error()) }
 	assignToFailed := createRapidFatalf("ConvertTo", errID)
 
 	// var actual OurType
@@ -241,7 +241,7 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 			r.fromFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(hubID))))
 
-	// if err != nil { t.Fatalf("ConvertFrom: %v", err) }
+	// if err != nil { t.Fatalf("ConvertFrom: "+err.Error()) }
 	assignFromFailed := createRapidFatalf("ConvertFrom", errID)
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())

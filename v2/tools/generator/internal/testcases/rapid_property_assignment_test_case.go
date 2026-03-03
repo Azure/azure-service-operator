@@ -7,6 +7,7 @@ package testcases
 
 import (
 	"fmt"
+	"go/token"
 	"strings"
 
 	"github.com/dave/dst"
@@ -145,10 +146,10 @@ func (r *RapidPropertyAssignmentTestCase) Equals(other astmodel.TestCase, overri
 //	    copied := subject.DeepCopy()
 //	    var other OtherType
 //	    err := copied.AssignPropertiesTo(&other)
-//	    if err != nil { t.Fatalf("AssignTo: %v", err) }
+//	    if err != nil { t.Fatalf("AssignTo: "+err.Error()) }
 //	    var actual CurrentType
 //	    err = actual.AssignPropertiesFrom(&other)
-//	    if err != nil { t.Fatalf("AssignFrom: %v", err) }
+//	    if err != nil { t.Fatalf("AssignFrom: "+err.Error()) }
 //	    match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 //	    if !match { ... t.Errorf(result) }
 //	})
@@ -213,7 +214,7 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 			r.toFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(otherID))))
 
-	// if err != nil { t.Fatalf("AssignTo: %v", err) }
+	// if err != nil { t.Fatalf("AssignTo: "+err.Error()) }
 	assignToFailed := createRapidFatalf("AssignPropertiesTo", errID)
 
 	// var actual OurType
@@ -236,7 +237,7 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 			r.fromFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(otherID))))
 
-	// if err != nil { t.Fatalf("AssignFrom: %v", err) }
+	// if err != nil { t.Fatalf("AssignFrom: "+err.Error()) }
 	assignFromFailed := createRapidFatalf("AssignPropertiesFrom", errID)
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
@@ -329,7 +330,9 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 	return fn.DefineFunc(), nil
 }
 
-// createRapidFatalf generates: if <errID> != nil { t.Fatalf("<context>: %%v", <errID>) }
+// createRapidFatalf generates: if <errID> != nil { t.Fatalf("<context>: "+<errID>.Error()) }
+//
+//nolint:unparam // we may use this with other identifiers in future
 func createRapidFatalf(context string, errID string) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: astbuilder.AreNotEqual(dst.NewIdent(errID), dst.NewIdent("nil")),
@@ -337,7 +340,9 @@ func createRapidFatalf(context string, errID string) *dst.IfStmt {
 			astbuilder.CallExprAsStmt(
 				dst.NewIdent("t"),
 				"Fatalf",
-				astbuilder.StringLiteralf("%s: %%v", context),
-				dst.NewIdent(errID))),
+				astbuilder.BinaryExpr(
+					astbuilder.StringLiteralf("%s: ", context),
+					token.ADD,
+					astbuilder.CallQualifiedFunc(errID, "Error")))),
 	}
 }

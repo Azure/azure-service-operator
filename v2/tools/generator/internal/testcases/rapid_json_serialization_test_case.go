@@ -901,7 +901,7 @@ func hoistGenerators(allGens []generatorAssignment, idFactory astmodel.Identifie
 		}
 	}
 
-	var stmts []dst.Stmt
+	stmts := make([]dst.Stmt, 0, len(sharedKeys)+len(singleKeys))
 
 	// Emit shared generators first, named by generator type
 	for _, key := range sharedKeys {

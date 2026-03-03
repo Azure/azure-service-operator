@@ -27,14 +27,14 @@ func Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		var hub v20211231s.Person
 		err := copied.ConvertTo(&hub)
 		if err != nil {
-			t.Fatalf("ConvertTo: %v", err)
+			t.Fatalf("ConvertTo: " + err.Error())
 		}
 
 		// Convert from our hub version
 		var actual Person
 		err = actual.ConvertFrom(&hub)
 		if err != nil {
-			t.Fatalf("ConvertFrom: %v", err)
+			t.Fatalf("ConvertFrom: " + err.Error())
 		}
 
 		// Compare actual with what we started with
@@ -60,14 +60,14 @@ func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		var other v20200101s.Person
 		err := copied.AssignProperties_To_Person(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: %v", err)
+			t.Fatalf("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual Person
 		err = actual.AssignProperties_From_Person(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: %v", err)
+			t.Fatalf("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -146,14 +146,14 @@ func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		var other v20200101s.Person_STATUS
 		err := copied.AssignProperties_To_Person_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: %v", err)
+			t.Fatalf("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual Person_STATUS
 		err = actual.AssignProperties_From_Person_STATUS(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: %v", err)
+			t.Fatalf("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
@@ -230,14 +230,14 @@ func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		var other v20200101s.Person_Spec
 		err := copied.AssignProperties_To_Person_Spec(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesTo: %v", err)
+			t.Fatalf("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
 		var actual Person_Spec
 		err = actual.AssignProperties_From_Person_Spec(&other)
 		if err != nil {
-			t.Fatalf("AssignPropertiesFrom: %v", err)
+			t.Fatalf("AssignPropertiesFrom: " + err.Error())
 		}
 
 		// Check for a match
