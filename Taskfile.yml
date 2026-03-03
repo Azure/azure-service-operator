@@ -618,6 +618,17 @@ tasks:
     sources:
       - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
+  controller:tidy-recordings:
+    deps:
+      - controller:tidy-samples-recordings
+      - controller:tidy-integration-recordings
+
+  controller:tidy-samples-recordings:
+    desc: Tidy the go-vcr recordings for the sample tests. This may be run after updating recordings of samples.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "go-vcr-tidy --clean-all ./internal/testsamples/recordings/Test_Samples_CreationAndDeletion/*.yaml"
+
   controller:test-genruntime:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
@@ -658,6 +669,12 @@ tasks:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
+
+  controller:tidy-integration-recordings:
+    desc: Tidy the go-vcr recordings for the integration tests. This may be run after updating recordings of integration tests.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "go-vcr-tidy --clean-all ./internal/controllers/recordings/*.yaml"
 
   # This target is intended for local use only
   controller:test-integration-envtest-record:
