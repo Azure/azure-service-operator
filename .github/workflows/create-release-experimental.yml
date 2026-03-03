@@ -83,7 +83,7 @@ jobs:
             
             The recommended way to supply `crdPattern` is using [asoctl template](https://azure.github.io/azure-service-operator/tools/asoctl/#template):
             ```bash
-            asoctl export template --source https://github.com/Azure/azure-service-operator/releases/download/experimental/azureserviceoperator_experimental.yaml --crd-pattern "<pattern>" | kubectl apply -f -
+            asoctl export template --source https://github.com/Azure/azure-service-operator/releases/download/experimental/azureserviceoperator_experimental.yaml --crd-pattern "<pattern>" | kubectl apply --server-side=true -f -
             ```
 
             This release is only intended for developers wishing to try out the latest features, some of which may not be fully implemented.
