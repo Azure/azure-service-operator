@@ -59,6 +59,8 @@ type Configuration struct {
 	EmitDocFiles bool `yaml:"emitDocFiles"`
 	// Destination file and additional information for our supported resources report
 	SupportedResourcesReport *SupportedResourcesReport `yaml:"supportedResourcesReport"`
+	// Destination file and additional information for our upgradable resources report
+	UpgradableResourcesReport *UpgradableResourcesReport `yaml:"upgradableResourcesReport"`
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
 
@@ -146,6 +148,7 @@ func NewConfiguration() *Configuration {
 	}
 
 	result.SupportedResourcesReport = NewSupportedResourcesReport(result)
+	result.UpgradableResourcesReport = NewUpgradableResourcesReport(result)
 
 	return result
 }

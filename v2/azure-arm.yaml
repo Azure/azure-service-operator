@@ -33,6 +33,16 @@ supportedResourcesReport:
   resourcePathTemplate: "{group}/{version}.md"
   currentRelease: v2.18.0
 
+upgradableResourcesReport:
+  # Path is relative to the module path, above
+  outputFolder: ../docs/hugo/content/reference/
+  # Recommend stable versions that are this many months newer than the currently supported version
+  stableVersionsExpiry: 12
+  # Recommend preview versions that are this many months newer than the currently supported version
+  previewVersionsExpiry: 6
+  # If the currently supported version is older than this many months, always recommend upgrading to the latest
+  latestVersionThreshold: 24
+
 #
 # These filters are used early in the processing pipeline. 
 #
