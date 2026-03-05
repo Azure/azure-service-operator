@@ -53,8 +53,6 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 	// Create the data center subnet (for DelegatedSubnetId) with delegation
 	dcSubnet := newCassandraDataCenterSubnet(tc, testcommon.AsOwner(vnet))
 
-	tc.CreateResourcesAndWait(secret, vnet, mgmtSubnet, dcSubnet)
-
 	// Declare the CassandraCluster
 	clusterName := tc.Namer.GenerateName("cassandracluster")
 	cassandraCluster := &documentdb.CassandraCluster{
@@ -75,8 +73,8 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 		},
 	}
 
-	// Create the CassandraCluster in Azure
-	tc.CreateResourceAndWait(cassandraCluster)
+	// Create all resources together, mirroring what a user experiences when applying a YAML file
+	tc.CreateResourcesAndWait(secret, vnet, mgmtSubnet, dcSubnet, cassandraCluster)
 
 	// Perform some assertions on the cluster we just created
 	tc.Expect(cassandraCluster.Status.Id).ToNot(BeNil())
