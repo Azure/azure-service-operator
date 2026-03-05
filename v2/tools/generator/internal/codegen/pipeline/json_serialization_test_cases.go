@@ -27,6 +27,12 @@ func InjectJSONSerializationTests(idFactory astmodel.IdentifierFactory) *Stage {
 			modifiedDefinitions := make(astmodel.TypeDefinitionSet)
 			var errs []error
 			for _, def := range state.Definitions() {
+				if ref, ok := def.Name().PackageReference().(astmodel.InternalPackageReference); ok {
+					if testcases.UseRapidForGroup(ref.Group()) {
+						continue // Skip — rapid stage will handle this group
+					}
+				}
+
 				if factory.NeedsTest(def) {
 					updated, err := factory.AddTestTo(def)
 					if err != nil {

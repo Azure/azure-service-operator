@@ -245,6 +245,7 @@ func createAllPipelineStages(
 
 		// Inject test cases
 		pipeline.InjectJSONSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectRapidSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
 
