@@ -128,6 +128,10 @@ Python regex syntax warnings in header check script are non-blocking and can be 
 - **Task** - Build automation
 - **Kustomize v4.5.7** - Kubernetes configuration management
 
+## Documentation
+- Content for our website is found in `docs/hugo/content` and should be kept up to date. Use Hugo's markdown format for documentation pages.
+- See `docs/hugo/content/contributing/style-guide.md` for documentation style guidelines.
+
 ## Key Development Patterns
 - Code generation drives API definitions from Azure OpenAPI specs
 - Controller follows standard Kubernetes controller pattern with reconciliation loops
