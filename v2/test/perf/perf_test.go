@@ -10,6 +10,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	. "github.com/onsi/gomega"
 )
 
 func Test_Perf_Static_VirtualNetworks(t *testing.T) {
@@ -20,17 +22,14 @@ func Test_Perf_Static_VirtualNetworks(t *testing.T) {
 		Pattern:         PatternStatic,
 		ResourceFactory: VirtualNetworkFactory(),
 		StaticConfig: &StaticConfig{
-			// TODO: fix to 500
-			ResourceSetCount: 10, // This is actually 2 (small) resources, so total resource count = 1000
 			Duration:         5 * time.Minute,
+			ResourceSetCount: 500, // This is actually 2 (small) resources, so total resource count = 1000
 		},
 	}
 	staticConfigFromEnv(cfg.StaticConfig)
 
 	result, err := RunPerfTest(t, tc, cfg)
-	if err != nil {
-		t.Fatal(err)
-	}
+	tc.G.Expect(err).ToNot(HaveOccurred())
 	t.Logf("Result: %d sets created, %d sets deleted, elapsed %s",
 		result.TotalSetsCreated,
 		result.TotalSetsDeleted,
@@ -46,16 +45,14 @@ func Test_Perf_Dynamic_ResourceGroups(t *testing.T) {
 		ResourceFactory: ResourceGroupFactory(),
 		DynamicConfig: &DynamicConfig{
 			Duration:           5 * time.Minute,
-			CreationRatePerMin: 10, // TOOD: Fix to 30
-			MaxConcurrentSets:  10, // TODO: Fix to higher
+			CreationRatePerMin: 60,
+			MaxConcurrentSets:  200,
 		},
 	}
 	dynamicConfigFromEnv(cfg.DynamicConfig)
 
 	result, err := RunPerfTest(t, tc, cfg)
-	if err != nil {
-		t.Fatal(err)
-	}
+	tc.G.Expect(err).ToNot(HaveOccurred())
 	t.Logf("Result: %d sets created, %d sets deleted, elapsed %s",
 		result.TotalSetsCreated,
 		result.TotalSetsDeleted,
@@ -71,16 +68,14 @@ func Test_Perf_Dynamic_VirtualNetworks(t *testing.T) {
 		ResourceFactory: VirtualNetworkFactory(),
 		DynamicConfig: &DynamicConfig{
 			Duration:           5 * time.Minute,
-			CreationRatePerMin: 30,
-			MaxConcurrentSets:  100,
+			CreationRatePerMin: 60,
+			MaxConcurrentSets:  200,
 		},
 	}
 	dynamicConfigFromEnv(cfg.DynamicConfig)
 
 	result, err := RunPerfTest(t, tc, cfg)
-	if err != nil {
-		t.Fatal(err)
-	}
+	tc.G.Expect(err).ToNot(HaveOccurred())
 	t.Logf("Result: %d sets created, %d sets deleted, elapsed %s",
 		result.TotalSetsCreated,
 		result.TotalSetsDeleted,
@@ -119,6 +114,7 @@ func dynamicConfigFromEnv(cfg *DynamicConfig) {
 	}
 }
 
+// TODO: Use helpers from v2/internal/config/vars.go ?
 func getEnvInt(key string) int {
 	v, ok := os.LookupEnv(key)
 	if !ok {

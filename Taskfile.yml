@@ -760,6 +760,34 @@ tasks:
       # to keep CI fast
       - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
 
+  # To control as many variables as possible and get repeatable runs, it's recommended to 
+  # run this test against a real AKS cluster rather than a local kind cluster
+  controller:test-perf:
+    desc: Run perf tests against the current cluster
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - go test -timeout 30m -v -run '{{default ".*" .TEST_FILTER}}' ./test/perf
+
+  controller:plot-perf-metrics:
+    desc: Plot CPU and memory charts for all unplotted perf metric CSVs.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - |
+        graph_dir="test/perf/reports/graphs"
+        mkdir -p "$graph_dir"
+        plotted=0
+        for csv in test/perf/reports/metrics_*.csv; do
+          [ -f "$csv" ] || continue
+          base=$(basename "${csv}" .csv)
+          if [ ! -f "${graph_dir}/${base}_cpu.png" ] || [ ! -f "${graph_dir}/${base}_memory.png" ]; then
+            gnuplot -c test/perf/plot-metrics.gp "$csv" "$graph_dir"
+            plotted=$((plotted + 1))
+          fi
+        done
+        if [ "$plotted" -eq 0 ]; then
+          echo "No unplotted CSVs found in test/perf/reports/"
+        fi
+
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
