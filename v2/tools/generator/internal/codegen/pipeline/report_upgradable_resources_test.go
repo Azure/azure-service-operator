@@ -122,17 +122,17 @@ func TestUpgradableResourcesReport_WriteTo_WithItems_BoldsRecommended(t *testing
 		items: []upgradableResourcesReportItem{
 			{
 				// Recommended: available is >12 months newer
-				group:    "storage",
-				resource: "StorageAccount",
-				supportedStable: versionEntry{pkgName: "v20230101", armVersion: "2023-01-01"},
-				availableStable: versionEntry{pkgName: "v20250601", armVersion: "2025-06-01"},
+				group:           "storage",
+				resource:        "StorageAccount",
+				supportedStable: test.MakeLocalPackageReference("storage", "2023-01-01"),
+				availableStable: test.MakeLocalPackageReference("storage", "2025-06-01"),
 			},
 			{
 				// Not recommended: supported preview is only 2 months old relative to available
-				group:    "compute",
-				resource: "VirtualMachine",
-				supportedPreview: versionEntry{pkgName: "v1api20250101preview", armVersion: "2025-11-01-preview"},
-				availablePreview: versionEntry{pkgName: "v1api20260101preview", armVersion: "2026-01-01-preview"},
+				group:            "compute",
+				resource:         "VirtualMachine",
+				supportedPreview: test.MakeLocalPackageReference("compute", "2025-11-01-preview"),
+				availablePreview: test.MakeLocalPackageReference("compute", "2026-01-01-preview"),
 			},
 		},
 	}
@@ -173,8 +173,8 @@ func TestNewUpgradableResourcesReport_RecommendStableUpgrade(t *testing.T) {
 
 	g.Expect(report.items).To(HaveLen(1))
 	g.Expect(report.items[0].resource).To(Equal("StorageAccount"))
-	g.Expect(report.items[0].supportedStable.pkgName).To(Equal(storagePkg2023.PackageName()))
-	g.Expect(report.items[0].availableStable.pkgName).To(Equal(storagePkg2025.PackageName()))
+	g.Expect(report.items[0].supportedStable.PackageName()).To(Equal(storagePkg2023.PackageName()))
+	g.Expect(report.items[0].availableStable.PackageName()).To(Equal(storagePkg2025.PackageName()))
 }
 
 func TestNewUpgradableResourcesReport_ListsResourcesEvenWhenNotRecommended(t *testing.T) {
@@ -255,8 +255,8 @@ func TestNewUpgradableResourcesReport_RecommendPreviewUpgrade(t *testing.T) {
 
 	g.Expect(report.items).To(HaveLen(1))
 	g.Expect(report.items[0].resource).To(Equal("ManagedCluster"))
-	g.Expect(report.items[0].supportedPreview.pkgName).To(Equal(csPkg2022.PackageName()))
-	g.Expect(report.items[0].availablePreview.pkgName).To(Equal(csPkg2022newer.PackageName()))
+	g.Expect(report.items[0].supportedPreview.PackageName()).To(Equal(csPkg2022.PackageName()))
+	g.Expect(report.items[0].availablePreview.PackageName()).To(Equal(csPkg2022newer.PackageName()))
 }
 
 func TestNewUpgradableResourcesReport_SortsByGroupThenResource(t *testing.T) {
@@ -308,8 +308,8 @@ func TestIsStableUpgradeRecommended_OldSupportedVersion(t *testing.T) {
 	now := time.Now()
 	oldDate := now.AddDate(-3, 0, 0) // 3 years ago
 	item := upgradableResourcesReportItem{
-		supportedStable: versionEntry{pkgName: "v" + oldDate.Format("20060102"), armVersion: oldDate.Format("2006-01-02")},
-		availableStable: versionEntry{pkgName: "v" + oldDate.AddDate(0, 6, 0).Format("20060102"), armVersion: oldDate.AddDate(0, 6, 0).Format("2006-01-02")},
+		supportedStable: test.MakeLocalPackageReference("storage", oldDate.Format("2006-01-02")),
+		availableStable: test.MakeLocalPackageReference("storage", oldDate.AddDate(0, 6, 0).Format("2006-01-02")),
 	}
 
 	g.Expect(item.isStableUpgradeRecommended(cfg, now)).To(BeTrue())
@@ -324,8 +324,8 @@ func TestIsPreviewUpgradeRecommended_NewerThanThreshold(t *testing.T) {
 
 	// Available is 8 months newer than supported (above 6-month threshold)
 	item := upgradableResourcesReportItem{
-		supportedPreview: versionEntry{pkgName: "v1api20220101preview", armVersion: "2022-01-01-preview"},
-		availablePreview: versionEntry{pkgName: "v1api20220901preview", armVersion: "2022-09-01-preview"},
+		supportedPreview: test.MakeLocalPackageReference("containerservice", "2022-01-01-preview"),
+		availablePreview: test.MakeLocalPackageReference("containerservice", "2022-09-01-preview"),
 	}
 
 	g.Expect(item.isPreviewUpgradeRecommended(cfg)).To(BeTrue())
@@ -338,10 +338,10 @@ func TestIsPreviewUpgradeRecommended_NoCurrentSupport(t *testing.T) {
 	c := config.NewConfiguration()
 	cfg := config.NewUpgradableResourcesReport(c)
 
-	// No supported preview version, available is 2023
+	// No supported preview version (nil), available is 2023
 	item := upgradableResourcesReportItem{
-		// supportedPreview is zero-value (empty)
-		availablePreview: versionEntry{pkgName: "v20230601preview", armVersion: "2023-06-01-preview"},
+		// supportedPreview is nil (no supported version)
+		availablePreview: test.MakeLocalPackageReference("storage", "2023-06-01-preview"),
 	}
 
 	g.Expect(item.isPreviewUpgradeRecommended(cfg)).To(BeTrue())
