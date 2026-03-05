@@ -110,8 +110,9 @@ type upgradableResourcesReportItem struct {
 }
 
 // hasStableUpgrade returns true if there is a newer stable version available.
+// If the resource has no supported stable version, stable upgrades are not shown.
 func (i upgradableResourcesReportItem) hasStableUpgrade() bool {
-	return i.availableStable != nil && isVersionNewer(i.availableStable.PackageName(), pkgRefName(i.supportedStable))
+	return i.supportedStable != nil && i.availableStable != nil && isVersionNewer(i.availableStable.PackageName(), i.supportedStable.PackageName())
 }
 
 // hasPreviewUpgrade returns true if there is a newer preview version available.
@@ -317,14 +318,20 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 				"Supported Preview")
 		}
 
-		stableAvail := orDash(pkgRefName(item.availableStable))
-		if item.isStableUpgradeRecommended(r.cfg, now) {
-			stableAvail = bold(stableAvail)
+		stableAvail := "-"
+		if item.supportedStable != nil {
+			stableAvail = orDash(pkgRefName(item.availableStable))
+			if item.isStableUpgradeRecommended(r.cfg, now) {
+				stableAvail = bold(stableAvail)
+			}
 		}
 
-		previewAvail := orDash(pkgRefName(item.availablePreview))
-		if item.isPreviewUpgradeRecommended(r.cfg) {
-			previewAvail = bold(previewAvail)
+		previewAvail := "-"
+		if item.supportedPreview != nil {
+			previewAvail = orDash(pkgRefName(item.availablePreview))
+			if item.isPreviewUpgradeRecommended(r.cfg) {
+				previewAvail = bold(previewAvail)
+			}
 		}
 
 		indicator := ""
