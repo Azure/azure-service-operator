@@ -29,6 +29,8 @@ Each documentation page should have a clear purpose and logical flow. Start with
 - **Organise content hierarchically.** Start with the most common use cases, then cover edge cases and advanced scenarios.
 - **Keep paragraphs focused.** Each paragraph should address a single concept in 2-4 sentences.
 - **End with next steps or related links.** Point readers to related documentation or logical next actions.
+- **Write for skimming** - prefer bullet points over dense paragraphs when discussing a set of options or ideas. Use tables for comparisons.
+- **Avoid repetition** - if a concept is explained in one place, link to it rather than re-explaining it elsewhere.
 
 ## Writing Style
 
@@ -67,7 +69,7 @@ spec:
 - **Use 2-space indentation.** This is the Kubernetes convention.
 - **Place `apiVersion` and `kind` first.** Follow with `metadata`, then `spec`, then `status` if shown.
 - **Quote strings only when necessary.** YAML strings don't need quotes unless they contain special characters or could be misinterpreted.
-- **Redact sensitive values.** Use placeholder patterns like `00000000-0000-0000-0000-000000000000` for subscription IDs or `$AZURE_CLIENT_SECRET` for secrets.
+- **Redact sensitive values.** Use placeholder patterns like `00000000-0000-0000-0000-000000000000` or `$AZURE_SUBSCRIPTION_ID` for subscription IDs, and so on.
 
 ## Terminal Commands
 
@@ -89,15 +91,15 @@ aso-sample-rg   True
 
 Consistent formatting makes documentation scannable and professional.
 
-- **Use bold for UI elements and emphasis.** Write "Click **Create**" for UI actions.
+- **Use bold for actions and emphasis.** Write "**Deploy** by running `<command>`" for CLI actions.
 - **Use backticks for code elements inline.** Field names, resource kinds, file paths, and commands should appear as `spec.owner.name`, `ResourceGroup`, or `kubectl apply`.
-- **Use admonitions for important callouts.** Employ Note, Warning, and Tip blocks to highlight critical information without breaking the reading flow.
+- **Use admonitions for important callouts.** Employ Note, Warning, and Tip blocks to highlight critical information without breaking the reading flow. See below for syntax.
 - **Format links with descriptive text.** Write `[authentication documentation](link)` rather than `click [here](link)`.
 - **Use tables for structured comparisons.** Present options, environment variables, or feature comparisons in tables for easy scanning.
 
-## Admonitions and Callouts
+### Admonitions and Callouts
 
-Hugo shortcodes provide formatted callout boxes for important information. Use them to draw attention without disrupting the main content flow.
+Hugo shortcodes provide formatted callout boxes for important information. Use them to draw attention without disrupting the main content flow. Note that these only work for Hugo documentation and must not be used elsewhere.
 
 ``` mustache
 {{% alert title="Note" %}}
@@ -114,7 +116,7 @@ Content for a warning about potential issues.
 - **Keep callout content brief.** If the callout needs more than 2-3 sentences, consider making it part of the main text.
 - **Don't overuse callouts.** Too many callouts dilute their impact. Reserve them for genuinely important information.
 
-## Cross-References and Links
+### Cross-References and Links
 
 Effective linking helps users navigate related content and find additional detail.
 
@@ -137,21 +139,7 @@ Question-based documentation helps users find answers to specific problems quick
 ## Design Documents and ADRs
 
 Architecture Decision Records follow a specific structure to capture the reasoning behind significant decisions.
-
-- **Start with Context.** Explain the problem or situation that prompted the decision.
-- **Present the Decision clearly.** State what was decided and how it will be implemented.
-- **Explain the reasoning.** Include the trade-offs considered and why this approach was chosen.
-- **Use code examples to illustrate.** Show how the decision manifests in actual code or configuration.
-- **Date the document.** ADR filenames include the date (e.g., `ADR-2022-01-Reconciler-Extensions.md`).
-
-## Version-Specific Content
-
-ASO supports multiple API versions for resources, so documentation must be clear about which versions apply.
-
-- **Specify API versions in examples.** Always include the complete `apiVersion` field in YAML samples.
-- **Note when features are version-specific.** If a feature is only available in certain versions, state this clearly.
-- **Link to the reference documentation.** Point users to the generated reference docs for complete schema information.
-- **Use version-neutral language when possible.** Write instructions that work across versions unless discussing version-specific behaviour.
+See the "Format" section at `docs/hugo/content/design/_index.md` for the format that MUST be followed. ADR filenames include the date (e.g., `ADR-2022-01-Reconciler-Extensions.md`).
 
 ## Accessibility and Inclusivity
 
