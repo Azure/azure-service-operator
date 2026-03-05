@@ -240,6 +240,13 @@
       <description>&lt;p&gt;Resources supported by Azure Service Operator may support dynamic input in the form of reading a &lt;code&gt;ConfigMap&lt;/code&gt;.&#xA;They may also support storing certain output into a &lt;code&gt;ConfigMap&lt;/code&gt; (such as ManagedIdentity &lt;code&gt;principalId&lt;/code&gt; and &lt;code&gt;clientId&lt;/code&gt;).&lt;/p&gt;&#xA;&lt;h2 id=&#34;how-to-provide-configmap-data-to-aso&#34;&gt;How to provide ConfigMap data to ASO&lt;/h2&gt;&#xA;&lt;p&gt;Resources may have fields in their &lt;code&gt;spec&lt;/code&gt; that allow a reference to a Kubernetes &lt;code&gt;ConfigMap&lt;/code&gt;.&#xA;In general, these fields are usually optional, and you can choose to specify the raw value &lt;em&gt;or&lt;/em&gt; source it from a &lt;code&gt;ConfigMap&lt;/code&gt; for something more dynamic.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Documentation Style Guide</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/style-guide/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/style-guide/</guid>
+      <description>&lt;p&gt;This style guide ensures consistency across all Azure Service Operator documentation. Whether you&amp;rsquo;re a human author or an AI assistant contributing to our docs, following these guidelines helps maintain a unified voice and makes our documentation more accessible to users.&lt;/p&gt;&#xA;&lt;h2 id=&#34;audience-and-tone&#34;&gt;Audience and Tone&lt;/h2&gt;&#xA;&lt;p&gt;Our documentation targets experienced Kubernetes and Azure practitioners who understand cloud-native concepts but may be new to ASO. Write for an audience that knows what a CRD is, but may not know how ASO implements one.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>ARMResourceModifier</title>
       <link>https://azure.github.io/azure-service-operator/contributing/extension-points/arm-resource-modifier/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

@@ -15,6 +15,13 @@
       <description>&lt;p&gt;We support a number of different approaches to ASO development.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#dev-container-with-vs-code-on-linux&#34;&gt;Dev Container with VS Code on Linux&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#dev-container-with-vs-code-on-windows&#34;&gt;Dev Container with VS Code on Windows&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#docker-on-linux&#34;&gt;Docker on Linux&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#cli-on-linux&#34;&gt;CLI on Linux&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#cli-on-macos&#34;&gt;CLI on MacOS&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Each of these is described in a different section below. See also the &lt;a href=&#34;#troubleshooting-repo-health&#34;&gt;troubleshooting&lt;/a&gt; sections below for help with common problems.&lt;/p&gt;&#xA;&lt;h2 id=&#34;dev-container-with-vs-code-on-linux&#34;&gt;Dev Container with VS Code on Linux&lt;/h2&gt;&#xA;&lt;p&gt;Use these steps if you&amp;rsquo;ve checked out the ASO code into a Linux environment (&lt;em&gt;including&lt;/em&gt; WSL 2 on Windows). We&amp;rsquo;ve found this to be the best performing option.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Documentation Style Guide</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/style-guide/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/style-guide/</guid>
+      <description>&lt;p&gt;This style guide ensures consistency across all Azure Service Operator documentation. Whether you&amp;rsquo;re a human author or an AI assistant contributing to our docs, following these guidelines helps maintain a unified voice and makes our documentation more accessible to users.&lt;/p&gt;&#xA;&lt;h2 id=&#34;audience-and-tone&#34;&gt;Audience and Tone&lt;/h2&gt;&#xA;&lt;p&gt;Our documentation targets experienced Kubernetes and Azure practitioners who understand cloud-native concepts but may be new to ASO. Write for an audience that knows what a CRD is, but may not know how ASO implements one.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>A simple ChatGPT release template</title>
       <link>https://azure.github.io/azure-service-operator/contributing/chatgpt-release-template/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

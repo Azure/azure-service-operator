@@ -80,6 +80,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/getting-started/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/style-guide/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/arm-resource-modifier/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
