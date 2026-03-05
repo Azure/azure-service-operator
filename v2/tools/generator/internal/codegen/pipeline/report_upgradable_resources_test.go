@@ -143,10 +143,14 @@ func TestUpgradableResourcesReport_WriteTo_WithItems_BoldsRecommended(t *testing
 
 	output := buf.String()
 	g.Expect(output).To(ContainSubstring("# Upgradable Resources"))
+	// Each group should have its own section heading
+	g.Expect(output).To(ContainSubstring("## storage"))
+	g.Expect(output).To(ContainSubstring("## compute"))
 	g.Expect(output).To(ContainSubstring("StorageAccount"))
 	g.Expect(output).To(ContainSubstring("VirtualMachine"))
-	// StorageAccount stable upgrade should be bolded (recommended)
+	// StorageAccount stable upgrade should be bolded (recommended) and have 💡
 	g.Expect(output).To(ContainSubstring("**v20250601**"))
+	g.Expect(output).To(ContainSubstring("💡"))
 	// VirtualMachine preview upgrade should NOT be bolded (only 2 months gap, below 6-month threshold)
 	g.Expect(output).To(ContainSubstring("v1api20260101preview"))
 	g.Expect(output).ToNot(ContainSubstring("**v1api20260101preview**"))
@@ -339,13 +343,27 @@ func TestIsPreviewUpgradeRecommended_NoCurrentSupport(t *testing.T) {
 	c := config.NewConfiguration()
 	cfg := config.NewUpgradableResourcesReport(c)
 
-	// No supported preview version (nil), available is 2023
+	// No supported preview version (nil) → preview upgrade is not shown when there's no supported preview
 	item := upgradableResourcesReportItem{
 		// supportedPreview is nil (no supported version)
 		availablePreview: test.MakeLocalPackageReference("storage", "2023-06-01-preview"),
 	}
 
-	g.Expect(item.isPreviewUpgradeRecommended(cfg)).To(BeTrue())
+	g.Expect(item.isPreviewUpgradeRecommended(cfg)).To(BeFalse())
+}
+
+func TestHasPreviewUpgrade_NoSupportedPreview(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// When there is no supported preview version, hasPreviewUpgrade should return false
+	// even if there is an available preview version.
+	item := upgradableResourcesReportItem{
+		// supportedPreview is nil
+		availablePreview: test.MakeLocalPackageReference("storage", "2023-06-01-preview"),
+	}
+
+	g.Expect(item.hasPreviewUpgrade()).To(BeFalse())
 }
 
 func TestParseARMVersionDate(t *testing.T) {

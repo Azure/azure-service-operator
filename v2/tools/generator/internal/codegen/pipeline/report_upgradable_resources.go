@@ -115,8 +115,9 @@ func (i upgradableResourcesReportItem) hasStableUpgrade() bool {
 }
 
 // hasPreviewUpgrade returns true if there is a newer preview version available.
+// If the resource has no supported preview version, preview upgrades are not shown.
 func (i upgradableResourcesReportItem) hasPreviewUpgrade() bool {
-	return i.availablePreview != nil && isVersionNewer(i.availablePreview.PackageName(), pkgRefName(i.supportedPreview))
+	return i.supportedPreview != nil && i.availablePreview != nil && isVersionNewer(i.availablePreview.PackageName(), i.supportedPreview.PackageName())
 }
 
 // isStableUpgradeRecommended returns true if a stable upgrade is recommended based on configured thresholds.
@@ -289,17 +290,33 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 	}
 
 	buffer.WriteString("The following resources have newer versions available in the Azure REST API specifications." +
-		" Versions in **bold** are recommended for upgrade.\n\n")
+		" Resources with a 💡 have a recommended or overdue update.\n\n")
 
-	table := reporting.NewMarkdownTable(
-		"Group",
-		"Resource",
-		"Supported Stable",
-		"Supported Preview",
-		"Available Stable",
-		"Available Preview")
+	// Items are sorted by group then resource; iterate and flush a new table for each group.
+	var currentGroup string
+	var table *reporting.MarkdownTable
+
+	flushTable := func() {
+		if table != nil {
+			table.WriteTo(buffer)
+			buffer.WriteString("\n")
+		}
+	}
 
 	for _, item := range r.items {
+		if item.group != currentGroup {
+			flushTable()
+			currentGroup = item.group
+			fmt.Fprintf(buffer, "## %s\n\n", currentGroup)
+			table = reporting.NewMarkdownTable(
+				"",
+				"Resource",
+				"Available Stable",
+				"Supported Stable",
+				"Available Preview",
+				"Supported Preview")
+		}
+
 		stableAvail := orDash(pkgRefName(item.availableStable))
 		if item.isStableUpgradeRecommended(r.cfg, now) {
 			stableAvail = bold(stableAvail)
@@ -310,17 +327,21 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 			previewAvail = bold(previewAvail)
 		}
 
+		indicator := ""
+		if item.isStableUpgradeRecommended(r.cfg, now) || item.isPreviewUpgradeRecommended(r.cfg) {
+			indicator = "💡"
+		}
+
 		table.AddRow(
-			item.group,
+			indicator,
 			item.resource,
-			orDash(pkgRefName(item.supportedStable)),
-			orDash(pkgRefName(item.supportedPreview)),
 			stableAvail,
-			previewAvail)
+			orDash(pkgRefName(item.supportedStable)),
+			previewAvail,
+			orDash(pkgRefName(item.supportedPreview)))
 	}
 
-	table.WriteTo(buffer)
-	buffer.WriteString("\n")
+	flushTable()
 }
 
 // pkgRefName returns the package name of the given reference, or "" if the reference is nil.
