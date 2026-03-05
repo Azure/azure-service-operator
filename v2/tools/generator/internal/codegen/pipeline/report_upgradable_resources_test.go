@@ -11,6 +11,7 @@ import (
 	"time"
 
 	. "github.com/onsi/gomega"
+
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -376,4 +377,3 @@ func TestMonthsBetween(t *testing.T) {
 
 	g.Expect(monthsBetween(from, to)).To(Equal(29))
 }
-
