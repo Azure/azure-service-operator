@@ -35,7 +35,7 @@ supportedResourcesReport:
 
 upgradableResourcesReport:
   # Path is relative to the module path, above
-  outputFolder: ../docs/hugo/content/reference/
+  outputFolder: .
   # Recommend stable versions that are this many months newer than the currently supported version
   stableVersionsExpiry: 12
   # Recommend preview versions that are this many months newer than the currently supported version
