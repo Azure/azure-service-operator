@@ -1,0 +1,11 @@
+# Upgradable Resources
+
+The following resources have newer versions available in the Azure REST API specifications. Versions in **bold** are recommended for upgrade.
+
+| Group            | Resource       | Supported Stable | Supported Preview    | Available Stable  | Available Preview        |
+|------------------|----------------|------------------|----------------------|-------------------|--------------------------|
+| batch            | BatchAccount   | v20210101        | -                    | **v20210601**     | -                        |
+| compute          | VirtualMachine | v1api20200901    | -                    | **v1api20210301** | -                        |
+| containerservice | ManagedCluster | -                | v1api20220101preview | -                 | **v1api20220901preview** |
+| storage          | StorageAccount | v20200101        | -                    | **v20230601**     | -                        |
+
