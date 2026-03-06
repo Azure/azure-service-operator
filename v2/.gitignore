@@ -1,5 +1,6 @@
 config/crd/generated
 config/webhook/manifests.yaml
+config/webhook/generated
 config/rbac/role.yaml
 test/perf/reports/graphs/
 out/
