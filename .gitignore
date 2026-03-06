@@ -12,6 +12,8 @@ default.etcd
 
 # Output of the test and coverage results
 reports/
+# Allow perf reports
+!v2/test/perf/reports/
 
 bin/
 vendor/
