@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2022-11-change-detection/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,25 +19,24 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2022-11: Change Detection | Azure Service Operator</title>
-<meta name="description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.">
+<meta name="description" content="Context In ASO v2 up to at least the v2.15 release, we reconcile each resource by performing a PUT operation, relying on the Azure Resource Manager (ARM) to do goal state comparison and to only update the resource if it has changed.
+While this approach works, some customers are running into ARM throttling limits with moderate numbers of resources. This occurs despite ARM throttling limits being lifted substantially since ASO went GA.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-11-change-detection/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2022-11: Change Detection">
-  <meta property="og:description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.">
+  <meta property="og:description" content="Context In ASO v2 up to at least the v2.15 release, we reconcile each resource by performing a PUT operation, relying on the Azure Resource Manager (ARM) to do goal state comparison and to only update the resource if it has changed.
+While this approach works, some customers are running into ARM throttling limits with moderate numbers of resources. This occurs despite ARM throttling limits being lifted substantially since ASO went GA.">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="design">
+  <meta property="og:type" content="website">
 
   <meta itemprop="name" content="2022-11: Change Detection">
-  <meta itemprop="description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.">
-  <meta itemprop="wordCount" content="1140">
+  <meta itemprop="description" content="Context In ASO v2 up to at least the v2.15 release, we reconcile each resource by performing a PUT operation, relying on the Azure Resource Manager (ARM) to do goal state comparison and to only update the resource if it has changed.
+While this approach works, some customers are running into ARM throttling limits with moderate numbers of resources. This occurs despite ARM throttling limits being lifted substantially since ASO went GA.">
+  <meta itemprop="wordCount" content="2058">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="2022-11: Change Detection">
-  <meta name="twitter:description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.">
+  <meta name="twitter:description" content="Context In ASO v2 up to at least the v2.15 release, we reconcile each resource by performing a PUT operation, relying on the Azure Resource Manager (ARM) to do goal state comparison and to only update the resource if it has changed.
+While this approach works, some customers are running into ARM throttling limits with moderate numbers of resources. This occurs despite ARM throttling limits being lifted substantially since ASO went GA.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -45,7 +45,7 @@ While this works, customers are already running up against severe ARM throttling
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -845,7 +845,7 @@ While this works, customers are already running up against severe ARM throttling
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
-  <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="td-sidebar-nav-active-item">2022-11: Change Detection</span></a>
+  <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="td-sidebar-nav-active-item">2022-11: Change Detection</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
@@ -928,16 +928,23 @@ While this works, customers are already running up against severe ARM throttling
   <ul>
     <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#readonly-fields">Readonly fields</a></li>
-        <li><a href="#default-values">Default values</a></li>
-        <li><a href="#read-after-write-consistency">Read-After-Write Consistency</a></li>
-        <li><a href="#array-ordering">Array ordering</a></li>
-        <li><a href="#changes-to-test-recordings">Changes to test recordings</a></li>
-        <li><a href="#violation-of-the-dry-principle">Violation of the DRY principle</a></li>
-        <li><a href="#risk-of-bad-change-detection">Risk of bad change detection</a></li>
+        <li><a href="#issue-read-only-fields">Issue: Read-only fields</a></li>
+        <li><a href="#issue-default-values">Issue: Default values</a></li>
+        <li><a href="#issue-read-after-write-consistency">Issue: Read-After-Write Consistency</a></li>
+        <li><a href="#issue-array-ordering">Issue: Array ordering</a></li>
+        <li><a href="#issue-changes-to-test-recordings">Issue: Changes to test recordings</a></li>
+        <li><a href="#issue-violation-of-the-dry-principle">Issue: Violation of the DRY principle</a></li>
+        <li><a href="#issue-risk-of-bad-change-detection">Issue: Risk of bad change detection</a></li>
+        <li><a href="#issue-storage-of-known-safe-differences">Issue: Storage of known-safe differences</a></li>
+        <li><a href="#issue-performance">Issue: Performance</a></li>
+        <li><a href="#issue-arm-references">Issue: ARM References</a></li>
       </ul>
     </li>
-    <li><a href="#decision">Decision</a></li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#outstanding-questions">Outstanding questions</a></li>
+      </ul>
+    </li>
     <li><a href="#status">Status</a></li>
     <li><a href="#consequences">Consequences</a></li>
     <li><a href="#experience-report">Experience Report</a></li>
@@ -963,53 +970,116 @@ While this works, customers are already running up against severe ARM throttling
 </nav>
 <div class="td-content">
 	<h1>2022-11: Change Detection</h1>
-	
+  
 	<header class="article-meta">
 		
 </header>
 	<h2 id="context">Context</h2>
-<p>In ASO v2 up to at least the <code>beta.4</code> release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.</p>
-<p>While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.</p>
-<p>In the <code>beta.4</code> release, we&rsquo;re lifting the default to 1 hour, but this is a compromise. It means we will detect and correct resource drift more slowly, and it&rsquo;s still not going to be enough to prevent throttling for larger deployments. The change only impacts on steady state as well; we&rsquo;ll still hit throttling during initial deployments and when errors occur. Issue <a href="https://github.com/Azure/azure-service-operator/issues/2672">#2672</a> tracks other changes we are investigating to mitigate throttling.</p>
-<p>It&rsquo;s been previously suggested (see <a href="https://github.com/Azure/azure-service-operator/issues/1491">#1491</a>) that we should do our own goal state comparison and only do a PUT if the resource has changed. This would allow us to reconcile more frequently, as GET requests have a significantly higher throttle limit.</p>
-<p>Doing a GET followed by a PUT will also better align with user expectations - we&rsquo;ve had multiple issues raised where users have been surprised that we do a PUT for every reconciliation.</p>
-<p>While it sounds straightforward to compare a <em>Status</em> retrieved from Azure with the <em>Spec</em> held by ASO, there are a few complicating factors. (Credit to @matthchr for much of the wording in these descriptions, lifted from earlier discussions.)</p>
-<h3 id="readonly-fields">Readonly fields</h3>
-<p>Some fields are set by Azure and cannot be changed by the user. These fields <em>should</em> be marked as read-only in the Swagger, resulting in their omission from our generated Spec types. However, not all such fields are properly marked.</p>
-<p>Potential mitigation: We will likely have to use our configuration file to explicitly omit these fields from the comparison. We should also create PRs to correct the Swagger where we find fields not marked as read-only.</p>
-<h3 id="default-values">Default values</h3>
-<p>Some fields are optional in the Swagger, but are required by Azure. In these cases, Azure will set a default value if the user does not provide one. In a naive implementation, we&rsquo;ll see these fields as differences between the <em>Spec</em> we have and the <em>Status</em> we retrieve from Azure. Complicating this, some resources may use a different default value depending on other fields. (We know this is the case for AKS, for example.)</p>
-<p>While we can tell the different in a Spec between a field that was never set by the user, and a field that we set to an explicit value (because all our Spec properties are pointers), this doesn&rsquo;t mean we can assume any explicit value in a Status is a default. For example, if a third party makes a change via the Azure portal, we want to detect this as a change and and revert it.</p>
+<p>In ASO v2 up to at least the v2.15 release, we reconcile each resource by performing a PUT operation, relying on the Azure Resource Manager (ARM) to do goal state comparison and to only update the resource if it has changed.</p>
+<p>While this approach works, some customers are running into ARM throttling limits with moderate numbers of resources. This occurs despite ARM throttling limits being lifted substantially since ASO went GA.</p>
+<p>There are also a limited number of resources (AKS AgentPools being one) where a PUT operation is not strictly idempotent. In these cases, doing a PUT when no change is needed may have detectable side effects, even if minor.</p>
+<p>The current ASO default reconciliation interval is 1 hour. This is a compromise that means we will detect and correct resource drift more slowly than we might like, and has proven insufficient to prevent throttling for larger deployments.</p>
+<p>It has been previously suggested (see <a href="https://github.com/Azure/azure-service-operator/issues/1491">#1491</a>) that we should do our own goal state comparison and only perform a PUT if the resource has changed. This would allow us to reconcile more frequently, as GET requests have a significantly higher throttle limit. According to <a href="https://docs.azure.cn/en-us/azure-resource-manager/management/request-limits-and-throttling"><em>Understand how Azure Resource Manager throttles requests</em></a>, the default write limit is just 1,200 per hour, while the default read limit is 12,000 per hour.</p>
+<p>Performing a GET followed by a PUT will also better align with user expectations—we&rsquo;ve had multiple issues raised where users have been surprised that we perform a PUT for every reconciliation.</p>
+<p>While it sounds straightforward to compare a <em>Status</em> retrieved from Azure with the <em>Spec</em> held by ASO, there are several complicating factors. (Credit to @matthchr for much of the wording in these descriptions, lifted from earlier discussions.)</p>
+<h3 id="issue-read-only-fields">Issue: Read-only fields</h3>
+<p>Some fields are set by Azure and cannot be changed by the user. These fields <em>should</em> be marked as read-only in the Swagger specification, resulting in their omission from our generated Spec types. However, not all such fields are properly marked.</p>
+<p><strong>Potential mitigations</strong>:</p>
+<ul>
+<li>We already attempt to prune these from our spec types by manually listing them in our configuration file, and we create PRs to update the upstream Swagger when practical. Currently, the impact of missing one of these is minor, but if/when we move to GET+PUT, this will result in change being detected every time we reconcile, resulting in unnecessary PUTs. This isn&rsquo;t ideal, but it&rsquo;s no worse than our current baseline.</li>
+<li>We already have generated code to convert between Status and Spec types (added for <code>asoctl import azure resource</code>), so we can use those conversions to create a <code>spec</code> that represents the resource as it exists in Azure.</li>
+</ul>
+<h3 id="issue-default-values">Issue: Default values</h3>
+<p>Some fields are optional in the Swagger specification but required by Azure. In these cases, Azure will set a default value if the user does not provide one. In a naive implementation, we&rsquo;ll see these fields as differences between the <em>Spec</em> we have and the <em>Status</em> we retrieve from Azure. Complicating this further, some resources may use different default values depending on other fields. (We know this is the case for AKS, for example.)</p>
+<p>While we can tell the difference in a Spec between a field that was never set by the user and a field that was set to an explicit value (because all our Spec properties are pointers), this doesn&rsquo;t mean we can assume any explicit value in a Status is a default. For example, if a third party makes a change via the Azure portal, we want to detect this as a change and revert it.</p>
 <p>A variation of value defaulting may occur with arrays and maps, where some services will add a default value to the collection if the user does not specify it. Conceptually, you can write <code>[&quot;a&quot;]</code> and get back <code>[&quot;default&quot;, &quot;a&quot;]</code> when you read it back.</p>
-<h3 id="read-after-write-consistency">Read-After-Write Consistency</h3>
+<p><strong>Potential mitigation</strong>: Keep track of the changes made by Azure when we originally PUT the resource, and use those as another input to our change detection process. For most resources, the current state of the resource is returned in the response to either the PUT or the long-running-operation (LRO) polling operation, so we can capture these changes at that point. For others, we may need to perform an initial GET after the PUT to capture these changes, despite the inherent race condition of doing so.</p>
+<h3 id="issue-read-after-write-consistency">Issue: Read-After-Write Consistency</h3>
 <p>Azure is not guaranteed to return the exact same resource that was PUT.</p>
 <ul>
 <li>Some services normalize identifier fields (converting them to all lowercase)</li>
 <li>Some fields accept a wider range of values than they return.</li>
 </ul>
-<p>For example the CosmosDB API will return the region <code>West US</code> when the resource specified <code>westus</code>.</p>
-<p>Potential mitigations:</p>
+<p>For example, the CosmosDB API will return the region <code>West US</code> when the resource specified <code>westus</code>.</p>
+<p><strong>Potential mitigations</strong>:</p>
 <ul>
-<li>Generally speaking, Azure identifiers are expected to be &ldquo;case-preserving, case-insensitive&rdquo;, so we should compare those string fields in a case insensitive manner.</li>
-<li>Region names and virtual machines SKUS are two known special cases where we may need to do some special case handling.</li>
+<li>Generally speaking, Azure aims for resource providers to be &ldquo;case-preserving, case-insensitive&rdquo;, but this isn&rsquo;t uniformly applied. We should compare those string fields in a case-insensitive manner.</li>
+<li>Region names and virtual machine SKUs are two known special cases where we may need to implement special case handling.</li>
+<li>Capturing the changes (as detailed above) would also work for this issue.</li>
 </ul>
-<h3 id="array-ordering">Array ordering</h3>
+<h3 id="issue-array-ordering">Issue: Array ordering</h3>
 <p>Some resources have arrays of items. These arrays may not be guaranteed to be returned in the same order as they were specified.</p>
-<p>Potential mitigation: In the common case where the items in an array have a known identifier (e.g., when they are sub-resources with an <code>id</code> field), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index.</p>
-<h3 id="changes-to-test-recordings">Changes to test recordings</h3>
-<p>When a resource changes from PUT only to GET+PUT, we&rsquo;ll need to re-record the test results for that resource. To avoid having to re-record all the tests in one go, we probably want to have some way to migrate to the new approach in a controlled fashion.</p>
-<p>Potential mitigation: We could have a configuration flag that allows us to switch between the two approaches for a specific resource. We&rsquo;d make GET+PUT the default, explicitly configure all our existing resources as PUT-only, and migrate in a controlled fashion, prioritizing those resources where we know we have the most issues with the PUT-only approach.</p>
-<p>This will also allow us to leave problematic resources using only PUT if we find that it&rsquo;s difficult or cumbersome to use GET+PUT because of issues doing the comparison.</p>
-<h3 id="violation-of-the-dry-principle">Violation of the DRY principle</h3>
-<p>The really unfortunate thing, and the reason we actually like just the approach of always PUT-ing (with the obvious caveat that it causes throttling if you do it a lot) is that all of the logic to determine if there has been a change (what fields have what defaults, whether the field is stable or not, etc) all of that exists in the Resource Provider PUT path.</p>
-<h3 id="risk-of-bad-change-detection">Risk of bad change detection</h3>
-<p>If we get the change detection wrong, we could end up in a situation where we&rsquo;re using PUT to reconcile a resource every 15m, but we&rsquo;re not actually making any changes to it.</p>
-<p>This would be bad for a number of reasons, but the most obvious is that we&rsquo;d still be hitting the ARM throttling limits for no reason.</p>
-<p>This is something that we can get <em>good enough</em> but that is gonna take iteration to get actually correct. Practically speaking it&rsquo;s hard to know what we&rsquo;re doing good/bad with diffs because for example with the normalization case if you look at something like MySQLServer, it has maybe 30 user-settable fields. If 1 of those fields normalizes certain values when set how are we ever gonna notice?</p>
+<p><strong>Potential mitigations</strong>:</p>
+<ul>
+<li>In the common case where the items in an array have a known identifier (e.g., when they are sub-resources with an <code>id</code> field), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index. Many resources include <code>x-ms-identifiers</code> in their Swagger specification to indicate which fields are identifiers; we may be able to leverage this.</li>
+<li>Add specific configuration for array properties to specify how they should be compared — whether by an id field or by index. Consistent with our similar configuration used elsewhere, we&rsquo;d require every array property to be annotated to ensure we don&rsquo;t do the wrong thing by default. This would be very verbose.</li>
+</ul>
+<h3 id="issue-changes-to-test-recordings">Issue: Changes to test recordings</h3>
+<p>When a resource changes from PUT-only to GET+PUT, we&rsquo;ll need to re-record the test results for that resource. To avoid having to re-record all the tests in one go, we probably want some way to migrate to the new approach in a controlled fashion.</p>
+<p><strong>Potential mitigation</strong>: We could have a configuration flag that allows us to switch between the two approaches for a specific resource. We&rsquo;d make GET+PUT the default, explicitly configure all our existing resources as PUT-only, and migrate in a controlled fashion, prioritizing those resources where we know we have the most issues with the PUT-only approach.</p>
+<p>This will also allow us to leave problematic resources using only PUT if we find that it&rsquo;s difficult or cumbersome to use GET+PUT because of issues with the comparison logic.</p>
+<h3 id="issue-violation-of-the-dry-principle">Issue: Violation of the DRY principle</h3>
+<p>The really unfortunate aspect — and the reason we actually like the approach of always PUT-ing (with the obvious caveat that it causes throttling if done frequently) — is that all the logic to determine if there has been a change (what fields have what defaults, whether the field is stable or not, etc.) already exists in the Resource Provider PUT path.</p>
+<p>With that functionality present, however, we don&rsquo;t need our change detection to be perfect, we just need it to be good enough that we don&rsquo;t end up doing unnecessary PUTs most of the time.</p>
+<h3 id="issue-risk-of-bad-change-detection">Issue: Risk of bad change detection</h3>
+<p>If we get the change detection wrong, we could end up in a situation where we&rsquo;re using PUT to reconcile a resource every 15 minutes, but we&rsquo;re not actually making any changes to it.</p>
+<p>This would be problematic for several reasons, but the most obvious is that we&rsquo;d still be hitting the ARM throttling limits for no reason.</p>
+<p>This is something that we can get <em>good enough</em>, but it will take iteration to get actually correct. Practically speaking, it&rsquo;s hard to know what we&rsquo;re doing well or poorly with diffs because, for example, with the normalization case, if you look at something like MySQLServer, it has maybe 30 user-settable fields. If one of those fields normalizes certain values when set, how would we ever notice?</p>
 <p>For properties we use in our recorded tests, we&rsquo;ll see issues when we go to re-record them, but for properties we don&rsquo;t use in our tests, we&rsquo;ll never know.</p>
 <p>This points to a need to log which fields are detected as changed, so that we can review the ASO logs and identify when we&rsquo;re getting the diff comparison wrong.</p>
+<h3 id="issue-storage-of-known-safe-differences">Issue: Storage of known-safe differences</h3>
+<p>If we are going to track the differences between resource-as-PUT and resource-as-created-in-Azure, we need to store those differences somewhere. For most resources, this will be a very small delta, but we need to allow for the possibility that it could be large.</p>
+<p><strong>Possible mitigations</strong>:</p>
+<ul>
+<li>
+<p>Store as an annotation on the resource. This is simple but has a distinct size limit (256KiB for <em>all annotations combined</em>). This is probably sufficient for most resources, but we need to be aware of the limit and decide what to do if we exceed it.</p>
+</li>
+<li>
+<p>Capture a hash of the diff between resource-as-PUT and resource-as-created-in-Azure and store that as an annotation. This will have a fixed size but means we won&rsquo;t have the actual diff itself. Any change at all will result in a different hash, so we&rsquo;ll likely be performing a PUT to reconcile more often, and we won&rsquo;t be able to log the actual differences for troubleshooting purposes.</p>
+</li>
+<li>
+<p>Add <code>operatorStatus</code> to the status of the resource and use that to capture a map of the changes found between resource-as-PUT and resource-as-created-in-Azure. This avoids the size limit of annotations and makes differences easy to inspect and log.</p>
+</li>
+</ul>
+<h3 id="issue-performance">Issue: Performance</h3>
+<p>What&rsquo;s the CPU overhead of doing a GET and diff on every reconciliation compared to just doing a PUT?</p>
+<p>We&rsquo;ll be adding another network round trip (with the associated bandwidth and latency costs) for every reconciliation, plus the CPU cost of doing the diff itself. We need to ensure that this doesn&rsquo;t cause us to exceed our resource limits in the controller pod, especially when reconciling large numbers of resources.</p>
+<h3 id="issue-arm-references">Issue: ARM References</h3>
+<p>References to other resources can be specified in a number of ways - as an <code>ARM ID</code> in Azure, by specifying Group/Kind/Name of the resource within the cluster, or (for some resources) by specifying a well known name.</p>
+<p>When we do a GET to retrieve the current state of a resource, any references will be returned as <code>ARM IDs</code>. We need to ensure that our diffing logic can handle this and correctly identify when a reference has or has not changed.</p>
 <h2 id="decision">Decision</h2>
-<p>TBC</p>
+<p>Recommendation: Implement differencing as follows:</p>
+<p>To detect changes:</p>
+<ul>
+<li>Perform a GET to retrieve the current state of the resource from Azure.</li>
+<li>Convert the returned Status to a Spec using our existing generated conversion code.</li>
+<li>Compare the original Spec (the desired state) with the converted Spec (the actual state) to identify current differences.</li>
+<li>Reconcile that set of differences with a set of <em>known differences</em> that we have previously recorded.</li>
+<li>If any new differences are found, log them (so we know why the PUT was triggered) and perform a PUT to reconcile the resource to the desired state.</li>
+</ul>
+<p>When creating or updating a resource:</p>
+<ul>
+<li>After performing a PUT (or completing the LRO polling), capture the returned Status on the resource (this already happens).</li>
+<li>Convert that Status to a Spec using our existing generated conversion code.</li>
+<li>Compare the original Spec (the desired state) with the converted Spec (the actual state) to identify <em>known differences</em> for the resource, capturing any normalizations or default values applied by Azure.</li>
+<li>Store those <em>known differences</em> in the operatorStatus on the resource.</li>
+</ul>
+<p>To support this functionality:</p>
+<ul>
+<li>Update our code generator to add a <code>DiffWith()</code> method to every spec type that accumulates a list of the differences found.</li>
+<li>Add helper methods to a package <code>genruntime/diff</code> to help with common comparison tasks.</li>
+<li>Introduce <code>operatorStatus</code> on each top level status type, with a <code>knownDifferences</code> field to capture the differences found.</li>
+</ul>
+<p>Migrate to the new approach by:</p>
+<ul>
+<li>Making GET+PUT the default reconciliation approach for all resources.</li>
+<li>Add configuration to allow PUT-only reconciliation to be specified for selected resources.</li>
+<li>Opt-in all existing resources to use PUT-only so their behaviour doesn&rsquo;t change until we can validate the new approach.</li>
+</ul>
+<h3 id="outstanding-questions">Outstanding questions</h3>
+<ul>
+<li>Can we come up with a better name than <code>knownDifferences</code>?</li>
+</ul>
 <h2 id="status">Status</h2>
 <p>Proposed</p>
 <h2 id="consequences">Consequences</h2>
@@ -1019,9 +1089,11 @@ While this works, customers are already running up against severe ARM throttling
 <h2 id="references">References</h2>
 <p>TBC</p>
 
-	
+	<div class="section-index">
+    
+    
+    </div>
 </div>
-
 
           </main>
         </div>

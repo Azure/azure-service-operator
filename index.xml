@@ -506,13 +506,6 @@
       <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;&#xA;&lt;p&gt;We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&amp;rsquo;t lose functionality when they switch) and a straightforward migration path (if it&amp;rsquo;s too hard to migrate, they won&amp;rsquo;t).&lt;/p&gt;&#xA;&lt;p&gt;Discussions so far have identified three possible solutions - &lt;em&gt;version integration&lt;/em&gt;, &lt;em&gt;resource import job&lt;/em&gt; and &lt;em&gt;resource import tool&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;version-integration&#34;&gt;Version Integration&lt;/h3&gt;&#xA;&lt;p&gt;We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1. Users would be able to migrate to ASO v2 simply by removing ASO v1 from their cluster and installing ASO v2 in its place.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>2022-11: Change Detection</title>
-      <link>https://azure.github.io/azure-service-operator/design/adr-2022-11-change-detection/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/design/adr-2022-11-change-detection/</guid>
-      <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;&#xA;&lt;p&gt;In ASO v2 up to at least the &lt;code&gt;beta.4&lt;/code&gt; release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.&lt;/p&gt;&#xA;&lt;p&gt;While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>2022-12: Conversion Augmentation</title>
       <link>https://azure.github.io/azure-service-operator/design/adr-2023-01-conversion-augmentation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
