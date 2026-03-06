@@ -1,4 +1,4 @@
-apiVersion: documentdb.azure.com/v1api20251015
+apiVersion: documentdb.azure.com/v20251015
 kind: CassandraDataCenter
 metadata:
   name: aso-cassandra-datacenter
