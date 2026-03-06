@@ -18,6 +18,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | Go | 1.25 | https://golang.org/doc/install #
 | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
 | golangci-lint | 2.8.0 | https://github.com/golangci/golangci-lint |
+| go-vcr-tidy | latest | https://github.com/theunrepentantgeek/go-vcr-tidy |
 | Helm | v3.19.0 | https://helm.sh/ |
 | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
 | hugo | v0.152.2 | https://gohugo.io/ |
