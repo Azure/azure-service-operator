@@ -3150,6 +3150,24 @@ objectModelConfiguration:
       MongoUserDefinitionResource:
         password:
           $isSecret: true
+    2025-10-15:
+      CassandraCluster:
+        $exportAs: CassandraCluster
+        $supportedFrom: v2.18.0
+      CassandraCluster_Properties_Spec:
+        DelegatedManagementSubnetId:
+          $referenceType: arm
+        RestoreFromBackupId:
+          $referenceType: arm
+      CassandraClusters_DataCenter:
+        $exportAs: CassandraDataCenter
+        $supportedFrom: v2.18.0
+      CassandraClusters_DataCenter_Properties_Spec:
+        DelegatedSubnetId:
+          $referenceType: arm
+      AuthenticationMethodLdapProperties:
+        ServiceUserPassword:
+          $isSecret: true
   entra:
     v1: # Handcrafted
       SecurityGroup:

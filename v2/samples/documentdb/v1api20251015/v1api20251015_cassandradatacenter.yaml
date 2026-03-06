@@ -1,0 +1,16 @@
+apiVersion: documentdb.azure.com/v1api20251015
+kind: CassandraDataCenter
+metadata:
+  name: aso-cassandra-datacenter
+  namespace: default
+spec:
+  azureName: aso-cassandra-datacenter
+  owner:
+    name: aso-cassandra-cluster
+  properties:
+    dataCenterLocation: eastus
+    delegatedSubnetReference:
+      armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-testing/providers/Microsoft.Network/virtualNetworks/aso-vnet/subnets/aso-cassandra-data
+    nodeCount: 3
+    sku:
+      name: Standard_DS14_v2
