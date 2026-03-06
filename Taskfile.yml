@@ -578,6 +578,19 @@ tasks:
             echo "{{.DOCKER_PUSH_TARGET}}" | sed -e "s|^.*.azurecr.io/||"
           fi
 
+  controller:test-controllers:
+    desc: Run CRUD tests of controller with envtest using record/replay.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - setup
+      - controller:run-kustomize-for-envtest
+    cmds:
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
+
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
