@@ -1,0 +1,10 @@
+apiVersion: dbformysql.azure.com/v20241230
+kind: FlexibleServersFirewallRule
+metadata:
+  name: samplefirewallrule
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  startIpAddress: 0.0.0.0
+  endIpAddress: 255.255.255.255
