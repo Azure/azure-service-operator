@@ -1,7 +1,7 @@
 namePrefix: azureserviceoperator-
 
 resources:
-  - manifests.yaml
+  - generated
   - service.yaml
 
 configurations:

@@ -849,6 +849,7 @@ tasks:
     deps: 
       - controller:generate-types
       - controller:generate-genruntime-deepcopy
+      - scripts:build-python-venv
     sources:
       - "v2/api/**/*.go" # depends on all API types
       - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
@@ -858,13 +859,13 @@ tasks:
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
       - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
-      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - "{{.SCRIPTS_ROOT}}/venv/bin/python3 {{.SCRIPTS_ROOT}}/generate-webhooks-per-group.py --api-dir v2/api --output-dir {{.CONTROLLER_OUTPUT}}/webhook/generated"
       - cmd: cd v2/api && gofumpt -l -w . # format all generated code
         ignore_error: true # Just in case the code doesn't build
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:check-crd-size:
