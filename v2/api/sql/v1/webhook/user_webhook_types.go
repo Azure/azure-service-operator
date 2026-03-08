@@ -26,7 +26,7 @@ var _ webhook.CustomDefaulter = &User_Webhook{}
 func (webhook *User_Webhook) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v1.User)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/User, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1/User, but got %T", obj)
 	}
 	err := webhook.defaultImpl(ctx, resource)
 	if err != nil {
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &User_Webhook{}
 func (webhook *User_Webhook) ValidateCreate(ctx context.Context, obj runtime.Object) (admission.Warnings, error) {
 	resource, ok := obj.(*v1.User)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/User, but got %T", obj)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1/User, but got %T", obj)
 	}
 	validations := webhook.createValidations()
 	var temp any = webhook
@@ -82,7 +82,7 @@ func (webhook *User_Webhook) ValidateCreate(ctx context.Context, obj runtime.Obj
 func (webhook *User_Webhook) ValidateDelete(ctx context.Context, obj runtime.Object) (admission.Warnings, error) {
 	resource, ok := obj.(*v1.User)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/User, but got %T", obj)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1/User, but got %T", obj)
 	}
 	validations := webhook.deleteValidations()
 	var temp any = webhook
@@ -96,11 +96,11 @@ func (webhook *User_Webhook) ValidateDelete(ctx context.Context, obj runtime.Obj
 func (webhook *User_Webhook) ValidateUpdate(ctx context.Context, oldObj runtime.Object, newObj runtime.Object) (admission.Warnings, error) {
 	newResource, ok := newObj.(*v1.User)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/User, but got %T", newObj)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1/User, but got %T", newObj)
 	}
 	oldResource, ok := oldObj.(*v1.User)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/User, but got %T", oldObj)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1/User, but got %T", oldObj)
 	}
 	validations := webhook.updateValidations()
 	var temp any = webhook
@@ -116,7 +116,9 @@ func (webhook *User_Webhook) ValidateUpdate(ctx context.Context, oldObj runtime.
 
 // createValidations validates the creation of the resource
 func (webhook *User_Webhook) createValidations() []func(ctx context.Context, obj *v1.User) (admission.Warnings, error) {
-	return nil
+	return []func(ctx context.Context, obj *v1.User) (admission.Warnings, error){
+		webhook.validateIsLocalOrAAD,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -127,7 +129,12 @@ func (webhook *User_Webhook) deleteValidations() []func(ctx context.Context, obj
 // updateValidations validates the update of the resource
 func (webhook *User_Webhook) updateValidations() []func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
 	return []func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error){
+		func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
+			return webhook.validateIsLocalOrAAD(ctx, newObj)
+		},
+		webhook.validateUserTypeNotChanged,
 		webhook.validateWriteOncePropertiesNotChanged,
+		webhook.validateUserAADAliasNotChanged,
 	}
 }
 
@@ -176,4 +183,48 @@ func (webhook *User_Webhook) validateWriteOncePropertiesNotChanged(_ context.Con
 	}
 
 	return nil, kerrors.NewAggregate(errs)
+}
+
+// validateIsLocalOrAAD validates that exactly one of LocalUser or AADUser is specified
+func (webhook *User_Webhook) validateIsLocalOrAAD(_ context.Context, obj *v1.User) (admission.Warnings, error) {
+	if obj.Spec.LocalUser == nil && obj.Spec.AADUser == nil {
+		return nil, eris.Errorf("exactly one of spec.localUser or spec.aadUser must be set")
+	}
+
+	if obj.Spec.LocalUser != nil && obj.Spec.AADUser != nil {
+		return nil, eris.Errorf("exactly one of spec.localUser or spec.aadUser must be set, not both")
+	}
+
+	return nil, nil
+}
+
+// validateUserTypeNotChanged prevents changing user type after creation
+func (webhook *User_Webhook) validateUserTypeNotChanged(_ context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
+	// Prevent change from AAD -> Local
+	if oldObj.Spec.AADUser != nil && newObj.Spec.AADUser == nil {
+		return nil, eris.Errorf("cannot change from AAD user to local user")
+	}
+
+	// Prevent change from Local -> AAD
+	if oldObj.Spec.LocalUser != nil && newObj.Spec.LocalUser == nil {
+		return nil, eris.Errorf("cannot change from local user to AAD user")
+	}
+
+	return nil, nil
+}
+
+// validateUserAADAliasNotChanged prevents changing AAD alias after creation
+func (webhook *User_Webhook) validateUserAADAliasNotChanged(_ context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
+	if oldObj.Spec.AADUser == nil || newObj.Spec.AADUser == nil {
+		return nil, nil
+	}
+
+	oldAlias := oldObj.Spec.AADUser.Alias
+	newAlias := newObj.Spec.AADUser.Alias
+
+	if oldAlias != newAlias {
+		return nil, eris.Errorf("cannot change AAD user 'alias' from %q to %q", oldAlias, newAlias)
+	}
+
+	return nil, nil
 }
