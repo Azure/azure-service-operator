@@ -12,7 +12,7 @@ weight: -4
 1. Download and install the latest version of [asoctl]({{<relref "asoctl#installation">}}).
 2. Install [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator.
    ```bash
-   asoctl export template --version v2.6.0 --crd-pattern "<your pattern>" | kubectl apply -f -
+   asoctl export template --version v2.6.0 --crd-pattern "<your pattern>" | kubectl apply --server-side=true -f -
    ```
    
    When specifying `--crd-pattern`, ensure you choose only the CRDs you need, for example: 

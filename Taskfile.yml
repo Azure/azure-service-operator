@@ -618,6 +618,21 @@ tasks:
     sources:
       - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
+  # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
+  # tidying will be automatic.
+  controller:tidy-recordings:
+    deps:
+      - controller:tidy-samples-recordings
+      - controller:tidy-integration-recordings
+
+  # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
+  # tidying will be automatic.
+  controller:tidy-samples-recordings:
+    desc: Tidy the go-vcr recordings for the sample tests. This may be run after updating recordings of samples.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "go-vcr-tidy --clean-all ./internal/testsamples/recordings/Test_Samples_CreationAndDeletion/*.yaml"
+
   controller:test-genruntime:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
@@ -658,6 +673,14 @@ tasks:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
+
+  # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
+  # tidying will be automatic.
+  controller:tidy-integration-recordings:
+    desc: Tidy the go-vcr recordings for the integration tests. This may be run after updating recordings of integration tests.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "go-vcr-tidy --clean-all ./internal/controllers/recordings/*.yaml"
 
   # This target is intended for local use only
   controller:test-integration-envtest-record:
@@ -736,6 +759,34 @@ tasks:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
       - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+
+  # To control as many variables as possible and get repeatable runs, it's recommended to 
+  # run this test against a real AKS cluster rather than a local kind cluster
+  controller:test-perf:
+    desc: Run perf tests against the current cluster
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - go test -timeout 30m -v -run '{{default ".*" .TEST_FILTER}}' ./test/perf
+
+  controller:plot-perf-metrics:
+    desc: Plot CPU and memory charts for all unplotted perf metric CSVs.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - |
+        graph_dir="test/perf/reports/graphs"
+        mkdir -p "$graph_dir"
+        plotted=0
+        for csv in test/perf/reports/metrics_*.csv; do
+          [ -f "$csv" ] || continue
+          base=$(basename "${csv}" .csv)
+          if [ ! -f "${graph_dir}/${base}_cpu.png" ] || [ ! -f "${graph_dir}/${base}_memory.png" ]; then
+            gnuplot -c test/perf/plot-metrics.gp "$csv" "$graph_dir"
+            plotted=$((plotted + 1))
+          fi
+        done
+        if [ "$plotted" -eq 0 ]; then
+          echo "No unplotted CSVs found in test/perf/reports/"
+        fi
 
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.

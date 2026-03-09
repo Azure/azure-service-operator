@@ -181,7 +181,7 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 }
 
 // hashOfBody calculates a hash of the body of a request, for use as a cache key.
-// The body is santised before calculating the hash to ensure that the same request body always results in the same hash.
+// The body is sanitised before calculating the hash to ensure that the same request body always results in the same hash.
 func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	// Read all the content of the request body
 	var body bytes.Buffer

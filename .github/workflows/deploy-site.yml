@@ -21,6 +21,7 @@ jobs:
 
     permissions:
       packages: read
+      contents: write
       
     # Only run this scheduled job on the main repo, it can't work elsewhere
     if: ${{ github.repository == 'Azure/azure-service-operator' }}
@@ -66,7 +67,7 @@ jobs:
           docker exec "$container_id" task build-docs-site
 
       - name: Publish to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@v4.4.1 # pinned version
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # pinned to v4.8.0
         with:
           branch: gh-pages
           token: ${{ steps.app-token.outputs.token }}

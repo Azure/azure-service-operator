@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-rg-vlodao","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao","name":"asotest-rg-vlodao","type":"Microsoft.Resources/resourceGroups","location":"uksouth","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao","name":"asotest-rg-vlodao","type":"Microsoft.Resources/resourceGroups","location":"uksouth","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -135,10 +112,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 256
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo'' under resource group ''asotest-rg-vlodao'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -170,13 +144,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 253
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-hhlzuo","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -192,10 +161,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -235,13 +201,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -251,10 +211,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -290,13 +247,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -306,10 +257,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -345,288 +293,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/63a25cc7-a877-42dd-bd97-5ca093cd45a6?api-version=2023-06-01-preview&t=639047477576057278&c=MIIHhzCCBm-gAwIBAgITfAoAfUk8to19sVowDAAACgB9STANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjYwMTEzMDU1NjE4WhcNMjYwNTI0MjI1NzAzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJdGew_5xWQaZA3BQY3wqDj8HpM0_uhOvrEnzzNve5sjF7Q4IAL4latcsttipgLDUr_EONtuse-ttrbe8kcqbUUHZmK2gL5crqy_lcosFlGo6vG8la8jCJtXQwJV1l-HuXf7_gON0YdwmfAiibYlcBH7YgaM7i7NlgjgdDeH0UzrfAVlQ_phJbv9IkRAJZz35l-Ba5dmaDZwQkqHQNABxHpx3ZH1g8TmVLkhNn83kiBh0r6vNsZg0p7VnSqp6xsHEhPywM_VXO0YInzhZaODVuqXBZdEggew9LtckK6pla_R5L6m0eCev8yGdBR0VzYETcsgNzja7PqcXJjpNGgfiL0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSKOx1mMUD7FgB5PRcakGjDOy92sTAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEBhZ_brTJ7KAQ4lBWea8HVPnkvuSRNGRhXDVtRV19q0zQv2ak-8lCN57rJyBzH2kOPsqBrdNFKJLxiLJvjvjzp_TkFwuZwvIC2_b9ps_BZOfmMwFYTqQkSJXC3DMGhIZwL2A8OzZGYGMYjME3lgZq-gYR8SVRq_WFnwjRt2eiyXOh4n0TMPOvGqvEVwT0js7b2HswdDSRu6hoDLcKabInamcUwOrttC8X0XMVqW6u6SFxIk6_oCdhCqqrBT191fwNmaHJW59Ggz6XKWdrvVma8JaU4qnnh1ZsYFvw_NcARtPC3px447o4Crg2Bu_8OD5g2hXVN6PxPBWiTYuPsLxvY&s=TeVtTMnHmlYUh1l7cVrR-a4KtVG7MgcifFpqeEsj5OiBUL5VscRLGpsou325ZOw7d3HW5S5a7CQrs03CucgNjjMJMuOEM41uvgj3rAf4XUaOhOeeaFEguEsHCXiSsm42AgPDcHVs7zMEg61p55-EM77rsqe0svUHqTCB4p3qaawVLayQYmq_ni9-dX6EvGBckgDteVj247NaTSoq6opTnHzrJnzXOIWRazSxFX8RwApFgcX61iPu87ap8IqXGUvDA5PHGvbP3Zav_juIAfzRqqsYT83k6Gq5t7ToZW2cZgncMiX1ueFV_Ujz3TrLkphTc0j--t5zPCqqD5kmjEZTYQ&h=QucjtkaiLQhLR_YYizJ8W2tlWHiEtnldU9L0vAQJ2Hw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/a4b344f8-8acf-4676-929c-11d2b5e8147e
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 35C3ED15D5C64881A5E634BC3E430C9A Ref B: CO6AA3150218019 Ref C: 2026-01-23T06:50:21Z'
-        status: 200 OK
-        code: 200
-        duration: 483.110853ms
-    - id: 7
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/63a25cc7-a877-42dd-bd97-5ca093cd45a6?api-version=2023-06-01-preview&t=639047477576057278&c=MIIHhzCCBm-gAwIBAgITfAoAfUk8to19sVowDAAACgB9STANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjYwMTEzMDU1NjE4WhcNMjYwNTI0MjI1NzAzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJdGew_5xWQaZA3BQY3wqDj8HpM0_uhOvrEnzzNve5sjF7Q4IAL4latcsttipgLDUr_EONtuse-ttrbe8kcqbUUHZmK2gL5crqy_lcosFlGo6vG8la8jCJtXQwJV1l-HuXf7_gON0YdwmfAiibYlcBH7YgaM7i7NlgjgdDeH0UzrfAVlQ_phJbv9IkRAJZz35l-Ba5dmaDZwQkqHQNABxHpx3ZH1g8TmVLkhNn83kiBh0r6vNsZg0p7VnSqp6xsHEhPywM_VXO0YInzhZaODVuqXBZdEggew9LtckK6pla_R5L6m0eCev8yGdBR0VzYETcsgNzja7PqcXJjpNGgfiL0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSKOx1mMUD7FgB5PRcakGjDOy92sTAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEBhZ_brTJ7KAQ4lBWea8HVPnkvuSRNGRhXDVtRV19q0zQv2ak-8lCN57rJyBzH2kOPsqBrdNFKJLxiLJvjvjzp_TkFwuZwvIC2_b9ps_BZOfmMwFYTqQkSJXC3DMGhIZwL2A8OzZGYGMYjME3lgZq-gYR8SVRq_WFnwjRt2eiyXOh4n0TMPOvGqvEVwT0js7b2HswdDSRu6hoDLcKabInamcUwOrttC8X0XMVqW6u6SFxIk6_oCdhCqqrBT191fwNmaHJW59Ggz6XKWdrvVma8JaU4qnnh1ZsYFvw_NcARtPC3px447o4Crg2Bu_8OD5g2hXVN6PxPBWiTYuPsLxvY&s=TeVtTMnHmlYUh1l7cVrR-a4KtVG7MgcifFpqeEsj5OiBUL5VscRLGpsou325ZOw7d3HW5S5a7CQrs03CucgNjjMJMuOEM41uvgj3rAf4XUaOhOeeaFEguEsHCXiSsm42AgPDcHVs7zMEg61p55-EM77rsqe0svUHqTCB4p3qaawVLayQYmq_ni9-dX6EvGBckgDteVj247NaTSoq6opTnHzrJnzXOIWRazSxFX8RwApFgcX61iPu87ap8IqXGUvDA5PHGvbP3Zav_juIAfzRqqsYT83k6Gq5t7ToZW2cZgncMiX1ueFV_Ujz3TrLkphTc0j--t5zPCqqD5kmjEZTYQ&h=QucjtkaiLQhLR_YYizJ8W2tlWHiEtnldU9L0vAQJ2Hw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westcentralus/8e50ec4d-11da-4aba-8bb5-63b1066f4151
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 447AEC6854994D318E18AD01CC9BEAA6 Ref B: CO6AA3150218019 Ref C: 2026-01-23T06:51:22Z'
-        status: 200 OK
-        code: 200
-        duration: 470.198509ms
-    - id: 8
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "4"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/63a25cc7-a877-42dd-bd97-5ca093cd45a6?api-version=2023-06-01-preview&t=639047477576057278&c=MIIHhzCCBm-gAwIBAgITfAoAfUk8to19sVowDAAACgB9STANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjYwMTEzMDU1NjE4WhcNMjYwNTI0MjI1NzAzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJdGew_5xWQaZA3BQY3wqDj8HpM0_uhOvrEnzzNve5sjF7Q4IAL4latcsttipgLDUr_EONtuse-ttrbe8kcqbUUHZmK2gL5crqy_lcosFlGo6vG8la8jCJtXQwJV1l-HuXf7_gON0YdwmfAiibYlcBH7YgaM7i7NlgjgdDeH0UzrfAVlQ_phJbv9IkRAJZz35l-Ba5dmaDZwQkqHQNABxHpx3ZH1g8TmVLkhNn83kiBh0r6vNsZg0p7VnSqp6xsHEhPywM_VXO0YInzhZaODVuqXBZdEggew9LtckK6pla_R5L6m0eCev8yGdBR0VzYETcsgNzja7PqcXJjpNGgfiL0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSKOx1mMUD7FgB5PRcakGjDOy92sTAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEBhZ_brTJ7KAQ4lBWea8HVPnkvuSRNGRhXDVtRV19q0zQv2ak-8lCN57rJyBzH2kOPsqBrdNFKJLxiLJvjvjzp_TkFwuZwvIC2_b9ps_BZOfmMwFYTqQkSJXC3DMGhIZwL2A8OzZGYGMYjME3lgZq-gYR8SVRq_WFnwjRt2eiyXOh4n0TMPOvGqvEVwT0js7b2HswdDSRu6hoDLcKabInamcUwOrttC8X0XMVqW6u6SFxIk6_oCdhCqqrBT191fwNmaHJW59Ggz6XKWdrvVma8JaU4qnnh1ZsYFvw_NcARtPC3px447o4Crg2Bu_8OD5g2hXVN6PxPBWiTYuPsLxvY&s=TeVtTMnHmlYUh1l7cVrR-a4KtVG7MgcifFpqeEsj5OiBUL5VscRLGpsou325ZOw7d3HW5S5a7CQrs03CucgNjjMJMuOEM41uvgj3rAf4XUaOhOeeaFEguEsHCXiSsm42AgPDcHVs7zMEg61p55-EM77rsqe0svUHqTCB4p3qaawVLayQYmq_ni9-dX6EvGBckgDteVj247NaTSoq6opTnHzrJnzXOIWRazSxFX8RwApFgcX61iPu87ap8IqXGUvDA5PHGvbP3Zav_juIAfzRqqsYT83k6Gq5t7ToZW2cZgncMiX1ueFV_Ujz3TrLkphTc0j--t5zPCqqD5kmjEZTYQ&h=QucjtkaiLQhLR_YYizJ8W2tlWHiEtnldU9L0vAQJ2Hw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus/1a56c654-3509-487e-b684-0a4402e46916
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: F8800D72A8164FDABC9DA1B199598119 Ref B: CO6AA3150218019 Ref C: 2026-01-23T06:52:23Z'
-        status: 200 OK
-        code: 200
-        duration: 606.861892ms
-    - id: 9
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "5"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/63a25cc7-a877-42dd-bd97-5ca093cd45a6?api-version=2023-06-01-preview&t=639047477576057278&c=MIIHhzCCBm-gAwIBAgITfAoAfUk8to19sVowDAAACgB9STANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjYwMTEzMDU1NjE4WhcNMjYwNTI0MjI1NzAzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJdGew_5xWQaZA3BQY3wqDj8HpM0_uhOvrEnzzNve5sjF7Q4IAL4latcsttipgLDUr_EONtuse-ttrbe8kcqbUUHZmK2gL5crqy_lcosFlGo6vG8la8jCJtXQwJV1l-HuXf7_gON0YdwmfAiibYlcBH7YgaM7i7NlgjgdDeH0UzrfAVlQ_phJbv9IkRAJZz35l-Ba5dmaDZwQkqHQNABxHpx3ZH1g8TmVLkhNn83kiBh0r6vNsZg0p7VnSqp6xsHEhPywM_VXO0YInzhZaODVuqXBZdEggew9LtckK6pla_R5L6m0eCev8yGdBR0VzYETcsgNzja7PqcXJjpNGgfiL0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSKOx1mMUD7FgB5PRcakGjDOy92sTAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEBhZ_brTJ7KAQ4lBWea8HVPnkvuSRNGRhXDVtRV19q0zQv2ak-8lCN57rJyBzH2kOPsqBrdNFKJLxiLJvjvjzp_TkFwuZwvIC2_b9ps_BZOfmMwFYTqQkSJXC3DMGhIZwL2A8OzZGYGMYjME3lgZq-gYR8SVRq_WFnwjRt2eiyXOh4n0TMPOvGqvEVwT0js7b2HswdDSRu6hoDLcKabInamcUwOrttC8X0XMVqW6u6SFxIk6_oCdhCqqrBT191fwNmaHJW59Ggz6XKWdrvVma8JaU4qnnh1ZsYFvw_NcARtPC3px447o4Crg2Bu_8OD5g2hXVN6PxPBWiTYuPsLxvY&s=TeVtTMnHmlYUh1l7cVrR-a4KtVG7MgcifFpqeEsj5OiBUL5VscRLGpsou325ZOw7d3HW5S5a7CQrs03CucgNjjMJMuOEM41uvgj3rAf4XUaOhOeeaFEguEsHCXiSsm42AgPDcHVs7zMEg61p55-EM77rsqe0svUHqTCB4p3qaawVLayQYmq_ni9-dX6EvGBckgDteVj247NaTSoq6opTnHzrJnzXOIWRazSxFX8RwApFgcX61iPu87ap8IqXGUvDA5PHGvbP3Zav_juIAfzRqqsYT83k6Gq5t7ToZW2cZgncMiX1ueFV_Ujz3TrLkphTc0j--t5zPCqqD5kmjEZTYQ&h=QucjtkaiLQhLR_YYizJ8W2tlWHiEtnldU9L0vAQJ2Hw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus/dd10600b-9302-4f2e-b85f-c9b35eae4211
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 7C1375B7A370427FA2CD95745405B128 Ref B: CO6AA3150218019 Ref C: 2026-01-23T06:53:24Z'
-        status: 200 OK
-        code: 200
-        duration: 560.479979ms
-    - id: 10
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "6"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/uksouth/azureAsyncOperation/63a25cc7-a877-42dd-bd97-5ca093cd45a6?api-version=2023-06-01-preview&t=639047477576057278&c=MIIHhzCCBm-gAwIBAgITfAoAfUk8to19sVowDAAACgB9STANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjYwMTEzMDU1NjE4WhcNMjYwNTI0MjI1NzAzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJdGew_5xWQaZA3BQY3wqDj8HpM0_uhOvrEnzzNve5sjF7Q4IAL4latcsttipgLDUr_EONtuse-ttrbe8kcqbUUHZmK2gL5crqy_lcosFlGo6vG8la8jCJtXQwJV1l-HuXf7_gON0YdwmfAiibYlcBH7YgaM7i7NlgjgdDeH0UzrfAVlQ_phJbv9IkRAJZz35l-Ba5dmaDZwQkqHQNABxHpx3ZH1g8TmVLkhNn83kiBh0r6vNsZg0p7VnSqp6xsHEhPywM_VXO0YInzhZaODVuqXBZdEggew9LtckK6pla_R5L6m0eCev8yGdBR0VzYETcsgNzja7PqcXJjpNGgfiL0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSKOx1mMUD7FgB5PRcakGjDOy92sTAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEBhZ_brTJ7KAQ4lBWea8HVPnkvuSRNGRhXDVtRV19q0zQv2ak-8lCN57rJyBzH2kOPsqBrdNFKJLxiLJvjvjzp_TkFwuZwvIC2_b9ps_BZOfmMwFYTqQkSJXC3DMGhIZwL2A8OzZGYGMYjME3lgZq-gYR8SVRq_WFnwjRt2eiyXOh4n0TMPOvGqvEVwT0js7b2HswdDSRu6hoDLcKabInamcUwOrttC8X0XMVqW6u6SFxIk6_oCdhCqqrBT191fwNmaHJW59Ggz6XKWdrvVma8JaU4qnnh1ZsYFvw_NcARtPC3px447o4Crg2Bu_8OD5g2hXVN6PxPBWiTYuPsLxvY&s=TeVtTMnHmlYUh1l7cVrR-a4KtVG7MgcifFpqeEsj5OiBUL5VscRLGpsou325ZOw7d3HW5S5a7CQrs03CucgNjjMJMuOEM41uvgj3rAf4XUaOhOeeaFEguEsHCXiSsm42AgPDcHVs7zMEg61p55-EM77rsqe0svUHqTCB4p3qaawVLayQYmq_ni9-dX6EvGBckgDteVj247NaTSoq6opTnHzrJnzXOIWRazSxFX8RwApFgcX61iPu87ap8IqXGUvDA5PHGvbP3Zav_juIAfzRqqsYT83k6Gq5t7ToZW2cZgncMiX1ueFV_Ujz3TrLkphTc0j--t5zPCqqD5kmjEZTYQ&h=QucjtkaiLQhLR_YYizJ8W2tlWHiEtnldU9L0vAQJ2Hw
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 108
-        uncompressed: false
-        body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "108"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "60"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/a97f0195-4de4-448e-9dfc-951ea942cbd4
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: B3FAFA82BB6F49578F46E17AC39B4D47 Ref B: CO6AA3150218019 Ref C: 2026-01-23T06:54:25Z'
-        status: 200 OK
-        code: 200
-        duration: 539.213513ms
-    - id: 11
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "7"
@@ -636,10 +303,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"63a25cc7-a877-42dd-bd97-5ca093cd45a6","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -669,19 +333,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 514.882834ms
-    - id: 12
+    - id: 7
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -691,10 +349,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1185
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -720,19 +375,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 262.290627ms
-    - id: 13
+    - id: 8
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -744,10 +393,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1185
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -773,19 +419,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 258.044532ms
-    - id: 14
+    - id: 9
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -797,10 +437,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1185
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -826,19 +463,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 267.172434ms
-    - id: 15
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 314
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-hhlzuo","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -854,10 +486,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -891,19 +520,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 558.192162ms
-    - id: 16
+    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -913,10 +536,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"a03931ce-d135-44b4-8a34-468e65da9b0e","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -946,19 +566,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 463.642353ms
-    - id: 17
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -968,10 +582,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"a03931ce-d135-44b4-8a34-468e65da9b0e","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1001,19 +612,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 712.2634ms
-    - id: 18
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -1023,10 +628,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1184
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1052,19 +654,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 242.767894ms
-    - id: 19
+    - id: 14
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1076,10 +672,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1184
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1105,19 +698,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 262.581263ms
-    - id: 20
+    - id: 15
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1129,10 +716,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1184
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1158,19 +742,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 271.420946ms
-    - id: 21
+    - id: 16
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 314
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"uksouth","name":"asotest-postgresql-hhlzuo","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"16"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1186,10 +765,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 88
-        uncompressed: false
         body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1223,19 +799,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 720.626167ms
-    - id: 22
+    - id: 17
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1245,10 +815,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"582471c4-c51c-41cf-849a-172247908798","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1278,19 +845,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 593.001586ms
-    - id: 23
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1300,10 +861,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"582471c4-c51c-41cf-849a-172247908798","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1333,19 +891,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 522.087321ms
-    - id: 24
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "7"
@@ -1355,10 +907,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1242
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2026-01-23T06:58:19.0273355+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1384,19 +933,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 250.625688ms
-    - id: 25
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1408,10 +951,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1242
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2026-01-23T06:58:19.0273355+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1437,19 +977,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 246.463759ms
-    - id: 26
+    - id: 21
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1461,10 +995,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1242
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2026-01-23T06:58:19.0273355+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -1490,19 +1021,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 237.59533ms
-    - id: 27
+    - id: 22
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1514,10 +1039,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 179
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of type ''Microsoft.DBforPostgreSQL/flexibleServers/databases'' with name ''asotest-db-tlcwhm'' was not found."}}'
         headers:
             Cache-Control:
@@ -1545,19 +1067,14 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 547.385295ms
-    - id: 28
+    - id: 23
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 60
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-db-tlcwhm","properties":{"charset":"utf8"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1573,10 +1090,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 94
-        uncompressed: false
         body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1610,19 +1124,14 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 284.105134ms
-    - id: 29
+    - id: 24
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 77
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1638,10 +1147,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 100
-        uncompressed: false
         body: '{"operation":"UpdateOrcasServerParameterManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1675,19 +1181,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 325.730023ms
-    - id: 30
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1697,10 +1197,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"beab2f69-2112-4b3d-8eff-8de52e99986f","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1730,19 +1227,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 498.170901ms
-    - id: 31
+    - id: 26
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1752,10 +1243,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 344
-        uncompressed: false
         body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo/databases/asotest-db-tlcwhm","name":"asotest-db-tlcwhm","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
         headers:
             Cache-Control:
@@ -1783,19 +1271,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 477.234176ms
-    - id: 32
+    - id: 27
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -1805,10 +1287,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 108
-        uncompressed: false
         body: '{"name":"b1830583-a933-4751-859f-421f37888c14","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -1838,19 +1317,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 436.576481ms
-    - id: 33
+    - id: 28
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1862,10 +1335,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 344
-        uncompressed: false
         body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo/databases/asotest-db-tlcwhm","name":"asotest-db-tlcwhm","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
         headers:
             Cache-Control:
@@ -1893,19 +1363,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 480.544756ms
-    - id: 34
+    - id: 29
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1917,10 +1381,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 92
-        uncompressed: false
         body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -1954,19 +1415,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 345.203281ms
-    - id: 35
+    - id: 30
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -1976,10 +1431,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"b1830583-a933-4751-859f-421f37888c14","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2009,19 +1461,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 426.465705ms
-    - id: 36
+    - id: 31
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2031,10 +1477,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 687
-        uncompressed: false
         body: '{"properties":{"value":"READ","description":"Specifies which classes of statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
         headers:
             Cache-Control:
@@ -2062,19 +1505,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 432.107942ms
-    - id: 37
+    - id: 32
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2086,10 +1523,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 687
-        uncompressed: false
         body: '{"properties":{"value":"READ","description":"Specifies which classes of statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
         headers:
             Cache-Control:
@@ -2117,19 +1551,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 518.284433ms
-    - id: 38
+    - id: 33
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2139,10 +1567,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"36a62ae6-5acf-4845-a056-5d3eff9c4c6b","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2172,19 +1597,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 432.63932ms
-    - id: 39
+    - id: 34
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2196,10 +1615,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 1242
-        uncompressed: false
         body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"replica":{"role":"Primary","capacity":5},"storage":{"type":"","iops":500,"tier":"P10","storageSizeGB":128,"autoGrow":"Disabled"},"network":{"publicNetworkAccess":"Enabled"},"privateEndpointConnections":[],"dataEncryption":{"type":"SystemManaged"},"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"fullyQualifiedDomainName":"asotest-postgresql-hhlzuo.postgres.database.azure.com","version":"16","minorVersion":"11","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2026-01-23T06:58:19.0273355+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"UK South","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo","name":"asotest-postgresql-hhlzuo","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
         headers:
             Cache-Control:
@@ -2225,19 +1641,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 235.296463ms
-    - id: 40
+    - id: 35
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2249,10 +1659,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 173
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of type ''Microsoft.DBforPostgreSQL/flexibleServers'' with name ''asotest-fwrule-ynocke'' was not found."}}'
         headers:
             Cache-Control:
@@ -2280,19 +1687,14 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 200.272288ms
-    - id: 41
+    - id: 36
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 99
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-fwrule-ynocke","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2308,10 +1710,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 99
-        uncompressed: false
         body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2345,19 +1744,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 576.908238ms
-    - id: 42
+    - id: 37
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2367,10 +1760,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"96b9d34f-28c4-4b36-891b-ce2ef3db5f41","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2400,19 +1790,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 519.560417ms
-    - id: 43
+    - id: 38
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2422,10 +1806,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 370
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo/firewallRules/asotest-fwrule-ynocke","name":"asotest-fwrule-ynocke","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -2453,19 +1834,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 181.680512ms
-    - id: 44
+    - id: 39
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2477,10 +1852,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 370
-        uncompressed: false
         body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vlodao/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo/firewallRules/asotest-fwrule-ynocke","name":"asotest-fwrule-ynocke","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
         headers:
             Cache-Control:
@@ -2508,19 +1880,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 217.392667ms
-    - id: 45
+    - id: 40
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2532,10 +1898,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 96
-        uncompressed: false
         body: '{"operation":"DropServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2569,19 +1932,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 288.659455ms
-    - id: 46
+    - id: 41
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2591,10 +1948,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"e1775acb-3ed8-493a-a728-91b68fc6e7fa","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2624,19 +1978,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 432.319354ms
-    - id: 47
+    - id: 42
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2648,10 +1996,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 83
-        uncompressed: false
         body: '{"operation":"DropServerManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Azure-Asyncoperation:
@@ -2685,19 +2030,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 308.236975ms
-    - id: 48
+    - id: 43
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2707,10 +2046,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"d12b36c3-f00d-4da1-8c6c-7e20ef3c8e1f","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2740,19 +2076,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 556.608832ms
-    - id: 49
+    - id: 44
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2762,10 +2092,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 107
-        uncompressed: false
         body: '{"name":"d12b36c3-f00d-4da1-8c6c-7e20ef3c8e1f","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2795,74 +2122,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 499.540979ms
-    - id: 50
+    - id: 45
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/UK%20South/azureAsyncOperation/d12b36c3-f00d-4da1-8c6c-7e20ef3c8e1f?api-version=2023-06-01-preview&t=639047484716604140&c=MIIHhzCCBm-gAwIBAgITfAoAfUk8to19sVowDAAACgB9STANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjYwMTEzMDU1NjE4WhcNMjYwNTI0MjI1NzAzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJdGew_5xWQaZA3BQY3wqDj8HpM0_uhOvrEnzzNve5sjF7Q4IAL4latcsttipgLDUr_EONtuse-ttrbe8kcqbUUHZmK2gL5crqy_lcosFlGo6vG8la8jCJtXQwJV1l-HuXf7_gON0YdwmfAiibYlcBH7YgaM7i7NlgjgdDeH0UzrfAVlQ_phJbv9IkRAJZz35l-Ba5dmaDZwQkqHQNABxHpx3ZH1g8TmVLkhNn83kiBh0r6vNsZg0p7VnSqp6xsHEhPywM_VXO0YInzhZaODVuqXBZdEggew9LtckK6pla_R5L6m0eCev8yGdBR0VzYETcsgNzja7PqcXJjpNGgfiL0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSKOx1mMUD7FgB5PRcakGjDOy92sTAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEBhZ_brTJ7KAQ4lBWea8HVPnkvuSRNGRhXDVtRV19q0zQv2ak-8lCN57rJyBzH2kOPsqBrdNFKJLxiLJvjvjzp_TkFwuZwvIC2_b9ps_BZOfmMwFYTqQkSJXC3DMGhIZwL2A8OzZGYGMYjME3lgZq-gYR8SVRq_WFnwjRt2eiyXOh4n0TMPOvGqvEVwT0js7b2HswdDSRu6hoDLcKabInamcUwOrttC8X0XMVqW6u6SFxIk6_oCdhCqqrBT191fwNmaHJW59Ggz6XKWdrvVma8JaU4qnnh1ZsYFvw_NcARtPC3px447o4Crg2Bu_8OD5g2hXVN6PxPBWiTYuPsLxvY&s=FW6DyRy5g_ugo3uj27GtUkaGn7GH0eHJMyHKPEHC2-5QxTl3v3RW_n5TnYvOfRCw1_TAk71kJEsUIilwcNC5az_O-DP1zivTBQloeCXcneDss8lf8sOD1znJvzid0uJRupSkxoPHdp_iBnwi7X2KvwSDm_zFR1_pGHzHNk2HlX4rJpmxh7oofgtMH_XNNbVWCSWJdlnpZw3X2eZ-FyU1_5eQRLdYlhk49p5z0DpwEfgVvEZo8mfUTql5HuqvLP_FJGppBkOSZ6zY0CGMF4Vtj2wdjI1olOCqvRhvK2CjrVEDGZbsAbszBI0hmjvt6NXn8NC0VuQrVWkPvka5fepUdg&h=lFOWoAK040PDEwbeoRCcBPeGeo6DlpPuqWXz7OkUFDs
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 107
-        uncompressed: false
-        body: '{"name":"d12b36c3-f00d-4da1-8c6c-7e20ef3c8e1f","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "107"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Retry-After:
-                - "15"
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Operation-Identifier:
-                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westcentralus/ce7536b1-ef49-4a38-9b9b-b60f7a5489ec
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 12DBE6C3F97A45E2825EFEDBF5DE26C6 Ref B: CO6AA3150218019 Ref C: 2026-01-23T07:01:59Z'
-        status: 200 OK
-        code: 200
-        duration: 454.839436ms
-    - id: 51
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "3"
@@ -2872,10 +2138,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 106
-        uncompressed: false
         body: '{"name":"d12b36c3-f00d-4da1-8c6c-7e20ef3c8e1f","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
         headers:
             Cache-Control:
@@ -2905,19 +2168,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 440.127073ms
-    - id: 52
+    - id: 46
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2929,10 +2186,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 256
-        uncompressed: false
         body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-hhlzuo'' under resource group ''asotest-rg-vlodao'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
         headers:
             Cache-Control:
@@ -2958,19 +2212,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 154.440304ms
-    - id: 53
+    - id: 47
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2982,10 +2230,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -3013,19 +2258,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 271.868918ms
-    - id: 54
+    - id: 48
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -3035,10 +2274,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
