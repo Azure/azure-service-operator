@@ -1,0 +1,11 @@
+apiVersion: insights.azure.com/v1api20230101
+kind: ActionGroup
+metadata:
+  name: aso-sample-group
+  namespace: default
+spec:
+  enabled: false
+  groupShortName: ag
+  location: global
+  owner:
+    name: aso-sample-rg
