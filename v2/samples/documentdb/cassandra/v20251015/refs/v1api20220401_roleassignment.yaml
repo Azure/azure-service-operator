@@ -1,0 +1,17 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: cassandra-assignment
+  namespace: default
+spec:
+  owner:
+    name: cassandra-vnet
+    group: network.azure.com
+    kind: VirtualNetwork
+  # This is the Principal ID of the AAD identity to which the role will be assigned
+  # See https://learn.microsoft.com/en-us/azure/managed-instance-apache-cassandra/create-cluster-cli#troubleshooting
+  principalId: a232010e-820c-4083-83bb-3ace5fc29d0b
+  principalType: ServicePrincipal
+  roleDefinitionReference:
+    # ASO allows you to specify global roles by name instead of the published GUID. Lookup is case insensitive.
+    wellKnownName: Network Contributor
