@@ -3,8 +3,8 @@
 # package-helm-manifest.sh script is used to copy the generated files by kustomize and package the helm chart.
 # The generated files are updated when a new resource is added. To eliminate the manual process of updating generated files, we use this script for automation.
 # Generated files include below files:
-# - admissionregistration.k8s.io_v1_mutatingwebhookconfiguration_azureserviceoperator-mutating-webhook-configuration.yaml
-# - admissionregistration.k8s.io_v1_validatingwebhookconfiguration_azureserviceoperator-validating-webhook-configuration.yaml
+# - admissionregistration.k8s.io_v1_mutatingwebhookconfiguration_azureserviceoperator-<group>-mwh.yaml (one per API group)
+# - admissionregistration.k8s.io_v1_validatingwebhookconfiguration_azureserviceoperator-<group>-vwh.yaml (one per API group)
 # - rbac.authorization.k8s.io_v1_clusterrole_azureserviceoperator-manager-role.yaml
 
 # Above files are always updated when a new resource is added
@@ -54,8 +54,8 @@ echo "Making sed replacements and copying generated yamls"
 for file in $(find "$TEMP_DIR" -type f)
 do
   # Append cluster or tenant guards to each file
-  if [[ $file == *"mutating-webhook-configuration"* ]] ||
-     [[ $file == *"validating-webhook-configuration"* ]] ||
+  if [[ $file == *"_mutatingwebhookconfiguration_"* ]] ||
+     [[ $file == *"_validatingwebhookconfiguration_"* ]] ||
      [[ $file == *"azureserviceoperator-manager-role.yaml" ]] ; then
         sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
         sed -i 's/azureserviceoperator-system/{{ .Release.Namespace }}/g' "$file"
