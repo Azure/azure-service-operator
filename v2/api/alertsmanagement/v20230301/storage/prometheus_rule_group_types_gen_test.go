@@ -5,7 +5,6 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,48 +16,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func Test_PrometheusRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRule to PrometheusRule via AssignProperties_To_PrometheusRule & AssignProperties_From_PrometheusRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRule, PrometheusRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRule tests if a specific instance of PrometheusRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRule(subject PrometheusRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRule
-	err := copied.AssignProperties_To_PrometheusRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRule
-	err = actual.AssignProperties_From_PrometheusRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
 
 func Test_PrometheusRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -146,91 +103,6 @@ func AddRelatedPropertyGeneratorsForPrometheusRule(gens map[string]gopter.Gen) {
 	gens["ResolveConfiguration"] = gen.PtrOf(PrometheusRuleResolveConfigurationGenerator())
 }
 
-func Test_PrometheusRuleGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroup to hub returns original",
-		prop.ForAll(RunResourceConversionTestForPrometheusRuleGroup, PrometheusRuleGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForPrometheusRuleGroup tests if a specific instance of PrometheusRuleGroup round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForPrometheusRuleGroup(subject PrometheusRuleGroup) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.PrometheusRuleGroup
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual PrometheusRuleGroup
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrometheusRuleGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroup to PrometheusRuleGroup via AssignProperties_To_PrometheusRuleGroup & AssignProperties_From_PrometheusRuleGroup returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleGroup, PrometheusRuleGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleGroup tests if a specific instance of PrometheusRuleGroup can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleGroup(subject PrometheusRuleGroup) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroup
-	err := copied.AssignProperties_To_PrometheusRuleGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleGroup
-	err = actual.AssignProperties_From_PrometheusRuleGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_PrometheusRuleGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -291,48 +163,6 @@ func PrometheusRuleGroupGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForPrometheusRuleGroup(gens map[string]gopter.Gen) {
 	gens["Spec"] = PrometheusRuleGroup_SpecGenerator()
 	gens["Status"] = PrometheusRuleGroup_STATUSGenerator()
-}
-
-func Test_PrometheusRuleGroupAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroupAction to PrometheusRuleGroupAction via AssignProperties_To_PrometheusRuleGroupAction & AssignProperties_From_PrometheusRuleGroupAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleGroupAction, PrometheusRuleGroupActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleGroupAction tests if a specific instance of PrometheusRuleGroupAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleGroupAction(subject PrometheusRuleGroupAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroupAction
-	err := copied.AssignProperties_To_PrometheusRuleGroupAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleGroupAction
-	err = actual.AssignProperties_From_PrometheusRuleGroupAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_PrometheusRuleGroupAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -396,48 +226,6 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction(gens map[strin
 	gens["ActionProperties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-}
-
-func Test_PrometheusRuleGroupAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroupAction_STATUS to PrometheusRuleGroupAction_STATUS via AssignProperties_To_PrometheusRuleGroupAction_STATUS & AssignProperties_From_PrometheusRuleGroupAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleGroupAction_STATUS, PrometheusRuleGroupAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleGroupAction_STATUS tests if a specific instance of PrometheusRuleGroupAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleGroupAction_STATUS(subject PrometheusRuleGroupAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroupAction_STATUS
-	err := copied.AssignProperties_To_PrometheusRuleGroupAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleGroupAction_STATUS
-	err = actual.AssignProperties_From_PrometheusRuleGroupAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_PrometheusRuleGroupAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -504,48 +292,6 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS(gens ma
 		gen.AlphaString())
 }
 
-func Test_PrometheusRuleGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroupOperatorSpec to PrometheusRuleGroupOperatorSpec via AssignProperties_To_PrometheusRuleGroupOperatorSpec & AssignProperties_From_PrometheusRuleGroupOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleGroupOperatorSpec, PrometheusRuleGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleGroupOperatorSpec tests if a specific instance of PrometheusRuleGroupOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleGroupOperatorSpec(subject PrometheusRuleGroupOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroupOperatorSpec
-	err := copied.AssignProperties_To_PrometheusRuleGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleGroupOperatorSpec
-	err = actual.AssignProperties_From_PrometheusRuleGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_PrometheusRuleGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -599,48 +345,6 @@ func PrometheusRuleGroupOperatorSpecGenerator() gopter.Gen {
 	prometheusRuleGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroupOperatorSpec{}), generators)
 
 	return prometheusRuleGroupOperatorSpecGenerator
-}
-
-func Test_PrometheusRuleGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroup_STATUS to PrometheusRuleGroup_STATUS via AssignProperties_To_PrometheusRuleGroup_STATUS & AssignProperties_From_PrometheusRuleGroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleGroup_STATUS, PrometheusRuleGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleGroup_STATUS tests if a specific instance of PrometheusRuleGroup_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleGroup_STATUS(subject PrometheusRuleGroup_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroup_STATUS
-	err := copied.AssignProperties_To_PrometheusRuleGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleGroup_STATUS
-	err = actual.AssignProperties_From_PrometheusRuleGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_PrometheusRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -730,48 +434,6 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS(gens map[string]g
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_PrometheusRuleGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleGroup_Spec to PrometheusRuleGroup_Spec via AssignProperties_To_PrometheusRuleGroup_Spec & AssignProperties_From_PrometheusRuleGroup_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleGroup_Spec, PrometheusRuleGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleGroup_Spec tests if a specific instance of PrometheusRuleGroup_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleGroup_Spec(subject PrometheusRuleGroup_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroup_Spec
-	err := copied.AssignProperties_To_PrometheusRuleGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleGroup_Spec
-	err = actual.AssignProperties_From_PrometheusRuleGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_PrometheusRuleGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -857,48 +519,6 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec(gens map[string]gop
 	gens["Rules"] = gen.SliceOf(PrometheusRuleGenerator())
 }
 
-func Test_PrometheusRuleResolveConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleResolveConfiguration to PrometheusRuleResolveConfiguration via AssignProperties_To_PrometheusRuleResolveConfiguration & AssignProperties_From_PrometheusRuleResolveConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration, PrometheusRuleResolveConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration tests if a specific instance of PrometheusRuleResolveConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration(subject PrometheusRuleResolveConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleResolveConfiguration
-	err := copied.AssignProperties_To_PrometheusRuleResolveConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleResolveConfiguration
-	err = actual.AssignProperties_From_PrometheusRuleResolveConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_PrometheusRuleResolveConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -961,48 +581,6 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration(gens 
 	gens["TimeToResolve"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_PrometheusRuleResolveConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRuleResolveConfiguration_STATUS to PrometheusRuleResolveConfiguration_STATUS via AssignProperties_To_PrometheusRuleResolveConfiguration_STATUS & AssignProperties_From_PrometheusRuleResolveConfiguration_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration_STATUS, PrometheusRuleResolveConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration_STATUS tests if a specific instance of PrometheusRuleResolveConfiguration_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration_STATUS(subject PrometheusRuleResolveConfiguration_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleResolveConfiguration_STATUS
-	err := copied.AssignProperties_To_PrometheusRuleResolveConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRuleResolveConfiguration_STATUS
-	err = actual.AssignProperties_From_PrometheusRuleResolveConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_PrometheusRuleResolveConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1063,48 +641,6 @@ func PrometheusRuleResolveConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["AutoResolved"] = gen.PtrOf(gen.Bool())
 	gens["TimeToResolve"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrometheusRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrometheusRule_STATUS to PrometheusRule_STATUS via AssignProperties_To_PrometheusRule_STATUS & AssignProperties_From_PrometheusRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrometheusRule_STATUS, PrometheusRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrometheusRule_STATUS tests if a specific instance of PrometheusRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrometheusRule_STATUS(subject PrometheusRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRule_STATUS
-	err := copied.AssignProperties_To_PrometheusRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrometheusRule_STATUS
-	err = actual.AssignProperties_From_PrometheusRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_PrometheusRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1192,48 +728,6 @@ func AddIndependentPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]go
 func AddRelatedPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.SliceOf(PrometheusRuleGroupAction_STATUSGenerator())
 	gens["ResolveConfiguration"] = gen.PtrOf(PrometheusRuleResolveConfiguration_STATUSGenerator())
-}
-
-func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
-	err := copied.AssignProperties_To_SystemData_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData_STATUS
-	err = actual.AssignProperties_From_SystemData_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

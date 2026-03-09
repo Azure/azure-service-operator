@@ -5,12 +5,18 @@ package controllers
 
 import (
 	alertsmanagement_customizations "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/customizations"
-	alertsmanagement_v20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
-	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
-	alertsmanagement_v20210401w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/webhook"
-	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
-	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
-	alertsmanagement_v20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/webhook"
+	alertsmanagement_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
+	alertsmanagement_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
+	alertsmanagement_v1api20210401w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/webhook"
+	alertsmanagement_v1api20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
+	alertsmanagement_v1api20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
+	alertsmanagement_v1api20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/webhook"
+	alertsmanagement_v20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401"
+	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401/storage"
+	alertsmanagement_v20210401w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401/webhook"
+	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301"
+	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/storage"
+	alertsmanagement_v20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/webhook"
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
 	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
@@ -2862,6 +2868,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types and their webhooks
 func getKnownTypes() []*registration.KnownType {
 	var result []*registration.KnownType
+	result = append(result, &registration.KnownType{
+		Obj:       new(alertsmanagement_v1api20210401.SmartDetectorAlertRule),
+		Defaulter: &alertsmanagement_v1api20210401w.SmartDetectorAlertRule{},
+		Validator: &alertsmanagement_v1api20210401w.SmartDetectorAlertRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(alertsmanagement_v1api20210401s.SmartDetectorAlertRule)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(alertsmanagement_v1api20230301.PrometheusRuleGroup),
+		Defaulter: &alertsmanagement_v1api20230301w.PrometheusRuleGroup{},
+		Validator: &alertsmanagement_v1api20230301w.PrometheusRuleGroup{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(alertsmanagement_v1api20230301s.PrometheusRuleGroup)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(alertsmanagement_v20210401.SmartDetectorAlertRule),
 		Defaulter: &alertsmanagement_v20210401w.SmartDetectorAlertRule{},
@@ -6177,6 +6195,10 @@ func getKnownTypes() []*registration.KnownType {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20210401.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20210401s.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20230301.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20230301s.AddToScheme(scheme)
 	_ = alertsmanagement_v20210401.AddToScheme(scheme)
 	_ = alertsmanagement_v20210401s.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301.AddToScheme(scheme)
