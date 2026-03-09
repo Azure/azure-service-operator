@@ -136,6 +136,18 @@ func Test_ApiManagement_20240501_CRUD(t *testing.T) {
 				APIM_AuthorizationProviders_Authorizations_AccessPolicy20240501_CRUD(tc, rg, &service, &authorizationProviderSecrets)
 			},
 		},
+		testcommon.Subtest{
+			Name: "APIM Logger CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Logger20240501_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Diagnostic CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Diagnostic20240501_CRUD(tc, &service)
+			},
+		},
 	)
 }
 
@@ -698,3 +710,97 @@ func createAuthorizationProviderSecrets20240501(tc *testcommon.KubePerTestContex
 
 	return secretRef
 }
+
+func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	// Create a secret for logger credentials (Application Insights instrumentation key)
+	loggerSecretName := tc.Namer.GenerateName("logger-creds")
+	loggerSecret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta(loggerSecretName),
+		StringData: map[string]string{
+			"instrumentationKey": tc.Namer.GeneratePasswordOfLength(32),
+		},
+		Type: "Opaque",
+	}
+	tc.CreateResource(loggerSecret)
+
+	// Create logger
+	logger := apim.Logger{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("logger")),
+		Spec: apim.Logger_Spec{
+			AzureName:   "test-logger",
+			Description: to.Ptr("A logger for Application Insights"),
+			LoggerType:  to.Ptr(apim.LoggerContractProperties_LoggerType_ApplicationInsights),
+			Credentials: &genruntime.SecretMapReference{
+				Name: loggerSecretName,
+			},
+			IsBuffered: to.Ptr(true),
+			Owner:      testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim logger")
+	tc.CreateResourceAndWait(&logger)
+	defer tc.DeleteResourceAndWait(&logger)
+
+	tc.Expect(logger.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up logger")
+}
+
+func APIM_Diagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	// First create a logger that the diagnostic will reference
+	loggerSecretName := tc.Namer.GenerateName("logger-creds")
+	loggerSecret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta(loggerSecretName),
+		StringData: map[string]string{
+			"instrumentationKey": tc.Namer.GeneratePasswordOfLength(32),
+		},
+		Type: "Opaque",
+	}
+	tc.CreateResource(loggerSecret)
+
+	logger := apim.Logger{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("logger")),
+		Spec: apim.Logger_Spec{
+			AzureName:   "diagnostic-logger",
+			Description: to.Ptr("Logger for diagnostic"),
+			LoggerType:  to.Ptr(apim.LoggerContractProperties_LoggerType_ApplicationInsights),
+			Credentials: &genruntime.SecretMapReference{
+				Name: loggerSecretName,
+			},
+			IsBuffered: to.Ptr(true),
+			Owner:      testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim logger for diagnostic")
+	tc.CreateResourceAndWait(&logger)
+	defer tc.DeleteResourceAndWait(&logger)
+
+	// Create diagnostic
+	diagnostic := apim.Diagnostic{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("diagnostic")),
+		Spec: apim.Diagnostic_Spec{
+			AzureName:  "applicationinsights",
+			AlwaysLog:  to.Ptr(apim.DiagnosticContractProperties_AlwaysLog_AllErrors),
+			LoggerReference: &genruntime.ResourceReference{
+				ARMID: logger.Status.Id,
+			},
+			LogClientIp:             to.Ptr(true),
+			HttpCorrelationProtocol: to.Ptr(apim.DiagnosticContractProperties_HttpCorrelationProtocol_W3C),
+			Verbosity:               to.Ptr(apim.DiagnosticContractProperties_Verbosity_Information),
+			OperationNameFormat:     to.Ptr(apim.DiagnosticContractProperties_OperationNameFormat_Name),
+			Metrics:                 to.Ptr(true),
+			Owner:                   testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim diagnostic")
+	tc.CreateResourceAndWait(&diagnostic)
+	defer tc.DeleteResourceAndWait(&diagnostic)
+
+	tc.Expect(diagnostic.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up diagnostic")
+}
+

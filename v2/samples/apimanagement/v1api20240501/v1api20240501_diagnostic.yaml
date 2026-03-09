@@ -1,0 +1,44 @@
+apiVersion: apimanagement.azure.com/v1api20240501
+kind: Diagnostic
+metadata:
+  name: samplediagnostic
+  namespace: default
+spec:
+  azureName: "applicationinsights"
+  # AlwaysLog specifies for what type of messages sampling settings should not apply
+  alwaysLog: "allErrors"
+  # LoggerReference points to the logger resource
+  loggerReference:
+    name: samplelogger
+  # Frontend diagnostic settings for incoming/outgoing HTTP messages to the Gateway
+  frontend:
+    request:
+      headers: ["Content-type"]
+      body:
+        bytes: 512
+    response:
+      headers: ["Content-type"]
+      body:
+        bytes: 512
+  # Backend diagnostic settings for incoming/outgoing HTTP messages to the Backend
+  backend:
+    request:
+      headers: ["Content-type"]
+      body:
+        bytes: 512
+    response:
+      headers: ["Content-type"]
+      body:
+        bytes: 512
+  # Log client IP address
+  logClientIp: true
+  # HTTP correlation protocol to use for Application Insights diagnostics
+  httpCorrelationProtocol: "W3C"
+  # Verbosity level for trace policy emitted traces
+  verbosity: "information"
+  # Operation name format for Application Insights telemetries
+  operationNameFormat: "Name"
+  # Emit custom metrics via emit-metric policy (Application Insights only)
+  metrics: true
+  owner:
+    name: sampleapimservice
