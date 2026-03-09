@@ -3066,6 +3066,8 @@ objectModelConfiguration:
       CassandraCluster_Properties_Spec:
         DelegatedManagementSubnetId:
           $referenceType: arm
+        InitialCassandraAdminPassword:
+          $isSecret: true
         RestoreFromBackupId:
           $referenceType: arm
       CassandraClusters_DataCenter:
