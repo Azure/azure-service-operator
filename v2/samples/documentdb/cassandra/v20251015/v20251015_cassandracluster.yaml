@@ -13,7 +13,7 @@ spec:
     delegatedManagementSubnetReference:
       group: network.azure.com
       kind: VirtualNetworksSubnet
-      name: cassandra-subnet
+      name: cassandra-mgmt-subnet
     initialCassandraAdminPassword:
       name: cassandra-admin-secret
       key: password

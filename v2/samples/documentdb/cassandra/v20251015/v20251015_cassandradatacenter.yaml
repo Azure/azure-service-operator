@@ -12,6 +12,6 @@ spec:
     delegatedSubnetReference:
       group: network.azure.com
       kind: VirtualNetworksSubnet
-      name: cassandra-subnet
+      name: cassandra-dc-subnet
     nodeCount: 3
     sku: Standard_DS14_v2

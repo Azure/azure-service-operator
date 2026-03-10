@@ -1,0 +1,18 @@
+# The Azure Cosmos DB service principal must have Network Contributor on the
+# VNet/subnet used by Managed Cassandra. The principalId below is the Object ID
+# of the "Azure Cosmos DB" service principal in YOUR tenant (not the well-known
+# Application ID a232010e-820c-4083-83bb-3ace5fc29d0b).
+#
+# Create this ConfigMap before applying the other resources:
+#
+#   COSMOS_SP_OBJECT_ID=$(az ad sp show --id a232010e-820c-4083-83bb-3ace5fc29d0b --query id -o tsv)
+#   kubectl create configmap cosmosdb-identity --from-literal=principalId=$COSMOS_SP_OBJECT_ID
+#
+# See https://learn.microsoft.com/en-us/azure/managed-instance-apache-cassandra/create-cluster-cli#troubleshooting
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cosmosdb-identity
+  namespace: default
+data:
+  principalId: "" # Replace, or use the kubectl command above
