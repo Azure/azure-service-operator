@@ -121,14 +121,27 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 		}
 	}
 
-	return nil, conditions.NewReadyConditionImpactingError(
-		eris.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
+	var err error
+	if len(shortestDiff) == 0 {
+		// Exact body match found, but not returned by go-vcr - so it was already consumed
+		err = eris.Errorf(
+			"cannot find go-vcr recording for request from test %q (cassette: %q) (request already consumed) %s %s",
+			w.t.Name(),
+			w.cassetteName,
+			req.Method,
+			req.URL.String())
+	} else {
+		err = eris.Errorf(
+			"cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff:\n---\n%s\n---\n",
 			w.t.Name(),
 			w.cassetteName,
 			req.Method,
 			req.URL.String(),
-			shortestDiff),
+			shortestDiff)
+	}
 
+	return nil, conditions.NewReadyConditionImpactingError(
+		err,
 		conditions.ConditionSeverityError,
 		conditions.ReasonReconciliationFailedPermanently)
 }
