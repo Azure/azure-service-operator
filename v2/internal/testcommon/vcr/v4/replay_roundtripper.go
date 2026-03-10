@@ -8,10 +8,12 @@ package v4
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"sync"
 
 	"github.com/go-logr/logr"
