@@ -1,0 +1,15 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: cassandra-mgmt-assignment
+  namespace: default
+spec:
+  owner:
+    name: cassandra-mgmt-subnet
+    group: network.azure.com
+    kind: VirtualNetworksSubnet
+  principalId: a232010e-820c-4083-83bb-3ace5fc29d0b
+  principalType: ServicePrincipal
+  roleDefinitionReference:
+    # ASO allows you to specify global roles by name instead of the published GUID. Lookup is case insensitive.
+    wellKnownName: Network Contributor
