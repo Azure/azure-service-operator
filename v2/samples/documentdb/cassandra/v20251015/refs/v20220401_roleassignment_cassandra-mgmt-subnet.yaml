@@ -3,6 +3,9 @@ kind: RoleAssignment
 metadata:
   name: cassandra-mgmt-assignment
   namespace: default
+  annotations: 
+    # Doesn't need to be directly delected, will naturally be deleted when the subnet is deleted.
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
     name: cassandra-mgmt-subnet
