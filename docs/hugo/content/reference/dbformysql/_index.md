@@ -9,6 +9,23 @@ Azure Database for MySQL - Single Server is on the retirement path and is [sched
 
 Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                     | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                      |
+|------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer               | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserver.yaml)               |
+| FlexibleServer               | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserver.yaml)                             |
+| FlexibleServersAdministrator | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversadministrator.yaml) |
+| FlexibleServersAdministrator | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversadministrator.yaml)               |
+| FlexibleServersConfiguration | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversconfiguration.yaml) |
+| FlexibleServersConfiguration | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversconfiguration.yaml)               |
+| FlexibleServersDatabase      | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversdatabase.yaml)      |
+| FlexibleServersDatabase      | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversdatabase.yaml)                    |
+| FlexibleServersFirewallRule  | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversfirewallrule.yaml)  |
+| FlexibleServersFirewallRule  | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversfirewallrule.yaml)                |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

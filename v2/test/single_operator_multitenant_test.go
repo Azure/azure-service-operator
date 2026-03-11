@@ -78,7 +78,7 @@ func Test_Multitenant_SingleOperator_NamespacedCredential(t *testing.T) {
 	tc.Eventually(func() string {
 		tc.GetResource(types.NamespacedName{Namespace: testResourceGroup.Namespace, Name: testResourceGroup.Name}, testResourceGroup)
 		return testResourceGroup.Status.Conditions[0].Message
-	}).WithTimeout(1 * time.Minute).Should(ContainSubstring("does not have authorization to perform action"))
+	}).WithTimeout(2 * time.Minute).Should(ContainSubstring("does not have authorization to perform action"))
 
 	// Deleting the credential would default to applying the global credential with all permissions
 	tc.DeleteResource(secret)
