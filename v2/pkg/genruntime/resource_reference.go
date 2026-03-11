@@ -342,20 +342,17 @@ func ValidateOwner(obj ARMMetaObject) (admission.Warnings, error) {
 		return nil, nil
 	}
 
-	var warningsResult admission.Warnings
-
 	warnings, err := owner.Validate()
-	warningsResult = append(warningsResult, warnings...)
 	if err != nil {
-		return warningsResult, err
+		return warnings, err
 	}
 
 	err = VerifyResourceOwnerARMID(obj)
 	if err != nil {
-		return warningsResult, err
+		return warnings, err
 	}
 
-	return warningsResult, nil
+	return warnings, nil
 }
 
 // NamespacedResourceReference is a resource reference with namespace information included

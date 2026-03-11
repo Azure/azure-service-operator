@@ -133,7 +133,12 @@ func (report *ResourceVersionsReport) loadFragments() error {
 	}
 
 	fragmentsPath := report.reportConfiguration.FullFragmentPath()
-	err := filepath.WalkDir(
+	root, err := os.OpenRoot(fragmentsPath)
+	if err != nil {
+		return eris.Wrapf(err, "Unable to open fragments directory %q", fragmentsPath)
+	}
+
+	err = filepath.WalkDir(
 		fragmentsPath,
 		func(path string, info fs.DirEntry, err error) error {
 			if err != nil {
@@ -147,7 +152,7 @@ func (report *ResourceVersionsReport) loadFragments() error {
 			}
 
 			// Load the file contents
-			content, err := os.ReadFile(path)
+			content, err := root.ReadFile(path)
 			if err != nil {
 				return eris.Wrapf(err, "Unable to read fragment file %q", info.Name())
 			}
