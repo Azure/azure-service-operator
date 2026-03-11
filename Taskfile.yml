@@ -603,8 +603,6 @@ tasks:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
-    sources:
-      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
   # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
   # tidying will be automatic.
