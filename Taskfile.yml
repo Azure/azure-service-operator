@@ -3,6 +3,9 @@ version: '3.7'
 run: when_changed
 output: prefixed
 
+includes:
+  ci: ./ci/Taskfile.yml
+
 vars:
   PACKAGE: github.com/Azure/azure-service-operator/v2
 
@@ -27,8 +30,7 @@ vars:
   HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
 
-  TEST_OUT:
-    sh: 'realpath reports'
+  TEST_OUT: '{{joinPath .TASKFILE_DIR "reports"}}'
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
