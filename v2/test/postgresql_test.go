@@ -310,6 +310,8 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 
 func Test_PostgreSQL_User(t *testing.T) {
 	t.Parallel()
+	t.Skip("2026-03 Taking too long to run in live mode, timing out after 30 minutes, needs investigation")
+
 	tc := globalTestContext.ForTest(t)
 	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
 	rg := tc.CreateTestResourceGroupAndWait()
