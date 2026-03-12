@@ -138,8 +138,9 @@ func (report *ResourceVersionsReport) loadFragments() error {
 		return eris.Wrapf(err, "Unable to open fragments directory %q", fragmentsPath)
 	}
 
-	err = filepath.WalkDir(
-		fragmentsPath,
+	err = fs.WalkDir(
+		root.FS(),
+		".",
 		func(path string, info fs.DirEntry, err error) error {
 			if err != nil {
 				// Failed to walk into path, abort early and propagate error
