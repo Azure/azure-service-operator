@@ -43,10 +43,22 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingID)
 	}
 
-	// Also redact OpenAI keys
+	// OpenAI keys
 	redactor.AddRegexRedaction(
 		`"(?<key>key\d)":"[A-Za-z0-9]*"`,
 		`"$key":"{KEY}"`,
+	)
+
+	// Redis Enterprise Cache access keys
+	redactor.AddRegexRedaction(
+		`"(?<key>(primary|secondary)Key)":"[A-Za-z0-9=]*"`,
+		`"$key":"{KEY}"`,
+	)
+
+	// SignalR Connection Strings
+	redactor.AddRegexRedaction(
+		`;AccessKey=[A-Za-z0-9=]*;`,
+		`;AccessKey={KEY};`,
 	)
 
 	return redactor

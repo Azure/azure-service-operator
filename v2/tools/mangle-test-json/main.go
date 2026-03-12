@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -72,7 +73,7 @@ func loadJSON(
 	testOutputFile string,
 	log logr.Logger,
 ) map[string][]TestRun {
-	file, err := os.Open(testOutputFile)
+	file, err := os.Open(filepath.Clean(testOutputFile))
 	if err != nil {
 		log.Error(
 			err,
@@ -285,7 +286,6 @@ func escapeOutput(outputs []string) (bool, string) {
 func printSlowTests(byPackage map[string][]TestRun) {
 	fmt.Printf("## Longest-running tests\n\n")
 
-	//nolint:prealloc // prealloc would require iterating over byPackage twice
 	allTests := []TestRun{}
 	for _, v := range byPackage {
 		allTests = append(allTests, v[1:]...)
