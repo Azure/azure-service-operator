@@ -50,8 +50,10 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"alertsmanagement": VersionMigrationModeLegacy,
 	"apimanagement":    VersionMigrationModeLegacy,
 	"app":              VersionMigrationModeLegacy,
-	"appconfiguration": VersionMigrationModeLegacy,
-	"authorization":    VersionMigrationModeLegacy,
+
+	"appconfiguration": VersionMigrationModeHybrid,
+
+	"authorization": VersionMigrationModeLegacy,
 
 	"batch": VersionMigrationModeHybrid,
 

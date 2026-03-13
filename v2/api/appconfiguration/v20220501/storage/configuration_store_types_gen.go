@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/storage"
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -23,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20220501.ConfigurationStore
+// Storage version of v20220501.ConfigurationStore
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2022-05-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
@@ -50,36 +51,22 @@ var _ conversion.Convertible = &ConfigurationStore{}
 
 // ConvertFrom populates our ConfigurationStore from the provided hub ConfigurationStore
 func (store *ConfigurationStore) ConvertFrom(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var source storage.ConfigurationStore
-
-	err := source.ConvertFrom(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from hub to source")
+	source, ok := hub.(*storage.ConfigurationStore)
+	if !ok {
+		return fmt.Errorf("expected appconfiguration/v20240601/storage/ConfigurationStore but received %T instead", hub)
 	}
 
-	err = store.AssignProperties_From_ConfigurationStore(&source)
-	if err != nil {
-		return eris.Wrap(err, "converting from source to store")
-	}
-
-	return nil
+	return store.AssignProperties_From_ConfigurationStore(source)
 }
 
 // ConvertTo populates the provided hub ConfigurationStore from our ConfigurationStore
 func (store *ConfigurationStore) ConvertTo(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var destination storage.ConfigurationStore
-	err := store.AssignProperties_To_ConfigurationStore(&destination)
-	if err != nil {
-		return eris.Wrap(err, "converting to destination from store")
-	}
-	err = destination.ConvertTo(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from destination to hub")
+	destination, ok := hub.(*storage.ConfigurationStore)
+	if !ok {
+		return fmt.Errorf("expected appconfiguration/v20240601/storage/ConfigurationStore but received %T instead", hub)
 	}
 
-	return nil
+	return store.AssignProperties_To_ConfigurationStore(destination)
 }
 
 var _ configmaps.Exporter = &ConfigurationStore{}
@@ -257,7 +244,7 @@ func (store *ConfigurationStore) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20220501.ConfigurationStore
+// Storage version of v20220501.ConfigurationStore
 // Generator information:
 // - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/AppConfiguration/stable/2022-05-01/appconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
@@ -267,7 +254,7 @@ type ConfigurationStoreList struct {
 	Items           []ConfigurationStore `json:"items"`
 }
 
-// Storage version of v1api20220501.APIVersion
+// Storage version of v20220501.APIVersion
 // +kubebuilder:validation:Enum={"2022-05-01"}
 type APIVersion string
 
@@ -278,7 +265,7 @@ type augmentConversionForConfigurationStore interface {
 	AssignPropertiesTo(dst *storage.ConfigurationStore) error
 }
 
-// Storage version of v1api20220501.ConfigurationStore_Spec
+// Storage version of v20220501.ConfigurationStore_Spec
 type ConfigurationStore_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -364,6 +351,20 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 
 	// CreateMode
 	store.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
+
+	// DataPlaneProxy
+	if source.DataPlaneProxy != nil {
+		propertyBag.Add("DataPlaneProxy", *source.DataPlaneProxy)
+	} else {
+		propertyBag.Remove("DataPlaneProxy")
+	}
+
+	// DefaultKeyValueRevisionRetentionPeriodInSeconds
+	if source.DefaultKeyValueRevisionRetentionPeriodInSeconds != nil {
+		propertyBag.Add("DefaultKeyValueRevisionRetentionPeriodInSeconds", *source.DefaultKeyValueRevisionRetentionPeriodInSeconds)
+	} else {
+		propertyBag.Remove("DefaultKeyValueRevisionRetentionPeriodInSeconds")
+	}
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
@@ -483,6 +484,32 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(store.CreateMode)
 
+	// DataPlaneProxy
+	if propertyBag.Contains("DataPlaneProxy") {
+		var dataPlaneProxy storage.DataPlaneProxyProperties
+		err := propertyBag.Pull("DataPlaneProxy", &dataPlaneProxy)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DataPlaneProxy' from propertyBag")
+		}
+
+		destination.DataPlaneProxy = &dataPlaneProxy
+	} else {
+		destination.DataPlaneProxy = nil
+	}
+
+	// DefaultKeyValueRevisionRetentionPeriodInSeconds
+	if propertyBag.Contains("DefaultKeyValueRevisionRetentionPeriodInSeconds") {
+		var defaultKeyValueRevisionRetentionPeriodInSecond int
+		err := propertyBag.Pull("DefaultKeyValueRevisionRetentionPeriodInSeconds", &defaultKeyValueRevisionRetentionPeriodInSecond)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DefaultKeyValueRevisionRetentionPeriodInSeconds' from propertyBag")
+		}
+
+		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = &defaultKeyValueRevisionRetentionPeriodInSecond
+	} else {
+		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = nil
+	}
+
 	// DisableLocalAuth
 	if store.DisableLocalAuth != nil {
 		disableLocalAuth := *store.DisableLocalAuth
@@ -590,7 +617,7 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 	return nil
 }
 
-// Storage version of v1api20220501.ConfigurationStore_STATUS
+// Storage version of v20220501.ConfigurationStore_STATUS
 // The configuration store along with all resource properties. The Configuration Store will have all information to begin
 // utilizing it.
 type ConfigurationStore_STATUS struct {
@@ -679,6 +706,20 @@ func (store *ConfigurationStore_STATUS) AssignProperties_From_ConfigurationStore
 
 	// CreationDate
 	store.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
+
+	// DataPlaneProxy
+	if source.DataPlaneProxy != nil {
+		propertyBag.Add("DataPlaneProxy", *source.DataPlaneProxy)
+	} else {
+		propertyBag.Remove("DataPlaneProxy")
+	}
+
+	// DefaultKeyValueRevisionRetentionPeriodInSeconds
+	if source.DefaultKeyValueRevisionRetentionPeriodInSeconds != nil {
+		propertyBag.Add("DefaultKeyValueRevisionRetentionPeriodInSeconds", *source.DefaultKeyValueRevisionRetentionPeriodInSeconds)
+	} else {
+		propertyBag.Remove("DefaultKeyValueRevisionRetentionPeriodInSeconds")
+	}
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
@@ -821,6 +862,32 @@ func (store *ConfigurationStore_STATUS) AssignProperties_To_ConfigurationStore_S
 	// CreationDate
 	destination.CreationDate = genruntime.ClonePointerToString(store.CreationDate)
 
+	// DataPlaneProxy
+	if propertyBag.Contains("DataPlaneProxy") {
+		var dataPlaneProxy storage.DataPlaneProxyProperties_STATUS
+		err := propertyBag.Pull("DataPlaneProxy", &dataPlaneProxy)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DataPlaneProxy' from propertyBag")
+		}
+
+		destination.DataPlaneProxy = &dataPlaneProxy
+	} else {
+		destination.DataPlaneProxy = nil
+	}
+
+	// DefaultKeyValueRevisionRetentionPeriodInSeconds
+	if propertyBag.Contains("DefaultKeyValueRevisionRetentionPeriodInSeconds") {
+		var defaultKeyValueRevisionRetentionPeriodInSecond int
+		err := propertyBag.Pull("DefaultKeyValueRevisionRetentionPeriodInSeconds", &defaultKeyValueRevisionRetentionPeriodInSecond)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DefaultKeyValueRevisionRetentionPeriodInSeconds' from propertyBag")
+		}
+
+		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = &defaultKeyValueRevisionRetentionPeriodInSecond
+	} else {
+		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = nil
+	}
+
 	// DisableLocalAuth
 	if store.DisableLocalAuth != nil {
 		disableLocalAuth := *store.DisableLocalAuth
@@ -958,7 +1025,7 @@ type augmentConversionForConfigurationStore_STATUS interface {
 	AssignPropertiesTo(dst *storage.ConfigurationStore_STATUS) error
 }
 
-// Storage version of v1api20220501.ConfigurationStoreOperatorSpec
+// Storage version of v20220501.ConfigurationStoreOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ConfigurationStoreOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression      `json:"configMapExpressions,omitempty"`
@@ -1105,7 +1172,7 @@ func (operator *ConfigurationStoreOperatorSpec) AssignProperties_To_Configuratio
 	return nil
 }
 
-// Storage version of v1api20220501.EncryptionProperties
+// Storage version of v20220501.EncryptionProperties
 // The encryption settings for a configuration store.
 type EncryptionProperties struct {
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
@@ -1186,7 +1253,7 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
-// Storage version of v1api20220501.EncryptionProperties_STATUS
+// Storage version of v20220501.EncryptionProperties_STATUS
 // The encryption settings for a configuration store.
 type EncryptionProperties_STATUS struct {
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -1267,7 +1334,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
-// Storage version of v1api20220501.PrivateEndpointConnectionReference_STATUS
+// Storage version of v20220501.PrivateEndpointConnectionReference_STATUS
 // A reference to a related private endpoint connection.
 type PrivateEndpointConnectionReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
@@ -1281,6 +1348,41 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_Fro
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	if source.Name != nil {
+		propertyBag.Add("Name", *source.Name)
+	} else {
+		propertyBag.Remove("Name")
+	}
+
+	// PrivateEndpoint
+	if source.PrivateEndpoint != nil {
+		propertyBag.Add("PrivateEndpoint", *source.PrivateEndpoint)
+	} else {
+		propertyBag.Remove("PrivateEndpoint")
+	}
+
+	// PrivateLinkServiceConnectionState
+	if source.PrivateLinkServiceConnectionState != nil {
+		propertyBag.Add("PrivateLinkServiceConnectionState", *source.PrivateLinkServiceConnectionState)
+	} else {
+		propertyBag.Remove("PrivateLinkServiceConnectionState")
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		propertyBag.Add("ProvisioningState", *source.ProvisioningState)
+	} else {
+		propertyBag.Remove("ProvisioningState")
+	}
+
+	// Type
+	if source.Type != nil {
+		propertyBag.Add("Type", *source.Type)
+	} else {
+		propertyBag.Remove("Type")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1310,6 +1412,71 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_To_
 	// Id
 	destination.Id = genruntime.ClonePointerToString(reference.Id)
 
+	// Name
+	if propertyBag.Contains("Name") {
+		var name string
+		err := propertyBag.Pull("Name", &name)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Name' from propertyBag")
+		}
+
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
+
+	// PrivateEndpoint
+	if propertyBag.Contains("PrivateEndpoint") {
+		var privateEndpoint storage.PrivateEndpoint_STATUS
+		err := propertyBag.Pull("PrivateEndpoint", &privateEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'PrivateEndpoint' from propertyBag")
+		}
+
+		destination.PrivateEndpoint = &privateEndpoint
+	} else {
+		destination.PrivateEndpoint = nil
+	}
+
+	// PrivateLinkServiceConnectionState
+	if propertyBag.Contains("PrivateLinkServiceConnectionState") {
+		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState_STATUS
+		err := propertyBag.Pull("PrivateLinkServiceConnectionState", &privateLinkServiceConnectionState)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'PrivateLinkServiceConnectionState' from propertyBag")
+		}
+
+		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+	} else {
+		destination.PrivateLinkServiceConnectionState = nil
+	}
+
+	// ProvisioningState
+	if propertyBag.Contains("ProvisioningState") {
+		var provisioningState string
+		err := propertyBag.Pull("ProvisioningState", &provisioningState)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
+		}
+
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Type
+	if propertyBag.Contains("Type") {
+		var typeVar string
+		err := propertyBag.Pull("Type", &typeVar)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Type' from propertyBag")
+		}
+
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1330,7 +1497,7 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_To_
 	return nil
 }
 
-// Storage version of v1api20220501.ResourceIdentity
+// Storage version of v20220501.ResourceIdentity
 // An identity that can be associated with a resource.
 type ResourceIdentity struct {
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -1426,7 +1593,7 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 	return nil
 }
 
-// Storage version of v1api20220501.ResourceIdentity_STATUS
+// Storage version of v20220501.ResourceIdentity_STATUS
 // An identity that can be associated with a resource.
 type ResourceIdentity_STATUS struct {
 	PrincipalId            *string                        `json:"principalId,omitempty"`
@@ -1536,7 +1703,7 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_ST
 	return nil
 }
 
-// Storage version of v1api20220501.Sku
+// Storage version of v20220501.Sku
 // Describes a configuration store SKU.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
@@ -1599,7 +1766,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Storage version of v1api20220501.Sku_STATUS
+// Storage version of v20220501.Sku_STATUS
 // Describes a configuration store SKU.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
@@ -1662,7 +1829,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 	return nil
 }
 
-// Storage version of v1api20220501.SystemData_STATUS
+// Storage version of v20220501.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -1805,7 +1972,7 @@ type augmentConversionForSystemData_STATUS interface {
 	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
 }
 
-// Storage version of v1api20220501.ConfigurationStoreOperatorSecrets
+// Storage version of v20220501.ConfigurationStoreOperatorSecrets
 type ConfigurationStoreOperatorSecrets struct {
 	PrimaryConnectionString           *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
 	PrimaryKey                        *genruntime.SecretDestination `json:"primaryKey,omitempty"`
@@ -2064,7 +2231,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 	return nil
 }
 
-// Storage version of v1api20220501.KeyVaultProperties
+// Storage version of v20220501.KeyVaultProperties
 // Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties struct {
 	IdentityClientId *string                `json:"identityClientId,omitempty"`
@@ -2134,7 +2301,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
-// Storage version of v1api20220501.KeyVaultProperties_STATUS
+// Storage version of v20220501.KeyVaultProperties_STATUS
 // Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties_STATUS struct {
 	IdentityClientId *string                `json:"identityClientId,omitempty"`
@@ -2204,7 +2371,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
-// Storage version of v1api20220501.UserAssignedIdentityDetails
+// Storage version of v20220501.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
@@ -2267,7 +2434,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	return nil
 }
 
-// Storage version of v1api20220501.UserIdentity_STATUS
+// Storage version of v20220501.UserIdentity_STATUS
 // A resource identity that is managed by the user of the service.
 type UserIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`

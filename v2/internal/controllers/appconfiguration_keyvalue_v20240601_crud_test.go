@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_AppConfiguration_KeyValue_v1api20240601_CRUD(t *testing.T) {
+func Test_AppConfiguration_KeyValue_v20240601_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {
