@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -72,30 +73,7 @@ func loadJSON(
 	testOutputFile string,
 	log logr.Logger,
 ) map[string][]TestRun {
-	// Get the current working directory.
-	// In use this will typically be the root of the repo,
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Error(
-			err,
-			"Unable to get current working directory")
-		return make(map[string][]TestRun)
-	}
-
-	// Restrict to working within the current directory for security
-	// We want to avoid accidentally allowing access to arbitrary files on disk
-	root, err := os.OpenRoot(cwd)
-	if err != nil {
-		log.Error(
-			err,
-			"Unable to set root directory",
-			"directory", cwd)
-		return make(map[string][]TestRun)
-	}
-	defer root.Close()
-
-	// Open the test output file within the restricted root
-	file, err := root.Open(testOutputFile)
+	file, err := os.Open(filepath.Clean(testOutputFile))
 	if err != nil {
 		log.Error(
 			err,
@@ -313,7 +291,6 @@ func escapeOutput(outputs []string) (bool, string) {
 func printSlowTests(byPackage map[string][]TestRun) {
 	fmt.Printf("## Longest-running tests\n\n")
 
-	//nolint:prealloc // prealloc would require iterating over byPackage twice
 	allTests := []TestRun{}
 	for _, v := range byPackage {
 		allTests = append(allTests, v[1:]...)
