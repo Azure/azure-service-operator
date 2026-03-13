@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit configuration
+# https://docs.coderabbit.ai/reference/configuration
+language: "en-US"
+early_access: false
+
+reviews:
+  profile: assertive
+  high_level_summary: true
+  collapse_walkthrough: true
+  request_changes_workflow: false
+  auto_apply_labels: false
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+
+  path_filters:
+    - "!vendor/**"
+    - "!**/*.md"
+
+  tools:
+    golangci-lint:
+      enabled: true
+
+chat:
+  auto_reply: true
