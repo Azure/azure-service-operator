@@ -398,8 +398,9 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 				return extensions.PreReconcileCheckResult{}, checkErr
 			}
 
-			// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
-			if check.PostponeReconciliation() {
+			// If the check says we're postponing (because a reconcile is not needed) or blocking (because we can't
+			// reconcile at all), we're done for now as there's nothing to do.
+			if check.PostponeReconciliation() || check.BlockReconciliation() {
 				return check, nil
 			}
 		}
