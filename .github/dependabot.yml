@@ -45,3 +45,20 @@ updates:
         exclude-patterns:
           - "k8s.io/*"
           - "sigs.k8s.io/*"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directories:
+      - .devcontainer
+      - v2
+    schedule:
+      interval: "weekly"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Workflow files stored in the default location of `.github/workflows`
+    # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      
