@@ -47,7 +47,8 @@ const (
 // As we move groups to the new versioning scheme, we'll move them to hybrid mode (giving users a migration path forward).
 // Once all groups have been fully migrated, we will delete this file.
 var versionMigrationModes = map[string]VersionMigrationMode{
-	"alertsmanagement": VersionMigrationModeLegacy,
+	"alertsmanagement": VersionMigrationModeHybrid,
+
 	"apimanagement":    VersionMigrationModeLegacy,
 	"app":              VersionMigrationModeLegacy,
 	"appconfiguration": VersionMigrationModeLegacy,

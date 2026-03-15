@@ -7,13 +7,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 93
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-rg-ejtney","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -29,10 +24,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney","name":"asotest-rg-ejtney","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -64,13 +56,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -82,10 +68,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 276
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney","name":"asotest-rg-ejtney","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
@@ -117,13 +100,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 170
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-namespace-jzohkb","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":1},"sku":{"name":"Standard","tier":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -139,10 +117,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 752
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -178,13 +153,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -194,10 +163,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 752
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -233,13 +199,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -249,10 +209,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 752
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -288,13 +245,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "2"
@@ -304,10 +255,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 751
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -343,13 +291,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -361,10 +303,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 751
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -400,13 +339,8 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 170
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-namespace-jzohkb","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":2},"sku":{"name":"Standard","tier":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -422,10 +356,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 752
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","status":"Updating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -461,13 +392,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "4"
@@ -477,10 +402,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 752
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","status":"Updating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -516,68 +438,7 @@ interactions:
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "5"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb?api-version=2021-11-01
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 752
-        uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","status":"Updating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "752"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Messaging-Activity-Id:
-                - e04a8aa1-7770-4ae1-b1d8-c401d7080fb9
-            X-Ms-Messaging-Routing-Id:
-                - WESTUS2|WESTUS2|G11|2024-12-12T01:05:50
-            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
-                - "16499"
-            X-Msedge-Ref:
-                - 'Ref A: 6D77D286E51D4168A4BC6974DF279D33 Ref B: SYD03EDGE1913 Ref C: 2024-12-12T01:05:49Z'
-        status: 200 OK
-        code: 200
-        duration: 846.65391ms
-    - id: 10
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "6"
@@ -587,10 +448,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 752
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","status":"Updating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -620,19 +478,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 869.537842ms
-    - id: 11
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "7"
@@ -642,10 +494,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 751
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -675,19 +524,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 859.479131ms
-    - id: 12
+    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -699,10 +542,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 751
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -732,19 +572,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 853.408833ms
-    - id: 13
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 170
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"location":"westus2","name":"asotest-namespace-jzohkb","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":2},"sku":{"name":"Standard","tier":"Standard"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -760,10 +595,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 751
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -793,19 +625,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 2.716484296s
-    - id: 14
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -817,10 +643,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 751
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb","name":"asotest-namespace-jzohkb","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-jzohkb","serviceBusEndpoint":"https://asotest-namespace-jzohkb.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
         headers:
             Cache-Control:
@@ -850,19 +673,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 915.735546ms
-    - id: 15
+    - id: 14
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -874,10 +691,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 559
-        uncompressed: false
         body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-jzohkb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-jzohkb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
         headers:
             Cache-Control:
@@ -907,19 +721,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.221031467s
-    - id: 16
+    - id: 15
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 95
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-tghmqp","properties":{"messageRetentionInDays":7,"partitionCount":1}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -935,10 +744,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 472
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp","name":"asotest-eventhub-tghmqp","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","partitionIds":["0"]}}'
         headers:
             Cache-Control:
@@ -968,19 +774,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 3.258619772s
-    - id: 17
+    - id: 16
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -992,10 +792,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 470
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp","name":"asotest-eventhub-tghmqp","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2024-12-12T01:07:49.66","updatedAt":"2024-12-12T01:07:49.843","partitionIds":["0"]}}'
         headers:
             Cache-Control:
@@ -1025,19 +822,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 382.946436ms
-    - id: 18
+    - id: 17
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 76
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-ptoqxb","properties":{"rights":["Listen","Send"]}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1053,10 +845,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/authorizationRules/asotest-eventhub-ptoqxb","name":"asotest-eventhub-ptoqxb","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1086,19 +875,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 7.254351632s
-    - id: 19
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1110,10 +893,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/authorizationrules/asotest-eventhub-ptoqxb","name":"asotest-eventhub-ptoqxb","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1143,19 +923,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 618.061877ms
-    - id: 20
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 76
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-ptoqxb","properties":{"rights":["Listen","Send"]}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1171,10 +946,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/authorizationRules/asotest-eventhub-ptoqxb","name":"asotest-eventhub-ptoqxb","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1204,19 +976,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.266978756s
-    - id: 21
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1228,10 +994,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 355
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/authorizationrules/asotest-eventhub-ptoqxb","name":"asotest-eventhub-ptoqxb","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1261,19 +1024,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.138665336s
-    - id: 22
+    - id: 21
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1285,10 +1042,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 553
-        uncompressed: false
         body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-jzohkb.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-ptoqxb;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-jzohkb.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-ptoqxb;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"asotest-eventhub-ptoqxb"}'
         headers:
             Cache-Control:
@@ -1318,19 +1072,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.145271409s
-    - id: 23
+    - id: 22
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 92
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-nwjlea","properties":{"userMetadata":"This is some fun metadata"}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1346,10 +1095,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 493
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp/consumergroups/asotest-eventhub-nwjlea","name":"asotest-eventhub-nwjlea","type":"Microsoft.EventHub/namespaces/eventhubs/consumergroups","location":"westus2","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"This is some fun metadata"}}'
         headers:
             Cache-Control:
@@ -1379,19 +1125,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.692871894s
-    - id: 24
+    - id: 23
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 76
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-puvbvp","properties":{"rights":["Listen","Send"]}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1407,10 +1148,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 378
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp/authorizationRules/asotest-eventhub-puvbvp","name":"asotest-eventhub-puvbvp","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1440,19 +1178,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.966567006s
-    - id: 25
+    - id: 24
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1464,10 +1196,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 485
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp/consumergroups/asotest-eventhub-nwjlea","name":"asotest-eventhub-nwjlea","type":"Microsoft.EventHub/namespaces/eventhubs/consumergroups","location":"westus2","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"This is some fun metadata"}}'
         headers:
             Cache-Control:
@@ -1497,19 +1226,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 901.563844ms
-    - id: 26
+    - id: 25
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1521,10 +1244,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 399
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp/authorizationrules/asotest-eventhub-puvbvp","name":"asotest-eventhub-puvbvp","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1554,19 +1274,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.30981083s
-    - id: 27
+    - id: 26
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1578,10 +1292,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1609,19 +1320,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 466.01412ms
-    - id: 28
+    - id: 27
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 76
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-puvbvp","properties":{"rights":["Listen","Send"]}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1637,10 +1343,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 378
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp/authorizationRules/asotest-eventhub-puvbvp","name":"asotest-eventhub-puvbvp","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1670,19 +1373,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 846.525623ms
-    - id: 29
+    - id: 28
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1694,10 +1391,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1725,19 +1419,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 5.878263452s
-    - id: 30
+    - id: 29
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1749,10 +1437,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 399
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp/authorizationrules/asotest-eventhub-puvbvp","name":"asotest-eventhub-puvbvp","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
         headers:
             Cache-Control:
@@ -1782,19 +1467,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.310971435s
-    - id: 31
+    - id: 30
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1806,10 +1485,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 623
-        uncompressed: false
         body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-jzohkb.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-puvbvp;SharedAccessKey={KEY};EntityPath=asotest-eventhub-tghmqp","secondaryConnectionString":"Endpoint=sb://asotest-namespace-jzohkb.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-puvbvp;SharedAccessKey={KEY};EntityPath=asotest-eventhub-tghmqp","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"asotest-eventhub-puvbvp"}'
         headers:
             Cache-Control:
@@ -1839,19 +1515,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.351478712s
-    - id: 32
+    - id: 31
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1863,10 +1533,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -1894,19 +1561,14 @@ interactions:
         status: 200 OK
         code: 200
         duration: 686.771592ms
-    - id: 33
+    - id: 32
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 95
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
         body: '{"name":"asotest-eventhub-tghmqp","properties":{"messageRetentionInDays":3,"partitionCount":1}}'
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1922,10 +1584,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 465
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp","name":"asotest-eventhub-tghmqp","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":3,"partitionCount":1,"status":"Active","createdAt":"0001-01-01T00:00:00","updatedAt":"2001-02-03T04:05:06Z","partitionIds":[]}}'
         headers:
             Cache-Control:
@@ -1955,19 +1614,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 1.092011899s
-    - id: 34
+    - id: 33
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -1979,10 +1632,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 470
-        uncompressed: false
         body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ejtney/providers/Microsoft.EventHub/namespaces/asotest-namespace-jzohkb/eventhubs/asotest-eventhub-tghmqp","name":"asotest-eventhub-tghmqp","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":3,"partitionCount":1,"status":"Active","createdAt":"2024-12-12T01:07:49.66","updatedAt":"2024-12-12T01:08:39.783","partitionIds":["0"]}}'
         headers:
             Cache-Control:
@@ -2012,19 +1662,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 377.962085ms
-    - id: 35
+    - id: 34
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2036,10 +1680,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -2067,19 +1708,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 4.369452049s
-    - id: 36
+    - id: 35
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2091,10 +1726,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Azure-Asyncoperation:
@@ -2126,19 +1758,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 2.16067041s
-    - id: 37
+    - id: 36
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2148,10 +1774,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 66
-        uncompressed: false
         body: '{"name":"73677b4a-b7fc-4c9a-8536-f7f95b56f4f2","status":"Running"}'
         headers:
             Cache-Control:
@@ -2181,19 +1804,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 254.962441ms
-    - id: 38
+    - id: 37
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "1"
@@ -2203,10 +1820,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 68
-        uncompressed: false
         body: '{"name":"73677b4a-b7fc-4c9a-8536-f7f95b56f4f2","status":"Succeeded"}'
         headers:
             Cache-Control:
@@ -2236,19 +1850,13 @@ interactions:
         status: 200 OK
         code: 200
         duration: 260.6176ms
-    - id: 39
+    - id: 38
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2260,10 +1868,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 97
-        uncompressed: false
         body: '{"error":{"code":"NamespaceNotFound","message":"Namespace ''asotest-namespace-jzohkb'' not found"}}'
         headers:
             Cache-Control:
@@ -2293,19 +1898,13 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 2.154595219s
-    - id: 40
+    - id: 39
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Accept:
                 - application/json
@@ -2317,10 +1916,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:
@@ -2348,19 +1944,13 @@ interactions:
         status: 202 Accepted
         code: 202
         duration: 3.854352277s
-    - id: 41
+    - id: 40
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
         content_length: 0
-        transfer_encoding: []
-        trailer: {}
         host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
         headers:
             Test-Request-Attempt:
                 - "0"
@@ -2370,10 +1960,7 @@ interactions:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
         content_length: 0
-        uncompressed: false
         body: ""
         headers:
             Cache-Control:

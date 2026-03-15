@@ -223,12 +223,6 @@ jobs:
           set +e # don't exit instantly on failure, we need to produce Markdown summary
           docker exec "$container_id" task controller:test-controllers
 
-          EXIT_CODE=$?
-          set -e
-
-          # generate summary Markdown file for display in Actions
-          cat reports/*.md > $GITHUB_STEP_SUMMARY
-          exit $EXIT_CODE
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Save JSON logs on failure
@@ -288,12 +282,6 @@ jobs:
           set +e # don't exit instantly on failure, we need to produce Markdown summary
           docker exec "$container_id" task controller:test-samples
 
-          EXIT_CODE=$?
-          set -e
-
-          # generate summary Markdown file for display in Actions
-          cat reports/*.md > $GITHUB_STEP_SUMMARY
-          exit $EXIT_CODE
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Save JSON logs on failure

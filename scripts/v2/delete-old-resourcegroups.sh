@@ -49,6 +49,13 @@ else
 fi
 
 for rgname in ${RESOURCE_GROUPS[@]}; do
-  echo "$rgname will be deleted"; \
-  az group delete --name $rgname --no-wait --yes; \
+  echo "$rgname will be deleted"
+  output=$(az group delete --name "$rgname" --no-wait --yes 2>&1) || {
+    if echo "$output" | grep -q "ResourceGroupNotFound"; then
+      echo "$rgname was already deleted"
+    else
+      echo "$output" >&2
+      exit 1
+    fi
+  }
 done

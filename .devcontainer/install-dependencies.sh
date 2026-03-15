@@ -215,6 +215,9 @@ go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 #doc# | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
 go-install crddoc github.com/theunrepentantgeek/crddoc@latest
 
+#doc# | go-vcr-tidy | latest | https://github.com/theunrepentantgeek/go-vcr-tidy |
+go-install go-vcr-tidy github.com/theunrepentantgeek/go-vcr-tidy@latest
+
 # Install envtest tooling
 #doc# | setup-envtest | v0.23.1 | https://book.kubebuilder.io/reference/envtest.html |
 write-verbose "Checking for $TOOL_DEST/setup-envtest"

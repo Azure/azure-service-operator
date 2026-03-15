@@ -5,7 +5,8 @@ package v1api20230301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
+	alertsmanagement_v1api20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
+	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForPrometheusRule(subject PrometheusRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRule
+	var other alertsmanagement_v1api20230301s.PrometheusRule
 	err := copied.AssignProperties_To_PrometheusRule(&other)
 	if err != nil {
 		return err.Error()
@@ -164,7 +165,7 @@ func RunResourceConversionTestForPrometheusRuleGroup(subject PrometheusRuleGroup
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PrometheusRuleGroup
+	var hub alertsmanagement_v20230301s.PrometheusRuleGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -206,7 +207,7 @@ func RunPropertyAssignmentTestForPrometheusRuleGroup(subject PrometheusRuleGroup
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroup
+	var other alertsmanagement_v1api20230301s.PrometheusRuleGroup
 	err := copied.AssignProperties_To_PrometheusRuleGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +311,7 @@ func RunPropertyAssignmentTestForPrometheusRuleGroupAction(subject PrometheusRul
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroupAction
+	var other alertsmanagement_v1api20230301s.PrometheusRuleGroupAction
 	err := copied.AssignProperties_To_PrometheusRuleGroupAction(&other)
 	if err != nil {
 		return err.Error()
@@ -415,7 +416,7 @@ func RunPropertyAssignmentTestForPrometheusRuleGroupAction_STATUS(subject Promet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroupAction_STATUS
+	var other alertsmanagement_v1api20230301s.PrometheusRuleGroupAction_STATUS
 	err := copied.AssignProperties_To_PrometheusRuleGroupAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -521,7 +522,7 @@ func RunPropertyAssignmentTestForPrometheusRuleGroupOperatorSpec(subject Prometh
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroupOperatorSpec
+	var other alertsmanagement_v1api20230301s.PrometheusRuleGroupOperatorSpec
 	err := copied.AssignProperties_To_PrometheusRuleGroupOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -618,7 +619,7 @@ func RunPropertyAssignmentTestForPrometheusRuleGroup_STATUS(subject PrometheusRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroup_STATUS
+	var other alertsmanagement_v1api20230301s.PrometheusRuleGroup_STATUS
 	err := copied.AssignProperties_To_PrometheusRuleGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -747,7 +748,7 @@ func RunPropertyAssignmentTestForPrometheusRuleGroup_Spec(subject PrometheusRule
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleGroup_Spec
+	var other alertsmanagement_v1api20230301s.PrometheusRuleGroup_Spec
 	err := copied.AssignProperties_To_PrometheusRuleGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -873,7 +874,7 @@ func RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration(subject Prom
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleResolveConfiguration
+	var other alertsmanagement_v1api20230301s.PrometheusRuleResolveConfiguration
 	err := copied.AssignProperties_To_PrometheusRuleResolveConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -977,7 +978,7 @@ func RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRuleResolveConfiguration_STATUS
+	var other alertsmanagement_v1api20230301s.PrometheusRuleResolveConfiguration_STATUS
 	err := copied.AssignProperties_To_PrometheusRuleResolveConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1081,7 +1082,7 @@ func RunPropertyAssignmentTestForPrometheusRule_STATUS(subject PrometheusRule_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrometheusRule_STATUS
+	var other alertsmanagement_v1api20230301s.PrometheusRule_STATUS
 	err := copied.AssignProperties_To_PrometheusRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1210,7 +1211,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other alertsmanagement_v1api20230301s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -12,5 +12,6 @@ spec:
   # This is the Principal ID of the AAD identity to which the role will be assigned
   principalId: 00000000-0000-0000-0000-000000000000
   roleDefinitionReference:
-    # ASO allows you to specify global roles by name instead of the published GUID. Lookup is case insensitive.
+    # ASO allows you to specify Azure built-in roles by name instead of the published GUID. Lookup is case insensitive.
+    # For a roleDefinition you've created yourself, use either group/kind/name or armID.
     wellKnownName: contributor

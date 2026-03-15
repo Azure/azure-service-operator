@@ -51,22 +51,36 @@ var _ conversion.Convertible = &PrometheusRuleGroup{}
 
 // ConvertFrom populates our PrometheusRuleGroup from the provided hub PrometheusRuleGroup
 func (group *PrometheusRuleGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrometheusRuleGroup)
-	if !ok {
-		return fmt.Errorf("expected alertsmanagement/v1api20230301/storage/PrometheusRuleGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrometheusRuleGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_PrometheusRuleGroup(source)
+	err = group.AssignProperties_From_PrometheusRuleGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrometheusRuleGroup from our PrometheusRuleGroup
 func (group *PrometheusRuleGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrometheusRuleGroup)
-	if !ok {
-		return fmt.Errorf("expected alertsmanagement/v1api20230301/storage/PrometheusRuleGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrometheusRuleGroup
+	err := group.AssignProperties_To_PrometheusRuleGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_PrometheusRuleGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PrometheusRuleGroup{}
@@ -87,17 +101,6 @@ func (group *PrometheusRuleGroup) SecretDestinationExpressions() []*core.Destina
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &PrometheusRuleGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *PrometheusRuleGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PrometheusRuleGroup_STATUS); ok {
-		return group.Spec.Initialize_From_PrometheusRuleGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type PrometheusRuleGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &PrometheusRuleGroup{}
@@ -674,52 +677,6 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_To_PrometheusRuleGroup_S
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrometheusRuleGroup_STATUS populates our PrometheusRuleGroup_Spec from the provided source PrometheusRuleGroup_STATUS
-func (group *PrometheusRuleGroup_Spec) Initialize_From_PrometheusRuleGroup_STATUS(source *PrometheusRuleGroup_STATUS) error {
-
-	// ClusterName
-	group.ClusterName = genruntime.ClonePointerToString(source.ClusterName)
-
-	// Description
-	group.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		group.Enabled = &enabled
-	} else {
-		group.Enabled = nil
-	}
-
-	// Interval
-	group.Interval = genruntime.ClonePointerToString(source.Interval)
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]PrometheusRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			var rule PrometheusRule
-			err := rule.Initialize_From_PrometheusRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PrometheusRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		group.Rules = ruleList
-	} else {
-		group.Rules = nil
-	}
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1447,70 +1404,6 @@ func (rule *PrometheusRule) AssignProperties_To_PrometheusRule(destination *stor
 	return nil
 }
 
-// Initialize_From_PrometheusRule_STATUS populates our PrometheusRule from the provided source PrometheusRule_STATUS
-func (rule *PrometheusRule) Initialize_From_PrometheusRule_STATUS(source *PrometheusRule_STATUS) error {
-
-	// Actions
-	if source.Actions != nil {
-		actionList := make([]PrometheusRuleGroupAction, len(source.Actions))
-		for actionIndex, actionItem := range source.Actions {
-			var action PrometheusRuleGroupAction
-			err := action.Initialize_From_PrometheusRuleGroupAction_STATUS(&actionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PrometheusRuleGroupAction_STATUS() to populate field Actions")
-			}
-			actionList[actionIndex] = action
-		}
-		rule.Actions = actionList
-	} else {
-		rule.Actions = nil
-	}
-
-	// Alert
-	rule.Alert = genruntime.ClonePointerToString(source.Alert)
-
-	// Annotations
-	rule.Annotations = genruntime.CloneMapOfStringToString(source.Annotations)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		rule.Enabled = &enabled
-	} else {
-		rule.Enabled = nil
-	}
-
-	// Expression
-	rule.Expression = genruntime.ClonePointerToString(source.Expression)
-
-	// For
-	rule.For = genruntime.ClonePointerToString(source.For)
-
-	// Labels
-	rule.Labels = genruntime.CloneMapOfStringToString(source.Labels)
-
-	// Record
-	rule.Record = genruntime.ClonePointerToString(source.Record)
-
-	// ResolveConfiguration
-	if source.ResolveConfiguration != nil {
-		var resolveConfiguration PrometheusRuleResolveConfiguration
-		err := resolveConfiguration.Initialize_From_PrometheusRuleResolveConfiguration_STATUS(source.ResolveConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
-		}
-		rule.ResolveConfiguration = &resolveConfiguration
-	} else {
-		rule.ResolveConfiguration = nil
-	}
-
-	// Severity
-	rule.Severity = genruntime.ClonePointerToInt(source.Severity)
-
-	// No error
-	return nil
-}
-
 // An Azure Prometheus alerting or recording rule.
 type PrometheusRule_STATUS struct {
 	// Actions: Actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
@@ -2140,24 +2033,6 @@ func (action *PrometheusRuleGroupAction) AssignProperties_To_PrometheusRuleGroup
 	return nil
 }
 
-// Initialize_From_PrometheusRuleGroupAction_STATUS populates our PrometheusRuleGroupAction from the provided source PrometheusRuleGroupAction_STATUS
-func (action *PrometheusRuleGroupAction) Initialize_From_PrometheusRuleGroupAction_STATUS(source *PrometheusRuleGroupAction_STATUS) error {
-
-	// ActionGroupReference
-	if source.ActionGroupId != nil {
-		actionGroupReference := genruntime.CreateResourceReferenceFromARMID(*source.ActionGroupId)
-		action.ActionGroupReference = &actionGroupReference
-	} else {
-		action.ActionGroupReference = nil
-	}
-
-	// ActionProperties
-	action.ActionProperties = genruntime.CloneMapOfStringToString(source.ActionProperties)
-
-	// No error
-	return nil
-}
-
 // An alert action. Only relevant for alerts.
 type PrometheusRuleGroupAction_STATUS struct {
 	// ActionGroupId: The resource id of the action group to use.
@@ -2334,24 +2209,6 @@ func (configuration *PrometheusRuleResolveConfiguration) AssignProperties_To_Pro
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrometheusRuleResolveConfiguration_STATUS populates our PrometheusRuleResolveConfiguration from the provided source PrometheusRuleResolveConfiguration_STATUS
-func (configuration *PrometheusRuleResolveConfiguration) Initialize_From_PrometheusRuleResolveConfiguration_STATUS(source *PrometheusRuleResolveConfiguration_STATUS) error {
-
-	// AutoResolved
-	if source.AutoResolved != nil {
-		autoResolved := *source.AutoResolved
-		configuration.AutoResolved = &autoResolved
-	} else {
-		configuration.AutoResolved = nil
-	}
-
-	// TimeToResolve
-	configuration.TimeToResolve = genruntime.ClonePointerToString(source.TimeToResolve)
 
 	// No error
 	return nil

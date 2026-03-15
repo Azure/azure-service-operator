@@ -40,6 +40,14 @@ func Test_Redactor_givenInput_returnsExpectedResult(t *testing.T) {
 			input:    `{"id":"GmDj","name":"Primary","value":"SECRETVALUEFROMAZURE","connectionString":"Endpoint=https://asotest-confstore-fsrajl.azconfig.io;Id=GmDj;Secret=SECRETVALUEFROMAZURE","lastModified":"2025-11-19T01:22:31+00:00","readOnly":false}`,
 			expected: `{"id":"GmDj","name":"Primary","value":"{KEY}","connectionString":"Endpoint=https://asotest-confstore-fsrajl.azconfig.io;Id=GmDj;Secret={KEY}","lastModified":"2025-11-19T01:22:31+00:00","readOnly":false}`,
 		},
+		"Redis Cache Access Keys": {
+			input:    `"accessKeys":{"primaryKey":"SECRETVALUEFROMAZURE=","secondaryKey":"SECRETVALUEFROMAZURE="}`,
+			expected: `"accessKeys":{"primaryKey":"{KEY}","secondaryKey":"{KEY}"}`,
+		},
+		"SignalR Connection String": {
+			input:    `body: '{"primaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey=SECRETVALUEFROMAZURE;Version=1.0;","secondaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey=SECRETVALUEFROMAZURE;Version=1.0;"}'`,
+			expected: `body: '{"primaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey={KEY};Version=1.0;","secondaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey={KEY};Version=1.0;"}'`,
+		},
 	}
 
 	ids := creds.AzureIDs{}
