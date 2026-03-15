@@ -629,11 +629,15 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20210101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20210401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20210401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20230101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20230301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
   </url><url>
