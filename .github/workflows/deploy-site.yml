@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Create token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v3
         id: app-token
         with:
           # required
