@@ -69,8 +69,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/devigned/gojsonschema v1.2.1-0.20191114132342-001aa27b4d11 h1:fmHzJQg+at2PTpSqKcuSNKvsIGLAoQV14mVD9E9A29g=
-github.com/devigned/gojsonschema v1.2.1-0.20191114132342-001aa27b4d11/go.mod h1:anYRn/JVcOK2ZgGU+IjEV4nwlhoK5sQluxsYJ78Id3Y=
+github.com/devigned/gojsonschema v1.2.1-0.20191231010529-c593123f1e5d h1:0q2Xu1eQ4qtUJrl38FHY7GED7c6LKZ2iJxoc+O6WPKg=
+github.com/devigned/gojsonschema v1.2.1-0.20191231010529-c593123f1e5d/go.mod h1:sSkPisfU5IfuoRgwlKZxezXDlqL0o2ocuSNwPqU5ecE=
 github.com/devigned/tab v0.1.1 h1:3mD6Kb1mUOYeLpJvTVSDwSg5ZsfSxfvxGRTxRsJsITA=
 github.com/devigned/tab v0.1.1/go.mod h1:XG9mPq0dFghrYvoBF3xdRrJzSTX1b7IQrvaL9mzjeJY=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=

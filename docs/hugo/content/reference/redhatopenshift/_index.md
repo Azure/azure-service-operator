@@ -11,8 +11,11 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                         | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                       |
 |----------------------------------|--------------------|----------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| HcpOpenShiftCluster              | 2025-12-23-preview | v1api20251223preview | v2.13.0        | -                                                                                                                                                                            |
 | HcpOpenShiftCluster              | 2024-06-10-preview | v1api20240610preview | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/redhatopenshift/v1api20240610preview/v1api20240610preview_hcpopenshiftcluster.yaml)              |
+| HcpOpenShiftClustersExternalAuth | 2025-12-23-preview | v1api20251223preview | v2.13.0        | -                                                                                                                                                                            |
 | HcpOpenShiftClustersExternalAuth | 2024-06-10-preview | v1api20240610preview | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/redhatopenshift/v1api20240610preview/v1api20240610preview_hcpopenshiftclustersexternalauth.yaml) |
+| HcpOpenShiftClustersNodePool     | 2025-12-23-preview | v1api20251223preview | v2.13.0        | -                                                                                                                                                                            |
 | HcpOpenShiftClustersNodePool     | 2024-06-10-preview | v1api20240610preview | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/redhatopenshift/v1api20240610preview/v1api20240610preview_hcpopenshiftclustersnodepool.yaml)     |
 
 ### Released
