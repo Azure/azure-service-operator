@@ -15,7 +15,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
       - setup
-      - generate-crds
+      - run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -38,7 +38,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
       - setup
-      - generate-crds
+      - run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -52,6 +52,35 @@ tasks:
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
       TEST_OUTPUT: '{{joinPath .TEST_OUT "test-samples.json"}}'
       TEST_REPORT: '{{joinPath .TEST_OUT "test-samples.md"}}'
+
+  run-kustomize-for-envtest:
+    desc: Generates the CRDs for use in envtest
+    deps: 
+      - generate-kustomize
+    dir: "v2/"
+    sources:
+      - config/crd/**/*.yaml
+    generates:
+      - out/envtest/crds/azureserviceoperator.yaml
+    cmds:
+      - mkdir -p out/envtest/crds
+      - find "out/envtest/crds" -type f -delete
+      - kustomize build config/crd/generated > out/envtest/crds/azureserviceoperator.yaml
+
+  generate-kustomize:
+    desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
+    deps: 
+      - generate-crds
+      - build-generator
+    dir: v2
+    sources:
+      - bin/{{.GENERATOR_APP}}
+      - config/crd/generated/bases/**/*.yaml
+    generates:
+      - config/crd/generated/kustomization.yaml
+      - config/crd/generated/patches/**/*.yaml
+    cmds:
+      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd/generated
 
   generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
@@ -88,6 +117,12 @@ tasks:
     cmds:
       - python3 -m virtualenv venv
       - venv/bin/pip3 install -r requirements.txt
+
+  build-generator:
+    desc: Generate the {{.GENERATOR_APP}} binary.
+    dir: '{{.GENERATOR_ROOT}}'
+    cmds:
+      - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
 
   build-mangle-test:
     desc: Builds the tool we use for mangling test results
