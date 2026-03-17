@@ -99,7 +99,8 @@ func Test_DBForPostgreSQL_FlexibleServer_20240801_CRUD(t *testing.T) {
 	tc.Expect(flexibleServer.Status.MaintenanceWindow).ToNot(BeNil())
 	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.Ptr(5)))
 
-	tc.RunParallelSubtests(
+	// Opting-out of parallel execution for the subtests to try and reduce test flakiness.
+	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "ConfigMapValuesWrittenToSameConfigMap",
 			Test: func(tc *testcommon.KubePerTestContext) {
