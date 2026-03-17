@@ -42,7 +42,7 @@ jobs:
           docker exec "$container_id" task make-release-artifacts
 
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@b98a3b12e86552593f3e4e577ca8a62aa2f3f22b # this is v2.9.0, but pinned
+        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # this is v2.9.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
