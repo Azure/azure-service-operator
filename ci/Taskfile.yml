@@ -5,9 +5,6 @@
 
 version: '3.7'
 
-vars:
-  TEST_OUT: '{{joinPath .TASKFILE_DIR ".." "reports"}}'
-
 tasks:
 
   test-controllers:
@@ -18,6 +15,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
       - setup
+      - generate-crds
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -40,6 +38,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
       - setup
+      - generate-crds
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -54,11 +53,41 @@ tasks:
       TEST_OUTPUT: '{{joinPath .TEST_OUT "test-samples.json"}}'
       TEST_REPORT: '{{joinPath .TEST_OUT "test-samples.md"}}'
 
+  generate-crds:
+    desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
+    deps: 
+      - build-python-venv
+    sources:
+      - "v2/api/**/*.go" # depends on all API types
+      - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
+    cmds:
+      - mkdir -p v2/api
+      - find v2/api -type f -name "zz_generated.*" -delete
+      - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
+      - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
+      - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
+      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - "{{.SCRIPTS_ROOT}}/venv/bin/python3 {{.SCRIPTS_ROOT}}/generate-webhooks-per-group.py --api-dir v2/api --output-dir {{.CONTROLLER_OUTPUT}}/webhook/generated"
+      - cmd: cd v2/api && gofumpt -l -w . # format all generated code
+        ignore_error: true # Just in case the code doesn't build
+    vars:
+      OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
+      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
+
   setup:
     internal: true
     cmds:
-      - echo "Test output will be stored in {{.TEST_OUT}}"
+      - echo "Tests output to {{.TEST_OUT}}"
       - mkdir -p {{.TEST_OUT}}
+
+  build-python-venv:
+    desc: Creates a Python virtual env
+    dir: "{{.SCRIPTS_ROOT}}"
+    internal: true
+    cmds:
+      - python3 -m virtualenv venv
+      - venv/bin/pip3 install -r requirements.txt
 
   build-mangle-test:
     desc: Builds the tool we use for mangling test results
