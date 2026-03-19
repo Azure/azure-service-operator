@@ -5,7 +5,7 @@ package storage
 
 import (
 	"context"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -457,13 +457,6 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 		account.AllowSharedKeyAccess = nil
 	}
 
-	// AllowedCopyScope
-	if source.AllowedCopyScope != nil {
-		propertyBag.Add("AllowedCopyScope", *source.AllowedCopyScope)
-	} else {
-		propertyBag.Remove("AllowedCopyScope")
-	}
-
 	// AzureFilesIdentityBasedAuthentication
 	if source.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication
@@ -489,20 +482,6 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 		account.CustomDomain = &customDomain
 	} else {
 		account.CustomDomain = nil
-	}
-
-	// DefaultToOAuthAuthentication
-	if source.DefaultToOAuthAuthentication != nil {
-		propertyBag.Add("DefaultToOAuthAuthentication", *source.DefaultToOAuthAuthentication)
-	} else {
-		propertyBag.Remove("DefaultToOAuthAuthentication")
-	}
-
-	// DnsEndpointType
-	if source.DnsEndpointType != nil {
-		propertyBag.Add("DnsEndpointType", *source.DnsEndpointType)
-	} else {
-		propertyBag.Remove("DnsEndpointType")
 	}
 
 	// Encryption
@@ -541,13 +520,6 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 		account.Identity = nil
 	}
 
-	// ImmutableStorageWithVersioning
-	if source.ImmutableStorageWithVersioning != nil {
-		propertyBag.Add("ImmutableStorageWithVersioning", *source.ImmutableStorageWithVersioning)
-	} else {
-		propertyBag.Remove("ImmutableStorageWithVersioning")
-	}
-
 	// IsHnsEnabled
 	if source.IsHnsEnabled != nil {
 		isHnsEnabled := *source.IsHnsEnabled
@@ -556,26 +528,12 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 		account.IsHnsEnabled = nil
 	}
 
-	// IsLocalUserEnabled
-	if source.IsLocalUserEnabled != nil {
-		propertyBag.Add("IsLocalUserEnabled", *source.IsLocalUserEnabled)
-	} else {
-		propertyBag.Remove("IsLocalUserEnabled")
-	}
-
 	// IsNfsV3Enabled
 	if source.IsNfsV3Enabled != nil {
 		isNfsV3Enabled := *source.IsNfsV3Enabled
 		account.IsNfsV3Enabled = &isNfsV3Enabled
 	} else {
 		account.IsNfsV3Enabled = nil
-	}
-
-	// IsSftpEnabled
-	if source.IsSftpEnabled != nil {
-		propertyBag.Add("IsSftpEnabled", *source.IsSftpEnabled)
-	} else {
-		propertyBag.Remove("IsSftpEnabled")
 	}
 
 	// KeyPolicy
@@ -635,13 +593,6 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 		account.Owner = &owner
 	} else {
 		account.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
 	}
 
 	// RoutingPreference
@@ -743,19 +694,6 @@ func (account *StorageAccount_Spec) AssignProperties_To_StorageAccount_Spec(dest
 		destination.AllowSharedKeyAccess = nil
 	}
 
-	// AllowedCopyScope
-	if propertyBag.Contains("AllowedCopyScope") {
-		var allowedCopyScope string
-		err := propertyBag.Pull("AllowedCopyScope", &allowedCopyScope)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowedCopyScope' from propertyBag")
-		}
-
-		destination.AllowedCopyScope = &allowedCopyScope
-	} else {
-		destination.AllowedCopyScope = nil
-	}
-
 	// AzureFilesIdentityBasedAuthentication
 	if account.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication storage.AzureFilesIdentityBasedAuthentication
@@ -781,32 +719,6 @@ func (account *StorageAccount_Spec) AssignProperties_To_StorageAccount_Spec(dest
 		destination.CustomDomain = &customDomain
 	} else {
 		destination.CustomDomain = nil
-	}
-
-	// DefaultToOAuthAuthentication
-	if propertyBag.Contains("DefaultToOAuthAuthentication") {
-		var defaultToOAuthAuthentication bool
-		err := propertyBag.Pull("DefaultToOAuthAuthentication", &defaultToOAuthAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DefaultToOAuthAuthentication' from propertyBag")
-		}
-
-		destination.DefaultToOAuthAuthentication = &defaultToOAuthAuthentication
-	} else {
-		destination.DefaultToOAuthAuthentication = nil
-	}
-
-	// DnsEndpointType
-	if propertyBag.Contains("DnsEndpointType") {
-		var dnsEndpointType string
-		err := propertyBag.Pull("DnsEndpointType", &dnsEndpointType)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DnsEndpointType' from propertyBag")
-		}
-
-		destination.DnsEndpointType = &dnsEndpointType
-	} else {
-		destination.DnsEndpointType = nil
 	}
 
 	// Encryption
@@ -845,19 +757,6 @@ func (account *StorageAccount_Spec) AssignProperties_To_StorageAccount_Spec(dest
 		destination.Identity = nil
 	}
 
-	// ImmutableStorageWithVersioning
-	if propertyBag.Contains("ImmutableStorageWithVersioning") {
-		var immutableStorageWithVersioning storage.ImmutableStorageAccount
-		err := propertyBag.Pull("ImmutableStorageWithVersioning", &immutableStorageWithVersioning)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ImmutableStorageWithVersioning' from propertyBag")
-		}
-
-		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
-	} else {
-		destination.ImmutableStorageWithVersioning = nil
-	}
-
 	// IsHnsEnabled
 	if account.IsHnsEnabled != nil {
 		isHnsEnabled := *account.IsHnsEnabled
@@ -866,38 +765,12 @@ func (account *StorageAccount_Spec) AssignProperties_To_StorageAccount_Spec(dest
 		destination.IsHnsEnabled = nil
 	}
 
-	// IsLocalUserEnabled
-	if propertyBag.Contains("IsLocalUserEnabled") {
-		var isLocalUserEnabled bool
-		err := propertyBag.Pull("IsLocalUserEnabled", &isLocalUserEnabled)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsLocalUserEnabled' from propertyBag")
-		}
-
-		destination.IsLocalUserEnabled = &isLocalUserEnabled
-	} else {
-		destination.IsLocalUserEnabled = nil
-	}
-
 	// IsNfsV3Enabled
 	if account.IsNfsV3Enabled != nil {
 		isNfsV3Enabled := *account.IsNfsV3Enabled
 		destination.IsNfsV3Enabled = &isNfsV3Enabled
 	} else {
 		destination.IsNfsV3Enabled = nil
-	}
-
-	// IsSftpEnabled
-	if propertyBag.Contains("IsSftpEnabled") {
-		var isSftpEnabled bool
-		err := propertyBag.Pull("IsSftpEnabled", &isSftpEnabled)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsSftpEnabled' from propertyBag")
-		}
-
-		destination.IsSftpEnabled = &isSftpEnabled
-	} else {
-		destination.IsSftpEnabled = nil
 	}
 
 	// KeyPolicy
@@ -957,19 +830,6 @@ func (account *StorageAccount_Spec) AssignProperties_To_StorageAccount_Spec(dest
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
 	}
 
 	// RoutingPreference
@@ -1167,13 +1027,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.AllowSharedKeyAccess = nil
 	}
 
-	// AllowedCopyScope
-	if source.AllowedCopyScope != nil {
-		propertyBag.Add("AllowedCopyScope", *source.AllowedCopyScope)
-	} else {
-		propertyBag.Remove("AllowedCopyScope")
-	}
-
 	// AzureFilesIdentityBasedAuthentication
 	if source.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication_STATUS
@@ -1214,20 +1067,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.CustomDomain = &customDomain
 	} else {
 		account.CustomDomain = nil
-	}
-
-	// DefaultToOAuthAuthentication
-	if source.DefaultToOAuthAuthentication != nil {
-		propertyBag.Add("DefaultToOAuthAuthentication", *source.DefaultToOAuthAuthentication)
-	} else {
-		propertyBag.Remove("DefaultToOAuthAuthentication")
-	}
-
-	// DnsEndpointType
-	if source.DnsEndpointType != nil {
-		propertyBag.Add("DnsEndpointType", *source.DnsEndpointType)
-	} else {
-		propertyBag.Remove("DnsEndpointType")
 	}
 
 	// Encryption
@@ -1289,13 +1128,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.Identity = nil
 	}
 
-	// ImmutableStorageWithVersioning
-	if source.ImmutableStorageWithVersioning != nil {
-		propertyBag.Add("ImmutableStorageWithVersioning", *source.ImmutableStorageWithVersioning)
-	} else {
-		propertyBag.Remove("ImmutableStorageWithVersioning")
-	}
-
 	// IsHnsEnabled
 	if source.IsHnsEnabled != nil {
 		isHnsEnabled := *source.IsHnsEnabled
@@ -1304,26 +1136,12 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.IsHnsEnabled = nil
 	}
 
-	// IsLocalUserEnabled
-	if source.IsLocalUserEnabled != nil {
-		propertyBag.Add("IsLocalUserEnabled", *source.IsLocalUserEnabled)
-	} else {
-		propertyBag.Remove("IsLocalUserEnabled")
-	}
-
 	// IsNfsV3Enabled
 	if source.IsNfsV3Enabled != nil {
 		isNfsV3Enabled := *source.IsNfsV3Enabled
 		account.IsNfsV3Enabled = &isNfsV3Enabled
 	} else {
 		account.IsNfsV3Enabled = nil
-	}
-
-	// IsSftpEnabled
-	if source.IsSftpEnabled != nil {
-		propertyBag.Add("IsSftpEnabled", *source.IsSftpEnabled)
-	} else {
-		propertyBag.Remove("IsSftpEnabled")
 	}
 
 	// KeyCreationTime
@@ -1414,13 +1232,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// ProvisioningState
 	account.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
-
 	// RoutingPreference
 	if source.RoutingPreference != nil {
 		var routingPreference RoutingPreference_STATUS
@@ -1477,13 +1288,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// StatusOfSecondary
 	account.StatusOfSecondary = genruntime.ClonePointerToString(source.StatusOfSecondary)
-
-	// StorageAccountSkuConversionStatus
-	if source.StorageAccountSkuConversionStatus != nil {
-		propertyBag.Add("StorageAccountSkuConversionStatus", *source.StorageAccountSkuConversionStatus)
-	} else {
-		propertyBag.Remove("StorageAccountSkuConversionStatus")
-	}
 
 	// SupportsHttpsTrafficOnly
 	if source.SupportsHttpsTrafficOnly != nil {
@@ -1551,19 +1355,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.AllowSharedKeyAccess = nil
 	}
 
-	// AllowedCopyScope
-	if propertyBag.Contains("AllowedCopyScope") {
-		var allowedCopyScope string
-		err := propertyBag.Pull("AllowedCopyScope", &allowedCopyScope)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowedCopyScope' from propertyBag")
-		}
-
-		destination.AllowedCopyScope = &allowedCopyScope
-	} else {
-		destination.AllowedCopyScope = nil
-	}
-
 	// AzureFilesIdentityBasedAuthentication
 	if account.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication storage.AzureFilesIdentityBasedAuthentication_STATUS
@@ -1604,32 +1395,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.CustomDomain = &customDomain
 	} else {
 		destination.CustomDomain = nil
-	}
-
-	// DefaultToOAuthAuthentication
-	if propertyBag.Contains("DefaultToOAuthAuthentication") {
-		var defaultToOAuthAuthentication bool
-		err := propertyBag.Pull("DefaultToOAuthAuthentication", &defaultToOAuthAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DefaultToOAuthAuthentication' from propertyBag")
-		}
-
-		destination.DefaultToOAuthAuthentication = &defaultToOAuthAuthentication
-	} else {
-		destination.DefaultToOAuthAuthentication = nil
-	}
-
-	// DnsEndpointType
-	if propertyBag.Contains("DnsEndpointType") {
-		var dnsEndpointType string
-		err := propertyBag.Pull("DnsEndpointType", &dnsEndpointType)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DnsEndpointType' from propertyBag")
-		}
-
-		destination.DnsEndpointType = &dnsEndpointType
-	} else {
-		destination.DnsEndpointType = nil
 	}
 
 	// Encryption
@@ -1691,19 +1456,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.Identity = nil
 	}
 
-	// ImmutableStorageWithVersioning
-	if propertyBag.Contains("ImmutableStorageWithVersioning") {
-		var immutableStorageWithVersioning storage.ImmutableStorageAccount_STATUS
-		err := propertyBag.Pull("ImmutableStorageWithVersioning", &immutableStorageWithVersioning)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ImmutableStorageWithVersioning' from propertyBag")
-		}
-
-		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
-	} else {
-		destination.ImmutableStorageWithVersioning = nil
-	}
-
 	// IsHnsEnabled
 	if account.IsHnsEnabled != nil {
 		isHnsEnabled := *account.IsHnsEnabled
@@ -1712,38 +1464,12 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.IsHnsEnabled = nil
 	}
 
-	// IsLocalUserEnabled
-	if propertyBag.Contains("IsLocalUserEnabled") {
-		var isLocalUserEnabled bool
-		err := propertyBag.Pull("IsLocalUserEnabled", &isLocalUserEnabled)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsLocalUserEnabled' from propertyBag")
-		}
-
-		destination.IsLocalUserEnabled = &isLocalUserEnabled
-	} else {
-		destination.IsLocalUserEnabled = nil
-	}
-
 	// IsNfsV3Enabled
 	if account.IsNfsV3Enabled != nil {
 		isNfsV3Enabled := *account.IsNfsV3Enabled
 		destination.IsNfsV3Enabled = &isNfsV3Enabled
 	} else {
 		destination.IsNfsV3Enabled = nil
-	}
-
-	// IsSftpEnabled
-	if propertyBag.Contains("IsSftpEnabled") {
-		var isSftpEnabled bool
-		err := propertyBag.Pull("IsSftpEnabled", &isSftpEnabled)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsSftpEnabled' from propertyBag")
-		}
-
-		destination.IsSftpEnabled = &isSftpEnabled
-	} else {
-		destination.IsSftpEnabled = nil
 	}
 
 	// KeyCreationTime
@@ -1834,19 +1560,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(account.ProvisioningState)
 
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
-
 	// RoutingPreference
 	if account.RoutingPreference != nil {
 		var routingPreference storage.RoutingPreference_STATUS
@@ -1903,19 +1616,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 
 	// StatusOfSecondary
 	destination.StatusOfSecondary = genruntime.ClonePointerToString(account.StatusOfSecondary)
-
-	// StorageAccountSkuConversionStatus
-	if propertyBag.Contains("StorageAccountSkuConversionStatus") {
-		var storageAccountSkuConversionStatus storage.StorageAccountSkuConversionStatus_STATUS
-		err := propertyBag.Pull("StorageAccountSkuConversionStatus", &storageAccountSkuConversionStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'StorageAccountSkuConversionStatus' from propertyBag")
-		}
-
-		destination.StorageAccountSkuConversionStatus = &storageAccountSkuConversionStatus
-	} else {
-		destination.StorageAccountSkuConversionStatus = nil
-	}
 
 	// SupportsHttpsTrafficOnly
 	if account.SupportsHttpsTrafficOnly != nil {
@@ -4567,13 +4267,6 @@ func (properties *ActiveDirectoryProperties) AssignProperties_From_ActiveDirecto
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AccountType
-	if source.AccountType != nil {
-		propertyBag.Add("AccountType", *source.AccountType)
-	} else {
-		propertyBag.Remove("AccountType")
-	}
-
 	// AzureStorageSid
 	properties.AzureStorageSid = genruntime.ClonePointerToString(source.AzureStorageSid)
 
@@ -4591,13 +4284,6 @@ func (properties *ActiveDirectoryProperties) AssignProperties_From_ActiveDirecto
 
 	// NetBiosDomainName
 	properties.NetBiosDomainName = genruntime.ClonePointerToString(source.NetBiosDomainName)
-
-	// SamAccountName
-	if source.SamAccountName != nil {
-		propertyBag.Add("SamAccountName", *source.SamAccountName)
-	} else {
-		propertyBag.Remove("SamAccountName")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4624,19 +4310,6 @@ func (properties *ActiveDirectoryProperties) AssignProperties_To_ActiveDirectory
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
-	// AccountType
-	if propertyBag.Contains("AccountType") {
-		var accountType string
-		err := propertyBag.Pull("AccountType", &accountType)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccountType' from propertyBag")
-		}
-
-		destination.AccountType = &accountType
-	} else {
-		destination.AccountType = nil
-	}
-
 	// AzureStorageSid
 	destination.AzureStorageSid = genruntime.ClonePointerToString(properties.AzureStorageSid)
 
@@ -4654,19 +4327,6 @@ func (properties *ActiveDirectoryProperties) AssignProperties_To_ActiveDirectory
 
 	// NetBiosDomainName
 	destination.NetBiosDomainName = genruntime.ClonePointerToString(properties.NetBiosDomainName)
-
-	// SamAccountName
-	if propertyBag.Contains("SamAccountName") {
-		var samAccountName string
-		err := propertyBag.Pull("SamAccountName", &samAccountName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SamAccountName' from propertyBag")
-		}
-
-		destination.SamAccountName = &samAccountName
-	} else {
-		destination.SamAccountName = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4705,13 +4365,6 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_From_Active
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AccountType
-	if source.AccountType != nil {
-		propertyBag.Add("AccountType", *source.AccountType)
-	} else {
-		propertyBag.Remove("AccountType")
-	}
-
 	// AzureStorageSid
 	properties.AzureStorageSid = genruntime.ClonePointerToString(source.AzureStorageSid)
 
@@ -4729,13 +4382,6 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_From_Active
 
 	// NetBiosDomainName
 	properties.NetBiosDomainName = genruntime.ClonePointerToString(source.NetBiosDomainName)
-
-	// SamAccountName
-	if source.SamAccountName != nil {
-		propertyBag.Add("SamAccountName", *source.SamAccountName)
-	} else {
-		propertyBag.Remove("SamAccountName")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4762,19 +4408,6 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_To_ActiveDi
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
-	// AccountType
-	if propertyBag.Contains("AccountType") {
-		var accountType string
-		err := propertyBag.Pull("AccountType", &accountType)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccountType' from propertyBag")
-		}
-
-		destination.AccountType = &accountType
-	} else {
-		destination.AccountType = nil
-	}
-
 	// AzureStorageSid
 	destination.AzureStorageSid = genruntime.ClonePointerToString(properties.AzureStorageSid)
 
@@ -4792,19 +4425,6 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_To_ActiveDi
 
 	// NetBiosDomainName
 	destination.NetBiosDomainName = genruntime.ClonePointerToString(properties.NetBiosDomainName)
-
-	// SamAccountName
-	if propertyBag.Contains("SamAccountName") {
-		var samAccountName string
-		err := propertyBag.Pull("SamAccountName", &samAccountName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SamAccountName' from propertyBag")
-		}
-
-		destination.SamAccountName = &samAccountName
-	} else {
-		destination.SamAccountName = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5067,13 +4687,6 @@ func (identity *EncryptionIdentity) AssignProperties_From_EncryptionIdentity(sou
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// FederatedIdentityClientId
-	if source.FederatedIdentityClientId != nil {
-		propertyBag.Add("FederatedIdentityClientId", *source.FederatedIdentityClientId)
-	} else {
-		propertyBag.Remove("FederatedIdentityClientId")
-	}
-
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
 		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
@@ -5106,19 +4719,6 @@ func (identity *EncryptionIdentity) AssignProperties_From_EncryptionIdentity(sou
 func (identity *EncryptionIdentity) AssignProperties_To_EncryptionIdentity(destination *storage.EncryptionIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// FederatedIdentityClientId
-	if propertyBag.Contains("FederatedIdentityClientId") {
-		var federatedIdentityClientId string
-		err := propertyBag.Pull("FederatedIdentityClientId", &federatedIdentityClientId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'FederatedIdentityClientId' from propertyBag")
-		}
-
-		destination.FederatedIdentityClientId = &federatedIdentityClientId
-	} else {
-		destination.FederatedIdentityClientId = nil
-	}
 
 	// UserAssignedIdentityReference
 	if identity.UserAssignedIdentityReference != nil {
@@ -5160,13 +4760,6 @@ func (identity *EncryptionIdentity_STATUS) AssignProperties_From_EncryptionIdent
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// FederatedIdentityClientId
-	if source.FederatedIdentityClientId != nil {
-		propertyBag.Add("FederatedIdentityClientId", *source.FederatedIdentityClientId)
-	} else {
-		propertyBag.Remove("FederatedIdentityClientId")
-	}
-
 	// UserAssignedIdentity
 	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
 
@@ -5194,19 +4787,6 @@ func (identity *EncryptionIdentity_STATUS) AssignProperties_From_EncryptionIdent
 func (identity *EncryptionIdentity_STATUS) AssignProperties_To_EncryptionIdentity_STATUS(destination *storage.EncryptionIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// FederatedIdentityClientId
-	if propertyBag.Contains("FederatedIdentityClientId") {
-		var federatedIdentityClientId string
-		err := propertyBag.Pull("FederatedIdentityClientId", &federatedIdentityClientId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'FederatedIdentityClientId' from propertyBag")
-		}
-
-		destination.FederatedIdentityClientId = &federatedIdentityClientId
-	} else {
-		destination.FederatedIdentityClientId = nil
-	}
 
 	// UserAssignedIdentity
 	destination.UserAssignedIdentity = genruntime.ClonePointerToString(identity.UserAssignedIdentity)
@@ -5793,13 +5373,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CurrentVersionedKeyExpirationTimestamp
-	if source.CurrentVersionedKeyExpirationTimestamp != nil {
-		propertyBag.Add("CurrentVersionedKeyExpirationTimestamp", *source.CurrentVersionedKeyExpirationTimestamp)
-	} else {
-		propertyBag.Remove("CurrentVersionedKeyExpirationTimestamp")
-	}
-
 	// CurrentVersionedKeyIdentifier
 	properties.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(source.CurrentVersionedKeyIdentifier)
 
@@ -5839,19 +5412,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *storage.KeyVaultProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// CurrentVersionedKeyExpirationTimestamp
-	if propertyBag.Contains("CurrentVersionedKeyExpirationTimestamp") {
-		var currentVersionedKeyExpirationTimestamp string
-		err := propertyBag.Pull("CurrentVersionedKeyExpirationTimestamp", &currentVersionedKeyExpirationTimestamp)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CurrentVersionedKeyExpirationTimestamp' from propertyBag")
-		}
-
-		destination.CurrentVersionedKeyExpirationTimestamp = &currentVersionedKeyExpirationTimestamp
-	} else {
-		destination.CurrentVersionedKeyExpirationTimestamp = nil
-	}
 
 	// CurrentVersionedKeyIdentifier
 	destination.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(properties.CurrentVersionedKeyIdentifier)

@@ -5,7 +5,7 @@ package storage
 
 import (
 	"context"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -1108,13 +1108,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 	// AccessTier
 	account.AccessTier = genruntime.ClonePointerToString(source.AccessTier)
 
-	// AccountMigrationInProgress
-	if source.AccountMigrationInProgress != nil {
-		propertyBag.Add("AccountMigrationInProgress", *source.AccountMigrationInProgress)
-	} else {
-		propertyBag.Remove("AccountMigrationInProgress")
-	}
-
 	// AllowBlobPublicAccess
 	if source.AllowBlobPublicAccess != nil {
 		allowBlobPublicAccess := *source.AllowBlobPublicAccess
@@ -1296,13 +1289,6 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 		account.IsSftpEnabled = &isSftpEnabled
 	} else {
 		account.IsSftpEnabled = nil
-	}
-
-	// IsSkuConversionBlocked
-	if source.IsSkuConversionBlocked != nil {
-		propertyBag.Add("IsSkuConversionBlocked", *source.IsSkuConversionBlocked)
-	} else {
-		propertyBag.Remove("IsSkuConversionBlocked")
 	}
 
 	// KeyCreationTime
@@ -1507,19 +1493,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	// AccessTier
 	destination.AccessTier = genruntime.ClonePointerToString(account.AccessTier)
 
-	// AccountMigrationInProgress
-	if propertyBag.Contains("AccountMigrationInProgress") {
-		var accountMigrationInProgress bool
-		err := propertyBag.Pull("AccountMigrationInProgress", &accountMigrationInProgress)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccountMigrationInProgress' from propertyBag")
-		}
-
-		destination.AccountMigrationInProgress = &accountMigrationInProgress
-	} else {
-		destination.AccountMigrationInProgress = nil
-	}
-
 	// AllowBlobPublicAccess
 	if account.AllowBlobPublicAccess != nil {
 		allowBlobPublicAccess := *account.AllowBlobPublicAccess
@@ -1701,19 +1674,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 		destination.IsSftpEnabled = &isSftpEnabled
 	} else {
 		destination.IsSftpEnabled = nil
-	}
-
-	// IsSkuConversionBlocked
-	if propertyBag.Contains("IsSkuConversionBlocked") {
-		var isSkuConversionBlocked bool
-		err := propertyBag.Pull("IsSkuConversionBlocked", &isSkuConversionBlocked)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsSkuConversionBlocked' from propertyBag")
-		}
-
-		destination.IsSkuConversionBlocked = &isSkuConversionBlocked
-	} else {
-		destination.IsSkuConversionBlocked = nil
 	}
 
 	// KeyCreationTime
@@ -2993,29 +2953,8 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_From_GeoReplicationSta
 		stats.CanFailover = nil
 	}
 
-	// CanPlannedFailover
-	if source.CanPlannedFailover != nil {
-		propertyBag.Add("CanPlannedFailover", *source.CanPlannedFailover)
-	} else {
-		propertyBag.Remove("CanPlannedFailover")
-	}
-
 	// LastSyncTime
 	stats.LastSyncTime = genruntime.ClonePointerToString(source.LastSyncTime)
-
-	// PostFailoverRedundancy
-	if source.PostFailoverRedundancy != nil {
-		propertyBag.Add("PostFailoverRedundancy", *source.PostFailoverRedundancy)
-	} else {
-		propertyBag.Remove("PostFailoverRedundancy")
-	}
-
-	// PostPlannedFailoverRedundancy
-	if source.PostPlannedFailoverRedundancy != nil {
-		propertyBag.Add("PostPlannedFailoverRedundancy", *source.PostPlannedFailoverRedundancy)
-	} else {
-		propertyBag.Remove("PostPlannedFailoverRedundancy")
-	}
 
 	// Status
 	stats.Status = genruntime.ClonePointerToString(source.Status)
@@ -3053,47 +2992,8 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_To_GeoReplicationStats
 		destination.CanFailover = nil
 	}
 
-	// CanPlannedFailover
-	if propertyBag.Contains("CanPlannedFailover") {
-		var canPlannedFailover bool
-		err := propertyBag.Pull("CanPlannedFailover", &canPlannedFailover)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CanPlannedFailover' from propertyBag")
-		}
-
-		destination.CanPlannedFailover = &canPlannedFailover
-	} else {
-		destination.CanPlannedFailover = nil
-	}
-
 	// LastSyncTime
 	destination.LastSyncTime = genruntime.ClonePointerToString(stats.LastSyncTime)
-
-	// PostFailoverRedundancy
-	if propertyBag.Contains("PostFailoverRedundancy") {
-		var postFailoverRedundancy string
-		err := propertyBag.Pull("PostFailoverRedundancy", &postFailoverRedundancy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PostFailoverRedundancy' from propertyBag")
-		}
-
-		destination.PostFailoverRedundancy = &postFailoverRedundancy
-	} else {
-		destination.PostFailoverRedundancy = nil
-	}
-
-	// PostPlannedFailoverRedundancy
-	if propertyBag.Contains("PostPlannedFailoverRedundancy") {
-		var postPlannedFailoverRedundancy string
-		err := propertyBag.Pull("PostPlannedFailoverRedundancy", &postPlannedFailoverRedundancy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PostPlannedFailoverRedundancy' from propertyBag")
-		}
-
-		destination.PostPlannedFailoverRedundancy = &postPlannedFailoverRedundancy
-	} else {
-		destination.PostPlannedFailoverRedundancy = nil
-	}
 
 	// Status
 	destination.Status = genruntime.ClonePointerToString(stats.Status)
