@@ -83,19 +83,20 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 
 // compatibilityReferencesConvertToOriginalPackage links any compatibility references to the original if present
 func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertToOriginalPackage(names []astmodel.InternalTypeName) {
-	for i, name := range names {
-		// Last package can't be linked forward
-		if i+1 >= len(names) {
-			break
-		}
+	allNames := make(map[string]astmodel.InternalTypeName, 0)
+	for _, name := range names {
+		allNames[name.String()] = name
+	}
 
-		if !isCompatibilityPackage(name.InternalPackageReference()) {
+	for _, name := range names {
+		newStyleRef, ok := asNewStylePackageReference(name.InternalPackageReference())
+		if !ok {
 			continue
 		}
 
-		next := names[i+1]
-		if next.InternalPackageReference().HasAPIVersion(name.InternalPackageReference().APIVersion()) {
-			b.links[name] = next
+		newStyleName := name.WithPackageReference(newStyleRef)
+		if _, exists := allNames[newStyleName.String()]; exists {
+			b.links[name] = newStyleName
 		}
 	}
 }
@@ -158,6 +159,40 @@ func isCompatibilityPackage(ref astmodel.PackageReference) bool {
 		return r.HasVersionPrefix("v1api")
 	case astmodel.SubPackageReference:
 		return isCompatibilityPackage(r.Parent())
+	default:
+		msg := fmt.Sprintf(
+			"unexpected PackageReference implementation %T",
+			ref)
+		panic(msg)
+	}
+}
+
+// asNewStylePackageReference returns the new-style package reference for the supplied reference, if it is a legacy
+// reference, or false if it isn't.
+// Correctly handles nested package references, returning a new nested reference with the new-style reference at the
+// leaf if appropriate.
+func asNewStylePackageReference(
+	ref astmodel.PackageReference,
+) (astmodel.InternalPackageReference, bool) {
+	switch r := ref.(type) {
+	case astmodel.ExternalPackageReference:
+		return nil, false
+
+	case astmodel.LocalPackageReference:
+		if r.HasVersionPrefix("v1api") {
+			return r.WithVersionPrefix("v"), true
+		}
+
+		return nil, false
+
+	case astmodel.SubPackageReference:
+		newParent, ok := asNewStylePackageReference(r.Parent())
+		if !ok {
+			return nil, false
+		}
+
+		return astmodel.MakeSubPackageReference(r.PackageName(), newParent), true
+
 	default:
 		msg := fmt.Sprintf(
 			"unexpected PackageReference implementation %T",
