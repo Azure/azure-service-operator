@@ -80,7 +80,7 @@ func (graph *ConversionGraph) FindNextType(
 	}
 
 	// Now we need to return the earlier type. We can do this by comparing API versions.
-	// (this be needed if a different type is introduced with the same name in a later version, or if a type is
+	// (this may be needed if a different type is introduced with the same name in a later version, or if a type is
 	// renamed in one version and renamed back in a later one)
 	if astmodel.ComparePathAndVersion(
 		nextType.InternalPackageReference().APIVersion(),
