@@ -42,7 +42,7 @@ func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.InternalTypeName)
 func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, error) {
 	stages := []func([]astmodel.InternalTypeName){
 		b.apiReferencesConvertToStorage,
-		b.compatibilityReferencesConvertToOriginalPackage,
+		b.legacyV1apiReferencesConvertToNewStyle,
 		b.previewReferencesConvertBackward,
 		b.nonPreviewReferencesConvertForward,
 	}
@@ -81,8 +81,8 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 	return result, nil
 }
 
-// compatibilityReferencesConvertToOriginalPackage links any compatibility references to the original if present
-func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertToOriginalPackage(names []astmodel.InternalTypeName) {
+// legacyV1apiReferencesConvertToNewStyle links any legacy v1api package references to their new-style v equivalent, if present
+func (b *ResourceConversionGraphBuilder) legacyV1apiReferencesConvertToNewStyle(names []astmodel.InternalTypeName) {
 	allNames := make(map[string]astmodel.InternalTypeName, 0)
 	for _, name := range names {
 		allNames[name.String()] = name
