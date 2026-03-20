@@ -1,14 +1,12 @@
 module github.com/Azure/azure-service-operator/v2/tools/generator
 
-go 1.23.0
-
-toolchain go1.23.4
+go 1.24.4
 
 // Needed to reference shared version numbering:
 replace github.com/Azure/azure-service-operator/v2 => ../../
 
-// Modified version that doesn’t panic on golang-invalid regexes:
-replace github.com/xeipuuv/gojsonschema => github.com/devigned/gojsonschema v1.2.1-0.20191114132342-001aa27b4d11
+// Modified version that doesn't panic on golang-invalid regexes:
+replace github.com/xeipuuv/gojsonschema => github.com/devigned/gojsonschema v1.2.1-0.20191231010529-c593123f1e5d
 
 require (
 	github.com/Azure/azure-service-operator/v2 v2.12.0
