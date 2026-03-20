@@ -2226,66 +2226,6 @@ objectModelConfiguration:
       Fleets_AutoUpgradeProfile:
         $exportAs: FleetsAutoUpgradeProfile
         $supportedFrom: v2.16.0
-    2024-04-02-preview:
-      AgentPoolGPUProfile:
-        $nameInNextVersion: GPUProfile
-      AgentPoolGPUProfile_STATUS:
-        $nameInNextVersion: GPUProfile_STATUS
-      ContainerServiceSshPublicKey:
-        KeyData:
-          $isSecret: false
-      ContainerServiceSshPublicKey_STATUS:
-        KeyData:
-          $isSecret: false
-      DelegatedResource:
-        ResourceId:
-          $referenceType: arm
-      ManagedCluster:
-        $exportAs: ManagedCluster
-        $supportedFrom: v2.8.0
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-          PrincipalId: $.Status.Identity.PrincipalId
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.8.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      ManagedClusters_TrustedAccessRoleBinding:
-        $exportAs: TrustedAccessRoleBinding
-        $supportedFrom: v2.8.0
-      PrivateLinkResource:
-        Id:
-          $referenceType: arm
-      UserAssignedIdentity:
-        ClientId:
-          $importConfigMapMode: optional
-        ObjectId:
-          $importConfigMapMode: optional
     2024-09-01:
       ContainerServiceSshPublicKey:
         KeyData:

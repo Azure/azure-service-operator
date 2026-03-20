@@ -4424,7 +4424,7 @@ interactions:
                 - application/json
             Test-Request-Hash:
                 - 4486be18b0edadf7f061b886a70479ee323ed2229fcd4cbe30bec5952b10eca9
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2024-04-02-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2025-08-01
         method: PUT
       response:
         proto: HTTP/2.0
@@ -4871,7 +4871,7 @@ interactions:
         headers:
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2024-04-02-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2025-08-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -4929,7 +4929,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2024-04-02-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2025-08-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -7837,7 +7837,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2024-04-02-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pbjouy/providers/Microsoft.ContainerService/managedClusters/asotest-mc-znnmxx/trustedAccessRoleBindings/tarb?api-version=2025-08-01
         method: DELETE
       response:
         proto: HTTP/2.0

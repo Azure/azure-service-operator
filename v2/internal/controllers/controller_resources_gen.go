@@ -128,9 +128,6 @@ import (
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
-	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
-	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
-	containerservice_v20240402pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/webhook"
 	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	containerservice_v20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/webhook"
@@ -3677,28 +3674,6 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(containerservice_v20240402p.ManagedCluster),
-			Defaulter: &containerservice_v20240402pw.ManagedCluster{},
-			Validator: &containerservice_v20240402pw.ManagedCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20240402p.ManagedClustersAgentPool),
-			Defaulter: &containerservice_v20240402pw.ManagedClustersAgentPool{},
-			Validator: &containerservice_v20240402pw.ManagedClustersAgentPool{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20240402p.TrustedAccessRoleBinding),
-			Defaulter: &containerservice_v20240402pw.TrustedAccessRoleBinding{},
-			Validator: &containerservice_v20240402pw.TrustedAccessRoleBinding{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v20240402ps.ManagedCluster)},
-		&registration.KnownType{Obj: new(containerservice_v20240402ps.ManagedClustersAgentPool)},
-		&registration.KnownType{Obj: new(containerservice_v20240402ps.TrustedAccessRoleBinding)})
-	result = append(
-		result,
-		&registration.KnownType{
 			Obj:       new(containerservice_v20240901.MaintenanceConfiguration),
 			Defaulter: &containerservice_v20240901w.MaintenanceConfiguration{},
 			Validator: &containerservice_v20240901w.MaintenanceConfiguration{},
@@ -6343,8 +6318,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
-	_ = containerservice_v20240402p.AddToScheme(scheme)
-	_ = containerservice_v20240402ps.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)

@@ -13,7 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
