@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
 	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsQueueServicesQueue
+	var other v20220901s.StorageAccountsQueueServicesQueue
 	err := copied.AssignProperties_To_StorageAccountsQueueServicesQueue(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueueOperatorSpec(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsQueueServicesQueueOperatorSpec
+	var other v20220901s.StorageAccountsQueueServicesQueueOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsQueueServicesQueueOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -280,7 +280,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsQueueServicesQueue_STATUS
+	var other v20220901s.StorageAccountsQueueServicesQueue_STATUS
 	err := copied.AssignProperties_To_StorageAccountsQueueServicesQueue_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -389,7 +389,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue_Spec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsQueueServicesQueue_Spec
+	var other v20220901s.StorageAccountsQueueServicesQueue_Spec
 	err := copied.AssignProperties_To_StorageAccountsQueueServicesQueue_Spec(&other)
 	if err != nil {
 		return err.Error()

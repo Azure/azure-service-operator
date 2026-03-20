@@ -10,6 +10,10 @@ import (
 	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
 	v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
+	v20241230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230"
+	v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
+	v20250601p "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview"
+	v20250601ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +28,9 @@ func (extension *FlexibleServersAdministratorExtension) GetExtendedResources() [
 		&v20230630.FlexibleServersAdministrator{},
 		&v20230630s.FlexibleServersAdministrator{},
 		&v20231230.FlexibleServersAdministrator{},
-		&v20231230s.FlexibleServersAdministrator{}}
+		&v20231230s.FlexibleServersAdministrator{},
+		&v20241230.FlexibleServersAdministrator{},
+		&v20241230s.FlexibleServersAdministrator{},
+		&v20250601p.FlexibleServersAdministrator{},
+		&v20250601ps.FlexibleServersAdministrator{}}
 }

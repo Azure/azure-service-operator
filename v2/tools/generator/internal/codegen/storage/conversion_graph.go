@@ -76,15 +76,15 @@ func (graph *ConversionGraph) FindNextType(
 	// If they're in the same package, the type-rename has been configured on the wrong version (or the wrong type)
 	if nextType.PackageReference().Equals(renamedType.PackageReference()) {
 		return astmodel.InternalTypeName{},
-			eris.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+			eris.Errorf("conflict between rename of %s to %s and existing type %s", name, renamedType, nextType)
 	}
 
-	// Now we need to return the earlier type. We can do this by comparing the package paths.
-	// (this be needed if a different type is introduced with the same name in a later version, or if a type is
+	// Now we need to return the earlier type. We can do this by comparing API versions.
+	// (this may be needed if a different type is introduced with the same name in a later version, or if a type is
 	// renamed in one version and renamed back in a later one)
 	if astmodel.ComparePathAndVersion(
-		nextType.PackageReference().ImportPath(),
-		renamedType.PackageReference().ImportPath()) < 0 {
+		nextType.InternalPackageReference().APIVersion(),
+		renamedType.InternalPackageReference().APIVersion()) < 0 {
 		// nextType came first
 		return nextType, nil
 	}

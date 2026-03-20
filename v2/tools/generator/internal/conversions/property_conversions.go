@@ -163,20 +163,14 @@ func CreateTypeConversion(
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext,
 ) (PropertyConversion, error) {
-	var result PropertyConversion
-	var err error
-	for _, f := range propertyConversionFactories {
-		result, err = f(sourceEndpoint, destinationEndpoint, conversionContext)
-		if err != nil {
-			// Fatal error, no conversion possible
-			break
-		}
-
-		if result != nil {
-			// Conversion found, return it
-			return result, nil
-		}
+	pc, err := runPropertyConversionFactories(sourceEndpoint, destinationEndpoint, conversionContext)
+	if pc != nil {
+		return pc, nil
 	}
+
+	// Debug hook - enable this to re-run the conversion in order to step through things when it fails.
+	// We know it's going to return an error, but we want to be able to see how far it got and where it failed.
+	// _, _ = runPropertyConversionFactories(sourceEndpoint, destinationEndpoint, conversionContext)
 
 	// No conversion found, we need to generate a useful error message, wrapping any existing error.
 	// If the endpoints are in different packages, we want both to be qualified with their package name.
@@ -203,6 +197,29 @@ func CreateTypeConversion(
 	}
 
 	return nil, err
+}
+
+func runPropertyConversionFactories(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
+	var result PropertyConversion
+	var err error
+	for _, f := range propertyConversionFactories {
+		result, err = f(sourceEndpoint, destinationEndpoint, conversionContext)
+		if err != nil {
+			// Fatal error, no conversion possible
+			return nil, err
+		}
+
+		if result != nil {
+			// Conversion found, return it
+			return result, nil
+		}
+	}
+
+	return result, nil
 }
 
 // NameOfPropertyAssignmentFunction returns the name of the property assignment function

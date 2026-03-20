@@ -588,7 +588,7 @@ tasks:
       - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
     vars:
       VERBOSE:
-        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+        sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
 
   controller:test-samples:
@@ -598,10 +598,10 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples 
     vars:
       VERBOSE:
-        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+        sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
 
   # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the

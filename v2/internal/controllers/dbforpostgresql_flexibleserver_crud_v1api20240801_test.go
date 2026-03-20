@@ -79,15 +79,83 @@ func Test_DBForPostgreSQL_FlexibleServer_20240801_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(flexibleServer)
+	database := &postgresql.FlexibleServersDatabase{
+		ObjectMeta: tc.MakeObjectMeta("db"),
+		Spec: postgresql.FlexibleServersDatabase_Spec{
+			Owner:   testcommon.AsOwner(flexibleServer),
+			Charset: to.Ptr("utf8"),
+		},
+	}
 
-	// It should be created in Kubernetes
+	firewall := &postgresql.FlexibleServersFirewallRule{
+		ObjectMeta: tc.MakeObjectMeta("fwrule"),
+		Spec: postgresql.FlexibleServersFirewallRule_Spec{
+			Owner: testcommon.AsOwner(flexibleServer),
+			// I think that these rules are allow rules - somebody with this IP can access the server.
+			StartIpAddress: to.Ptr("1.2.3.4"),
+			EndIpAddress:   to.Ptr("1.2.3.4"),
+		},
+	}
+
+	configuration := &postgresql.FlexibleServersConfiguration{
+		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
+		Spec: postgresql.FlexibleServersConfiguration_Spec{
+			Owner:     testcommon.AsOwner(flexibleServer),
+			AzureName: "pgaudit.log",
+			Source:    to.Ptr("user-override"),
+			Value:     to.Ptr("READ"),
+		},
+	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&configuration.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
+	backup := &postgresql.FlexibleServersBackup{
+		ObjectMeta: tc.MakeObjectMeta("backup"),
+		Spec: postgresql.FlexibleServersBackup_Spec{
+			Owner: testcommon.AsOwner(flexibleServer),
+		},
+	}
+
+	threatProtection := &postgresql.FlexibleServersAdvancedThreatProtectionSettings{
+		ObjectMeta: tc.MakeObjectMeta("advthreat"),
+		Spec: postgresql.FlexibleServersAdvancedThreatProtectionSettings_Spec{
+			Owner: testcommon.AsOwner(flexibleServer),
+			State: to.Ptr(postgresql.ServerThreatProtectionProperties_State_Enabled),
+		},
+	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
+	tc.AddAnnotation(&threatProtection.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
+	// Create everything
+	tc.CreateResourcesAndWait(flexibleServer, database, firewall, configuration, backup, threatProtection)
+
+	// Server should be created and ID available
 	g.Expect(flexibleServer.Status.Id).ToNot(BeNil())
 	g.Expect(flexibleServer.Status.FullyQualifiedDomainName).ToNot(BeNil())
 	armId := *flexibleServer.Status.Id
 
-	// It should have the expected config data written
+	// Server should have written to the expected config map
 	tc.ExpectConfigMapHasKeysAndValues(fqdnConfig, "fqdn", *flexibleServer.Status.FullyQualifiedDomainName)
+
+	// Database should be created and ID available
+	tc.Expect(database.Status.Id).ToNot(BeNil())
+
+	// Firewall rule should be created and ID available
+	tc.Expect(firewall.Status.Id).ToNot(BeNil())
+
+	// Configuration should be created and ID available
+	tc.Expect(configuration.Status.Id).ToNot(BeNil())
+	tc.Expect(configuration.Status.Value).To(Equal(to.Ptr("READ")))
+
+	// Backup should be created and ID available
+	tc.Expect(backup.Status.Id).ToNot(BeNil())
+
+	// Advanced threat protection settings should be created and ID available
+	tc.Expect(threatProtection.Status.Id).ToNot(BeNil())
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
@@ -95,39 +163,17 @@ func Test_DBForPostgreSQL_FlexibleServer_20240801_CRUD(t *testing.T) {
 		CustomWindow: to.Ptr("enabled"),
 		DayOfWeek:    to.Ptr(5),
 	}
+
 	tc.PatchResourceAndWait(old, flexibleServer)
 	tc.Expect(flexibleServer.Status.MaintenanceWindow).ToNot(BeNil())
 	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.Ptr(5)))
 
-	tc.RunParallelSubtests(
+	// Opting-out of parallel execution for the subtests to try and reduce test flakiness.
+	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "ConfigMapValuesWrittenToSameConfigMap",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				FlexibleServer_20240801_ConfigValuesWrittenToSameConfigMap(tc, flexibleServer)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Flexible servers database CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Database_20240801_CRUD(tc, flexibleServer)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Flexible servers firewall CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_FirewallRule_20240801_CRUD(tc, flexibleServer)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Flexible servers configuration CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Configuration_20240801_CRUD(tc, flexibleServer)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Flexible servers backup CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Backup_20240801_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
@@ -184,58 +230,6 @@ func FlexibleServer_20240801_ConfigValuesWrittenToSameConfigMap(tc *testcommon.K
 		*flexibleServer.Status.FullyQualifiedDomainName)
 }
 
-func FlexibleServer_Database_20240801_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
-	database := &postgresql.FlexibleServersDatabase{
-		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: postgresql.FlexibleServersDatabase_Spec{
-			Owner:   testcommon.AsOwner(flexibleServer),
-			Charset: to.Ptr("utf8"),
-		},
-	}
-	tc.CreateResourceAndWait(database)
-	defer tc.DeleteResourceAndWait(database)
-
-	tc.Expect(database.Status.Id).ToNot(BeNil())
-}
-
-func FlexibleServer_FirewallRule_20240801_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
-	firewall := &postgresql.FlexibleServersFirewallRule{
-		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: postgresql.FlexibleServersFirewallRule_Spec{
-			Owner: testcommon.AsOwner(flexibleServer),
-			// I think that these rules are allow rules - somebody with this IP can access the server.
-			StartIpAddress: to.Ptr("1.2.3.4"),
-			EndIpAddress:   to.Ptr("1.2.3.4"),
-		},
-	}
-
-	tc.CreateResourceAndWait(firewall)
-	defer tc.DeleteResourceAndWait(firewall)
-
-	tc.Expect(firewall.Status.Id).ToNot(BeNil())
-}
-
-func FlexibleServer_Configuration_20240801_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
-	configuration := &postgresql.FlexibleServersConfiguration{
-		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
-		Spec: postgresql.FlexibleServersConfiguration_Spec{
-			Owner:     testcommon.AsOwner(flexibleServer),
-			AzureName: "pgaudit.log",
-			Source:    to.Ptr("user-override"),
-			Value:     to.Ptr("READ"),
-		},
-	}
-
-	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
-	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
-	tc.AddAnnotation(&configuration.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
-
-	tc.CreateResourceAndWait(configuration)
-
-	tc.Expect(configuration.Status.Id).ToNot(BeNil())
-	tc.Expect(configuration.Status.Value).To(Equal(to.Ptr("READ")))
-}
-
 func FlexibleServer_VirtualEndpoint_20240801_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	virtualEndpoint := &postgresql.FlexibleServersVirtualEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("virtualendpoint"),
@@ -255,33 +249,4 @@ func FlexibleServer_VirtualEndpoint_20240801_CRUD(tc *testcommon.KubePerTestCont
 }
 
 func FlexibleServer_AdvancedThreatProtection_20240801_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
-	threatProtection := &postgresql.FlexibleServersAdvancedThreatProtectionSettings{
-		ObjectMeta: tc.MakeObjectMeta("advthreat"),
-		Spec: postgresql.FlexibleServersAdvancedThreatProtectionSettings_Spec{
-			Owner: testcommon.AsOwner(flexibleServer),
-			State: to.Ptr(postgresql.ServerThreatProtectionProperties_State_Enabled),
-		},
-	}
-
-	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
-	// We can delete it from the cluster by applying this annotation, but this won't change anything in Azure.
-	tc.AddAnnotation(&threatProtection.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
-
-	tc.CreateResourceAndWait(threatProtection)
-
-	tc.Expect(threatProtection.Status.Id).ToNot(BeNil())
-}
-
-func FlexibleServer_Backup_20240801_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
-	backup := &postgresql.FlexibleServersBackup{
-		ObjectMeta: tc.MakeObjectMeta("backup"),
-		Spec: postgresql.FlexibleServersBackup_Spec{
-			Owner: testcommon.AsOwner(flexibleServer),
-		},
-	}
-
-	tc.CreateResourceAndWait(backup)
-	defer tc.DeleteResourceAndWait(backup)
-
-	tc.Expect(backup.Status.Id).ToNot(BeNil())
 }
