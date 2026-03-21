@@ -47,7 +47,7 @@ func Test_Communication_CommunicationService_20230401_CRUD(t *testing.T) {
 	tc.ListResources(list, client.InNamespace(tc.Namespace))
 	tc.Expect(list.Items).To(HaveLen(0))
 
-	// Run sequential subtests for secrets
+	// Run sequential subtests for secrets and configmaps
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
@@ -59,6 +59,12 @@ func Test_Communication_CommunicationService_20230401_CRUD(t *testing.T) {
 			Name: "SecretsWrittenToDifferentKubeSecrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				CommunicationService_SecretsWrittenToDifferentKubeSecrets_20230401(tc, svc)
+			},
+		},
+		testcommon.Subtest{
+			Name: "ConfigMapWritten",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				CommunicationService_ConfigMapWritten_20230401(tc, svc)
 			},
 		},
 	)
@@ -136,6 +142,21 @@ func CommunicationService_SecretsWrittenToDifferentKubeSecrets_20230401(tc *test
 	tc.ExpectSecretHasKeys("commssecret2", "primaryConnectionString")
 	tc.ExpectSecretHasKeys("commssecret3", "secondaryKey")
 	tc.ExpectSecretHasKeys("commssecret4", "secondaryConnectionString")
+}
+
+func CommunicationService_ConfigMapWritten_20230401(tc *testcommon.KubePerTestContext, svc *communication.CommunicationService) {
+	old := svc.DeepCopy()
+	configMapName := "commsconfig"
+	svc.Spec.OperatorSpec = &communication.CommunicationServiceOperatorSpec{
+		ConfigMaps: &communication.CommunicationServiceOperatorConfigMaps{
+			HostName: &genruntime.ConfigMapDestination{
+				Name: configMapName,
+				Key:  "hostName",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, svc)
+	tc.ExpectConfigMapHasKeysAndValues(configMapName, "hostName", *svc.Status.HostName)
 }
 
 func Communication_EmailService_20230401(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) {

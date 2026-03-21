@@ -55,10 +55,11 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 		`"$key":"{KEY}"`,
 	)
 
-	// SignalR Connection Strings
+	// Connection String access keys (SignalR, Communication Services, etc.)
+	// Case-insensitive to handle both ";AccessKey=...;" and ";accesskey=..."
 	redactor.AddRegexRedaction(
-		`;AccessKey=[A-Za-z0-9=]*;`,
-		`;AccessKey={KEY};`,
+		`(?i);accesskey=[A-Za-z0-9=+/]*`,
+		`;accesskey={KEY}`,
 	)
 
 	return redactor
