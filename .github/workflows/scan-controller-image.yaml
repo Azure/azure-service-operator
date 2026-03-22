@@ -41,7 +41,7 @@ jobs:
 
       - name: Build devcontainer image
         run: |
-          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest -f .devcontainer/Dockerfile .
         env:
           DOCKER_BUILDKIT: 1
 
