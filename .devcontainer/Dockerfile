@@ -22,8 +22,28 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
     && apt-get -y install azure-cli=2.76.0-1~bookworm \
     && rm -rf /var/lib/apt/lists/*
 
-COPY install-dependencies.sh .
+COPY .devcontainer/install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
+
+# Pre-download Go modules for faster builds
+# v2 first (largest, most stable, needed by replace directives)
+COPY v2/go.mod v2/go.sum /tmp/mod-download/v2/
+RUN cd /tmp/mod-download/v2 && go mod download
+
+# asoctl (has replace => ../../ which resolves to v2/)
+COPY v2/cmd/asoctl/go.mod v2/cmd/asoctl/go.sum /tmp/mod-download/v2/cmd/asoctl/
+RUN cd /tmp/mod-download/v2/cmd/asoctl && go mod download
+
+# generator (has replace => ../../ which resolves to v2/)
+COPY v2/tools/generator/go.mod v2/tools/generator/go.sum /tmp/mod-download/v2/tools/generator/
+RUN cd /tmp/mod-download/v2/tools/generator && go mod download
+
+# mangle-test-json (standalone, no replace directives)
+COPY v2/tools/mangle-test-json/go.mod v2/tools/mangle-test-json/go.sum /tmp/mod-download/v2/tools/mangle-test-json/
+RUN cd /tmp/mod-download/v2/tools/mangle-test-json && go mod download
+
+# Clean up temporary module download directory
+RUN rm -rf /tmp/mod-download
 
 # Setup envtest
 # NB: if you change this, dev.sh also likely needs updating, also need to update the env below
