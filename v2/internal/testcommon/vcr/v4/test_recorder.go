@@ -72,10 +72,11 @@ func NewTestRecorder(
 
 	redactor := vcr.NewRedactor(azureIDs)
 
+	barrier := newBarrierMatcher(matchOnHeadersAndBody(log), log)
 	r, err := recorder.New(
 		cassetteName,
 		recorder.WithMode(mode),
-		recorder.WithMatcher(matchOnHeadersAndBody(log)),
+		recorder.WithMatcher(barrier.Match),
 		recorder.WithHook(redactRecording(redactor), recorder.BeforeSaveHook),
 	)
 	if err != nil {
@@ -163,15 +164,6 @@ func matchOnHeadersAndBody(log logr.Logger) recorder.MatcherFunc {
 	return func(r *http.Request, i cassette.Request) bool {
 		if !cassette.DefaultMatcher(r, i) {
 			return false
-		}
-
-		// verify custom request count header matches, if present
-		if header := r.Header.Get(CountHeader); header != "" {
-			interactionHeader := i.Headers.Get(CountHeader)
-			if header != interactionHeader {
-				log.Info("Request count header mismatch", CountHeader, header, "interaction", interactionHeader)
-				return false
-			}
 		}
 
 		// verify custom body hash header matches, if present
