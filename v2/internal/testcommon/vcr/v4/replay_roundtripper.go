@@ -34,6 +34,9 @@ type replayRoundTripper struct {
 	inner    http.RoundTripper
 	gets     map[string]*replayResponse
 	puts     map[string]*replayResponse
+	posts    map[string]*replayResponse
+	patches  map[string]*replayResponse
+	deletes  map[string]*replayResponse
 	log      logr.Logger
 	padlock  sync.Mutex
 	redactor *vcr.Redactor
@@ -49,6 +52,15 @@ const (
 	// want to fail the test in this situation because we've already successfully achieved our goal state.
 	// Thus we allow the last PUT for each resource to be replayed one extra time.
 	maxPutReplays = 1 // Maximum number of times to replay a PUT request
+
+	// POST requests may be replayed once, like PUT, to handle timing variations.
+	maxPostReplays = 1 // Maximum number of times to replay a POST request
+
+	// PATCH requests may be replayed once, like PUT, to handle timing variations.
+	maxPatchReplays = 1 // Maximum number of times to replay a PATCH request
+
+	// DELETE requests may be replayed once to handle timing variations.
+	maxDeleteReplays = 1 // Maximum number of times to replay a DELETE request
 
 	// GET requests may be replayed multiple times to allow multiple reconciles to observe the same stable final state.
 	// We set this to accommodate timing variations during test replay, while avoiding unbounded replays as they might
@@ -72,6 +84,9 @@ func NewReplayRoundTripper(
 		inner:    inner,
 		gets:     make(map[string]*replayResponse),
 		puts:     make(map[string]*replayResponse),
+		posts:    make(map[string]*replayResponse),
+		patches:  make(map[string]*replayResponse),
+		deletes:  make(map[string]*replayResponse),
 		log:      log,
 		redactor: redactor,
 	}
@@ -79,16 +94,20 @@ func NewReplayRoundTripper(
 
 // RoundTrip implements http.RoundTripper.
 func (replayer *replayRoundTripper) RoundTrip(request *http.Request) (*http.Response, error) {
-	if request.Method == http.MethodGet {
+	switch request.Method {
+	case http.MethodGet:
 		return replayer.roundTripGet(request)
-	}
-
-	if request.Method == http.MethodPut {
+	case http.MethodPut:
 		return replayer.roundTripPut(request)
+	case http.MethodPost:
+		return replayer.roundTripPost(request)
+	case http.MethodPatch:
+		return replayer.roundTripPatch(request)
+	case http.MethodDelete:
+		return replayer.roundTripDelete(request)
+	default:
+		return replayer.inner.RoundTrip(request)
 	}
-
-	// For other kinds of request, just pass through to the inner round tripper.
-	return replayer.inner.RoundTrip(request)
 }
 
 func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.Response, error) {
@@ -133,6 +152,57 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 
 	replayer.invalidateCachedGets(urlPath(request.URL.RequestURI()))
 	replayer.cacheResponse(replayer.puts, hash, response, maxPutReplays)
+	return response, nil
+}
+
+func (replayer *replayRoundTripper) roundTripPost(request *http.Request) (*http.Response, error) {
+	hash := replayer.hashOfBody(request)
+
+	response, err := replayer.inner.RoundTrip(request)
+	if err != nil {
+		if !errors.Is(err, cassette.ErrInteractionNotFound) {
+			return response, err
+		}
+
+		return replayer.replayFromCache(replayer.posts, hash, http.MethodPost)
+	}
+
+	replayer.invalidateCachedGets(urlPath(request.URL.RequestURI()))
+	replayer.cacheResponse(replayer.posts, hash, response, maxPostReplays)
+	return response, nil
+}
+
+func (replayer *replayRoundTripper) roundTripPatch(request *http.Request) (*http.Response, error) {
+	hash := replayer.hashOfBody(request)
+
+	response, err := replayer.inner.RoundTrip(request)
+	if err != nil {
+		if !errors.Is(err, cassette.ErrInteractionNotFound) {
+			return response, err
+		}
+
+		return replayer.replayFromCache(replayer.patches, hash, http.MethodPatch)
+	}
+
+	replayer.invalidateCachedGets(urlPath(request.URL.RequestURI()))
+	replayer.cacheResponse(replayer.patches, hash, response, maxPatchReplays)
+	return response, nil
+}
+
+func (replayer *replayRoundTripper) roundTripDelete(request *http.Request) (*http.Response, error) {
+	requestURL := request.URL.RequestURI()
+
+	response, err := replayer.inner.RoundTrip(request)
+	if err != nil {
+		if !errors.Is(err, cassette.ErrInteractionNotFound) {
+			return response, err
+		}
+
+		return replayer.replayFromCache(replayer.deletes, requestURL, http.MethodDelete)
+	}
+
+	replayer.invalidateCachedGets(urlPath(requestURL))
+	replayer.cacheResponse(replayer.deletes, requestURL, response, maxDeleteReplays)
 	return response, nil
 }
 

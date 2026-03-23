@@ -219,6 +219,87 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 	assertExpectedResponse(t, replayer, updateRequest, 200, "update resource A")
 }
 
+func TestReplayRoundTripper_GivenSinglePost_ReturnsOnceExtra(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	req := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodPost,
+		Body:   io.NopCloser(strings.NewReader("POST body goes here")),
+	}
+	resp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("POST response goes here")),
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(req, resp)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	assertExpectedResponse(t, replayer, req, 200, "POST response goes here")
+	assertExpectedResponse(t, replayer, req, 200, "POST response goes here")
+
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(req)
+	g.Expect(err).To(HaveOccurred())
+}
+
+func TestReplayRoundTripper_GivenSinglePatch_ReturnsOnceExtra(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	req := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodPatch,
+		Body:   io.NopCloser(strings.NewReader("PATCH body goes here")),
+	}
+	resp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("PATCH response goes here")),
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(req, resp)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	assertExpectedResponse(t, replayer, req, 200, "PATCH response goes here")
+	assertExpectedResponse(t, replayer, req, 200, "PATCH response goes here")
+
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(req)
+	g.Expect(err).To(HaveOccurred())
+}
+
+func TestReplayRoundTripper_GivenSingleDelete_ReturnsOnceExtra(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	req := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodDelete,
+		Body:   io.NopCloser(strings.NewReader("")),
+	}
+	resp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("DELETE response goes here")),
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(req, resp)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	assertExpectedResponse(t, replayer, req, 200, "DELETE response goes here")
+	assertExpectedResponse(t, replayer, req, 200, "DELETE response goes here")
+
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(req)
+	g.Expect(err).To(HaveOccurred())
+}
+
 func createPutRequestAndResponse(
 	urlpath string,
 	body string,
