@@ -69,8 +69,12 @@ func (m *barrierMatcher) Match(r *http.Request, i cassette.Request) bool {
 		m.barriers[candidatePath] = true
 	}
 
-	// If the candidate is a GET and there's a barrier for its path, reject it
-	if i.Method == http.MethodGet && m.barriers[candidatePath] {
+	// If this is a GET request and the candidate is a GET past a mutation barrier, reject it.
+	// We check r.Method (the incoming request) rather than i.Method (the candidate) because:
+	// - For GET requests: this prevents the scan from jumping past mutations for the same path
+	// - For non-GET requests: GET candidates would never match anyway (DefaultMatcher checks
+	//   method equality), so blocking them would only produce misleading log messages
+	if r.Method == http.MethodGet && i.Method == http.MethodGet && m.barriers[candidatePath] {
 		m.log.V(1).Info("Barrier rejected GET candidate", "url", i.URL)
 		return false
 	}

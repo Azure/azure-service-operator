@@ -130,3 +130,22 @@ func TestBarrierMatcher_GivenMultipleMutationVerbs_AllCreateBarriers(t *testing.
 		g.Expect(matcher.Match(req, getCandidate)).To(BeFalse(), "expected %s to create barrier", method)
 	}
 }
+
+func TestBarrierMatcher_GivenNonGETRequest_BarrierDoesNotBlockGETCandidates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// During a DELETE scan, GET candidates past a mutation barrier should NOT be blocked
+	// (they wouldn't match on method anyway, and blocking them produces misleading logs)
+	matcher := newBarrierMatcher(fakeMatcher(), logr.Discard())
+	req := &http.Request{Method: http.MethodDelete, URL: &url.URL{Path: "/bar"}}
+
+	// PUT for /foo creates a mutation barrier
+	putCandidate := cassette.Request{Method: http.MethodPut, URL: "/foo"}
+	matcher.Match(req, putCandidate)
+
+	// GET candidate for /foo past the barrier — should NOT be blocked during DELETE scan
+	// (delegate will reject it on method mismatch instead)
+	getCandidate := cassette.Request{Method: http.MethodGet, URL: "/foo"}
+	g.Expect(matcher.Match(req, getCandidate)).To(BeFalse(), "should reach delegate, not barrier")
+}
