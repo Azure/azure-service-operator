@@ -300,6 +300,129 @@ func TestReplayRoundTripper_GivenSingleDelete_ReturnsOnceExtra(t *testing.T) {
 	g.Expect(err).To(HaveOccurred())
 }
 
+func TestReplayRoundTripper_GivenPUTAfterCachedGET_InvalidatesGETCache(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	getReq := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodGet,
+		Body:   io.NopCloser(strings.NewReader("")),
+	}
+	getResp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Succeeded"}}`)),
+	}
+
+	putReq := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodPut,
+		Body:   io.NopCloser(strings.NewReader("PUT body")),
+	}
+	putResp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("PUT response")),
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(getReq, getResp)
+	fake.AddResponse(putReq, putResp)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	// GET caches a terminal response
+	assertExpectedResponse(t, replayer, getReq, 200, `"provisioningState": "Succeeded"`)
+
+	// PUT invalidates the cached GET
+	assertExpectedResponse(t, replayer, putReq, 200, "PUT response")
+
+	// GET replay should now fail (cache was invalidated)
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(getReq)
+	g.Expect(err).To(HaveOccurred())
+}
+
+func TestReplayRoundTripper_GivenPUTForDifferentPath_DoesNotInvalidateGETCache(t *testing.T) {
+	t.Parallel()
+
+	getFooReq := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodGet,
+		Body:   io.NopCloser(strings.NewReader("")),
+	}
+	getFooResp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Succeeded"}}`)),
+	}
+
+	putBarReq := &http.Request{
+		URL:    &url.URL{Path: "/bar"},
+		Method: http.MethodPut,
+		Body:   io.NopCloser(strings.NewReader("PUT body")),
+	}
+	putBarResp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("PUT response")),
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(getFooReq, getFooResp)
+	fake.AddResponse(putBarReq, putBarResp)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	// GET /foo caches
+	assertExpectedResponse(t, replayer, getFooReq, 200, `"provisioningState": "Succeeded"`)
+
+	// PUT /bar should NOT invalidate GET /foo
+	assertExpectedResponse(t, replayer, putBarReq, 200, "PUT response")
+
+	// GET /foo replay should still work
+	assertExpectedResponse(t, replayer, getFooReq, 200, `"provisioningState": "Succeeded"`)
+}
+
+func TestReplayRoundTripper_GivenDELETEAfterCachedGET_InvalidatesGETCache(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	getReq := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodGet,
+		Body:   io.NopCloser(strings.NewReader("")),
+	}
+	getResp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Succeeded"}}`)),
+	}
+
+	deleteReq := &http.Request{
+		URL:    &url.URL{Path: "/foo"},
+		Method: http.MethodDelete,
+		Body:   io.NopCloser(strings.NewReader("")),
+	}
+	deleteResp := &http.Response{
+		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("DELETE response")),
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(getReq, getResp)
+	fake.AddResponse(deleteReq, deleteResp)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+
+	// GET caches a terminal response
+	assertExpectedResponse(t, replayer, getReq, 200, `"provisioningState": "Succeeded"`)
+
+	// DELETE invalidates the cached GET
+	assertExpectedResponse(t, replayer, deleteReq, 200, "DELETE response")
+
+	// GET replay should now fail (cache was invalidated)
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(getReq)
+	g.Expect(err).To(HaveOccurred())
+}
+
 func createPutRequestAndResponse(
 	urlpath string,
 	body string,
