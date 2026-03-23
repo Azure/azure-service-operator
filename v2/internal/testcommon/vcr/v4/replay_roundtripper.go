@@ -94,34 +94,16 @@ func (replayer *replayRoundTripper) RoundTrip(request *http.Request) (*http.Resp
 func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.Response, error) {
 	requestURL := request.URL.RequestURI()
 
-	// First use our inner round tripper to get the response.
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
-		// We have an error - return it, unless it's from go-vcr
 		if !errors.Is(err, cassette.ErrInteractionNotFound) {
 			return response, err
 		}
 
-		replayer.padlock.Lock()
-		defer replayer.padlock.Unlock()
-
-		// We didn't find an interaction, see if we have a cached response to return
-		if cachedResponse, ok := replayer.gets[requestURL]; ok {
-			if cachedResponse.remainingReplays > 0 {
-				cachedResponse.remainingReplays--
-				replayer.log.Info("Replaying GET request", "url", requestURL)
-				return cachedResponse.response, nil
-			}
-
-			// It's expired, remove it from the cache to ensure we don't replay it again
-			delete(replayer.gets, requestURL)
-		}
-
-		// No cached response, return the original response and error
-		return response, err
+		return replayer.replayFromCache(replayer.gets, requestURL, http.MethodGet)
 	}
 
-	// We have a response; if it has a status, cache only if that represents a terminal state
+	// Cache only terminal-state responses
 	cacheable := replayer.isTerminalHTTPStatus(response.StatusCode)
 	if state, ok := replayer.resourceStateFromBody(response); ok {
 		cacheable = replayer.isTerminalProvisioningState(state)
@@ -131,53 +113,78 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 	}
 
 	if cacheable {
-		replayer.padlock.Lock()
-		defer replayer.padlock.Unlock()
-
-		replayer.gets[requestURL] = newReplayResponse(response, maxGetReplays)
+		replayer.cacheResponse(replayer.gets, requestURL, response, maxGetReplays)
 	}
 
 	return response, nil
 }
 
 func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.Response, error) {
-	// Calculate a hash of the request body to use as a cache key
-	// We need this whether we are updating our cache or replaying
 	hash := replayer.hashOfBody(request)
 
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
-		// We have an error - return it, unless it's from go-vcr
 		if !errors.Is(err, cassette.ErrInteractionNotFound) {
 			return response, err
 		}
 
-		replayer.padlock.Lock()
-		defer replayer.padlock.Unlock()
-
-		// We didn't find an interaction, see if we have a cached response to return
-		if cachedResponse, ok := replayer.puts[hash]; ok {
-			if cachedResponse.remainingReplays > 0 {
-				replayer.log.Info("Replaying PUT request", "url", request.URL.String(), "hash", hash)
-				cachedResponse.remainingReplays--
-				return cachedResponse.response, nil
-			}
-
-			// It's expired, remove it from the cache to ensure we don't replay it again
-			delete(replayer.puts, hash)
-
-		}
-
-		// No cached response, return the original response and error
-		return response, err
+		return replayer.replayFromCache(replayer.puts, hash, http.MethodPut)
 	}
 
+	replayer.invalidateCachedGets(urlPath(request.URL.RequestURI()))
+	replayer.cacheResponse(replayer.puts, hash, response, maxPutReplays)
+	return response, nil
+}
+
+// replayFromCache attempts to return a cached response when go-vcr returns ErrInteractionNotFound.
+// Returns the cached response if available, or the original error if not.
+func (replayer *replayRoundTripper) replayFromCache(
+	cache map[string]*replayResponse,
+	key string,
+	method string,
+) (*http.Response, error) {
 	replayer.padlock.Lock()
 	defer replayer.padlock.Unlock()
 
-	// We have a response, cache it and return it
-	replayer.puts[hash] = newReplayResponse(response, maxPutReplays)
-	return response, nil
+	if cachedResponse, ok := cache[key]; ok {
+		if cachedResponse.remainingReplays > 0 {
+			cachedResponse.remainingReplays--
+			replayer.log.Info("Replaying request", "method", method, "key", key)
+			return cachedResponse.response, nil
+		}
+
+		// It's expired, remove it from the cache to ensure we don't replay it again
+		delete(cache, key)
+	}
+
+	return nil, cassette.ErrInteractionNotFound
+}
+
+// cacheResponse stores a response in the given cache for future replay.
+func (replayer *replayRoundTripper) cacheResponse(
+	cache map[string]*replayResponse,
+	key string,
+	response *http.Response,
+	maxReplays int,
+) {
+	replayer.padlock.Lock()
+	defer replayer.padlock.Unlock()
+
+	cache[key] = newReplayResponse(response, maxReplays)
+}
+
+// invalidateCachedGets removes all cached GET responses whose URL path matches the given path.
+// Called when a mutating operation is observed, as cached GETs are now stale.
+func (replayer *replayRoundTripper) invalidateCachedGets(mutationPath string) {
+	replayer.padlock.Lock()
+	defer replayer.padlock.Unlock()
+
+	for key := range replayer.gets {
+		if urlPath(key) == mutationPath {
+			replayer.log.Info("Invalidating cached GET", "url", key, "reason", "mutation observed")
+			delete(replayer.gets, key)
+		}
+	}
 }
 
 // hashOfBody calculates a hash of the body of a request, for use as a cache key.
