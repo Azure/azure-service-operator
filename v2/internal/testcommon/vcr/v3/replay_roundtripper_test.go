@@ -72,7 +72,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGETReturningNonterminalState_Ret
 		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState": "Deleting"}}`)),
 	}
 
-	fake := vcr.NewFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
 	fake.AddResponse(req, resp)
 
 	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
