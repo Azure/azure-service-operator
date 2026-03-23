@@ -252,6 +252,9 @@ func (replayer *replayRoundTripper) resourceStateFromBody(response *http.Respons
 // isTerminalHTTPStatus returns true if the specified HTTP status code represents a terminal state for a resource.
 // "Not existing" is pretty terminal.
 func (*replayRoundTripper) isTerminalHTTPStatus(status int) bool {
+	// Why these statuses?
+	// - 404 Not Found and 410 Gone indicate that the resource doesn't exist, that's not going to change unless we do a PUT
+	// - 201 Created and 200 OK indicate that the resource exists, and that no further processing is required by the server
 	return status == http.StatusNotFound ||
 		status == http.StatusGone ||
 		status == http.StatusCreated ||
