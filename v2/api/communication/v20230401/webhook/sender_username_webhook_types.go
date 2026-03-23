@@ -7,6 +7,7 @@ package webhook
 
 import (
 	"context"
+	"strings"
 
 	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -45,9 +46,9 @@ func (username *SenderUsername) validateAzureNameMatchesUsername(_ context.Conte
 		return nil, nil
 	}
 
-	if obj.Spec.AzureName != "" && obj.Spec.AzureName != *obj.Spec.Username {
+	if obj.Spec.AzureName != "" && !strings.EqualFold(obj.Spec.AzureName, *obj.Spec.Username) {
 		return nil, eris.Errorf(
-			"spec.azureName (%q) must match spec.username (%q) — Azure requires the resource name to match the username",
+			"spec.azureName (%q) must match spec.username (%q) (case-insensitive) — Azure requires the resource name to match the username",
 			obj.Spec.AzureName,
 			*obj.Spec.Username)
 	}

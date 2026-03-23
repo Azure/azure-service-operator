@@ -7,6 +7,7 @@ package webhook
 
 import (
 	"context"
+	"strings"
 
 	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -45,7 +46,7 @@ func (domain *Domain) validateAzureManagedDomainName(_ context.Context, obj *v20
 		return nil, nil
 	}
 
-	if *obj.Spec.DomainManagement == v20230401.DomainManagement_AzureManaged && obj.Spec.AzureName != "AzureManagedDomain" {
+	if *obj.Spec.DomainManagement == v20230401.DomainManagement_AzureManaged && !strings.EqualFold(obj.Spec.AzureName, "AzureManagedDomain") {
 		return nil, eris.Errorf(
 			"when spec.domainManagement is %q, spec.azureName must be %q, but got %q",
 			v20230401.DomainManagement_AzureManaged,
