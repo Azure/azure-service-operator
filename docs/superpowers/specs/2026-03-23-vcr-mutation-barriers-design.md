@@ -67,8 +67,9 @@ serialized. Concurrent goroutines calling `GetInteraction` will have their scans
 fully serialized — barrier state never sees interleaved calls from different
 goroutines.
 
-This is safe but non-obvious. Future maintainers should be aware that correctness
-depends on go-vcr's locking behaviour.
+This is safe but non-obvious. The concurrency safety explanation **must** appear
+as a code comment on the `barrierMatcher` struct or its `Match` method, so that
+future maintainers discover it in the code rather than needing to find this spec.
 
 ### Effect
 
@@ -84,13 +85,13 @@ cached response.
 The current struct has `gets` and `puts` maps. This expands to five separate
 maps:
 
-| Map       | Key           | Max Replays | Constant             |
-|-----------|---------------|-------------|----------------------|
-| `gets`    | request URL   | ~1000       | `maxGetReplays`      |
-| `puts`    | body hash     | 1           | `maxPutReplays`      |
-| `posts`   | body hash     | 1           | `maxPostReplays`     |
-| `patches` | body hash     | 1           | `maxPatchReplays`    |
-| `deletes` | request URL   | 1           | `maxDeleteReplays`   |
+| Map       | Key         | Max Replays | Constant           |
+| --------- | ----------- | ----------- | ------------------ |
+| `gets`    | request URL | ~1000       | `maxGetReplays`    |
+| `puts`    | body hash   | 1           | `maxPutReplays`    |
+| `posts`   | body hash   | 1           | `maxPostReplays`   |
+| `patches` | body hash   | 1           | `maxPatchReplays`  |
+| `deletes` | request URL | 1           | `maxDeleteReplays` |
 
 Existing `maxGetReplays` and `maxPutReplays` constants (with their documentation)
 are retained. New constants `maxPostReplays`, `maxPatchReplays`, and
