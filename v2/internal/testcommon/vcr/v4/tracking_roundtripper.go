@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"sync"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
@@ -31,58 +30,34 @@ const (
 // the same Request URL and it will return the first
 // one that matches.
 type requestCounter struct {
-	inner http.RoundTripper
-
-	countsMutex sync.Mutex
-	counts      map[string]uint32
-	redactor    *vcr.Redactor
+	inner    http.RoundTripper
+	redactor *vcr.Redactor
 }
 
 func AddTrackingHeaders(inner http.RoundTripper, redactor *vcr.Redactor) *requestCounter {
 	return &requestCounter{
-		inner:       inner,
-		counts:      make(map[string]uint32),
-		countsMutex: sync.Mutex{},
-		redactor:    redactor,
+		inner:    inner,
+		redactor: redactor,
 	}
 }
 
 var _ http.RoundTripper = &requestCounter{}
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
-	if rt.useHash(req) {
+	if rt.hasBody(req) {
 		rt.addHashHeader(req)
-	} else {
-		rt.addCountHeader(req)
 	}
 
 	return rt.inner.RoundTrip(req)
 }
 
-// useHash returns true if we should use a hash to match this request
-func (rt *requestCounter) useHash(req *http.Request) bool {
-	if req.Method != "PUT" && req.Method != "POST" {
-		// Only use a hash for PUT and POST methods
+// hasBody returns true if the request has a body that can be hashed
+func (rt *requestCounter) hasBody(req *http.Request) bool {
+	if req.Method != http.MethodPut && req.Method != http.MethodPost && req.Method != http.MethodPatch {
 		return false
 	}
 
-	// Can only use a hash if there is a body
 	return req.Body != nil
-}
-
-// addCountHeader adds a header to the request based on the URL requested
-func (rt *requestCounter) addCountHeader(req *http.Request) {
-	// Count keys are based on method and URL
-	key := req.Method + ":" + req.URL.String()
-
-	// Allocate a number
-	rt.countsMutex.Lock()
-	count := rt.counts[key]
-	rt.counts[key] = count + 1
-	rt.countsMutex.Unlock()
-
-	// Apply the header
-	req.Header.Set(CountHeader, fmt.Sprintf("%d", count))
 }
 
 // addHashHeader adds a header to the request based on a hash of the content of the request body

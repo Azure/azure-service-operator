@@ -8,9 +8,7 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: www.bing.com
-        headers:
-            Test-Request-Attempt:
-                - "0"
+        headers: {}
         url: https://www.bing.com
         method: GET
       response:
