@@ -65,12 +65,6 @@ The following resources have newer versions available in the Azure REST API spec
 |------|-------------|-------------------|------------------|-------------------|-------------------|
 | 💡    | BackupVault | **v1api20250901** | v1api20231101    | -                 | -                 |
 
-## dbformysql
-
-|      | Resource       | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | FlexibleServer | **v1api20241230** | v1api20231230    | -                 | -                 |
-
 ## devices
 
 |      | Resource | Available Stable  | Supported Stable | Available Preview | Supported Preview |
