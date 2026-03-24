@@ -160,9 +160,20 @@ func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	}
 }
 
+// matchOnHeadersAndBody returns a MatcherFunc to identify which interaction matches an incoming request.
+// In go-vcr v3, the default matching logic only considers the HTTP method and URL.
+// But in go-vcr v4, this extended to headers and body as well, breaking our functionality (since the incoming request)
+// has an unredacted body, but the interaction has a redacted one - they will never match.
+// So here we do the entire match ourselves.
 func matchOnHeadersAndBody(log logr.Logger) recorder.MatcherFunc {
 	return func(r *http.Request, i cassette.Request) bool {
-		if !cassette.DefaultMatcher(r, i) {
+		// Require method to match
+		if r.Method != i.Method {
+			return false
+		}
+
+		// Require URL to match (including query parameters)
+		if r.URL.String() != i.URL {
 			return false
 		}
 
